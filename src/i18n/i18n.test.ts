@@ -21,6 +21,12 @@ describe("i18n", () => {
     await initLanguage("zh-CN");
     expect(translateApiError("token expired")).toBe("会话已过期，请重新登录。");
     expect(translateApiError("some new error")).toBe("some new error");
+    expect(translateApiError("group has been linked to policy: p1")).toBe(
+      "该组正在被使用，无法删除。 (group has been linked to policy: p1)",
+    );
+    expect(translateApiError("unable to block owner user")).toBe(
+      "不能禁用所有者用户。",
+    );
   });
 
   it("normalizes language codes", () => {

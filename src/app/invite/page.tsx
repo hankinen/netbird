@@ -20,6 +20,7 @@ import NetBirdIcon from "@/assets/icons/NetBirdIcon";
 import { UserInviteInfo } from "@/interfaces/User";
 
 import { t } from "@/i18n";
+import { translateApiError } from "@/i18n/apiErrors";
 export default function InviteAcceptPage() {
   return (
     <Suspense fallback={<FullScreenLoading />}>
@@ -60,7 +61,7 @@ function InviteAcceptContent() {
           setError(t("invite.page:page.text.tooManyAttemptsPleaseWait"));
           setIsRateLimited(true);
         } else {
-          setError(err.message || t("invite.page:page.text.invalidOrExpiredInviteLink"));
+          setError(translateApiError(err.message) || t("invite.page:page.text.invalidOrExpiredInviteLink"));
           setIsRateLimited(false);
         }
         setLoading(false);
@@ -87,7 +88,7 @@ function InviteAcceptContent() {
       await acceptInvite(token, password);
       setSuccess(true);
     } catch (err: any) {
-      setError(err.message || t("invite.page:page.text.failedToAcceptInvite"));
+      setError(translateApiError(err.message) || t("invite.page:page.text.failedToAcceptInvite"));
     } finally {
       setSubmitting(false);
     }

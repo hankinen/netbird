@@ -13,6 +13,7 @@ import HelpText from "@components/HelpText";
 import { GradientFadedBackground } from "@components/ui/GradientFadedBackground";
 
 import { t } from "@/i18n";
+import { translateApiError } from "@/i18n/apiErrors";
 interface FormData {
   email: string;
   password: string;
@@ -122,7 +123,7 @@ export default function InstanceSetupWizard() {
           break;
         case 422:
           message =
-            error.message ||
+            translateApiError(error.message) ||
             t(
               "instance-setup.main:instanceSetupWizard.text.validationErrorPleaseCheckYour",
             );
@@ -133,7 +134,7 @@ export default function InstanceSetupWizard() {
           );
           break;
         default:
-          message = error.message || message;
+          message = translateApiError(error.message) || message;
       }
 
       setErrors({ general: message });
