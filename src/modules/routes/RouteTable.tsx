@@ -8,6 +8,7 @@ import { ENABLED_COLUMN_CLASS } from "@components/table/enabledColumnClass";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import React, { useMemo, useState } from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { t } from "@/i18n";
 import { GroupedRoute, Route } from "@/interfaces/Route";
 import RouteAccessControlGroups from "@/modules/routes/RouteAccessControlGroups";
 import RouteActionCell from "@/modules/routes/RouteActionCell";
@@ -16,7 +17,6 @@ import RouteAutoApplyCell from "@/modules/routes/RouteAutoApplyCell";
 import RouteDistributionGroupsCell from "@/modules/routes/RouteDistributionGroupsCell";
 import RouteMetricCell from "@/modules/routes/RouteMetricCell";
 import RoutePeerCell from "@/modules/routes/RoutePeerCell";
-
 type Props = {
   row: GroupedRoute;
 };
@@ -24,7 +24,11 @@ export const RouteTableColumns: ColumnDef<Route>[] = [
   {
     accessorKey: "network_id",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.name")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <RoutePeerCell route={row.original} />,
@@ -49,7 +53,11 @@ export const RouteTableColumns: ColumnDef<Route>[] = [
   {
     accessorKey: "metric",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Metric</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("routes.main:routeModal.text.metric")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <RouteMetricCell metric={row.original.metric} />,
     sortingFn: "alphanumeric",
@@ -63,7 +71,7 @@ export const RouteTableColumns: ColumnDef<Route>[] = [
     meta: { className: ENABLED_COLUMN_CLASS["2xl"] },
     header: ({ column }) => (
       <DataTableHeader column={column} sorting={false}>
-        Active
+        {t("common:word.active")}
       </DataTableHeader>
     ),
     cell: ({ row }) => <RouteActiveCell route={row.original} />,
@@ -73,7 +81,9 @@ export const RouteTableColumns: ColumnDef<Route>[] = [
     accessorFn: (r) => r.groups?.length,
     header: ({ column }) => {
       return (
-        <DataTableHeader column={column}>Distribution Groups</DataTableHeader>
+        <DataTableHeader column={column}>
+          {t("common:word.distributionGroups")}
+        </DataTableHeader>
       );
     },
     cell: ({ row }) => <RouteDistributionGroupsCell route={row.original} />,
@@ -83,7 +93,9 @@ export const RouteTableColumns: ColumnDef<Route>[] = [
     accessorFn: (r) => r?.access_control_groups?.length,
     header: ({ column }) => {
       return (
-        <DataTableHeader column={column}>Access Control Groups</DataTableHeader>
+        <DataTableHeader column={column}>
+          {t("routes.main:routeTable.text.accessControlGroups")}
+        </DataTableHeader>
       );
     },
     cell: ({ row }) => <RouteAccessControlGroups route={row.original} />,
@@ -92,7 +104,11 @@ export const RouteTableColumns: ColumnDef<Route>[] = [
     id: "skipAutoApply",
     accessorKey: "skip_auto_apply",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Auto Apply</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("routes.main:routeTable.text.autoApply")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <RouteAutoApplyCell route={row.original} />,
     sortingFn: "basic",
@@ -162,7 +178,7 @@ export default function RouteTable({ row }: Props) {
         showSearchAndFilters={false}
         className={"bg-nb-gray-960 py-2"}
         inset={true}
-        text={"Network Routes"}
+        text={t("common:word.networkRoutes")}
         manualPagination={true}
         sorting={sorting}
         columnVisibility={{

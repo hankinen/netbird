@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useMemo } from "react";
 import PeerIcon from "@/assets/icons/PeerIcon";
+import { t } from "@/i18n";
 import { GroupedRoute } from "@/interfaces/Route";
 import { useAddRoutingPeer } from "@/modules/routes/RouteAddRoutingPeerProvider";
-
 type Props = {
   groupedRoute: GroupedRoute;
 };
@@ -24,9 +24,15 @@ export default function GroupedRouteHighAvailabilityCell({
   const disabledText = useMemo(
     () => (
       <>
-        High availability is currently{" "}
-        <span className={"text-red-500 font-medium"}>disabled</span> for this
-        route.
+        {t(
+          "route-group.main:groupedRouteHighAvailabilityCell.text.highAvailabilityIsCurrently",
+        )}{" "}
+        <span className={"text-red-500 font-medium"}>
+          {t("route-group.main:groupedRouteHighAvailabilityCell.text.disabled")}
+        </span>{" "}
+        {t(
+          "route-group.main:groupedRouteHighAvailabilityCell.text.forThisRoute",
+        )}
       </>
     ),
     [],
@@ -35,9 +41,13 @@ export default function GroupedRouteHighAvailabilityCell({
   const enabledText = useMemo(
     () => (
       <>
-        High availability is{" "}
-        <span className={"text-green-500 font-medium"}>enabled</span> for this
-        route.
+        {t("common:word.highAvailabilityIs")}{" "}
+        <span className={"text-green-500 font-medium"}>
+          {t("route-group.main:groupedRouteHighAvailabilityCell.text.enabled")}
+        </span>{" "}
+        {t(
+          "route-group.main:groupedRouteHighAvailabilityCell.text.forThisRoute",
+        )}
       </>
     ),
     [],
@@ -54,8 +64,9 @@ export default function GroupedRouteHighAvailabilityCell({
             <>
               {disabledText}
               <div className={"inline-flex mt-2"}>
-                Go ahead and add more routing peers to enable high availability
-                for this network route.
+                {t(
+                  "route-group.main:groupedRouteHighAvailabilityCell.text.goAheadAndAddMore",
+                )}
               </div>
             </>
           )}
@@ -63,8 +74,9 @@ export default function GroupedRouteHighAvailabilityCell({
             <>
               {enabledText}
               <div className={"inline-flex mt-2"}>
-                You can add more peers to increase the availability of this
-                network route.
+                {t(
+                  "route-group.main:groupedRouteHighAvailabilityCell.text.youCanAddMorePeers",
+                )}
               </div>
             </>
           )}
@@ -72,8 +84,9 @@ export default function GroupedRouteHighAvailabilityCell({
             <>
               {disabledText}
               <div className={"inline-flex mt-2"}>
-                To configure, you must add more peers to a group in this route.
-                You can do it in the Peers menu.
+                {t(
+                  "route-group.main:groupedRouteHighAvailabilityCell.text.toConfigureYouMustAdd",
+                )}
               </div>
             </>
           )}
@@ -81,8 +94,9 @@ export default function GroupedRouteHighAvailabilityCell({
             <>
               {enabledText}
               <div className={"inline-flex mt-2"}>
-                You can add more peers to a group in this route by going to the
-                peers page.
+                {t(
+                  "route-group.main:groupedRouteHighAvailabilityCell.text.youCanAddMorePeers2",
+                )}
               </div>
             </>
           )}
@@ -101,12 +115,12 @@ export default function GroupedRouteHighAvailabilityCell({
           {isActive ? (
             <>
               <div className={"h-2 w-2 rounded-full bg-green-500"}></div>
-              {groupedRoute.high_availability_count} Peer(s)
+              {groupedRoute.high_availability_count} {t("common:word.peerS")}
             </>
           ) : (
             <>
               <div className={"h-2 w-2 rounded-full bg-nb-gray-700"}></div>
-              Disabled
+              {t("common:word.disabled")}
             </>
           )}
           <HelpCircle size={12} />
@@ -120,7 +134,9 @@ export default function GroupedRouteHighAvailabilityCell({
           >
             <>
               <PeerIcon size={12} />
-              Go to Peers
+              {t(
+                "route-group.main:groupedRouteHighAvailabilityCell.text.goToPeers",
+              )}
             </>
           </Button>
         )}
@@ -132,7 +148,9 @@ export default function GroupedRouteHighAvailabilityCell({
             onClick={() => openAddRoutingPeerModal(groupedRoute)}
           >
             <PlusCircle size={12} />
-            Add Peer
+            {t(
+              "route-group.main:groupedRouteHighAvailabilityCell.text.addPeer",
+            )}
           </Button>
         )}{" "}
       </div>

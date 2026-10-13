@@ -18,6 +18,7 @@ import PageContainer from "@/layouts/PageContainer";
 import useGroupedRoutes from "@/modules/route-group/useGroupedRoutes";
 import { Callout } from "@components/Callout";
 
+import { t } from "@/i18n";
 const NetworkRoutesTable = lazy(
   () => import("@/modules/route-group/NetworkRoutesTable"),
 );
@@ -37,35 +38,38 @@ export default function NetworkRoutes() {
           <div className={"p-default py-6"}>
             <Breadcrumbs>
               <Breadcrumbs.Item
-                label={"Network Routing"}
+                label={t("common:word.networkRouting")}
                 icon={<NetworkRoutesIcon size={13} />}
               />
-              <Breadcrumbs.Item href={"/network-routes"} label={"Routes"} />
+              <Breadcrumbs.Item
+                href={"/network-routes"}
+                label={t("network-routes.page:page.label.routes")}
+              />
             </Breadcrumbs>
-            <h1 ref={headingRef}>Routes</h1>
+            <h1 ref={headingRef}>
+              {t("network-routes.page:page.label.routes")}
+            </h1>
             <Paragraph>
-              Access other networks like LANs and VPCs without installing
-              NetBird on every resource.{" "}
+              {t("network-routes.page:page.text.accessOtherNetworksLikeLANs")}{" "}
               <InlineLink
                 href={
                   "https://docs.netbird.io/how-to/routing-traffic-to-private-networks"
                 }
                 target={"_blank"}
-                aria-label={
-                  "Learn more about routing traffic to private networks"
-                }
+                aria-label={t(
+                  "network-routes.page:page.ariaLabel.learnMoreAboutRoutingTraffic",
+                )}
               >
-                Learn more
+                {t("common:word.learnMore")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>
 
             <Callout className={"max-w-xl mt-5"} variant={"warning"}>
               <span>
-                We recommend using the new Networks concept to easier visualise
-                and manage access to your resources.{" "}
+                {t("network-routes.page:page.text.weRecommendUsingTheNew")}{" "}
                 <InlineLink href={"/networks"}>
-                  Go to Networks
+                  {t("network-routes.page:page.text.goToNetworks")}
                   <ArrowUpRightIcon size={14} />
                 </InlineLink>
               </span>

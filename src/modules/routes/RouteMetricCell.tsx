@@ -1,6 +1,6 @@
 import FullTooltip from "@components/FullTooltip";
 import { ArrowUpDown, InfoIcon } from "lucide-react";
-
+import { t } from "@/i18n";
 type Props = {
   metric?: number;
   useHoverStyle?: boolean;
@@ -15,7 +15,11 @@ export default function RouteMetricCell({
       isAction={true}
       content={
         <div className={"text-xs max-w-xs flex gap-2 items-center"}>
-          <div>Lower metrics have higher priority.</div>
+          <div>
+            {t(
+              "routes.main:routeMetricCell.text.lowerMetricsHaveHigherPriority",
+            )}
+          </div>
         </div>
       }
     >

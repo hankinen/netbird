@@ -6,8 +6,8 @@ import * as React from "react";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { GroupedRoute, Route } from "@/interfaces/Route";
-
 type Props = {
   groupedRoute: GroupedRoute;
 };
@@ -26,22 +26,31 @@ export default function GroupedRouteActionCell({ groupedRoute }: Props) {
     });
 
     notify({
-      title: "Delete Network " + groupedRoute.network_id,
-      description: "Network was successfully removed",
+      title: t("route-group.main:groupedRouteActionCell.text.deleteNetwork", {
+        network_id: groupedRoute.network_id,
+      }),
+      description: t(
+        "route-group.main:groupedRouteActionCell.description.networkWasSuccessfullyRemoved",
+      ),
       promise: Promise.all(batch).then(() => {
         mutate("/routes");
       }),
-      loadingMessage: "Deleting the network...",
+      loadingMessage: t(
+        "route-group.main:groupedRouteActionCell.loadingMessage.deletingTheNetwork",
+      ),
     });
   };
 
   const handleConfirm = async () => {
     const choice = await confirm({
-      title: `Delete network '${groupedRoute.network_id}'?`,
-      description:
-        "Are you sure you want to delete this network? All routes inside this network will be deleted. This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("route-group.main:groupedRouteActionCell.title.deleteNetwork", {
+        network_id: groupedRoute.network_id,
+      }),
+      description: t(
+        "route-group.main:groupedRouteActionCell.description.areYouSureYouWant",
+      ),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!choice) return;
@@ -57,7 +66,7 @@ export default function GroupedRouteActionCell({ groupedRoute }: Props) {
         disabled={!permission.routes.delete}
       >
         <Trash2 size={16} />
-        Delete
+        {t("common:word.delete")}
       </Button>
     </div>
   );

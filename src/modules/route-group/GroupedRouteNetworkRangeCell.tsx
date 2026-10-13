@@ -2,8 +2,8 @@ import { DomainListBadge } from "@components/ui/DomainListBadge";
 import { IconDirectionSign } from "@tabler/icons-react";
 import { InfoIcon } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { ExitNodeHelpTooltip } from "@/modules/exit-node/ExitNodeHelpTooltip";
-
 type Props = {
   network?: string;
   domains?: string[];
@@ -21,7 +21,7 @@ export default function GroupedRouteNetworkRangeCell({
     <ExitNodeHelpTooltip>
       <div className={"flex gap-2 items-center dark:text-nb-gray-300 group"}>
         <IconDirectionSign size={16} className={"text-yellow-400"} />
-        Exit Node{" "}
+        {t("common:word.exitNode")}{" "}
         <InfoIcon
           size={14}
           className={

@@ -3,8 +3,8 @@ import React, { useMemo } from "react";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useRoutes } from "@/contexts/RoutesProvider";
+import { t } from "@/i18n";
 import { Route } from "@/interfaces/Route";
-
 type Props = {
   route: Route;
 };
@@ -31,8 +31,8 @@ export default function RouteAutoApplyCell({ route }: Readonly<Props>) {
         mutate("/routes");
       },
       checked
-        ? "Auto Apply was enabled for the route"
-        : "Auto Apply was disabled for the route",
+        ? t("routes.main:routeAutoApplyCell.text.autoApplyWasEnabledFor")
+        : t("routes.main:routeAutoApplyCell.text.autoApplyWasDisabledFor"),
     );
   };
 

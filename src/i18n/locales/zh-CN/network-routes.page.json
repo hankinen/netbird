@@ -1,0 +1,7 @@
+{
+  "page.label.routes": "路由",
+  "page.text.accessOtherNetworksLikeLANs": "无需在每个资源上安装 NetBird，即可访问 LAN 和 VPC 等其他网络。",
+  "page.ariaLabel.learnMoreAboutRoutingTraffic": "了解如何将流量路由到私有网络",
+  "page.text.weRecommendUsingTheNew": "我们建议使用新的“网络”功能，更直观地查看和管理对资源的访问。",
+  "page.text.goToNetworks": "前往网络"
+}

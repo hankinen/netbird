@@ -1,0 +1,9 @@
+{
+  "addExitNodeButton.text.addExitNode": "添加出口节点",
+  "addExitNodeButton.text.setUpExitNode": "设置出口节点",
+  "exitNodeHelpTooltip.text.anExitNodeIsA": "出口节点是一种网络路由，可将您的全部互联网流量经由某台设备转发。",
+  "exitNodeHelpTooltip.text.exitNodes": "出口节点",
+  "exitNodeHelpTooltip.text.inOurDocumentation": "（详见我们的文档）。",
+  "exitNodePeerIndicator.text.thisPeerIsAnAuto": "此设备是自动应用的出口节点。来自已配置分发组的流量将经由此设备转发。",
+  "exitNodePeerIndicator.text.thisPeerIsAnExit": "此设备是出口节点。来自已配置分发组的流量将经由此设备转发。"
+}

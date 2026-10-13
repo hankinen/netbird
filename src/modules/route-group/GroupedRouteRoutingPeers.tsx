@@ -1,8 +1,8 @@
 import Badge from "@components/Badge";
 import { MonitorSmartphoneIcon } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { GroupedRoute } from "@/interfaces/Route";
-
 type Props = {
   groupedRoute: GroupedRoute;
 };
@@ -14,7 +14,7 @@ export default function GroupedRouteRoutingPeers({ groupedRoute }: Props) {
         className={"px-3 gap-2 whitespace-nowrap"}
       >
         <MonitorSmartphoneIcon size={12} />
-        {groupedRoute.high_availability_count} Peer(s)
+        {groupedRoute.high_availability_count} {t("common:word.peerS")}
       </Badge>
     </div>
   );

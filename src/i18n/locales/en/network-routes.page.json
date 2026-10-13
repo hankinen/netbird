@@ -1,0 +1,7 @@
+{
+  "page.label.routes": "Routes",
+  "page.text.accessOtherNetworksLikeLANs": "Access other networks like LANs and VPCs without installing NetBird on every resource.",
+  "page.ariaLabel.learnMoreAboutRoutingTraffic": "Learn more about routing traffic to private networks",
+  "page.text.weRecommendUsingTheNew": "We recommend using the new Networks concept to easier visualise and manage access to your resources.",
+  "page.text.goToNetworks": "Go to Networks"
+}

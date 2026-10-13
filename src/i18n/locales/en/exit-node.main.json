@@ -1,0 +1,9 @@
+{
+  "addExitNodeButton.text.addExitNode": "Add Exit Node",
+  "addExitNodeButton.text.setUpExitNode": "Set Up Exit Node",
+  "exitNodeHelpTooltip.text.anExitNodeIsA": "An exit node is a network route that routes all your internet traffic through one of your peers.",
+  "exitNodeHelpTooltip.text.exitNodes": "Exit Nodes",
+  "exitNodeHelpTooltip.text.inOurDocumentation": "in our documentation.",
+  "exitNodePeerIndicator.text.thisPeerIsAnAuto": "This peer is an auto-applied exit node. Traffic from the configured distribution groups will be routed through this peer.",
+  "exitNodePeerIndicator.text.thisPeerIsAnExit": "This peer is an exit node. Traffic from the configured distribution groups will be routed through this peer."
+}
