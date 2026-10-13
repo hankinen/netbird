@@ -3,54 +3,146 @@ import en_access_control_main from "./locales/en/access-control.main.json";
 import en_access_control_page from "./locales/en/access-control.page.json";
 import en_access_control_ssh from "./locales/en/access-control.ssh.json";
 import en_access_control_table from "./locales/en/access-control.table.json";
+import en_access_tokens_main from "./locales/en/access-tokens.main.json";
+import en_activity_description from "./locales/en/activity.description.json";
+import en_activity_table from "./locales/en/activity.table.json";
+import en_auth_main from "./locales/en/auth.main.json";
 import en_common from "./locales/en/common.json";
+import en_common_table_rows_main from "./locales/en/common-table-rows.main.json";
 import en_components_core from "./locales/en/components.core.json";
 import en_components_modal from "./locales/en/components.modal.json";
 import en_components_select from "./locales/en/components.select.json";
 import en_components_table from "./locales/en/components.table.json";
 import en_components_ui from "./locales/en/components.ui.json";
+import en_contexts_main from "./locales/en/contexts.main.json";
+import en_dns_nameservers from "./locales/en/dns.nameservers.json";
+import en_dns_page from "./locales/en/dns.page.json";
+import en_dns_zones from "./locales/en/dns.zones.json";
+import en_error_page from "./locales/en/error.page.json";
+import en_events_page from "./locales/en/events.page.json";
+import en_exit_node_main from "./locales/en/exit-node.main.json";
 import en_group_page from "./locales/en/group.page.json";
 import en_groups_details from "./locales/en/groups.details.json";
 import en_groups_main from "./locales/en/groups.main.json";
 import en_groups_page from "./locales/en/groups.page.json";
 import en_groups_table from "./locales/en/groups.table.json";
+import en_hooks_main from "./locales/en/hooks.main.json";
+import en_instance_setup_main from "./locales/en/instance-setup.main.json";
+import en_invite_page from "./locales/en/invite.page.json";
+import en_jobs_main from "./locales/en/jobs.main.json";
+import en_jobs_table from "./locales/en/jobs.table.json";
 import en_nav from "./locales/en/nav.json";
+import en_network_routes_page from "./locales/en/network-routes.page.json";
+import en_network_page from "./locales/en/network.page.json";
+import en_networks_main from "./locales/en/networks.main.json";
+import en_networks_misc from "./locales/en/networks.misc.json";
+import en_networks_page from "./locales/en/networks.page.json";
+import en_networks_resources from "./locales/en/networks.resources.json";
+import en_networks_routing_peers from "./locales/en/networks.routing-peers.json";
+import en_networks_table from "./locales/en/networks.table.json";
+import en_onboarding_main from "./locales/en/onboarding.main.json";
+import en_onboarding_networks from "./locales/en/onboarding.networks.json";
+import en_onboarding_p2p from "./locales/en/onboarding.p2p.json";
 import en_peer_main from "./locales/en/peer.main.json";
 import en_peer_page from "./locales/en/peer.page.json";
 import en_peers_main from "./locales/en/peers.main.json";
 import en_peers_page from "./locales/en/peers.page.json";
+import en_posture_checks_checks from "./locales/en/posture-checks.checks.json";
+import en_posture_checks_main from "./locales/en/posture-checks.main.json";
+import en_posture_checks_modal from "./locales/en/posture-checks.modal.json";
+import en_posture_checks_page from "./locales/en/posture-checks.page.json";
+import en_posture_checks_table from "./locales/en/posture-checks.table.json";
+import en_posture_checks_ui from "./locales/en/posture-checks.ui.json";
+import en_remote_access_main from "./locales/en/remote-access.main.json";
+import en_remote_access_rdp from "./locales/en/remote-access.rdp.json";
+import en_remote_access_ssh from "./locales/en/remote-access.ssh.json";
+import en_route_group_main from "./locales/en/route-group.main.json";
+import en_routes_main from "./locales/en/routes.main.json";
+import en_search_main from "./locales/en/search.main.json";
 import en_settings_authentication_tab from "./locales/en/settings.authentication-tab.json";
 import en_settings_identity_providers_tab from "./locales/en/settings.identity-providers-tab.json";
 import en_settings_main from "./locales/en/settings.main.json";
 import en_settings_page from "./locales/en/settings.page.json";
 import en_setup_keys_main from "./locales/en/setup-keys.main.json";
+import en_setup_netbird_modal_main from "./locales/en/setup-netbird-modal.main.json";
+import en_team_page from "./locales/en/team.page.json";
+import en_titles from "./locales/en/titles.json";
+import en_users_modals from "./locales/en/users.modals.json";
+import en_users_table from "./locales/en/users.table.json";
+import en_users_table_cells from "./locales/en/users.table-cells.json";
 
 export const namespaces = [
   "access-control.main",
   "access-control.page",
   "access-control.ssh",
   "access-control.table",
+  "access-tokens.main",
+  "activity.description",
+  "activity.table",
+  "auth.main",
   "common",
+  "common-table-rows.main",
   "components.core",
   "components.modal",
   "components.select",
   "components.table",
   "components.ui",
+  "contexts.main",
+  "dns.nameservers",
+  "dns.page",
+  "dns.zones",
+  "error.page",
+  "events.page",
+  "exit-node.main",
   "group.page",
   "groups.details",
   "groups.main",
   "groups.page",
   "groups.table",
+  "hooks.main",
+  "instance-setup.main",
+  "invite.page",
+  "jobs.main",
+  "jobs.table",
   "nav",
+  "network-routes.page",
+  "network.page",
+  "networks.main",
+  "networks.misc",
+  "networks.page",
+  "networks.resources",
+  "networks.routing-peers",
+  "networks.table",
+  "onboarding.main",
+  "onboarding.networks",
+  "onboarding.p2p",
   "peer.main",
   "peer.page",
   "peers.main",
   "peers.page",
+  "posture-checks.checks",
+  "posture-checks.main",
+  "posture-checks.modal",
+  "posture-checks.page",
+  "posture-checks.table",
+  "posture-checks.ui",
+  "remote-access.main",
+  "remote-access.rdp",
+  "remote-access.ssh",
+  "route-group.main",
+  "routes.main",
+  "search.main",
   "settings.authentication-tab",
   "settings.identity-providers-tab",
   "settings.main",
   "settings.page",
   "setup-keys.main",
+  "setup-netbird-modal.main",
+  "team.page",
+  "titles",
+  "users.modals",
+  "users.table",
+  "users.table-cells",
 ] as const;
 export type Namespace = (typeof namespaces)[number];
 
@@ -59,27 +151,73 @@ export const enResources = {
   "access-control.page": en_access_control_page,
   "access-control.ssh": en_access_control_ssh,
   "access-control.table": en_access_control_table,
+  "access-tokens.main": en_access_tokens_main,
+  "activity.description": en_activity_description,
+  "activity.table": en_activity_table,
+  "auth.main": en_auth_main,
   common: en_common,
+  "common-table-rows.main": en_common_table_rows_main,
   "components.core": en_components_core,
   "components.modal": en_components_modal,
   "components.select": en_components_select,
   "components.table": en_components_table,
   "components.ui": en_components_ui,
+  "contexts.main": en_contexts_main,
+  "dns.nameservers": en_dns_nameservers,
+  "dns.page": en_dns_page,
+  "dns.zones": en_dns_zones,
+  "error.page": en_error_page,
+  "events.page": en_events_page,
+  "exit-node.main": en_exit_node_main,
   "group.page": en_group_page,
   "groups.details": en_groups_details,
   "groups.main": en_groups_main,
   "groups.page": en_groups_page,
   "groups.table": en_groups_table,
+  "hooks.main": en_hooks_main,
+  "instance-setup.main": en_instance_setup_main,
+  "invite.page": en_invite_page,
+  "jobs.main": en_jobs_main,
+  "jobs.table": en_jobs_table,
   nav: en_nav,
+  "network-routes.page": en_network_routes_page,
+  "network.page": en_network_page,
+  "networks.main": en_networks_main,
+  "networks.misc": en_networks_misc,
+  "networks.page": en_networks_page,
+  "networks.resources": en_networks_resources,
+  "networks.routing-peers": en_networks_routing_peers,
+  "networks.table": en_networks_table,
+  "onboarding.main": en_onboarding_main,
+  "onboarding.networks": en_onboarding_networks,
+  "onboarding.p2p": en_onboarding_p2p,
   "peer.main": en_peer_main,
   "peer.page": en_peer_page,
   "peers.main": en_peers_main,
   "peers.page": en_peers_page,
+  "posture-checks.checks": en_posture_checks_checks,
+  "posture-checks.main": en_posture_checks_main,
+  "posture-checks.modal": en_posture_checks_modal,
+  "posture-checks.page": en_posture_checks_page,
+  "posture-checks.table": en_posture_checks_table,
+  "posture-checks.ui": en_posture_checks_ui,
+  "remote-access.main": en_remote_access_main,
+  "remote-access.rdp": en_remote_access_rdp,
+  "remote-access.ssh": en_remote_access_ssh,
+  "route-group.main": en_route_group_main,
+  "routes.main": en_routes_main,
+  "search.main": en_search_main,
   "settings.authentication-tab": en_settings_authentication_tab,
   "settings.identity-providers-tab": en_settings_identity_providers_tab,
   "settings.main": en_settings_main,
   "settings.page": en_settings_page,
   "setup-keys.main": en_setup_keys_main,
+  "setup-netbird-modal.main": en_setup_netbird_modal_main,
+  "team.page": en_team_page,
+  titles: en_titles,
+  "users.modals": en_users_modals,
+  "users.table": en_users_table,
+  "users.table-cells": en_users_table_cells,
 };
 
 export const loaders: Record<
@@ -95,22 +233,76 @@ export const loaders: Record<
       import("./locales/zh-CN/access-control.ssh.json"),
     "access-control.table": () =>
       import("./locales/zh-CN/access-control.table.json"),
+    "access-tokens.main": () =>
+      import("./locales/zh-CN/access-tokens.main.json"),
+    "activity.description": () =>
+      import("./locales/zh-CN/activity.description.json"),
+    "activity.table": () => import("./locales/zh-CN/activity.table.json"),
+    "auth.main": () => import("./locales/zh-CN/auth.main.json"),
     common: () => import("./locales/zh-CN/common.json"),
+    "common-table-rows.main": () =>
+      import("./locales/zh-CN/common-table-rows.main.json"),
     "components.core": () => import("./locales/zh-CN/components.core.json"),
     "components.modal": () => import("./locales/zh-CN/components.modal.json"),
     "components.select": () => import("./locales/zh-CN/components.select.json"),
     "components.table": () => import("./locales/zh-CN/components.table.json"),
     "components.ui": () => import("./locales/zh-CN/components.ui.json"),
+    "contexts.main": () => import("./locales/zh-CN/contexts.main.json"),
+    "dns.nameservers": () => import("./locales/zh-CN/dns.nameservers.json"),
+    "dns.page": () => import("./locales/zh-CN/dns.page.json"),
+    "dns.zones": () => import("./locales/zh-CN/dns.zones.json"),
+    "error.page": () => import("./locales/zh-CN/error.page.json"),
+    "events.page": () => import("./locales/zh-CN/events.page.json"),
+    "exit-node.main": () => import("./locales/zh-CN/exit-node.main.json"),
     "group.page": () => import("./locales/zh-CN/group.page.json"),
     "groups.details": () => import("./locales/zh-CN/groups.details.json"),
     "groups.main": () => import("./locales/zh-CN/groups.main.json"),
     "groups.page": () => import("./locales/zh-CN/groups.page.json"),
     "groups.table": () => import("./locales/zh-CN/groups.table.json"),
+    "hooks.main": () => import("./locales/zh-CN/hooks.main.json"),
+    "instance-setup.main": () =>
+      import("./locales/zh-CN/instance-setup.main.json"),
+    "invite.page": () => import("./locales/zh-CN/invite.page.json"),
+    "jobs.main": () => import("./locales/zh-CN/jobs.main.json"),
+    "jobs.table": () => import("./locales/zh-CN/jobs.table.json"),
     nav: () => import("./locales/zh-CN/nav.json"),
+    "network-routes.page": () =>
+      import("./locales/zh-CN/network-routes.page.json"),
+    "network.page": () => import("./locales/zh-CN/network.page.json"),
+    "networks.main": () => import("./locales/zh-CN/networks.main.json"),
+    "networks.misc": () => import("./locales/zh-CN/networks.misc.json"),
+    "networks.page": () => import("./locales/zh-CN/networks.page.json"),
+    "networks.resources": () =>
+      import("./locales/zh-CN/networks.resources.json"),
+    "networks.routing-peers": () =>
+      import("./locales/zh-CN/networks.routing-peers.json"),
+    "networks.table": () => import("./locales/zh-CN/networks.table.json"),
+    "onboarding.main": () => import("./locales/zh-CN/onboarding.main.json"),
+    "onboarding.networks": () =>
+      import("./locales/zh-CN/onboarding.networks.json"),
+    "onboarding.p2p": () => import("./locales/zh-CN/onboarding.p2p.json"),
     "peer.main": () => import("./locales/zh-CN/peer.main.json"),
     "peer.page": () => import("./locales/zh-CN/peer.page.json"),
     "peers.main": () => import("./locales/zh-CN/peers.main.json"),
     "peers.page": () => import("./locales/zh-CN/peers.page.json"),
+    "posture-checks.checks": () =>
+      import("./locales/zh-CN/posture-checks.checks.json"),
+    "posture-checks.main": () =>
+      import("./locales/zh-CN/posture-checks.main.json"),
+    "posture-checks.modal": () =>
+      import("./locales/zh-CN/posture-checks.modal.json"),
+    "posture-checks.page": () =>
+      import("./locales/zh-CN/posture-checks.page.json"),
+    "posture-checks.table": () =>
+      import("./locales/zh-CN/posture-checks.table.json"),
+    "posture-checks.ui": () => import("./locales/zh-CN/posture-checks.ui.json"),
+    "remote-access.main": () =>
+      import("./locales/zh-CN/remote-access.main.json"),
+    "remote-access.rdp": () => import("./locales/zh-CN/remote-access.rdp.json"),
+    "remote-access.ssh": () => import("./locales/zh-CN/remote-access.ssh.json"),
+    "route-group.main": () => import("./locales/zh-CN/route-group.main.json"),
+    "routes.main": () => import("./locales/zh-CN/routes.main.json"),
+    "search.main": () => import("./locales/zh-CN/search.main.json"),
     "settings.authentication-tab": () =>
       import("./locales/zh-CN/settings.authentication-tab.json"),
     "settings.identity-providers-tab": () =>
@@ -118,5 +310,12 @@ export const loaders: Record<
     "settings.main": () => import("./locales/zh-CN/settings.main.json"),
     "settings.page": () => import("./locales/zh-CN/settings.page.json"),
     "setup-keys.main": () => import("./locales/zh-CN/setup-keys.main.json"),
+    "setup-netbird-modal.main": () =>
+      import("./locales/zh-CN/setup-netbird-modal.main.json"),
+    "team.page": () => import("./locales/zh-CN/team.page.json"),
+    titles: () => import("./locales/zh-CN/titles.json"),
+    "users.modals": () => import("./locales/zh-CN/users.modals.json"),
+    "users.table": () => import("./locales/zh-CN/users.table.json"),
+    "users.table-cells": () => import("./locales/zh-CN/users.table-cells.json"),
   },
 };

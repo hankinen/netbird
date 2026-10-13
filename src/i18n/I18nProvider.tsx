@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { I18nextProvider } from "react-i18next";
 import FullScreenLoading from "@/components/ui/FullScreenLoading";
 import { detectLanguage, i18n, initLanguage } from "@/i18n";
+import { watchDocumentTitle } from "@/i18n/pageTitle";
 
 /**
  * Picks the language once on the client and loads the preloaded namespaces
@@ -15,7 +16,13 @@ export default function I18nProvider({
 }: Readonly<{ children: React.ReactNode }>) {
   const [ready, setReady] = useState(false);
   useEffect(() => {
-    initLanguage(detectLanguage()).finally(() => setReady(true));
+    let stop: (() => void) | undefined;
+    const lang = detectLanguage();
+    initLanguage(lang).finally(() => {
+      if (lang !== "en") stop = watchDocumentTitle();
+      setReady(true);
+    });
+    return () => stop?.();
   }, []);
   if (!ready) return <FullScreenLoading />;
   return <I18nextProvider i18n={i18n}>{children}</I18nextProvider>;

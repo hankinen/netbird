@@ -12,6 +12,21 @@ import {
 } from "./config";
 import { enResources, loaders, Namespace } from "./namespaces.generated";
 
+/** Modules used on many routes (header, dialogs, providers); loaded at start. */
+const SHARED_MODULES = [
+  "components",
+  "users",
+  "setup-netbird-modal",
+  "search",
+  "contexts",
+  "auth",
+  "hooks",
+  "error",
+  "account",
+  "common-table-rows",
+  "titles",
+];
+
 // English is bundled so t() works synchronously everywhere (tests, stories,
 // fallback). Other languages are loaded per namespace on demand.
 i18next.use(initReactI18next).init({
@@ -85,7 +100,7 @@ export async function initLanguage(lang: Language) {
   if (typeof document !== "undefined") document.documentElement.lang = lang;
   await loadNamespaces([
     ...PRELOADED_NAMESPACES,
-    ...namespacesFor(["components"]),
+    ...namespacesFor(SHARED_MODULES),
   ]);
 }
 
