@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import UserProvider from "@/contexts/UserProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { t } from "@/i18n";
 import { AccessToken } from "@/interfaces/AccessToken";
 import { User } from "@/interfaces/User";
 import AccessTokenActionCell from "@/modules/access-tokens/AccessTokenActionCell";
@@ -17,7 +18,6 @@ import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 import ExpirationDateRow from "@/modules/common-table-rows/ExpirationDateRow";
 import LastTimeRow from "@/modules/common-table-rows/LastTimeRow";
 import SetupKeyNameCell from "@/modules/setup-keys/SetupKeyNameCell";
-
 type Props = {
   user: User;
 };
@@ -26,7 +26,11 @@ export const AccessTokensTableColumns: ColumnDef<AccessToken>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.name")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => {
@@ -37,7 +41,11 @@ export const AccessTokensTableColumns: ColumnDef<AccessToken>[] = [
   {
     accessorKey: "expiration_date",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Expires</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("access-tokens.main:accessTokensTable.text.expires")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => (
       <ExpirationDateRow date={row.original.expiration_date} />
@@ -46,14 +54,21 @@ export const AccessTokensTableColumns: ColumnDef<AccessToken>[] = [
   {
     accessorKey: "last_used",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Last used</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("access-tokens.main:accessTokensTable.text.lastUsed")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "datetime",
     cell: ({ row }) => {
       return typeof row.original.last_used === "undefined" ? (
         <EmptyRow />
       ) : (
-        <LastTimeRow date={row.original.last_used} text={"Last used on"} />
+        <LastTimeRow
+          date={row.original.last_used}
+          text={t("access-tokens.main:accessTokensTable.text.lastUsedOn")}
+        />
       );
     },
   },
@@ -88,7 +103,7 @@ export default function AccessTokensTable({ user }: Readonly<Props>) {
       <Card className={"mt-5 w-full"}>
         {tokens && tokens.length > 0 ? (
           <DataTable
-            text={"Access Tokens"}
+            text={t("access-tokens.main:accessTokensTable.text.accessTokens")}
             tableClassName={"mt-0"}
             minimal={true}
             showSearchAndFilters={false}
@@ -102,10 +117,12 @@ export default function AccessTokensTable({ user }: Readonly<Props>) {
           <div className={"bg-nb-gray-950 overflow-hidden"}>
             <NoResults
               className={"py-3"}
-              title={"No access tokens"}
-              description={
-                "You don't have any access tokens yet. You can add a token to access the NetBird API."
-              }
+              title={t(
+                "access-tokens.main:accessTokensTable.title.noAccessTokens",
+              )}
+              description={t(
+                "access-tokens.main:accessTokensTable.description.youDonTHaveAny",
+              )}
               icon={<IconApi size={20} className={"text-nb-gray-300"} />}
             />
           </div>
