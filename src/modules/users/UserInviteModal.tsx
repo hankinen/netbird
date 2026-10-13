@@ -31,6 +31,7 @@ import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { UserRoleSelector } from "@/modules/users/UserRoleSelector";
 import { isNetBirdCloud } from "@utils/netbird";
 
+import { t } from "@/i18n";
 type UserCreationMode = "create" | "invite";
 
 type Props = {
@@ -133,14 +134,20 @@ export default function UserInviteModal({ children, groups }: Readonly<Props>) {
             <div className={"flex flex-col items-center justify-center gap-3"}>
               <div>
                 <h2 className={"text-2xl text-center mb-2"}>
-                  {isPasswordSuccess && "User created successfully!"}
-                  {isInviteSuccess && "Invite link created!"}
+                  {isPasswordSuccess &&
+                    t(
+                      "users.modals:userInviteModal.text.userCreatedSuccessfully",
+                    )}
+                  {isInviteSuccess &&
+                    t("users.modals:userInviteModal.text.inviteLinkCreated")}
                 </h2>
                 <Paragraph className={"mt-0 text-sm text-center"}>
                   {isPasswordSuccess &&
-                    "This password will not be shown again, so be sure to copy it and store in a secure location."}
+                    t(
+                      "users.modals:userInviteModal.text.thisPasswordWillNotBe",
+                    )}
                   {isInviteSuccess &&
-                    "Share this link with the user. They will be able to set their own password."}
+                    t("users.modals:userInviteModal.text.shareThisLinkWithThe")}
                 </Paragraph>
               </div>
             </div>
@@ -166,8 +173,11 @@ export default function UserInviteModal({ children, groups }: Readonly<Props>) {
               <Paragraph
                 className={"mt-3 text-xs text-nb-gray-400 text-center"}
               >
-                Expires on{" "}
-                {new Date(successData.invite.expires_at).toLocaleString()}
+                {t("users.modals:userInviteModal.text.expiresOn", {
+                  toLocaleString: new Date(
+                    successData.invite.expires_at,
+                  ).toLocaleString(),
+                })}
               </Paragraph>
             )}
           </div>
@@ -178,7 +188,7 @@ export default function UserInviteModal({ children, groups }: Readonly<Props>) {
               onClick={handleCopyAndClose}
             >
               <CopyIcon size={14} />
-              Copy & Close
+              {t("users.modals:userInviteModal.text.copyClose")}
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -218,8 +228,11 @@ export function UserInviteModalContent({
     const groups = await saveGroups();
     const groupIds = groups.map((group) => group.id) as string[];
     notify({
-      title: "Create User",
-      description: `Creating user account for ${name}...`,
+      title: t("users.modals:userInviteModal.title.createUser"),
+      description: t(
+        "users.modals:userInviteModal.description.creatingUserAccountFor",
+        { name },
+      ),
       promise: userRequest
         .post({
           name,
@@ -232,7 +245,9 @@ export function UserInviteModalContent({
           mutate("/users?service_user=false");
           onUserCreated && onUserCreated(user);
         }),
-      loadingMessage: "Creating user...",
+      loadingMessage: t(
+        "users.modals:userInviteModal.loadingMessage.creatingUser",
+      ),
     });
   };
 
@@ -240,8 +255,11 @@ export function UserInviteModalContent({
     const groups = await saveGroups();
     const groupIds = groups.map((group) => group.id) as string[];
     notify({
-      title: "Create Invite",
-      description: `Creating invite link for ${name}...`,
+      title: t("users.modals:userInviteModal.title.createInvite"),
+      description: t(
+        "users.modals:userInviteModal.description.creatingInviteLinkFor",
+        { name },
+      ),
       promise: inviteRequest
         .post({
           name,
@@ -254,7 +272,9 @@ export function UserInviteModalContent({
           mutate("/users?service_user=false");
           onInviteCreated && onInviteCreated(invite);
         }),
-      loadingMessage: "Creating invite...",
+      loadingMessage: t(
+        "users.modals:userInviteModal.loadingMessage.creatingInvite",
+      ),
     });
   };
 
@@ -279,22 +299,26 @@ export function UserInviteModalContent({
   }, [name, isValidEmail]);
 
   const getTitle = () => {
-    if (isCloud) return "Invite User";
-    return mode === "create" ? "Create User" : "Invite User";
+    if (isCloud) return t("users.modals:userInviteModal.text.inviteUser");
+    return mode === "create"
+      ? t("users.modals:userInviteModal.title.createUser")
+      : t("users.modals:userInviteModal.text.inviteUser");
   };
 
   const getDescription = () => {
     if (isCloud)
-      return "Invite a user to your network and set their permissions.";
+      return t("users.modals:userInviteModal.text.inviteAUserToYour");
     if (mode === "create") {
-      return "Create a NetBird user account with email and password.";
+      return t("users.modals:userInviteModal.text.createANetBirdUserAccount");
     }
-    return "Generate an invite link that the user can use to set their own password.";
+    return t("users.modals:userInviteModal.text.generateAnInviteLinkThat");
   };
 
   const getButtonText = () => {
-    if (isCloud) return "Send Invitation";
-    return mode === "create" ? "Create User" : "Create Invite Link";
+    if (isCloud) return t("users.modals:userInviteModal.text.sendInvitation");
+    return mode === "create"
+      ? t("users.modals:userInviteModal.title.createUser")
+      : t("users.modals:userInviteModal.text.createInviteLink");
   };
 
   const getButtonIcon = () => {
@@ -343,11 +367,11 @@ export function UserInviteModalContent({
             <SegmentedTabs.List className="rounded-lg border">
               <SegmentedTabs.Trigger value="invite">
                 <IconLink size={16} />
-                Invite User
+                {t("users.modals:userInviteModal.text.inviteUser")}
               </SegmentedTabs.Trigger>
               <SegmentedTabs.Trigger value="create">
                 <IconUserPlus size={16} />
-                Create User
+                {t("users.modals:userInviteModal.title.createUser")}
               </SegmentedTabs.Trigger>
             </SegmentedTabs.List>
           </SegmentedTabs>
@@ -360,7 +384,7 @@ export function UserInviteModalContent({
                 <User2 size={16} className={"text-nb-gray-300"} />
               </div>
             }
-            placeholder={"John Doe"}
+            placeholder={t("users.modals:serviceUserModal.placeholder.johnDoe")}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
@@ -372,7 +396,9 @@ export function UserInviteModalContent({
                 <MailIcon size={16} className={"text-nb-gray-300"} />
               </div>
             }
-            placeholder={"hello@netbird.io"}
+            placeholder={t(
+              "users.modals:userInviteModal.placeholder.helloNetbirdIo",
+            )}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -384,8 +410,14 @@ export function UserInviteModalContent({
           {!isCloud && mode === "invite" && (
             <div className={"flex justify-between mt-3"}>
               <div>
-                <Label>Expires in</Label>
-                <HelpText>Days until the invite expires.</HelpText>
+                <Label>
+                  {t("users.modals:userInviteModal.text.expiresIn")}
+                </Label>
+                <HelpText>
+                  {t(
+                    "users.modals:userInviteModal.text.daysUntilTheInviteExpires",
+                  )}
+                </HelpText>
               </div>
               <Input
                 maxWidthClass={"max-w-[200px]"}
@@ -404,9 +436,11 @@ export function UserInviteModalContent({
         </div>
 
         <div className={"mb-4"}>
-          <Label>Auto-assigned groups</Label>
+          <Label>
+            {t("users.modals:userInviteModal.text.autoAssignedGroups")}
+          </Label>
           <HelpText>
-            Groups will be assigned to peers added by this user.
+            {t("users.modals:userInviteModal.text.groupsWillBeAssignedTo")}
           </HelpText>
           <PeerGroupSelector
             onChange={setSelectedGroups}

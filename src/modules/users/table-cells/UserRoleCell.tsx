@@ -11,8 +11,8 @@ import {
 import React from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
+import { t } from "@/i18n";
 import { Role, User } from "@/interfaces/User";
-
 type Props = {
   user: User;
 };
@@ -26,49 +26,49 @@ export default function UserRoleCell({ user }: Readonly<Props>) {
         {role === Role.User && (
           <>
             <User2 size={14} />
-            User
+            {t("common:word.user")}
           </>
         )}
         {role === Role.Admin && (
           <>
             <Cog size={14} />
-            Admin
+            {t("users.table-cells:userRoleCell.text.admin")}
           </>
         )}
         {role === Role.Owner && (
           <>
             <NetBirdIcon size={14} />
-            Owner
+            {t("users.table-cells:userRoleCell.text.owner")}
           </>
         )}
         {role === Role.BillingAdmin && (
           <>
             <CreditCardIcon size={14} />
-            Billing Admin
+            {t("users.table-cells:userRoleCell.text.billingAdmin")}
           </>
         )}
         {role === Role.Auditor && (
           <>
             <EyeIcon size={14} />
-            Auditor
+            {t("users.table-cells:userRoleCell.text.auditor")}
           </>
         )}
         {role === Role.NetworkAdmin && (
           <>
             <NetworkIcon size={14} />
-            Network Admin
+            {t("users.table-cells:userRoleCell.text.networkAdmin")}
           </>
         )}
         {role === Role.AgentNetworkAdmin && (
           <>
             <AgentNetworkIcon size={14} />
-            Agent Network Admin
+            {t("users.table-cells:userRoleCell.text.agentNetworkAdmin")}
           </>
         )}
         {role === Role.UsageViewer && (
           <>
             <GaugeIcon size={14} />
-            Usage Viewer
+            {t("users.table-cells:userRoleCell.text.usageViewer")}
           </>
         )}
       </Badge>

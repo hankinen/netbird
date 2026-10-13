@@ -25,9 +25,9 @@ import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { useElementSize } from "@/hooks/useElementSize";
+import { t } from "@/i18n";
 import { Role, User } from "@/interfaces/User";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
-
 interface MultiSelectProps {
   value?: Role;
   onChange: (item: Role) => void;
@@ -205,24 +205,23 @@ export function UserRoleSelector({
   const toggle = async (item: Role) => {
     if (item === Role.Owner) {
       let ok = await confirm({
-        title: "Transfer Ownership?",
+        title: t("users.table:userRoleSelector.title.transferOwnership"),
         type: "warning",
         description: (
           <div className={"inline-block"}>
-            This action will transfer the{" "}
-            <span className={"text-netbird inline font-medium"}>Owner</span>{" "}
-            role to{" "}
+            {t("users.table:userRoleSelector.text.thisActionWillTransferThe")}{" "}
+            <span className={"text-netbird inline font-medium"}>{t("users.table:userRoleSelector.text.owner")}</span>{" "}
+            {t("users.table:userRoleSelector.text.roleTo")}{" "}
             {currentUser ? (
               <span className={"text-netbird inline font-medium"}>
                 {currentUser.name}
               </span>
             ) : (
-              "this user"
+              t("users.table:userRoleSelector.text.thisUser")
             )}{" "}
-            and leave you with the{" "}
-            <span className={"text-netbird inline font-medium"}>Admin</span>{" "}
-            role. This action can only be undone if the new owner transfers the
-            role back to you.
+            {t("users.table:userRoleSelector.text.andLeaveYouWithThe")}{" "}
+            <span className={"text-netbird inline font-medium"}>{t("users.table:userRoleSelector.text.admin")}</span>{" "}
+            {t("users.table:userRoleSelector.text.roleThisActionCanOnly")}
           </div>
         ),
       });

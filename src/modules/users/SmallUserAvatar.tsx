@@ -1,7 +1,7 @@
 import { cn, generateColorFromString } from "@utils/helpers";
 import { Cog } from "lucide-react";
 import * as React from "react";
-
+import { t } from "@/i18n";
 type Props = {
   name?: string;
   email?: string;
@@ -28,7 +28,9 @@ export const SmallUserAvatar = ({
         color:
           email === "NetBird"
             ? "#808080"
-            : generateColorFromString(name || id || "System User"),
+            : generateColorFromString(
+                name || id || t("common:word.systemUser"),
+              ),
       }}
     >
       {email === "NetBird" ? (

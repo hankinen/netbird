@@ -14,7 +14,7 @@ import {
   UserCircleIcon,
 } from "lucide-react";
 import * as React from "react";
-
+import { t } from "@/i18n";
 const parseApproverEmail = (message?: string): string =>
   message?.match(/[^\s@]+@[a-z0-9.-]+\.[a-z]{2,}/i)?.[0] ?? "";
 
@@ -84,45 +84,46 @@ export const PendingApproval = ({ error, onRefresh, onLogout }: Props) => {
         </Steps>
 
         <Paragraph className={"block max-w-md mx-auto text-center"}>
-          Your organization requires new users to be manually approved before
-          joining.{" "}
+          {t(
+            "users.modals:pendingApproval.text.yourOrganizationRequiresNewUsers",
+          )}{" "}
           {owner ? (
             <>
-              Ask the owner of the account at{" "}
-              <span className={"text-nb-gray-100"}>{owner}</span> to approve
-              your access.
+              {t("users.modals:pendingApproval.text.askTheOwnerOfThe")}{" "}
+              <span className={"text-nb-gray-100"}>{owner}</span>{" "}
+              {t("users.modals:pendingApproval.text.toApproveYourAccess")}
             </>
           ) : (
-            "Ask the owner of the account to approve your access."
+            t("users.modals:pendingApproval.text.askTheOwnerOfThe2")
           )}
         </Paragraph>
 
         <div className={"flex flex-col sm:flex-row gap-3 justify-center"}>
           <Button variant={"secondary"} size={"sm"} onClick={onRefresh}>
             <RefreshCwIcon size={16} />
-            Refresh
+            {t("users.modals:pendingApproval.text.refresh")}
           </Button>
           <Button variant={"default-outline"} size={"sm"} onClick={onLogout}>
             <LogOut size={16} />
-            Log Out
+            {t("users.modals:pendingApproval.text.logOut")}
           </Button>
         </div>
       </div>
 
       <Paragraph className={"text-sm"}>
-        Need help?
+        {t("users.modals:pendingApproval.text.needHelp")}
         <InlineLink
           href={"https://docs.netbird.io/manage/team/approve-users"}
           target={"_blank"}
         >
-          Read the Docs
+          {t("users.modals:pendingApproval.text.readTheDocs")}
         </InlineLink>
-        or
+        {t("users.modals:pendingApproval.text.or")}
         <InlineLink
           href={"https://docs.netbird.io/help/netbird-support"}
           target={"_blank"}
         >
-          Contact Support
+          {t("users.modals:pendingApproval.text.contactSupport")}
         </InlineLink>
       </Paragraph>
     </div>

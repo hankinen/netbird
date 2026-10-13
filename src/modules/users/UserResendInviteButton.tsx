@@ -6,8 +6,8 @@ import { Loader2, MailIcon } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { User } from "@/interfaces/User";
-
 type Props = {
   user: User;
 };
@@ -19,26 +19,31 @@ export const UserResendInviteButton = ({ user }: Props) => {
   const inviteUser = async () => {
     setIsLoading(true);
     notify({
-      title: "Resend Invite",
-      description: `The invitation is being sent to ${user.email}`,
+      title: t("users.modals:userResendInviteButton.title.resendInvite"),
+      description: t(
+        "users.modals:userResendInviteButton.description.theInvitationIsBeingSent",
+        { email: user.email },
+      ),
       promise: userRequest
         .post("", `/${user.id}/invite`)
         .finally(() => setIsLoading(false)),
-      loadingMessage: "Sending invitation...",
+      loadingMessage: t(
+        "users.modals:userResendInviteButton.loadingMessage.sendingInvitation",
+      ),
     });
   };
 
   const LoadingMessage = () => (
     <>
       <Loader2 size={14} className={"animate-spin block"} />
-      Sending...
+      {t("users.modals:userResendInviteButton.text.sending")}
     </>
   );
 
   const DefaultMessage = () => (
     <>
       <MailIcon size={13} />
-      Resend
+      {t("users.modals:userResendInviteButton.text.resend")}
     </>
   );
 

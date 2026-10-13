@@ -18,6 +18,7 @@ import { useApiCall } from "@utils/api";
 import { KeyRound, LockIcon } from "lucide-react";
 import React, { useMemo, useState } from "react";
 
+import { t } from "@/i18n";
 type Props = {
   children: React.ReactNode;
   userId?: string;
@@ -62,13 +63,13 @@ export function ChangePasswordModalContent({
 
   const newPasswordError = useMemo(() => {
     if (newPassword.length === 0) return undefined;
-    if (newPassword.length < 8) return "Password must be at least 8 characters";
+    if (newPassword.length < 8) return t("users.modals:changePasswordModal.text.passwordMustBeAtLeast");
     return undefined;
   }, [newPassword]);
 
   const confirmPasswordError = useMemo(() => {
     if (confirmPassword.length === 0) return undefined;
-    if (newPassword !== confirmPassword) return "Passwords do not match";
+    if (newPassword !== confirmPassword) return t("users.modals:changePasswordModal.text.passwordsDoNotMatch");
     return undefined;
   }, [newPassword, confirmPassword]);
 
@@ -85,8 +86,8 @@ export function ChangePasswordModalContent({
 
     setIsLoading(true);
     notify({
-      title: "Change Password",
-      description: "Your password has been successfully changed.",
+      title: t("users.modals:changePasswordModal.title.changePassword"),
+      description: t("users.modals:changePasswordModal.description.yourPasswordHasBeenSuccessfully"),
       promise: passwordRequest
         .put({
           old_password: currentPassword,
@@ -98,7 +99,7 @@ export function ChangePasswordModalContent({
         .finally(() => {
           setIsLoading(false);
         }),
-      loadingMessage: "Changing password...",
+      loadingMessage: t("users.modals:changePasswordModal.loadingMessage.changingPassword"),
     });
   };
 
@@ -112,8 +113,8 @@ export function ChangePasswordModalContent({
     <ModalContent maxWidthClass={"max-w-lg"}>
       <ModalHeader
         icon={<KeyRound size={18} />}
-        title={"Change Password"}
-        description={"Update your account password."}
+        title={t("users.modals:changePasswordModal.title.changePassword")}
+        description={t("users.modals:changePasswordModal.description.updateYourAccountPassword")}
         color={"netbird"}
       />
 
@@ -121,11 +122,11 @@ export function ChangePasswordModalContent({
 
       <form className={"px-8 py-6 flex flex-col gap-6"} onSubmit={changePassword}>
         <div>
-          <Label>Current Password</Label>
-          <HelpText>Enter your current password to verify your identity.</HelpText>
+          <Label>{t("users.modals:changePasswordModal.text.currentPassword")}</Label>
+          <HelpText>{t("users.modals:changePasswordModal.text.enterYourCurrentPasswordTo")}</HelpText>
           <Input
             type="password"
-            placeholder={"Enter current password"}
+            placeholder={t("users.modals:changePasswordModal.placeholder.enterCurrentPassword")}
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -138,13 +139,13 @@ export function ChangePasswordModalContent({
         </div>
 
         <div>
-          <Label>New Password</Label>
+          <Label>{t("users.modals:changePasswordModal.text.newPassword")}</Label>
           <HelpText>
-            Enter your new password. Must be at least 8 characters.
+            {t("users.modals:changePasswordModal.text.enterYourNewPasswordMust")}
           </HelpText>
           <Input
             type="password"
-            placeholder={"Enter new password"}
+            placeholder={t("users.modals:changePasswordModal.placeholder.enterNewPassword")}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -157,11 +158,11 @@ export function ChangePasswordModalContent({
         </div>
 
         <div>
-          <Label>Confirm New Password</Label>
-          <HelpText>Re-enter your new password to confirm.</HelpText>
+          <Label>{t("users.modals:changePasswordModal.text.confirmNewPassword")}</Label>
+          <HelpText>{t("users.modals:changePasswordModal.text.reEnterYourNewPassword")}</HelpText>
           <Input
             type="password"
-            placeholder={"Confirm new password"}
+            placeholder={t("users.modals:changePasswordModal.placeholder.confirmNewPassword")}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -177,7 +178,7 @@ export function ChangePasswordModalContent({
       <ModalFooter className={"items-center"}>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
           </ModalClose>
 
           <Button
@@ -185,7 +186,7 @@ export function ChangePasswordModalContent({
             disabled={isDisabled || isLoading}
             onClick={changePassword}
           >
-            Change Password
+            {t("users.modals:changePasswordModal.title.changePassword")}
           </Button>
         </div>
       </ModalFooter>

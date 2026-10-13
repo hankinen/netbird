@@ -1,0 +1,21 @@
+{
+  "page.label.team": "Team",
+  "page.label.serviceUsers": "Service Users",
+  "page.text.useServiceUsersToCreate": "Use service users to create API tokens and avoid losing automated access.",
+  "page.description.changesSuccessfullySaved": "Changes successfully saved.",
+  "page.loadingMessage.savingChanges": "Saving changes...",
+  "page.text.autoAssignedGroups": "Auto-assigned groups",
+  "page.text.groupsWillBeAssignedTo": "Groups will be assigned to peers added by this user.",
+  "page.text.userRole": "User Role",
+  "page.text.onlyTheAccountOwnerCan": "Only the account owner can change the owner's role.",
+  "page.text.setARoleForThe": "Set a role for the user to assign access permissions.",
+  "page.text.accessTokens": "Access Tokens",
+  "page.text.accessTokensGiveAccessTo": "Access tokens give access to NetBird API.",
+  "page.text.createAccessToken": "Create Access Token",
+  "page.text.userID": "User ID",
+  "page.text.eMail": "E-Mail",
+  "page.text.blockUser": "Block User",
+  "page.text.lastLogin": "Last login",
+  "page.text.dMMMMYYYYAtH": "D MMMM, YYYY [at] h:mm A",
+  "page.text.manageUsersAndTheirPermissions": "Manage users and their permissions. Same-domain email users are added automatically on first sign-in."
+}

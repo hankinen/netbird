@@ -14,10 +14,10 @@ import TeamIcon from "@/assets/icons/TeamIcon";
 import { AccountMfaCard } from "@/cloud/mfa/AccountMFACard";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { User } from "@/interfaces/User";
 import PageContainer from "@/layouts/PageContainer";
 import { IdentityProviderCard } from "@/modules/integrations/idp-sync/IdentityProviderCard";
-
 const UsersTable = lazy(() => import("@/modules/users/UsersTable"));
 
 export default function TeamUsers() {
@@ -36,25 +36,24 @@ export default function TeamUsers() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/team"}
-            label={"Team"}
+            label={t("team.page:page.label.team")}
             icon={<TeamIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/team/users"}
-            label={"Users"}
+            label={t("common:word.users")}
             active
             icon={<User2 size={16} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Users</h1>
+        <h1 ref={headingRef}>{t("common:word.users")}</h1>
         <Paragraph>
-          Manage users and their permissions. Same-domain email users are added
-          automatically on first sign-in.{" "}
+          {t("team.page:page.text.manageUsersAndTheirPermissions")}{" "}
           <InlineLink
             href={"https://docs.netbird.io/how-to/add-users-to-your-network"}
             target={"_blank"}
           >
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>

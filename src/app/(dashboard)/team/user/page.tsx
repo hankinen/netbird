@@ -34,6 +34,7 @@ import { UserMfaListItem } from "@/cloud/mfa/UserMFAListItem";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { useHasChanges } from "@/hooks/useHasChanges";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { Role, User } from "@/interfaces/User";
 import PageContainer from "@/layouts/PageContainer";
@@ -45,7 +46,6 @@ import UserBlockCell from "@/modules/users/table-cells/UserBlockCell";
 import UserStatusCell from "@/modules/users/table-cells/UserStatusCell";
 import { UserPeersSection } from "@/modules/users/UserPeersSection";
 import { UserRoleSelector } from "@/modules/users/UserRoleSelector";
-
 export default function UserPage() {
   const queryParameter = useSearchParams();
   const userId = queryParameter.get("id");
@@ -119,7 +119,7 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
 
     notify({
       title: user.name,
-      description: "Changes successfully saved.",
+      description: t("team.page:page.description.changesSuccessfullySaved"),
       promise: userRequest
         .put(
           {
@@ -134,7 +134,7 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
           mutate(`/integrations/msp/switcher`);
           updateChangesRef([role, selectedGroups]);
         }),
-      loadingMessage: "Saving changes...",
+      loadingMessage: t("team.page:page.loadingMessage.savingChanges"),
     });
   };
 
@@ -155,7 +155,7 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/team"}
-            label={"Team"}
+            label={t("team.page:page.label.team")}
             disabled={!permission.users.read}
             icon={<TeamIcon size={13} />}
           />
@@ -163,13 +163,13 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
           {isServiceUser ? (
             <Breadcrumbs.Item
               href={"/team/service-users"}
-              label={"Service Users"}
+              label={t("team.page:page.label.serviceUsers")}
               icon={<IconSettings2 size={17} />}
             />
           ) : (
             <Breadcrumbs.Item
               href={"/team/users"}
-              label={"Users"}
+              label={t("common:word.users")}
               disabled={!permission.users.read}
               icon={<User2 size={16} />}
             />
@@ -193,7 +193,9 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
                     : {
                         color: user?.name
                           ? generateColorFromString(
-                              user?.name || user?.id || "System User",
+                              user?.name ||
+                                user?.id ||
+                                t("common:word.systemUser"),
                             )
                           : "#808080",
                       }
@@ -221,7 +223,7 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
                     : router.push("/team/users");
                 }}
               >
-                Cancel
+                {t("common:word.cancel")}
               </Button>
 
               <Button
@@ -231,7 +233,7 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
                 onClick={save}
                 data-testid={"save-changes"}
               >
-                Save Changes
+                {t("common:word.saveChanges")}
               </Button>
             </div>
           )}
@@ -242,9 +244,9 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
           <div className={"flex flex-col gap-8 w-1/2 "}>
             {!isServiceUser && isOwnerOrAdmin && (
               <div>
-                <Label>Auto-assigned groups</Label>
+                <Label>{t("team.page:page.text.autoAssignedGroups")}</Label>
                 <HelpText>
-                  Groups will be assigned to peers added by this user.
+                  {t("team.page:page.text.groupsWillBeAssignedTo")}
                 </HelpText>
                 <PeerGroupSelector
                   disabled={isUser}
@@ -256,11 +258,11 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
               </div>
             )}
             <div>
-              <Label>User Role</Label>
+              <Label>{t("team.page:page.text.userRole")}</Label>
               <HelpText>
                 {cannotChangeOwnerRole
-                  ? "Only the account owner can change the owner's role."
-                  : "Set a role for the user to assign access permissions."}
+                  ? t("team.page:page.text.onlyTheAccountOwnerCan")
+                  : t("team.page:page.text.setARoleForThe")}
               </HelpText>
               {/* 320px: enough for the longest role name and for the tab row
                   in the dropdown, without stretching across the column. */}
@@ -294,7 +296,7 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
           {showPeers && (
             <TabsTrigger value={"peers"} data-testid={"user-tab-peers"}>
               <MonitorSmartphoneIcon size={16} />
-              Peers
+              {t("common:word.peers")}
             </TabsTrigger>
           )}
           {showAccessTokens && (
@@ -303,7 +305,7 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
               data-testid={"user-tab-access-tokens"}
             >
               <KeyRoundIcon size={16} />
-              Access Tokens
+              {t("team.page:page.text.accessTokens")}
             </TabsTrigger>
           )}
         </TabsList>
@@ -318,9 +320,9 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
               <div className={"max-w-6xl"}>
                 <div className={"flex justify-between items-center"}>
                   <div>
-                    <h2>Access Tokens</h2>
+                    <h2>{t("team.page:page.text.accessTokens")}</h2>
                     <Paragraph>
-                      Access tokens give access to NetBird API.
+                      {t("team.page:page.text.accessTokensGiveAccessTo")}
                     </Paragraph>
                   </div>
                   <div className={"inline-flex gap-4 justify-end"}>
@@ -332,7 +334,7 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
                           disabled={!permission.pats.create}
                         >
                           <IconCirclePlus size={16} />
-                          Create Access Token
+                          {t("team.page:page.text.createAccessToken")}
                         </Button>
                       </CreateAccessTokenModal>
                     </div>
@@ -362,7 +364,9 @@ function UserInformationCard({ user }: Readonly<{ user: User }>) {
           label={
             <>
               <User2 size={16} />
-              {user.name ? "Name" : "User ID"}
+              {user.name
+                ? t("common:word.name")
+                : t("team.page:page.text.userID")}
             </>
           }
           value={user.name || user.id}
@@ -373,7 +377,7 @@ function UserInformationCard({ user }: Readonly<{ user: User }>) {
             label={
               <>
                 <Mail size={16} />
-                E-Mail
+                {t("team.page:page.text.eMail")}
               </>
             }
             value={user.email || "-"}
@@ -385,7 +389,7 @@ function UserInformationCard({ user }: Readonly<{ user: User }>) {
           label={
             <>
               <GalleryHorizontalEnd size={16} />
-              Status
+              {t("common:word.status")}
             </>
           }
           value={<UserStatusCell user={user} />}
@@ -403,7 +407,7 @@ function UserInformationCard({ user }: Readonly<{ user: User }>) {
                   label={
                     <>
                       <Ban size={16} />
-                      Block User
+                      {t("team.page:page.text.blockUser")}
                     </>
                   }
                   value={<UserBlockCell user={user} isUserPage={true} />}
@@ -414,13 +418,15 @@ function UserInformationCard({ user }: Readonly<{ user: User }>) {
               label={
                 <>
                   <History size={16} />
-                  Last login
+                  {t("team.page:page.text.lastLogin")}
                 </>
               }
               value={
                 neverLoggedIn
                   ? "Never"
-                  : dayjs(user.last_login).format("D MMMM, YYYY [at] h:mm A") +
+                  : dayjs(user.last_login).format(
+                      t("team.page:page.text.dMMMMYYYYAtH"),
+                    ) +
                     " (" +
                     dayjs().to(user.last_login) +
                     ")"

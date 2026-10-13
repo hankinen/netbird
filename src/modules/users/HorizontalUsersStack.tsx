@@ -5,9 +5,9 @@ import { cn, generateColorFromString } from "@utils/helpers";
 import { orderBy } from "lodash";
 import * as React from "react";
 import { useMemo } from "react";
+import { t } from "@/i18n";
 import { User } from "@/interfaces/User";
 import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
-
 type Props = {
   users: User[];
   max?: number;
@@ -26,7 +26,7 @@ export const HorizontalUsersStack = ({
   let usersToDisplay = orderBy(users?.slice(0, max) || [], ["name"]);
 
   const userCountText = useMemo(() => {
-    if (isAllGroup) return "All Users";
+    if (isAllGroup) return t("users.modals:horizontalUsersStack.text.allUsers");
     return `${users?.length || 0} User(s)`;
   }, [users, isAllGroup]);
 
@@ -58,7 +58,7 @@ export const HorizontalUsersStack = ({
                     <TextWithTooltip
                       text={
                         user?.email === "NetBird"
-                          ? "System"
+                          ? t("common:word.system")
                           : user?.name || user?.id
                       }
                       maxChars={500}
@@ -66,7 +66,10 @@ export const HorizontalUsersStack = ({
                   </span>
                   <span className={"text-nb-gray-350 font-light"}>
                     <TextWithTooltip
-                      text={user?.email || "NetBird"}
+                      text={
+                        user?.email ||
+                        t("users.modals:horizontalUsersStack.text.netBird")
+                      }
                       maxChars={500}
                     />
                   </span>

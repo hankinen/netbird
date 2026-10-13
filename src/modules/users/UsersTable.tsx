@@ -46,6 +46,7 @@ import TeamIcon from "@/assets/icons/TeamIcon";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { User, UserInvite } from "@/interfaces/User";
 import { useAccount } from "@/modules/account/useAccount";
@@ -59,12 +60,15 @@ import UserRoleCell from "@/modules/users/table-cells/UserRoleCell";
 import UserStatusCell from "@/modules/users/table-cells/UserStatusCell";
 import UserInviteModal from "@/modules/users/UserInviteModal";
 import UserInvitesTable from "@/modules/users/UserInvitesTable";
-
 export const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.name")}
+        </DataTableHeader>
+      );
     },
     accessorFn: (row) => row.name + " " + row.email,
     sortingFn: "text",
@@ -77,7 +81,11 @@ export const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "role",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Role</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("users.table:usersTable.text.role")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <UserRoleCell user={row.original} />,
@@ -94,7 +102,11 @@ export const UsersTableColumns: ColumnDef<User>[] = [
       return row.status ?? "";
     },
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.status")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <UserStatusCell user={row.original} />,
@@ -103,7 +115,11 @@ export const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "auto_groups",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Groups</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.groups")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <UserGroupCell user={row.original} />,
@@ -112,13 +128,17 @@ export const UsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "last_login",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Last Login</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("users.table:usersTable.text.lastLogin")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => (
       <LastTimeRow
         date={dayjs(row.original.last_login).toDate()}
-        text={"Last login on"}
+        text={t("users.table:usersTable.text.lastLoginOn")}
       />
     ),
   },
@@ -236,34 +256,63 @@ export default function UsersTable({
 
   const statusOptions = useMemo<RadioOption<string | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: "active", label: "Active", dotClass: "bg-green-500" },
-      { value: "pending", label: "Pending", dotClass: "bg-netbird" },
-      { value: "invited", label: "Invited", dotClass: "bg-yellow-400" },
-      { value: "blocked", label: "Blocked", dotClass: "bg-red-500" },
+      {
+        value: undefined,
+        label: t("common:word.all"),
+        dotClass: "bg-nb-gray-500",
+      },
+      {
+        value: "active",
+        label: t("common:word.active"),
+        dotClass: "bg-green-500",
+      },
+      {
+        value: "pending",
+        label: t("users.table:usersTable.label.pending"),
+        dotClass: "bg-netbird",
+      },
+      {
+        value: "invited",
+        label: t("users.table:usersTable.label.invited"),
+        dotClass: "bg-yellow-400",
+      },
+      {
+        value: "blocked",
+        label: t("users.table:usersTable.label.blocked"),
+        dotClass: "bg-red-500",
+      },
     ],
     [],
   );
 
   const roleOptions = useMemo<CheckboxOption<string>[]>(
     () => [
-      { value: "owner", label: "Owner" },
-      { value: "admin", label: "Admin" },
-      { value: "user", label: "User" },
-      { value: "network_admin", label: "Network Admin" },
+      { value: "owner", label: t("users.table:userRoleSelector.text.owner") },
+      { value: "admin", label: t("users.table:userRoleSelector.text.admin") },
+      { value: "user", label: t("common:word.user") },
+      {
+        value: "network_admin",
+        label: t("users.table:usersTable.label.networkAdmin"),
+      },
       // Agent Network roles can only be assigned where the surface exists, so
       // don't offer them as filters elsewhere.
       ...(agentNetworkEnabled
         ? [
             {
               value: "agent_network_admin",
-              label: "Agent Network Admin",
+              label: t("users.table:usersTable.label.agentNetworkAdmin"),
             },
-            { value: "usage_viewer", label: "Usage Viewer" },
+            {
+              value: "usage_viewer",
+              label: t("users.table:usersTable.label.usageViewer"),
+            },
           ]
         : []),
-      { value: "billing_admin", label: "Billing Admin" },
-      { value: "auditor", label: "Auditor" },
+      {
+        value: "billing_admin",
+        label: t("users.table:usersTable.label.billingAdmin"),
+      },
+      { value: "auditor", label: t("users.table:usersTable.label.auditor") },
     ],
     [agentNetworkEnabled],
   );
@@ -272,7 +321,7 @@ export default function UsersTable({
     () => [
       {
         id: "status",
-        label: "Status",
+        label: t("common:word.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as string | undefined}
@@ -286,7 +335,7 @@ export default function UsersTable({
       },
       {
         id: "role_filter",
-        label: "Role",
+        label: t("users.table:usersTable.text.role"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -300,7 +349,7 @@ export default function UsersTable({
       },
       {
         id: "group_names_filter",
-        label: "Groups",
+        label: t("common:word.groups"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -342,7 +391,7 @@ export default function UsersTable({
       headingTarget={headingTarget}
       isLoading={isLoading}
       keepStateInLocalStorage={keepStateInLocalStorage}
-      text={"Users"}
+      text={t("common:word.users")}
       sorting={sorting}
       setSorting={setSorting}
       columns={columns}
@@ -372,7 +421,9 @@ export default function UsersTable({
             }
           : onRowClick
       }
-      searchPlaceholder={"Search by name, email or role..."}
+      searchPlaceholder={t(
+        "users.table:usersTable.searchPlaceholder.searchByNameEmailOr",
+      )}
       getStartedCard={
         !getStartedCard ? (
           <GetStartedTest
@@ -383,10 +434,10 @@ export default function UsersTable({
                 size={"large"}
               />
             }
-            title={"Add New Users"}
-            description={
-              "It looks like you don't have any users yet. Get started by inviting users to your account."
-            }
+            title={t("users.table:usersTable.title.addNewUsers")}
+            description={t(
+              "users.table:usersTable.description.itLooksLikeYouDon",
+            )}
             button={
               <div className={"flex flex-col items-center justify-center"}>
                 <InviteUserButton show={true} />
@@ -394,14 +445,14 @@ export default function UsersTable({
             }
             learnMore={
               <>
-                Learn more about
+                {t("common:word.learnMoreAbout")}
                 <InlineLink
                   href={
                     "https://docs.netbird.io/how-to/add-users-to-your-network"
                   }
                   target={"_blank"}
                 >
-                  Users
+                  {t("common:word.users")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
@@ -458,7 +509,7 @@ export default function UsersTable({
                 onClick={() => setShowInvites(true)}
               >
                 <Link2 size={14} />
-                Show Invites
+                {t("users.table:usersTable.text.showInvites")}
                 <NotificationCountBadge count={validInvitesCount} />
               </Button>
             )}
@@ -498,7 +549,9 @@ export const InviteUserButton = ({
   const button = (
     <Button variant={"primary"} className={className} disabled={isDisabled}>
       <MailPlus size={16} />
-      {isCloud ? "Invite User" : "Add User"}
+      {isCloud
+        ? t("users.table:usersTable.text.inviteUser")
+        : t("users.table:usersTable.text.addUser")}
     </Button>
   );
 
@@ -510,7 +563,9 @@ export const InviteUserButton = ({
         content={
           <div className={"flex flex-col"}>
             <p className={"max-w-[200px] text-xs"}>
-              Local authentication is disabled. Use your IdP for authentication.
+              {t(
+                "users.table:usersTable.text.localAuthenticationIsDisabledUse",
+              )}
             </p>
             <div className={"text-xs mt-1.5"}>
               <InlineLink
@@ -520,7 +575,7 @@ export const InviteUserButton = ({
                 target={"_blank"}
                 className={"flex gap-1 items-center"}
               >
-                Learn more
+                {t("common:word.learnMore")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </div>

@@ -13,6 +13,7 @@ import {
 } from "@components/Tooltip";
 import { idpIcon } from "@/assets/icons/IdentityProviderIcons";
 
+import { t } from "@/i18n";
 type Props = {
   user: User;
 };
@@ -105,7 +106,7 @@ export default function UserNameCell({ user }: Readonly<Props>) {
                 "bg-sky-900 border border-sky-700 text-sky-200 rounded-full text-[9px] uppercase tracking-wider px-2 py-2 leading-[0]"
               }
             >
-              You
+              {t("users.table-cells:userNameCell.text.you")}
             </span>
           )}
         </span>

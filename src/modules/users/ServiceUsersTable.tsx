@@ -30,18 +30,22 @@ import React, { useMemo } from "react";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { t } from "@/i18n";
 import { User } from "@/interfaces/User";
 import ServiceUserModal from "@/modules/users/ServiceUserModal";
 import ServiceUserNameCell from "@/modules/users/table-cells/ServiceUserNameCell";
 import UserActionCell from "@/modules/users/table-cells/UserActionCell";
 import UserRoleCell from "@/modules/users/table-cells/UserRoleCell";
 import UserStatusCell from "@/modules/users/table-cells/UserStatusCell";
-
 export const ServiceUsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.name")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <ServiceUserNameCell user={row.original} />,
@@ -53,7 +57,11 @@ export const ServiceUsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "role",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Role</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("users.modals:serviceUsersTable.text.role")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <UserRoleCell user={row.original} />,
@@ -61,7 +69,11 @@ export const ServiceUsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "status",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.status")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <UserStatusCell user={row.original} />,
@@ -115,20 +127,44 @@ export default function ServiceUsersTable({
 
   const statusOptions = useMemo<RadioOption<string | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: "active", label: "Active", dotClass: "bg-green-500" },
-      { value: "blocked", label: "Blocked", dotClass: "bg-red-500" },
+      {
+        value: undefined,
+        label: t("common:word.all"),
+        dotClass: "bg-nb-gray-500",
+      },
+      {
+        value: "active",
+        label: t("common:word.active"),
+        dotClass: "bg-green-500",
+      },
+      {
+        value: "blocked",
+        label: t("users.modals:serviceUsersTable.label.blocked"),
+        dotClass: "bg-red-500",
+      },
     ],
     [],
   );
 
   const roleOptions = useMemo<CheckboxOption<string>[]>(
     () => [
-      { value: "admin", label: "Admin" },
-      { value: "user", label: "User" },
-      { value: "network_admin", label: "Network Admin" },
-      { value: "billing_admin", label: "Billing Admin" },
-      { value: "auditor", label: "Auditor" },
+      {
+        value: "admin",
+        label: t("users.modals:serviceUsersTable.label.admin"),
+      },
+      { value: "user", label: t("common:word.user") },
+      {
+        value: "network_admin",
+        label: t("users.modals:serviceUsersTable.label.networkAdmin"),
+      },
+      {
+        value: "billing_admin",
+        label: t("users.modals:serviceUsersTable.label.billingAdmin"),
+      },
+      {
+        value: "auditor",
+        label: t("users.modals:serviceUsersTable.label.auditor"),
+      },
     ],
     [],
   );
@@ -137,7 +173,7 @@ export default function ServiceUsersTable({
     () => [
       {
         id: "status",
-        label: "Status",
+        label: t("common:word.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as string | undefined}
@@ -151,7 +187,7 @@ export default function ServiceUsersTable({
       },
       {
         id: "role_filter",
-        label: "Role",
+        label: t("users.modals:serviceUsersTable.text.role"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -171,7 +207,7 @@ export default function ServiceUsersTable({
     <DataTable
       headingTarget={headingTarget}
       isLoading={isLoading}
-      text={"Service Users"}
+      text={t("users.modals:serviceUserModal.text.serviceUsers")}
       sorting={sorting}
       setSorting={setSorting}
       columns={ServiceUsersTableColumns}
@@ -189,7 +225,9 @@ export default function ServiceUsersTable({
         is_current: false,
         role_filter: false,
       }}
-      searchPlaceholder={"Search by name or role..."}
+      searchPlaceholder={t(
+        "users.modals:serviceUsersTable.searchPlaceholder.searchByNameOrRole",
+      )}
       getStartedCard={
         <GetStartedTest
           icon={
@@ -199,10 +237,10 @@ export default function ServiceUsersTable({
               size={"large"}
             />
           }
-          title={"Create Service User"}
-          description={
-            "It looks like you don't have any service users. Get started by creating a service user."
-          }
+          title={t("users.modals:serviceUserModal.title.createServiceUser")}
+          description={t(
+            "users.modals:serviceUsersTable.description.itLooksLikeYouDon",
+          )}
           button={
             <div className={"flex flex-col"}>
               <div>
@@ -214,7 +252,7 @@ export default function ServiceUsersTable({
                     disabled={!permission.users.create}
                   >
                     <PlusCircle size={16} />
-                    Create Service User
+                    {t("users.modals:serviceUserModal.title.createServiceUser")}
                   </Button>
                 </ServiceUserModal>
               </div>
@@ -222,14 +260,14 @@ export default function ServiceUsersTable({
           }
           learnMore={
             <>
-              Learn more about
+              {t("common:word.learnMoreAbout")}
               <InlineLink
                 href={
                   "https://docs.netbird.io/how-to/access-netbird-public-api"
                 }
                 target={"_blank"}
               >
-                Service Users
+                {t("users.modals:serviceUserModal.text.serviceUsers")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>
@@ -247,7 +285,7 @@ export default function ServiceUsersTable({
                 disabled={!permission.users.create}
               >
                 <PlusCircle size={16} />
-                Create Service User
+                {t("users.modals:serviceUserModal.title.createServiceUser")}
               </Button>
             </ServiceUserModal>
           )}

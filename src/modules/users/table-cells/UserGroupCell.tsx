@@ -6,10 +6,10 @@ import Skeleton from "react-loading-skeleton";
 import { useSWRConfig } from "swr";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { User } from "@/interfaces/User";
 import GroupsRow from "@/modules/common-table-rows/GroupsRow";
-
 type Props = {
   user: User;
 };
@@ -47,8 +47,10 @@ export default function UserGroupCell({ user }: Readonly<Props>) {
       groups?.map((group) => group?.id).filter((id) => id !== undefined) || [];
 
     notify({
-      title: user?.name || user?.email || "User",
-      description: "Groups of the user were successfully saved",
+      title: user?.name || user?.email || t("common:word.user"),
+      description: t(
+        "users.table-cells:userGroupCell.description.groupsOfTheUserWere",
+      ),
       promise: userRequest
         .put(
           {
@@ -63,14 +65,18 @@ export default function UserGroupCell({ user }: Readonly<Props>) {
           mutate(`/integrations/msp/switcher`);
           mutate("/groups");
         }),
-      loadingMessage: "Updating groups...",
+      loadingMessage: t(
+        "users.table-cells:userGroupCell.loadingMessage.updatingGroups",
+      ),
     });
   };
 
   return (
     <GroupsRow
-      label={"Auto-assigned Groups"}
-      description={"Groups will be assigned to peers added by this user."}
+      label={t("users.table-cells:userGroupCell.label.autoAssignedGroups")}
+      description={t(
+        "users.table-cells:userGroupCell.description.groupsWillBeAssignedTo",
+      )}
       groups={userGroupIds}
       onSave={handleSave}
       hideAllGroup={true}

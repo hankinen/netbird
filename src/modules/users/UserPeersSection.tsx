@@ -12,6 +12,7 @@ import NoResults from "@components/ui/NoResults";
 import PeerIcon from "@/assets/icons/PeerIcon";
 import Paragraph from "@components/Paragraph";
 
+import { t } from "@/i18n";
 type Props = {
   user: User;
 };
@@ -36,8 +37,10 @@ export const UserPeersSection = ({ user }: Props) => {
       <div className={"max-w-6xl"}>
         <div className={"flex justify-between items-center mb-5"}>
           <div>
-            <h2 ref={headingRef}>Peers</h2>
-            <Paragraph>View all peers registered by this user.</Paragraph>
+            <h2 ref={headingRef}>{t("common:word.peers")}</h2>
+            <Paragraph>
+              {t("users.modals:userPeersSection.text.viewAllPeersRegisteredBy")}
+            </Paragraph>
           </div>
         </div>
 
@@ -58,10 +61,12 @@ export const UserPeersSection = ({ user }: Props) => {
             getStartedCard={
               <NoResults
                 className={"py-4"}
-                title={"This user has no registered peers"}
-                description={
-                  "Install NetBird and sign in as this user to register peers."
-                }
+                title={t(
+                  "users.modals:userPeersSection.title.thisUserHasNoRegistered",
+                )}
+                description={t(
+                  "users.modals:userPeersSection.description.installNetBirdAndSignIn",
+                )}
                 icon={<PeerIcon size={20} className={"fill-nb-gray-300"} />}
               />
             }
