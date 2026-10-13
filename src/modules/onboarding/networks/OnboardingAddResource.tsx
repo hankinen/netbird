@@ -8,11 +8,11 @@ import * as React from "react";
 import { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { Network, NetworkResource } from "@/interfaces/Network";
 import { Policy } from "@/interfaces/Policy";
 import { ResourceSingleAddressInput } from "@/modules/networks/resources/ResourceSingleAddressInput";
-
 type Props = {
   onNetworkCreation?: (network: Network) => void;
   onResourceCreation?: (resource: NetworkResource) => void;
@@ -60,9 +60,9 @@ export const OnboardingAddResource = ({
     if (!myNetwork) return;
 
     notify({
-      title: "My First Network",
-      description: "Network & Resource created successfully",
-      loadingMessage: "Creating your resource...",
+      title: t("onboarding.networks:onboardingAddResource.title.myFirstNetwork"),
+      description: t("onboarding.networks:onboardingAddResource.description.networkResourceCreatedSuccessfully"),
+      loadingMessage: t("onboarding.networks:onboardingAddResource.loadingMessage.creatingYourResource"),
       promise: resourceRequest
         .post(
           {
@@ -119,16 +119,12 @@ export const OnboardingAddResource = ({
 
     await policyRequest.post({
       name: `Users to ${r.name}`,
-      description: `Allows access to this ${
-        isSubnet ? `subnet ${r.address}` : `resource ${r.address}`
-      }`,
+      description: `Allows access to this ${isSubnet ? `subnet ${r.address}` : `resource ${r.address}`}`,
       enabled: true,
       rules: [
         {
           name: `Users to ${r.name}`,
-          description: `Allows access to this ${
-            isSubnet ? `subnet ${r.address}` : `resource ${r.address}`
-          }`,
+          description: `Allows access to this ${isSubnet ? `subnet ${r.address}` : `resource ${r.address}`}`,
           enabled: true,
           action: "accept",
           bidirectional: true,
@@ -154,12 +150,12 @@ export const OnboardingAddResource = ({
     await policyRequest
       .post({
         name: `Users to Routing Peers`,
-        description: `Allows users to access routing peers`,
+        description: "Allows users to access routing peers",
         enabled: true,
         rules: [
           {
             name: `Users to Routing Peers`,
-            description: `Allows users to access routing peers`,
+            description: "Allows users to access routing peers",
             enabled: true,
             action: "accept",
             bidirectional: true,
@@ -179,10 +175,10 @@ export const OnboardingAddResource = ({
 
   const description = useMemo(() => {
     if (resourceType === "ip")
-      return "Enter a single IPv4 or IPv6 address of your resource";
-    if (resourceType === "subnet") return "Enter a CIDR range of your network";
+      return t("onboarding.networks:onboardingAddResource.text.enterASingleIPv4Or");
+    if (resourceType === "subnet") return t("onboarding.networks:onboardingAddResource.text.enterACIDRRangeOf");
     if (resourceType === "domain")
-      return "Enter a domain name of your resource";
+      return t("onboarding.networks:onboardingAddResource.text.enterADomainNameOf");
   }, [resourceType]);
 
   const placeholder = useMemo(() => {
@@ -196,43 +192,40 @@ export const OnboardingAddResource = ({
     <div className={"relative flex flex-col h-full gap-4"}>
       <div className={"flex flex-col gap-8"}>
         <div>
-          <h1 className={"text-xl text-center"}>Add your first resource</h1>
+          <h1 className={"text-xl text-center"}>{t("onboarding.networks:onboardingAddResource.text.addYourFirstResource")}</h1>
           <div
             className={
               "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
             }
           >
-            Resources are your subnets, services, or machines inside your network.
-            Pick the type you want to connect to.
+            {t("onboarding.networks:onboardingAddResource.text.resourcesAreYourSubnetsServices")}
           </div>
         </div>
 
         <RadioCardGroup value={resourceType} onValueChange={setResourceType}>
           <RadioCard
             value={"ip"}
-            title={"Single IP Address"}
+            title={t("onboarding.networks:onboardingAddResource.title.singleIPAddress")}
             icon={<WorkflowIcon size={12} />}
-            description={"IPv4 or IPv6 address like 192.168.31.45"}
+            description={t("onboarding.networks:onboardingAddResource.description.iPv4OrIPv6AddressLike")}
           />
           <RadioCard
             value={"subnet"}
-            title={"Entire Subnet"}
+            title={t("onboarding.networks:onboardingAddResource.title.entireSubnet")}
             icon={<NetworkIcon size={12} />}
-            description={"CIDR range like 192.168.0.0/24 or 2001:db8::/64"}
+            description={t("onboarding.networks:onboardingAddResource.description.cIDRRangeLike192168")}
           />
           <RadioCard
             value={"domain"}
-            title={"Domain"}
+            title={t("onboarding.networks:onboardingAddResource.title.domain")}
             icon={<GlobeIcon size={12} />}
-            description={
-              "A domain like service.internal or a wildcard like *.services.internal"
-            }
+            description={t("onboarding.networks:onboardingAddResource.description.aDomainLikeServiceInternal")}
           />
         </RadioCardGroup>
 
         {resourceType && (
           <ResourceSingleAddressInput
-            label={"What is the address of your resource?"}
+            label={t("onboarding.networks:onboardingAddResource.label.whatIsTheAddressOf")}
             value={resourceAddress}
             onChange={setResourceAddress}
             onError={setError}
@@ -243,7 +236,7 @@ export const OnboardingAddResource = ({
 
         <div className={"flex gap-4"}>
           <Button variant={"secondary"} className={"w-full"} onClick={onBack}>
-            Go Back
+            {t("onboarding.networks:onboardingAddResource.text.goBack")}
           </Button>
           <Button
             variant={"primary"}
@@ -251,7 +244,7 @@ export const OnboardingAddResource = ({
             onClick={createResource}
             disabled={resourceAddress === "" || error !== ""}
           >
-            Create Resource
+            {t("onboarding.networks:onboardingAddResource.text.createResource")}
           </Button>
         </div>
       </div>

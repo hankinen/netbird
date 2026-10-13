@@ -24,6 +24,7 @@ import React, { useMemo, useState } from "react";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { HubspotFormField } from "@/contexts/AnalyticsProvider";
 
+import { t } from "@/i18n";
 type Props = {
   domainCategory: string;
   onSubmit?: (fields: HubspotFormField[]) => void;
@@ -107,8 +108,8 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
   const { oidcUser: user } = useOidcUser();
   const name = user?.given_name || user?.name || user?.preferred_username;
   const welcomeMessage = name
-    ? `Welcome to NetBird, ${name}!`
-    : "Welcome to NetBird!";
+    ? t("onboarding.main:onboardingSurvey.text.welcomeToNetBird", { name })
+    : t("onboarding.main:onboardingSurvey.text.welcomeToNetBird2");
 
   const isPrivate = domainCategory === "private";
   const [personalOrBusiness, setPersonalOrBusiness] = useState(
@@ -137,17 +138,41 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
   const { loggedInUser } = useLoggedInUser();
 
   const getUseCases = () => {
-    const hl = homelab && !isBusiness ? "Homelab Automation" : "";
-    const hra = homeRemoteAccess && !isBusiness ? "Home Remote Access" : "";
-    const fa = fileAccess && !isBusiness ? "File Access" : "";
+    const hl =
+      homelab && !isBusiness
+        ? t("onboarding.main:onboardingIntent.text.homelabAutomation")
+        : "";
+    const hra =
+      homeRemoteAccess && !isBusiness
+        ? t("onboarding.main:onboardingIntent.text.homeRemoteAccess")
+        : "";
+    const fa =
+      fileAccess && !isBusiness
+        ? t("onboarding.main:onboardingIntent.text.fileAccess")
+        : "";
     const g = gaming && !isBusiness ? "Gaming" : "";
 
-    const zt = zeroTrust && isBusiness ? "Zero Trust Security" : "";
-    const ra = remoteAccess && isBusiness ? "Employee Remote Access" : "";
-    const bv = businessVPN && isBusiness ? "Business VPN" : "";
+    const zt =
+      zeroTrust && isBusiness
+        ? t("onboarding.main:onboardingIntent.text.zeroTrustSecurity")
+        : "";
+    const ra =
+      remoteAccess && isBusiness
+        ? t("onboarding.main:onboardingIntent.text.employeeRemoteAccess")
+        : "";
+    const bv =
+      businessVPN && isBusiness
+        ? t("onboarding.main:onboardingIntent.text.businessVPN")
+        : "";
     const st = siteToSite && isBusiness ? "Site-to-Site Connectivity" : "";
-    const iot = ioT && isBusiness ? "IoT (Internet of Things)" : "";
-    const mp = msp && isBusiness ? "MSP (Managed Service Provider)" : "";
+    const iot =
+      ioT && isBusiness
+        ? t("onboarding.main:onboardingIntent.text.ioTInternetOfThings")
+        : "";
+    const mp =
+      msp && isBusiness
+        ? t("onboarding.main:onboardingIntent.text.mSPManagedServiceProvider")
+        : "";
 
     const ou = other ? otherUseCase : "";
     return [hl, hra, fa, g, zt, ra, bv, st, iot, mp, ou]
@@ -291,8 +316,7 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
             "text-sm text-nb-gray-300 font-light mt-2 block text-center max-w-md px-10"
           }
         >
-          Share a few details about your use case to help us get you started
-          smoothly.
+          {t("onboarding.main:onboardingSurvey.text.shareAFewDetailsAbout")}
         </div>
         <div className={"flex flex-col mt-8 z-0 gap-8"}>
           <SegmentedTabs
@@ -302,11 +326,11 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
             <SegmentedTabs.List className={"rounded-lg border"}>
               <SegmentedTabs.Trigger value={"business"}>
                 <BriefcaseIcon size={16} />
-                Business
+                {t("onboarding.main:onboardingSurvey.text.business")}
               </SegmentedTabs.Trigger>
               <SegmentedTabs.Trigger value={"personal"}>
                 <UserIcon size={16} />
-                Personal
+                {t("onboarding.main:onboardingSurvey.text.personal")}
               </SegmentedTabs.Trigger>
             </SegmentedTabs.List>
           </SegmentedTabs>
@@ -315,7 +339,9 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
             <div className={"flex w-full flex-col gap-2"}>
               <div>
                 <Label>
-                  How many people in your company will use NetBird?
+                  {t(
+                    "onboarding.main:onboardingSurvey.text.howManyPeopleInYour",
+                  )}
                   <RequiredAsterisk />
                 </Label>
               </div>
@@ -340,7 +366,7 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
 
           <div className={"flex w-full flex-col gap-2"}>
             <Label>
-              How did you hear about NetBird?
+              {t("onboarding.main:onboardingSurvey.text.howDidYouHearAbout")}
               <RequiredAsterisk />
             </Label>
             <SelectDropdown
@@ -348,7 +374,9 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
               onChange={setReferralSource}
               options={randomizedOptions}
               showValues={false}
-              placeholder={"Please select an option..."}
+              placeholder={t(
+                "onboarding.main:onboardingSurvey.placeholder.pleaseSelectAnOption",
+              )}
               variant={"dropdown"}
             />
           </div>
@@ -356,11 +384,13 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
           <div className={"flex w-full flex-col gap-2"}>
             <div>
               <Label>
-                How do you plan to use NetBird?
+                {t("onboarding.main:onboardingSurvey.text.howDoYouPlanTo")}
                 <RequiredAsterisk />
               </Label>
               <HelpText className={"mt-1.5"}>
-                You can also select multiple use cases.
+                {t(
+                  "onboarding.main:onboardingSurvey.text.youCanAlsoSelectMultiple",
+                )}
               </HelpText>
             </div>
 
@@ -369,61 +399,75 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
                 <>
                   <OnboardingCheckbox value={zeroTrust} setValue={setZeroTrust}>
                     <ShieldCheck size={16} />
-                    Zero Trust Security
+                    {t(
+                      "onboarding.main:onboardingIntent.text.zeroTrustSecurity",
+                    )}
                   </OnboardingCheckbox>
                   <OnboardingCheckbox
                     value={remoteAccess}
                     setValue={setRemoteAccess}
                   >
                     <Laptop size={16} />
-                    Employee Remote Access
+                    {t(
+                      "onboarding.main:onboardingIntent.text.employeeRemoteAccess",
+                    )}
                   </OnboardingCheckbox>
                   <OnboardingCheckbox
                     value={businessVPN}
                     setValue={setBusinessVPN}
                   >
                     <BriefcaseIcon size={16} />
-                    Business VPN
+                    {t("onboarding.main:onboardingIntent.text.businessVPN")}
                   </OnboardingCheckbox>
                   <OnboardingCheckbox
                     value={siteToSite}
                     setValue={setSiteToSite}
                   >
                     <Layers size={16} />
-                    Site-to-Site Connectivity
+                    {t(
+                      "onboarding.main:onboardingSurvey.text.siteToSiteConnectivity",
+                    )}
                   </OnboardingCheckbox>
                   <OnboardingCheckbox value={ioT} setValue={setIoT}>
                     <Waypoints size={16} />
-                    IoT (Internet of Things)
+                    {t(
+                      "onboarding.main:onboardingIntent.text.ioTInternetOfThings",
+                    )}
                   </OnboardingCheckbox>
                   <OnboardingCheckbox value={msp} setValue={setMsp}>
                     <Server size={15} />
-                    MSP (Managed Service Provider)
+                    {t(
+                      "onboarding.main:onboardingIntent.text.mSPManagedServiceProvider",
+                    )}
                   </OnboardingCheckbox>
                 </>
               ) : (
                 <>
                   <OnboardingCheckbox value={homelab} setValue={setHomelab}>
                     <HomeIcon size={16} />
-                    Homelab Automation
+                    {t(
+                      "onboarding.main:onboardingIntent.text.homelabAutomation",
+                    )}
                   </OnboardingCheckbox>
                   <OnboardingCheckbox
                     value={homeRemoteAccess}
                     setValue={setHomeRemoteAccess}
                   >
                     <Laptop size={16} />
-                    Home Remote Access
+                    {t(
+                      "onboarding.main:onboardingIntent.text.homeRemoteAccess",
+                    )}
                   </OnboardingCheckbox>
                   <OnboardingCheckbox
                     value={fileAccess}
                     setValue={setFileAccess}
                   >
                     <FolderIcon size={16} />
-                    File Access
+                    {t("onboarding.main:onboardingIntent.text.fileAccess")}
                   </OnboardingCheckbox>
                   <OnboardingCheckbox value={gaming} setValue={setGaming}>
                     <Gamepad2 size={16} />
-                    Gaming
+                    {t("onboarding.main:onboardingSurvey.text.gaming")}
                   </OnboardingCheckbox>
                 </>
               )}
@@ -445,7 +489,9 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
                     "flex items-center gap-1.5 whitespace-nowrap text-sm select-none"
                   }
                 >
-                  Other (Please specify)
+                  {t(
+                    "onboarding.main:onboardingSurvey.text.otherPleaseSpecify",
+                  )}
                 </div>
               </label>
             </div>
@@ -461,8 +507,12 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
                 ref={inputRef}
                 placeholder={
                   isBusiness
-                    ? "e.g. DNS Management, File Access"
-                    : "e.g. DNS Management, IoT"
+                    ? t(
+                        "onboarding.main:onboardingSurvey.text.eGDNSManagementFile",
+                      )
+                    : t(
+                        "onboarding.main:onboardingSurvey.text.eGDNSManagementIoT",
+                      )
                 }
                 value={otherUseCase}
                 onChange={(e) => setOtherUseCase(e.target.value)}
@@ -478,7 +528,7 @@ export const OnboardingSurvey = ({ domainCategory, onSubmit }: Props) => {
         onClick={submitForm}
         disabled={!canSubmit}
       >
-        Continue
+        {t("common:word.continue")}
       </Button>
     </>
   );

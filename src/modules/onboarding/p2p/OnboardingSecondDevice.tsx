@@ -9,10 +9,10 @@ import { ArrowUpRightIcon, ShareIcon } from "lucide-react";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDialog } from "@/contexts/DialogProvider";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
 import { SetupKey } from "@/interfaces/SetupKey";
 import { SetupModalContent } from "@/modules/setup-netbird-modal/SetupModal";
-
 type Props = {
   secondDevice?: Peer;
   onFinish?: () => void;
@@ -36,8 +36,8 @@ export const OnboardingSecondDevice = ({ secondDevice, onFinish }: Props) => {
   const openNavigatorShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: "Install NetBird",
-        text: "Install NetBird on another device using this link.",
+        title: t("common:word.installNetBird"),
+        text: t("onboarding.p2p:onboardingSecondDevice.text.installNetBirdOnAnotherDevice"),
         url: getInstallUrl(),
       });
     }
@@ -45,11 +45,11 @@ export const OnboardingSecondDevice = ({ secondDevice, onFinish }: Props) => {
 
   const installUsingSetupKey = async () => {
     const choice = await confirm({
-      title: `Create a Setup Key?`,
+      title: t("onboarding.p2p:onboardingSecondDevice.title.createASetupKey"),
       description:
-        "If you continue, a one-off setup key will be automatically created and you will be able to install NetBird.",
-      confirmText: "Continue",
-      cancelText: "Cancel",
+        t("onboarding.p2p:onboardingSecondDevice.description.ifYouContinueAOne"),
+      confirmText: t("common:word.continue"),
+      cancelText: t("common:word.cancel"),
       type: "default",
     });
     if (!choice) return;
@@ -75,14 +75,13 @@ export const OnboardingSecondDevice = ({ secondDevice, onFinish }: Props) => {
     <div className={"relative flex flex-col h-full gap-4"}>
       <div>
         <h1 className={"text-xl text-center max-w-sm mx-auto"}>
-          {`Time to bring in your second device`}
+          {t("onboarding.p2p:onboardingSecondDevice.text.timeToBringInYour")}
         </h1>
         <div className="text-sm text-nb-gray-300 font-light mt-2 block text-center">
-            Each device (a.k.a. peer) in your NetBird network gets its own private IP and name to communicate securely in the network.
+            {t("onboarding.p2p:onboardingSecondDevice.text.eachDeviceAKA")}
         </div>
         <div className="text-sm text-nb-gray-300 font-light mt-2 block text-center">
-            To complete the setup, just share this link or email it to yourself to set up your next device
-            with ease.
+            {t("onboarding.p2p:onboardingSecondDevice.text.toCompleteTheSetupJust")}
         </div>
       </div>
 
@@ -93,7 +92,7 @@ export const OnboardingSecondDevice = ({ secondDevice, onFinish }: Props) => {
       >
         <div>
           <Code
-            message={"Installation link successfully copied"}
+            message={t("onboarding.p2p:onboardingSecondDevice.message.installationLinkSuccessfullyCopied")}
             className={"text-[0.8rem]"}
           >
             {getInstallUrl()}
@@ -106,14 +105,14 @@ export const OnboardingSecondDevice = ({ secondDevice, onFinish }: Props) => {
             className={"h-[42px]"}
           >
             <ShareIcon size={16} />
-            <span className={"lg:hidden"}>Share Link</span>
+            <span className={"lg:hidden"}>{t("onboarding.p2p:onboardingSecondDevice.text.shareLink")}</span>
           </Button>
         )}
       </div>
       <div className="text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4">
-          Use the headless setup to register a peer without a browser or user interaction.{" "}
+          {t("onboarding.p2p:onboardingSecondDevice.text.useTheHeadlessSetupTo")}{" "}
         <InlineLink onClick={installUsingSetupKey} href={"#"}>
-          Install with a setup key
+          {t("onboarding.p2p:onboardingSecondDevice.text.installWithASetupKey")}
           <ArrowUpRightIcon size={12} />
         </InlineLink>{" "}
       </div>
@@ -122,7 +121,7 @@ export const OnboardingSecondDevice = ({ secondDevice, onFinish }: Props) => {
         <Modal open={open} onOpenChange={setOpen}>
           <ModalContent>
             <SetupModalContent
-              title={"Install NetBird"}
+              title={t("common:word.installNetBird")}
               setupKey={setupKey.key}
             />
           </ModalContent>

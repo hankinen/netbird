@@ -13,6 +13,7 @@ import * as React from "react";
 import { useEffect, useMemo, useReducer, useState } from "react";
 import { useSWRConfig } from "swr";
 import { HubspotFormField } from "@/contexts/AnalyticsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { Network, NetworkResource, NetworkRouter } from "@/interfaces/Network";
 import type { Peer } from "@/interfaces/Peer";
@@ -30,7 +31,6 @@ import { OnboardingExplainDefaultPolicy } from "@/modules/onboarding/p2p/Onboard
 import { OnboardingFirstDevice } from "@/modules/onboarding/p2p/OnboardingFirstDevice";
 import { OnboardingSecondDevice } from "@/modules/onboarding/p2p/OnboardingSecondDevice";
 import { OnboardingTestP2P } from "@/modules/onboarding/p2p/OnboardingTestP2P";
-
 export interface OnboardingState {
   intent: Intent;
   step: number;
@@ -213,10 +213,13 @@ export const Onboarding = ({
     } else {
       notify({
         title: p.name + " Policy",
-        description: `Policy was successfully ${
-          !enabled ? "enabled" : "disabled"
-        }`,
-        loadingMessage: "Updating policy...",
+        description: t(
+          "onboarding.main:onboarding.description.policyWasSuccessfully",
+          { value: !enabled ? "enabled" : "disabled" },
+        ),
+        loadingMessage: t(
+          "onboarding.main:onboarding.loadingMessage.updatingPolicy",
+        ),
         promise: request.then(() => mutate("/policies")),
         duration: 800,
       });
@@ -312,7 +315,9 @@ export const Onboarding = ({
         >
           <div data-testid={"regular-onboarding"}>
             <VisuallyHidden asChild>
-              <DialogTitle>Onboarding</DialogTitle>
+              <DialogTitle>
+                {t("onboarding.main:onboarding.text.onboarding")}
+              </DialogTitle>
             </VisuallyHidden>
             <div
               className={cn(
@@ -591,7 +596,9 @@ export const Onboarding = ({
                     "text-sm text-nb-gray-400 font-light pb-10 text-center px-4"
                   }
                 >
-                  Already know how NetBird works?
+                  {t(
+                    "onboarding.main:onboarding.text.alreadyKnowHowNetBirdWorks",
+                  )}
                   <InlineLink
                     href={"#"}
                     className={"!text-nb-gray-200 ml-1"}
@@ -602,7 +609,7 @@ export const Onboarding = ({
                       onSkip(intent, step);
                     }}
                   >
-                    Skip to Dashboard
+                    {t("onboarding.main:onboarding.text.skipToDashboard")}
                   </InlineLink>
                 </span>
               )}

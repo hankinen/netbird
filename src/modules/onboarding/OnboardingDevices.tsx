@@ -2,10 +2,10 @@ import { DeviceCard } from "@components/DeviceCard";
 import { cn } from "@utils/helpers";
 import { ShieldCheckIcon, ShieldXIcon } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { NetworkResource } from "@/interfaces/Network";
 import type { Peer } from "@/interfaces/Peer";
 import { Intent } from "@/modules/onboarding/Onboarding";
-
 type Props = {
   intent?: Intent;
   resource?: NetworkResource;
@@ -59,8 +59,12 @@ export const OnboardingDevices = ({
         <WaitingForDevice
           text={
             !firstDevice
-              ? "Waiting for your first device to connect"
-              : "Waiting for your second device to connect"
+              ? t(
+                  "onboarding.main:onboardingDevices.text.waitingForYourFirstDevice",
+                )
+              : t(
+                  "onboarding.main:onboardingDevices.text.waitingForYourSecondDevice",
+                )
           }
         />
       )}
@@ -74,7 +78,9 @@ export const OnboardingDevices = ({
       )}
     >
       {firstRoutingPeer && resource && (
-        <span className={"text-xs text-nb-gray-500"}>Network</span>
+        <span className={"text-xs text-nb-gray-500"}>
+          {t("onboarding.main:onboardingDevices.text.network")}
+        </span>
       )}
 
       <div
@@ -118,8 +124,12 @@ export const OnboardingDevices = ({
           <WaitingForDevice
             text={
               !firstRoutingPeer
-                ? "Waiting for your routing peer to connect"
-                : "Waiting for your own device to connect"
+                ? t(
+                    "onboarding.main:onboardingDevices.text.waitingForYourRoutingPeer",
+                  )
+                : t(
+                    "onboarding.main:onboardingDevices.text.waitingForYourOwnDevice",
+                  )
             }
           />
         )}
@@ -142,7 +152,7 @@ export const OnboardingDevices = ({
 };
 
 export const WaitingForDevice = ({
-  text = "Waiting for your first device to connect",
+  text = t("onboarding.main:onboardingDevices.text.waitingForYourFirstDevice"),
 }: {
   text: string;
 }) => {

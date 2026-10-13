@@ -1,8 +1,8 @@
 import Button from "@components/Button";
 import * as React from "react";
+import { t } from "@/i18n";
 import { Policy } from "@/interfaces/Policy";
 import { OnboardingPolicy } from "@/modules/onboarding/OnboardingPolicy";
-
 type Props = {
   policy?: Policy;
   onNext?: () => void;
@@ -18,15 +18,14 @@ export const OnboardingExplainDefaultPolicy = ({
     <div className={"relative flex flex-col h-full gap-4"}>
       <div>
         <h1 className={"text-xl text-center max-w-sm mx-auto"}>
-            {`Set the rules. You're in control`}
+            {t("onboarding.p2p:onboardingExplainDefaultPolicy.text.setTheRulesYouRe")}
         </h1>
         <div
           className={
             "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
           }
         >
-            {`With NetBird, you decide who gets access to what.
-            We've already set up an access policy for your devices.`}
+            {t("onboarding.p2p:onboardingExplainDefaultPolicy.text.withNetBirdYouDecideWho")}
         </div>
 
         {policy && (
@@ -35,7 +34,7 @@ export const OnboardingExplainDefaultPolicy = ({
               "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
             }
           >
-              Flip the switch, then try pinging your other device again to see how it affects the connection.
+              {t("onboarding.p2p:onboardingExplainDefaultPolicy.text.flipTheSwitchThenTry")}
           </div>
         )}
       </div>
@@ -45,7 +44,7 @@ export const OnboardingExplainDefaultPolicy = ({
       </div>
 
       <Button variant={"primary"} onClick={onNext}>
-        Continue
+        {t("common:word.continue")}
       </Button>
     </div>
   );

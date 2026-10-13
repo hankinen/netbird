@@ -4,9 +4,9 @@ import InlineLink from "@components/InlineLink";
 import Steps from "@components/Steps";
 import { ExternalLinkIcon } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
 import { Policy } from "@/interfaces/Policy";
-
 type Props = {
   firstDevice?: Peer;
   secondDevice?: Peer;
@@ -25,7 +25,7 @@ export const OnboardingTestP2P = ({
     <div className={"relative flex flex-col h-full gap-4"}>
       <div>
         <h1 className={"text-xl text-center max-w-sm mx-auto"}>
-          {`Let's put that connection to the test`}
+          {t("onboarding.p2p:onboardingTestP2P.text.letSPutThatConnection")}
         </h1>
         <div
           className={
@@ -33,7 +33,7 @@ export const OnboardingTestP2P = ({
           }
         >
           {
-            "Nice work connecting your devices! Now, let’s have a little fun and test if they can talk to each other."
+            t("onboarding.p2p:onboardingTestP2P.text.niceWorkConnectingYourDevices")
           }
         </div>
       </div>
@@ -41,25 +41,23 @@ export const OnboardingTestP2P = ({
       <Steps className={"stepper-bg-variant"}>
         <Steps.Step step={1}>
           <p className={"!text-nb-gray-300"}>
-            Run this command from{" "}
-            <span className={"text-white"}>{firstDevice?.name}</span> to ping{" "}
-            <span className={"text-white"}>{secondDevice?.name}</span>.
-            You should receive a response if the connection is working.
+            {t("onboarding.p2p:onboardingTestP2P.text.runThisCommandFrom")}{" "}
+            <span className={"text-white"}>{firstDevice?.name}</span>{" "}{t("onboarding.p2p:onboardingTestP2P.text.toPing")}{" "}
+            <span className={"text-white"}>{secondDevice?.name}</span>{t("onboarding.p2p:onboardingTestP2P.text.youShouldReceiveAResponse")}
           </p>
-          <Code message={"Command has been copied successfully"}>
+          <Code message={t("onboarding.p2p:onboardingTestP2P.message.commandHasBeenCopiedSuccessfully")}>
             ping {secondDevice?.ip}
           </Code>
         </Steps.Step>
         <Steps.Step step={2} line={false} className={"pb-0"}>
           <p className={"!text-nb-gray-300"}>
-            Everything working? Great! You can now continue with the onboarding.
-            If something isn’t right, please check our{" "}
+            {t("onboarding.p2p:onboardingTestP2P.text.everythingWorkingGreatYouCan")}{" "}
             <InlineLink
               onClick={onTroubleshootingClick}
               href={"https://docs.netbird.io/how-to/troubleshooting-client"}
               target={"_blank"}
             >
-              troubleshooting guide
+              {t("onboarding.p2p:onboardingTestP2P.text.troubleshootingGuide")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </p>
@@ -69,7 +67,7 @@ export const OnboardingTestP2P = ({
               className={"w-full"}
               onClick={onNext}
             >
-              It works! - Continue
+              {t("onboarding.p2p:onboardingTestP2P.text.itWorksContinue")}
             </Button>
           </div>
         </Steps.Step>

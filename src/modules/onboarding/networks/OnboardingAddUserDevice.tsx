@@ -5,11 +5,11 @@ import { DownloadIcon } from "lucide-react";
 import * as React from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
+import { t } from "@/i18n";
 import { Group, GroupPeer } from "@/interfaces/Group";
 import { Peer } from "@/interfaces/Peer";
 import { Policy } from "@/interfaces/Policy";
 import { SetupModalContent } from "@/modules/setup-netbird-modal/SetupModal";
-
 type Props = {
   device?: Peer;
   policy?: Policy;
@@ -67,27 +67,34 @@ export const OnboardingAddUserDevice = ({ device, policy, onNext }: Props) => {
     <div className={"relative flex flex-col h-full gap-4"}>
       <div>
         <h1 className={"text-xl text-center max-w-sm mx-auto"}>
-          {"Time to add your client device"}
+          {t(
+            "onboarding.networks:onboardingAddUserDevice.text.timeToAddYourClient",
+          )}
         </h1>
         <div
           className={
             "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
           }
         >
-          {`Your first resource and routing peer are all set. Now, take your device, install NetBird, and let's get you connected.`}
+          {t(
+            "onboarding.networks:onboardingAddUserDevice.text.yourFirstResourceAndRouting",
+          )}
         </div>
       </div>
 
       <div className={"flex items-center justify-center mt-3"}>
         <Button variant={"primary"} onClick={() => setOpen(true)}>
           <DownloadIcon size={16} />
-          Install NetBird
+          {t("common:word.installNetBird")}
         </Button>
       </div>
 
       <Modal open={open} onOpenChange={setOpen}>
         <ModalContent>
-          <SetupModalContent title={"Install NetBird"} isUserDevice={true} />
+          <SetupModalContent
+            title={t("common:word.installNetBird")}
+            isUserDevice={true}
+          />
         </ModalContent>
       </Modal>
     </div>

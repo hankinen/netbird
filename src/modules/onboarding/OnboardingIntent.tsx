@@ -6,8 +6,8 @@ import * as React from "react";
 import {useMemo} from "react";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
 import PeerIcon from "@/assets/icons/PeerIcon";
+import { t } from "@/i18n";
 import {Intent} from "@/modules/onboarding/Onboarding";
-
 type Props =   {
     onSelect: (intent: Intent) => void,
     useCases?: string,
@@ -21,12 +21,12 @@ export const OnboardingIntent = ({onSelect, useCases, isBusiness}: Props) => {
     const isNetworksRecommended = useMemo(() => {
         if (!useCases) return false;
         const intents = [
-            "Zero Trust Security",
-            "Employee Remote Access",
-            "Business VPN",
+            t("onboarding.main:onboardingIntent.text.zeroTrustSecurity"),
+            t("onboarding.main:onboardingIntent.text.employeeRemoteAccess"),
+            t("onboarding.main:onboardingIntent.text.businessVPN"),
             "Site-to-Site Connectivity",
-            "IoT (Internet of Things)",
-            "MSP (Managed Service Provider)",
+            t("onboarding.main:onboardingIntent.text.ioTInternetOfThings"),
+            t("onboarding.main:onboardingIntent.text.mSPManagedServiceProvider"),
         ];
         for (const intent of intents) {
             if (useCases.toLowerCase().includes(intent.toLowerCase())) {
@@ -42,9 +42,9 @@ export const OnboardingIntent = ({onSelect, useCases, isBusiness}: Props) => {
     const isP2PRecommended = useMemo(() => {
         if (!useCases) return false;
         const intents = [
-            "Homelab Automation",
-            "Home Remote Access",
-            "File Access",
+            t("onboarding.main:onboardingIntent.text.homelabAutomation"),
+            t("onboarding.main:onboardingIntent.text.homeRemoteAccess"),
+            t("onboarding.main:onboardingIntent.text.fileAccess"),
             "Gaming",
         ];
         for (const intent of intents) {
@@ -58,15 +58,13 @@ export const OnboardingIntent = ({onSelect, useCases, isBusiness}: Props) => {
     return (
         <div className={"relative flex flex-col h-full justify-between"}>
             <div>
-                <h1 className={"text-xl text-center"}>Get started with NetBird</h1>
+                <h1 className={"text-xl text-center"}>{t("onboarding.main:onboardingIntent.text.getStartedWithNetBird")}</h1>
                 <div
                     className={
                         "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
                     }
                 >
-                    NetBird provides the flexibility of both a peer-to-peer overlay network and a remote network access
-                    solution.
-                    Choose what fits your needs, you can always combine both.
+                    {t("onboarding.main:onboardingIntent.text.netBirdProvidesTheFlexibilityOf")}
                 </div>
                 <div
                     className={cn(
@@ -75,18 +73,18 @@ export const OnboardingIntent = ({onSelect, useCases, isBusiness}: Props) => {
                     )}
                 >
                     <IntentCard
-                        title={"Peer-to-Peer Network"}
+                        title={t("onboarding.main:onboardingIntent.title.peerToPeerNetwork")}
                         description={
-                        isBusiness ? "Install NetBird on two or more devices to create secure, direct WireGuard connections, like laptop to server or server to database. Add at least two machines to get started." :"Install NetBird on two or more devices in your homelab, such as your laptop, NAS, or Raspberry Pi, to create secure, direct WireGuard connections."
+                        isBusiness ? t("onboarding.main:onboardingIntent.text.installNetBirdOnTwoOr") :t("onboarding.main:onboardingIntent.text.installNetBirdOnTwoOr2")
                         }
                         recommended={isP2PRecommended}
                         icon={<PeerIcon size={18} className={"fill-netbird"}/>}
                         onClick={() => onSelect(Intent.P2P)}
                     />
                     <IntentCard
-                        title={"Remote Network Access"}
+                        title={t("onboarding.main:onboardingIntent.title.remoteNetworkAccess")}
                         description={
-                        isBusiness ? "Enable employee remote access to VMs, Kubernetes clusters, and cloud or on-prem resources without installing NetBird on every machine." : "Securely access your homelab remotely from anywhere without installing NetBird on every device."
+                        isBusiness ? t("onboarding.main:onboardingIntent.text.enableEmployeeRemoteAccessTo") : t("onboarding.main:onboardingIntent.text.securelyAccessYourHomelabRemotely")
                         }
                         recommended={isNetworksRecommended}
                         icon={<NetworkRoutesIcon size={18} className={"fill-netbird"}/>}
@@ -144,8 +142,7 @@ export const IntentCard = ({
                                 <FullTooltip
                                     content={
                                         <div className={"text-xs max-w-xs"}>
-                                            Based on your previous choices, we recommend starting with{" "}
-                                            {title}. You can always combine both options later.
+                                            {t("onboarding.main:onboardingIntent.text.basedOnYourPreviousChoices", { title })}
                                         </div>
                                     }
                                 >
@@ -156,7 +153,7 @@ export const IntentCard = ({
                           "hover:bg-netbird/20 cursor-help transition-all self-center",
                       )}
                   >
-                    Recommended
+                    {t("onboarding.main:onboardingIntent.text.recommended")}
                     <HelpCircle size={10} className={"ml-1"}/>
                   </span>
                                 </FullTooltip>

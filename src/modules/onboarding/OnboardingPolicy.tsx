@@ -2,8 +2,8 @@ import { ToggleSwitch } from "@components/ToggleSwitch";
 import { cn } from "@utils/helpers";
 import { ShieldIcon } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { Policy } from "@/interfaces/Policy";
-
 type Props = {
   policy?: Policy;
   onToggle?: (policy: Policy) => void;
@@ -22,11 +22,13 @@ export const OnboardingPolicy = ({ policy, onToggle }: Props) => {
       <div>
         <div className="text-nb-gray-100 font-normal text-sm text-left gap-2 flex items-center">
           <ShieldIcon size={12} className={"shrink-0"} />
-          {policy?.name} Policy
+          {policy?.name} {t("common:word.policy")}
         </div>
         <div className={"text-nb-gray-300 text-[0.8rem] text-left mt-0.5"}>
           {policy?.name.includes("Default")
-            ? "Allows connections between all your devices"
+            ? t(
+                "onboarding.main:onboardingPolicy.text.allowsConnectionsBetweenAllYour",
+              )
             : policy?.description}
         </div>
       </div>
