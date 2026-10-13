@@ -8,7 +8,7 @@ import {
 import ModalHeader from "@components/modal/ModalHeader";
 import { AlertCircle, AlertTriangle } from "lucide-react";
 import React, { useCallback, useRef, useState } from "react";
-
+import { t } from "@/i18n";
 type Props = {
   children: React.ReactNode;
 };
@@ -81,13 +81,14 @@ export default function DialogProvider({ children }: Props) {
               center={dialogOptions.center ?? dialogOptions.type == "center"}
               title={
                 <span data-testid={"confirmation.title"}>
-                  {dialogOptions.title || "Confirmation"}
+                  {dialogOptions.title ||
+                    t("contexts.main:dialogProvider.text.confirmation")}
                 </span>
               }
               margin={"mt-1"}
               description={
                 dialogOptions.description ||
-                "Are you sure you want to continue? This action cannot be undone."
+                t("contexts.main:dialogProvider.text.areYouSureYouWant")
               }
               icon={
                 dialogOptions.hideIcon
@@ -121,7 +122,7 @@ export default function DialogProvider({ children }: Props) {
                   data-testid={"confirmation.cancel"}
                   onClick={() => fn.current && fn.current(false)}
                 >
-                  {dialogOptions.cancelText || "Cancel"}
+                  {dialogOptions.cancelText || t("common:word.cancel")}
                 </Button>
               </ModalClose>
               <Button
@@ -137,7 +138,8 @@ export default function DialogProvider({ children }: Props) {
                 data-testid={"confirmation.confirm"}
                 onClick={() => fn.current && fn.current(true)}
               >
-                {dialogOptions.confirmText || "Confirm"}
+                {dialogOptions.confirmText ||
+                  t("contexts.main:dialogProvider.text.confirm")}
               </Button>
             </ModalFooter>
           </ModalContent>

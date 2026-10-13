@@ -1,0 +1,12 @@
+{
+  "globalSearchModal.text.networks": "Networks ({{networksCount}})",
+  "globalSearchModal.text.resources": "Resources ({{resourcesCount}})",
+  "globalSearchModal.text.resourceS": "Resource(s)",
+  "globalSearchModal.text.searchForNetworksAndResources": "Search for Networks and Resources",
+  "globalSearchModal.text.quicklyFindNetworksAndAssociated": "Quickly find networks and associated resources.",
+  "globalSearchModal.text.startTypingToSearchBy": "Start typing to search by name, description or address.",
+  "globalSearchModal.text.couldNotFindAnyResults": "Could not find any results",
+  "globalSearchModal.text.weCouldnTFindAny": "We couldn't find any results. Please try a different search term.",
+  "globalSearchModal.text.navigate": "Navigate",
+  "globalSearchModal.text.open": "Open"
+}

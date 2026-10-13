@@ -27,5 +27,14 @@
   "page.text.registeredOn": "Registered on",
   "page.text.agentVersion": "Agent Version",
   "page.text.uIVersion": "UI Version",
-  "page.text.dMMMMYYYYAtH": "D MMMM, YYYY [at] h:mm A"
+  "page.text.dMMMMYYYYAtH": "D MMMM, YYYY [at] h:mm A",
+  "page.text.netBirdConnectionError": "NetBird Connection Error",
+  "page.text.rDPConnectionError": "RDP Connection Error",
+  "page.text.rDPError": "RDP Error",
+  "page.text.netBirdClientError": "NetBird Client Error",
+  "page.message.thisPeerMayHaveBeen": "This peer may have been deleted, or you may not have permission to view it.",
+  "page.message.startingSshSession": "Starting ssh session...",
+  "page.text.connectingTo": "Connecting to {{username}}@{{ip}}...",
+  "page.text.disconnectedFrom": "Disconnected from",
+  "page.text.reconnect": "Reconnect"
 }

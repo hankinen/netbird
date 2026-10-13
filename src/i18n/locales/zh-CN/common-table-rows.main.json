@@ -1,0 +1,9 @@
+{
+  "expirationDateRow.text.dMMMYYYY": "YYYY年M月D日",
+  "groupsRow.text.assignedGroups": "已分配的组",
+  "groupsRow.text.useGroupsToControlWhat": "使用组来控制此设备可以访问的内容",
+  "groupsRow.text.addGroups": "添加组",
+  "groupsRow.text.saveGroups": "保存组",
+  "lastTimeRow.text.lastSeenOn": "最后在线于",
+  "lastTimeRow.text.dMMMMYYYYAtH": "YYYY年M月D日 HH:mm"
+}

@@ -1,0 +1,11 @@
+{
+  "oIDCError.text.yourAccountHasBeenLinked": "Your account has been linked successfully. Please log in again to complete the setup.",
+  "oIDCError.text.alreadyVerifiedYourEmailAddress": "Already verified your email address?",
+  "oIDCError.text.troubleLoggingInTryAgain": "Trouble logging in? Try again.",
+  "oIDCError.text.thereWasAnErrorLogging": "There was an error logging you in.",
+  "oIDCError.text.error": "Error:",
+  "oIDCError.text.logout": "Logout",
+  "sessionLost.text.sessionExpired": "Session Expired",
+  "sessionLost.text.itLooksLikeYourLogin": "It looks like your login session is no longer active or has expired. Please login again to continue using the app.",
+  "sessionLost.text.login": "Login"
+}

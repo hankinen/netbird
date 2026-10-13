@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { Calendar } from "lucide-react";
-
+import { t } from "@/i18n";
 type Props = {
   date: Date;
 };
@@ -12,7 +12,9 @@ export default function ExpirationDateRow({ date }: Props) {
       }
     >
       <Calendar size={14} />
-      {dayjs(date).format("D MMM YYYY")}
+      {dayjs(date).format(
+        t("common-table-rows.main:expirationDateRow.text.dMMMYYYY"),
+      )}
     </div>
   );
 }

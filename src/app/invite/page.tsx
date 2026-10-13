@@ -19,6 +19,7 @@ import { Suspense, useEffect, useMemo, useState } from "react";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
 import { UserInviteInfo } from "@/interfaces/User";
 
+import { t } from "@/i18n";
 export default function InviteAcceptPage() {
   return (
     <Suspense fallback={<FullScreenLoading />}>
@@ -44,7 +45,7 @@ function InviteAcceptContent() {
 
   useEffect(() => {
     if (!token) {
-      setError("No invite token provided");
+      setError(t("invite.page:page.text.noInviteTokenProvided"));
       setLoading(false);
       return;
     }
@@ -56,10 +57,10 @@ function InviteAcceptContent() {
       })
       .catch((err) => {
         if (err.code === 429) {
-          setError("Too many attempts. Please wait a moment and try again.");
+          setError(t("invite.page:page.text.tooManyAttemptsPleaseWait"));
           setIsRateLimited(true);
         } else {
-          setError(err.message || "Invalid or expired invite link");
+          setError(err.message || t("invite.page:page.text.invalidOrExpiredInviteLink"));
           setIsRateLimited(false);
         }
         setLoading(false);
@@ -86,7 +87,7 @@ function InviteAcceptContent() {
       await acceptInvite(token, password);
       setSuccess(true);
     } catch (err: any) {
-      setError(err.message || "Failed to accept invite");
+      setError(err.message || t("invite.page:page.text.failedToAcceptInvite"));
     } finally {
       setSubmitting(false);
     }
@@ -112,18 +113,17 @@ function InviteAcceptContent() {
               </div>
             </div>
             <h1 className="text-2xl font-semibold text-white mb-2">
-              Too Many Requests
+              {t("invite.page:page.text.tooManyRequests")}
             </h1>
             <Paragraph className="text-nb-gray-400 text-base">
-              You&apos;ve made too many requests. Please wait a moment and try
-              again.
+              {t("invite.page:page.text.youAposVeMadeToo")}
             </Paragraph>
             <Button
               variant="secondary"
               className="mt-6"
               onClick={() => window.location.reload()}
             >
-              Try Again
+              {t("invite.page:page.text.tryAgain")}
             </Button>
           </div>
         </div>
@@ -139,18 +139,17 @@ function InviteAcceptContent() {
             </div>
           </div>
           <h1 className="text-2xl font-semibold text-white mb-2">
-            Invalid Invite
+            {t("invite.page:page.text.invalidInvite")}
           </h1>
           <Paragraph className="text-nb-gray-400 text-base">
-            This invite link is invalid or has expired. Please contact your
-            administrator to receive a new invitation.
+            {t("invite.page:page.text.thisInviteLinkIsInvalid")}
           </Paragraph>
           <Button
             variant="secondary"
             className="mt-6"
             onClick={() => router.push("/")}
           >
-            Go to Login
+            {t("invite.page:page.text.goToLogin")}
           </Button>
         </div>
       </div>
@@ -167,18 +166,17 @@ function InviteAcceptContent() {
             </div>
           </div>
           <h1 className="text-2xl font-semibold text-white mb-2">
-            Account Created!
+            {t("invite.page:page.text.accountCreated")}
           </h1>
           <Paragraph className="text-nb-gray-400">
-            Your account has been created successfully. You can now log in with
-            your email and password.
+            {t("invite.page:page.text.yourAccountHasBeenCreated")}
           </Paragraph>
           <Button
             variant="primary"
             className="mt-6"
             onClick={() => router.push("/")}
           >
-            Go to Login
+            {t("invite.page:page.text.goToLogin")}
           </Button>
         </div>
       </div>
@@ -195,18 +193,17 @@ function InviteAcceptContent() {
             </div>
           </div>
           <h1 className="text-2xl font-semibold text-white mb-2">
-            Invite Expired
+            {t("invite.page:page.text.inviteExpired")}
           </h1>
           <Paragraph className="text-nb-gray-400">
-            This invite link has expired. Please contact your administrator to
-            receive a new invitation.
+            {t("invite.page:page.text.thisInviteLinkHasExpired")}
           </Paragraph>
           <Button
             variant="secondary"
             className="mt-6"
             onClick={() => router.push("/")}
           >
-            Go to Login
+            {t("invite.page:page.text.goToLogin")}
           </Button>
         </div>
       </div>
@@ -222,10 +219,10 @@ function InviteAcceptContent() {
 
         <div className="text-center mb-8">
           <h1 className="text-2xl font-semibold text-white mb-2">
-            Welcome to NetBird
+            {t("invite.page:page.text.welcomeToNetBird")}
           </h1>
           <p className="dark:text-nb-gray-400 text-nb-gray-500 text-base">
-            You&apos;ve been invited by <span className="dark:text-white text-nb-gray-900 font-medium">{inviteInfo.invited_by}</span> to join the network. Set your password to complete your account setup.
+            {t("invite.page:page.text.youAposVeBeenInvited")}{" "}<span className="dark:text-white text-nb-gray-900 font-medium">{inviteInfo.invited_by}</span>{" "}{t("invite.page:page.text.toJoinTheNetworkSet")}
           </p>
         </div>
 
@@ -247,7 +244,7 @@ function InviteAcceptContent() {
             <div>
               <Input
                 type="password"
-                placeholder="Password"
+                placeholder={t("invite.page:page.placeholder.password")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 customPrefix={
@@ -256,11 +253,11 @@ function InviteAcceptContent() {
               />
               {password && (
                 <div className="mt-2 space-y-1">
-                  <PasswordRule met={hasMinLength} text="At least 8 characters" />
-                  <PasswordRule met={hasUppercase} text="One uppercase letter" />
-                  <PasswordRule met={hasLowercase} text="One lowercase letter" />
-                  <PasswordRule met={hasNumber} text="One number" />
-                  <PasswordRule met={hasSpecialChar} text="One special character (!@#$%^&*)" />
+                  <PasswordRule met={hasMinLength} text={t("invite.page:page.text.atLeast8Characters")} />
+                  <PasswordRule met={hasUppercase} text={t("invite.page:page.text.oneUppercaseLetter")} />
+                  <PasswordRule met={hasLowercase} text={t("invite.page:page.text.oneLowercaseLetter")} />
+                  <PasswordRule met={hasNumber} text={t("invite.page:page.text.oneNumber")} />
+                  <PasswordRule met={hasSpecialChar} text={t("invite.page:page.text.oneSpecialCharacter")} />
                 </div>
               )}
             </div>
@@ -268,7 +265,7 @@ function InviteAcceptContent() {
             <div>
               <Input
                 type="password"
-                placeholder="Confirm Password"
+                placeholder={t("invite.page:page.placeholder.confirmPassword")}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 customPrefix={
@@ -277,7 +274,7 @@ function InviteAcceptContent() {
               />
               {confirmPassword && !passwordsMatch && (
                 <p className="text-xs text-red-500 mt-1">
-                  Passwords do not match
+                  {t("invite.page:page.text.passwordsDoNotMatch")}
                 </p>
               )}
             </div>
@@ -294,13 +291,13 @@ function InviteAcceptContent() {
               className="w-full"
               disabled={!canSubmit}
             >
-              {submitting ? "Creating Account..." : "Create Account"}
+              {submitting ? t("invite.page:page.text.creatingAccount") : t("invite.page:page.text.createAccount")}
             </Button>
           </form>
         </div>
 
         <p className="text-center text-xs text-nb-gray-500">
-          Invite expires on {dayjs(inviteInfo.expires_at).format("D MMMM, YYYY [at] h:mm A")}
+          {t("invite.page:page.text.inviteExpiresOn", { format: dayjs(inviteInfo.expires_at).format("D MMMM, YYYY [at] h:mm A") })}
         </p>
       </div>
     </div>

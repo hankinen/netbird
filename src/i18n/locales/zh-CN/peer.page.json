@@ -27,5 +27,14 @@
   "page.text.registeredOn": "注册时间",
   "page.text.agentVersion": "客户端版本",
   "page.text.uIVersion": "UI 版本",
-  "page.text.dMMMMYYYYAtH": "YYYY年M月D日 HH:mm"
+  "page.text.dMMMMYYYYAtH": "YYYY年M月D日 HH:mm",
+  "page.text.netBirdConnectionError": "NetBird 连接错误",
+  "page.text.rDPConnectionError": "RDP 连接错误",
+  "page.text.rDPError": "RDP 错误",
+  "page.text.netBirdClientError": "NetBird 客户端错误",
+  "page.message.thisPeerMayHaveBeen": "此设备可能已被删除，或者您没有查看权限。",
+  "page.message.startingSshSession": "正在启动 SSH 会话...",
+  "page.text.connectingTo": "正在连接 {{username}}@{{ip}}...",
+  "page.text.disconnectedFrom": "已断开连接：",
+  "page.text.reconnect": "重新连接"
 }

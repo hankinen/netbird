@@ -6,12 +6,12 @@ import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { NetworkResource } from "@/interfaces/Network";
 import { Policy } from "@/interfaces/Policy";
 import { AccessControlModalContent } from "@/modules/access-control/AccessControlModal";
 import { duplicatePolicy } from "@/modules/access-control/policyDuplicate";
-
 type Props = {
   children: React.ReactNode;
 };
@@ -156,9 +156,9 @@ export default function PoliciesProvider({ children }: Props) {
     message?: string,
   ) => {
     notify({
-      title: "Access Control Policy " + policy.name,
+      title: t("contexts.main:policiesProvider.text.accessControlPolicy", { name: policy.name }),
       description:
-        message || "The access control policy was successfully updated",
+        message || t("contexts.main:policiesProvider.text.theAccessControlPolicyWas"),
       promise: request
         .put(
           {
@@ -177,7 +177,7 @@ export default function PoliciesProvider({ children }: Props) {
         .then((p) => {
           onSuccess && onSuccess(p);
         }),
-      loadingMessage: "Updating policy...",
+      loadingMessage: t("contexts.main:policiesProvider.loadingMessage.updatingPolicy"),
     });
   };
 
@@ -187,10 +187,10 @@ export default function PoliciesProvider({ children }: Props) {
       onSuccess?.();
     });
     notify({
-      title: "Access Control Policy " + policy.name,
-      description: "The policy was successfully deleted.",
+      title: t("contexts.main:policiesProvider.text.accessControlPolicy", { name: policy.name }),
+      description: t("contexts.main:policiesProvider.description.thePolicyWasSuccessfullyDeleted"),
       promise,
-      loadingMessage: "Deleting policy...",
+      loadingMessage: t("contexts.main:policiesProvider.loadingMessage.deletingPolicy"),
     });
     return promise;
   };

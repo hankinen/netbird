@@ -1,0 +1,11 @@
+{
+  "page.text.userAccountBlocked": "User Account Blocked",
+  "page.text.accessError": "Access Error",
+  "page.text.yourAccessHasBeenBlocked": "Your access has been blocked by the NetBird account administrator, possibly due to new user approval requirements or security policies. Please contact your administrator to regain access.",
+  "page.text.anErrorOccurredWhileTrying": "An error occurred while trying to access the dashboard. Please try again or contact your administrator.",
+  "page.text.responseMessage": "response_message: {{message}}",
+  "page.text.ifYouBelieveThisIs": "If you believe this is an error, please contact your administrator.",
+  "page.text.tryAgain": "Try Again",
+  "page.text.signOut": "Sign Out",
+  "page.text.logout": "Logout"
+}

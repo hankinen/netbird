@@ -1,0 +1,11 @@
+{
+  "page.text.userAccountBlocked": "用户账户已被禁用",
+  "page.text.accessError": "访问错误",
+  "page.text.yourAccessHasBeenBlocked": "您的访问已被 NetBird 账户管理员禁用，可能是由于新用户审批要求或安全策略。请联系管理员恢复访问权限。",
+  "page.text.anErrorOccurredWhileTrying": "尝试访问控制台时出错。请重试或联系管理员。",
+  "page.text.responseMessage": "response_message: {{message}}",
+  "page.text.ifYouBelieveThisIs": "如果您认为这是错误，请联系管理员。",
+  "page.text.tryAgain": "重试",
+  "page.text.signOut": "退出登录",
+  "page.text.logout": "登出"
+}

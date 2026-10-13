@@ -19,8 +19,8 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useMemo } from "react";
 import Skeleton from "react-loading-skeleton";
+import { t } from "@/i18n";
 import { Network, NetworkResource } from "@/interfaces/Network";
-
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -186,9 +186,13 @@ const GlobalSearchModalContent = ({ open, setOpen }: Props) => {
                 return (
                   <div className={"text-xs text-nb-gray-400 px-4 py-2"}>
                     {item.type === SearchType.Network &&
-                      `Networks (${networksCount})`}
+                      t("search.main:globalSearchModal.text.networks", {
+                        networksCount,
+                      })}
                     {item.type === SearchType.NetworkResource &&
-                      `Resources (${resourcesCount})`}
+                      t("search.main:globalSearchModal.text.resources", {
+                        resourcesCount,
+                      })}
                   </div>
                 );
               }}
@@ -233,7 +237,8 @@ const GlobalSearchModalContent = ({ open, setOpen }: Props) => {
                               size={12}
                               className={"relative -top-[1px]"}
                             />
-                            {item.data?.resources?.length} Resource(s)
+                            {item.data?.resources?.length}{" "}
+                            {t("search.main:globalSearchModal.text.resourceS")}
                           </div>
                         </div>
                       )}
@@ -312,11 +317,16 @@ const BlankState = () => {
         </div>
 
         <div className={"text-nb-gray-100 mb-1"}>
-          Search for Networks and Resources
+          {t(
+            "search.main:globalSearchModal.text.searchForNetworksAndResources",
+          )}
         </div>
         <div className={"text-sm text-nb-gray-350 font-light"}>
-          Quickly find networks and associated resources. <br />
-          Start typing to search by name, description or address.
+          {t(
+            "search.main:globalSearchModal.text.quicklyFindNetworksAndAssociated",
+          )}{" "}
+          <br />
+          {t("search.main:globalSearchModal.text.startTypingToSearchBy")}
         </div>
       </div>
     </div>
@@ -338,10 +348,10 @@ const NotFoundState = () => {
         </div>
 
         <div className={"text-nb-gray-100 mb-1"}>
-          Could not find any results
+          {t("search.main:globalSearchModal.text.couldNotFindAnyResults")}
         </div>
         <div className={"text-sm text-nb-gray-350 font-light max-w-xs"}>
-          {`We couldn't find any results. Please try a different search term.`}
+          {t("search.main:globalSearchModal.text.weCouldnTFindAny")}
         </div>
       </div>
     </div>
@@ -372,19 +382,23 @@ const KeyboardShortcutsFooter = () => {
         <Kbd variant={"darker"}>
           <ArrowDownIcon size={12} />
         </Kbd>
-        <div className={"ml-1"}>Navigate</div>
+        <div className={"ml-1"}>
+          {t("search.main:globalSearchModal.text.navigate")}
+        </div>
       </div>
       <div className={"flex items-center gap-1.5"}>
         <Kbd variant={"darker"}>
           <CornerDownLeft size={12} />
         </Kbd>
-        <div className={"ml-1"}>Open</div>
+        <div className={"ml-1"}>
+          {t("search.main:globalSearchModal.text.open")}
+        </div>
       </div>
       <div className={"flex items-center gap-1.5"}>
         <Kbd variant={"darker"} className={"text-[0.65rem] font-medium"}>
           esc
         </Kbd>
-        <div className={"ml-1"}>Close</div>
+        <div className={"ml-1"}>{t("common:word.close")}</div>
       </div>
     </div>
   );

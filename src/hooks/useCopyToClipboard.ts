@@ -1,11 +1,11 @@
 import { notify } from "@components/Notification";
 import { useRef, useState } from "react";
-
+import { t } from "@/i18n";
 export default function useCopyToClipboard(textToCopy?: string) {
   const wrapper = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
   const copyToClipboard = async (
-    description = "Text has been copied to your clipboard.",
+    description = t("hooks.main:useCopyToClipboard.text.textHasBeenCopiedTo"),
   ) => {
     const copy = textToCopy ? textToCopy : wrapper.current?.innerText;
     if (!copy) return;
@@ -14,7 +14,7 @@ export default function useCopyToClipboard(textToCopy?: string) {
       setCopied(true);
 
       notify({
-        title: "Copied to clipboard",
+        title: t("hooks.main:useCopyToClipboard.title.copiedToClipboard"),
         description: description,
       });
 

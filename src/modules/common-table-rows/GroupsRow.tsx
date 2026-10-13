@@ -20,10 +20,10 @@ import * as React from "react";
 import { useMemo } from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { Peer } from "@/interfaces/Peer";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
-
 type Props = {
   groups: string[];
   onSave?: (promises: Promise<Group>[]) => Promise<void>;
@@ -43,8 +43,10 @@ export default function GroupsRow({
   onSave,
   modal,
   setModal,
-  label = "Assigned Groups",
-  description = "Use groups to control what this peer can access",
+  label = t("common-table-rows.main:groupsRow.text.assignedGroups"),
+  description = t(
+    "common-table-rows.main:groupsRow.text.useGroupsToControlWhat",
+  ),
   peer,
   showAddGroupButton = false,
   hideAllGroup = false,
@@ -75,7 +77,7 @@ export default function GroupsRow({
         {foundGroups?.length == 0 && showAddGroupButton ? (
           <Badge variant={"gray"} useHover={true}>
             <IconCirclePlus size={14} />
-            Add Groups
+            {t("common-table-rows.main:groupsRow.text.addGroups")}
           </Badge>
         ) : (
           <div
@@ -139,7 +141,9 @@ export function EditGroupsModal({
     <ModalContent maxWidthClass={"max-w-xl"}>
       <ModalHeader
         icon={<FolderGit2 size={18} />}
-        title={label || "Assigned Groups"}
+        title={
+          label || t("common-table-rows.main:groupsRow.text.assignedGroups")
+        }
         description={description}
         color={"blue"}
       />
@@ -160,7 +164,7 @@ export function EditGroupsModal({
       <ModalFooter className={"items-center"}>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
           </ModalClose>
 
           <Button
@@ -169,7 +173,7 @@ export function EditGroupsModal({
             disabled={disabled}
             data-testid="save-groups"
           >
-            Save Groups
+            {t("common-table-rows.main:groupsRow.text.saveGroups")}
           </Button>
         </div>
       </ModalFooter>

@@ -1,0 +1,11 @@
+{
+  "oIDCError.text.yourAccountHasBeenLinked": "您的账户已关联成功，请重新登录以完成设置。",
+  "oIDCError.text.alreadyVerifiedYourEmailAddress": "已经验证过邮箱地址？",
+  "oIDCError.text.troubleLoggingInTryAgain": "登录遇到问题？请重试。",
+  "oIDCError.text.thereWasAnErrorLogging": "登录时出错。",
+  "oIDCError.text.error": "错误：",
+  "oIDCError.text.logout": "登出",
+  "sessionLost.text.sessionExpired": "会话已过期",
+  "sessionLost.text.itLooksLikeYourLogin": "您的登录会话已失效或已过期，请重新登录以继续使用。",
+  "sessionLost.text.login": "登录"
+}

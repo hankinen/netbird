@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
-
+import { t } from "@/i18n";
 const config = loadConfig();
 
 export const OIDCError = () => {
@@ -23,9 +23,7 @@ export const OIDCError = () => {
   useEffect(() => {
     if (accessDenied) {
       if (title === "account linked successfully") {
-        setTitle(
-          "Your account has been linked successfully. Please log in again to complete the setup.",
-        );
+        setTitle(t("auth.main:oIDCError.text.yourAccountHasBeenLinked"));
       }
     } else {
       setTitle("Oops, something went wrong");
@@ -50,7 +48,7 @@ export const OIDCError = () => {
       {accessDenied ? (
         <>
           <Paragraph className={"text-center mt-2"}>
-            Already verified your email address?
+            {t("auth.main:oIDCError.text.alreadyVerifiedYourEmailAddress")}
           </Paragraph>
 
           <Button
@@ -59,7 +57,7 @@ export const OIDCError = () => {
             className={"mt-5"}
             onClick={() => logout("/", { client_id: config.clientId })}
           >
-            Continue
+            {t("common:word.continue")}
             <ArrowRightIcon size={16} />
           </Button>
 
@@ -69,14 +67,14 @@ export const OIDCError = () => {
             className={"mt-5"}
             onClick={() => logout("/", { client_id: config.clientId })}
           >
-            Trouble logging in? Try again.
+            {t("auth.main:oIDCError.text.troubleLoggingInTryAgain")}
           </Button>
         </>
       ) : (
         <>
           <Paragraph className={"text-center mt-2 block"}>
-            There was an error logging you in. <br />
-            Error:{" "}
+            {t("auth.main:oIDCError.text.thereWasAnErrorLogging")} <br />
+            {t("auth.main:oIDCError.text.error")}{" "}
             <span className={"inline capitalize"}>
               {invalidRequest && errorDescription
                 ? errorDescription
@@ -89,7 +87,7 @@ export const OIDCError = () => {
             className={"mt-5"}
             onClick={() => logout("/", { client_id: config.clientId })}
           >
-            Logout
+            {t("auth.main:oIDCError.text.logout")}
           </Button>
         </>
       )}

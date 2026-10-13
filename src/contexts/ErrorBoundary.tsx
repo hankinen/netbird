@@ -3,7 +3,7 @@ import { useDebounce } from "@hooks/useDebounce";
 import { IconCircleX } from "@tabler/icons-react";
 import { ErrorResponse } from "@utils/api";
 import React, { useEffect, useState } from "react";
-
+import { t } from "@/i18n";
 type Props = {
   children: React.ReactNode;
 };
@@ -24,7 +24,10 @@ export default function ErrorBoundaryProvider({ children }: Props) {
       const firstCharUpper = errorDebounced.message.charAt(0).toUpperCase();
       const message = firstCharUpper + errorDebounced.message.slice(1);
       notify({
-        title: `Request failed with status code ${errorDebounced.code}`,
+        title: t(
+          "contexts.main:errorBoundary.title.requestFailedWithStatusCode",
+          { code: errorDebounced.code },
+        ),
         description: "Error: " + message,
         icon: <IconCircleX size={24} />,
         backgroundColor: "bg-red-500",

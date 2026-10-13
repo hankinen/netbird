@@ -8,7 +8,7 @@
   "featureCard.text.enabled": "已启用",
   "featureCard.text.disabled": "已禁用",
   "input.ariaLabel.togglePasswordVisibility": "切换密码可见性",
-  "input.text.nbsp": " ",
+  "input.text.nbsp": " ",
   "jSONFileUpload.title.youUploadedTheWrongFile": "您上传的文件类型不正确",
   "jSONFileUpload.description.pleaseUploadAJSONFile": "请上传 JSON 文件",
   "jSONFileUpload.title.googleWorkspace": "Google Workspace",

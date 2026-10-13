@@ -1,0 +1,12 @@
+{
+  "globalSearchModal.text.networks": "网络（{{networksCount}}）",
+  "globalSearchModal.text.resources": "资源（{{resourcesCount}}）",
+  "globalSearchModal.text.resourceS": "资源",
+  "globalSearchModal.text.searchForNetworksAndResources": "搜索网络和资源",
+  "globalSearchModal.text.quicklyFindNetworksAndAssociated": "快速查找网络及其关联的资源。",
+  "globalSearchModal.text.startTypingToSearchBy": "输入名称、描述或地址开始搜索。",
+  "globalSearchModal.text.couldNotFindAnyResults": "未找到任何结果",
+  "globalSearchModal.text.weCouldnTFindAny": "未找到任何结果，请尝试其他搜索词。",
+  "globalSearchModal.text.navigate": "导航",
+  "globalSearchModal.text.open": "打开"
+}

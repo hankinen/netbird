@@ -7,11 +7,11 @@ import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useUsers } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { Group, GroupPeer } from "@/interfaces/Group";
 import { Peer } from "@/interfaces/Peer";
 import { User } from "@/interfaces/User";
 import { PeerSSHInstructions } from "@/modules/peer/PeerSSHInstructions";
-
 type Props = {
   children: React.ReactNode;
   peer: Peer;
@@ -56,22 +56,22 @@ export default function PeerProvider({
 
   const deletePeer = async () => {
     const choice = await confirm({
-      title: `Delete '${peer.name}'?`,
+      title: t("contexts.main:groupProvider.title.delete", { name: peer.name }),
       description:
-        "Are you sure you want to delete this peer? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+        t("contexts.main:peerProvider.description.areYouSureYouWant"),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (choice) {
       notify({
         title: peer.name,
-        description: "Peer was successfully deleted",
+        description: t("contexts.main:peerProvider.description.peerWasSuccessfullyDeleted"),
         promise: peerRequest.del({}, `/${peer.id}`).then(() => {
           mutate("/peers");
           mutate("/groups");
         }),
-        loadingMessage: "Deleting peer...",
+        loadingMessage: t("contexts.main:peerProvider.loadingMessage.deletingPeer"),
       });
     }
   };
@@ -114,15 +114,15 @@ export default function PeerProvider({
     notify({
       title: peer.name,
       description: enable
-        ? "SSH Access successfully enabled"
-        : "SSH Access successfully disabled",
+        ? t("contexts.main:peerProvider.text.sSHAccessSuccessfullyEnabled")
+        : t("contexts.main:peerProvider.text.sSHAccessSuccessfullyDisabled"),
       promise: update({ ssh: enable }).then(() => {
         isPeerDetailPage ? mutate(`/peers/${peer.id}`) : mutate("/peers");
         setSSHInstructionsModal(false);
       }),
       loadingMessage: enable
-        ? "Enabling SSH Access..."
-        : "Disabling SSH Access...",
+        ? t("contexts.main:peerProvider.text.enablingSSHAccess")
+        : t("contexts.main:peerProvider.text.disablingSSHAccess"),
     });
   };
 

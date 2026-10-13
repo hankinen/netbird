@@ -12,6 +12,7 @@ import { Input } from "@components/Input";
 import HelpText from "@components/HelpText";
 import { GradientFadedBackground } from "@components/ui/GradientFadedBackground";
 
+import { t } from "@/i18n";
 interface FormData {
   email: string;
   password: string;
@@ -45,25 +46,39 @@ export default function InstanceSetupWizard() {
     const newErrors: FormErrors = {};
 
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = t(
+        "instance-setup.main:instanceSetupWizard.text.emailIsRequired",
+      );
     } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address";
+      newErrors.email = t(
+        "instance-setup.main:instanceSetupWizard.text.pleaseEnterAValidEmail",
+      );
     }
 
     if (!formData.password) {
-      newErrors.password = "Password is required";
+      newErrors.password = t(
+        "instance-setup.main:instanceSetupWizard.text.passwordIsRequired",
+      );
     } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters";
+      newErrors.password = t(
+        "instance-setup.main:instanceSetupWizard.text.passwordMustBeAtLeast",
+      );
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Please confirm your password";
+      newErrors.confirmPassword = t(
+        "instance-setup.main:instanceSetupWizard.text.pleaseConfirmYourPassword",
+      );
     } else if (formData.confirmPassword !== formData.password) {
-      newErrors.confirmPassword = "Passwords do not match";
+      newErrors.confirmPassword = t(
+        "instance-setup.main:instanceSetupWizard.text.passwordsDoNotMatch",
+      );
     }
 
     if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
+      newErrors.name = t(
+        "instance-setup.main:instanceSetupWizard.text.nameIsRequired",
+      );
     }
 
     setErrors(newErrors);
@@ -89,22 +104,33 @@ export default function InstanceSetupWizard() {
       setIsSuccess(true);
     } catch (err) {
       const error = err as ApiError;
-      let message = "An error occurred. Please try again.";
+      let message = t(
+        "instance-setup.main:instanceSetupWizard.text.anErrorOccurredPleaseTry",
+      );
 
       switch (error.code) {
         case 400:
-          message = "Invalid request. Please check your input.";
+          message = t(
+            "instance-setup.main:instanceSetupWizard.text.invalidRequestPleaseCheckYour",
+          );
           break;
         case 412:
-          message = "Setup has already been completed. Redirecting to login...";
+          message = t(
+            "instance-setup.main:instanceSetupWizard.text.setupHasAlreadyBeenCompleted",
+          );
           setTimeout(() => (window.location.href = "/"), 2000);
           break;
         case 422:
           message =
-            error.message || "Validation error. Please check your input.";
+            error.message ||
+            t(
+              "instance-setup.main:instanceSetupWizard.text.validationErrorPleaseCheckYour",
+            );
           break;
         case 500:
-          message = "An error occurred. Please try again.";
+          message = t(
+            "instance-setup.main:instanceSetupWizard.text.anErrorOccurredPleaseTry",
+          );
           break;
         default:
           message = error.message || message;
@@ -148,7 +174,7 @@ export default function InstanceSetupWizard() {
   const confirmPasswordError =
     errors.confirmPassword ??
     (formData.confirmPassword && !passwordsMatch
-      ? "Passwords do not match"
+      ? t("instance-setup.main:instanceSetupWizard.text.passwordsDoNotMatch")
       : undefined);
 
   if (isSuccess) {
@@ -162,14 +188,16 @@ export default function InstanceSetupWizard() {
             <CheckCircle2 className="text-green-500" size={22} />
           </div>
           <h1 className={"text-xl text-center z-10 relative"}>
-            Account Created!
+            {t("instance-setup.main:instanceSetupWizard.text.accountCreated")}
           </h1>
           <div
             className={
               "text-sm text-nb-gray-300 font-light mt-2 block text-center z-10 relative"
             }
           >
-            You are being redirected to login in{" "}
+            {t(
+              "instance-setup.main:instanceSetupWizard.text.youAreBeingRedirectedTo",
+            )}{" "}
             <span className={"text-white font-medium"}>{countdown}s</span>...
           </div>
           <div className={"flex items-center justify-center mt-4"}>
@@ -179,7 +207,7 @@ export default function InstanceSetupWizard() {
               variant={"primary"}
               className={"mx-auto w-full"}
             >
-              Go to Login
+              {t("instance-setup.main:instanceSetupWizard.text.goToLogin")}
             </Button>
           </div>
         </Card>
@@ -194,14 +222,16 @@ export default function InstanceSetupWizard() {
       </div>
       <Card className={"max-w-[420px] mt-8 mx-auto"}>
         <h1 className={"text-xl text-center z-10 relative"}>
-          Welcome to NetBird
+          {t("instance-setup.main:instanceSetupWizard.text.welcomeToNetBird")}
         </h1>
         <div
           className={
             "text-sm text-nb-gray-300 font-light mt-2 block text-center z-10 relative"
           }
         >
-          Create the first admin account to get started
+          {t(
+            "instance-setup.main:instanceSetupWizard.text.createTheFirstAdminAccount",
+          )}
         </div>
 
         <form
@@ -210,13 +240,15 @@ export default function InstanceSetupWizard() {
         >
           {errors.general && <ErrorMessage error={errors.general} />}
           <div>
-            <Label htmlFor={"name"}>Name</Label>
+            <Label htmlFor={"name"}>{t("common:word.name")}</Label>
             <Input
               type="text"
               id="name"
               value={formData.name}
               onChange={handleInputChange("name")}
-              placeholder="Your name"
+              placeholder={t(
+                "instance-setup.main:instanceSetupWizard.placeholder.yourName",
+              )}
               disabled={isSubmitting}
               autoFocus
               error={errors.name}
@@ -224,43 +256,57 @@ export default function InstanceSetupWizard() {
           </div>
 
           <div>
-            <Label htmlFor={"email"}>Email</Label>
+            <Label htmlFor={"email"}>
+              {t("instance-setup.main:instanceSetupWizard.text.email")}
+            </Label>
             <Input
               type="email"
               id="email"
               value={formData.email}
               onChange={handleInputChange("email")}
-              placeholder="admin@example.com"
+              placeholder={t(
+                "instance-setup.main:instanceSetupWizard.placeholder.adminExampleCom",
+              )}
               disabled={isSubmitting}
               error={errors.email}
             />
           </div>
 
           <div>
-            <Label htmlFor={"password"}>Password</Label>
+            <Label htmlFor={"password"}>
+              {t("instance-setup.main:instanceSetupWizard.text.password")}
+            </Label>
             <Input
               type={"password"}
               id="password"
               value={formData.password}
               onChange={handleInputChange("password")}
-              placeholder="Enter a strong password"
+              placeholder={t(
+                "instance-setup.main:instanceSetupWizard.placeholder.enterAStrongPassword",
+              )}
               disabled={isSubmitting}
               error={errors.password}
               showPasswordToggle={true}
             />
             <HelpText className={"mt-2"}>
-              Must be at least 8 characters
+              {t("instance-setup.main:instanceSetupWizard.text.mustBeAtLeast8")}
             </HelpText>
           </div>
 
           <div>
-            <Label htmlFor={"confirmPassword"}>Confirm Password</Label>
+            <Label htmlFor={"confirmPassword"}>
+              {t(
+                "instance-setup.main:instanceSetupWizard.text.confirmPassword",
+              )}
+            </Label>
             <Input
               type={"password"}
               id="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleInputChange("confirmPassword")}
-              placeholder="Re-enter your password"
+              placeholder={t(
+                "instance-setup.main:instanceSetupWizard.placeholder.reEnterYourPassword",
+              )}
               disabled={isSubmitting}
               error={confirmPasswordError}
               showPasswordToggle={true}
@@ -276,10 +322,14 @@ export default function InstanceSetupWizard() {
             {isSubmitting ? (
               <>
                 <Loader2 className="animate-spin" size={16} />
-                Creating Account...
+                {t(
+                  "instance-setup.main:instanceSetupWizard.text.creatingAccount",
+                )}
               </>
             ) : (
-              "Create Admin Account"
+              t(
+                "instance-setup.main:instanceSetupWizard.text.createAdminAccount",
+              )
             )}
           </Button>
         </form>
@@ -289,7 +339,7 @@ export default function InstanceSetupWizard() {
         <span
           className={"text-sm text-nb-gray-400 font-light pb-10 text-center"}
         >
-          This is a one-time setup for your NetBird instance.
+          {t("instance-setup.main:instanceSetupWizard.text.thisIsAOneTime")}
         </span>
       </div>
     </div>

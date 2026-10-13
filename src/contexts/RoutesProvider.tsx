@@ -2,8 +2,8 @@ import { notify } from "@components/Notification";
 import { useApiCall } from "@utils/api";
 import React from "react";
 import { useSWRConfig } from "swr";
+import { t } from "@/i18n";
 import { Route } from "@/interfaces/Route";
-
 type Props = {
   children: React.ReactNode;
 };
@@ -39,8 +39,8 @@ export default function RoutesProvider({ children }: Readonly<Props>) {
     const hasDomains = route.domains ? route.domains.length > 0 : false;
 
     notify({
-      title: "Network " + route.network_id + "-" + route.network,
-      description: message ?? "The network route was successfully updated",
+      title: t("contexts.main:routesProvider.text.network", { network_id: route.network_id, network: route.network }),
+      description: message ?? t("contexts.main:routesProvider.text.theNetworkRouteWasSuccessfully"),
       promise: routeRequest
         .put(
           {
@@ -69,7 +69,7 @@ export default function RoutesProvider({ children }: Readonly<Props>) {
           mutate("/groups");
           onSuccess && onSuccess(route);
         }),
-      loadingMessage: "Updating route...",
+      loadingMessage: t("contexts.main:routesProvider.loadingMessage.updatingRoute"),
     });
   };
 
@@ -79,8 +79,8 @@ export default function RoutesProvider({ children }: Readonly<Props>) {
     message?: string,
   ) => {
     notify({
-      title: "Network " + route.network_id + "-" + route.network,
-      description: message ?? "The network route was successfully created",
+      title: t("contexts.main:routesProvider.text.network", { network_id: route.network_id, network: route.network }),
+      description: message ?? t("contexts.main:routesProvider.text.theNetworkRouteWasSuccessfully2"),
       promise: routeRequest
         .post({
           network_id: route.network_id,
@@ -102,7 +102,7 @@ export default function RoutesProvider({ children }: Readonly<Props>) {
           mutate("/groups");
           onSuccess && onSuccess(route);
         }),
-      loadingMessage: "Creating route...",
+      loadingMessage: t("contexts.main:routesProvider.loadingMessage.creatingRoute"),
     });
   };
 

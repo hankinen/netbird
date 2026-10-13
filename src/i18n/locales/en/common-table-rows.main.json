@@ -1,0 +1,9 @@
+{
+  "expirationDateRow.text.dMMMYYYY": "D MMM YYYY",
+  "groupsRow.text.assignedGroups": "Assigned Groups",
+  "groupsRow.text.useGroupsToControlWhat": "Use groups to control what this peer can access",
+  "groupsRow.text.addGroups": "Add Groups",
+  "groupsRow.text.saveGroups": "Save Groups",
+  "lastTimeRow.text.lastSeenOn": "Last seen on",
+  "lastTimeRow.text.dMMMMYYYYAtH": "D MMMM, YYYY [at] h:mm A"
+}
