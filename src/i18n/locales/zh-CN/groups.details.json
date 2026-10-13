@@ -1,0 +1,21 @@
+{
+  "groupDetailsRemoveCell.text.remove": "Remove",
+  "groupPeersSection.title.thisGroupHasNoAssigned": "This group has no assigned peers yet",
+  "groupPeersSection.description.installNetBirdAndAssignExisting": "Install NetBird and assign existing peers to this group to see them listed here.",
+  "groupPeersSection.text.assignPeers": "Assign Peers",
+  "groupPeersSection.text.removePeersFromGroup": "Remove Peers from Group",
+  "groupResourcesSection.text.resource": "Resource",
+  "groupResourcesSection.searchPlaceholder.searchByNameAddressOr": "Search by name, address or group...",
+  "groupResourcesSection.title.thisGroupHasNoAssigned": "This group has no assigned resources",
+  "groupResourcesSection.description.assignThisGroupToYour": "Assign this group to your resources inside your networks to see them listed here.",
+  "groupResourcesSection.text.goToNetworks": "Go to Networks",
+  "groupUsersSection.text.role": "Role",
+  "groupUsersSection.text.blockUser": "Block User",
+  "groupUsersSection.text.lastLogin": "Last Login",
+  "groupUsersSection.text.lastLoginOn": "Last login on",
+  "groupUsersSection.title.thisGroupHasNoAssigned": "This group has no assigned users yet",
+  "groupUsersSection.description.inviteNewUsersOrAssign": "Invite new users or assign existing ones to this group to see them listed here.",
+  "groupUsersSection.text.assignUsers": "Assign Users",
+  "groupUsersSection.label.userSSelected": "User(s) selected",
+  "groupUsersSection.text.removeUsersFromGroup": "Remove Users from Group"
+}

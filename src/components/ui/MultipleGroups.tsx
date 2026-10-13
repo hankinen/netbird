@@ -13,10 +13,10 @@ import { ArrowRightIcon, PencilLineIcon } from "lucide-react";
 import * as React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useUsers } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 import { HorizontalUsersStack } from "@/modules/users/HorizontalUsersStack";
-
 type Props = {
   groups: Group[];
   label?: string;
@@ -40,8 +40,8 @@ type Props = {
 
 export default function MultipleGroups({
   groups,
-  label = "Assigned Groups",
-  description = "Use groups to control what this peer can access",
+  label = t("components.ui:multipleGroups.text.assignedGroups"),
+  description = t("components.ui:multipleGroups.text.useGroupsToControlWhat"),
   onClick,
   className,
   showResources = false,
@@ -83,7 +83,9 @@ export default function MultipleGroups({
                   permission.groups.update ? "group-hover:bg-nb-gray-800" : "",
                 )}
               >
-                {orderedGroups.length} Groups
+                {t("components.ui:multipleGroups.text.groups", {
+                  length: orderedGroups.length,
+                })}
               </Badge>
             ) : countOnly ? (
               <div className={"inline-flex items-center gap-2"}>

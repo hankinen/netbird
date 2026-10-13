@@ -13,9 +13,9 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useGroupContext } from "@/contexts/GroupProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { GROUP_TOOLTIP_TEXT } from "@/interfaces/Group";
 import { GroupUsage } from "@/modules/groups/useGroupsUsage";
-
 type Props = {
   group: GroupUsage;
   inUse: boolean;
@@ -64,7 +64,7 @@ export default function GroupsActionCell({ group, inUse }: Readonly<Props>) {
             >
               <div className="flex gap-3 items-center">
                 <FolderIcon size={14} className="shrink-0" />
-                View Details
+                {t("groups.table:groupsActionCell.text.viewDetails")}
               </div>
             </DropdownMenuItem>
 
@@ -90,7 +90,7 @@ export default function GroupsActionCell({ group, inUse }: Readonly<Props>) {
                   >
                     <div className="flex gap-3 items-center">
                       <Pencil size={14} className="shrink-0" />
-                      Rename
+                      {t("groups.table:groupsActionCell.text.rename")}
                     </div>
                   </DropdownMenuItem>
                 </FullTooltip>
@@ -117,7 +117,7 @@ export default function GroupsActionCell({ group, inUse }: Readonly<Props>) {
                 >
                   <div className="flex gap-3 items-center">
                     <Trash2 size={14} className="shrink-0" />
-                    Delete
+                    {t("common:word.delete")}
                   </div>
                 </DropdownMenuItem>
               </FullTooltip>

@@ -1,3 +1,4 @@
+import FullTooltip from "@components/FullTooltip";
 import InlineLink from "@components/InlineLink";
 import {
   Tooltip,
@@ -12,10 +13,9 @@ import { ArrowRightIcon, ArrowUpCircleIcon } from "lucide-react";
 import * as React from "react";
 import { useMemo } from "react";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
+import { t } from "@/i18n";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { PeerOperatingSystemIcon } from "@/modules/peers/PeerOperatingSystemIcon";
-import FullTooltip from "@components/FullTooltip";
-
 type Props = {
   version: string;
   os: string;
@@ -54,7 +54,9 @@ export default function PeerVersionCell({
             <TooltipTrigger>
               <div className="flex gap-2 dark:text-neutral-300 text-neutral-500 hover:text-neutral-100 transition-all rounded-md items-center">
                 <MemoizedNetBirdIcon />
-                {version == "development" ? "dev" : version}
+                {version == "development"
+                  ? t("peers.main:peerVersionCell.text.dev")
+                  : version}
                 <div className={"relative"}>
                   <span className="animate-ping absolute left-0 inline-flex h-[15px] w-[15px] rounded-full bg-netbird opacity-20"></span>
                   {updateIcon}
@@ -73,15 +75,16 @@ export default function PeerVersionCell({
                 <ArrowRightIcon size={16} className={"text-netbird"} />
                 <span className={"text-netbird"}>{latestVersion}</span>
               </div>
-              <p className={"font-medium"}>Update available </p>
+              <p className={"font-medium"}>
+                {t("peers.main:peerVersionCell.text.updateAvailable")}{" "}
+              </p>
 
               <div
                 className={
                   "text-neutral-300 flex flex-col gap-1 max-w-[300px] text-xs mt-1"
                 }
               >
-                A new version of Netbird is available. Please update your client
-                to get the latest features and bug fixes.
+                {t("peers.main:peerVersionCell.text.aNewVersionOfNetbird")}
               </div>
               <InlineLink
                 onClick={(e) => e.stopPropagation()}
@@ -89,7 +92,7 @@ export default function PeerVersionCell({
                 target={"_blank"}
                 className={"mt-2 mb-2 text-xs"}
               >
-                Download & Changelog
+                {t("peers.main:peerVersionCell.text.downloadChangelog")}
               </InlineLink>
             </TooltipContent>
           </Tooltip>
@@ -97,7 +100,9 @@ export default function PeerVersionCell({
       ) : (
         <div className="inline-flex gap-2 dark:text-neutral-300 text-neutral-500 items-center">
           <MemoizedNetBirdIcon />
-          {version == "development" ? "dev" : version}
+          {version == "development"
+            ? t("peers.main:peerVersionCell.text.dev")
+            : version}
         </div>
       )}
 
@@ -107,7 +112,9 @@ export default function PeerVersionCell({
           disabled={!serial || serial === ""}
           content={
             <div className={"text-xs"}>
-              <span className={"text-nb-gray-100 font-medium"}>Serial: </span>
+              <span className={"text-nb-gray-100 font-medium"}>
+                {t("peers.main:peerVersionCell.text.serial")}{" "}
+              </span>
               {serial}
             </div>
           }

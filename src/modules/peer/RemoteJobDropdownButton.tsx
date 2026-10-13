@@ -12,8 +12,8 @@ import { BugPlay, ChevronDown } from "lucide-react";
 import React, { useState } from "react";
 import { usePeer } from "@/contexts/PeerProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { CreateDebugJobModalContent } from "../jobs/CreateDebugJobModal";
-
 export const RemoteJobDropdownButton = () => {
   const [modal, setModal] = useState(false);
   const { peer } = usePeer();
@@ -39,7 +39,7 @@ export const RemoteJobDropdownButton = () => {
           }}
         >
           <Button variant={"primary"} disabled={disabled}>
-            Run Remote Job
+            {t("peer.main:remoteJobDropdownButton.text.runRemoteJob")}
             <ChevronDown size={16} />
           </Button>
         </DropdownMenuTrigger>
@@ -52,10 +52,11 @@ export const RemoteJobDropdownButton = () => {
                 }
               >
                 <div>
-                  Peer{" "}
+                  {t("peer.main:remoteJobDropdownButton.text.peer")}{" "}
                   <span className={"text-white font-medium"}>{peer.name}</span>{" "}
-                  is currently offline. Please connect the peer to run remote
-                  jobs.
+                  {t(
+                    "peer.main:remoteJobDropdownButton.text.isCurrentlyOfflinePleaseConnect",
+                  )}
                 </div>
               </div>
               <DropdownMenuSeparator />
@@ -73,9 +74,13 @@ export const RemoteJobDropdownButton = () => {
                 size={"small"}
               />
               <div className={"flex flex-col text-left"}>
-                <div className={"text-left text-white"}>Debug Bundle</div>
+                <div className={"text-left text-white"}>
+                  {t("peer.main:remoteJobDropdownButton.text.debugBundle")}
+                </div>
                 <div className={"text-xs"}>
-                  Collect debug information for troubleshooting
+                  {t(
+                    "peer.main:remoteJobDropdownButton.text.collectDebugInformationForTroubleshooting",
+                  )}
                 </div>
               </div>
             </div>

@@ -5,7 +5,7 @@ import { cn } from "@utils/helpers";
 import { AnimatePresence, motion } from "framer-motion";
 import { MonitorSmartphoneIcon } from "lucide-react";
 import * as React from "react";
-
+import { t } from "@/i18n";
 type Props<T> = {
   selectedItems?: T[];
   label?: string;
@@ -69,7 +69,11 @@ export function DataTableMultiSelectPopup<T>({
                     <div className={"flex gap-2 items-center"}>
                       {rightSide}
                       <FullTooltip
-                        content={<span className={"text-xs"}>Cancel</span>}
+                        content={
+                          <span className={"text-xs"}>
+                            {t("common:word.cancel")}
+                          </span>
+                        }
                       >
                         <Button
                           onClick={onCanceled}

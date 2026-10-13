@@ -1,0 +1,23 @@
+{
+  "groupsActionCell.text.viewDetails": "View Details",
+  "groupsActionCell.text.rename": "Rename",
+  "groupsCountCell.text.group": "Group",
+  "groupsCountCell.text.isUsedIn": "is used in",
+  "groupsTable.ariaLabel.selectAllGroupsOnThis": "Select all groups on this page",
+  "groupsTable.text.userS": "User(s)",
+  "groupsTable.text.networkResources": "Network Resources",
+  "groupsTable.text.networkResourceS": "Network Resource(s)",
+  "groupsTable.text.networkRouteS": "Network Route(s)",
+  "groupsTable.text.nameservers": "Nameservers",
+  "groupsTable.text.nameserverS": "Nameserver(s)",
+  "groupsTable.text.zones": "Zones",
+  "groupsTable.text.zoneS": "Zone(s)",
+  "groupsTable.text.setupKeyS": "Setup Key(s)",
+  "groupsTable.text.inUse": "In Use",
+  "groupsTable.label.used": "Used",
+  "groupsTable.label.unused": "Unused",
+  "groupsTable.label.usage": "Usage",
+  "groupsTable.searchPlaceholder.searchGroupByName": "Search group by name...",
+  "groupsNameCell.text.viewDetailsOfGroup": "View details of group {{name}}",
+  "groupsTable.text.select": "Select {{name}}"
+}

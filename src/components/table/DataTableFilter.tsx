@@ -10,7 +10,7 @@ import { concat, sortBy, uniqBy } from "lodash";
 import { FilterIcon } from "lucide-react";
 import * as React from "react";
 import { useCallback, useMemo, useState } from "react";
-
+import { t } from "@/i18n";
 interface Props<TData> {
   table: Table<TData>;
   filters: Filter<TData>[];
@@ -191,7 +191,9 @@ export function DataTableFilter<TData>({
             <span className={"text-white"}>
               {activeFiltersCount > 0 && activeFiltersCount}
             </span>
-            {activeFiltersCount > 0 ? ` Filter(s)` : "Filter"}
+            {activeFiltersCount > 0
+              ? ` Filter(s)`
+              : t("components.table:dataTableFilter.text.filter")}
           </span>
         </Button>
       </PopoverTrigger>
@@ -210,13 +212,17 @@ export function DataTableFilter<TData>({
             ref={searchRef}
             value={search}
             onChange={setSearch}
-            placeholder={"Search filters..."}
+            placeholder={t(
+              "components.table:dataTableFilter.placeholder.searchFilters",
+            )}
             hideEnterIcon={true}
           />
 
           {filteredItems.length == 0 && search != "" && (
             <DropdownInfoText className={"mb-4"}>
-              There are no filters matching your search.
+              {t(
+                "components.table:dataTableFilter.text.thereAreNoFiltersMatching",
+              )}
             </DropdownInfoText>
           )}
 

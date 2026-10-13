@@ -23,6 +23,7 @@ import TeamIcon from "@/assets/icons/TeamIcon";
 import { GroupProvider, useGroupContext } from "@/contexts/GroupProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import RoutesProvider from "@/contexts/RoutesProvider";
+import { t } from "@/i18n";
 import { Group, GROUP_TOOLTIP_TEXT } from "@/interfaces/Group";
 import PageContainer from "@/layouts/PageContainer";
 import { GroupDNSZonesSection } from "@/modules/groups/details/GroupDNSZonesSection";
@@ -34,7 +35,6 @@ import { GroupResourcesSection } from "@/modules/groups/details/GroupResourcesSe
 import { GroupSetupKeysSection } from "@/modules/groups/details/GroupSetupKeysSection";
 import { GroupUsersSection } from "@/modules/groups/details/GroupUsersSection";
 import useGroupDetails from "@/modules/groups/details/useGroupDetails";
-
 export default function GroupPage() {
   const queryParameter = useSearchParams();
   const { isRestricted } = usePermissions();
@@ -59,9 +59,7 @@ export default function GroupPage() {
     return (
       <PageNotFound
         title={error?.message}
-        description={
-          "The group you are attempting to access cannot be found. It may have been deleted, or you may not have permission to view it. Please verify the URL or return to the dashboard."
-        }
+        description={t("group.page:page.description.theGroupYouAreAttempting")}
       />
     );
 
@@ -73,7 +71,7 @@ export default function GroupPage() {
             <Breadcrumbs>
               <Breadcrumbs.Item
                 href={"/groups"}
-                label={"Groups"}
+                label={t("common:word.groups")}
                 icon={<FolderGit2Icon size={14} />}
               />
               <Breadcrumbs.Item label={group.name} active />

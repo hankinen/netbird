@@ -4,8 +4,8 @@ import React, { useMemo } from "react";
 import { useSWRConfig } from "swr";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { useRoutes } from "@/contexts/RoutesProvider";
+import { t } from "@/i18n";
 import { Route } from "@/interfaces/Route";
-
 type Props = {
   route: Route;
 };
@@ -30,8 +30,10 @@ export default function PeerRouteActiveCell({ route }: Props) {
         mutate("/routes");
       },
       enabled
-        ? "The network route was successfully enabled"
-        : "The network route was successfully disabled",
+        ? t("peer.main:peerRouteActiveCell.text.theNetworkRouteWasSuccessfully")
+        : t(
+            "peer.main:peerRouteActiveCell.text.theNetworkRouteWasSuccessfully2",
+          ),
     );
   };
 

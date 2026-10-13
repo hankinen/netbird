@@ -11,8 +11,8 @@ import { orderBy, trim } from "lodash";
 import { MonitorSmartphoneIcon, SearchIcon } from "lucide-react";
 import * as React from "react";
 import { useRef } from "react";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
-
 // GroupsPicker — multi-select search list of group names. The value
 // stored on the column filter is an array of group *names* (matching
 // PeersTable's group_names column which uses arrIncludesSome).
@@ -54,7 +54,7 @@ export function GroupsPicker({ value, onChange, groups }: Props) {
               "dark:placeholder:text-nb-gray-400 font-light placeholder:text-neutral-500 pl-9",
             )}
             ref={searchRef}
-            placeholder={"Search group..."}
+            placeholder={t("components.table:groupsPicker.placeholder.searchGroup")}
           />
           <div
             className={

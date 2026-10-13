@@ -5,9 +5,9 @@ import { useMemo } from "react";
 import RoundedFlag from "@/assets/countries/RoundedFlag";
 import { PeerOSIcon } from "@/assets/icons/PeerOSIcon";
 import { ResourceIcon } from "@/assets/icons/ResourceIcon";
+import { t } from "@/i18n";
 import { NetworkResource } from "@/interfaces/Network";
 import type { Peer } from "@/interfaces/Peer";
-
 type DeviceCardProps = {
   device?: Peer;
   resource?: NetworkResource;
@@ -75,7 +75,11 @@ export const DeviceCard = ({
           }
         >
           <TruncatedText
-            text={device?.name || resource?.name || "Unknown"}
+            text={
+              device?.name ||
+              resource?.name ||
+              t("components.core:deviceCard.text.unknown")
+            }
             maxWidth={"150px"}
             hideTooltip={true}
           />

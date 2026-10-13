@@ -5,9 +5,9 @@ import { EyeIcon, FolderGit2, SquarePen } from "lucide-react";
 import * as React from "react";
 import { useMemo, useState } from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { AssignPeerToGroupModal } from "@/modules/groups/AssignPeerToGroupModal";
-
 type Props = {
   group: Group;
   className?: string;
@@ -104,7 +104,7 @@ export default function GroupBadgeWithEditPeers({
               >
                 {peerCount}
               </span>{" "}
-              Peers{" "}
+              {t("common:word.peers")}{" "}
             </span>
             {isAllGroup ? (
               <EyeIcon size={11} className={"shrink-0"} />

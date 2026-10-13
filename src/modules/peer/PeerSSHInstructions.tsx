@@ -9,22 +9,22 @@ import {
 } from "@components/modal/Modal";
 import ModalHeader from "@components/modal/ModalHeader";
 import Paragraph from "@components/Paragraph";
+import { SegmentedTabs } from "@components/SegmentedTabs";
 import Separator from "@components/Separator";
 import Steps from "@components/Steps";
 import { Lightbox } from "@components/ui/Lightbox";
 import { Mark } from "@components/ui/Mark";
+import { getOperatingSystem } from "@hooks/useOperatingSystem";
 import { cn } from "@utils/helpers";
 import { ExternalLinkIcon, PlusCircle, TerminalSquare } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
-import sshImage from "@/assets/ssh/ssh-client.png";
-import { SegmentedTabs } from "@components/SegmentedTabs";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
+import sshImage from "@/assets/ssh/ssh-client.png";
+import { t } from "@/i18n";
+import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { Peer } from "@/interfaces/Peer";
 import { PeerSSHPolicyModal } from "@/modules/peer/PeerSSHPolicyModal";
-import { getOperatingSystem } from "@hooks/useOperatingSystem";
-import { OperatingSystem } from "@/interfaces/OperatingSystem";
-
 type Props = {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -55,10 +55,10 @@ export const PeerSSHInstructions = ({
       >
         <ModalHeader
           icon={<TerminalSquare size={16} className={"text-netbird"} />}
-          title={"Enable SSH Access"}
-          description={
-            "Allow remote SSH access from other connected network participants."
-          }
+          title={t("peer.main:peerSSHInstructions.title.enableSSHAccess")}
+          description={t(
+            "peer.main:peerSSHInstructions.description.allowRemoteSSHAccessFrom",
+          )}
           color={"netbird"}
         />
 
@@ -73,7 +73,7 @@ export const PeerSSHInstructions = ({
               </SegmentedTabs.Trigger>
               <SegmentedTabs.Trigger value={"gui"}>
                 <NetBirdIcon size={16} />
-                Desktop Client
+                {t("peer.main:peerSSHInstructions.text.desktopClient")}
               </SegmentedTabs.Trigger>
             </SegmentedTabs.List>
           </SegmentedTabs>
@@ -82,14 +82,15 @@ export const PeerSSHInstructions = ({
             {client === "cli" ? (
               <Steps.Step step={1}>
                 <p className={"font-normal"}>
-                  If you are using NetBird via CLI, you can enable SSH by
-                  running{" "}
+                  {t("peer.main:peerSSHInstructions.text.ifYouAreUsingNetBird")}{" "}
                   {isWindows
-                    ? "these commands in an elevated prompt"
-                    : "these commands as root"}
-                  . Run the first one only if NetBird is already running. On a
-                  machine where you do not have those rights, an administrator
-                  has to run them.
+                    ? t(
+                        "peer.main:peerSSHInstructions.text.theseCommandsInAnElevated",
+                      )
+                    : t(
+                        "peer.main:peerSSHInstructions.text.theseCommandsAsRoot",
+                      )}
+                  {t("peer.main:peerSSHInstructions.text.runTheFirstOneOnly")}
                 </p>
                 <Code codeToCopy={`${prefix}netbird down`}>
                   <Code.Line>{`${prefix}netbird down`}</Code.Line>
@@ -101,11 +102,23 @@ export const PeerSSHInstructions = ({
             ) : (
               <Steps.Step step={1}>
                 <p className={"font-normal"}>
-                  If you are using NetBird via the Desktop Client, click on the
-                  NetBird tray icon, go to <Mark>Settings</Mark> and click{" "}
-                  <Mark>Allow SSH</Mark>. If you want to enable Root Login go to{" "}
-                  <Mark>Settings &gt; Advanced Settings</Mark> and enable SSH
-                  Root Login under the SSH tab.
+                  {t(
+                    "peer.main:peerSSHInstructions.text.ifYouAreUsingNetBird2",
+                  )}{" "}
+                  <Mark>{t("common:word.settings")}</Mark>{" "}
+                  {t("peer.main:peerSSHInstructions.text.andClick")}{" "}
+                  <Mark>
+                    {t("peer.main:peerSSHInstructions.text.allowSSH")}
+                  </Mark>
+                  {t("peer.main:peerSSHInstructions.text.ifYouWantToEnable")}{" "}
+                  <Mark>
+                    {t(
+                      "peer.main:peerSSHInstructions.text.settingsGtAdvancedSettings",
+                    )}
+                  </Mark>{" "}
+                  {t(
+                    "peer.main:peerSSHInstructions.text.andEnableSSHRootLogin",
+                  )}
                 </p>
                 <Lightbox image={sshImage} />
               </Steps.Step>
@@ -113,8 +126,9 @@ export const PeerSSHInstructions = ({
 
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Starting from NetBird v0.61.0, SSH requires an explicit access
-                control policy to allow SSH connections to this machine.
+                {t(
+                  "peer.main:peerSSHInstructions.text.startingFromNetBirdV061",
+                )}
               </p>
               <div className={"mt-2"}>
                 <Button
@@ -122,14 +136,21 @@ export const PeerSSHInstructions = ({
                   onClick={() => setPolicyModal(true)}
                 >
                   <PlusCircle size={16} />
-                  Create SSH Policy
+                  {t("peer.main:peerSSHInstructions.text.createSSHPolicy")}
                 </Button>
               </div>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Once the NetBird SSH server is allowed on the client, <br />
-                click <Mark>Confirm & Enable</Mark> below to finish the setup.
+                {t(
+                  "peer.main:peerSSHInstructions.text.onceTheNetBirdSSHServer",
+                )}{" "}
+                <br />
+                {t("peer.main:peerSSHInstructions.text.click")}{" "}
+                <Mark>
+                  {t("peer.main:peerSSHInstructions.text.confirmEnable")}
+                </Mark>{" "}
+                {t("peer.main:peerSSHInstructions.text.belowToFinishTheSetup")}
               </p>
             </Steps.Step>
           </Steps>
@@ -138,7 +159,7 @@ export const PeerSSHInstructions = ({
         <ModalFooter className={"items-center"}>
           <div className={"w-full"}>
             <Paragraph className={"text-sm mt-auto"}>
-              Learn more about
+              {t("common:word.learnMoreAbout")}
               <InlineLink
                 href={"https://docs.netbird.io/how-to/ssh"}
                 target={"_blank"}
@@ -150,11 +171,11 @@ export const PeerSSHInstructions = ({
           </div>
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
-              <Button variant={"secondary"}>Cancel</Button>
+              <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
             </ModalClose>
 
             <Button variant={"primary"} onClick={onSuccess}>
-              Finish Setup
+              {t("peer.main:peerSSHInstructions.text.finishSetup")}
             </Button>
           </div>
         </ModalFooter>

@@ -5,9 +5,9 @@ import useFetchApi from "@utils/api";
 import { PlusCircle } from "lucide-react";
 import React, { memo, useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
 import SetupModal from "@/modules/setup-netbird-modal/SetupModal";
-
 type Props = {
   isUserDevice?: boolean;
 };
@@ -40,7 +40,7 @@ function AddPeerButton({ isUserDevice }: Readonly<Props>) {
           data-testid={"add-peer-button"}
         >
           <PlusCircle size={16} />
-          Add Peer
+          {t("components.ui:addPeerButton.text.addPeer")}
         </Button>
       </ModalTrigger>
       <SetupModal user={user} isUserDevice={isUserDevice} />

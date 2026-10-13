@@ -13,8 +13,8 @@ import IOSIcon from "@/assets/icons/IOSIcon";
 import AppleLogo from "@/assets/os-icons/apple.svg";
 import FreeBSDLogo from "@/assets/os-icons/FreeBSD.png";
 import { getOperatingSystem } from "@/hooks/useOperatingSystem";
+import { t } from "@/i18n";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
-
 type Props = {
   os: string;
   serial?: string;
@@ -44,7 +44,7 @@ export function PeerOSCell({ os, serial }: Readonly<Props>) {
             {serial && serial !== "" && (
               <ListItem
                 icon={<Barcode size={14} />}
-                label={"Serial Number"}
+                label={t("peers.main:peerOSCell.label.serialNumber")}
                 value={serial}
               />
             )}

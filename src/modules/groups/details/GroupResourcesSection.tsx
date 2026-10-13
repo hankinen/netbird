@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { NetworkResourceWithNetwork } from "@/interfaces/Network";
 import { GroupDetailsTableContainer } from "@/modules/groups/details/GroupDetailsTableContainer";
@@ -23,7 +24,6 @@ import { ResourceEnabledCell } from "@/modules/networks/resources/ResourceEnable
 import { ResourceGroupCell } from "@/modules/networks/resources/ResourceGroupCell";
 import ResourceNameCell from "@/modules/networks/resources/ResourceNameCell";
 import { ResourcePolicyCell } from "@/modules/networks/resources/ResourcePolicyCell";
-
 const GroupResourcesColumns: ColumnDef<NetworkResourceWithNetwork>[] = [
   {
     id: "id",
@@ -34,7 +34,11 @@ const GroupResourcesColumns: ColumnDef<NetworkResourceWithNetwork>[] = [
     id: "name",
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Resource</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("groups.details:groupResourcesSection.text.resource")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => {
       return <ResourceNameCell resource={row.original} />;
@@ -50,7 +54,11 @@ const GroupResourcesColumns: ColumnDef<NetworkResourceWithNetwork>[] = [
     id: "address",
     accessorKey: "address",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Address</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.address")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => {
       return <ResourceAddressCell resource={row.original} />;
@@ -64,7 +72,7 @@ const GroupResourcesColumns: ColumnDef<NetworkResourceWithNetwork>[] = [
     header: ({ column }) => {
       return (
         <DataTableHeader column={column} sorting={false}>
-          Active
+          {t("common:word.active")}
         </DataTableHeader>
       );
     },
@@ -82,7 +90,11 @@ const GroupResourcesColumns: ColumnDef<NetworkResourceWithNetwork>[] = [
       return groups.map((group) => group.name).join(", ");
     },
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Groups</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.groups")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => {
       return <ResourceGroupCell resource={row.original} />;
@@ -92,7 +104,11 @@ const GroupResourcesColumns: ColumnDef<NetworkResourceWithNetwork>[] = [
     id: "policies",
     accessorKey: "id",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Policies</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.policies")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => {
       return <ResourcePolicyCell resource={row.original} />;
@@ -145,18 +161,22 @@ export const GroupResourcesSection = ({
           )}
           inset={false}
           tableClassName={"mt-0"}
-          text={"Resources"}
+          text={t("common:word.resources")}
           columns={GroupResourcesColumns}
           keepStateInLocalStorage={false}
           data={resources}
-          searchPlaceholder={"Search by name, address or group..."}
+          searchPlaceholder={t(
+            "groups.details:groupResourcesSection.searchPlaceholder.searchByNameAddressOr",
+          )}
           getStartedCard={
             <NoResults
               className={"py-4"}
-              title={"This group has no assigned resources"}
-              description={
-                "Assign this group to your resources inside your networks to see them listed here."
-              }
+              title={t(
+                "groups.details:groupResourcesSection.title.thisGroupHasNoAssigned",
+              )}
+              description={t(
+                "groups.details:groupResourcesSection.description.assignThisGroupToYour",
+              )}
               icon={<Layers3Icon size={20} className={"text-nb-gray-300"} />}
             >
               {permission?.networks?.create && (
@@ -166,7 +186,9 @@ export const GroupResourcesSection = ({
                     className={"mt-4"}
                     onClick={() => router.push("/networks")}
                   >
-                    Go to Networks
+                    {t(
+                      "groups.details:groupResourcesSection.text.goToNetworks",
+                    )}
                     <ArrowUpRightIcon size={16} />
                   </Button>
                 </>

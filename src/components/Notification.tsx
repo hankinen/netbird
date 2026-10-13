@@ -7,7 +7,8 @@ import { CheckIcon, CopyIcon, Loader2, XIcon } from "lucide-react";
 import * as React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-
+import { t } from "@/i18n";
+import { translateApiError } from "@/i18n/apiErrors";
 export interface NotifyProps<T> {
   title: string;
   description: string;
@@ -137,7 +138,8 @@ export default function Notification<T>({
         })
         .catch((e) => {
           const err = e as ErrorResponse;
-          let message = err.message || "Something went wrong...";
+          let message =
+            translateApiError(err.message) || t("common:apiError.unknown");
           message = message.charAt(0).toUpperCase() + message.slice(1);
           const code: number = err.code || 418;
 
@@ -151,7 +153,9 @@ export default function Notification<T>({
               setError(errorMessage.message);
             }
           } else {
-            setError(`Code ${code}: ${message}`);
+            setError(
+              t("components.core:notification.text.code", { code, message }),
+            );
           }
 
           setLoading(false);
@@ -226,13 +230,13 @@ export default function Notification<T>({
               <button
                 type={"button"}
                 data-testid={"notification-request-id"}
-                title={"Copy request ID"}
+                title={t("components.core:notification.title.copyRequestID")}
                 onClick={copyRequestId}
                 className={
                   "group/req flex items-center gap-1.5 mt-1 text-[11px] text-gray-500 dark:text-nb-gray-400 hover:text-gray-700 dark:hover:text-nb-gray-200 cursor-pointer text-left"
                 }
               >
-                <span>Request ID:</span>
+                <span>{t("components.core:notification.text.requestID")}</span>
                 <span className={"font-mono select-all"}>{requestId}</span>
                 {copied ? (
                   <CheckIcon size={12} className={"text-green-500 shrink-0"} />

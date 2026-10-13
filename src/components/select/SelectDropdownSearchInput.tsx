@@ -2,7 +2,7 @@ import { cn } from "@utils/helpers";
 import { SearchIcon } from "lucide-react";
 import * as React from "react";
 import { Dispatch, forwardRef } from "react";
-
+import { t } from "@/i18n";
 type Props = {
   search: string;
   setSearch: Dispatch<React.SetStateAction<string>>;
@@ -14,7 +14,9 @@ export const SelectDropdownSearchInput = forwardRef<HTMLInputElement, Props>(
     {
       search,
       setSearch,
-      placeholder = "Search for peers by name or ip...",
+      placeholder = t(
+        "components.select:selectDropdownSearchInput.text.searchForPeersByName",
+      ),
     }: Props,
     ref,
   ) => {

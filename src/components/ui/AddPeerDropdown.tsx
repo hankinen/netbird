@@ -11,9 +11,9 @@ import useFetchApi from "@utils/api";
 import { ChevronDown, PlusCircle } from "lucide-react";
 import React, { memo, useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
 import SetupModal from "@/modules/setup-netbird-modal/SetupModal";
-
 // What the operator chose to add. The setup flow only distinguishes user
 // devices (SSO login) from no-user peers (setup key). Autonomous agents are
 // no-user peers too, so they share the server setup flow for now — they're a
@@ -54,19 +54,19 @@ function AddPeerDropdown() {
             data-testid={"add-peer-button"}
           >
             <PlusCircle size={16} />
-            Add Peer
+            {t("components.ui:addPeerButton.text.addPeer")}
             <ChevronDown size={16} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align={"end"}>
           <DropdownMenuItem onClick={() => openMode("user")}>
-            User Device
+            {t("components.ui:addPeerDropdown.text.userDevice")}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => openMode("server")}>
-            Server
+            {t("components.ui:addPeerDropdown.text.server")}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => openMode("agent")}>
-            Agent
+            {t("components.ui:addPeerDropdown.text.agent")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -13,8 +13,8 @@ import { mutate } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { usePolicies } from "@/contexts/PoliciesProvider";
+import { t } from "@/i18n";
 import { Policy } from "@/interfaces/Policy";
-
 type Props = {
   policy: Policy;
 };
@@ -39,18 +39,18 @@ export default function AccessControlActionCell({ policy }: Readonly<Props>) {
         mutate("/policies");
       },
       nextEnabled
-        ? "The rule was successfully enabled"
-        : "The rule was successfully disabled",
+        ? t("access-control.table:accessControlActionCell.text.theRuleWasSuccessfullyEnabled")
+        : t("access-control.table:accessControlActionCell.text.theRuleWasSuccessfullyDisabled"),
     );
   };
 
   const handleDelete = async () => {
     const choice = await confirm({
-      title: `Delete '${policy.name}'?`,
+      title: t("access-control.table:accessControlActionCell.title.delete", { name: policy.name }),
       description:
-        "Are you sure you want to delete this access control policy? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+        t("access-control.table:accessControlActionCell.description.areYouSureYouWant"),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!choice) return;
@@ -70,7 +70,7 @@ export default function AccessControlActionCell({ policy }: Readonly<Props>) {
           <Button
             variant={"secondary"}
             className={"!px-3"}
-            aria-label={"Policy actions"}
+            aria-label={t("access-control.table:accessControlActionCell.ariaLabel.policyActions")}
             data-testid={"policy-actions"}
           >
             <MoreVertical size={16} className={"shrink-0"} />
@@ -87,7 +87,7 @@ export default function AccessControlActionCell({ policy }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <Copy size={14} className={"shrink-0"} />
-              Duplicate
+              {t("access-control.table:accessControlActionCell.text.duplicate")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -99,7 +99,7 @@ export default function AccessControlActionCell({ policy }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <PowerIcon size={14} className={"shrink-0"} />
-              {policy.enabled ? "Disable" : "Enable"}
+              {policy.enabled ? t("common:word.disable") : t("access-control.table:accessControlActionCell.text.enable")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -111,7 +111,7 @@ export default function AccessControlActionCell({ policy }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Delete
+              {t("common:word.delete")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

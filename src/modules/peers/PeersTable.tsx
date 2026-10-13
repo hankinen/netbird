@@ -37,21 +37,23 @@ import {
   RowSelectionState,
   SortingState,
 } from "@tanstack/react-table";
+import { removeAllSpaces } from "@utils/helpers";
 import { trim, uniqBy } from "lodash";
 import { AlertTriangle, MonitorDotIcon, ShieldCheck } from "lucide-react";
-import { useBypassedPeers } from "@/cloud/edr/useBypass";
-import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
 import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
+import { useBypassedPeers } from "@/cloud/edr/useBypass";
 import PeerProvider from "@/contexts/PeerProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { getOperatingSystem } from "@/hooks/useOperatingSystem";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { Peer, peerMacAddresses } from "@/interfaces/Peer";
+import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
 import PeerActionCell from "@/modules/peers/PeerActionCell";
 import PeerAddressCell from "@/modules/peers/PeerAddressCell";
 import PeerGroupCell from "@/modules/peers/PeerGroupCell";
@@ -61,8 +63,6 @@ import PeerNameCell from "@/modules/peers/PeerNameCell";
 import { PeerOSCell } from "@/modules/peers/PeerOSCell";
 import PeerStatusCell from "@/modules/peers/PeerStatusCell";
 import PeerVersionCell from "@/modules/peers/PeerVersionCell";
-import { removeAllSpaces } from "@utils/helpers";
-
 // Stable key per OS family for the filter column. Mirrors the icon
 // selection in PeerOSCell so the chip label and the displayed OS icon
 // always agree.
@@ -90,7 +90,7 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
         <Checkbox
           checked={table.getIsAllPageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-          aria-label="Select all"
+          aria-label={t("common:word.selectAll")}
         />
       </div>
     ),
@@ -100,7 +100,7 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
           checked={row.getIsSelected()}
           variant={"tableCell"}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
+          aria-label={t("common:word.selectRow")}
         />
       </div>
     ),
@@ -111,7 +111,7 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
     id: "name",
     accessorFn: (peer) => `${peer?.name}${peer?.dns_label}`,
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("common:word.name")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <PeerNameCell peer={row.original} />,
@@ -149,7 +149,7 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
     id: "dns_label",
     accessorKey: "dns_label",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Address</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("common:word.address")}</DataTableHeader>;
     },
     cell: ({ row }) => <PeerAddressCell peer={row.original} />,
   },
@@ -168,7 +168,7 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
     accessorFn: (peer) => peer.groups?.length,
     id: "groups",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Groups</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("common:word.groups")}</DataTableHeader>;
     },
     cell: ({ row }) => (
       <PeerProvider peer={row.original}>
@@ -187,7 +187,7 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
             table.setSorting([{ id: "last_seen", desc: !desc }]);
           }}
         >
-          Last seen
+          {t("common:word.lastSeen")}
         </DataTableHeader>
       );
     },
@@ -212,7 +212,7 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
   {
     id: "serial",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Serial number</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("peers.main:peersTable.text.serialNumber")}</DataTableHeader>;
     },
     accessorFn: (peer) => peer.serial_number,
     sortingFn: "text",
@@ -220,7 +220,7 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
   {
     accessorKey: "version",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Version</DataTableHeader>;
+      return <DataTableHeader column={column}>{t("peers.main:peersTable.text.version")}</DataTableHeader>;
     },
     cell: ({ row }) => (
       <PeerVersionCell
@@ -404,10 +404,10 @@ export default function PeersTable({
   // entries since they fold into Linux for the chosen icon.
   const osOptions = useMemo<CheckboxOption<string>[]>(
     () => [
-      { value: "linux", label: "Linux" },
-      { value: "windows", label: "Windows" },
-      { value: "mac", label: "macOS" },
-      { value: "android", label: "Android" },
+      { value: "linux", label: t("peers.main:peersTable.label.linux") },
+      { value: "windows", label: t("peers.main:peersTable.label.windows") },
+      { value: "mac", label: t("peers.main:peersTable.label.macOS") },
+      { value: "android", label: t("peers.main:peersTable.label.android") },
       { value: "ios", label: "iOS" },
     ],
     [],
@@ -420,7 +420,7 @@ export default function PeersTable({
     const defs: TableFilterDef[] = [
       {
         id: "connected",
-        label: "Status",
+        label: t("common:word.status"),
         renderPicker: (p) => (
           <StatusPicker
             value={p.value as boolean | undefined}
@@ -448,7 +448,7 @@ export default function PeersTable({
     if (!isUser) {
       defs.push({
         id: "group_names",
-        label: "Groups",
+        label: t("common:word.groups"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -463,7 +463,7 @@ export default function PeersTable({
     if (kind === "users" && !isUser && tableUsers.length > 0) {
       defs.push({
         id: "user_email",
-        label: "Users",
+        label: t("common:word.users"),
         renderPicker: (p) => (
           <UsersPicker
             value={p.value as string | undefined}
@@ -489,14 +489,14 @@ export default function PeersTable({
         rowSelection={selectedRows}
         setRowSelection={setSelectedRows}
         useRowId={true}
-        text={"Peers"}
+        text={t("common:word.peers")}
         sorting={sorting}
         setSorting={setSorting}
         initialPageSize={25}
         showResetFilterButton={false}
         columns={PeersTableColumns}
         data={showBrowserPeers ? browserPeers : regularPeers}
-        searchPlaceholder={"Search by name, IP, MAC, owner or group..."}
+        searchPlaceholder={t("peers.main:peersTable.searchPlaceholder.searchByNameIPMAC")}
         columnVisibility={{
           select: permission.groups.read,
           connected: false,
@@ -554,7 +554,7 @@ export default function PeersTable({
                   onKindChange?.(kind === "users" ? undefined : "users");
                 }}
               >
-                User Devices
+                {t("peers.main:peersTable.text.userDevices")}
               </ButtonGroup.Button>
               <ButtonGroup.Button
                 // Drop the left border so it doesn't stack with the first
@@ -566,7 +566,7 @@ export default function PeersTable({
                   onKindChange?.(kind === "servers" ? undefined : "servers");
                 }}
               >
-                Servers
+                {t("peers.main:peersTable.text.servers")}
               </ButtonGroup.Button>
             </ButtonGroup>
 
@@ -585,8 +585,8 @@ export default function PeersTable({
                 content={
                   <div className={"text-xs max-w-xs"}>
                     {isAnyIntegrationEnabled
-                      ? "Peers that failed compliance checks and need attention"
-                      : "Peers waiting for administrator approval"}
+                      ? t("peers.main:peersTable.text.peersThatFailedComplianceChecks")
+                      : t("peers.main:peersTable.text.peersWaitingForAdministratorApproval")}
                   </div>
                 }
               >
@@ -637,10 +637,10 @@ export default function PeersTable({
                   {isAnyIntegrationEnabled ? (
                     <>
                       <AlertTriangle size={16} />
-                      Non-Compliant
+                      {t("peers.main:peersTable.text.nonCompliant")}
                     </>
                   ) : (
-                    "Pending Approvals"
+                    t("peers.main:peersTable.text.pendingApprovals")
                   )}
                   <NotificationCountBadge count={pendingApprovalCount} />
                 </Button>
@@ -651,7 +651,7 @@ export default function PeersTable({
               <FullTooltip
                 content={
                   <div className={"text-xs max-w-xs"}>
-                    Peers with compliance checks bypassed by an administrator
+                    {t("peers.main:peersTable.text.peersWithComplianceChecksBypassed")}
                   </div>
                 }
               >
@@ -699,7 +699,7 @@ export default function PeersTable({
                   }
                 >
                   <ShieldCheck size={16} />
-                  Bypassed
+                  {t("peers.main:peersTable.text.bypassed")}
                   <NotificationCountBadge count={bypassedCount} />
                 </Button>
               </FullTooltip>
@@ -709,9 +709,7 @@ export default function PeersTable({
               <FullTooltip
                 content={
                   <div className={"max-w-sm text-xs"}>
-                    Show temporary peers created by the NetBird browser client.
-                    These peers are ephemeral and will be deleted automatically
-                    after a short period of time.
+                    {t("peers.main:peersTable.text.showTemporaryPeersCreatedBy")}
                   </div>
                 }
               >

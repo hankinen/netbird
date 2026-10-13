@@ -17,8 +17,8 @@ import {
 import * as React from "react";
 import { useState } from "react";
 import { useElementSize } from "@/hooks/useElementSize";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
-
 interface MultiSelectProps {
   values: string[];
   onChange: (items: string[]) => void;
@@ -66,9 +66,13 @@ export function GroupFilterSelector({
           <FolderGit2 size={16} className={"shrink-0"} />
           <div className={"w-full flex justify-between"}>
             {values.length > 0 ? (
-              <div>{values.length} Group(s)</div>
+              <div>
+                {t("groups.main:groupFilterSelector.text.groupS", {
+                  length: values.length,
+                })}
+              </div>
             ) : (
-              "All Groups"
+              t("groups.main:groupFilterSelector.text.allGroups")
             )}
             <div className={"pl-2"}>
               <ChevronsUpDown size={18} className={"shrink-0"} />
@@ -107,7 +111,9 @@ export function GroupFilterSelector({
                 ref={searchRef}
                 value={search}
                 onValueChange={setSearch}
-                placeholder={"Search group..."}
+                placeholder={t(
+                  "groups.main:groupFilterSelector.placeholder.searchGroup",
+                )}
               />
               <div
                 className={
@@ -173,7 +179,7 @@ export function GroupFilterSelector({
                                 }
                               >
                                 <MonitorSmartphoneIcon size={13} />
-                                {item.peers_count} Peer(s)
+                                {item.peers_count} {t("common:word.peerS")}
                               </div>
                             </div>
                           </div>

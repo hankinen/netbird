@@ -21,9 +21,9 @@ import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { TrafficEventSetting } from "@/cloud/traffic-events/TrafficEventSetting";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Account } from "@/interfaces/Account";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
-
 type Props = {
   account: Account;
 };
@@ -67,10 +67,13 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
 
   const toggleNetworkDNSSetting = async (toggle: boolean) => {
     notify({
-      title: "Routing Peer DNS Resolution",
-      description: `Routing Peer DNS Resolution successfully ${
-        toggle ? "enabled" : "disabled"
-      }.`,
+      title: t(
+        "settings.identity-providers-tab:networkSettingsTab.title.routingPeerDNSResolution",
+      ),
+      description: t(
+        "settings.identity-providers-tab:networkSettingsTab.description.routingPeerDNSResolutionSuccessfully",
+        { value: toggle ? "enabled" : "disabled" },
+      ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -83,7 +86,9 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
           setRoutingPeerDNSSetting(toggle);
           mutate("/accounts");
         }),
-      loadingMessage: "Updating routing peer DNS resolution setting...",
+      loadingMessage: t(
+        "settings.identity-providers-tab:networkSettingsTab.loadingMessage.updatingRoutingPeerDNSResolution",
+      ),
     });
   };
 
@@ -124,8 +129,12 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
     }
 
     notify({
-      title: "Network Settings",
-      description: `Network settings successfully updated.`,
+      title: t(
+        "settings.identity-providers-tab:networkSettingsTab.title.networkSettings",
+      ),
+      description: t(
+        "settings.identity-providers-tab:networkSettingsTab.description.networkSettingsSuccessfullyUpdated",
+      ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -140,7 +149,9 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
             ipv6GroupNames,
           ]);
         }),
-      loadingMessage: "Updating network settings...",
+      loadingMessage: t(
+        "settings.identity-providers-tab:networkSettingsTab.loadingMessage.updatingNetworkSettings",
+      ),
     });
   };
 
@@ -151,14 +162,16 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
       allowOnlyTld: false,
     });
     if (!valid) {
-      return "Please enter a valid domain, e.g. example.com or intra.example.com";
+      return t("settings.main:networkSettingsTab.text.pleaseEnterAValidDomain");
     }
   }, [customDNSDomain]);
 
   const networkRangeError = useMemo(() => {
     if (networkRange == "") {
       if (account.settings.network_range) {
-        return "Network range cannot be empty";
+        return t(
+          "settings.main:networkSettingsTab.text.networkRangeCannotBeEmpty",
+        );
       }
       return "";
     }
@@ -166,21 +179,23 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
     try {
       const validCIDR = isValidCIDR(networkRange);
       if (!validCIDR) {
-        return "Please enter a valid IPv4 CIDR range, e.g. 100.64.0.0/16 or 192.168.1.0/24";
+        return t("settings.main:networkSettingsTab.text.pleaseEnterAValidIPv4");
       }
     } catch (error) {
-      return "Please enter a valid IPv4 CIDR range, e.g. 100.64.0.0/16 or 192.168.1.0/24";
+      return t("settings.main:networkSettingsTab.text.pleaseEnterAValidIPv4");
     }
   }, [networkRange, account.settings.network_range]);
 
   const networkRangeV6Error = useMemo(() => {
     if (networkRangeV6 == "") return "";
     if (!networkRangeV6.includes(":") || !isValidCIDR(networkRangeV6)) {
-      return "Please enter a valid IPv6 CIDR range, e.g. fd00:1234::/64";
+      return t("settings.main:networkSettingsTab.text.pleaseEnterAValidIPv6");
     }
     const prefixLen = parseInt(networkRangeV6.split("/")[1], 10);
     if (prefixLen < 48 || prefixLen > 112) {
-      return "Prefix length must be between /48 and /112";
+      return t(
+        "settings.main:networkSettingsTab.text.prefixLengthMustBeBetween",
+      );
     }
   }, [networkRangeV6]);
 
@@ -190,19 +205,19 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("common:word.settings")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings?tab=networks"}
-            label={"Networks"}
+            label={t("common:word.networks")}
             icon={<NetworkIcon size={14} />}
             active
           />
         </Breadcrumbs>
         <div className={"flex items-start justify-between -mt-1"}>
           <div>
-            <h1>Networks</h1>
+            <h1>{t("common:word.networks")}</h1>
           </div>
           <Button
             variant={"primary"}
@@ -216,7 +231,7 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
             onClick={saveChanges}
             data-testid="save-network-settings"
           >
-            Save Changes
+            {t("common:word.saveChanges")}
           </Button>
         </div>
 
@@ -228,16 +243,27 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
               }
             >
               <div className={"min-w-[330px]"}>
-                <Label>DNS Domain</Label>
+                <Label>
+                  {t(
+                    "settings.identity-providers-tab:networkSettingsTab.text.dNSDomain",
+                  )}
+                </Label>
                 <HelpText>
-                  Specify a custom peer DNS domain for your network. This should
-                  not point to a valid domain to avoid overriding DNS results.
+                  {t(
+                    "settings.identity-providers-tab:networkSettingsTab.text.specifyACustomPeerDNS",
+                  )}
                 </HelpText>
               </div>
               <div className={"w-full"}>
                 <Input
                   placeholder={
-                    isNetBirdCloud() ? "netbird.cloud" : "netbird.selfhosted"
+                    isNetBirdCloud()
+                      ? t(
+                          "settings.identity-providers-tab:networkSettingsTab.text.netbirdCloud",
+                        )
+                      : t(
+                          "settings.identity-providers-tab:networkSettingsTab.text.netbirdSelfhosted",
+                        )
                   }
                   errorTooltip={true}
                   errorTooltipPosition={"top"}
@@ -258,10 +284,15 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
               }
             >
               <div className={"min-w-[330px]"}>
-                <Label>Network Range</Label>
+                <Label>
+                  {t(
+                    "settings.identity-providers-tab:networkSettingsTab.text.networkRange",
+                  )}
+                </Label>
                 <HelpText>
-                  Specify a custom IPv4 range for your network in CIDR format.
-                  All peer IPs will be re-allocated when changed.
+                  {t(
+                    "settings.identity-providers-tab:networkSettingsTab.text.specifyACustomIPv4Range",
+                  )}
                 </HelpText>
               </div>
               <div className={"w-full"}>
@@ -286,15 +317,22 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
               }
             >
               <div className={"min-w-[330px]"}>
-                <Label>IPv6 Network Range</Label>
+                <Label>
+                  {t(
+                    "settings.identity-providers-tab:networkSettingsTab.text.iPv6NetworkRange",
+                  )}
+                </Label>
                 <HelpText>
-                  Specify a custom IPv6 range for your network in CIDR format.
-                  All peer IPv6 addresses will be re-allocated when changed.
+                  {t(
+                    "settings.identity-providers-tab:networkSettingsTab.text.specifyACustomIPv6Range",
+                  )}
                 </HelpText>
               </div>
               <div className={"w-full"}>
                 <Input
-                  placeholder={"e.g. fd00:1234:5678::/64"}
+                  placeholder={t(
+                    "settings.identity-providers-tab:networkSettingsTab.placeholder.eGFd0012345678",
+                  )}
                   errorTooltip={true}
                   errorTooltipPosition={"top"}
                   error={networkRangeV6Error}
@@ -308,16 +346,22 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
           </div>
 
           <div>
-            <Label>IPv6 Enabled Groups</Label>
+            <Label>
+              {t(
+                "settings.identity-providers-tab:networkSettingsTab.text.iPv6EnabledGroups",
+              )}
+            </Label>
             <HelpText>
-              Peers in the selected groups will receive IPv6 overlay addresses
-              (dual-stack). Remove all groups to disable IPv6. Changes apply on
-              save and will restart affected clients.
+              {t(
+                "settings.identity-providers-tab:networkSettingsTab.text.peersInTheSelectedGroups",
+              )}
             </HelpText>
             <PeerGroupSelector
               values={ipv6EnabledGroups}
               onChange={setIpv6EnabledGroups}
-              placeholder="Select groups to enable IPv6..."
+              placeholder={t(
+                "settings.identity-providers-tab:networkSettingsTab.placeholder.selectGroupsToEnableIPv6",
+              )}
               showResourceCounter={false}
               disabled={!permission.settings.update}
               data-testid="ipv6-enabled-groups-selector"
@@ -333,14 +377,16 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
             label={
               <>
                 <GlobeIcon size={15} />
-                Enable Routing Peer DNS Resolution
+                {t(
+                  "settings.identity-providers-tab:networkSettingsTab.text.enableRoutingPeerDNSResolution",
+                )}
               </>
             }
             helpText={
               <>
-                Resolves DNS for routed domains on the routing peer instead of
-                on the client. Requires NetBird client v0.35 or higher. Changes
-                will only take effect after restarting the clients.{" "}
+                {t(
+                  "settings.identity-providers-tab:networkSettingsTab.text.resolvesDNSForRoutedDomains",
+                )}{" "}
                 <InlineLink
                   href={
                     "https://docs.netbird.io/how-to/accessing-entire-domains-within-networks#enabling-dns-wildcard-routing"
@@ -348,7 +394,7 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
                   target={"_blank"}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  Learn more
+                  {t("common:word.learnMore")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>

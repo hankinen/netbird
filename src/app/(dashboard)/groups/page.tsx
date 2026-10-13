@@ -9,8 +9,8 @@ import React, { lazy, Suspense } from "react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import InlineLink from "@/components/InlineLink";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import PageContainer from "@/layouts/PageContainer";
-
 const GroupsTable = lazy(() => import("@/modules/groups/table/GroupsTable"));
 
 export default function GroupsPage() {
@@ -24,19 +24,19 @@ export default function GroupsPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/groups"}
-            label={"Groups"}
+            label={t("common:word.groups")}
             icon={<FolderGit2Icon size={14} />}
             active
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Groups</h1>
+        <h1 ref={headingRef}>{t("common:word.groups")}</h1>
         <Paragraph>
-          Organize peers, users and resources into groups to manage access.{" "}
+          {t("groups.page:page.text.organizePeersUsersAndResources")}{" "}
           <InlineLink
             href={"https://docs.netbird.io/how-to/manage-network-access"}
             target={"_blank"}
           >
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>

@@ -3,9 +3,9 @@ import * as React from "react";
 import Button from "@/components/Button";
 import { useGroupContext } from "@/contexts/GroupProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
 import { User } from "@/interfaces/User";
-
 type Props = {
   onRemove: () => void;
 };
@@ -19,7 +19,7 @@ export function GroupDetailsRemoveCell({ onRemove }: Props) {
         onClick={() => onRemove()}
       >
         <MinusCircle size={14} />
-        Remove
+        {t("groups.details:groupDetailsRemoveCell.text.remove")}
       </Button>
     </div>
   );

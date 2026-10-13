@@ -1,0 +1,10 @@
+{
+  "sSHAccessType.placeholder.selectSshAccessType": "Select ssh access type...",
+  "sSHAccessType.text.fullAccess": "Full Access",
+  "sSHAccessType.text.limitedAccess": "Limited Access",
+  "sSHAuthorizedGroups.text.youHaveNotAddedAny": "You have not added any source groups yet, please add source groups in order to specify which user group has access to which system users on the destination machines.",
+  "sSHUsernameSelector.text.allLocalUsers": "All Local Users",
+  "sSHUsernameSelector.placeholder.eGRootEc2User": "E.g., root, ec2-user, ubuntu",
+  "sSHUsernameSelector.text.addUsernameByPressing": "Add username by pressing",
+  "sSHUsernameSelector.text.enter": "'Enter'"
+}

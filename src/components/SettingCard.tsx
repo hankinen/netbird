@@ -7,7 +7,7 @@ import { SmallBadge } from "@components/ui/SmallBadge";
 import { cn } from "@utils/helpers";
 import { PlusCircle, SquarePen } from "lucide-react";
 import React from "react";
-
+import { t } from "@/i18n";
 type SettingCardItemProps = {
   label: React.ReactNode;
   description: React.ReactNode;
@@ -55,7 +55,7 @@ function SettingCardItem({
           <Label>{label}</Label>
           {enabled && (
             <SmallBadge
-              text="Enabled"
+              text={t("components.core:featureCard.text.enabled")}
               variant="green"
               size="md"
               className={"-top-[0.25rem]"}
@@ -74,7 +74,7 @@ function SettingCardItem({
             disabled={disabled}
           >
             <SquarePen size={12} />
-            Edit
+            {t("components.core:settingCard.text.edit")}
           </Button>
         ) : (
           <Button
@@ -85,7 +85,7 @@ function SettingCardItem({
             disabled={disabled}
           >
             <PlusCircle size={12} />
-            Add
+            {t("components.core:settingCard.text.add")}
           </Button>
         )}
       </div>

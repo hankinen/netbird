@@ -4,7 +4,7 @@ import { Table } from "@tanstack/react-table";
 import { FilterX } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
-
+import { t } from "@/i18n";
 interface Props<TData> {
   table: Table<TData>;
   onClick: () => void;
@@ -53,7 +53,9 @@ export default function DataTableResetFilterButton<TData>({
           }}
         >
           <span className={"text-xs text-neutral-300"}>
-            Reset Filters & Search
+            {t(
+              "components.table:dataTableResetFilterButton.text.resetFiltersSearch",
+            )}
           </span>
         </TooltipContent>
       </Tooltip>

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { RefreshCcw } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
-
+import { t } from "@/i18n";
 type Props = {
   onClick: () => void;
   isDisabled?: boolean;
@@ -57,7 +57,11 @@ export default function DataTableRefreshButton({ onClick, isDisabled }: Props) {
         }}
       >
         <span className={"text-xs text-neutral-300"}>
-          {disabled ? "You can refresh it again in 5 seconds" : "Refresh"}
+          {disabled
+            ? t(
+                "components.table:dataTableRefreshButton.text.youCanRefreshItAgain",
+              )
+            : t("components.table:dataTableRefreshButton.text.refresh")}
         </span>
       </TooltipContent>
     </Tooltip>

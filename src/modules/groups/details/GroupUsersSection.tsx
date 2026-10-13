@@ -11,6 +11,7 @@ import React, { lazy, useState } from "react";
 import TeamIcon from "@/assets/icons/TeamIcon";
 import { useGroupContext } from "@/contexts/GroupProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { User } from "@/interfaces/User";
 import LastTimeRow from "@/modules/common-table-rows/LastTimeRow";
 import { AssignUserToGroupModal } from "@/modules/groups/AssignUserToGroupModal";
@@ -21,7 +22,6 @@ import UserNameCell from "@/modules/users/table-cells/UserNameCell";
 import UserRoleCell from "@/modules/users/table-cells/UserRoleCell";
 import UserStatusCell from "@/modules/users/table-cells/UserStatusCell";
 import { InviteUserButton } from "@/modules/users/UsersTable";
-
 const UsersTable = lazy(() => import("@/modules/users/UsersTable"));
 
 export const GroupUsersTableColumns: ColumnDef<User>[] = [
@@ -32,7 +32,7 @@ export const GroupUsersTableColumns: ColumnDef<User>[] = [
         <Checkbox
           checked={table.getIsAllPageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-          aria-label="Select all"
+          aria-label={t("common:word.selectAll")}
         />
       </div>
     ),
@@ -42,7 +42,7 @@ export const GroupUsersTableColumns: ColumnDef<User>[] = [
           checked={row.getIsSelected()}
           variant={"tableCell"}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
+          aria-label={t("common:word.selectRow")}
         />
       </div>
     ),
@@ -52,7 +52,11 @@ export const GroupUsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.name")}
+        </DataTableHeader>
+      );
     },
     accessorFn: (row) => row.name + " " + row.email,
     sortingFn: "text",
@@ -65,7 +69,11 @@ export const GroupUsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "role",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Role</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("groups.details:groupUsersSection.text.role")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <UserRoleCell user={row.original} />,
@@ -73,7 +81,11 @@ export const GroupUsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "status",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.status")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <UserStatusCell user={row.original} />,
@@ -81,7 +93,11 @@ export const GroupUsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "is_blocked",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Block User</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("groups.details:groupUsersSection.text.blockUser")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <UserBlockCell user={row.original} />,
@@ -89,13 +105,17 @@ export const GroupUsersTableColumns: ColumnDef<User>[] = [
   {
     accessorKey: "last_login",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Last Login</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("groups.details:groupUsersSection.text.lastLogin")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => (
       <LastTimeRow
         date={dayjs(row.original.last_login).toDate()}
-        text={"Last login on"}
+        text={t("groups.details:groupUsersSection.text.lastLoginOn")}
       />
     ),
   },
@@ -138,10 +158,12 @@ export const GroupUsersSection = ({ users, isLoading = true }: Props) => {
         getStartedCard={
           <NoResults
             className={"py-4"}
-            title={"This group has no assigned users yet"}
-            description={
-              "Invite new users or assign existing ones to this group to see them listed here."
-            }
+            title={t(
+              "groups.details:groupUsersSection.title.thisGroupHasNoAssigned",
+            )}
+            description={t(
+              "groups.details:groupUsersSection.description.inviteNewUsersOrAssign",
+            )}
             icon={<TeamIcon size={20} className={"fill-nb-gray-300"} />}
           >
             {permission?.users?.update && (
@@ -152,7 +174,7 @@ export const GroupUsersSection = ({ users, isLoading = true }: Props) => {
                   onClick={() => setOpen(true)}
                 >
                   <PlusCircle size={16} />
-                  Assign Users
+                  {t("groups.details:groupUsersSection.text.assignUsers")}
                 </Button>
                 <InviteUserButton show={true} groups={[group]} />
               </div>
@@ -163,7 +185,9 @@ export const GroupUsersSection = ({ users, isLoading = true }: Props) => {
           return (
             <>
               <DataTableMultiSelectPopup
-                label={"User(s) selected"}
+                label={t(
+                  "groups.details:groupUsersSection.label.userSSelected",
+                )}
                 selectedItems={table
                   .getSelectedRowModel()
                   .rows.map((row) => row.original)}
@@ -173,7 +197,9 @@ export const GroupUsersSection = ({ users, isLoading = true }: Props) => {
                     <FullTooltip
                       content={
                         <span className={"text-xs"}>
-                          Remove Users from Group
+                          {t(
+                            "groups.details:groupUsersSection.text.removeUsersFromGroup",
+                          )}
                         </span>
                       }
                     >
@@ -215,7 +241,7 @@ export const GroupUsersSection = ({ users, isLoading = true }: Props) => {
                     onClick={() => setOpen(true)}
                   >
                     <PlusCircle size={16} />
-                    Assign Users
+                    {t("groups.details:groupUsersSection.text.assignUsers")}
                   </Button>
                   <InviteUserButton show={true} groups={[group]} />
                 </div>

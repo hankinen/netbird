@@ -5,7 +5,7 @@ import {
 import { createElement, useMemo } from "react";
 import RoundedFlag from "@/assets/countries/RoundedFlag";
 import { useCountries } from "@/contexts/CountryProvider";
-
+import { t } from "@/i18n";
 type Props = {
   value: string;
   onChange: (value: string) => void;
@@ -41,8 +41,8 @@ export const CountrySelector = ({ value, onChange, iconSize = 20, popoverWidth, 
       <SelectDropdown
         isLoading={isLoading}
         showSearch={true}
-        placeholder={"Select country..."}
-        searchPlaceholder={"Search country..."}
+        placeholder={t("components.ui:countrySelector.placeholder.selectCountry")}
+        searchPlaceholder={t("components.ui:countrySelector.searchPlaceholder.searchCountry")}
         value={value}
         onChange={onChange}
         iconSize={iconSize}

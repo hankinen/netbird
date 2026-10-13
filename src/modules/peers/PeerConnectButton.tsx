@@ -6,13 +6,13 @@ import {
 import FullTooltip from "@components/FullTooltip";
 import { getOperatingSystem } from "@hooks/useOperatingSystem";
 import { IconChevronDown } from "@tabler/icons-react";
+import { cn } from "@utils/helpers";
 import * as React from "react";
 import { usePeer } from "@/contexts/PeerProvider";
+import { t } from "@/i18n";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { RDPButton } from "@/modules/remote-access/rdp/RDPButton";
 import { SSHButton } from "@/modules/remote-access/ssh/SSHButton";
-import { cn } from "@utils/helpers";
-
 export const PeerConnectButton = () => {
   const { peer } = usePeer();
   const isConnected = peer.connected;
@@ -50,7 +50,7 @@ export const PeerConnectButton = () => {
     <FullTooltip
       content={
         <div className={"max-w-[200px] text-xs"}>
-          Connecting via SSH or RDP is only available when the peer is online.
+          {t("peers.main:peerConnectButton.text.connectingViaSSHOrRDP")}
         </div>
       }
     >
@@ -73,7 +73,7 @@ const ConnectButton = ({ disabled }: { disabled?: boolean }) => {
         e.preventDefault();
       }}
     >
-      Connect
+      {t("peers.main:peerConnectButton.text.connect")}
       <IconChevronDown size={14} />
     </button>
   );

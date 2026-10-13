@@ -6,9 +6,9 @@ import {
   TooltipTrigger,
 } from "@components/Tooltip";
 import React, { useMemo } from "react";
+import { t } from "@/i18n";
 import { Policy } from "@/interfaces/Policy";
 import { parsePortsToStrings } from "@/modules/access-control/useAccessControl";
-
 type Props = {
   policy: Policy;
   visiblePorts?: number;
@@ -48,7 +48,7 @@ export default function AccessControlPortsCell({
                   variant={"gray"}
                   className={"uppercase tracking-wider font-medium"}
                 >
-                  All
+                  {t("common:word.all")}
                 </Badge>
               )}
 

@@ -1,0 +1,5 @@
+{
+  "page.label.accessControl": "Access Control",
+  "page.text.accessControlPolicies": "Access Control Policies",
+  "page.text.policiesConnectUsersAndAgents": "Policies connect users and agents to your network resources, controlling what each identity can reach."
+}

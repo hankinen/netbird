@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
-
+import { t } from "@/i18n";
 // A TableFilterDef wires one TanStack column to the consolidated filter UI.
 // Each filter renders its own picker — the framework just provides the
 // popover container and chip row.
@@ -70,7 +70,7 @@ export function TableFiltersButton<TData>({
         >
           <FilterIcon size={16} className={"shrink-0"} />
           <span className={"flex items-center gap-1.5"}>
-            Filters
+            {t("components.table:tableFilters.text.filters")}
             {activeCount > 0 && (
               <span
                 className={
@@ -97,7 +97,7 @@ export function TableFiltersButton<TData>({
               }
             >
               <button
-                aria-label={"Back"}
+                aria-label={t("common:word.back")}
                 className={
                   "flex items-center justify-center w-7 h-7 -ml-1 shrink-0 text-nb-gray-400 hover:text-white hover:bg-nb-gray-900 rounded transition-colors"
                 }
@@ -227,7 +227,7 @@ function FilterChip<TData>({ def, text, table }: FilterChipProps<TData>) {
           </button>
         </PopoverTrigger>
         <button
-          aria-label={`Remove ${def.label} filter`}
+          aria-label={t("components.table:tableFilters.text.removeFilter", { label: def.label })}
           className={cn(
             "flex items-center justify-center px-2",
             "border-l border-nb-gray-900",

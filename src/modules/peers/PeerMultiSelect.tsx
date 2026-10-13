@@ -25,18 +25,18 @@ import {
 import * as React from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
-import { useDialog } from "@/contexts/DialogProvider";
-import { usePeers } from "@/contexts/PeersProvider";
-import { usePermissions } from "@/contexts/PermissionsProvider";
 import {
   useBypass,
   useBypassedPeers,
 } from "@/cloud/edr/useBypass";
+import { useDialog } from "@/contexts/DialogProvider";
+import { usePeers } from "@/contexts/PeersProvider";
+import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group, GroupPeer } from "@/interfaces/Group";
 import { Peer } from "@/interfaces/Peer";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
-
 type Props = {
   selectedPeers?: RowSelectionState;
   onCanceled?: () => void;
@@ -96,10 +96,10 @@ const PeerGroupMassAssignmentContent = ({
   const addGroupsToPeers = async () => {
     if (replaceAllGroups) {
       const choice = await confirm({
-        title: `Overwrite existing groups?`,
-        description: `Are you sure you want to overwrite the existing groups of your ${peerCount} selected peer(s)? This action cannot be undone.`,
-        confirmText: "Overwrite",
-        cancelText: "Cancel",
+        title: t("peers.main:peerMultiSelect.title.overwriteExistingGroups"),
+        description: t("peers.main:peerMultiSelect.description.areYouSureYouWant", { peerCount }),
+        confirmText: t("peers.main:peerMultiSelect.confirmText.overwrite"),
+        cancelText: t("common:word.cancel"),
         type: "warning",
       });
       if (!choice) return;
@@ -199,8 +199,8 @@ const PeerGroupMassAssignmentContent = ({
         );
 
       notify({
-        title: "Assign Groups to Peers",
-        description: "Groups were successfully assigned to the peers",
+        title: t("peers.main:peerMultiSelect.title.assignGroupsToPeers"),
+        description: t("peers.main:peerMultiSelect.description.groupsWereSuccessfullyAssignedTo"),
         promise: updateGroupCalls()
           .then(() => {
             if (currentSelectedGroups.length > 0) {
@@ -212,7 +212,7 @@ const PeerGroupMassAssignmentContent = ({
           .finally(() => {
             setIsLoading(false);
           }),
-        loadingMessage: "Updating the groups of the selected peers...",
+        loadingMessage: t("peers.main:peerMultiSelect.loadingMessage.updatingTheGroupsOfThe"),
       });
     } catch (e) {
       setIsLoading(false);
@@ -221,10 +221,10 @@ const PeerGroupMassAssignmentContent = ({
 
   const deleteAllPeers = async () => {
     const choice = await confirm({
-      title: `Delete '${peerCount}' ${peerCount > 1 ? "peers" : "peer"}?`,
-      description: `Are you sure you want to delete these peers? This action cannot be undone.`,
-      confirmText: "Delete All",
-      cancelText: "Cancel",
+      title: t("peers.main:peerMultiSelect.title.delete", { peerCount, value: peerCount > 1 ? "peers" : "peer" }),
+      description: t("peers.main:peerMultiSelect.description.areYouSureYouWant2"),
+      confirmText: t("peers.main:peerMultiSelect.confirmText.deleteAll"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!choice) return;
@@ -235,13 +235,13 @@ const PeerGroupMassAssignmentContent = ({
       });
 
     notify({
-      title: "Delete Peers",
-      description: "Peers were successfully deleted",
+      title: t("peers.main:peerMultiSelect.title.deletePeers"),
+      description: t("peers.main:peerMultiSelect.description.peersWereSuccessfullyDeleted"),
       promise: Promise.all(batchDeleteCalls()).then(() => {
         mutate("/peers");
         onCanceled?.();
       }),
-      loadingMessage: "Deleting the selected peers...",
+      loadingMessage: t("peers.main:peerMultiSelect.loadingMessage.deletingTheSelectedPeers"),
     });
   };
 
@@ -268,25 +268,25 @@ const PeerGroupMassAssignmentContent = ({
     if (peersNeedingBypass.length === 0) return;
 
     const choice = await confirm({
-      title: `Bypass compliance for ${peersNeedingBypass.length} ${peersNeedingBypass.length > 1 ? "peers" : "peer"}?`,
+      title: t("peers.main:peerMultiSelect.title.bypassComplianceFor", { length: peersNeedingBypass.length, value: peersNeedingBypass.length > 1 ? "peers" : "peer" }),
       description:
-        "This will override compliance checks and grant network access to these peers. The bypass will be automatically removed if devices become compliant.",
-      confirmText: "Bypass Compliance",
-      cancelText: "Cancel",
+        t("peers.main:peerMultiSelect.description.thisWillOverrideComplianceChecks"),
+      confirmText: t("peers.main:peerActionCell.confirmText.bypassCompliance"),
+      cancelText: t("common:word.cancel"),
       type: "warning",
     });
     if (!choice) return;
 
     notify({
-      title: "Bypass Compliance",
-      description: "Compliance was successfully bypassed for selected peers",
+      title: t("peers.main:peerActionCell.confirmText.bypassCompliance"),
+      description: t("peers.main:peerMultiSelect.description.complianceWasSuccessfullyBypassedFor"),
       promise: Promise.all(
         peersNeedingBypass.map((id) => bypassCompliance(id)),
       ).then(() => {
         mutate("/peers");
         mutate("/peers/edr/bypassed");
       }),
-      loadingMessage: "Bypassing compliance for selected peers...",
+      loadingMessage: t("peers.main:peerMultiSelect.loadingMessage.bypassingComplianceForSelectedPeers"),
     });
   };
 
@@ -294,25 +294,25 @@ const PeerGroupMassAssignmentContent = ({
     if (bypassedSelectedPeers.length === 0) return;
 
     const choice = await confirm({
-      title: `Revoke compliance bypass for ${bypassedSelectedPeers.length} ${bypassedSelectedPeers.length > 1 ? "peers" : "peer"}?`,
+      title: t("peers.main:peerMultiSelect.title.revokeComplianceBypassFor", { length: bypassedSelectedPeers.length, value: bypassedSelectedPeers.length > 1 ? "peers" : "peer" }),
       description:
-        "These peers will return to normal compliance validation. If they are non-compliant, they will lose network access.",
-      confirmText: "Revoke",
-      cancelText: "Cancel",
+        t("peers.main:peerMultiSelect.description.thesePeersWillReturnTo"),
+      confirmText: t("common:word.revoke"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!choice) return;
 
     notify({
-      title: "Revoke Compliance Bypass",
-      description: "Compliance bypass was successfully revoked",
+      title: t("peers.main:peerMultiSelect.title.revokeComplianceBypass"),
+      description: t("peers.main:peerMultiSelect.description.complianceBypassWasSuccessfullyRevoked"),
       promise: Promise.all(
         bypassedSelectedPeers.map((id) => revokeBypass(id)),
       ).then(() => {
         mutate("/peers");
         mutate("/peers/edr/bypassed");
       }),
-      loadingMessage: "Revoking compliance bypass...",
+      loadingMessage: t("peers.main:peerActionCell.loadingMessage.revokingComplianceBypass"),
     });
   };
 
@@ -377,13 +377,13 @@ const PeerGroupMassAssignmentContent = ({
                       {isLoading && (
                         <>
                           <Loader2 size={14} className={"animate-spin"} />
-                          <span>Assigning groups...</span>
+                          <span>{t("peers.main:peerMultiSelect.text.assigningGroups")}</span>
                         </>
                       )}
                       {!isLoading && isSuccess && (
                         <>
                           <CheckCircle size={14} className={"text-green-400"} />
-                          <span>Groups successfully assigned</span>
+                          <span>{t("peers.main:peerMultiSelect.text.groupsSuccessfullyAssigned")}</span>
                         </>
                       )}
                     </motion.span>
@@ -391,11 +391,9 @@ const PeerGroupMassAssignmentContent = ({
                 )}
               </AnimatePresence>
               <div>
-                <Label>Assign Groups</Label>
+                <Label>{t("peers.main:peerMultiSelect.text.assignGroups")}</Label>
                 <HelpText>
-                  Assign the following groups to the selected peers. Previously
-                  assigned groups will be kept unless you choose to overwrite
-                  them.
+                  {t("peers.main:peerMultiSelect.text.assignTheFollowingGroupsTo")}
                 </HelpText>
                 <PeerGroupSelector
                   onChange={setSelectedGroups}
@@ -409,13 +407,12 @@ const PeerGroupMassAssignmentContent = ({
                 label={
                   <div className={"flex gap-2"}>
                     <RedoDot size={14} />
-                    Overwrite Existing Groups
+                    {t("peers.main:peerMultiSelect.text.overwriteExistingGroups")}
                   </div>
                 }
                 helpText={
                   <div>
-                    Overwrite the existing groups of the peers with the selected
-                    ones. Previously assigned groups will be removed.
+                    {t("peers.main:peerMultiSelect.text.overwriteTheExistingGroupsOf")}
                   </div>
                 }
               />
@@ -450,7 +447,7 @@ const PeerGroupMassAssignmentContent = ({
                     <span className={"font-medium text-white"}>
                       {peerCount}
                     </span>{" "}
-                    Peer(s) selected
+                    {t("peers.main:peerMultiSelect.text.peerSSelected")}
                   </span>
                 </div>
                 <div className={"flex gap-2 items-center"}>
@@ -458,7 +455,7 @@ const PeerGroupMassAssignmentContent = ({
                     <>
                       <FullTooltip
                         content={
-                          <span className={"text-xs"}>Assign Groups</span>
+                          <span className={"text-xs"}>{t("peers.main:peerMultiSelect.text.assignGroups")}</span>
                         }
                       >
                         <Button
@@ -480,8 +477,7 @@ const PeerGroupMassAssignmentContent = ({
                           <FullTooltip
                             content={
                               <span className={"text-xs"}>
-                                Bypass Compliance ({peersNeedingBypass.length}
-                                )
+                                {t("peers.main:peerMultiSelect.text.bypassCompliance", { length: peersNeedingBypass.length })}
                               </span>
                             }
                           >
@@ -501,8 +497,7 @@ const PeerGroupMassAssignmentContent = ({
                           <FullTooltip
                             content={
                               <span className={"text-xs"}>
-                                Revoke Compliance Bypass (
-                                {bypassedSelectedPeers.length})
+                                {t("peers.main:peerMultiSelect.text.revokeComplianceBypass", { length: bypassedSelectedPeers.length })}
                               </span>
                             }
                           >
@@ -518,7 +513,7 @@ const PeerGroupMassAssignmentContent = ({
                           </FullTooltip>
                         )}
                       <FullTooltip
-                        content={<span className={"text-xs"}>Delete All</span>}
+                        content={<span className={"text-xs"}>{t("peers.main:peerMultiSelect.confirmText.deleteAll")}</span>}
                       >
                         <Button
                           variant={"danger-outline"}
@@ -531,7 +526,7 @@ const PeerGroupMassAssignmentContent = ({
                         </Button>
                       </FullTooltip>
                       <FullTooltip
-                        content={<span className={"text-xs"}>Cancel</span>}
+                        content={<span className={"text-xs"}>{t("common:word.cancel")}</span>}
                       >
                         <Button
                           onClick={onCanceled}
@@ -551,7 +546,7 @@ const PeerGroupMassAssignmentContent = ({
                         className={"!h-9 !px-3.5"}
                         onClick={onCanceled}
                       >
-                        Cancel
+                        {t("common:word.cancel")}
                       </Button>
                       <Button
                         size={"xs"}
@@ -569,7 +564,7 @@ const PeerGroupMassAssignmentContent = ({
                         ) : (
                           <CirclePlus size={14} />
                         )}
-                        {replaceAllGroups ? "Overwrite" : "Add"} Groups
+                        {replaceAllGroups ? t("peers.main:peerMultiSelect.confirmText.overwrite") : t("peers.main:peerMultiSelect.text.add")}{" "}{t("common:word.groups")}
                       </Button>
                     </>
                   )}

@@ -4,7 +4,7 @@ import { cn } from "@utils/helpers";
 import { FilterX } from "lucide-react";
 import React from "react";
 import Skeleton from "react-loading-skeleton";
-
+import { t } from "@/i18n";
 type Props = {
   icon?: React.ReactNode;
   title?: string;
@@ -15,8 +15,8 @@ type Props = {
 
 export default function NoResultsCard({
   icon,
-  title = "Could not find any results",
-  description = "We couldn't find any results. Please try a different search term or change your filters.",
+  title = t("components.ui:noResults.text.couldNotFindAnyResults"),
+  description = t("components.ui:noResults.text.weCouldnTFindAny"),
   children,
   className,
 }: Readonly<Props>) {

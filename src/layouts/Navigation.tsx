@@ -1,15 +1,19 @@
 "use client";
 
 import { ScrollArea } from "@components/ScrollArea";
+import { SmallBadge } from "@components/ui/SmallBadge";
 import { cn } from "@utils/helpers";
 import { isNetBirdCloud } from "@utils/netbird";
+import * as React from "react";
 import AccessControlIcon from "@/assets/icons/AccessControlIcon";
+import ActivityIcon from "@/assets/icons/ActivityIcon";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import ControlCenterIcon from "@/assets/icons/ControlCenterIcon";
 import DNSIcon from "@/assets/icons/DNSIcon";
 import DocsIcon from "@/assets/icons/DocsIcon";
 import IntegrationIcon from "@/assets/icons/IntegrationIcon";
 import PeerIcon from "@/assets/icons/PeerIcon";
+import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import TeamIcon from "@/assets/icons/TeamIcon";
 import { DistributorNavigation } from "@/cloud/distributor/DistributorNavigation";
@@ -19,16 +23,12 @@ import { NavigationVersionInfo } from "@/components/VersionInfo";
 import { useAnnouncement } from "@/contexts/AnnouncementProvider";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { headerHeight } from "@/layouts/Header";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 import { useMyAgentNetworkSetup } from "@/modules/agent-network/useMyAgentNetworkSetup";
 import { NavigationUsageInfo } from "@/modules/billing/NavigationUsageInfo";
 import { NetworkNavigation } from "@/modules/networks/misc/NetworkNavigation";
-import { SmallBadge } from "@components/ui/SmallBadge";
-import * as React from "react";
-import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
-import ActivityIcon from "@/assets/icons/ActivityIcon";
-
 type Props = {
   fullWidth?: boolean;
   hideOnMobile?: boolean;
@@ -100,14 +100,14 @@ export default function Navigation({
               <SidebarItemGroup>
                 <SidebarItem
                   icon={<ControlCenterIcon size={16} />}
-                  label="Control Center"
+                  label={t("nav:navigation.label.controlCenter")}
                   href={"/control-center"}
                   visible={permission.policies.read}
                 />
 
                 <SidebarItem
                   icon={<PeerIcon />}
-                  label="Peers"
+                  label={t("common:word.peers")}
                   href={"/peers"}
                   // Restricted users get the add-your-device view there, so
                   // the link stays even in the limited (user role) sidebar.
@@ -117,26 +117,26 @@ export default function Navigation({
                 <DistributorNavigation />
                 <SidebarItem
                   icon={<AccessControlIcon />}
-                  label="Access Control"
+                  label={t("nav:navigation.label.accessControl")}
                   href={"/access-control"}
                   collapsible
                   visible={permission.policies.read}
                 >
                   <SidebarItem
-                    label="Policies"
+                    label={t("common:word.policies")}
                     href={"/access-control"}
                     isChild
                     exactPathMatch={true}
                     visible={permission.policies.read}
                   />
                   <SidebarItem
-                    label="Groups"
+                    label={t("common:word.groups")}
                     isChild
                     href={"/groups"}
                     visible={permission.policies.read}
                   />
                   <SidebarItem
-                    label="Posture Checks"
+                    label={t("nav:navigation.label.postureChecks")}
                     isChild
                     href={"/posture-checks"}
                     exactPathMatch={true}
@@ -151,9 +151,9 @@ export default function Navigation({
                   labelClassName={"pr-0"}
                   label={
                     <div className={"flex items-center gap-2"}>
-                      Reverse Proxy
+                      {t("nav:navigation.text.reverseProxy")}
                       <SmallBadge
-                        text={"Beta"}
+                        text={t("nav:navigation.text.beta")}
                         variant={"sky"}
                         className={"text-[8px] leading-none py-[3px] px-[5px]"}
                         textClassName={"top-0"}
@@ -166,28 +166,28 @@ export default function Navigation({
                   visible={permission?.services?.read && !agentNetworkOnly}
                 >
                   <SidebarItem
-                    label="Services"
+                    label={t("nav:navigation.label.services")}
                     isChild
                     href={"/reverse-proxy/services"}
                     exactPathMatch={true}
                     visible={permission?.services?.read}
                   />
                   <SidebarItem
-                    label="Custom Domains"
+                    label={t("nav:navigation.label.customDomains")}
                     isChild
                     href={"/reverse-proxy/custom-domains"}
                     exactPathMatch={true}
                     visible={permission?.services?.read}
                   />
                   <SidebarItem
-                    label="Clusters"
+                    label={t("nav:navigation.label.clusters")}
                     isChild
                     href={"/reverse-proxy/clusters"}
                     exactPathMatch={true}
                     visible={permission?.services?.read}
                   />
                   <SidebarItem
-                    label="Access Logs"
+                    label={t("nav:navigation.label.accessLogs")}
                     isChild
                     href={"/reverse-proxy/logs"}
                     exactPathMatch={true}
@@ -200,10 +200,10 @@ export default function Navigation({
                   labelClassName={"pr-0"}
                   label={
                     <div className={"flex items-center gap-2"}>
-                      Agent Network
+                      {t("nav:navigation.text.agentNetwork")}
                       {!agentNetworkOnly && (
                         <SmallBadge
-                          text={"Beta"}
+                          text={t("nav:navigation.text.beta")}
                           variant={"sky"}
                           className={
                             "text-[8px] leading-none py-[3px] px-[5px]"
@@ -236,7 +236,7 @@ export default function Navigation({
                   }
                 >
                   <SidebarItem
-                    label="Connect Agent"
+                    label={t("nav:navigation.label.connectAgent")}
                     isChild
                     href={"/agent-network/connect"}
                     exactPathMatch={true}
@@ -251,7 +251,7 @@ export default function Navigation({
                     }
                   />
                   <SidebarItem
-                    label="Providers"
+                    label={t("nav:navigation.label.providers")}
                     isChild
                     href={"/agent-network/providers"}
                     exactPathMatch={true}
@@ -261,7 +261,7 @@ export default function Navigation({
                     }
                   />
                   <SidebarItem
-                    label="Policies"
+                    label={t("common:word.policies")}
                     isChild
                     href={"/agent-network/policies"}
                     exactPathMatch={true}
@@ -271,7 +271,7 @@ export default function Navigation({
                     }
                   />
                   <SidebarItem
-                    label="Usage & Logs"
+                    label={t("nav:navigation.label.usageLogs")}
                     isChild
                     href={"/agent-network/usage"}
                     exactPathMatch={true}
@@ -285,7 +285,7 @@ export default function Navigation({
                     }
                   />
                   <SidebarItem
-                    label="Configuration"
+                    label={t("nav:navigation.label.configuration")}
                     isChild
                     href={"/agent-network/configuration"}
                     exactPathMatch={true}
@@ -308,19 +308,19 @@ export default function Navigation({
                   }
                 >
                   <SidebarItem
-                    label="Nameservers"
+                    label={t("nav:navigation.label.nameservers")}
                     isChild
                     href={"/dns/nameservers"}
                     visible={permission.nameservers.read}
                   />
                   <SidebarItem
-                    label="Zones"
+                    label={t("nav:navigation.label.zones")}
                     isChild
                     href={"/dns/zones"}
                     visible={permission?.dns?.read}
                   />
                   <SidebarItem
-                    label="DNS Settings"
+                    label={t("nav:navigation.label.dNSSettings")}
                     isChild
                     href={"/dns/settings"}
                     visible={permission.dns.read}
@@ -328,19 +328,19 @@ export default function Navigation({
                 </SidebarItem>
                 <SidebarItem
                   icon={<TeamIcon />}
-                  label="Team"
+                  label={t("nav:navigation.label.team")}
                   href={"/team"}
                   collapsible
                   visible={permission.users.read}
                 >
                   <SidebarItem
-                    label="Users"
+                    label={t("common:word.users")}
                     isChild
                     href={"/team/users"}
                     visible={permission.users.read}
                   />
                   <SidebarItem
-                    label="Service Users"
+                    label={t("nav:navigation.label.serviceUsers")}
                     isChild
                     href={"/team/service-users"}
                     visible={permission.users.read}
@@ -352,7 +352,7 @@ export default function Navigation({
               <SidebarItemGroup>
                 <SidebarItem
                   icon={<SettingsIcon />}
-                  label="Settings"
+                  label={t("common:word.settings")}
                   href={"/settings"}
                   exactPathMatch={true}
                   visible={permission.settings.read}
@@ -360,7 +360,7 @@ export default function Navigation({
                 <MSPNavigationItem />
                 <SidebarItem
                   icon={<IntegrationIcon />}
-                  label="Integrations"
+                  label={t("nav:navigation.label.integrations")}
                   href={"/integrations"}
                   exactPathMatch={true}
                   visible={
@@ -374,7 +374,7 @@ export default function Navigation({
                   icon={<DocsIcon />}
                   href={"https://docs.netbird.io/"}
                   target={"_blank"}
-                  label="Documentation"
+                  label={t("nav:navigation.label.documentation")}
                   visible={true}
                 />
               </SidebarItemGroup>
@@ -411,20 +411,20 @@ const ActivityNavigationItem = () => {
   return (
     <SidebarItem
       icon={<ActivityIcon />}
-      label="Activity"
+      label={t("nav:navigation.label.activity")}
       href={"/events"}
       collapsible
       visible={permission.events.read && !agentNetworkOnly}
     >
       <SidebarItem
-        label="Audit Events"
+        label={t("nav:navigation.label.auditEvents")}
         href={"/events/audit"}
         isChild
         exactPathMatch={true}
         visible={permission.events.read}
       />
       <SidebarItem
-        label="Traffic Events"
+        label={t("nav:navigation.label.trafficEvents")}
         isChild
         href={"/events/traffic"}
         exactPathMatch={true}

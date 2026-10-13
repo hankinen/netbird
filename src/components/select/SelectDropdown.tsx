@@ -1,5 +1,6 @@
 import Button, { ButtonVariants } from "@components/Button";
 import { CommandItem } from "@components/Command";
+import { DropdownInfoText } from "@components/DropdownInfoText";
 import Paragraph from "@components/Paragraph";
 import { Popover, PopoverContent, PopoverTrigger } from "@components/Popover";
 import { ScrollArea } from "@components/ScrollArea";
@@ -14,8 +15,7 @@ import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useElementSize } from "@/hooks/useElementSize";
-import { DropdownInfoText } from "@components/DropdownInfoText";
-
+import { t } from "@/i18n";
 export interface SelectOption {
   label: string | React.ReactNode;
   value: string;
@@ -264,8 +264,7 @@ export function SelectDropdown({
 
             {filteredItems.length == 0 && (
               <DropdownInfoText className={"max-w-sm mx-auto px-4"}>
-                There are no results matching your search. Please try a
-                different search term.
+                {t("components.select:selectDropdown.text.thereAreNoResultsMatching")}
               </DropdownInfoText>
             )}
 

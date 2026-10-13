@@ -2,15 +2,15 @@ import FancyToggleSwitch, {
   FancyToggleSwitchVariants,
 } from "@components/FancyToggleSwitch";
 import FullTooltip from "@components/FullTooltip";
+import InlineLink from "@components/InlineLink";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { ArrowUpRightIcon, LockIcon } from "lucide-react";
 import * as React from "react";
 import { useMemo } from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
-import InlineLink from "@components/InlineLink";
 import { useAccount } from "@/modules/account/useAccount";
-
 type Props = {
   peer: Peer;
   value: boolean;
@@ -26,8 +26,10 @@ export const PeerExpirationToggle = ({
   peer,
   value,
   onChange,
-  title = "Session Expiration",
-  description = "Enable to require SSO login peers to re-authenticate when their session expires after a certain period of time.",
+  title = t("peer.main:peerExpirationToggle.text.sessionExpiration"),
+  description = t(
+    "peer.main:peerExpirationToggle.text.enableToRequireSSOLogin",
+  ),
   icon,
   className,
   variant = "default",
@@ -56,14 +58,16 @@ export const PeerExpirationToggle = ({
             <>
               <IconInfoCircle size={14} />
               <span>
-                This setting is disabled for all peers added with a setup-key.
+                {t(
+                  "peer.main:peerExpirationToggle.text.thisSettingIsDisabledFor",
+                )}
               </span>
             </>
           ) : (
             <>
               <LockIcon size={14} />
               <span>
-                {`You don't have the required permissions to update this setting.`}
+                {t("peer.main:peerExpirationToggle.text.youDonTHaveThe")}
               </span>
             </>
           )}
@@ -78,10 +82,14 @@ export const PeerExpirationToggle = ({
       return (
         <div className={"flex flex-col gap-2 text-xs max-w-xs"}>
           <div>
-            Global setting {text} is currently disabled. Enable the global
-            setting to be able to toggle it individually per peer.{"  "}
+            {t("peer.main:peerExpirationToggle.text.globalSetting")} {text}{" "}
+            {t(
+              "peer.main:peerExpirationToggle.text.isCurrentlyDisabledEnableThe",
+            )}
+            {"  "}
             <InlineLink href={"/settings"}>
-              Go to Settings <ArrowUpRightIcon size={12} />
+              {t("peer.main:peerExpirationToggle.text.goToSettings")}{" "}
+              <ArrowUpRightIcon size={12} />
             </InlineLink>
           </div>
         </div>

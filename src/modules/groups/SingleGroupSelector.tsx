@@ -9,9 +9,9 @@ import { cn } from "@utils/helpers";
 import * as React from "react";
 import { useState } from "react";
 import { useUsers } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { HorizontalUsersStack } from "@/modules/users/HorizontalUsersStack";
-
 type Props = {
   trigger?: React.ReactNode;
   onSelect: (group: Group) => void;
@@ -73,14 +73,16 @@ export const SingleGroupSelector = ({
           <DropdownInput
             value={search}
             onChange={setSearch}
-            placeholder={"Search groups..."}
+            placeholder={t(
+              "groups.main:singleGroupSelector.placeholder.searchGroups",
+            )}
             hideEnterIcon={true}
           />
 
           {values.length == 0 && !search && (
             <div className={"max-w-xs mx-auto px-4"}>
               <DropdownInfoText>
-                {"Seems like you don't have any groups."}
+                {t("groups.main:singleGroupSelector.text.seemsLikeYouDonT")}
               </DropdownInfoText>
             </div>
           )}
@@ -88,8 +90,9 @@ export const SingleGroupSelector = ({
           {filteredItems.length == 0 && search != "" && (
             <div className={"max-w-xs mx-auto px-4"}>
               <DropdownInfoText>
-                There are no groups matching your search. Try another search
-                term.
+                {t(
+                  "groups.main:singleGroupSelector.text.thereAreNoGroupsMatching",
+                )}
               </DropdownInfoText>
             </div>
           )}

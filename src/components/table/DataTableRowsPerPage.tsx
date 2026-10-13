@@ -5,7 +5,7 @@ import { cn } from "@utils/helpers";
 import { Command, CommandGroup, CommandItem } from "cmdk";
 import { Check, ChevronDown, RowsIcon } from "lucide-react";
 import * as React from "react";
-
+import { t } from "@/i18n";
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
   disabled?: boolean;
@@ -36,7 +36,10 @@ export function DataTableRowsPerPage<TData>({
               <span className={"text-white"}>
                 {table.getState().pagination.pageSize}
               </span>
-              <span className={"text-nb-gray-300"}> rows per page</span>
+              <span className={"text-nb-gray-300"}>
+                {" "}
+                {t("components.table:dataTableRowsPerPage.text.rowsPerPage")}
+              </span>
             </div>
             <ChevronDown className="h-4 w-4 opacity-50" />
           </Button>

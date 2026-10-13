@@ -5,9 +5,9 @@ import { isEmpty } from "lodash";
 import { GlobeIcon } from "lucide-react";
 import React from "react";
 import RoundedFlag from "@/assets/countries/RoundedFlag";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
 import { PeerAddressTooltipContent } from "@/modules/peers/PeerAddressTooltipContent";
-
 type Props = {
   peer: Peer;
 };
@@ -56,13 +56,17 @@ export default function PeerAddressCell({ peer }: Props) {
         </div>
         <div className="flex flex-col gap-0 dark:text-neutral-300 text-neutral-500 font-light truncate">
           <CopyToClipboardText
-            message={"DNS label has been copied to your clipboard"}
+            message={t(
+              "peers.main:peerAddressCell.message.dNSLabelHasBeenCopied",
+            )}
             textToCopy={peer.dns_label}
           >
             <span className={"font-normal truncate"}>{shortLabel}</span>
           </CopyToClipboardText>
           <CopyToClipboardText
-            message={"IP address has been copied to your clipboard"}
+            message={t(
+              "peers.main:peerAddressCell.message.iPAddressHasBeenCopied",
+            )}
           >
             <span
               className={"dark:text-nb-gray-400 font-mono font-thin text-xs"}

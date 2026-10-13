@@ -13,9 +13,9 @@ import AccessControlIcon from "@/assets/icons/AccessControlIcon";
 import GroupsProvider from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import PoliciesProvider from "@/contexts/PoliciesProvider";
+import { t } from "@/i18n";
 import { Policy } from "@/interfaces/Policy";
 import PageContainer from "@/layouts/PageContainer";
-
 const AccessControlTable = lazy(
   () => import("@/modules/access-control/table/AccessControlTable"),
 );
@@ -34,19 +34,20 @@ export default function AccessControlPage() {
           <Breadcrumbs>
             <Breadcrumbs.Item
               href={"/access-control"}
-              label={"Access Control"}
+              label={t("access-control.page:page.label.accessControl")}
               icon={<AccessControlIcon size={14} />}
             />
           </Breadcrumbs>
-          <h1 ref={headingRef}>Access Control Policies</h1>
+          <h1 ref={headingRef}>
+            {t("access-control.page:page.text.accessControlPolicies")}
+          </h1>
           <Paragraph>
-            Policies connect users and agents to your network resources,
-            controlling what each identity can reach.{" "}
+            {t("access-control.page:page.text.policiesConnectUsersAndAgents")}{" "}
             <InlineLink
               href={"https://docs.netbird.io/how-to/manage-network-access"}
               target={"_blank"}
             >
-              Learn more
+              {t("common:word.learnMore")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>

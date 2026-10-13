@@ -16,24 +16,24 @@ import {
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
+import {
+  CloudSettingsTabContent,
+  CloudSettingsTabTrigger,
+} from "@/cloud/settings/CloudSettings";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import PageContainer from "@/layouts/PageContainer";
 import { useAccount } from "@/modules/account/useAccount";
 import AuthenticationTab from "@/modules/settings/AuthenticationTab";
 import ClientSettingsTab from "@/modules/settings/ClientSettingsTab";
 import DangerZoneTab from "@/modules/settings/DangerZoneTab";
+import GroupsSettings from "@/modules/settings/GroupsSettings";
 import IdentityProvidersTab from "@/modules/settings/IdentityProvidersTab";
+import MetricsTab from "@/modules/settings/MetricsTab";
 import NetworkSettingsTab from "@/modules/settings/NetworkSettingsTab";
 import PermissionsTab from "@/modules/settings/PermissionsTab";
 import SetupKeysTab from "@/modules/settings/SetupKeysTab";
-import GroupsSettings from "@/modules/settings/GroupsSettings";
-import MetricsTab from "@/modules/settings/MetricsTab";
-import {
-  CloudSettingsTabContent,
-  CloudSettingsTabTrigger,
-} from "@/cloud/settings/CloudSettings";
-
 export default function NetBirdSettings() {
   const queryParams = useSearchParams();
   const queryTab = queryParams.get("tab");
@@ -66,19 +66,19 @@ export default function NetBirdSettings() {
                 data-testid="settings-tab-authentication"
               >
                 <ShieldIcon size={14} />
-                Authentication
+                {t("settings.page:page.text.authentication")}
               </VerticalTabs.Trigger>
               {permission.setup_keys.read && (
                 <VerticalTabs.Trigger value="setup-keys">
                   <KeyRound size={14} />
-                  Setup Keys
+                  {t("common:word.setupKeys")}
                 </VerticalTabs.Trigger>
               )}
               {account?.settings?.embedded_idp_enabled &&
                 permission?.identity_providers?.read && (
                   <VerticalTabs.Trigger value="identity-providers">
                     <FingerprintIcon size={14} />
-                    Identity Providers
+                    {t("settings.page:page.text.identityProviders")}
                   </VerticalTabs.Trigger>
                 )}
               <VerticalTabs.Trigger
@@ -86,32 +86,32 @@ export default function NetBirdSettings() {
                 data-testid="settings-tab-groups"
               >
                 <FolderGit2Icon size={14} />
-                Groups
+                {t("common:word.groups")}
               </VerticalTabs.Trigger>
               <VerticalTabs.Trigger
                 value="permissions"
                 data-testid="settings-tab-permissions"
               >
                 <LockIcon size={14} />
-                Permissions
+                {t("settings.page:page.text.permissions")}
               </VerticalTabs.Trigger>
               <VerticalTabs.Trigger
                 value="networks"
                 data-testid="settings-tab-networks"
               >
                 <NetworkIcon size={14} />
-                Networks
+                {t("common:word.networks")}
               </VerticalTabs.Trigger>
               <VerticalTabs.Trigger
                 value="clients"
                 data-testid="settings-tab-clients"
               >
                 <MonitorSmartphoneIcon size={14} />
-                Clients
+                {t("settings.page:page.text.clients")}
               </VerticalTabs.Trigger>
               <VerticalTabs.Trigger value="metrics">
                 <ChartNoAxesCombined size={14} />
-                Metrics
+                {t("settings.page:page.text.metrics")}
               </VerticalTabs.Trigger>
             </>
           )}
@@ -151,7 +151,7 @@ const DangerZoneTabTrigger = () => {
     isOwner && (
       <VerticalTabs.Trigger value="danger-zone" disabled={!isOwner}>
         <AlertOctagonIcon size={14} />
-        Danger zone
+        {t("settings.page:page.text.dangerZone")}
       </VerticalTabs.Trigger>
     )
   );

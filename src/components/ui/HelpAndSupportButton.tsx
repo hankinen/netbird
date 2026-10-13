@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@components/Button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +10,8 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@components/DropdownMenu";
+import { cn } from "@utils/helpers";
+import { isNetBirdCloud } from "@utils/netbird";
 import {
   ArrowUpRightIcon,
   BookText,
@@ -19,11 +22,8 @@ import {
   TriangleAlert,
 } from "lucide-react";
 import { useState } from "react";
-import Button from "@components/Button";
-import { cn } from "@utils/helpers";
 import SlackIcon from "@/assets/icons/SlackIcon";
-import { isNetBirdCloud } from "@utils/netbird";
-
+import { t } from "@/i18n";
 export default function HelpAndSupportButton() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -49,7 +49,7 @@ export default function HelpAndSupportButton() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1 px-1">
             <div className="text-sm font-normal leading-none text-nb-gray-200 py-1">
-              Help and Support
+              {t("components.ui:helpAndSupportButton.text.helpAndSupport")}
             </div>
           </div>
         </DropdownMenuLabel>
@@ -62,7 +62,7 @@ export default function HelpAndSupportButton() {
         >
           <div className={"flex gap-3 items-center"}>
             <BookText size={14} />
-            Documentation
+            {t("components.ui:helpAndSupportButton.text.documentation")}
           </div>
           <DropdownMenuShortcut>
             <ArrowUpRightIcon size={16} />
@@ -76,7 +76,7 @@ export default function HelpAndSupportButton() {
         >
           <div className={"flex gap-3 items-center"}>
             <TriangleAlert size={14} />
-            Troubleshooting
+            {t("components.ui:helpAndSupportButton.text.troubleshooting")}
           </div>
           <DropdownMenuShortcut>
             <ArrowUpRightIcon size={16} />
@@ -87,7 +87,7 @@ export default function HelpAndSupportButton() {
           <DropdownMenuItem href="mailto:support@netbird.io?subject=Support Request">
             <div className={"flex gap-3 items-center"}>
               <MailIcon size={14} />
-              support@netbird.io
+              {t("components.ui:helpAndSupportButton.text.supportNetbirdIo")}
             </div>
           </DropdownMenuItem>
         )}
@@ -102,7 +102,7 @@ export default function HelpAndSupportButton() {
         >
           <div className={"flex gap-3 items-center"}>
             <MessagesSquareIcon size={14} />
-            NetBird Forum
+            {t("components.ui:helpAndSupportButton.text.netBirdForum")}
           </div>
           <DropdownMenuShortcut>
             <ArrowUpRightIcon size={16} />
@@ -116,7 +116,7 @@ export default function HelpAndSupportButton() {
         >
           <div className={"flex gap-3 items-center"}>
             <SlackIcon size={14} />
-            NetBird Slack
+            {t("components.ui:helpAndSupportButton.text.netBirdSlack")}
           </div>
           <DropdownMenuShortcut>
             <ArrowUpRightIcon size={16} />
@@ -133,7 +133,7 @@ export default function HelpAndSupportButton() {
         >
           <div className={"flex gap-3 items-center"}>
             <MessageSquareShare size={14} />
-            Feedback
+            {t("components.ui:helpAndSupportButton.text.feedback")}
           </div>
           <DropdownMenuShortcut>
             <ArrowUpRightIcon size={16} />

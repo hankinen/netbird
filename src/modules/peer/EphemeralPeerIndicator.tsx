@@ -1,8 +1,8 @@
 import FullTooltip from "@components/FullTooltip";
-import * as React from "react";
-import { Peer } from "@/interfaces/Peer";
 import {PowerOffIcon} from "lucide-react";
-
+import * as React from "react";
+import { t } from "@/i18n";
+import { Peer } from "@/interfaces/Peer";
 type Props = {
     peer: Peer;
 };
@@ -11,7 +11,7 @@ export const EphemeralPeerIndicator = ({ peer }: Props) => {
         return null;
     }
 
-    const tooltipContent = "This peer is an ephemeral peer. If it is disconnected for more than 10 minutes it will be removed.";
+    const tooltipContent = t("peer.main:ephemeralPeerIndicator.text.thisPeerIsAnEphemeral");
 
     return (
         <FullTooltip content={<div className={"text-xs max-w-xs"}>{tooltipContent}</div>}>

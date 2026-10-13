@@ -3,7 +3,7 @@ import FullTooltip from "@components/FullTooltip";
 import { cn } from "@utils/helpers";
 import { useRouter } from "next/navigation";
 import React from "react";
-
+import { t } from "@/i18n";
 type Props = {
   icon: React.ReactNode;
   count: number;
@@ -32,10 +32,10 @@ export default function GroupsCountCell({
         className={"w-full"}
         content={
           <div className={"text-xs"}>
-            Group{" "}
-            <span className={"text-netbird font-medium"}>{groupName}</span> is
-            used in <span className={"font-medium text-netbird"}>{count}</span>{" "}
-            {text}
+            {t("groups.table:groupsCountCell.text.group")}{" "}
+            <span className={"text-netbird font-medium"}>{groupName}</span>{" "}
+            {t("groups.table:groupsCountCell.text.isUsedIn")}{" "}
+            <span className={"font-medium text-netbird"}>{count}</span> {text}
           </div>
         }
         disabled={count === 0}

@@ -1,14 +1,14 @@
+import { notify } from "@components/Notification";
+import { cn } from "@utils/helpers";
+import { TimerResetIcon } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
-import { PeerExpirationToggle } from "@/modules/peer/PeerExpirationToggle";
-import { usePeer } from "@/contexts/PeerProvider";
-import { TimerResetIcon } from "lucide-react";
-import { usePermissions } from "@/contexts/PermissionsProvider";
-import { notify } from "@components/Notification";
 import { useSWRConfig } from "swr";
-import { cn } from "@utils/helpers";
+import { usePeer } from "@/contexts/PeerProvider";
+import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { useAccount } from "@/modules/account/useAccount";
-
+import { PeerExpirationToggle } from "@/modules/peer/PeerExpirationToggle";
 export const PeerExpirationSettings = () => {
   const { peer, update } = usePeer();
   const { permission } = usePermissions();
@@ -40,9 +40,13 @@ export const PeerExpirationSettings = () => {
 
     notify({
       title: peer.name,
-      description: "Expiration was successfully updated",
+      description: t(
+        "peer.main:peerExpirationSettings.description.expirationWasSuccessfullyUpdated",
+      ),
       promise,
-      loadingMessage: "Updating setting...",
+      loadingMessage: t(
+        "peer.main:peerExpirationSettings.loadingMessage.updatingSetting",
+      ),
     });
 
     return promise;
@@ -90,10 +94,12 @@ export const PeerExpirationSettings = () => {
                 inactivityExpiration: state,
               });
             }}
-            title={"Require login after disconnect"}
-            description={
-              "Enable to require authentication after users disconnect from management for 10 minutes."
-            }
+            title={t(
+              "peer.main:peerExpirationSettings.title.requireLoginAfterDisconnect",
+            )}
+            description={t(
+              "peer.main:peerExpirationSettings.description.enableToRequireAuthenticationAfter",
+            )}
             className={
               !peerLoginExpiration ? "opacity-40 pointer-events-none" : ""
             }

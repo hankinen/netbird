@@ -3,10 +3,10 @@ import { InlineButtonLink } from "@components/InlineLink";
 import { cn } from "@utils/helpers";
 import * as React from "react";
 import { useState } from "react";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
 import { PeerSSHPolicyModal } from "@/modules/peer/PeerSSHPolicyModal";
 import { usePeerSSHPolicyCheck } from "@/modules/peer/usePeerSSHPolicyCheck";
-
 type Props = {
   peer?: Peer;
   className?: string;
@@ -20,10 +20,9 @@ export const PeerSSHPolicyInfo = ({ peer, className }: Props) => {
       <>
         <Callout className={cn("max-w-xl", className)} variant={"warning"}>
           <span>
-            Starting from NetBird v0.61.0, SSH requires an explicit access
-            control policy to allow SSH connections to this machine.{" "}
+            {t("peer.main:peerSSHInstructions.text.startingFromNetBirdV061")}{" "}
             <InlineButtonLink onClick={() => setPolicyModal(true)}>
-              Create SSH Policy
+              {t("peer.main:peerSSHInstructions.text.createSSHPolicy")}
             </InlineButtonLink>
           </span>
         </Callout>

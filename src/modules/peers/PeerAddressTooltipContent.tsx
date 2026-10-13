@@ -5,8 +5,8 @@ import * as React from "react";
 import { useMemo } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useCountries } from "@/contexts/CountryProvider";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
-
 type Props = {
   peer: Peer;
 };
@@ -27,11 +27,13 @@ export const PeerAddressTooltipContent = ({ peer }: Props) => {
     >
       <ListItem
         icon={<MapPin size={14} />}
-        label={"NetBird IP"}
+        label={t("peers.main:peerAddressTooltipContent.label.netBirdIP")}
         value={
           <CopyToClipboardText
             iconAlignment={"right"}
-            message={"NetBird IP has been copied to your clipboard"}
+            message={t(
+              "peers.main:peerAddressTooltipContent.message.netBirdIPHasBeenCopied",
+            )}
             alwaysShowIcon={true}
           >
             {peer.ip}
@@ -41,11 +43,13 @@ export const PeerAddressTooltipContent = ({ peer }: Props) => {
       {peer.ipv6 && (
         <ListItem
           icon={<MapPin size={14} />}
-          label={"NetBird IPv6"}
+          label={t("peers.main:peerAddressTooltipContent.label.netBirdIPv6")}
           value={
             <CopyToClipboardText
               iconAlignment={"right"}
-              message={"NetBird IPv6 has been copied to your clipboard"}
+              message={t(
+                "peers.main:peerAddressTooltipContent.message.netBirdIPv6HasBeenCopied",
+              )}
               alwaysShowIcon={true}
             >
               {peer.ipv6}
@@ -55,11 +59,13 @@ export const PeerAddressTooltipContent = ({ peer }: Props) => {
       )}
       <ListItem
         icon={<NetworkIcon size={14} />}
-        label={"Public IP"}
+        label={t("peers.main:peerAddressTooltipContent.label.publicIP")}
         value={
           <CopyToClipboardText
             iconAlignment={"right"}
-            message={"Public IP has been copied to your clipboard"}
+            message={t(
+              "peers.main:peerAddressTooltipContent.message.publicIPHasBeenCopied",
+            )}
             alwaysShowIcon={true}
           >
             {peer.connection_ip}
@@ -68,7 +74,7 @@ export const PeerAddressTooltipContent = ({ peer }: Props) => {
       />
       <ListItem
         icon={<GlobeIcon size={14} />}
-        label={"Domain"}
+        label={t("peers.main:peerAddressTooltipContent.label.domain")}
         className={
           peer?.extra_dns_labels && peer.extra_dns_labels.length > 0
             ? "items-start"
@@ -78,7 +84,9 @@ export const PeerAddressTooltipContent = ({ peer }: Props) => {
           <div className={"text-right flex flex-col gap-[6px]"}>
             <CopyToClipboardText
               iconAlignment={"right"}
-              message={"DNS label has been copied to your clipboard"}
+              message={t(
+                "peers.main:peerAddressCell.message.dNSLabelHasBeenCopied",
+              )}
               className={"text-right justify-end"}
               alwaysShowIcon={true}
             >
@@ -90,7 +98,9 @@ export const PeerAddressTooltipContent = ({ peer }: Props) => {
                 key={label}
                 className={"text-right justify-end"}
                 iconAlignment={"right"}
-                message={"DNS label has been copied to your clipboard"}
+                message={t(
+                  "peers.main:peerAddressCell.message.dNSLabelHasBeenCopied",
+                )}
                 alwaysShowIcon={true}
               >
                 {label}
@@ -101,14 +111,16 @@ export const PeerAddressTooltipContent = ({ peer }: Props) => {
       />
       <ListItem
         icon={<FlagIcon size={14} />}
-        label={"Region"}
+        label={t("peers.main:peerAddressTooltipContent.label.region")}
         value={
           isLoading && !countryText ? (
             <Skeleton width={100} />
           ) : (
             <CopyToClipboardText
               iconAlignment={"right"}
-              message={"Region has been copied to your clipboard"}
+              message={t(
+                "peers.main:peerAddressTooltipContent.message.regionHasBeenCopiedTo",
+              )}
               alwaysShowIcon={true}
             >
               {countryText}

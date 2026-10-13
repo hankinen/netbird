@@ -10,9 +10,9 @@ import React, { lazy, Suspense, useMemo } from "react";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { SetupKey } from "@/interfaces/SetupKey";
-
 const SetupKeysTable = lazy(
   () => import("@/modules/setup-keys/SetupKeysTable"),
 );
@@ -42,27 +42,26 @@ export default function SetupKeysTab() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("common:word.settings")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings?tab=setup-keys"}
-            label={"Setup Keys"}
+            label={t("common:word.setupKeys")}
             icon={<KeyRound size={14} />}
             active
           />
         </Breadcrumbs>
-        <h1>Setup Keys</h1>
+        <h1>{t("common:word.setupKeys")}</h1>
         <Paragraph>
-          Setup keys are pre-authentication keys that allow to register new
-          machines in your network.{" "}
+          {t("settings.identity-providers-tab:setupKeysTab.text.setupKeysArePreAuthentication")}{" "}
           <InlineLink
             href={
               "https://docs.netbird.io/how-to/register-machines-using-setup-keys"
             }
             target={"_blank"}
           >
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>

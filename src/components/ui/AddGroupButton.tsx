@@ -15,13 +15,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { useApiCall } from "@/utils/api";
 import ModalHeader from "../modal/ModalHeader";
 import { notify } from "../Notification";
 import Paragraph from "../Paragraph";
 import Separator from "../Separator";
-
 export const AddGroupButton = () => {
   const create = useApiCall<Group>("/groups", true).post;
   const { mutate } = useSWRConfig();
@@ -32,9 +32,14 @@ export const AddGroupButton = () => {
 
   const createGroup = () => {
     notify({
-      title: "Create Group",
-      description: `Group '${name}' successfully created`,
-      loadingMessage: "Creating group...",
+      title: t("components.ui:addGroupButton.title.createGroup"),
+      description: t(
+        "components.ui:addGroupButton.description.groupSuccessfullyCreated",
+        { name },
+      ),
+      loadingMessage: t(
+        "components.ui:addGroupButton.loadingMessage.creatingGroup",
+      ),
       promise: create({ name }).then((g) => {
         setOpen(false);
         setName("");
@@ -55,27 +60,33 @@ export const AddGroupButton = () => {
             data-testid="open-create-group"
           >
             <PlusCircle size={16} />
-            Create Group
+            {t("components.ui:addGroupButton.title.createGroup")}
           </Button>
         </ModalTrigger>
         <ModalContent maxWidthClass={"max-w-xl"}>
           <ModalHeader
             icon={<FolderGit2Icon size={18} />}
-            title="Create Group"
-            description="Create a group to manage and organize access in your network"
+            title={t("components.ui:addGroupButton.title.createGroup")}
+            description={t(
+              "components.ui:addGroupButton.description.createAGroupToManage",
+            )}
             color="netbird"
           />
           <Separator />
           <div className={"px-8 flex-col flex gap-6 py-6"}>
             <div>
-              <Label>Name</Label>
+              <Label>{t("common:word.name")}</Label>
               <HelpText>
-                Set an easily identifiable name for your group
+                {t(
+                  "components.ui:addGroupButton.text.setAnEasilyIdentifiableName",
+                )}
               </HelpText>
               <Input
                 tabIndex={0}
                 data-testid="group-name-input"
-                placeholder={"e.g., Developers"}
+                placeholder={t(
+                  "components.ui:addGroupButton.placeholder.eGDevelopers",
+                )}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -84,19 +95,19 @@ export const AddGroupButton = () => {
           <ModalFooter className={"items-center"}>
             <div className={"w-full"}>
               <Paragraph className={"text-sm mt-auto"}>
-                Learn more about
+                {t("common:word.learnMoreAbout")}
                 <InlineLink
                   href={"https://docs.netbird.io/how-to/manage-network-access"}
                   target={"_blank"}
                 >
-                  Groups
+                  {t("common:word.groups")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </Paragraph>
             </div>
             <div className={"flex gap-3 w-full justify-end"}>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
               </ModalClose>
 
               <Button
@@ -106,7 +117,7 @@ export const AddGroupButton = () => {
                 onClick={createGroup}
               >
                 <PlusCircle size={16} />
-                Create Group
+                {t("components.ui:addGroupButton.title.createGroup")}
               </Button>
             </div>
           </ModalFooter>

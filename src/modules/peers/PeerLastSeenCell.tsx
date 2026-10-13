@@ -1,8 +1,8 @@
 import { History } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
 import LastTimeRow from "@/modules/common-table-rows/LastTimeRow";
-
 type Props = {
   peer: Peer;
 };
@@ -17,7 +17,7 @@ export default function PeerLastSeenCell({ peer }: Props) {
     >
       <>
         <History size={14} />
-        just now
+        {t("peers.main:peerLastSeenCell.text.justNow")}
       </>
     </div>
   );

@@ -3,9 +3,9 @@ import { AlertTriangle } from "lucide-react";
 import * as React from "react";
 import { PeerDisapprovalReason } from "@/cloud/edr/PeerDisapprovalReason";
 import { useBypassedPeers } from "@/cloud/edr/useBypass";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
 import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
-
 // Returns a ready-to-render issue icon for the peer, or null when the
 // peer is healthy. We expose this as a hook (rather than a component
 // that may return null) so callers can react to "has issue" before
@@ -31,8 +31,7 @@ export const usePeerIssueIcon = (peer: Peer): React.ReactNode | null => {
         interactive={false}
         content={
           <div className={"text-xs max-w-xs"}>
-            This peer has compliance bypassed by an administrator. The bypass
-            will be automatically removed when the device becomes compliant.
+            {t("peer.main:peerIssueIcon.text.thisPeerHasComplianceBypassed")}
           </div>
         }
       >
@@ -50,8 +49,7 @@ export const usePeerIssueIcon = (peer: Peer): React.ReactNode | null => {
         interactive={false}
         content={
           <div className={"text-xs max-w-xs"}>
-            This peer&apos;s login has expired. Re-authenticate from the
-            NetBird client on the device to bring it back online.
+            {t("peer.main:peerIssueIcon.text.thisPeerAposSLogin")}
           </div>
         }
       >
@@ -71,8 +69,7 @@ export const usePeerIssueIcon = (peer: Peer): React.ReactNode | null => {
           content={
             <div className={"max-w-xs text-xs"}>
               <div>
-                This peer is not compliant with {activeIntegrationName} and
-                cannot connect until compliance is restored or bypassed.
+                {t("peer.main:peerIssueIcon.text.thisPeerIsNotCompliant", { activeIntegrationName })}
               </div>
               <PeerDisapprovalReason peer={peer} />
             </div>
@@ -90,8 +87,7 @@ export const usePeerIssueIcon = (peer: Peer): React.ReactNode | null => {
         interactive={false}
         content={
           <div className={"text-xs max-w-xs"}>
-            This peer needs admin approval before it can connect. Approve it
-            from the row&apos;s actions menu.
+            {t("peer.main:peerIssueIcon.text.thisPeerNeedsAdminApproval")}
           </div>
         }
       >

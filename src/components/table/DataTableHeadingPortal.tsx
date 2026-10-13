@@ -2,7 +2,7 @@ import { Table } from "@tanstack/react-table";
 import * as React from "react";
 import { useRef } from "react";
 import { createPortal } from "react-dom";
-
+import { t } from "@/i18n";
 type Props<TData> = {
   table: Table<TData> | null;
   headingTarget?: HTMLHeadingElement | null;
@@ -85,7 +85,8 @@ const Heading = ({
   if (hasAnyFilterActive) {
     return (
       <>
-        <span className={"text-netbird"}>{filteredItems}</span> of {totalItems}{" "}
+        <span className={"text-netbird"}>{filteredItems}</span>{" "}
+        {t("components.table:dataTableHeadingPortal.text.of")} {totalItems}{" "}
       </>
     );
   }

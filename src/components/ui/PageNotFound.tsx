@@ -6,15 +6,15 @@ import { CircleAlertIcon, Undo2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import Skeleton from "react-loading-skeleton";
+import { t } from "@/i18n";
 import PageContainer from "@/layouts/PageContainer";
-
 type Props = {
   title?: string;
   description?: string;
 };
 export const PageNotFound = ({
-  title = "The requested page was not found",
-  description = "The page you are attempting to access cannot be found. Please verify the URL or return to the dashboard to continue browsing.",
+  title = t("components.ui:pageNotFound.text.theRequestedPageWasNot"),
+  description = t("components.ui:pageNotFound.text.thePageYouAreAttempting"),
 }: Props) => {
   const router = useRouter();
 
@@ -77,7 +77,7 @@ export const PageNotFound = ({
                           onClick={() => router.back()}
                         >
                           <Undo2Icon size={15} className={"shrink-0"} />
-                          Go Back
+                          {t("components.ui:pageNotFound.text.goBack")}
                         </Button>
                       </div>
                     </div>

@@ -17,12 +17,12 @@ import { useState } from "react";
 import { useSWRConfig } from "swr";
 import PeerIcon from "@/assets/icons/PeerIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
 import PeerAddressCell from "@/modules/peers/PeerAddressCell";
 import PeerLastSeenCell from "@/modules/peers/PeerLastSeenCell";
 import PeerNameCell from "@/modules/peers/PeerNameCell";
 import { PeerOSCell } from "@/modules/peers/PeerOSCell";
-
 type Props = {
   peers?: Peer[];
   peerID?: string;
@@ -40,7 +40,11 @@ const MinimalPeersTableColumns: ColumnDef<Peer>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.name")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <PeerNameCell peer={row.original} />,
@@ -65,14 +69,22 @@ const MinimalPeersTableColumns: ColumnDef<Peer>[] = [
   {
     accessorKey: "dns_label",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Address</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.address")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <PeerAddressCell peer={row.original} />,
   },
   {
     accessorKey: "last_seen",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Last seen</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.lastSeen")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "datetime",
     cell: ({ row }) => <PeerLastSeenCell peer={row.original} />,
@@ -132,20 +144,24 @@ export default function MinimalPeersTable({
       showSearchAndFilters={true}
       inset={false}
       tableClassName={"mt-0"}
-      text={"Peers"}
+      text={t("common:word.peers")}
       columns={columns}
       keepStateInLocalStorage={false}
       data={peers}
-      searchPlaceholder={"Search by name, IP, owner or group..."}
+      searchPlaceholder={t(
+        "peer.main:minimalPeersTable.searchPlaceholder.searchByNameIPOwner",
+      )}
       isLoading={isLoading}
       getStartedCard={
         !getStartedCard ? (
           <NoResults
             className={"py-4"}
-            title={"This peer has no accessible peers"}
-            description={
-              "Add more peers to your network or check your access control policies."
-            }
+            title={t(
+              "peer.main:minimalPeersTable.title.thisPeerHasNoAccessible",
+            )}
+            description={t(
+              "peer.main:minimalPeersTable.description.addMorePeersToYour",
+            )}
             icon={<PeerIcon size={20} className={"fill-nb-gray-300"} />}
           />
         ) : (
@@ -182,7 +198,7 @@ export default function MinimalPeersTable({
                   : "secondary"
               }
             >
-              All
+              {t("common:word.all")}
             </ButtonGroup.Button>
             <ButtonGroup.Button
               onClick={() => {
@@ -201,7 +217,7 @@ export default function MinimalPeersTable({
                   : "secondary"
               }
             >
-              Online
+              {t("peer.main:minimalPeersTable.text.online")}
             </ButtonGroup.Button>
             <ButtonGroup.Button
               onClick={() => {
@@ -220,7 +236,7 @@ export default function MinimalPeersTable({
                   : "secondary"
               }
             >
-              Offline
+              {t("peer.main:minimalPeersTable.text.offline")}
             </ButtonGroup.Button>
           </ButtonGroup>
 

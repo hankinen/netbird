@@ -47,6 +47,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import AccessControlIcon from "@/assets/icons/AccessControlIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useUsers } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { NetworkResource } from "@/interfaces/Network";
 import { Peer } from "@/interfaces/Peer";
@@ -57,7 +58,6 @@ import { SSHAuthorizedGroups } from "@/modules/access-control/ssh/SSHAuthorizedG
 import { useAccessControl } from "@/modules/access-control/useAccessControl";
 import { PostureCheckTab } from "@/modules/posture-checks/ui/PostureCheckTab";
 import { PostureCheckTabTrigger } from "@/modules/posture-checks/ui/PostureCheckTabTrigger";
-
 type Props = {
   children?: React.ReactNode;
 };
@@ -296,13 +296,17 @@ export function AccessControlModalContent({
             }
           >
             {isCreate
-              ? "Create New Access Control Policy"
-              : "Update Access Control Policy"}
+              ? t(
+                  "access-control.main:accessControlModal.text.createNewAccessControlPolicy",
+                )
+              : t(
+                  "access-control.main:accessControlModal.text.updateAccessControlPolicy",
+                )}
           </span>
         }
-        description={
-          "Use this policy to restrict access to groups of resources."
-        }
+        description={t(
+          "access-control.main:accessControlModal.description.useThisPolicyToRestrict",
+        )}
         color={"netbird"}
       />
 
@@ -310,7 +314,7 @@ export function AccessControlModalContent({
         <TabsList justify={"start"} className={"px-8"}>
           <TabsTrigger value={"policy"}>
             <ArrowRightLeft size={16} />
-            Policy
+            {t("common:word.policy")}
           </TabsTrigger>
           <PostureCheckTabTrigger disabled={!canContinueToPostureChecks} />
           <TabsTrigger value={"general"} disabled={!canContinueToPostureChecks}>
@@ -320,7 +324,7 @@ export function AccessControlModalContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Name & Description
+            {t("access-control.main:accessControlModal.text.nameDescription")}
           </TabsTrigger>
         </TabsList>
 
@@ -331,12 +335,17 @@ export function AccessControlModalContent({
               data-testid={"protocol-wrapper"}
             >
               <div className={"w-full"}>
-                <Label>Protocol</Label>
+                <Label>
+                  {t("access-control.main:accessControlModal.text.protocol")}
+                </Label>
                 <HelpText className={"max-w-sm"}>
-                  Allow only specified network protocols. To change traffic
-                  direction and ports, select{" "}
-                  <b className={"text-white"}>TCP</b> or{" "}
-                  <b className={"text-white"}>UDP</b> protocol.
+                  {t(
+                    "access-control.main:accessControlModal.text.allowOnlySpecifiedNetworkProtocols",
+                  )}{" "}
+                  <b className={"text-white"}>TCP</b>{" "}
+                  {t("access-control.main:accessControlModal.text.or")}{" "}
+                  <b className={"text-white"}>UDP</b>{" "}
+                  {t("access-control.main:accessControlModal.text.protocol2")}
                 </HelpText>
               </div>
               <Select
@@ -352,7 +361,11 @@ export function AccessControlModalContent({
                     data-testid={"protocol-select-button"}
                   >
                     <Share2 size={15} className={"text-nb-gray-300"} />
-                    <SelectValue placeholder="Select protocol..." />
+                    <SelectValue
+                      placeholder={t(
+                        "access-control.main:accessControlModal.placeholder.selectProtocol",
+                      )}
+                    />
                   </div>
                 </SelectTrigger>
                 <SelectContent data-testid={"protocol-selection"}>
@@ -369,15 +382,17 @@ export function AccessControlModalContent({
                         side={"right"}
                         content={
                           <>
-                            Select NetBird SSH for SSH-specific policies with
-                            fine-grained access control, or use TCP with port 22
-                            for basic network-level SSH access
+                            {t(
+                              "access-control.main:accessControlModal.text.selectNetBirdSSHForSSH",
+                            )}
                           </>
                         }
                       />
                     }
                   >
-                    NetBird SSH
+                    {t(
+                      "access-control.main:accessControlModal.text.netBirdSSH",
+                    )}
                   </SelectItem>
                 </SelectContent>
               </Select>
@@ -387,13 +402,13 @@ export function AccessControlModalContent({
               <div className={"w-full self-start"}>
                 <Label className={"mb-2"}>
                   <FolderDown size={15} />
-                  Source
+                  {t("access-control.main:accessControlModal.text.source")}
                   <HelpTooltip
                     content={
                       <>
-                        Typically a group of user devices (e.g., Developers,
-                        Marketing) or individual devices in peer-to-peer
-                        connections that will access the destination.
+                        {t(
+                          "access-control.main:accessControlModal.text.typicallyAGroupOfUser",
+                        )}
                       </>
                     }
                   />
@@ -401,7 +416,9 @@ export function AccessControlModalContent({
                 <PeerGroupSelector
                   data-testid={"source-group-selector"}
                   popoverWidth={500}
-                  placeholder={"Select source(s)..."}
+                  placeholder={t(
+                    "access-control.main:accessControlModal.placeholder.selectSourceS",
+                  )}
                   showRoutes={protocol !== "netbird-ssh"}
                   showResources={false}
                   showPeers={protocol !== "netbird-ssh"}
@@ -431,13 +448,13 @@ export function AccessControlModalContent({
               <div className={"w-full self-start"}>
                 <Label className={"mb-2"}>
                   <FolderInput size={15} />
-                  Destination
+                  {t("access-control.main:accessControlModal.text.destination")}
                   <HelpTooltip
                     content={
                       <>
-                        Typically a group of peers or resources (e.g., Servers,
-                        Databases, Internal Services) that will be accessed by
-                        the source. Can also be an individual peer or resource.
+                        {t(
+                          "access-control.main:accessControlModal.text.typicallyAGroupOfPeers",
+                        )}
                       </>
                     }
                   />
@@ -445,7 +462,9 @@ export function AccessControlModalContent({
                 <PeerGroupSelector
                   data-testid={"destination-group-selector"}
                   popoverWidth={500}
-                  placeholder={"Select destination(s)..."}
+                  placeholder={t(
+                    "access-control.main:accessControlModal.placeholder.selectDestinationS",
+                  )}
                   showRoutes={true}
                   showResources={protocol !== "netbird-ssh"}
                   showPeers={!destinationScope}
@@ -484,8 +503,9 @@ export function AccessControlModalContent({
                   }
                   className="mb-4"
                 >
-                  Some destination groups contain resources. Resources only
-                  support incoming traffic and cannot initiate connections.
+                  {t(
+                    "access-control.main:accessControlModal.text.someDestinationGroupsContainResources",
+                  )}
                 </Callout>
               )}
 
@@ -502,9 +522,9 @@ export function AccessControlModalContent({
                     }
                     className="mb-6"
                   >
-                    SSH access only works on peers, not on routed resources.
-                    Please ensure your destination groups contain peers for SSH
-                    connectivity.
+                    {t(
+                      "access-control.main:accessControlModal.text.sSHAccessOnlyWorksOn",
+                    )}
                   </Callout>
                 )}
                 <div
@@ -513,12 +533,18 @@ export function AccessControlModalContent({
                   <div className={"w-full"}>
                     <Label className={"flex items-center gap-2"}>
                       <SquareTerminalIcon size={15} />
-                      SSH Access
+                      {t("common:word.sSHAccess")}
                     </Label>
                     <HelpText>
-                      Select {`'Full Access'`} to allow SSH as any local user,
-                      or {`'Limited Access'`} to specify which local users each
-                      group is allowed to use.
+                      {t("access-control.main:accessControlModal.text.select")}{" "}
+                      {`'Full Access'`}{" "}
+                      {t(
+                        "access-control.main:accessControlModal.text.toAllowSSHAsAny",
+                      )}{" "}
+                      {`'Limited Access'`}{" "}
+                      {t(
+                        "access-control.main:accessControlModal.text.toSpecifyWhichLocalUsers",
+                      )}
                     </HelpText>
                   </div>
                   <SSHAccessType
@@ -543,11 +569,12 @@ export function AccessControlModalContent({
                 <div>
                   <Label className={"flex items-center gap-2"}>
                     <Shield size={14} />
-                    Ports
+                    {t("access-control.main:accessControlModal.text.ports")}
                   </Label>
                   <HelpText>
-                    Allow network traffic and access only to specified ports.
-                    Select ports or port ranges between 1 and 65535.
+                    {t(
+                      "access-control.main:accessControlModal.text.allowNetworkTrafficAndAccess",
+                    )}
                   </HelpText>
                 </div>
                 <div className={""}>
@@ -572,10 +599,14 @@ export function AccessControlModalContent({
               label={
                 <>
                   <Power size={15} />
-                  Enable Policy
+                  {t(
+                    "access-control.main:accessControlModal.text.enablePolicy",
+                  )}
                 </>
               }
-              helpText={"Use this switch to enable or disable the policy."}
+              helpText={t(
+                "access-control.main:accessControlModal.helpText.useThisSwitchToEnable",
+              )}
             />
           </div>
         </TabsContent>
@@ -587,9 +618,13 @@ export function AccessControlModalContent({
         <TabsContent value={"general"} className={"px-8 pb-6"}>
           <div className={"flex flex-col gap-6"}>
             <div>
-              <Label>Name of the Rule</Label>
+              <Label>
+                {t("access-control.main:accessControlModal.text.nameOfTheRule")}
+              </Label>
               <HelpText>
-                Set an easily identifiable name for your policy.
+                {t(
+                  "access-control.main:accessControlModal.text.setAnEasilyIdentifiableName",
+                )}
               </HelpText>
               <Input
                 autoFocus={true}
@@ -597,24 +632,32 @@ export function AccessControlModalContent({
                 value={name}
                 data-testid={"policy-name"}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={"e.g., Devs to Servers"}
+                placeholder={t(
+                  "access-control.main:accessControlModal.placeholder.eGDevsToServers",
+                )}
                 disabled={
                   !permission.policies.update || !permission.policies.create
                 }
               />
             </div>
             <div>
-              <Label>Description (optional)</Label>
+              <Label>
+                {t(
+                  "access-control.main:accessControlModal.text.descriptionOptional",
+                )}
+              </Label>
               <HelpText>
-                Write a short description to add more context to this policy.
+                {t(
+                  "access-control.main:accessControlModal.text.writeAShortDescriptionTo",
+                )}
               </HelpText>
               <Textarea
                 value={description}
                 data-testid={"policy-description"}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder={
-                  "e.g., Devs are allowed to access servers and servers are allowed to access Devs."
-                }
+                placeholder={t(
+                  "access-control.main:accessControlModal.placeholder.eGDevsAreAllowed",
+                )}
                 rows={3}
                 disabled={
                   !permission.policies.update || !permission.policies.create
@@ -628,12 +671,12 @@ export function AccessControlModalContent({
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink
               href={"https://docs.netbird.io/how-to/manage-network-access"}
               target={"_blank"}
             >
-              Access Controls
+              {t("access-control.main:accessControlModal.text.accessControls")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
@@ -644,7 +687,9 @@ export function AccessControlModalContent({
               {tab == "policy" && (
                 <>
                   <ModalClose asChild={true}>
-                    <Button variant={"secondary"}>Cancel</Button>
+                    <Button variant={"secondary"}>
+                      {t("common:word.cancel")}
+                    </Button>
                   </ModalClose>
                   <Button
                     variant={"primary"}
@@ -652,7 +697,7 @@ export function AccessControlModalContent({
                     disabled={!canContinueToPostureChecks}
                     data-testid="policy-continue"
                   >
-                    Continue
+                    {t("access-control.main:accessControlModal.text.continue")}
                   </Button>
                 </>
               )}
@@ -663,7 +708,7 @@ export function AccessControlModalContent({
                     variant={"secondary"}
                     onClick={() => setTab("policy")}
                   >
-                    Back
+                    {t("common:word.back")}
                   </Button>
                   <Button
                     variant={"primary"}
@@ -671,7 +716,7 @@ export function AccessControlModalContent({
                     disabled={!canContinueToPostureChecks}
                     data-testid="policy-continue"
                   >
-                    Continue
+                    {t("access-control.main:accessControlModal.text.continue")}
                   </Button>
                 </>
               )}
@@ -682,7 +727,7 @@ export function AccessControlModalContent({
                     variant={"secondary"}
                     onClick={() => setTab("posture_checks")}
                   >
-                    Back
+                    {t("common:word.back")}
                   </Button>
 
                   <Button
@@ -694,7 +739,7 @@ export function AccessControlModalContent({
                     data-testid={"submit-policy"}
                   >
                     <PlusCircle size={16} />
-                    Add Policy
+                    {t("access-control.main:accessControlModal.text.addPolicy")}
                   </Button>
                 </>
               )}
@@ -702,7 +747,7 @@ export function AccessControlModalContent({
           ) : (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
@@ -712,7 +757,7 @@ export function AccessControlModalContent({
                 onClick={() => void saveOrClose()}
                 data-testid={"submit-policy"}
               >
-                Save Changes
+                {t("common:word.saveChanges")}
               </Button>
             </>
           )}

@@ -16,13 +16,13 @@ import { useSWRConfig } from "swr";
 import PeerIcon from "@/assets/icons/PeerIcon";
 import { DataTable } from "@/components/table/DataTable";
 import { useUsers } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { Group, GroupPeer } from "@/interfaces/Group";
 import { Peer } from "@/interfaces/Peer";
 import { EditGroupNameModal } from "@/modules/groups/EditGroupNameModal";
 import PeerAddressCell from "@/modules/peers/PeerAddressCell";
 import PeerNameCell from "@/modules/peers/PeerNameCell";
 import { PeerOSCell } from "@/modules/peers/PeerOSCell";
-
 type Props = {
   group: Group;
   open: boolean;
@@ -87,7 +87,7 @@ export const AssignGroupToPeerModalContent = ({
   excludedPeers,
   showHeader = true,
   showClose = true,
-  buttonText = "Confirm Changes",
+  buttonText = t("groups.main:assignPeerToGroupModal.text.confirmChanges"),
   selectInitialPeers = true,
 }: ContentProps) => {
   const { data: peers, isLoading } = useFetchApi<Peer[]>("/peers");
@@ -179,15 +179,20 @@ export const AssignGroupToPeerModalContent = ({
         });
     }
     notify({
-      title: "Saving changes",
-      description: `${group?.name || "Group"} was successfully saved.`,
+      title: t("groups.main:assignPeerToGroupModal.title.savingChanges"),
+      description: t(
+        "groups.main:assignPeerToGroupModal.description.wasSuccessfullySaved",
+        { value: group?.name || "Group" },
+      ),
       promise: request()
         .then((g: Group) => {
           mutate("/groups");
           onSuccess && onSuccess(g);
         })
         .catch(() => {}),
-      loadingMessage: "Updating group...",
+      loadingMessage: t(
+        "groups.main:assignPeerToGroupModal.loadingMessage.updatingGroup",
+      ),
     });
   };
 
@@ -250,8 +255,12 @@ export const AssignGroupToPeerModalContent = ({
             }
             description={
               isAllGroup
-                ? "View assigned peers for this group"
-                : "Manage assigned peers for this group"
+                ? t(
+                    "groups.main:assignPeerToGroupModal.text.viewAssignedPeersForThis",
+                  )
+                : t(
+                    "groups.main:assignPeerToGroupModal.text.manageAssignedPeersForThis",
+                  )
             }
             color={"blue"}
           />
@@ -264,7 +273,7 @@ export const AssignGroupToPeerModalContent = ({
           rowSelection={selectedRows}
           setRowSelection={setSelectedRows}
           onRowClick={(row) => row.toggleSelected()}
-          text={"Peers"}
+          text={t("common:word.peers")}
           resetRowSelectionOnSearch={false}
           uniqueKey={group?.id ?? group?.name}
           sorting={sorting}
@@ -274,7 +283,9 @@ export const AssignGroupToPeerModalContent = ({
           data={data}
           isLoading={isLoading && !initialPeersSet}
           tableCellClassName={"!py-1 scale-[95%]"}
-          searchPlaceholder={"Search by name, IP or owner..."}
+          searchPlaceholder={t(
+            "groups.main:assignPeerToGroupModal.searchPlaceholder.searchByNameIPOr",
+          )}
           searchClassName={"w-[350px]"}
           minimal={false}
           columnVisibility={{
@@ -290,10 +301,12 @@ export const AssignGroupToPeerModalContent = ({
           getStartedCard={
             <NoResultsCard
               className={"mb-8"}
-              title={"You don't have any peers to assign"}
-              description={
-                "In order to assign peers to this group you need to have at least one peer that is not already part of this group."
-              }
+              title={t(
+                "groups.main:assignPeerToGroupModal.title.youDonTHaveAny",
+              )}
+              description={t(
+                "groups.main:assignPeerToGroupModal.description.inOrderToAssignPeers",
+              )}
               icon={<PeerIcon className={"fill-nb-gray-200"} size={14} />}
             />
           }
@@ -305,7 +318,7 @@ export const AssignGroupToPeerModalContent = ({
                     <span className={"text-netbird font-medium"}>
                       {Object.keys(selectedRows).length}
                     </span>{" "}
-                    Peer(s) selected
+                    {t("groups.main:assignPeerToGroupModal.text.peerSSelected")}
                   </div>
                 )}
               </div>
@@ -345,7 +358,7 @@ export const PeersTableColumns: ColumnDef<Peer>[] = [
         <Checkbox
           checked={table.getIsAllPageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-          aria-label="Select all"
+          aria-label={t("common:word.selectAll")}
         />
       </div>
     ),
@@ -358,7 +371,7 @@ export const PeersTableColumns: ColumnDef<Peer>[] = [
             variant={"tableCell"}
             checked={row.getIsSelected()}
             onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
+            aria-label={t("common:word.selectRow")}
           />
         </div>
       );
@@ -367,7 +380,11 @@ export const PeersTableColumns: ColumnDef<Peer>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.name")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <PeerNameCell peer={row.original} linkToPeer={false} />,
@@ -398,7 +415,11 @@ export const PeersTableColumns: ColumnDef<Peer>[] = [
   {
     accessorKey: "dns_label",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Address</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.address")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <PeerAddressCell peer={row.original} />,
   },

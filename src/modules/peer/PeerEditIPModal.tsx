@@ -11,7 +11,7 @@ import ModalHeader from "@components/modal/ModalHeader";
 import { isValidIP } from "@utils/ip";
 import { trim } from "lodash";
 import React, { useMemo, useState } from "react";
-
+import { t } from "@/i18n";
 type IPVersion = "v4" | "v6";
 
 interface PeerEditIPModalProps {
@@ -90,14 +90,16 @@ export function PeerEditIPModal({
               />
             </div>
 
-            <Callout>Changes take effect when the peer reconnects.</Callout>
+            <Callout>
+              {t("peer.main:peerEditIPModal.text.changesTakeEffectWhenThe")}
+            </Callout>
           </div>
 
           <ModalFooter className={"items-center"} separator={false}>
             <div className={"flex gap-3 w-full justify-end"}>
               <ModalClose asChild={true}>
                 <Button variant={"secondary"} className={"w-full"}>
-                  Cancel
+                  {t("common:word.cancel")}
                 </Button>
               </ModalClose>
 
@@ -107,7 +109,7 @@ export function PeerEditIPModal({
                 onClick={() => onSave(trim(ip))}
                 disabled={isDisabled}
               >
-                Save
+                {t("common:word.save")}
               </Button>
             </div>
           </ModalFooter>

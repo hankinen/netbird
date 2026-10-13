@@ -32,13 +32,13 @@ import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { t } from "@/i18n";
 import {
   getSSOIdentityProviderLabelByType,
   SSOIdentityProvider,
   SSOIdentityProviderType,
 } from "@/interfaces/IdentityProvider";
 import IdentityProviderModal from "@/modules/settings/IdentityProviderModal";
-
 export const idpTypeLabels: Record<SSOIdentityProviderType, string> = {
   oidc: "OIDC",
   zitadel: "Zitadel",
@@ -67,23 +67,33 @@ function ActionCell({ provider, onEdit }: ActionCellProps) {
 
   const handleDelete = async () => {
     const choice = await confirm({
-      title: `Delete '${provider.name}'?`,
-      description:
-        "Are you sure you want to delete this identity provider? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t(
+        "settings.identity-providers-tab:identityProvidersTab.title.delete",
+        { name: provider.name },
+      ),
+      description: t(
+        "settings.identity-providers-tab:identityProvidersTab.description.areYouSureYouWant",
+      ),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "Delete Identity Provider",
-      description: "Identity provider was deleted successfully.",
+      title: t(
+        "settings.identity-providers-tab:identityProvidersTab.title.deleteIdentityProvider",
+      ),
+      description: t(
+        "settings.identity-providers-tab:identityProvidersTab.description.identityProviderWasDeletedSuccessfully",
+      ),
       promise: deleteRequest.del().then(() => {
         mutate("/identity-providers");
       }),
-      loadingMessage: "Deleting identity provider...",
+      loadingMessage: t(
+        "settings.identity-providers-tab:identityProvidersTab.loadingMessage.deletingIdentityProvider",
+      ),
     });
   };
 
@@ -101,7 +111,9 @@ function ActionCell({ provider, onEdit }: ActionCellProps) {
             disabled={!permission.identity_providers.update}
           >
             <PencilIcon size={14} className="mr-2" />
-            Edit
+            {t(
+              "settings.identity-providers-tab:identityProvidersTab.text.edit",
+            )}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={handleDelete}
@@ -109,7 +121,7 @@ function ActionCell({ provider, onEdit }: ActionCellProps) {
             className="text-red-500 focus:text-red-500"
           >
             <Trash2 size={14} className="mr-2" />
-            Delete
+            {t("common:word.delete")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -153,7 +165,9 @@ export default function IdentityProvidersTab() {
     {
       accessorKey: "name",
       header: ({ column }) => (
-        <DataTableHeader column={column}>Name</DataTableHeader>
+        <DataTableHeader column={column}>
+          {t("common:word.name")}
+        </DataTableHeader>
       ),
       sortingFn: "text",
       cell: ({ row }) => (
@@ -168,7 +182,9 @@ export default function IdentityProvidersTab() {
     {
       accessorKey: "type",
       header: ({ column }) => (
-        <DataTableHeader column={column}>Type</DataTableHeader>
+        <DataTableHeader column={column}>
+          {t("settings.identity-providers-tab:identityProvidersTab.text.type")}
+        </DataTableHeader>
       ),
       cell: ({ row }) => (
         <span className="text-nb-gray-400">
@@ -192,22 +208,29 @@ export default function IdentityProvidersTab() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("common:word.settings")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings?tab=identity-providers"}
-            label={"Identity Providers"}
+            label={t(
+              "settings.identity-providers-tab:identityProvidersTab.label.identityProviders",
+            )}
             icon={<FingerprintIcon size={14} />}
             active
           />
         </Breadcrumbs>
         <div className={"flex items-start justify-between -mt-1"}>
           <div>
-            <h1>Identity Providers</h1>
+            <h1>
+              {t(
+                "settings.identity-providers-tab:identityProvidersTab.label.identityProviders",
+              )}
+            </h1>
             <Paragraph>
-              Configure identity providers for user authentication in your
-              network.
+              {t(
+                "settings.identity-providers-tab:identityProvidersTab.text.configureIdentityProvidersForUser",
+              )}
             </Paragraph>
           </div>
         </div>
@@ -222,13 +245,17 @@ export default function IdentityProvidersTab() {
 
       <DataTable
         isLoading={isLoading}
-        text={"Identity Providers"}
+        text={t(
+          "settings.identity-providers-tab:identityProvidersTab.label.identityProviders",
+        )}
         sorting={sorting}
         setSorting={setSorting}
         columns={columns}
         data={providers}
         onRowClick={(row) => handleEdit(row.original)}
-        searchPlaceholder={"Search by name or type..."}
+        searchPlaceholder={t(
+          "settings.identity-providers-tab:identityProvidersTab.searchPlaceholder.searchByNameOrType",
+        )}
         getStartedCard={
           <GetStartedTest
             icon={
@@ -240,10 +267,12 @@ export default function IdentityProvidersTab() {
                 size={"large"}
               />
             }
-            title={"Add Identity Provider"}
-            description={
-              "Configure an identity provider to enable SSO authentication for your users."
-            }
+            title={t(
+              "settings.identity-providers-tab:identityProvidersTab.title.addIdentityProvider",
+            )}
+            description={t(
+              "settings.identity-providers-tab:identityProvidersTab.description.configureAnIdentityProviderTo",
+            )}
             button={
               <Button
                 variant={"primary"}
@@ -251,7 +280,9 @@ export default function IdentityProvidersTab() {
                 disabled={!permission.identity_providers.create}
               >
                 <PlusCircle size={16} />
-                Add Identity Provider
+                {t(
+                  "settings.identity-providers-tab:identityProvidersTab.title.addIdentityProvider",
+                )}
               </Button>
             }
           />
@@ -266,7 +297,9 @@ export default function IdentityProvidersTab() {
                 disabled={!permission.identity_providers.create}
               >
                 <PlusCircle size={16} />
-                Add Identity Provider
+                {t(
+                  "settings.identity-providers-tab:identityProvidersTab.title.addIdentityProvider",
+                )}
               </Button>
             )}
           </>

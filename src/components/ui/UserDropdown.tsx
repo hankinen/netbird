@@ -22,8 +22,9 @@ import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
+import LanguageDropdownItems from "@/i18n/LanguageSwitcher";
 import { ChangePasswordModalContent } from "@/modules/users/ChangePasswordModal";
-
 export default function UserDropdown() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [changePasswordModal, setChangePasswordModal] = useState(false);
@@ -105,22 +106,26 @@ export default function UserDropdown() {
             >
               <div className={"flex gap-3 items-center"}>
                 <KeyRound size={14} />
-                Change Password
+                {t("components.ui:userDropdown.text.changePassword")}
               </div>
             </DropdownMenuItem>
           )}
 
+          <LanguageDropdownItems />
+          <DropdownMenuSeparator />
+
           <DropdownMenuItem onClick={logout}>
             <div className={"flex gap-3 items-center"}>
               <LogOutIcon size={14} />
-              Log out
+              {t("components.ui:userDropdown.text.logOut")}
             </div>
             <DropdownMenuShortcut className={"opacity-75"}>
               {isMac ? (
                 "⇧⌘L"
               ) : (
                 <span className="flex items-center gap-0.5">
-                  Ctrl<span>+</span>⇧<span>+</span>L
+                  {t("components.ui:userDropdown.text.ctrl")}
+                  <span>+</span>⇧<span>+</span>L
                 </span>
               )}
             </DropdownMenuShortcut>
@@ -142,7 +147,7 @@ const ProfileSettingsDropdownItem = ({ onClick }: { onClick: () => void }) => {
     <DropdownMenuItem onClick={onClick}>
       <div className={"flex gap-3 items-center"}>
         <User2 size={14} />
-        Profile Settings
+        {t("components.ui:userDropdown.text.profileSettings")}
       </div>
     </DropdownMenuItem>
   );
@@ -159,7 +164,7 @@ const PlansAndBillingDropdownItem = ({ onClick }: { onClick: () => void }) => {
       <DropdownMenuItem onClick={onClick}>
         <div className={"flex gap-3 items-center"}>
           <CreditCardIcon size={14} />
-          Plans & Billing
+          {t("components.ui:userDropdown.text.plansBilling")}
         </div>
       </DropdownMenuItem>
     )

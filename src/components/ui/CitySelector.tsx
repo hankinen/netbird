@@ -5,8 +5,8 @@ import {
 import useFetchApi from "@utils/api";
 import { MapPin } from "lucide-react";
 import { createElement, useMemo } from "react";
+import { t } from "@/i18n";
 import { City } from "@/interfaces/City";
-
 type Props = {
   value: string;
   onChange: (value: string) => void;
@@ -36,7 +36,11 @@ export const CitySelector = ({ value, onChange, country = "de" }: Props) => {
       } as SelectOption;
     }) as SelectOption[];
 
-    all.unshift({ label: "All Locations", value: "", icon: pinIcon });
+    all.unshift({
+      label: t("components.ui:citySelector.label.allLocations"),
+      value: "",
+      icon: pinIcon,
+    });
     return all;
   }, [cities]);
 
@@ -45,8 +49,12 @@ export const CitySelector = ({ value, onChange, country = "de" }: Props) => {
       <SelectDropdown
         isLoading={isLoading}
         showSearch={true}
-        placeholder={"Select city (optional)..."}
-        searchPlaceholder={"Search city..."}
+        placeholder={t(
+          "components.ui:citySelector.placeholder.selectCityOptional",
+        )}
+        searchPlaceholder={t(
+          "components.ui:citySelector.searchPlaceholder.searchCity",
+        )}
         value={value}
         onChange={onChange}
         options={cityList || []}

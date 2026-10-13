@@ -3,7 +3,7 @@ import { cn } from "@utils/helpers";
 import { CheckIcon, CopyIcon } from "lucide-react";
 import React from "react";
 import useCopyToClipboard from "@/hooks/useCopyToClipboard";
-
+import { t } from "@/i18n";
 type Props = {
   children: React.ReactNode;
   codeToCopy?: string;
@@ -18,7 +18,7 @@ type Props = {
 export default function Code({
   children,
   codeToCopy,
-  message = "Code has been copied to clipboard",
+  message = t("components.core:code.text.codeHasBeenCopiedTo"),
   onClick,
   className,
   showCopyIcon = true,

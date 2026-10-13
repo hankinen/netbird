@@ -5,6 +5,7 @@ import { merge, orderBy, uniqBy } from "lodash";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
 import { usePolicies } from "@/contexts/PoliciesProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import {
   AuthorizedGroups,
@@ -17,7 +18,6 @@ import {
 import { PostureCheck } from "@/interfaces/PostureCheck";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { usePostureCheck } from "@/modules/posture-checks/usePostureCheck";
-
 type Props = {
   policy?: Policy;
   postureCheckTemplates?: PostureCheck[];
@@ -324,13 +324,21 @@ export const useAccessControl = ({
           mutate("/policies");
           onSuccess && onSuccess(p);
         },
-        "The policy was successfully saved",
+        t(
+          "access-control.main:useAccessControl.text.thePolicyWasSuccessfullySaved",
+        ),
       );
     } else {
       notify({
-        title: "Create Access Control Policy",
-        description: "Policy was created successfully.",
-        loadingMessage: "Creating your policy...",
+        title: t(
+          "access-control.main:useAccessControl.title.createAccessControlPolicy",
+        ),
+        description: t(
+          "access-control.main:useAccessControl.description.policyWasCreatedSuccessfully",
+        ),
+        loadingMessage: t(
+          "access-control.main:useAccessControl.loadingMessage.creatingYourPolicy",
+        ),
         promise: policyRequest.post(policyObj).then((policy) => {
           mutate("/policies");
           onSuccess && onSuccess(policy);

@@ -3,8 +3,8 @@ import React, { useMemo } from "react";
 import { mutate } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { usePolicies } from "@/contexts/PoliciesProvider";
+import { t } from "@/i18n";
 import { Policy } from "@/interfaces/Policy";
-
 type Props = {
   policy: Policy;
 };
@@ -24,8 +24,12 @@ export default function AccessControlActiveCell({ policy }: Readonly<Props>) {
         mutate("/policies");
       },
       enabled
-        ? "The rule was successfully enabled"
-        : "The rule was successfully disabled",
+        ? t(
+            "access-control.table:accessControlActionCell.text.theRuleWasSuccessfullyEnabled",
+          )
+        : t(
+            "access-control.table:accessControlActionCell.text.theRuleWasSuccessfullyDisabled",
+          ),
     );
   };
 

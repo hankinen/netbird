@@ -8,10 +8,10 @@ import {
 } from "@components/Tooltip";
 import { Share2 } from "lucide-react";
 import React, { useMemo } from "react";
+import { t } from "@/i18n";
 import { Policy } from "@/interfaces/Policy";
-import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 import { parsePortsToStrings } from "@/modules/access-control/useAccessControl";
-
+import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 // AccessControlProtoPortsCell — single column combining the protocol
 // and ports indicators. Protocol is always shown. Ports rendering:
 //   - none defined         → ALL
@@ -70,7 +70,7 @@ export default function AccessControlProtoPortsCell({
                   variant={"gray"}
                   className={"uppercase tracking-wider font-medium"}
                 >
-                  All
+                  {t("common:word.all")}
                 </Badge>
               )}
 
@@ -92,7 +92,7 @@ export default function AccessControlProtoPortsCell({
                     "px-3 whitespace-nowrap uppercase tracking-wider font-medium"
                   }
                 >
-                  {allPorts.length} Ports
+                  {t("access-control.table:accessControlProtoPortsCell.text.ports", { length: allPorts.length })}
                 </Badge>
               )}
             </div>

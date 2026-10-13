@@ -4,7 +4,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import { ArrowRightIcon, XIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useAnnouncement } from "@/contexts/AnnouncementProvider";
-
+import { t } from "@/i18n";
 const variants = cva(
   {},
   {
@@ -85,7 +85,7 @@ export const AnnouncementBanner = () => {
                 variants({ inlineLink: announcement.variant }),
               )}
             >
-              {announcement.linkText || "Learn more"}
+              {announcement.linkText || t("common:word.learnMore")}
               <ArrowRightIcon size={14} />
             </InlineLink>
           )}

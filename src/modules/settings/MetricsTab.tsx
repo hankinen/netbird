@@ -10,8 +10,8 @@ import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Account } from "@/interfaces/Account";
-
 type Props = {
   account: Account;
 };
@@ -27,10 +27,11 @@ export default function MetricsTab({ account }: Readonly<Props>) {
 
   const toggleMetricsPush = async (toggle: boolean) => {
     notify({
-      title: "Metrics",
-      description: `Metrics push successfully ${
-        toggle ? "enabled" : "disabled"
-      }.`,
+      title: t("settings.identity-providers-tab:metricsTab.title.metrics"),
+      description: t(
+        "settings.identity-providers-tab:metricsTab.description.metricsPushSuccessfully",
+        { value: toggle ? "enabled" : "disabled" },
+      ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -43,7 +44,9 @@ export default function MetricsTab({ account }: Readonly<Props>) {
           setMetricsPushEnabled(toggle);
           mutate("/accounts");
         }),
-      loadingMessage: "Updating metrics setting...",
+      loadingMessage: t(
+        "settings.identity-providers-tab:metricsTab.loadingMessage.updatingMetricsSetting",
+      ),
     });
   };
 
@@ -53,25 +56,31 @@ export default function MetricsTab({ account }: Readonly<Props>) {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("common:word.settings")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings?tab=metrics"}
-            label={"Metrics"}
+            label={t(
+              "settings.identity-providers-tab:metricsTab.title.metrics",
+            )}
             icon={<ChartNoAxesCombined size={14} />}
             active
           />
         </Breadcrumbs>
         <div>
-          <h1>Metrics</h1>
+          <h1>
+            {t("settings.identity-providers-tab:metricsTab.title.metrics")}
+          </h1>
           <Paragraph className={"block"}>
-            Share client performance metrics to help us improve NetBird.{" "}
+            {t(
+              "settings.identity-providers-tab:metricsTab.text.shareClientPerformanceMetricsTo",
+            )}{" "}
             <InlineLink
               href={"https://docs.netbird.io/manage/client-metrics"}
               target={"_blank"}
             >
-              Learn more
+              {t("common:word.learnMore")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
@@ -84,12 +93,14 @@ export default function MetricsTab({ account }: Readonly<Props>) {
           label={
             <>
               <ChartNoAxesCombined size={15} />
-              Share performance metrics
+              {t(
+                "settings.identity-providers-tab:metricsTab.text.sharePerformanceMetrics",
+              )}
             </>
           }
-          helpText={
-            "When enabled, clients will periodically send performance data to help us identify and fix issues."
-          }
+          helpText={t(
+            "settings.identity-providers-tab:metricsTab.helpText.whenEnabledClientsWillPeriodically",
+          )}
           disabled={!permission.settings.update}
         />
       </div>

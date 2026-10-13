@@ -1,14 +1,14 @@
+import { Callout } from "@components/Callout";
+import GroupBadge from "@components/ui/GroupBadge";
+import { cn } from "@utils/helpers";
 import { InfoIcon } from "lucide-react";
 import React, { useCallback, useEffect, useMemo } from "react";
+import { useUsers } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { AuthorizedGroups } from "@/interfaces/Policy";
-import GroupBadge from "@components/ui/GroupBadge";
-import { HorizontalUsersStack } from "@/modules/users/HorizontalUsersStack";
-import { useUsers } from "@/contexts/UsersProvider";
-import { cn } from "@utils/helpers";
-import { Callout } from "@components/Callout";
 import { SSHUsernameSelector } from "@/modules/access-control/ssh/SSHUsernameSelector";
-
+import { HorizontalUsersStack } from "@/modules/users/HorizontalUsersStack";
 type Props = {
   sourceGroups?: Group[];
   accessType?: "full" | "limited";
@@ -61,9 +61,7 @@ export function SSHAuthorizedGroups({
         icon={<InfoIcon size={14} className={"shrink-0 relative top-[3px]"} />}
         className="mt-3 py-[.75rem]"
       >
-        You have not added any source groups yet, please add source groups in
-        order to specify which user group has access to which system users on
-        the destination machines.
+        {t("access-control.ssh:sSHAuthorizedGroups.text.youHaveNotAddedAny")}
       </Callout>
     );
   }

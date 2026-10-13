@@ -1,7 +1,7 @@
 import { IconCircleFilled } from "@tabler/icons-react";
 import { cn } from "@utils/helpers";
 import * as React from "react";
-
+import { t } from "@/i18n";
 type Props = {
   // "default" leads with the icon tile and a title in the reading size, for a
   // card summarising a capability. "plain" drops the tile and shrinks the
@@ -32,7 +32,9 @@ export const FeatureCardStatus = ({ enabled }: { enabled: boolean }) => (
     )}
   >
     <IconCircleFilled size={8} />
-    {enabled ? "Enabled" : "Disabled"}
+    {enabled
+      ? t("components.core:featureCard.text.enabled")
+      : t("components.core:featureCard.text.disabled")}
   </div>
 );
 

@@ -4,7 +4,7 @@ import SquareIcon from "@components/SquareIcon";
 import { LockIcon } from "lucide-react";
 import * as React from "react";
 import Skeleton from "react-loading-skeleton";
-
+import { t } from "@/i18n";
 type Props = {
   children?: React.ReactNode;
   hasAccess?: boolean;
@@ -61,12 +61,15 @@ export const RestrictedAccess = ({
                       <h1
                         className={"text-3xl font-medium max-w-xl mx-auto mt-3"}
                       >
-                        {"You don't have access to"} <br /> {page}
+                        {t(
+                          "components.ui:restrictedAccess.text.youDonTHaveAccess",
+                        )}{" "}
+                        <br /> {page}
                       </h1>
                       <Paragraph className={"justify-center my-3"}>
-                        {
-                          "Seems like you don't have access to this page. Only users with proper permissions can visit this page. Please contact your network administrator for further information."
-                        }
+                        {t(
+                          "components.ui:restrictedAccess.text.seemsLikeYouDonT",
+                        )}
                       </Paragraph>
                     </div>
                   </div>

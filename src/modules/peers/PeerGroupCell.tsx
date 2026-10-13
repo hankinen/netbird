@@ -3,9 +3,9 @@ import { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import { usePeer } from "@/contexts/PeerProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import GroupsRow from "@/modules/common-table-rows/GroupsRow";
-
 export default function PeerGroupCell() {
   const { peer, peerGroups } = usePeer();
   const [modal, setModal] = useState(false);
@@ -15,13 +15,17 @@ export default function PeerGroupCell() {
   const handleSave = async (promises: Promise<Group>[]) => {
     notify({
       title: peer.name,
-      description: "Groups of the peer were successfully saved",
+      description: t(
+        "peers.main:peerGroupCell.description.groupsOfThePeerWere",
+      ),
       promise: Promise.all(promises).then(() => {
         setModal(false);
         mutate("/peers");
         mutate("/groups");
       }),
-      loadingMessage: "Saving the groups of the peer...",
+      loadingMessage: t(
+        "peers.main:peerGroupCell.loadingMessage.savingTheGroupsOfThe",
+      ),
     });
   };
 
@@ -38,8 +42,10 @@ export default function PeerGroupCell() {
 
   return (
     <GroupsRow
-      label={"Assigned Groups"}
-      description={"Use groups to control what this peer can access"}
+      label={t("peers.main:peerGroupCell.label.assignedGroups")}
+      description={t(
+        "peers.main:peerGroupCell.description.useGroupsToControlWhat",
+      )}
       groups={groupIDs || []}
       hideAllGroup={true}
       showAddGroupButton={true}

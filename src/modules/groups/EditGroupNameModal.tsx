@@ -11,7 +11,7 @@ import { trim } from "lodash";
 import * as React from "react";
 import { useMemo, useState } from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
-
+import { t } from "@/i18n";
 type Props = {
   initialName: string;
   open: boolean;
@@ -39,7 +39,9 @@ export const EditGroupNameModal = ({
     const newName = e.target.value;
     const findGroup = groups?.find((g) => g.name === newName);
     if (findGroup) {
-      setError("This group already exists. Please choose another name.");
+      setError(
+        t("groups.main:editGroupNameModal.text.thisGroupAlreadyExistsPlease"),
+      );
     } else {
       setError("");
     }
@@ -50,8 +52,10 @@ export const EditGroupNameModal = ({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass={"max-w-md"}>
         <ModalHeader
-          title={"Rename Group"}
-          description={"Set an easily identifiable name for your group."}
+          title={t("groups.main:editGroupNameModal.title.renameGroup")}
+          description={t(
+            "groups.main:editGroupNameModal.description.setAnEasilyIdentifiableName",
+          )}
           color={"blue"}
         />
 
@@ -59,7 +63,9 @@ export const EditGroupNameModal = ({
           <div>
             <Input
               data-testid="group-name-input"
-              placeholder={"e.g., Developers"}
+              placeholder={t(
+                "groups.main:editGroupNameModal.placeholder.eGDevelopers",
+              )}
               value={name}
               onChange={handleNameChange}
               error={error}
@@ -71,7 +77,7 @@ export const EditGroupNameModal = ({
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
               <Button variant={"secondary"} className={"w-full"}>
-                Cancel
+                {t("common:word.cancel")}
               </Button>
             </ModalClose>
 
@@ -83,7 +89,7 @@ export const EditGroupNameModal = ({
               disabled={isDisabled}
               type={"submit"}
             >
-              Save
+              {t("common:word.save")}
             </Button>
           </div>
         </ModalFooter>

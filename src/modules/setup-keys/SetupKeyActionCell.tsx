@@ -13,8 +13,8 @@ import * as React from "react";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { SetupKey } from "@/interfaces/SetupKey";
-
 type Props = {
   setupKey: SetupKey;
 };
@@ -30,18 +30,24 @@ export default function SetupKeyActionCell({ setupKey }: Readonly<Props>) {
 
   const handleRevoke = async () => {
     const choice = await confirm({
-      title: `Revoke '${setupKey?.name || "Setup Key"}'?`,
-      description:
-        "Are you sure you want to revoke the setup key? This action cannot be undone.",
-      confirmText: "Revoke",
-      cancelText: "Cancel",
+      title: t("setup-keys.main:setupKeyActionCell.title.revoke", {
+        value: setupKey?.name || "Setup Key",
+      }),
+      description: t(
+        "setup-keys.main:setupKeyActionCell.description.areYouSureYouWant",
+      ),
+      confirmText: t("common:word.revoke"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!choice) return;
 
     notify({
-      title: setupKey?.name || "Setup Key",
-      description: "Setup key was successfully revoked",
+      title:
+        setupKey?.name || t("setup-keys.main:setupKeyActionCell.text.setupKey"),
+      description: t(
+        "setup-keys.main:setupKeyActionCell.description.setupKeyWasSuccessfullyRevoked",
+      ),
       promise: request
         .put({
           name: setupKey?.name || "Setup Key",
@@ -57,29 +63,39 @@ export default function SetupKeyActionCell({ setupKey }: Readonly<Props>) {
           mutate("/setup-keys");
           mutate("/groups");
         }),
-      loadingMessage: "Revoking the setup key...",
+      loadingMessage: t(
+        "setup-keys.main:setupKeyActionCell.loadingMessage.revokingTheSetupKey",
+      ),
     });
   };
 
   const handleDelete = async () => {
     const choice = await confirm({
-      title: `Delete '${setupKey?.name || "Setup Key"}'?`,
-      description:
-        "Are you sure you want to delete the setup key? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("setup-keys.main:setupKeyActionCell.title.delete", {
+        value: setupKey?.name || "Setup Key",
+      }),
+      description: t(
+        "setup-keys.main:setupKeyActionCell.description.areYouSureYouWant2",
+      ),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!choice) return;
 
     notify({
-      title: setupKey?.name || "Setup Key",
-      description: "Setup key was successfully deleted",
+      title:
+        setupKey?.name || t("setup-keys.main:setupKeyActionCell.text.setupKey"),
+      description: t(
+        "setup-keys.main:setupKeyActionCell.description.setupKeyWasSuccessfullyDeleted",
+      ),
       promise: request.del().then(() => {
         mutate("/setup-keys");
         mutate("/groups");
       }),
-      loadingMessage: "Deleting the setup key...",
+      loadingMessage: t(
+        "setup-keys.main:setupKeyActionCell.loadingMessage.deletingTheSetupKey",
+      ),
     });
   };
 
@@ -96,7 +112,9 @@ export default function SetupKeyActionCell({ setupKey }: Readonly<Props>) {
           <Button
             variant={"secondary"}
             className={"!px-3"}
-            aria-label={"Open actions menu"}
+            aria-label={t(
+              "setup-keys.main:setupKeyActionCell.ariaLabel.openActionsMenu",
+            )}
             data-testid={"setup-key-actions"}
           >
             <MoreVertical size={16} className={"shrink-0"} />
@@ -111,7 +129,7 @@ export default function SetupKeyActionCell({ setupKey }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <Undo2Icon size={14} className={"shrink-0"} />
-              Revoke
+              {t("common:word.revoke")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -123,7 +141,7 @@ export default function SetupKeyActionCell({ setupKey }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Delete
+              {t("common:word.delete")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

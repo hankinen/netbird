@@ -12,9 +12,9 @@ import * as React from "react";
 import { useEffect, useMemo, useState } from "react";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
 import { useElementSize } from "@/hooks/useElementSize";
+import { t } from "@/i18n";
 import { GroupedRoute, Route } from "@/interfaces/Route";
 import useGroupedRoutes from "@/modules/route-group/useGroupedRoutes";
-
 interface MultiSelectProps {
   value?: GroupedRoute;
   onChange: React.Dispatch<React.SetStateAction<GroupedRoute | undefined>>;
@@ -127,7 +127,11 @@ export function NetworkRouteSelector({
                 <DomainList domains={value?.domains} />
               </div>
             ) : (
-              <span>Select an existing network...</span>
+              <span>
+                {t(
+                  "components.core:networkRouteSelector.text.selectAnExistingNetwork",
+                )}
+              </span>
             )}
           </div>
 
@@ -165,7 +169,9 @@ export function NetworkRouteSelector({
                 ref={searchRef}
                 value={search}
                 onValueChange={setSearch}
-                placeholder={"Search for network by name or cidr..."}
+                placeholder={t(
+                  "components.core:networkRouteSelector.placeholder.searchForNetworkByName",
+                )}
               />
               <div
                 className={
@@ -198,12 +204,16 @@ export function NetworkRouteSelector({
                     "text-center pb-2 text-nb-gray-500 max-w-xs mx-auto"
                   }
                 >
-                  {"Seems like you don't have any network routes created yet."}
+                  {t(
+                    "components.core:networkRouteSelector.text.seemsLikeYouDonT",
+                  )}
                 </div>
               )}
               {notFound && (
                 <div className={"text-center pb-2 text-nb-gray-500"}>
-                  There are no networks matching your search.
+                  {t(
+                    "components.core:networkRouteSelector.text.thereAreNoNetworksMatching",
+                  )}
                 </div>
               )}
               <CommandGroup>

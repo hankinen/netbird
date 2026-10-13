@@ -10,7 +10,7 @@ import { debounce } from "lodash";
 import { Calendar as CalendarIcon } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
-
+import { t } from "@/i18n";
 interface Props {
   value?: DateRange;
   onChange?: (range: DateRange | undefined) => void;
@@ -66,11 +66,16 @@ export function dateRangePresetLabel(
   value: DateRange | undefined,
 ): string | null {
   if (!value?.from && !value?.to) return null;
-  if (isEqualDateRange(value, defaultRanges.allTime)) return "All Time";
-  if (isEqualDateRange(value, defaultRanges.lastMonth)) return "Last Month";
-  if (isEqualDateRange(value, defaultRanges.last14Days)) return "Last 14 Days";
-  if (isEqualDateRange(value, defaultRanges.last2Days)) return "Last 2 Days";
-  if (isEqualDateRange(value, defaultRanges.last7Days)) return "Last 7 Days";
+  if (isEqualDateRange(value, defaultRanges.allTime))
+    return t("components.core:datePickerWithRange.text.allTime");
+  if (isEqualDateRange(value, defaultRanges.lastMonth))
+    return t("components.core:datePickerWithRange.label.lastMonth");
+  if (isEqualDateRange(value, defaultRanges.last14Days))
+    return t("components.core:datePickerWithRange.label.last14Days");
+  if (isEqualDateRange(value, defaultRanges.last2Days))
+    return t("components.core:datePickerWithRange.text.last2Days");
+  if (isEqualDateRange(value, defaultRanges.last7Days))
+    return t("components.core:datePickerWithRange.text.last7Days");
   if (isEqualDateRange(value, defaultRanges.yesterday)) return "Yesterday";
   if (isEqualDateRange(value, defaultRanges.today)) return "Today";
   return null;
@@ -95,15 +100,21 @@ export function DatePickerWithRange({
   }, [value]);
 
   const displayDateValue = useMemo(() => {
-    if (!value) return "Select date range";
+    if (!value)
+      return t("components.core:datePickerWithRange.text.selectDateRange");
 
     const preset = dateRangePresetLabel(value);
     if (preset) return preset;
 
-    if (!value.to) return dayjs(value.from).format("MMM DD, YYYY").toString();
-    return `${dayjs(value.from).format("MMM DD, YYYY")} - ${dayjs(
-      value.to,
-    ).format("MMM DD, YYYY")}`;
+    if (!value.to)
+      return dayjs(value.from)
+        .format(t("components.core:datePickerWithRange.text.mMMDDYYYY"))
+        .toString();
+    return `${dayjs(value.from).format(
+      t("components.core:datePickerWithRange.text.mMMDDYYYY"),
+    )} - ${dayjs(value.to).format(
+      t("components.core:datePickerWithRange.text.mMMDDYYYY"),
+    )}`;
   }, [value]);
 
   const [calendarOpen, setCalendarOpen] = useState(false);
@@ -159,7 +170,7 @@ export function DatePickerWithRange({
                 label={
                   <>
                     <CalendarIcon size={14} className={"shrink-0"} />
-                    All Time
+                    {t("components.core:datePickerWithRange.text.allTime")}
                   </>
                 }
                 active={isActive.allTime}
@@ -168,22 +179,24 @@ export function DatePickerWithRange({
             </div>
             <div className={"flex gap-2 flex-wrap"}>
               <CalendarButton
-                label={"Last Month"}
+                label={t("components.core:datePickerWithRange.label.lastMonth")}
                 active={isActive.lastMonth}
                 onClick={() => updateRangeAndClose(defaultRanges.lastMonth)}
               />
               <CalendarButton
-                label={"Last 14 Days"}
+                label={t(
+                  "components.core:datePickerWithRange.label.last14Days",
+                )}
                 active={isActive.last14Days}
                 onClick={() => updateRangeAndClose(defaultRanges.last14Days)}
               />
               <CalendarButton
-                label={"Yesterday"}
+                label={t("components.core:datePickerWithRange.label.yesterday")}
                 active={isActive.yesterday}
                 onClick={() => updateRangeAndClose(defaultRanges.yesterday)}
               />
               <CalendarButton
-                label={"Today"}
+                label={t("components.core:datePickerWithRange.label.today")}
                 active={isActive.today}
                 onClick={() => updateRangeAndClose(defaultRanges.today)}
               />

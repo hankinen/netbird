@@ -3,7 +3,7 @@ import { cn } from "@utils/helpers";
 import { FileJson2 } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
-
+import { t } from "@/i18n";
 type Props = {
   value: string;
   onChange: (value: string) => void;
@@ -19,8 +19,12 @@ export const JSONFileUpload = ({ onChange }: Props) => {
     // check if file is json
     if (files[0].type !== "application/json") {
       notify({
-        title: "You uploaded the wrong file type",
-        description: "Please upload a JSON file",
+        title: t(
+          "components.core:jSONFileUpload.title.youUploadedTheWrongFile",
+        ),
+        description: t(
+          "components.core:jSONFileUpload.description.pleaseUploadAJSONFile",
+        ),
         icon: <FileJson2 size={20} />,
         backgroundColor: "bg-red-500",
       });
@@ -35,8 +39,10 @@ export const JSONFileUpload = ({ onChange }: Props) => {
       if (e.target === null) return;
       onChange(e.target.result as string);
       notify({
-        title: "Google Workspace",
-        description: "You successfully uploaded your service account key",
+        title: t("components.core:jSONFileUpload.title.googleWorkspace"),
+        description: t(
+          "components.core:jSONFileUpload.description.youSuccessfullyUploadedYourService",
+        ),
         icon: <FileJson2 size={16} />,
       });
     };
@@ -102,7 +108,7 @@ export const JSONFileUpload = ({ onChange }: Props) => {
 
       <div>
         <p className={"text-[14px] font-medium text-nb-gray-100 "}>
-          Upload your service account key (.json)
+          {t("components.core:jSONFileUpload.text.uploadYourServiceAccountKey")}
         </p>
         <p className={"text-xs !text-nb-gray-300 mt-1"}>
           <span
@@ -110,9 +116,9 @@ export const JSONFileUpload = ({ onChange }: Props) => {
               "underline underline-offset-4 group-hover/upload:text-nb-gray-200 transition-all"
             }
           >
-            Click to upload
+            {t("components.core:jSONFileUpload.text.clickToUpload")}
           </span>{" "}
-          or drag and drop your file here
+          {t("components.core:jSONFileUpload.text.orDragAndDropYour")}
         </p>
       </div>
     </div>

@@ -5,8 +5,8 @@ import { RouteIcon } from "lucide-react";
 import * as React from "react";
 import { useMemo } from "react";
 import Skeleton from "react-loading-skeleton";
+import { t } from "@/i18n";
 import { Route } from "@/interfaces/Route";
-
 type Props = {
   group_id: string;
 };
@@ -60,7 +60,7 @@ export const AccessControlGroupCount = ({ group_id }: Props) => {
         }
       >
         <RouteIcon size={14} className={"shrink-0"} />
-        {routes.length} Route(s)
+        {routes.length} {t("components.ui:accessControlGroupCount.text.routeS")}
       </div>
     </FullTooltip>
   ) : null;

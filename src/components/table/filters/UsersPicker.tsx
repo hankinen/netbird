@@ -1,16 +1,16 @@
 "use client";
 
-import { DropdownInput } from "@components/DropdownInput";
 import { DropdownInfoText } from "@components/DropdownInfoText";
-import { VirtualScrollAreaList } from "@components/VirtualScrollAreaList";
+import { DropdownInput } from "@components/DropdownInput";
 import TextWithTooltip from "@components/ui/TextWithTooltip";
+import { VirtualScrollAreaList } from "@components/VirtualScrollAreaList";
 import { useSearch } from "@hooks/useSearch";
 import { sortBy, uniqBy } from "lodash";
 import { UserCircle2 } from "lucide-react";
 import * as React from "react";
 import { useMemo } from "react";
+import { t } from "@/i18n";
 import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
-
 // UsersPicker — single-select search list mirroring the Activity ›
 // Audit Logs user filter. The value stored on the column filter is the
 // user's email (matches PeersTable's user_email accessor).
@@ -68,14 +68,14 @@ export function UsersPicker({ value, onChange, close, options }: Props) {
       <DropdownInput
         value={search}
         onChange={setSearch}
-        placeholder={"Search user..."}
+        placeholder={t("components.table:usersPicker.placeholder.searchUser")}
         hideEnterIcon={true}
       />
 
       {options.length === 0 && !search && (
         <div className={"max-w-xs mx-auto"}>
           <DropdownInfoText>
-            {"No users available to select."}
+            {t("components.table:peerResourcePicker.emptyText.noUsersAvailableToSelect")}
           </DropdownInfoText>
         </div>
       )}
@@ -83,7 +83,7 @@ export function UsersPicker({ value, onChange, close, options }: Props) {
       {filteredItems.length === 0 && search !== "" && (
         <div className={"px-10"}>
           <DropdownInfoText>
-            There are no users matching your search.
+            {t("components.table:usersPicker.text.thereAreNoUsersMatching")}
           </DropdownInfoText>
         </div>
       )}
@@ -131,7 +131,7 @@ export function UsersPicker({ value, onChange, close, options }: Props) {
                 <div className={"flex flex-col text-xs w-full min-w-0"}>
                   <span className={"text-nb-gray-200 flex items-center gap-1.5"}>
                     <TextWithTooltip
-                      text={isSystemUser ? "System" : user?.name || user?.id}
+                      text={isSystemUser ? t("common:word.system") : user?.name || user?.id}
                       maxChars={22}
                     />
                   </span>
@@ -141,7 +141,7 @@ export function UsersPicker({ value, onChange, close, options }: Props) {
                     }
                   >
                     <TextWithTooltip
-                      text={user?.email || "NetBird"}
+                      text={user?.email || t("components.table:usersPicker.text.netBird")}
                       maxChars={22}
                     />
                   </span>

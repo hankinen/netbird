@@ -1,7 +1,7 @@
 import Button from "@components/Button";
 import { Table } from "@tanstack/react-table";
 import { Trash2 } from "lucide-react";
-
+import { t } from "@/i18n";
 interface Props<TData> {
   table: Table<TData>;
 }
@@ -12,7 +12,9 @@ export default function DataTableMultiSelectActions<TData>({
     <div>
       <Button variant={"danger-outline"}>
         <Trash2 size={16} />
-        Revoke {table.getFilteredSelectedRowModel().rows.length} Key(s)
+        {t("common:word.revoke")}{" "}
+        {table.getFilteredSelectedRowModel().rows.length}{" "}
+        {t("components.table:dataTableMultiSelectActions.text.keyS")}
       </Button>
     </div>
   ) : null;

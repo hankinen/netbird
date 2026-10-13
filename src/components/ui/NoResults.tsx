@@ -6,7 +6,7 @@ import { FilterX } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback } from "react";
 import Skeleton from "react-loading-skeleton";
-
+import { t } from "@/i18n";
 type Props = {
   icon?: React.ReactNode;
   hideIcon?: boolean;
@@ -22,8 +22,8 @@ type Props = {
 export default function NoResults({
   icon,
   hideIcon = false,
-  title = "Could not find any results",
-  description = "We couldn't find any results. Please try a different search term or change your filters.",
+  title = t("components.ui:noResults.text.couldNotFindAnyResults"),
+  description = t("components.ui:noResults.text.weCouldnTFindAny"),
   children,
   className,
   hasFiltersApplied = false,
@@ -100,7 +100,7 @@ export default function NoResults({
               className="mt-4"
             >
               <FilterX size={16} />
-              Reset Filters & Search
+              {t("components.ui:noResults.text.resetFiltersSearch")}
             </Button>
           )}
           {children}

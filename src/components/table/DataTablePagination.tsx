@@ -7,7 +7,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-
+import { t } from "@/i18n";
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
   text?: string;
@@ -39,12 +39,15 @@ export function DataTablePagination<TData>({
         className={cn("flex items-center justify-between", paginationPadding)}
       >
         <div className="text-nb-gray-400">
-          Showing{" "}
+          {t("components.table:dataTablePagination.text.showing")}{" "}
           <span className={"font-medium text-white"}>
-            {showingFrom} to {showingTo}
+            {t("components.table:dataTablePagination.text.to", {
+              showingFrom,
+              showingTo,
+            })}
           </span>{" "}
-          of <span className={"font-medium text-white"}>{totalRows}</span>{" "}
-          {text}
+          {t("components.table:dataTableHeadingPortal.text.of")}{" "}
+          <span className={"font-medium text-white"}>{totalRows}</span> {text}
         </div>
         {pageCount > 1 && (
           <div className={"flex items-center gap-3"}>
@@ -64,7 +67,10 @@ export function DataTablePagination<TData>({
                 </ButtonGroup.Button>
                 <ButtonGroup.Button>
                   <div>
-                    {currentPage} of {pageCount}
+                    {t("components.table:dataTablePagination.text.of", {
+                      currentPage,
+                      pageCount,
+                    })}
                   </div>
                 </ButtonGroup.Button>
                 <ButtonGroup.Button

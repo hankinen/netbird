@@ -9,9 +9,9 @@ import { ChevronsUpDown, MapPin } from "lucide-react";
 import * as React from "react";
 import { memo, useState } from "react";
 import { useElementSize } from "@/hooks/useElementSize";
+import { t } from "@/i18n";
 import { User } from "@/interfaces/User";
 import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
-
 const MapPinIcon = memo(() => <MapPin size={12} />);
 MapPinIcon.displayName = "MapPinIcon";
 
@@ -39,7 +39,7 @@ export function UserSelector({
   value,
   disabled = false,
   options = [],
-  placeholder = "Select a user...",
+  placeholder = t("components.core:userSelector.text.selectAUser"),
 }: MultiSelectProps) {
   const [inputRef, { width }] = useElementSize<HTMLButtonElement>();
 
@@ -119,22 +119,22 @@ export function UserSelector({
             value={search}
             onChange={setSearch}
             hideEnterIcon={true}
-            placeholder={"Search for users by name or email..."}
+            placeholder={t(
+              "components.core:userSelector.placeholder.searchForUsersByName",
+            )}
           />
 
           {options.length == 0 && !search && (
             <div className={"max-w-xs mx-auto"}>
               <DropdownInfoText>
-                {
-                  "There are no users to select. Invite some users for this tenant before unlinking."
-                }
+                {t("components.core:userSelector.text.thereAreNoUsersTo")}
               </DropdownInfoText>
             </div>
           )}
 
           {filteredItems.length == 0 && search != "" && (
             <DropdownInfoText>
-              There are no users matching your search.
+              {t("components.core:userSelector.text.thereAreNoUsersMatching")}
             </DropdownInfoText>
           )}
 
@@ -197,7 +197,9 @@ export const UserListItem = ({
           )}
         >
           <TextWithTooltip
-            text={isSystemUser ? "System" : user?.name || user?.id}
+            text={
+              isSystemUser ? t("common:word.system") : user?.name || user?.id
+            }
             maxChars={maxChars}
           />
         </span>
@@ -209,7 +211,7 @@ export const UserListItem = ({
           )}
         >
           <TextWithTooltip
-            text={user?.email || "NetBird"}
+            text={user?.email || t("components.core:userSelector.text.netBird")}
             maxChars={maxChars}
           />
         </span>

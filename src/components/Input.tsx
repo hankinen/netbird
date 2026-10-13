@@ -5,7 +5,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
-
+import { t } from "@/i18n";
 type InputVariants = VariantProps<typeof inputVariants>;
 
 export interface InputProps
@@ -78,7 +78,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           type="button"
           onClick={() => setShowPassword(!showPassword)}
           className={"hover:text-white transition-all"}
-          aria-label={"Toggle password visibility"}
+          aria-label={t(
+            "components.core:input.ariaLabel.togglePasswordVisibility",
+          )}
         >
           {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
         </button>
@@ -165,7 +167,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 side={"top"}
                 keepOpen={true}
               >
-                &nbsp;
+                {t("components.core:input.text.nbsp")}
               </FullTooltip>
             </div>
           )}

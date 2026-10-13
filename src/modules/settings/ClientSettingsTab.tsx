@@ -33,10 +33,10 @@ import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Account } from "@/interfaces/Account";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
-
 type Props = {
   account: Account;
 };
@@ -129,7 +129,9 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
   };
 
   const versionError = useMemo(() => {
-    const msg = "Please enter a valid version, e.g., 0.2, 0.2.0, 0.2.0-alpha.1";
+    const msg = t(
+      "settings.main:clientSettingsTab.text.pleaseEnterAValidVersion",
+    );
     if (autoUpdateCustomVersion == "") return "";
     if (autoUpdateCustomVersion == "-") return "";
     const validSemver = validator.isValidVersion(autoUpdateCustomVersion);
@@ -165,8 +167,12 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
       .filter(Boolean) as string[];
 
     notify({
-      title: "Client Settings",
-      description: `Client settings successfully updated.`,
+      title: t(
+        "settings.authentication-tab:clientSettingsTab.title.clientSettings",
+      ),
+      description: t(
+        "settings.authentication-tab:clientSettingsTab.description.clientSettingsSuccessfullyUpdated",
+      ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -191,16 +197,21 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
             peerExposeGroupNames,
           ]);
         }),
-      loadingMessage: "Updating client settings...",
+      loadingMessage: t(
+        "settings.authentication-tab:clientSettingsTab.loadingMessage.updatingClientSettings",
+      ),
     });
   };
 
   const toggleLazyConnection = async (toggle: boolean) => {
     notify({
-      title: "Lazy Connections",
-      description: `Lazy Connections successfully ${
-        toggle ? "enabled" : "disabled"
-      }.`,
+      title: t(
+        "settings.authentication-tab:clientSettingsTab.title.lazyConnections",
+      ),
+      description: t(
+        "settings.authentication-tab:clientSettingsTab.description.lazyConnectionsSuccessfully",
+        { value: toggle ? "enabled" : "disabled" },
+      ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -213,16 +224,21 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           setLazyConnection(toggle);
           mutate("/accounts");
         }),
-      loadingMessage: "Updating Lazy Connections setting...",
+      loadingMessage: t(
+        "settings.authentication-tab:clientSettingsTab.loadingMessage.updatingLazyConnectionsSetting",
+      ),
     });
   };
 
   const toggleHostnameCollisionRejected = async (toggle: boolean) => {
     notify({
-      title: "Unique Peer Hostnames",
-      description: `Unique peer hostnames successfully ${
-        toggle ? "enabled" : "disabled"
-      }.`,
+      title: t(
+        "settings.authentication-tab:clientSettingsTab.title.uniquePeerHostnames",
+      ),
+      description: t(
+        "settings.authentication-tab:clientSettingsTab.description.uniquePeerHostnamesSuccessfully",
+        { value: toggle ? "enabled" : "disabled" },
+      ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -235,16 +251,21 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           setHostnameCollisionRejected(toggle);
           mutate("/accounts");
         }),
-      loadingMessage: "Updating unique peer hostnames setting...",
+      loadingMessage: t(
+        "settings.authentication-tab:clientSettingsTab.loadingMessage.updatingUniquePeerHostnamesSetting",
+      ),
     });
   };
 
   const toggleAgentNetworkOnly = async (toggle: boolean) => {
     notify({
-      title: "Agent Network Focused View",
-      description: `Agent Network focused view successfully ${
-        toggle ? "enabled" : "disabled"
-      }.`,
+      title: t(
+        "settings.authentication-tab:clientSettingsTab.title.agentNetworkFocusedView",
+      ),
+      description: t(
+        "settings.authentication-tab:clientSettingsTab.description.agentNetworkFocusedViewSuccessfully",
+        { value: toggle ? "enabled" : "disabled" },
+      ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -257,7 +278,9 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           setAgentNetworkOnly(toggle);
           mutate("/accounts");
         }),
-      loadingMessage: "Updating Agent Network focused view setting...",
+      loadingMessage: t(
+        "settings.authentication-tab:clientSettingsTab.loadingMessage.updatingAgentNetworkFocusedView",
+      ),
     });
   };
 
@@ -267,25 +290,29 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("common:word.settings")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings?tab=clients"}
-            label={"Clients"}
+            label={t(
+              "settings.authentication-tab:clientSettingsTab.label.clients",
+            )}
             icon={<MonitorSmartphoneIcon size={14} />}
             active
           />
         </Breadcrumbs>
         <div className={"flex items-start justify-between -mt-1"}>
-          <h1>Clients</h1>
+          <h1>
+            {t("settings.authentication-tab:clientSettingsTab.label.clients")}
+          </h1>
           <Button
             variant={"primary"}
             disabled={isSaveButtonDisabled}
             onClick={saveChanges}
             data-testid={"save-clients-settings"}
           >
-            Save Changes
+            {t("common:word.saveChanges")}
           </Button>
         </div>
 
@@ -293,24 +320,28 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           <div className={"flex flex-col relative"}>
             <Label>
               <RefreshCcw size={15} />
-              Automatic Updates
+              {t(
+                "settings.authentication-tab:clientSettingsTab.text.automaticUpdates",
+              )}
               <SmallBadge
-                text={"Beta"}
+                text={t(
+                  "settings.authentication-tab:authenticationTab.text.beta",
+                )}
                 variant={"sky"}
                 className={"text-[9px] leading-none py-[3px] px-[5px]"}
                 textClassName={"top-0"}
               />
             </Label>
             <HelpText>
-              Configure how NetBird clients receive update notifications. When
-              enabled, users will be prompted to install the selected version.
-              This requires at least NetBird{" "}
+              {t(
+                "settings.authentication-tab:clientSettingsTab.text.configureHowNetBirdClientsReceive",
+              )}{" "}
               <span className={"text-white font-medium"}>v0.61.0</span>.{" "}
               <InlineLink
                 href={"https://docs.netbird.io/manage/peers/auto-update"}
                 target={"_blank"}
               >
-                Learn more
+                {t("common:word.learnMore")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </HelpText>
@@ -342,12 +373,14 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               label={
                 <>
                   <AlertTriangle size={15} className={"text-yellow-400"} />
-                  Force Automatic Updates
+                  {t(
+                    "settings.authentication-tab:clientSettingsTab.text.forceAutomaticUpdates",
+                  )}
                 </>
               }
-              helpText={
-                "When enabled, updates are installed automatically in the background without user interaction."
-              }
+              helpText={t(
+                "settings.authentication-tab:clientSettingsTab.helpText.whenEnabledUpdatesAreInstalled",
+              )}
               disabled={
                 !permission.settings.update || autoUpdateMethod === "disabled"
               }
@@ -363,9 +396,9 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
                   />
                 }
               >
-                Enabling automatic updates will restart the NetBird client
-                during updates, which can temporarily disrupt active
-                connections. Use with caution in production environments.
+                {t(
+                  "settings.authentication-tab:clientSettingsTab.text.enablingAutomaticUpdatesWillRestart",
+                )}
               </Callout>
             )}
           </div>
@@ -374,11 +407,18 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
             <div>
               <Label>
                 <ReverseProxyIcon size={15} className={"text-nb-gray-300"} />
-                Expose Services from CLI
+                {t(
+                  "settings.authentication-tab:clientSettingsTab.text.exposeServicesFromCLI",
+                )}
               </Label>
               <HelpText>
-                Allow peers to expose local services through the NetBird reverse
-                proxy using the CLI. <br /> This requires at least NetBird{" "}
+                {t(
+                  "settings.authentication-tab:clientSettingsTab.text.allowPeersToExposeLocal",
+                )}{" "}
+                <br />{" "}
+                {t(
+                  "settings.authentication-tab:clientSettingsTab.text.thisRequiresAtLeastNetBird",
+                )}{" "}
                 <span className={"text-white font-medium"}>v0.66.0</span>.{" "}
                 <InlineLink
                   href={
@@ -386,7 +426,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
                   }
                   target={"_blank"}
                 >
-                  Learn more
+                  {t("common:word.learnMore")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </HelpText>
@@ -397,10 +437,12 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               value={peerExposeEnabled}
               onChange={setPeerExposeEnabled}
               data-testid="peer-expose"
-              label={"Enable Peer Expose"}
-              helpText={
-                "When enabled, peers can expose local HTTP services accessible via a public URL."
-              }
+              label={t(
+                "settings.authentication-tab:clientSettingsTab.label.enablePeerExpose",
+              )}
+              helpText={t(
+                "settings.authentication-tab:clientSettingsTab.helpText.whenEnabledPeersCanExpose",
+              )}
               disabled={!permission.settings.update}
             />
 
@@ -413,15 +455,22 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               )}
             >
               <div className={"mt-2"}>
-                <Label>Allowed peer groups</Label>
+                <Label>
+                  {t(
+                    "settings.authentication-tab:clientSettingsTab.text.allowedPeerGroups",
+                  )}
+                </Label>
                 <HelpText>
-                  Select which peer groups are allowed to expose services. At
-                  least one group is required.
+                  {t(
+                    "settings.authentication-tab:clientSettingsTab.text.selectWhichPeerGroupsAre",
+                  )}
                 </HelpText>
                 <PeerGroupSelector
                   values={peerExposeGroups}
                   onChange={setPeerExposeGroups}
-                  placeholder="Select peer groups..."
+                  placeholder={t(
+                    "settings.authentication-tab:clientSettingsTab.placeholder.selectPeerGroups",
+                  )}
                   data-testid="peer-expose-groups-selector"
                 />
               </div>
@@ -431,18 +480,20 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           <div>
             <Label>
               <ClockFadingIcon size={15} />
-              Lazy Connections
+              {t(
+                "settings.authentication-tab:clientSettingsTab.title.lazyConnections",
+              )}
             </Label>
 
             <HelpText>
-              Instead of maintaining always-on connections, NetBird activates
-              them on-demand based on activity or signaling. This requires
-              NetBird client v0.50.1 or higher.{" "}
+              {t(
+                "settings.authentication-tab:clientSettingsTab.text.insteadOfMaintainingAlwaysOn",
+              )}{" "}
               <InlineLink
                 href={"https://docs.netbird.io/how-to/lazy-connection"}
                 target={"_blank"}
               >
-                Learn more
+                {t("common:word.learnMore")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </HelpText>
@@ -451,12 +502,18 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               value={lazyConnection}
               onChange={toggleLazyConnection}
               data-testid="lazy-connections"
-              label={<>Enable Lazy Connections</>}
+              label={
+                <>
+                  {t(
+                    "settings.authentication-tab:clientSettingsTab.text.enableLazyConnections",
+                  )}
+                </>
+              }
               helpText={
                 <>
-                  Allow to establish connections between peers only when
-                  required. Changes will take effect after restarting the
-                  clients.
+                  {t(
+                    "settings.authentication-tab:clientSettingsTab.text.allowToEstablishConnectionsBetween",
+                  )}
                 </>
               }
               disabled={!permission.settings.update}
@@ -466,22 +523,26 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           <div>
             <Label>
               <TagIcon size={15} />
-              Unique Peer Hostnames
+              {t(
+                "settings.authentication-tab:clientSettingsTab.title.uniquePeerHostnames",
+              )}
             </Label>
             <HelpText>
-              By default, a peer registering or being renamed with a hostname
-              that is already in use receives an IP-based suffix on its DNS
-              label.
+              {t(
+                "settings.authentication-tab:clientSettingsTab.text.byDefaultAPeerRegistering",
+              )}
             </HelpText>
             <FancyToggleSwitch
               className={"mt-2"}
               value={hostnameCollisionRejected}
               onChange={toggleHostnameCollisionRejected}
               data-testid="peer-hostname-collision-rejected"
-              label={"Reject Hostname Collisions"}
-              helpText={
-                "When enabled, registering or renaming a peer to a hostname that is already in use fails instead of receiving a suffix. This applies to ephemeral peers as well."
-              }
+              label={t(
+                "settings.authentication-tab:clientSettingsTab.label.rejectHostnameCollisions",
+              )}
+              helpText={t(
+                "settings.authentication-tab:clientSettingsTab.helpText.whenEnabledRegisteringOrRenaming",
+              )}
               disabled={!permission.settings.update}
             />
           </div>
@@ -490,22 +551,26 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
             <div>
               <Label>
                 <AgentNetworkIcon size={15} />
-                Agent Network
+                {t(
+                  "settings.authentication-tab:clientSettingsTab.text.agentNetwork",
+                )}
               </Label>
               <HelpText>
-                Focus the dashboard on the Agent Network surface and hide
-                sections that are not relevant for it, such as Networks, DNS and
-                Reverse Proxy.
+                {t(
+                  "settings.authentication-tab:clientSettingsTab.text.focusTheDashboardOnThe",
+                )}
               </HelpText>
               <FancyToggleSwitch
                 className={"mt-2"}
                 value={agentNetworkOnly}
                 onChange={toggleAgentNetworkOnly}
                 data-testid="agent-network-only"
-                label={"Agent Network focused view"}
-                helpText={
-                  "When enabled, the dashboard shows only the Agent Network related sections. Disable it to bring back the full dashboard."
-                }
+                label={t(
+                  "settings.authentication-tab:clientSettingsTab.label.agentNetworkFocusedView",
+                )}
+                helpText={t(
+                  "settings.authentication-tab:clientSettingsTab.helpText.whenEnabledTheDashboardShows",
+                )}
                 disabled={!permission.settings.update}
               />
             </div>

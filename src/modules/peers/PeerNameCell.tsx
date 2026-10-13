@@ -3,13 +3,13 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useMemo } from "react";
 import { useLoggedInUser, useUsers } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { Peer } from "@/interfaces/Peer";
 import ActiveInactiveRow from "@/modules/common-table-rows/ActiveInactiveRow";
 import { ExitNodePeerIndicator } from "@/modules/exit-node/ExitNodePeerIndicator";
 import { EphemeralPeerIndicator } from "@/modules/peer/EphemeralPeerIndicator";
 import { ExpirationDisabledIndicator } from "@/modules/peer/ExpirationDisabledIndicator";
 import { usePeerIssueIcon } from "@/modules/peer/PeerIssueIcon";
-
 type Props = {
   peer: Peer;
   linkToPeer?: boolean;
@@ -36,7 +36,9 @@ export default function PeerNameCell({ peer, linkToPeer = true }: Props) {
             "hover:text-neutral-100 hover:bg-nb-gray-900/60 cursor-pointer",
         )}
         data-testid="peer-name-cell"
-        aria-label={`View details of peer ${peer.name}`}
+        aria-label={t("peers.main:peerNameCell.text.viewDetailsOfPeer", {
+          name: peer.name,
+        })}
         onClick={(e) => {
           if (!linkToPeer) return;
           e.preventDefault();

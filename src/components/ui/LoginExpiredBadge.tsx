@@ -1,7 +1,7 @@
 import Badge from "@components/Badge";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/Tooltip";
 import { AlertTriangle } from "lucide-react";
-
+import { t } from "@/i18n";
 type Props = {
   loginExpired: boolean;
 };
@@ -11,13 +11,16 @@ export default function LoginExpiredBadge({ loginExpired }: Props) {
       <TooltipTrigger>
         <Badge variant={"red"} className={"px-2"}>
           <AlertTriangle size={12} />
-          Login required
+          {t("components.ui:loginExpiredBadge.text.loginRequired")}
         </Badge>
       </TooltipTrigger>
       <TooltipContent>
         <div className={"text-neutral-300 text-xs leading-1.5"}>
-          This peer is offline and needs to be <br />
-          re-authenticated because its login has expired.
+          {t("components.ui:loginExpiredBadge.text.thisPeerIsOfflineAnd")}{" "}
+          <br />
+          {t(
+            "components.ui:loginExpiredBadge.text.reAuthenticatedBecauseItsLogin",
+          )}
         </div>
       </TooltipContent>
     </Tooltip>
