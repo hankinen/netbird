@@ -1,5 +1,5 @@
 {
-  "page.label.accessControl": "Access Control",
-  "page.text.accessControlPolicies": "Access Control Policies",
-  "page.text.policiesConnectUsersAndAgents": "Policies connect users and agents to your network resources, controlling what each identity can reach."
+  "page.label.accessControl": "访问控制",
+  "page.text.accessControlPolicies": "访问控制策略",
+  "page.text.policiesConnectUsersAndAgents": "策略将用户和代理连接到网络资源，控制每个身份可以访问的内容。"
 }

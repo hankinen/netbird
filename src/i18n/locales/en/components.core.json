@@ -8,7 +8,7 @@
   "featureCard.text.enabled": "Enabled",
   "featureCard.text.disabled": "Disabled",
   "input.ariaLabel.togglePasswordVisibility": "Toggle password visibility",
-  "input.text.nbsp": "&nbsp;",
+  "input.text.nbsp": " ",
   "jSONFileUpload.title.youUploadedTheWrongFile": "You uploaded the wrong file type",
   "jSONFileUpload.description.pleaseUploadAJSONFile": "Please upload a JSON file",
   "jSONFileUpload.title.googleWorkspace": "Google Workspace",

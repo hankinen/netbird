@@ -1,9 +1,9 @@
 {
-  "clientSettingsTab.text.pleaseEnterAValidVersion": "Please enter a valid version, e.g., 0.2, 0.2.0, 0.2.0-alpha.1",
-  "groupsSettings.text.accessControlGroups": "Access Control › Groups",
-  "networkSettingsTab.text.pleaseEnterAValidDomain": "Please enter a valid domain, e.g. example.com or intra.example.com",
-  "networkSettingsTab.text.networkRangeCannotBeEmpty": "Network range cannot be empty",
-  "networkSettingsTab.text.pleaseEnterAValidIPv4": "Please enter a valid IPv4 CIDR range, e.g. 100.64.0.0/16 or 192.168.1.0/24",
-  "networkSettingsTab.text.pleaseEnterAValidIPv6": "Please enter a valid IPv6 CIDR range, e.g. fd00:1234::/64",
-  "networkSettingsTab.text.prefixLengthMustBeBetween": "Prefix length must be between /48 and /112"
+  "clientSettingsTab.text.pleaseEnterAValidVersion": "请输入有效的版本号，例如 0.2、0.2.0、0.2.0-alpha.1",
+  "groupsSettings.text.accessControlGroups": "访问控制 › 组",
+  "networkSettingsTab.text.pleaseEnterAValidDomain": "请输入有效的域名，例如 example.com 或 intra.example.com",
+  "networkSettingsTab.text.networkRangeCannotBeEmpty": "网络范围不能为空",
+  "networkSettingsTab.text.pleaseEnterAValidIPv4": "请输入有效的 IPv4 CIDR 范围，例如 100.64.0.0/16 或 192.168.1.0/24",
+  "networkSettingsTab.text.pleaseEnterAValidIPv6": "请输入有效的 IPv6 CIDR 范围，例如 fd00:1234::/64",
+  "networkSettingsTab.text.prefixLengthMustBeBetween": "前缀长度必须在 /48 到 /112 之间"
 }

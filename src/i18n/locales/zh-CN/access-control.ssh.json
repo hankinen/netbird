@@ -1,10 +1,10 @@
 {
-  "sSHAccessType.placeholder.selectSshAccessType": "Select ssh access type...",
-  "sSHAccessType.text.fullAccess": "Full Access",
-  "sSHAccessType.text.limitedAccess": "Limited Access",
-  "sSHAuthorizedGroups.text.youHaveNotAddedAny": "You have not added any source groups yet, please add source groups in order to specify which user group has access to which system users on the destination machines.",
-  "sSHUsernameSelector.text.allLocalUsers": "All Local Users",
-  "sSHUsernameSelector.placeholder.eGRootEc2User": "E.g., root, ec2-user, ubuntu",
-  "sSHUsernameSelector.text.addUsernameByPressing": "Add username by pressing",
-  "sSHUsernameSelector.text.enter": "'Enter'"
+  "sSHAccessType.placeholder.selectSshAccessType": "选择 SSH 访问类型...",
+  "sSHAccessType.text.fullAccess": "完全访问",
+  "sSHAccessType.text.limitedAccess": "受限访问",
+  "sSHAuthorizedGroups.text.youHaveNotAddedAny": "您还没有添加任何源组，请先添加源组，以指定哪个用户组可以使用目标机器上的哪些系统用户。",
+  "sSHUsernameSelector.text.allLocalUsers": "所有本地用户",
+  "sSHUsernameSelector.placeholder.eGRootEc2User": "例如：root、ec2-user、ubuntu",
+  "sSHUsernameSelector.text.addUsernameByPressing": "按下以下按键添加用户名",
+  "sSHUsernameSelector.text.enter": "\"回车\""
 }

@@ -23,7 +23,7 @@
   "peerActionCell.description.sessionExpirationForPeerWas": "Session expiration for peer {{name}} was successfully {{text}}.",
   "peerActionCell.loadingMessage.updatingSessionExpiration": "Updating session expiration...",
   "peerActionCell.title.disableSSHAccess": "Disable SSH Access?",
-  "peerActionCell.text.startingFromNetBirdV061": "Starting from NetBird v0.61.0, once SSH access is disabled, you cannot re-enable it again from the dashboard. You&apos;ll need to create an explicit access control policy and update your NetBird client to restore SSH functionality.",
+  "peerActionCell.text.startingFromNetBirdV061": "Starting from NetBird v0.61.0, once SSH access is disabled, you cannot re-enable it again from the dashboard. You'll need to create an explicit access control policy and update your NetBird client to restore SSH functionality.",
   "peerActionCell.text.viewDetails": "View Details",
   "peerActionCell.text.bypassComplianceCheckAndAllow": "Bypass {{activeIntegrationName}} compliance check and allow this peer to connect. The bypass is automatically removed when the device becomes compliant.",
   "peerActionCell.text.revokeBypass": "Revoke Bypass",

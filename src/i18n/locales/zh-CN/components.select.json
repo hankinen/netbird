@@ -1,4 +1,4 @@
 {
-  "selectDropdown.text.thereAreNoResultsMatching": "There are no results matching your search. Please try a different search term.",
-  "selectDropdownSearchInput.text.searchForPeersByName": "Search for peers by name or ip..."
+  "selectDropdown.text.thereAreNoResultsMatching": "没有与搜索匹配的结果，请尝试其他搜索词。",
+  "selectDropdownSearchInput.text.searchForPeersByName": "按名称或 IP 搜索设备..."
 }

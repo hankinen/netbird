@@ -1,6 +1,6 @@
 {
-  "page.text.userDevicesAndHeadlessMachines": "User devices and headless machines, such as servers and autonomous agents, connected to your network.",
-  "page.text.addNewDeviceToYour": "Add new device to your network",
-  "page.text.toGetStartedInstallNetBird": "To get started, install NetBird and log in using your email account. After that you should be connected. If you have further questions check out our",
-  "page.text.installationGuide": "Installation Guide"
+  "page.text.userDevicesAndHeadlessMachines": "连接到您网络的用户设备和无界面机器（如服务器和自主代理）。",
+  "page.text.addNewDeviceToYour": "向网络添加新设备",
+  "page.text.toGetStartedInstallNetBird": "开始使用时，请安装 NetBird 并使用邮箱账号登录，之后即可完成连接。如有其他问题，请查看我们的",
+  "page.text.installationGuide": "安装指南"
 }

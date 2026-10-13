@@ -1,8 +1,8 @@
 {
-  "page.text.authentication": "Authentication",
-  "page.text.identityProviders": "Identity Providers",
-  "page.text.permissions": "Permissions",
-  "page.text.clients": "Clients",
-  "page.text.metrics": "Metrics",
-  "page.text.dangerZone": "Danger zone"
+  "page.text.authentication": "认证",
+  "page.text.identityProviders": "身份提供商",
+  "page.text.permissions": "权限",
+  "page.text.clients": "客户端",
+  "page.text.metrics": "指标",
+  "page.text.dangerZone": "危险区域"
 }
