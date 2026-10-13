@@ -6,8 +6,8 @@ import { TerminalIcon } from "lucide-react";
 import * as React from "react";
 import AppleIcon from "@/assets/icons/AppleIcon";
 import WindowsIcon from "@/assets/icons/WindowsIcon";
+import { t } from "@/i18n";
 import { ProcessCheck } from "@/interfaces/PostureCheck";
-
 type Props = {
   check?: ProcessCheck;
   children?: React.ReactNode;
@@ -26,8 +26,12 @@ export const ProcessTooltip = ({ check, children }: Props) => {
         >
           <div className={"px-4 pt-3"}>
             <span>
-              <span className={"text-green-500 font-semibold"}>Allow only</span>{" "}
-              peers which are running the following processes
+              <span className={"text-green-500 font-semibold"}>
+                {t("posture-checks.checks:certificateTooltip.text.allowOnly")}
+              </span>{" "}
+              {t(
+                "posture-checks.checks:processTooltip.text.peersWhichAreRunningThe",
+              )}
             </span>
           </div>
 
@@ -54,7 +58,9 @@ export const ProcessTooltip = ({ check, children }: Props) => {
                           title={p?.linux_path}
                         >
                           {tryGetProcessNameFromPath(p?.linux_path) ||
-                            "Unknown path"}
+                            t(
+                              "posture-checks.checks:processTooltip.text.unknownPath",
+                            )}
                         </span>
                       </Badge>
                     )}
@@ -73,7 +79,9 @@ export const ProcessTooltip = ({ check, children }: Props) => {
                           title={p?.mac_path}
                         >
                           {tryGetProcessNameFromPath(p?.mac_path) ||
-                            "Unknown path"}
+                            t(
+                              "posture-checks.checks:processTooltip.text.unknownPath",
+                            )}
                         </span>
                       </Badge>
                     )}
@@ -92,7 +100,9 @@ export const ProcessTooltip = ({ check, children }: Props) => {
                           title={p?.windows_path}
                         >
                           {tryGetProcessNameFromPath(p?.windows_path) ||
-                            "Unknown path"}
+                            t(
+                              "posture-checks.checks:processTooltip.text.unknownPath",
+                            )}
                         </span>
                       </Badge>
                     )}

@@ -30,6 +30,7 @@ import AppleIcon from "@/assets/icons/AppleIcon";
 import IOSIcon from "@/assets/icons/IOSIcon";
 import { LinuxIcon } from "@/assets/icons/LinuxIcon";
 import WindowsIcon from "@/assets/icons/WindowsIcon";
+import { t } from "@/i18n";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import {
   androidVersions,
@@ -39,7 +40,6 @@ import {
   windowsKernelVersions,
 } from "@/interfaces/PostureCheck";
 import { PostureCheckCard } from "@/modules/posture-checks/ui/PostureCheckCard";
-
 type Props = {
   value?: OperatingSystemVersionCheck;
   onChange: (value: OperatingSystemVersionCheck | undefined) => void;
@@ -59,11 +59,13 @@ export const PostureCheckOperatingSystem = ({
       setOpen={setOpen}
       key={open ? 1 : 0}
       icon={<Disc3Icon size={16} />}
-      title={"Operating System"}
+      title={t(
+        "posture-checks.checks:postureCheckOperatingSystem.title.operatingSystem",
+      )}
       modalWidthClass={"max-w-xl"}
-      description={
-        "Restrict access in your network based on the operating system."
-      }
+      description={t(
+        "posture-checks.checks:postureCheckOperatingSystem.description.restrictAccessInYourNetwork",
+      )}
       iconClass={"bg-gradient-to-tr from-nb-gray-500 to-nb-gray-300"}
       active={value !== undefined}
       onReset={() => onChange(undefined)}
@@ -141,7 +143,7 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
                 "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
               }
             />
-            Linux
+            {t("posture-checks.checks:postureCheckOperatingSystem.text.linux")}
           </TabsTrigger>
           <TabsTrigger value={String(OperatingSystem.WINDOWS)}>
             <WindowsIcon
@@ -149,7 +151,9 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
                 "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
               }
             />
-            Windows
+            {t(
+              "posture-checks.checks:postureCheckOperatingSystem.text.windows",
+            )}
           </TabsTrigger>
           <TabsTrigger value={String(OperatingSystem.APPLE)}>
             <AppleIcon
@@ -157,7 +161,7 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
                 "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
               }
             />
-            macOS
+            {t("posture-checks.checks:postureCheckOperatingSystem.text.macOS")}
           </TabsTrigger>
           <TabsTrigger value={String(OperatingSystem.IOS)}>
             <IOSIcon
@@ -173,7 +177,9 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
                 "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
               }
             />
-            Android
+            {t(
+              "posture-checks.checks:postureCheckOperatingSystem.text.android",
+            )}
           </TabsTrigger>
         </TabsList>
         <TabsContent value={String(OperatingSystem.LINUX)} className={"px-8"}>
@@ -230,21 +236,23 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink
               href={
                 "https://docs.netbird.io/how-to/manage-posture-checks#operating-system-version-check"
               }
               target={"_blank"}
             >
-              Operating System Check
+              {t(
+                "posture-checks.checks:postureCheckOperatingSystem.text.operatingSystemCheck",
+              )}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
           </ModalClose>
           <Button
             disabled={!!versionError}
@@ -275,7 +283,7 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
               }
             }}
           >
-            Save
+            {t("common:word.save")}
           </Button>
         </div>
       </ModalFooter>
@@ -352,11 +360,15 @@ export const OperatingSystemTab = ({
 
   const prefix =
     os === OperatingSystem.LINUX || os === OperatingSystem.WINDOWS
-      ? "Kernel Version"
+      ? t(
+          "posture-checks.checks:postureCheckOperatingSystem.text.kernelVersion",
+        )
       : "Version";
 
   const versionError = useMemo(() => {
-    const msg = "Please enter a valid version, e.g., 0.2, 0.2.0, 0.2.0-alpha.1";
+    const msg = t(
+      "posture-checks.checks:postureCheckNetBirdVersion.text.pleaseEnterAValidVersion",
+    );
     if (value == "") return "";
     if (value == "-") return "";
     const validSemver = validator.isValidVersion(value);
@@ -372,19 +384,25 @@ export const OperatingSystemTab = ({
     <div className={""}>
       <div className={"flex justify-between items-start gap-10 "}>
         <div>
-          <Label>Allow or Block</Label>
+          <Label>
+            {t(
+              "posture-checks.checks:postureCheckOperatingSystem.text.allowOrBlock",
+            )}
+          </Label>
           <HelpText>
-            Choose whether you want to allow or block the operating system.
+            {t(
+              "posture-checks.checks:postureCheckOperatingSystem.text.chooseWhetherYouWantTo",
+            )}
           </HelpText>
         </div>
         <RadioGroup value={allow} onChange={changeAllow}>
           <RadioGroupItem value={"allow"} variant={"green"}>
             <ShieldCheck size={14} />
-            Allow
+            {t("posture-checks.checks:postureCheckGeoLocation.text.allow")}
           </RadioGroupItem>
           <RadioGroupItem value={"block"} variant={"red"}>
             <ShieldXIcon size={14} />
-            Block
+            {t("posture-checks.checks:postureCheckGeoLocation.text.block")}
           </RadioGroupItem>
         </RadioGroup>
       </div>
@@ -399,7 +417,9 @@ export const OperatingSystemTab = ({
           <SelectDropdown
             value={value || "0"}
             showSearch={true}
-            placeholder={"Select version..."}
+            placeholder={t(
+              "posture-checks.checks:postureCheckOperatingSystem.placeholder.selectVersion",
+            )}
             onChange={onChange}
             options={versionList}
             disabled={allOrMin === "all" || allow === "block" || disabled}
@@ -427,10 +447,14 @@ export const OperatingSystemTab = ({
             label={
               <>
                 <FileCog size={14} />
-                Use custom version number
+                {t(
+                  "posture-checks.checks:postureCheckOperatingSystem.text.useCustomVersionNumber",
+                )}
               </>
             }
-            helpText={"Use a custom version number if you need more control."}
+            helpText={t(
+              "posture-checks.checks:postureCheckOperatingSystem.helpText.useACustomVersionNumber",
+            )}
           />
         </div>
       )}

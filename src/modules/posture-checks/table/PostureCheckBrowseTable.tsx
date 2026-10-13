@@ -11,10 +11,10 @@ import {
 import useFetchApi from "@utils/api";
 import React, { useState } from "react";
 import { useSWRConfig } from "swr";
+import { t } from "@/i18n";
 import { PostureCheck } from "@/interfaces/PostureCheck";
 import { PostureCheckChecksCell } from "@/modules/posture-checks/table/cells/PostureCheckChecksCell";
 import { PostureCheckNameCell } from "@/modules/posture-checks/table/cells/PostureCheckNameCell";
-
 type Props = {
   onAdd: (checks: PostureCheck[]) => void;
 };
@@ -42,7 +42,9 @@ export default function PostureCheckBrowseTable({ onAdd }: Readonly<Props>) {
         setRowSelection={setSelectedRows}
         isLoading={isLoading}
         keepStateInLocalStorage={false}
-        text={"Posture Check"}
+        text={t(
+          "posture-checks.table:postureCheckBrowseTable.text.postureCheck",
+        )}
         sorting={sorting}
         wrapperClassName={""}
         setSorting={setSorting}
@@ -54,7 +56,9 @@ export default function PostureCheckBrowseTable({ onAdd }: Readonly<Props>) {
         tableClassName={"mt-6 !border-0"}
         rowClassName={"!border-b-0 px-10"}
         data={postureChecks}
-        searchPlaceholder={"Search by name and description..."}
+        searchPlaceholder={t(
+          "posture-checks.table:postureCheckBrowseTable.searchPlaceholder.searchByNameAndDescription",
+        )}
         onRowClick={(row) => row.toggleSelected()}
         rightSide={(table) => (
           <>
@@ -69,7 +73,10 @@ export default function PostureCheckBrowseTable({ onAdd }: Readonly<Props>) {
                 }
                 disabled={table.getSelectedRowModel().rows.length <= 0}
               >
-                Add Posture Checks ({table.getSelectedRowModel().rows.length})
+                {t(
+                  "posture-checks.table:postureCheckBrowseTable.text.addPostureChecks",
+                  { length: table.getSelectedRowModel().rows.length },
+                )}
               </Button>
             )}
           </>
@@ -98,7 +105,7 @@ export const PostureChecksColumns: ColumnDef<PostureCheck>[] = [
         <Checkbox
           checked={table.getIsAllPageRowsSelected()}
           onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
-          aria-label="Select all"
+          aria-label={t("common:word.selectAll")}
         />
       </div>
     ),
@@ -107,7 +114,7 @@ export const PostureChecksColumns: ColumnDef<PostureCheck>[] = [
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
+          aria-label={t("common:word.selectRow")}
           variant={"tableCell"}
         />
       </div>
@@ -118,7 +125,11 @@ export const PostureChecksColumns: ColumnDef<PostureCheck>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Name</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.name")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => (
       <PostureCheckNameCell small={true} check={row.original} />
@@ -127,7 +138,11 @@ export const PostureChecksColumns: ColumnDef<PostureCheck>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Checks</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("posture-checks.table:postureCheckBrowseTable.text.checks")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <PostureCheckChecksCell check={row.original} />,
   },

@@ -3,8 +3,8 @@ import FullTooltip from "@components/FullTooltip";
 import { ScrollArea } from "@components/ScrollArea";
 import { NetworkIcon } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { PeerNetworkRangeCheck } from "@/interfaces/PostureCheck";
-
 type Props = {
   check?: PeerNetworkRangeCheck;
   children?: React.ReactNode;
@@ -23,14 +23,22 @@ export const PeerNetworkRangeTooltip = ({ check, children }: Props) => {
             {check.action == "allow" ? (
               <span>
                 <span className={"text-green-500 font-semibold"}>
-                  Allow only
+                  {t("posture-checks.checks:certificateTooltip.text.allowOnly")}
                 </span>{" "}
-                the following peer network ranges
+                {t(
+                  "posture-checks.checks:peerNetworkRangeTooltip.text.theFollowingPeerNetworkRanges",
+                )}
               </span>
             ) : (
               <span>
-                <span className={"text-red-500 font-semibold"}>Block</span> the
-                following peer network ranges
+                <span className={"text-red-500 font-semibold"}>
+                  {t(
+                    "posture-checks.checks:postureCheckGeoLocation.text.block",
+                  )}
+                </span>{" "}
+                {t(
+                  "posture-checks.checks:peerNetworkRangeTooltip.text.theFollowingPeerNetworkRanges",
+                )}
               </span>
             )}
           </div>

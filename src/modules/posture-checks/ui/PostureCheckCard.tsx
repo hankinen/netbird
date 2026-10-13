@@ -5,7 +5,7 @@ import { cn } from "@utils/helpers";
 import { ScaleIcon } from "lucide-react";
 import * as React from "react";
 import { useDialog } from "@/contexts/DialogProvider";
-
+import { t } from "@/i18n";
 export const PostureCheckCard = ({
   children,
   title,
@@ -37,11 +37,12 @@ export const PostureCheckCard = ({
 
   const handleReset = async () => {
     const reset = await confirm({
-      title: `Disable this check?`,
-      description:
-        "Are you sure you want to disable this check? All settings of this check will be lost.",
-      confirmText: "Disable",
-      cancelText: "Cancel",
+      title: t("posture-checks.ui:postureCheckCard.title.disableThisCheck"),
+      description: t(
+        "posture-checks.ui:postureCheckCard.description.areYouSureYouWant",
+      ),
+      confirmText: t("common:word.disable"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (reset) onReset?.();
@@ -106,7 +107,7 @@ export const PostureCheckCard = ({
               }}
             >
               <IconCircleFilled size={7} className={"mt-[0.1px]"} />
-              {active ? "On" : "Off"}
+              {active ? "On" : t("posture-checks.ui:postureCheckCard.text.off")}
             </span>
           </div>
         </div>

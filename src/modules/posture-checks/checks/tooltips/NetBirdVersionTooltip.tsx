@@ -1,7 +1,7 @@
 import FullTooltip from "@components/FullTooltip";
 import { IconMathEqualGreater } from "@tabler/icons-react";
 import * as React from "react";
-
+import { t } from "@/i18n";
 type Props = {
   version?: string;
   children?: React.ReactNode;
@@ -13,7 +13,11 @@ export const NetBirdVersionTooltip = ({ version, children }: Props) => {
       interactive={false}
       content={
         <div className={"text-neutral-300 flex items-center text-sm gap-1"}>
-          <span className={""}>Min. Client Version</span>
+          <span className={""}>
+            {t(
+              "posture-checks.checks:netBirdVersionTooltip.text.minClientVersion",
+            )}
+          </span>
 
           <span
             className={"text-netbird font-semibold flex items-center gap-1"}

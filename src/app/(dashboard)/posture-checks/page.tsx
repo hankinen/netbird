@@ -13,9 +13,9 @@ import AccessControlIcon from "@/assets/icons/AccessControlIcon";
 import GroupsProvider from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import PoliciesProvider from "@/contexts/PoliciesProvider";
+import { t } from "@/i18n";
 import { PostureCheck } from "@/interfaces/PostureCheck";
 import PageContainer from "@/layouts/PageContainer";
-
 const PostureCheckTable = lazy(
   () => import("@/modules/posture-checks/table/PostureCheckTable"),
 );
@@ -34,24 +34,24 @@ export default function PostureChecksPage() {
           <Breadcrumbs>
             <Breadcrumbs.Item
               href={"/access-control"}
-              label={"Access Control"}
+              label={t("posture-checks.page:page.label.accessControl")}
               icon={<AccessControlIcon size={14} />}
             />
             <Breadcrumbs.Item
               href={"/posture-checks"}
-              label={"Posture Checks"}
+              label={t("common:word.postureChecks")}
               active
               icon={<ShieldCheck size={15} />}
             />
           </Breadcrumbs>
-          <h1 ref={headingRef}>Posture Checks</h1>
+          <h1 ref={headingRef}>{t("common:word.postureChecks")}</h1>
           <Paragraph>
-            Use posture checks to further restrict access in your network.{" "}
+            {t("posture-checks.page:page.text.usePostureChecksToFurther")}{" "}
             <InlineLink
               href={"https://docs.netbird.io/how-to/manage-posture-checks"}
               target={"_blank"}
             >
-              Learn more
+              {t("common:word.learnMore")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>

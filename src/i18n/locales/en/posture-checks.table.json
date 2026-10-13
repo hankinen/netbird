@@ -1,0 +1,21 @@
+{
+  "postureCheckBrowseTable.text.postureCheck": "Posture Check",
+  "postureCheckBrowseTable.searchPlaceholder.searchByNameAndDescription": "Search by name and description...",
+  "postureCheckBrowseTable.text.addPostureChecks": "Add Posture Checks ({{length}})",
+  "postureCheckBrowseTable.text.checks": "Checks",
+  "postureCheckMinimalTable.text.usePostureChecksToFurther": "Use posture checks to further restrict access in your network.",
+  "postureCheckMinimalTable.text.browseChecks": "Browse Checks",
+  "postureCheckMinimalTable.text.newPostureCheck": "New Posture Check",
+  "postureCheckMinimalTable.text.editPostureCheck": "Edit Posture Check",
+  "postureCheckMinimalTable.text.removePostureCheck": "Remove Posture Check",
+  "postureCheckTable.text.addPostureCheck": "Add Posture Check",
+  "postureCheckTable.title.createPostureCheck": "Create Posture Check",
+  "postureCheckTable.description.addPostureChecksToFurther": "Add posture checks to further restrict access in your network. E.g., only clients with a specific NetBird client version, operating system or location are allowed to connect.",
+  "postureCheckActionCell.title.delete": "Delete '{{name}}'?",
+  "postureCheckActionCell.description.areYouSureYouWant": "Are you sure you want to delete this posture check? This action cannot be undone.",
+  "postureCheckActionCell.description.postureCheckWasSuccessfullyDeleted": "Posture check was successfully deleted",
+  "postureCheckActionCell.loadingMessage.deletingPostureCheck": "Deleting posture check...",
+  "postureCheckActionCell.text.thisPostureCheckIsAssigned": "This posture check is assigned to a policy and cannot be deleted. Please remove the posture check from all policies before deleting it.",
+  "postureCheckPolicyUsageCell.text.toAssignThisPostureCheck": "To assign this posture check to your policies, visit the Policies page.",
+  "postureCheckPolicyUsageCell.text.goToPolicies": "Go to Policies"
+}

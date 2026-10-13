@@ -1,0 +1,21 @@
+{
+  "postureCheckBrowseTable.text.postureCheck": "设备合规检查",
+  "postureCheckBrowseTable.searchPlaceholder.searchByNameAndDescription": "按名称和描述搜索...",
+  "postureCheckBrowseTable.text.addPostureChecks": "添加设备合规检查（{{length}}）",
+  "postureCheckBrowseTable.text.checks": "检查项",
+  "postureCheckMinimalTable.text.usePostureChecksToFurther": "使用设备合规检查进一步限制网络中的访问。",
+  "postureCheckMinimalTable.text.browseChecks": "浏览检查项",
+  "postureCheckMinimalTable.text.newPostureCheck": "新建设备合规检查",
+  "postureCheckMinimalTable.text.editPostureCheck": "编辑设备合规检查",
+  "postureCheckMinimalTable.text.removePostureCheck": "移除设备合规检查",
+  "postureCheckTable.text.addPostureCheck": "添加设备合规检查",
+  "postureCheckTable.title.createPostureCheck": "创建设备合规检查",
+  "postureCheckTable.description.addPostureChecksToFurther": "添加设备合规检查以进一步限制网络中的访问。例如，仅允许特定 NetBird 客户端版本、操作系统或位置的客户端连接。",
+  "postureCheckActionCell.title.delete": "删除“{{name}}”？",
+  "postureCheckActionCell.description.areYouSureYouWant": "确定要删除此设备合规检查吗？此操作无法撤销。",
+  "postureCheckActionCell.description.postureCheckWasSuccessfullyDeleted": "设备合规检查已成功删除",
+  "postureCheckActionCell.loadingMessage.deletingPostureCheck": "正在删除设备合规检查...",
+  "postureCheckActionCell.text.thisPostureCheckIsAssigned": "此设备合规检查已分配给某个策略，无法删除。请先从所有策略中移除该检查，然后再删除。",
+  "postureCheckPolicyUsageCell.text.toAssignThisPostureCheck": "如需将此设备合规检查分配给策略，请前往“策略”页面。",
+  "postureCheckPolicyUsageCell.text.goToPolicies": "前往策略"
+}

@@ -1,0 +1,5 @@
+{
+  "usePostureCheck.title.postureCheck": "Posture Check {{name}}",
+  "usePostureCheck.description.postureCheckWasSuccessfully": "Posture Check was {{value}} successfully.",
+  "usePostureCheck.loadingMessage.yourPostureCheck": "{{value}} your posture check..."
+}

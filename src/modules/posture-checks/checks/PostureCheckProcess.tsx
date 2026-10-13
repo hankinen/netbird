@@ -18,9 +18,9 @@ import * as React from "react";
 import { useMemo, useState } from "react";
 import AppleIcon from "@/assets/icons/AppleIcon";
 import WindowsIcon from "@/assets/icons/WindowsIcon";
+import { t } from "@/i18n";
 import { Process, ProcessCheck } from "@/interfaces/PostureCheck";
 import { PostureCheckCard } from "@/modules/posture-checks/ui/PostureCheckCard";
-
 type Props = {
   value?: ProcessCheck;
   onChange: (value: ProcessCheck | undefined) => void;
@@ -36,10 +36,10 @@ export const PostureCheckProcess = ({ value, onChange, disabled }: Props) => {
       setOpen={setOpen}
       key={open ? 1 : 0}
       active={value?.processes && value?.processes?.length > 0}
-      title={"Process"}
-      description={
-        "Restrict access in your network based on running processes of a peer."
-      }
+      title={t("posture-checks.checks:postureCheckProcess.title.process")}
+      description={t(
+        "posture-checks.checks:postureCheckProcess.description.restrictAccessInYourNetwork",
+      )}
       icon={<ServerCogIcon size={18} />}
       iconClass={"bg-gradient-to-tr from-nb-gray-500 to-nb-gray-300"}
       modalWidthClass={"max-w-xl"}
@@ -115,17 +115,23 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
           errorMacPath: p?.mac_path
             ? validator.isValidUnixFilePath(p?.mac_path || "")
               ? ""
-              : "Please enter a valid macOS file path"
+              : t(
+                  "posture-checks.checks:postureCheckProcess.text.pleaseEnterAValidMacOS",
+                )
             : "",
           errorLinuxPath: p?.linux_path
             ? validator.isValidUnixFilePath(p?.linux_path || "")
               ? ""
-              : "Please enter a valid Unix file path"
+              : t(
+                  "posture-checks.checks:postureCheckProcess.text.pleaseEnterAValidUnix",
+                )
             : "",
           errorWindowsPath: p?.windows_path
             ? validator.isValidWindowsFilePath(p?.windows_path || "")
               ? ""
-              : "Please enter a valid Windows file path"
+              : t(
+                  "posture-checks.checks:postureCheckProcess.text.pleaseEnterAValidWindows",
+                )
             : "",
         };
       });
@@ -153,11 +159,13 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
       <div className={"flex flex-col px-8 gap-2 pb-6"}>
         <div className={"flex justify-between items-start gap-10 mt-2"}>
           <div>
-            <Label>Processes</Label>
+            <Label>
+              {t("posture-checks.checks:postureCheckProcess.text.processes")}
+            </Label>
             <HelpText className={""}>
-              Add the path of an executable file of the process. You can define
-              a path for Linux, macOS and Windows. Peers will only be allowed to
-              connect if the process is running on their system.
+              {t(
+                "posture-checks.checks:postureCheckProcess.text.addThePathOfAn",
+              )}
             </HelpText>
           </div>
         </div>
@@ -169,7 +177,9 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
                   <div className={"w-full flex flex-col gap-1.5"}>
                     <Input
                       customPrefix={<TerminalIcon size={16} />}
-                      placeholder={"/usr/local/bin/netbird"}
+                      placeholder={t(
+                        "posture-checks.checks:postureCheckProcess.placeholder.usrLocalBinNetbird",
+                      )}
                       value={p.linux_path}
                       error={
                         pathErrors.find((e) => e.id === p.id)?.errorLinuxPath
@@ -197,9 +207,9 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
                           )}
                         />
                       }
-                      placeholder={
-                        "/Applications/NetBird.app/Contents/MacOS/netbird"
-                      }
+                      placeholder={t(
+                        "posture-checks.checks:postureCheckProcess.placeholder.applicationsNetBirdAppContentsMacOS",
+                      )}
                       value={p.mac_path}
                       error={
                         pathErrors.find((e) => e.id === p.id)?.errorMacPath
@@ -227,7 +237,9 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
                           )}
                         />
                       }
-                      placeholder={`C:\\ProgramData\\NetBird\\netbird.exe`}
+                      placeholder={t(
+                        "posture-checks.checks:postureCheckProcess.placeholder.cProgramDataNetBirdNetbirdExe",
+                      )}
                       value={p.windows_path}
                       errorTooltip={true}
                       errorTooltipPosition={"top-right"}
@@ -268,27 +280,27 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
           disabled={disabled}
         >
           <PlusCircle size={16} />
-          Add Process
+          {t("posture-checks.checks:postureCheckProcess.text.addProcess")}
         </Button>
       </div>
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink
               href={
                 "https://docs.netbird.io/how-to/manage-posture-checks#process-check"
               }
               target={"_blank"}
             >
-              Process Check
+              {t("posture-checks.checks:postureCheckProcess.text.processCheck")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
           </ModalClose>
           <Button
             variant={"primary"}
@@ -308,7 +320,7 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
               }
             }}
           >
-            Save
+            {t("common:word.save")}
           </Button>
         </div>
       </ModalFooter>

@@ -15,13 +15,13 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { CertificateCheck } from "@/interfaces/PostureCheck";
 import {
   isValidPEMCertificate,
   useCertificateFingerprints,
 } from "@/modules/posture-checks/helper/CertificateHelper";
 import { PostureCheckCard } from "@/modules/posture-checks/ui/PostureCheckCard";
-
 type Props = {
   value?: CertificateCheck;
   onChange: (value: CertificateCheck | undefined) => void;
@@ -41,10 +41,12 @@ export const PostureCheckCertificate = ({
       setOpen={setOpen}
       key={open ? 1 : 0}
       active={value?.ca_certificates && value.ca_certificates.length > 0}
-      title={"Certificate"}
-      description={
-        "Restrict access to peers holding a certificate issued by your own certificate authority."
-      }
+      title={t(
+        "posture-checks.checks:postureCheckCertificate.title.certificate",
+      )}
+      description={t(
+        "posture-checks.checks:postureCheckCertificate.description.restrictAccessToPeersHolding",
+      )}
       icon={<FileKey2Icon size={18} />}
       iconClass={"bg-gradient-to-tr from-purple-500 to-purple-400"}
       modalWidthClass={"max-w-2xl"}
@@ -89,7 +91,9 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
     () =>
       certificates.map((c) =>
         c.pem.trim() !== "" && !isValidPEMCertificate(c.pem)
-          ? "Please paste a valid PEM encoded certificate"
+          ? t(
+              "posture-checks.checks:postureCheckCertificate.text.pleasePasteAValidPEM",
+            )
           : "",
       ),
     [certificates],
@@ -113,19 +117,22 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
       <div className={"flex flex-col px-8 gap-2 pb-6"}>
         <div className={"flex justify-between items-start gap-10 mt-2"}>
           <div>
-            <Label>CA Certificates</Label>
+            <Label>
+              {t(
+                "posture-checks.checks:postureCheckCertificate.text.cACertificates",
+              )}
+            </Label>
             <HelpText className={""}>
-              Paste the PEM encoded public certificate of the root or
-              intermediate CA that issues your device certificates. Peers will
-              only be allowed to connect if they hold a certificate issued by
-              one of these CAs and prove possession of its private key.
+              {t(
+                "posture-checks.checks:postureCheckCertificate.text.pasteThePEMEncodedPublic",
+              )}
             </HelpText>
           </div>
         </div>
         <Callout variant={"warning"} className={"mb-2"}>
-          This check is not supported on mobile devices. Peers running the
-          NetBird iOS or Android app will always fail this check and be denied
-          access.
+          {t(
+            "posture-checks.checks:postureCheckCertificate.text.thisCheckIsNotSupported",
+          )}
         </Callout>
         {certificates.length > 0 && (
           <div className={"mb-2 flex flex-col gap-4 w-full"}>
@@ -178,27 +185,31 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
           disabled={disabled}
         >
           <PlusCircle size={16} />
-          Add CA Certificate
+          {t(
+            "posture-checks.checks:postureCheckCertificate.text.addCACertificate",
+          )}
         </Button>
       </div>
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink
               href={
                 "https://docs.netbird.io/how-to/manage-posture-checks#certificate-check"
               }
               target={"_blank"}
             >
-              Certificate Check
+              {t(
+                "posture-checks.checks:postureCheckCertificate.text.certificateCheck",
+              )}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
           </ModalClose>
           <Button
             variant={"primary"}
@@ -209,7 +220,7 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
               })
             }
           >
-            Save
+            {t("common:word.save")}
           </Button>
         </div>
       </ModalFooter>

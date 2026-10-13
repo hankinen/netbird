@@ -2,12 +2,12 @@ import { notify } from "@components/Notification";
 import { useApiCall } from "@utils/api";
 import { useReducer } from "react";
 import { useSWRConfig } from "swr";
+import { t } from "@/i18n";
 import { PostureCheck } from "@/interfaces/PostureCheck";
 import {
   validateLocationCheck,
   validateOSCheck,
 } from "@/modules/posture-checks/helper/PostureCheckHelper";
-
 // Posture Check Reducer Type
 type PostureCheckReducerType = {
   state: PostureCheck;
@@ -134,13 +134,17 @@ export const usePostureCheck = ({ postureCheck, onSuccess }: Props = {}) => {
       return check;
     });
     notify({
-      title: `Posture Check ${state.name}`,
-      description: `Posture Check was ${
-        postureCheck ? "updated" : "created"
-      } successfully.`,
-      loadingMessage: `${
-        postureCheck ? "Updating" : "Creating"
-      } your posture check...`,
+      title: t("posture-checks.main:usePostureCheck.title.postureCheck", {
+        name: state.name,
+      }),
+      description: t(
+        "posture-checks.main:usePostureCheck.description.postureCheckWasSuccessfully",
+        { value: postureCheck ? "updated" : "created" },
+      ),
+      loadingMessage: t(
+        "posture-checks.main:usePostureCheck.loadingMessage.yourPostureCheck",
+        { value: postureCheck ? "Updating" : "Creating" },
+      ),
       promise,
     });
     return promise;

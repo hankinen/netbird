@@ -11,9 +11,9 @@ import { ExternalLinkIcon } from "lucide-react";
 import * as React from "react";
 import { useMemo, useState } from "react";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
+import { t } from "@/i18n";
 import { NetBirdVersionCheck } from "@/interfaces/PostureCheck";
 import { PostureCheckCard } from "@/modules/posture-checks/ui/PostureCheckCard";
-
 type Props = {
   value?: NetBirdVersionCheck;
   onChange: (value: NetBirdVersionCheck | undefined) => void;
@@ -33,10 +33,12 @@ export const PostureCheckNetBirdVersion = ({
       setOpen={setOpen}
       key={open ? 1 : 0}
       active={value?.min_version !== undefined}
-      title={"NetBird Client Version"}
-      description={
-        "Restrict access to peers with a specific NetBird client version."
-      }
+      title={t(
+        "posture-checks.checks:postureCheckNetBirdVersion.title.netBirdClientVersion",
+      )}
+      description={t(
+        "posture-checks.checks:postureCheckNetBirdVersion.description.restrictAccessToPeersWith",
+      )}
       icon={<NetBirdIcon size={18} />}
       modalWidthClass={"max-w-lg"}
       onReset={() => onChange(undefined)}
@@ -60,7 +62,9 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
     if (version == "") return "";
     const validSemver = validator.isValidVersion(version);
     if (!validSemver)
-      return "Please enter a valid version, e.g., 0.2, 0.2.0, 0.2.0-alpha.1";
+      return t(
+        "posture-checks.checks:postureCheckNetBirdVersion.text.pleaseEnterAValidVersion",
+      );
   }, [version]);
 
   const canSave = useMemo(() => {
@@ -76,10 +80,15 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
     <>
       <div className={"flex flex-col px-8 gap-3 pb-6"}>
         <div>
-          <Label>Minimum required version</Label>
+          <Label>
+            {t(
+              "posture-checks.checks:postureCheckNetBirdVersion.text.minimumRequiredVersion",
+            )}
+          </Label>
           <HelpText>
-            Only peers with the minimum specified NetBird client version will
-            have access to the network.
+            {t(
+              "posture-checks.checks:postureCheckNetBirdVersion.text.onlyPeersWithTheMinimum",
+            )}
           </HelpText>
           <div>
             <Input
@@ -97,21 +106,23 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink
               href={
                 "https://docs.netbird.io/how-to/manage-posture-checks#net-bird-client-version-check"
               }
               target={"_blank"}
             >
-              Client Version Check
+              {t(
+                "posture-checks.checks:postureCheckNetBirdVersion.text.clientVersionCheck",
+              )}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
           </ModalClose>
           <Button
             variant={"primary"}
@@ -124,7 +135,7 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
               }
             }}
           >
-            Save
+            {t("common:word.save")}
           </Button>
         </div>
       </ModalFooter>

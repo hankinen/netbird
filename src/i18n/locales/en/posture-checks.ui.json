@@ -1,0 +1,13 @@
+{
+  "postureCheckCard.title.disableThisCheck": "Disable this check?",
+  "postureCheckCard.description.areYouSureYouWant": "Are you sure you want to disable this check? All settings of this check will be lost.",
+  "postureCheckCard.text.off": "Off",
+  "postureCheckNoChecksInfo.text.youHavenTAddedAny": "You haven't added any posture checks yet",
+  "postureCheckNoChecksInfo.text.addVariousPostureChecksTo": "Add various posture checks to further restrict access in your network. E.g., only clients with a specific NetBird client version, operating system or location are allowed to connect.",
+  "postureCheckNoChecksInfo.text.browseChecks": "Browse Checks",
+  "postureCheckNoChecksInfo.text.newPostureCheck": "New Posture Check",
+  "postureCheckOperatingSystemInfo.text.allow": "Allow",
+  "postureCheckOperatingSystemInfo.text.block": "Block",
+  "postureCheckOperatingSystemInfo.text.version": "Version",
+  "postureCheckTab.text.removeChecks": "Remove Checks"
+}

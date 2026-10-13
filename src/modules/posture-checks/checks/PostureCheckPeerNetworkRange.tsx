@@ -18,9 +18,9 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { PeerNetworkRangeCheck } from "@/interfaces/PostureCheck";
 import { PostureCheckCard } from "@/modules/posture-checks/ui/PostureCheckCard";
-
 type Props = {
   value?: PeerNetworkRangeCheck;
   onChange: (value: PeerNetworkRangeCheck | undefined) => void;
@@ -40,11 +40,13 @@ export const PostureCheckPeerNetworkRange = ({
       setOpen={setOpen}
       key={open ? 1 : 0}
       icon={<NetworkIcon size={16} />}
-      title={"Peer Network Range"}
+      title={t(
+        "posture-checks.checks:postureCheckPeerNetworkRange.title.peerNetworkRange",
+      )}
       modalWidthClass={"max-w-xl"}
-      description={
-        "Restrict access by allowing or blocking peer network ranges."
-      }
+      description={t(
+        "posture-checks.checks:postureCheckPeerNetworkRange.description.restrictAccessByAllowingOr",
+      )}
       iconClass={"bg-gradient-to-tr from-blue-500 to-blue-400"}
       active={value !== undefined}
       onReset={() => onChange(undefined)}
@@ -101,7 +103,10 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
   const validateNetworkRange = (networkRange: string) => {
     if (networkRange == "") return "";
     const validCIDR = isValidIP(networkRange);
-    if (!validCIDR) return "Please enter a valid CIDR, e.g., 192.168.1.0/24";
+    if (!validCIDR)
+      return t(
+        "posture-checks.checks:postureCheckPeerNetworkRange.text.pleaseEnterAValidCIDR",
+      );
     return "";
   };
 
@@ -128,20 +133,25 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
       <div className={"flex flex-col px-8 gap-2 pb-6"}>
         <div className={"flex justify-between items-start gap-10 mt-2"}>
           <div>
-            <Label>Allow or Block Ranges</Label>
+            <Label>
+              {t(
+                "posture-checks.checks:postureCheckPeerNetworkRange.text.allowOrBlockRanges",
+              )}
+            </Label>
             <HelpText className={""}>
-              Choose whether you want to allow or block specific peer network
-              ranges
+              {t(
+                "posture-checks.checks:postureCheckPeerNetworkRange.text.chooseWhetherYouWantTo",
+              )}
             </HelpText>
           </div>
           <RadioGroup value={allowOrDeny} onChange={setAllowOrDeny}>
             <RadioGroupItem value={"allow"} variant={"green"}>
               <ShieldCheck size={16} />
-              Allow
+              {t("posture-checks.checks:postureCheckGeoLocation.text.allow")}
             </RadioGroupItem>
             <RadioGroupItem value={"deny"} variant={"red"}>
               <ShieldXIcon size={16} />
-              Block
+              {t("posture-checks.checks:postureCheckGeoLocation.text.block")}
             </RadioGroupItem>
           </RadioGroup>
         </div>
@@ -185,27 +195,31 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
           disabled={disabled}
         >
           <PlusCircle size={16} />
-          Add Network Range
+          {t(
+            "posture-checks.checks:postureCheckPeerNetworkRange.text.addNetworkRange",
+          )}
         </Button>
       </div>
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink
               href={
                 "https://docs.netbird.io/how-to/manage-posture-checks#peer-network-range-check"
               }
               target={"_blank"}
             >
-              Peer Network Range Check
+              {t(
+                "posture-checks.checks:postureCheckPeerNetworkRange.text.peerNetworkRangeCheck",
+              )}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
           </ModalClose>
           <Button
             variant={"primary"}
@@ -223,7 +237,7 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
               }
             }}
           >
-            Save
+            {t("common:word.save")}
           </Button>
         </div>
       </ModalFooter>

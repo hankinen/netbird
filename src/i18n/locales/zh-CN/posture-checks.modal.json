@@ -1,0 +1,12 @@
+{
+  "postureCheckModal.text.updatePostureCheck": "更新设备合规检查",
+  "postureCheckModal.text.createPostureCheck": "创建设备合规检查",
+  "postureCheckModal.description.usePostureChecksToFurther": "使用设备合规检查进一步限制网络中的访问。",
+  "postureCheckModal.text.checks": "检查项",
+  "postureCheckModal.text.nameDescription": "名称和描述",
+  "postureCheckModal.text.nameOfThePostureCheck": "设备合规检查名称",
+  "postureCheckModal.text.setAnEasilyIdentifiableName": "为设备合规检查设置一个易于识别的名称。",
+  "postureCheckModal.placeholder.eGNetBirdVersion0": "例如：NetBird 版本 > 0.25.0",
+  "postureCheckModal.text.writeAShortDescriptionTo": "写一段简短描述，为此策略补充说明。",
+  "postureCheckModal.placeholder.eGCheckIfThe": "例如：检查 NetBird 版本是否高于 0.25.0"
+}

@@ -16,11 +16,11 @@ import {
 } from "lucide-react";
 import React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { PostureCheck } from "@/interfaces/PostureCheck";
 import { PostureCheckChecksCell } from "@/modules/posture-checks/table/cells/PostureCheckChecksCell";
 import { PostureCheckNameCell } from "@/modules/posture-checks/table/cells/PostureCheckNameCell";
 import { PostureCheckNoChecksInfo } from "@/modules/posture-checks/ui/PostureCheckNoChecksInfo";
-
 type Props = {
   data: PostureCheck[];
   onAddClick: () => void;
@@ -44,10 +44,16 @@ export default function PostureCheckMinimalTable({
         <div>
           <Label>
             {data.length}{" "}
-            {data.length == 1 ? "Posture Check" : "Posture Checks"}
+            {data.length == 1
+              ? t(
+                  "posture-checks.table:postureCheckBrowseTable.text.postureCheck",
+                )
+              : t("common:word.postureChecks")}
           </Label>
           <HelpText className={"mb-0"}>
-            Use posture checks to further restrict access in your network.
+            {t(
+              "posture-checks.table:postureCheckMinimalTable.text.usePostureChecksToFurther",
+            )}
           </HelpText>
         </div>
         <div className={"flex items-center justify-center gap-4"}>
@@ -60,7 +66,9 @@ export default function PostureCheckMinimalTable({
             }
           >
             <FolderSearch size={14} />
-            Browse Checks
+            {t(
+              "posture-checks.table:postureCheckMinimalTable.text.browseChecks",
+            )}
           </Button>
           <Button
             variant={"primary"}
@@ -71,7 +79,9 @@ export default function PostureCheckMinimalTable({
             }
           >
             <PlusCircle size={14} />
-            New Posture Check
+            {t(
+              "posture-checks.table:postureCheckMinimalTable.text.newPostureCheck",
+            )}
           </Button>
         </div>
       </div>
@@ -119,7 +129,9 @@ export default function PostureCheckMinimalTable({
                       >
                         <div className={"flex gap-3 items-center"}>
                           <Edit size={14} className={"shrink-0"} />
-                          Edit Posture Check
+                          {t(
+                            "posture-checks.table:postureCheckMinimalTable.text.editPostureCheck",
+                          )}
                         </div>
                       </DropdownMenuItem>
                       <DropdownMenuItem
@@ -128,7 +140,9 @@ export default function PostureCheckMinimalTable({
                       >
                         <div className={"flex gap-3 items-center"}>
                           <MinusCircleIcon size={14} className={"shrink-0"} />
-                          Remove Posture Check
+                          {t(
+                            "posture-checks.table:postureCheckMinimalTable.text.removePostureCheck",
+                          )}
                         </div>
                       </DropdownMenuItem>
                     </DropdownMenuContent>

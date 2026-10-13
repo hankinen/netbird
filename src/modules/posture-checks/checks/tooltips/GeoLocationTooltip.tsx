@@ -3,9 +3,9 @@ import { ScrollArea } from "@components/ScrollArea";
 import useFetchApi from "@utils/api";
 import * as React from "react";
 import RoundedFlag from "@/assets/countries/RoundedFlag";
+import { t } from "@/i18n";
 import { Country } from "@/interfaces/Country";
 import { GeoLocationCheck } from "@/interfaces/PostureCheck";
-
 type Props = {
   children: React.ReactNode;
   check?: GeoLocationCheck;
@@ -28,16 +28,30 @@ export const GeoLocationTooltip = ({ children, check }: Props) => {
             {check.action == "allow" ? (
               <span>
                 <span className={"text-green-500 font-semibold"}>
-                  Allow only
+                  {t("posture-checks.checks:certificateTooltip.text.allowOnly")}
                 </span>{" "}
-                the following <br />
-                countries & regions
+                {t(
+                  "posture-checks.checks:geoLocationTooltip.text.theFollowing",
+                )}{" "}
+                <br />
+                {t(
+                  "posture-checks.checks:geoLocationTooltip.text.countriesRegions",
+                )}
               </span>
             ) : (
               <span>
-                <span className={"text-red-500 font-semibold"}>Block</span> the
-                following <br />
-                countries & regions
+                <span className={"text-red-500 font-semibold"}>
+                  {t(
+                    "posture-checks.checks:postureCheckGeoLocation.text.block",
+                  )}
+                </span>{" "}
+                {t(
+                  "posture-checks.checks:geoLocationTooltip.text.theFollowing",
+                )}{" "}
+                <br />
+                {t(
+                  "posture-checks.checks:geoLocationTooltip.text.countriesRegions",
+                )}
               </span>
             )}
           </div>

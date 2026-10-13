@@ -13,6 +13,7 @@ import { isEmpty } from "lodash";
 import { ExternalLinkIcon, LayoutList, ShieldCheck, Text } from "lucide-react";
 import React, { useState } from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { PostureCheck } from "@/interfaces/PostureCheck";
 import { PostureCheckCertificate } from "@/modules/posture-checks/checks/PostureCheckCertificate";
 import { PostureCheckGeoLocation } from "@/modules/posture-checks/checks/PostureCheckGeoLocation";
@@ -21,7 +22,6 @@ import { PostureCheckOperatingSystem } from "@/modules/posture-checks/checks/Pos
 import { PostureCheckPeerNetworkRange } from "@/modules/posture-checks/checks/PostureCheckPeerNetworkRange";
 import { PostureCheckProcess } from "@/modules/posture-checks/checks/PostureCheckProcess";
 import { usePostureCheck } from "@/modules/posture-checks/usePostureCheck";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -76,11 +76,17 @@ export default function PostureCheckModal({
           <ModalHeader
             icon={<ShieldCheck size={19} />}
             title={
-              postureCheck ? "Update Posture Check" : "Create Posture Check"
+              postureCheck
+                ? t(
+                    "posture-checks.modal:postureCheckModal.text.updatePostureCheck",
+                  )
+                : t(
+                    "posture-checks.modal:postureCheckModal.text.createPostureCheck",
+                  )
             }
-            description={
-              "Use posture checks to further restrict access in your network."
-            }
+            description={t(
+              "posture-checks.modal:postureCheckModal.description.usePostureChecksToFurther",
+            )}
             color={"netbird"}
           />
 
@@ -88,7 +94,7 @@ export default function PostureCheckModal({
             <TabsList justify={"start"} className={"px-8"}>
               <TabsTrigger value={"checks"}>
                 <LayoutList size={16} />
-                Checks
+                {t("posture-checks.modal:postureCheckModal.text.checks")}
               </TabsTrigger>
 
               <TabsTrigger
@@ -101,7 +107,9 @@ export default function PostureCheckModal({
                     "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                   }
                 />
-                Name & Description
+                {t(
+                  "posture-checks.modal:postureCheckModal.text.nameDescription",
+                )}
               </TabsTrigger>
             </TabsList>
 
@@ -184,9 +192,15 @@ export default function PostureCheckModal({
             <TabsContent value={"general"} className={"pb-8 px-8"}>
               <div className={"flex flex-col gap-6"}>
                 <div>
-                  <Label>Name of the Posture Check</Label>
+                  <Label>
+                    {t(
+                      "posture-checks.modal:postureCheckModal.text.nameOfThePostureCheck",
+                    )}
+                  </Label>
                   <HelpText>
-                    Set an easily identifiable name for your posture check.
+                    {t(
+                      "posture-checks.modal:postureCheckModal.text.setAnEasilyIdentifiableName",
+                    )}
                   </HelpText>
                   <Input
                     autoFocus={true}
@@ -198,17 +212,20 @@ export default function PostureCheckModal({
                         payload: e.target.value,
                       })
                     }
-                    placeholder={"e.g., NetBird Version > 0.25.0"}
+                    placeholder={t(
+                      "posture-checks.modal:postureCheckModal.placeholder.eGNetBirdVersion0",
+                    )}
                     disabled={
                       !permission.policies.create || !permission.policies.update
                     }
                   />
                 </div>
                 <div>
-                  <Label>Description (optional)</Label>
+                  <Label>{t("common:word.descriptionOptional")}</Label>
                   <HelpText>
-                    Write a short description to add more context to this
-                    policy.
+                    {t(
+                      "posture-checks.modal:postureCheckModal.text.writeAShortDescriptionTo",
+                    )}
                   </HelpText>
                   <Textarea
                     value={check?.description}
@@ -218,9 +235,9 @@ export default function PostureCheckModal({
                         payload: e.target.value,
                       })
                     }
-                    placeholder={
-                      "e.g., Check if the NetBird version is bigger than 0.25.0"
-                    }
+                    placeholder={t(
+                      "posture-checks.modal:postureCheckModal.placeholder.eGCheckIfThe",
+                    )}
                     rows={3}
                     disabled={
                       !permission.policies.create || !permission.policies.update
@@ -234,12 +251,12 @@ export default function PostureCheckModal({
           <ModalFooter className={"items-center"}>
             <div className={"w-full"}>
               <Paragraph className={"text-sm mt-auto"}>
-                Learn more about
+                {t("common:word.learnMoreAbout")}
                 <InlineLink
                   href={"https://docs.netbird.io/how-to/manage-posture-checks"}
                   target={"_blank"}
                 >
-                  Posture Checks
+                  {t("common:word.postureChecks")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </Paragraph>
@@ -251,7 +268,7 @@ export default function PostureCheckModal({
                     variant={"secondary"}
                     onClick={() => onOpenChange(false)}
                   >
-                    Cancel
+                    {t("common:word.cancel")}
                   </Button>
                 )}
 
@@ -260,7 +277,7 @@ export default function PostureCheckModal({
                     variant={"secondary"}
                     onClick={() => setTab("checks")}
                   >
-                    Back
+                    {t("common:word.back")}
                   </Button>
                 )}
 
@@ -270,7 +287,7 @@ export default function PostureCheckModal({
                     onClick={() => setTab("general")}
                     disabled={!isAtLeastOneCheckEnabled}
                   >
-                    Continue
+                    {t("common:word.continue")}
                   </Button>
                 )}
 
@@ -286,7 +303,11 @@ export default function PostureCheckModal({
                       }
                     }}
                   >
-                    {postureCheck ? "Save Changes" : "Create Posture Check"}
+                    {postureCheck
+                      ? t("common:word.saveChanges")
+                      : t(
+                          "posture-checks.modal:postureCheckModal.text.createPostureCheck",
+                        )}
                   </Button>
                 )}
               </>

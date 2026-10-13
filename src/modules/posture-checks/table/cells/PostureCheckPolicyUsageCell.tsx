@@ -8,9 +8,9 @@ import * as React from "react";
 import { useState } from "react";
 import CircleIcon from "@/assets/icons/CircleIcon";
 import { usePolicies } from "@/contexts/PoliciesProvider";
+import { t } from "@/i18n";
 import { Policy } from "@/interfaces/Policy";
 import { PostureCheck } from "@/interfaces/PostureCheck";
-
 type Props = {
   check: PostureCheck;
 };
@@ -100,8 +100,9 @@ export const PostureCheckPolicyUsageCell = ({ check }: Props) => {
       <FullTooltip
         content={
           <div className={"text-xs max-w-[260px]"}>
-            To assign this posture check to your policies, visit the Policies
-            page.
+            {t(
+              "posture-checks.table:postureCheckPolicyUsageCell.text.toAssignThisPostureCheck",
+            )}
           </div>
         }
         interactive={false}
@@ -113,7 +114,9 @@ export const PostureCheckPolicyUsageCell = ({ check }: Props) => {
           onClick={() => router.push("/access-control")}
         >
           <>
-            Go to Policies
+            {t(
+              "posture-checks.table:postureCheckPolicyUsageCell.text.goToPolicies",
+            )}
             <ArrowUpRightIcon size={12} />
           </>
         </Button>

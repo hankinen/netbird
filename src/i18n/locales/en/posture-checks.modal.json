@@ -1,0 +1,12 @@
+{
+  "postureCheckModal.text.updatePostureCheck": "Update Posture Check",
+  "postureCheckModal.text.createPostureCheck": "Create Posture Check",
+  "postureCheckModal.description.usePostureChecksToFurther": "Use posture checks to further restrict access in your network.",
+  "postureCheckModal.text.checks": "Checks",
+  "postureCheckModal.text.nameDescription": "Name & Description",
+  "postureCheckModal.text.nameOfThePostureCheck": "Name of the Posture Check",
+  "postureCheckModal.text.setAnEasilyIdentifiableName": "Set an easily identifiable name for your posture check.",
+  "postureCheckModal.placeholder.eGNetBirdVersion0": "e.g., NetBird Version > 0.25.0",
+  "postureCheckModal.text.writeAShortDescriptionTo": "Write a short description to add more context to this policy.",
+  "postureCheckModal.placeholder.eGCheckIfThe": "e.g., Check if the NetBird version is bigger than 0.25.0"
+}

@@ -5,13 +5,13 @@ import * as React from "react";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useIsFeatureLocked } from "@/cloud/cloud-hooks/useIsFeatureLocked";
+import { t } from "@/i18n";
 import { PostureCheck } from "@/interfaces/PostureCheck";
 import { LockedFeatureBadge } from "@/modules/billing/locked-feature/LockedFeatureBadge";
 import { LockedFeatureOverlay } from "@/modules/billing/locked-feature/LockedFeatureOverlay";
 import { PostureCheckBrowseModal } from "@/modules/posture-checks/modal/PostureCheckBrowseModal";
 import PostureCheckModal from "@/modules/posture-checks/modal/PostureCheckModal";
 import PostureCheckMinimalTable from "@/modules/posture-checks/table/PostureCheckMinimalTable";
-
 type Props = {
   postureChecks: PostureCheck[];
   setPostureChecks: React.Dispatch<React.SetStateAction<PostureCheck[]>>;
@@ -77,7 +77,7 @@ export const PostureCheckTab = ({
             <LockedFeatureBadge
               position={"relative"}
               side={"bottom"}
-              featureText={"Posture Checks"}
+              featureText={t("common:word.postureChecks")}
               feature={"POSTURE_CHECKS"}
             />
             {postureChecks.length > 0 && (
@@ -88,7 +88,7 @@ export const PostureCheckTab = ({
                 }
               >
                 <Trash2Icon size={13} className={"mr-1"} />
-                Remove Checks
+                {t("posture-checks.ui:postureCheckTab.text.removeChecks")}
               </button>
             )}
           </div>
