@@ -3,7 +3,7 @@
   "navigation.label.accessControl": "访问控制",
   "navigation.label.postureChecks": "设备合规检查",
   "navigation.text.reverseProxy": "反向代理",
-  "navigation.text.beta": "Beta",
+  "navigation.text.beta": "测试版",
   "navigation.label.services": "服务",
   "navigation.label.customDomains": "自定义域名",
   "navigation.label.clusters": "集群",

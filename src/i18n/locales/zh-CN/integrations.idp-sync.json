@@ -1,0 +1,4 @@
+{
+  "identityProviderCard.title.identityProviderSync": "身份提供商同步",
+  "identityProviderCard.description.syncUsersAndGroupsFrom": "从 Okta、Microsoft 或 Google IdP 同步用户和组"
+}

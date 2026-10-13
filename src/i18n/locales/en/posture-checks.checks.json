@@ -65,5 +65,6 @@
   "processTooltip.text.peersWhichAreRunningThe": "peers which are running the following processes",
   "processTooltip.text.unknownPath": "Unknown path",
   "postureCheckOperatingSystem.label.allVersions": "All versions",
-  "postureCheckOperatingSystem.label.equalOrGreaterThan": "Equal or greater than"
+  "postureCheckOperatingSystem.label.equalOrGreaterThan": "Equal or greater than",
+  "postureCheckNetBirdVersion.customPrefix.version": "Version"
 }

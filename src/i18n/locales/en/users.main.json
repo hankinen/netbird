@@ -9,5 +9,15 @@
   "userRoleSelector.description.readOnlyAccessToThe": "Read-only access to the configuration and audit events.",
   "userRoleSelector.description.accessToTheirOwnPeers": "Access to their own peers only.",
   "userRoleSelector.description.managesAIProvidersAgentPolicies": "Manages AI providers, agent policies and guardrails.",
-  "userRoleSelector.description.readOnlyAccessToUsage": "Read-only access to usage and logs."
+  "userRoleSelector.description.readOnlyAccessToUsage": "Read-only access to usage and logs.",
+  "userRoleSelector.category.general": "General",
+  "userRoleSelector.category.agentNetwork": "Agent Network",
+  "userRoleSelector.role.owner": "Owner",
+  "userRoleSelector.role.admin": "Admin",
+  "userRoleSelector.role.networkAdmin": "Network Admin",
+  "userRoleSelector.role.billingAdmin": "Billing Admin",
+  "userRoleSelector.role.auditor": "Auditor",
+  "userRoleSelector.role.user": "User",
+  "userRoleSelector.role.agentNetworkAdmin": "Agent Network Admin",
+  "userRoleSelector.role.usageViewer": "Usage Viewer"
 }

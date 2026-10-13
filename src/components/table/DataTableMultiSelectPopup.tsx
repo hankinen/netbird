@@ -16,7 +16,7 @@ type Props<T> = {
 
 export function DataTableMultiSelectPopup<T>({
   onCanceled,
-  label = "Peer(s) selected",
+  label = t("common:word.peersSelected"),
   selectedItems,
   rightSide,
   icon,

@@ -24,6 +24,7 @@ import { Account } from "@/interfaces/Account";
 import { LockedFeatureBadge } from "@/modules/billing/locked-feature/LockedFeatureBadge";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 
+import { t } from "@/i18n";
 type Props = {
   account: Account;
 };
@@ -52,10 +53,14 @@ export const TrafficEventSetting = ({ account }: Props) => {
       setTrafficPacketCounterEnabled(false);
     }
     notify({
-      title: "Traffic Events",
-      description: `Traffic events successfully ${
-        toggle ? "enabled" : "disabled"
-      }.`,
+      title: t("cloud.main:trafficEventSetting.title.trafficEvents"),
+      description: toggle
+        ? t(
+            "cloud.main:trafficEventSetting.description.trafficEventsSuccessfully.enabled",
+          )
+        : t(
+            "cloud.main:trafficEventSetting.description.trafficEventsSuccessfully.disabled",
+          ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -74,7 +79,9 @@ export const TrafficEventSetting = ({ account }: Props) => {
           setTrafficEventsEnabled(toggle);
           mutate("/accounts");
         }),
-      loadingMessage: "Updating traffic events setting...",
+      loadingMessage: t(
+        "cloud.main:trafficEventSetting.loadingMessage.updatingTrafficEventsSetting",
+      ),
     });
   };
 
@@ -82,21 +89,28 @@ export const TrafficEventSetting = ({ account }: Props) => {
     let choice = false;
     if (toggle) {
       choice = await confirm({
-        title: "Enable Traffic Reporting (Kernel)?",
-        description:
-          "Note: Enabling this setting will lead to a higher CPU usage than usual on the NetBird client.",
-        confirmText: "Enable",
-        cancelText: "Cancel",
+        title: t(
+          "cloud.main:trafficEventSetting.title.enableTrafficReportingKernel",
+        ),
+        description: t(
+          "cloud.main:trafficEventSetting.description.noteEnablingThisSettingWill",
+        ),
+        confirmText: t("common:word.enable"),
+        cancelText: t("common:word.cancel"),
         type: "default",
       });
       if (!choice) return;
     }
 
     notify({
-      title: "Traffic Reporting",
-      description: `Traffic reporting successfully ${
-        toggle ? "enabled" : "disabled"
-      }.`,
+      title: t("cloud.main:trafficEventSetting.title.trafficReporting"),
+      description: toggle
+        ? t(
+            "cloud.main:trafficEventSetting.description.trafficReportingSuccessfully.enabled",
+          )
+        : t(
+            "cloud.main:trafficEventSetting.description.trafficReportingSuccessfully.disabled",
+          ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -112,7 +126,9 @@ export const TrafficEventSetting = ({ account }: Props) => {
           setTrafficPacketCounterEnabled(toggle);
           mutate("/accounts");
         }),
-      loadingMessage: "Updating traffic reporting setting...",
+      loadingMessage: t(
+        "cloud.main:trafficEventSetting.loadingMessage.updatingTrafficReportingSetting",
+      ),
     });
   };
 
@@ -120,19 +136,18 @@ export const TrafficEventSetting = ({ account }: Props) => {
     <>
       <div className={"mt-4"}>
         <h2 className={"text-lg font-medium"}>
-          Experimental
+          {t("cloud.main:trafficEventSetting.text.experimental")}
           <FlaskConicalIcon
             size={16}
             className={"inline ml-1.5 relative -top-[2px]"}
           />
         </h2>
         <div className={"text-sm text-gray-400"}>
-          Traffic events is an experimental feature. Functionality and behavior
-          may evolve, including changes to how data is collected or reported.
-          Traffic events data retention is limited to 48 hours and capped at a
-          maximum of 50,000 events.{" "}
+          {t(
+            "cloud.main:trafficEventSetting.text.trafficEventsIsAnExperimental",
+          )}{" "}
           <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target={"_blank"}>
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </div>
@@ -140,7 +155,7 @@ export const TrafficEventSetting = ({ account }: Props) => {
       <div className={"relative"}>
         <LockedFeatureBadge
           center={true}
-          featureText={"Traffic Events"}
+          featureText={t("events.page:page.label.trafficEvents")}
           feature={"TRAFFIC_EVENTS"}
           disabled={trafficEventsEnabled}
         >
@@ -152,13 +167,14 @@ export const TrafficEventSetting = ({ account }: Props) => {
               label={
                 <>
                   <ArrowLeftRightIcon size={15} />
-                  Enable Traffic Events
+                  {t("cloud.main:trafficEventSetting.text.enableTrafficEvents")}
                 </>
               }
               helpText={
                 <>
-                  Enable traffic events for all peers. This requires NetBird
-                  client v0.39 or higher.
+                  {t(
+                    "cloud.main:trafficEventSetting.text.enableTrafficEventsForAll",
+                  )}
                 </>
               }
               disabled={!permission.settings.update}
@@ -178,22 +194,34 @@ export const TrafficEventSetting = ({ account }: Props) => {
                 value={trafficPacketCounterEnabled}
                 onChange={toggleTrafficPacketCounter}
                 data-testid="traffic-reporting-kernel"
-                label={<>Enable Traffic Reporting (Kernel)</>}
+                label={
+                  <>
+                    {t(
+                      "cloud.main:trafficEventSetting.text.enableTrafficReportingKernel",
+                    )}
+                  </>
+                }
                 helpText={
                   <>
-                    Traffic reporting is always enabled in userspace, and this
-                    setting only applies to kernel. If enabled, network packets
-                    and their size will be counted and reported.
+                    {t(
+                      "cloud.main:trafficEventSetting.text.trafficReportingIsAlwaysEnabled",
+                    )}
                   </>
                 }
                 disabled={!permission.settings.update}
               />
               <div className={"mt-2"}>
-                <Label>Limit To Specific Groups</Label>
+                <Label>
+                  {t(
+                    "cloud.main:trafficEventSetting.text.limitToSpecificGroups",
+                  )}
+                </Label>
                 <HelpText className={"mb-3"}>
-                  Select peer groups for which traffic events will be logged.{" "}
+                  {t(
+                    "cloud.main:trafficEventSetting.text.selectPeerGroupsForWhich",
+                  )}{" "}
                   <br />
-                  If no group is selected, logging applies to all peers.
+                  {t("cloud.main:trafficEventSetting.text.ifNoGroupIsSelected")}
                 </HelpText>
                 {!groups ? (
                   <Skeleton height={46} />
@@ -231,8 +259,10 @@ export const TrafficEventGroupsSetting = ({
     const groupIds = groups.map((group) => group.id) as string[];
 
     notify({
-      title: "Traffic Events Groups",
-      description: "Traffic events groups successfully updated.",
+      title: t("cloud.main:trafficEventSetting.title.trafficEventsGroups"),
+      description: t(
+        "cloud.main:trafficEventSetting.description.trafficEventsGroupsSuccessfullyUpdated",
+      ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -249,7 +279,9 @@ export const TrafficEventGroupsSetting = ({
           updateRef([groups]);
           mutate("/accounts");
         }),
-      loadingMessage: "Updating traffic events groups...",
+      loadingMessage: t(
+        "cloud.main:trafficEventSetting.loadingMessage.updatingTrafficEventsGroups",
+      ),
     });
   };
 
@@ -271,7 +303,7 @@ export const TrafficEventGroupsSetting = ({
         onClick={saveTrafficGroups}
         data-testid="save-traffic-groups"
       >
-        Save Groups
+        {t("cloud.main:trafficEventSetting.text.saveGroups")}
       </Button>
     </div>
   );

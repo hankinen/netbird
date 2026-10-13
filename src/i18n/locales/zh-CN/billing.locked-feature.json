@@ -1,0 +1,20 @@
+{
+  "planText.team": "Team 套餐可用",
+  "planText.business": "Business 套餐可用",
+  "planText.enterprise": "需要企业版许可证",
+  "availableSelfHosted.team": "{{feature}}需要 NetBird 企业版商业许可证，或在 NetBird Cloud 的 Team 及以上套餐中使用。",
+  "availableSelfHosted.team.plural": "{{feature}}需要 NetBird 企业版商业许可证，或在 NetBird Cloud 的 Team 及以上套餐中使用。",
+  "availableSelfHosted.business": "{{feature}}需要 NetBird 企业版商业许可证，或在 NetBird Cloud 的 Business 套餐中使用。",
+  "availableSelfHosted.business.plural": "{{feature}}需要 NetBird 企业版商业许可证，或在 NetBird Cloud 的 Business 套餐中使用。",
+  "availableCloud.team": "{{feature}}在 Team 及以上套餐中可用。",
+  "availableCloud.team.plural": "{{feature}}在 Team 及以上套餐中可用。",
+  "availableCloud.business": "{{feature}}在 Business 套餐中可用。",
+  "availableCloud.business.plural": "{{feature}}在 Business 套餐中可用。",
+  "lockedFeatureContent.text.contactYourAccountAdministratorTo": "请联系账户管理员升级套餐。",
+  "lockedFeatureContent.text.contactYourAccountAdministrator": "请联系账户管理员",
+  "lockedFeatureContent.text.toUpgradeThePlan": "升级套餐。",
+  "lockedFeatureContent.text.onlyTheOwnerOrAn": "只有所有者或管理员可以升级套餐。",
+  "lockedFeatureContent.text.upgradeOrStartA14": "升级或开始 14 天免费试用以使用此功能。",
+  "lockedFeatureContent.text.upgradeYourPlanToAccess": "升级您的 {{value}} 套餐以使用此功能。",
+  "lockedFeatureContent.text.getSupport": "获取支持"
+}

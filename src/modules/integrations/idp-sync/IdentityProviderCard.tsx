@@ -11,6 +11,7 @@ import jumpcloudLogo from "@/assets/integrations/jumpcloud.png";
 import oktaLogo from "@/assets/integrations/okta.png";
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
 
+import { t } from "@/i18n";
 type IDP = "azure" | "google" | "okta" | "jumpcloud" | "generic" | "entraScim";
 const idpImages: { [key in IDP]?: StaticImageData } = {
   azure: azureEntraLogo,
@@ -65,9 +66,13 @@ export const IdentityProviderCard = () => {
           <FingerprintIcon size={16} />
         )
       }
-      title={"Identity Provider Sync"}
+      title={t(
+        "integrations.idp-sync:identityProviderCard.title.identityProviderSync",
+      )}
       action={<FeatureCardStatus enabled={enabled} />}
-      description={"Sync users and groups from Okta, Microsoft or Google IdP"}
+      description={t(
+        "integrations.idp-sync:identityProviderCard.description.syncUsersAndGroupsFrom",
+      )}
     />
   );
 };

@@ -15,7 +15,10 @@ declare module "i18next" {
       "activity.description": typeof import("./locales/en/activity.description.json");
       "activity.table": typeof import("./locales/en/activity.table.json");
       "auth.main": typeof import("./locales/en/auth.main.json");
-      common: typeof import("./locales/en/common.json");
+      "billing.locked-feature": typeof import("./locales/en/billing.locked-feature.json");
+      "billing.trial": typeof import("./locales/en/billing.trial.json");
+      "cloud.main": typeof import("./locales/en/cloud.main.json");
+      "common": typeof import("./locales/en/common.json");
       "common-table-rows.main": typeof import("./locales/en/common-table-rows.main.json");
       "components.core": typeof import("./locales/en/components.core.json");
       "components.modal": typeof import("./locales/en/components.modal.json");
@@ -36,10 +39,12 @@ declare module "i18next" {
       "groups.table": typeof import("./locales/en/groups.table.json");
       "hooks.main": typeof import("./locales/en/hooks.main.json");
       "instance-setup.main": typeof import("./locales/en/instance-setup.main.json");
+      "integrations.event-streaming": typeof import("./locales/en/integrations.event-streaming.json");
+      "integrations.idp-sync": typeof import("./locales/en/integrations.idp-sync.json");
       "invite.page": typeof import("./locales/en/invite.page.json");
       "jobs.main": typeof import("./locales/en/jobs.main.json");
       "jobs.table": typeof import("./locales/en/jobs.table.json");
-      nav: typeof import("./locales/en/nav.json");
+      "nav": typeof import("./locales/en/nav.json");
       "network-routes.page": typeof import("./locales/en/network-routes.page.json");
       "network.page": typeof import("./locales/en/network.page.json");
       "networks.main": typeof import("./locales/en/networks.main.json");
@@ -74,7 +79,7 @@ declare module "i18next" {
       "setup-keys.main": typeof import("./locales/en/setup-keys.main.json");
       "setup-netbird-modal.main": typeof import("./locales/en/setup-netbird-modal.main.json");
       "team.page": typeof import("./locales/en/team.page.json");
-      titles: typeof import("./locales/en/titles.json");
+      "titles": typeof import("./locales/en/titles.json");
       "users.main": typeof import("./locales/en/users.main.json");
       "users.modals": typeof import("./locales/en/users.modals.json");
       "users.table": typeof import("./locales/en/users.table.json");

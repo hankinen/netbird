@@ -360,8 +360,12 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               />
               <Input
                 value={autoUpdateCustomVersion}
-                customPrefix={"Version"}
-                placeholder={"e.g., 0.52.2"}
+                customPrefix={t(
+                  "settings.main:clientSettingsTab.customPrefix.version",
+                )}
+                placeholder={t("common:placeholder.example", {
+                  value: "0.52.2",
+                })}
                 error={versionError}
                 errorTooltip={true}
                 disabled={autoUpdateMethod !== "custom"}

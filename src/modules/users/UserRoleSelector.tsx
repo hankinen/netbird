@@ -57,8 +57,20 @@ export const UserRoleCategories: {
   name: string;
   icon: IconComponent;
 }[] = [
-  { value: "general", name: "General", icon: UsersIcon },
-  { value: "agent-network", name: "Agent Network", icon: AgentNetworkIcon },
+  {
+    value: "general",
+    get name() {
+      return t("users.main:userRoleSelector.category.general");
+    },
+    icon: UsersIcon,
+  },
+  {
+    value: "agent-network",
+    get name() {
+      return t("users.main:userRoleSelector.category.agentNetwork");
+    },
+    icon: AgentNetworkIcon,
+  },
 ];
 
 export const UserRoles: {
@@ -72,7 +84,9 @@ export const UserRoles: {
   description: string;
 }[] = [
   {
-    name: "Owner",
+    get name() {
+      return t("users.main:userRoleSelector.role.owner");
+    },
     value: Role.Owner,
     icon: NetBirdIcon,
     category: "general",
@@ -83,7 +97,9 @@ export const UserRoles: {
     },
   },
   {
-    name: "Admin",
+    get name() {
+      return t("users.main:userRoleSelector.role.admin");
+    },
     value: Role.Admin,
     icon: Cog,
     category: "general",
@@ -94,7 +110,9 @@ export const UserRoles: {
     },
   },
   {
-    name: "Network Admin",
+    get name() {
+      return t("users.main:userRoleSelector.role.networkAdmin");
+    },
     value: Role.NetworkAdmin,
     icon: NetworkIcon,
     category: "general",
@@ -105,7 +123,9 @@ export const UserRoles: {
     },
   },
   {
-    name: "Billing Admin",
+    get name() {
+      return t("users.main:userRoleSelector.role.billingAdmin");
+    },
     value: Role.BillingAdmin,
     icon: CreditCard,
     category: "general",
@@ -116,7 +136,9 @@ export const UserRoles: {
     },
   },
   {
-    name: "Auditor",
+    get name() {
+      return t("users.main:userRoleSelector.role.auditor");
+    },
     value: Role.Auditor,
     icon: EyeIcon,
     category: "general",
@@ -125,7 +147,9 @@ export const UserRoles: {
     },
   },
   {
-    name: "User",
+    get name() {
+      return t("users.main:userRoleSelector.role.user");
+    },
     value: Role.User,
     icon: User2,
     category: "general",
@@ -134,8 +158,12 @@ export const UserRoles: {
     },
   },
   {
-    name: "Agent Network Admin",
-    shortName: "Admin",
+    get name() {
+      return t("users.main:userRoleSelector.role.agentNetworkAdmin");
+    },
+    get shortName() {
+      return t("users.main:userRoleSelector.role.admin");
+    },
     value: Role.AgentNetworkAdmin,
     icon: AgentNetworkIcon,
     category: "agent-network",
@@ -146,7 +174,9 @@ export const UserRoles: {
     },
   },
   {
-    name: "Usage Viewer",
+    get name() {
+      return t("users.main:userRoleSelector.role.usageViewer");
+    },
     value: Role.UsageViewer,
     icon: GaugeIcon,
     category: "agent-network",

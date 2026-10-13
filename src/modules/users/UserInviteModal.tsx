@@ -428,7 +428,7 @@ export function UserInviteModalContent({
                 customPrefix={
                   <AlarmClock size={16} className={"text-nb-gray-300"} />
                 }
-                customSuffix={"Day(s)"}
+                customSuffix={t("common:word.dayS")}
               />
             </div>
           )}

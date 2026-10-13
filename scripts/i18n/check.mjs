@@ -3,6 +3,8 @@
 // interpolation variable parity, keys used in src but missing, unused keys.
 // Run: npm run i18n:check   (exit code 1 on errors; unused keys are warnings)
 import fs from "node:fs";
+// Values that are proper nouns and intentionally stay English in zh-CN.
+const KEEP_EN = new Set(JSON.parse(fs.readFileSync(new URL("./keep-english.json", import.meta.url), "utf8")));
 import path from "node:path";
 
 const ROOT = process.cwd();
@@ -28,7 +30,7 @@ for (const ns of new Set([...Object.keys(en), ...Object.keys(zh)])) {
   for (const k of zb) if (!eb.has(k)) errors.push(`zh-CN/${ns}.json has extra key "${k}"`);
   for (const [k, v] of Object.entries(en[ns])) {
     const z = zh[ns][k] ?? zh[ns][base(k) + "_other"];
-    if (z === v && /[a-z]{3,} [a-z]{3,}/.test(v.replace(/\{\{\w+\}\}/g, "")) && !/^https?:|@/.test(v)) warnings.push(`untranslated zh-CN ${ns}:${k}`);
+    if (z === v && !KEEP_EN.has(v) && /[A-Za-z][a-z]{2,} [A-Za-z][a-z]{2,}/.test(v.replace(/\{\{\w+\}\}/g, "")) && !/^https?:|@/.test(v)) warnings.push(`untranslated zh-CN ${ns}:${k}`);
     if (typeof z === "string" && vars(v) !== vars(z)) errors.push(`${ns}:${k} interpolation differs: en {${vars(v)}} zh-CN {${vars(z)}}`);
   }
 }

@@ -436,7 +436,7 @@ export const OperatingSystemTab = ({
           <Input
             value={value}
             customPrefix={prefix}
-            placeholder={"e.g., 6.0.0"}
+            placeholder={t("common:placeholder.example", { value: "6.0.0" })}
             error={versionError}
             errorTooltip={true}
             disabled={allOrMin === "all" || allow === "block" || disabled}

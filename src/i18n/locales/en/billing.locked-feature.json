@@ -1,0 +1,20 @@
+{
+  "planText.team": "Available on Team",
+  "planText.business": "Available on Business",
+  "planText.enterprise": "Available with an Enterprise license",
+  "availableSelfHosted.team": "{{feature}} is available with a NetBird Enterprise commercial license, or on NetBird Cloud with the Team plan or higher.",
+  "availableSelfHosted.team.plural": "{{feature}} are available with a NetBird Enterprise commercial license, or on NetBird Cloud with the Team plan or higher.",
+  "availableSelfHosted.business": "{{feature}} is available with a NetBird Enterprise commercial license, or on NetBird Cloud with the Business plan.",
+  "availableSelfHosted.business.plural": "{{feature}} are available with a NetBird Enterprise commercial license, or on NetBird Cloud with the Business plan.",
+  "availableCloud.team": "{{feature}} is available on the Team plan or higher.",
+  "availableCloud.team.plural": "{{feature}} are available on the Team plan or higher.",
+  "availableCloud.business": "{{feature}} is available on the Business plan.",
+  "availableCloud.business.plural": "{{feature}} are available on the Business plan.",
+  "lockedFeatureContent.text.contactYourAccountAdministratorTo": "Contact your account administrator to upgrade the plan.",
+  "lockedFeatureContent.text.contactYourAccountAdministrator": "Contact your account administrator",
+  "lockedFeatureContent.text.toUpgradeThePlan": "to upgrade the plan.",
+  "lockedFeatureContent.text.onlyTheOwnerOrAn": "Only the owner or an admin can upgrade the plan.",
+  "lockedFeatureContent.text.upgradeOrStartA14": "Upgrade or start a 14-day free trial to access this feature.",
+  "lockedFeatureContent.text.upgradeYourPlanToAccess": "Upgrade your {{value}} plan to access this feature.",
+  "lockedFeatureContent.text.getSupport": "Get Support"
+}

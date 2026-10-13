@@ -13,6 +13,7 @@ import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { PlanTier } from "@/interfaces/Subscription";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 
+import { t } from "@/i18n";
 type Props = {
   plan?: PlanTier;
   variant?: "primary" | "white";
@@ -53,8 +54,8 @@ export const TrialOrUpgradeButton = ({
       <div>
         <div>
           {isTrialAvailable && offerTrial
-            ? "Only the owner or an administrator can start a free trial."
-            : "Only the owner or an administrator can upgrade the plan."}
+            ? t("billing.trial:trialOrUpgradeButton.text.onlyTheOwnerOrAn")
+            : t("billing.trial:trialOrUpgradeButton.text.onlyTheOwnerOrAn2")}
         </div>
       </div>
     );
@@ -70,7 +71,7 @@ export const TrialOrUpgradeButton = ({
           className={cn("w-full h-[34px]")}
           disabled={!isOwnerOrAdmin}
         >
-          Go to Plans & Billing
+          {t("billing.trial:trialOrUpgradeButton.text.goToPlansBilling")}
         </Button>
       </div>
     );
@@ -89,8 +90,9 @@ export const TrialOrUpgradeButton = ({
           disabled={canUpgrade}
           content={
             <div className={"text-xs max-w-sm"}>
-              Your plan was recently updated. Please wait for 48 hours from the
-              last update to change your plan again.
+              {t(
+                "billing.trial:trialOrUpgradeButton.text.yourPlanWasRecentlyUpdated",
+              )}
             </div>
           }
         >
@@ -110,7 +112,7 @@ export const TrialOrUpgradeButton = ({
             {isLoading ? (
               <Loader2 size={15} className={"animate-spin"} />
             ) : (
-              "Start 14-Day Free Trial"
+              t("billing.trial:trialOrUpgradeButton.text.start14DayFreeTrial")
             )}
             {!canUpgrade && (
               <IconHelpCircle size={13} className={"relative -top-[1px]"} />
@@ -125,7 +127,7 @@ export const TrialOrUpgradeButton = ({
             !isOwnerOrAdmin && "opacity-50",
           )}
         >
-          No credit card required
+          {t("billing.trial:trialOrUpgradeButton.text.noCreditCardRequired")}
         </div>
       </div>
     );
@@ -165,7 +167,7 @@ export const SelfHostedUpgradeButton = ({
           className={cn("w-full h-[34px]")}
           data-testid={"self-hosted-upgrade-cta"}
         >
-          Get a License
+          {t("billing.trial:trialOrUpgradeButton.text.getALicense")}
           <ExternalLinkIcon size={13} className={"shrink-0"} />
         </Button>
       </a>

@@ -38,6 +38,7 @@ import { useAccount } from "@/modules/account/useAccount";
 import InlineLink from "@components/InlineLink";
 import { TRAFFIC_EVENTS_DOC_LINK } from "@/cloud/traffic-events/TrafficEventSetting";
 
+import { t } from "@/i18n";
 export const TrafficEventsPeerTabContent = () => {
   const account = useAccount();
   const { peer } = usePeer();
@@ -201,15 +202,23 @@ export const TrafficEventsPeerTabContent = () => {
         <div className={"flex justify-between items-center mb-5"}>
           <div>
             <Paragraph>
-              Here you can see all the {isInbound ? "inbound" : "outbound"}{" "}
-              traffic events for this peer.
+              {isInbound
+                ? t(
+                    "cloud.main:trafficEventsPeerTabContent.text.inboundSentence",
+                  )
+                : t(
+                    "cloud.main:trafficEventsPeerTabContent.text.outboundSentence",
+                  )}
             </Paragraph>
             <Paragraph>
-              Learn more about{" "}
+              {t("common:word.learnMoreAbout")}{" "}
               <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target="_blank">
-                Traffic Events <ExternalLinkIcon size={12} />
+                {t("cloud.main:trafficEventSetting.title.trafficEvents")}{" "}
+                <ExternalLinkIcon size={12} />
               </InlineLink>{" "}
-              in our documentation.
+              {t(
+                "cloud.main:trafficEventsPeerTabContent.text.inOurDocumentation",
+              )}
             </Paragraph>
           </div>
         </div>
@@ -357,7 +366,9 @@ const TrafficEventsPeerDetailTable = ({
       globalFilter={searchQuery}
       onGlobalFilterChange={onSearchChange}
       manualFiltering={true}
-      searchPlaceholder={"Search by ip, port, peer or resource..."}
+      searchPlaceholder={t(
+        "cloud.main:trafficEventsTable.searchPlaceholder.searchByIpPortPeer",
+      )}
       columnVisibility={{
         user: false,
         source: true,
@@ -384,12 +395,20 @@ const TrafficEventsPeerDetailTable = ({
         <NoResults
           className={"py-4"}
           title={
-            isSettingEnabled ? "No Traffic Events" : "Traffic Events Disabled"
+            isSettingEnabled
+              ? t("cloud.main:trafficEventsPeerTabContent.text.noTrafficEvents")
+              : t(
+                  "cloud.main:trafficEventsPeerTabContent.text.trafficEventsDisabled",
+                )
           }
           description={
             isSettingEnabled
-              ? "It looks like you don't have any traffic events. Traffic events will appear here once clients start connecting to your network."
-              : "It looks like you don't have any traffic events. To start receiving traffic events, you need to enable it in your account settings."
+              ? t(
+                  "cloud.main:trafficEventsPeerTabContent.text.itLooksLikeYouDon",
+                )
+              : t(
+                  "cloud.main:trafficEventsPeerTabContent.text.itLooksLikeYouDon2",
+                )
           }
           icon={<ArrowLeftRightIcon size={20} className={"text-nb-gray-200"} />}
         >
@@ -399,7 +418,7 @@ const TrafficEventsPeerDetailTable = ({
                 variant={"primary"}
                 onClick={() => router.push("/settings?tab=networks")}
               >
-                Go to Settings
+                {t("cloud.main:trafficEventsPeerTabContent.text.goToSettings")}
                 <ArrowUpRightIcon size={16} />
               </Button>
             </div>
@@ -475,7 +494,7 @@ export const TrafficEventsPeerTabTrigger = () => {
   return (
     <TabsTrigger value={"traffic-events"}>
       <ArrowLeftRightIcon size={16} />
-      Traffic Events
+      {t("cloud.main:trafficEventSetting.title.trafficEvents")}
     </TabsTrigger>
   );
 };

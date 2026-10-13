@@ -1,0 +1,11 @@
+{
+  "trialOrUpgradeButton.text.onlyTheOwnerOrAn": "Only the owner or an administrator can start a free trial.",
+  "trialOrUpgradeButton.text.onlyTheOwnerOrAn2": "Only the owner or an administrator can upgrade the plan.",
+  "trialOrUpgradeButton.text.goToPlansBilling": "Go to Plans & Billing",
+  "trialOrUpgradeButton.text.yourPlanWasRecentlyUpdated": "Your plan was recently updated. Please wait for 48 hours from the last update to change your plan again.",
+  "trialOrUpgradeButton.text.start14DayFreeTrial": "Start 14-Day Free Trial",
+  "trialOrUpgradeButton.text.noCreditCardRequired": "No credit card required",
+  "trialOrUpgradeButton.text.getALicense": "Get a License",
+  "trialGradientCard.text.tryAllOfNetBirdS": "Try all of NetBird's features for free",
+  "trialGradientCard.text.activateYour14DayTrial": "Activate your 14-day trial to access NetBird's full set of features & integrations. After the trial, you will return to your {{planName}} plan unless you choose to upgrade."
+}

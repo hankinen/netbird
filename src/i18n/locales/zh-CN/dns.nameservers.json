@@ -44,5 +44,6 @@
   "nameserverGroupTable.title.thisGroupIsNotUsed": "此组尚未在任何域名服务器中使用",
   "nameserverGroupTable.description.assignThisGroupAsA": "在域名服务器中将此组设为分发组后，会在此处列出。",
   "nameserverGroupTable.description.itLooksLikeYouDon": "您还没有任何域名服务器。向网络添加一个即可开始。可以选择预设的域名服务器，或添加自定义域名服务器。",
-  "nameserverNameserversCell.text.servers": "服务器"
+  "nameserverNameserversCell.text.servers": "服务器",
+  "nameserverModal.customPrefix.port": "Port"
 }

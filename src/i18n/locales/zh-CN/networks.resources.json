@@ -68,5 +68,8 @@
   "resourcesTable.text.thisNetworkHasNoResources": "此网络没有资源",
   "resourcesTable.text.assignThisGroupToYour": "在网络中将此组分配给资源后，会在此处列出。",
   "resourcesTable.text.addResourcesToThisNetwork": "向此网络添加资源，以控制设备可以访问的内容。资源可以是单个 IP、子网或域名。",
-  "resourcesTable.text.goToNetworks": "前往网络"
+  "resourcesTable.text.goToNetworks": "前往网络",
+  "networkResourceModal.content.aSingleHostAddressE": "单个主机地址，例如 10.0.0.1 或 192.168.1.5。用于授予对特定机器或服务的访问权限。",
+  "networkResourceModal.content.toGiveAccessToAn": "要授予对整个子网的访问权限，请使用 CIDR 块，例如 10.0.0.0/24 或 192.168.1.0/24。",
+  "networkResourceModal.content.aDNSDomainNameE": "DNS 域名，例如 service.internal、example.com，或使用 *.example.com 匹配所有子域名。"
 }

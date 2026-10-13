@@ -95,9 +95,11 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
               className={"max-w-[200px]"}
               value={version}
               onChange={(e) => setVersion(e.target.value)}
-              placeholder={"e.g., 0.25.0"}
+              placeholder={t("common:placeholder.example", { value: "0.25.0" })}
               error={versionError}
-              customPrefix={"Version"}
+              customPrefix={t(
+                "posture-checks.checks:postureCheckNetBirdVersion.customPrefix.version",
+              )}
               disabled={disabled}
             />
           </div>

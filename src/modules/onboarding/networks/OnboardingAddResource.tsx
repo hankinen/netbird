@@ -60,9 +60,15 @@ export const OnboardingAddResource = ({
     if (!myNetwork) return;
 
     notify({
-      title: t("onboarding.networks:onboardingAddResource.title.myFirstNetwork"),
-      description: t("onboarding.networks:onboardingAddResource.description.networkResourceCreatedSuccessfully"),
-      loadingMessage: t("onboarding.networks:onboardingAddResource.loadingMessage.creatingYourResource"),
+      title: t(
+        "onboarding.networks:onboardingAddResource.title.myFirstNetwork",
+      ),
+      description: t(
+        "onboarding.networks:onboardingAddResource.description.networkResourceCreatedSuccessfully",
+      ),
+      loadingMessage: t(
+        "onboarding.networks:onboardingAddResource.loadingMessage.creatingYourResource",
+      ),
       promise: resourceRequest
         .post(
           {
@@ -119,12 +125,16 @@ export const OnboardingAddResource = ({
 
     await policyRequest.post({
       name: `Users to ${r.name}`,
-      description: `Allows access to this ${isSubnet ? `subnet ${r.address}` : `resource ${r.address}`}`,
+      description: `Allows access to this ${
+        isSubnet ? `subnet ${r.address}` : `resource ${r.address}`
+      }`,
       enabled: true,
       rules: [
         {
           name: `Users to ${r.name}`,
-          description: `Allows access to this ${isSubnet ? `subnet ${r.address}` : `resource ${r.address}`}`,
+          description: `Allows access to this ${
+            isSubnet ? `subnet ${r.address}` : `resource ${r.address}`
+          }`,
           enabled: true,
           action: "accept",
           bidirectional: true,
@@ -175,57 +185,93 @@ export const OnboardingAddResource = ({
 
   const description = useMemo(() => {
     if (resourceType === "ip")
-      return t("onboarding.networks:onboardingAddResource.text.enterASingleIPv4Or");
-    if (resourceType === "subnet") return t("onboarding.networks:onboardingAddResource.text.enterACIDRRangeOf");
+      return t(
+        "onboarding.networks:onboardingAddResource.text.enterASingleIPv4Or",
+      );
+    if (resourceType === "subnet")
+      return t(
+        "onboarding.networks:onboardingAddResource.text.enterACIDRRangeOf",
+      );
     if (resourceType === "domain")
-      return t("onboarding.networks:onboardingAddResource.text.enterADomainNameOf");
+      return t(
+        "onboarding.networks:onboardingAddResource.text.enterADomainNameOf",
+      );
   }, [resourceType]);
 
   const placeholder = useMemo(() => {
-    if (resourceType === "ip") return "e.g., 192.168.31.45 or 2001:db8::1";
-    if (resourceType === "subnet") return "e.g., 192.168.1.0/24 or 2001:db8::/64";
+    if (resourceType === "ip")
+      return t("common:placeholder.exampleOr", {
+        a: "192.168.31.45",
+        b: "2001:db8::1",
+      });
+    if (resourceType === "subnet")
+      return t("common:placeholder.exampleOr", {
+        a: "192.168.1.0/24",
+        b: "2001:db8::/64",
+      });
     if (resourceType === "domain")
-      return "e.g., service.internal or *.services.internal";
+      return t("common:placeholder.exampleOr", {
+        a: "service.internal",
+        b: "*.services.internal",
+      });
   }, [resourceType]);
 
   return (
     <div className={"relative flex flex-col h-full gap-4"}>
       <div className={"flex flex-col gap-8"}>
         <div>
-          <h1 className={"text-xl text-center"}>{t("onboarding.networks:onboardingAddResource.text.addYourFirstResource")}</h1>
+          <h1 className={"text-xl text-center"}>
+            {t(
+              "onboarding.networks:onboardingAddResource.text.addYourFirstResource",
+            )}
+          </h1>
           <div
             className={
               "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
             }
           >
-            {t("onboarding.networks:onboardingAddResource.text.resourcesAreYourSubnetsServices")}
+            {t(
+              "onboarding.networks:onboardingAddResource.text.resourcesAreYourSubnetsServices",
+            )}
           </div>
         </div>
 
         <RadioCardGroup value={resourceType} onValueChange={setResourceType}>
           <RadioCard
             value={"ip"}
-            title={t("onboarding.networks:onboardingAddResource.title.singleIPAddress")}
+            title={t(
+              "onboarding.networks:onboardingAddResource.title.singleIPAddress",
+            )}
             icon={<WorkflowIcon size={12} />}
-            description={t("onboarding.networks:onboardingAddResource.description.iPv4OrIPv6AddressLike")}
+            description={t(
+              "onboarding.networks:onboardingAddResource.description.iPv4OrIPv6AddressLike",
+            )}
           />
           <RadioCard
             value={"subnet"}
-            title={t("onboarding.networks:onboardingAddResource.title.entireSubnet")}
+            title={t(
+              "onboarding.networks:onboardingAddResource.title.entireSubnet",
+            )}
             icon={<NetworkIcon size={12} />}
-            description={t("onboarding.networks:onboardingAddResource.description.cIDRRangeLike192168")}
+            description={t(
+              "onboarding.networks:onboardingAddResource.description.cIDRRangeLike192168",
+            )}
           />
           <RadioCard
             value={"domain"}
             title={t("onboarding.networks:onboardingAddResource.title.domain")}
             icon={<GlobeIcon size={12} />}
-            description={t("onboarding.networks:onboardingAddResource.description.aDomainLikeServiceInternal")}
+            description={t(
+              "onboarding.networks:onboardingAddResource.description.aDomainLikeServiceInternal",
+            )}
           />
         </RadioCardGroup>
 
         {resourceType && (
           <ResourceSingleAddressInput
-            label={t("onboarding.networks:onboardingAddResource.label.whatIsTheAddressOf")}
+            label={t(
+              "onboarding.networks:onboardingAddResource.label.whatIsTheAddressOf",
+            )}
             value={resourceAddress}
             onChange={setResourceAddress}
             onError={setError}

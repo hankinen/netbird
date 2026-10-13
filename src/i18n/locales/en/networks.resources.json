@@ -68,5 +68,8 @@
   "resourcesTable.text.thisNetworkHasNoResources": "This network has no resources",
   "resourcesTable.text.assignThisGroupToYour": "Assign this group to your resources inside your networks to see them listed here.",
   "resourcesTable.text.addResourcesToThisNetwork": "Add resources to this network to control what peers can access. Resources can be anything from a single IP, a subnet, or a domain.",
-  "resourcesTable.text.goToNetworks": "Go to Networks"
+  "resourcesTable.text.goToNetworks": "Go to Networks",
+  "networkResourceModal.content.aSingleHostAddressE": "A single host address, e.g., 10.0.0.1 or 192.168.1.5. Use this to give access to a specific machine or service.",
+  "networkResourceModal.content.toGiveAccessToAn": "To give access to an entire subnet, use a CIDR block. For example, 10.0.0.0/24 or 192.168.1.0/24.",
+  "networkResourceModal.content.aDNSDomainNameE": "A DNS domain name, e.g., service.internal, example.com or *.example.com to match all subdomains."
 }

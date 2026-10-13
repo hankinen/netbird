@@ -67,7 +67,7 @@
   "routeModal.helpText.useThisSwitchToEnable": "使用此开关启用或禁用该路由。",
   "routeModal.text.autoApplyRoute": "自动应用路由",
   "routeModal.helpText.automaticallyApplyThisExitNode": "自动将此出口节点应用到分发组。需要 NetBird 客户端 v0.55.0 或更高版本。",
-  "routeModal.text.metric": "Metric",
+  "routeModal.text.metric": "优先级（Metric）",
   "routeModal.text.aLowerMetricIndicatesHigher": "Metric 越低，路由优先级越高。",
   "routeModal.text.exitNodes2": "出口节点",
   "routeTable.text.accessControlGroups": "访问控制组",

@@ -93,5 +93,9 @@
   "apiError.geoDb": "The geolocation database is not initialized on the server.",
   "apiError.inviteEmbeddedOnly": "Invite links are only available with the embedded identity provider.",
   "apiError.passwordEmbeddedOnly": "Password change is only available with the embedded identity provider.",
-  "apiError.tokenInUse": "This token is in use."
+  "apiError.tokenInUse": "This token is in use.",
+  "word.dayS": "Day(s)",
+  "placeholder.example": "e.g., {{value}}",
+  "word.peersSelected": "Peer(s) selected",
+  "placeholder.exampleOr": "e.g., {{a}} or {{b}}"
 }

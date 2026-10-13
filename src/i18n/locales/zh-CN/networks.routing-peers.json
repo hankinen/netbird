@@ -13,7 +13,7 @@
   "networkRoutingPeerModal.text.youCanInstallNetBirdWith": "您可以在一台或多台机器上使用安装密钥安装 NetBird，将其用作路由设备。",
   "networkRoutingPeerModal.text.enableRoutingPeer": "启用路由设备",
   "networkRoutingPeerModal.helpText.useThisSwitchToEnable": "使用此开关启用或禁用该路由设备。",
-  "networkRoutingPeerModal.text.metric": "Metric",
+  "networkRoutingPeerModal.text.metric": "优先级（Metric）",
   "networkRoutingPeerModal.text.aLowerMetricIndicatesHigher": "Metric 越低，路由设备优先级越高。",
   "networkRoutingPeerModal.title.createASetupKey": "创建安装密钥？",
   "networkRoutingPeerModal.description.ifYouContinueAOne": "如果继续，系统将自动创建一个一次性安装密钥，您可以用它安装 NetBird。",

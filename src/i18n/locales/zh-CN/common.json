@@ -93,5 +93,9 @@
   "apiError.geoDb": "服务器尚未初始化地理位置数据库。",
   "apiError.inviteEmbeddedOnly": "邀请链接仅在使用内置身份提供商时可用。",
   "apiError.passwordEmbeddedOnly": "仅在使用内置身份提供商时才能修改密码。",
-  "apiError.tokenInUse": "此令牌正在使用中。"
+  "apiError.tokenInUse": "此令牌正在使用中。",
+  "word.dayS": "Day(s)",
+  "placeholder.example": "例如 {{value}}",
+  "word.peersSelected": "已选对等节点",
+  "placeholder.exampleOr": "例如 {{a}} 或 {{b}}"
 }

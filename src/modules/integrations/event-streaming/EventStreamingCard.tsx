@@ -12,6 +12,7 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useIsLicensed } from "@/hooks/useIsLicensed";
 import { EventStream } from "@/interfaces/EventStream";
 
+import { t } from "@/i18n";
 type Platform = "datadog" | "s3" | "firehose" | "generic_http";
 const platformImages: { [key in Platform]?: StaticImageData } = {
   datadog: datadogLogo,
@@ -59,9 +60,13 @@ export const EventStreamingCard = () => {
             <FileText size={16} />
           )
         }
-        title={"Event Streaming"}
+        title={t(
+          "integrations.event-streaming:eventStreamingCard.title.eventStreaming",
+        )}
         action={<FeatureCardStatus enabled={enabled} />}
-        description={"Stream your activity events to third-party services."}
+        description={t(
+          "integrations.event-streaming:eventStreamingCard.description.streamYourActivityEventsTo",
+        )}
       />
     </div>
   );

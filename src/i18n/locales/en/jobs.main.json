@@ -20,5 +20,7 @@
   "createDebugJobModal.text.uploadURLOptional": "Upload URL (optional)",
   "createDebugJobModal.text.serviceThePeerRequestsAn": "Service the peer requests an upload URL from. Leave empty to use the default upload server. Must be an https URL.",
   "createDebugJobModal.placeholder.httpsUploadDebugNetbirdIo": "https://upload.debug.netbird.io",
-  "createDebugJobModal.text.createDebugBundle": "Create Debug Bundle"
+  "createDebugJobModal.text.createDebugBundle": "Create Debug Bundle",
+  "createDebugJobModal.customSuffix.fileS": "File(s)",
+  "createDebugJobModal.customSuffix.minuteS": "Minute(s)"
 }

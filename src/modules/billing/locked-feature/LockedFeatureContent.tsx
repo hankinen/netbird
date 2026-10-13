@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import Button from "@components/Button";
 import { cn } from "@utils/helpers";
 import { isNetBirdCloud } from "@utils/netbird";
@@ -16,6 +17,15 @@ export enum PLAN_TEXT {
   BUSINESS = "Available on Business",
   ENTERPRISE = "Available with an Enterprise license",
 }
+
+/** Display text for a PLAN_TEXT value; the enum value itself stays English. */
+export const planText = (value: PLAN_TEXT) => {
+  if (value === PLAN_TEXT.TEAM)
+    return t("billing.locked-feature:planText.team");
+  if (value === PLAN_TEXT.BUSINESS)
+    return t("billing.locked-feature:planText.business");
+  return t("billing.locked-feature:planText.enterprise");
+};
 
 export const LockedFeatureContent = ({
   feature,
@@ -41,7 +51,11 @@ export const LockedFeatureContent = ({
             size={isTooltip ? 12 : 14}
             className={cn("relative", isTooltip && "-top-[1px]")}
           />
-            { isNetBirdCloud()? (plan == "team" ? PLAN_TEXT.TEAM : PLAN_TEXT.BUSINESS) : PLAN_TEXT.ENTERPRISE }
+          {isNetBirdCloud()
+            ? plan == "team"
+              ? planText(PLAN_TEXT.TEAM)
+              : planText(PLAN_TEXT.BUSINESS)
+            : planText(PLAN_TEXT.ENTERPRISE)}
         </div>
         <div
           className={cn(
@@ -80,21 +94,24 @@ const AvailableOnPlanText = ({
   plan: PlanTier;
 }) => {
   const isOrAre = featureText.includes("Posture Checks") ? "are" : "is";
-  const teamOrBusiness =
-    plan == "team" ? "Team plan or higher. " : "Business plan. ";
+  const vars = { feature: featureText };
+  const team = plan == "team";
   if (!isNetBirdCloud()) {
-      return (
-      <>
-        {featureText} {isOrAre} available with a NetBird Enterprise commercial license, or on NetBird Cloud with the {teamOrBusiness}
-      </>
-      )
+    if (isOrAre === "are")
+      return team
+        ? t("billing.locked-feature:availableSelfHosted.team.plural", vars)
+        : t("billing.locked-feature:availableSelfHosted.business.plural", vars);
+    return team
+      ? t("billing.locked-feature:availableSelfHosted.team", vars)
+      : t("billing.locked-feature:availableSelfHosted.business", vars);
   }
-
-  return (
-    <>
-      {featureText} {isOrAre} available on the {teamOrBusiness}
-    </>
-  );
+  if (isOrAre === "are")
+    return team
+      ? t("billing.locked-feature:availableCloud.team.plural", vars)
+      : t("billing.locked-feature:availableCloud.business.plural", vars);
+  return team
+    ? t("billing.locked-feature:availableCloud.team", vars)
+    : t("billing.locked-feature:availableCloud.business", vars);
 };
 
 const UpgradeOrTrialText = ({
@@ -112,35 +129,45 @@ const UpgradeOrTrialText = ({
   const { isOwnerOrAdmin } = useLoggedInUser();
 
   if (!isNetBirdCloud()) {
-    return (
-      <>
-      </>
-    );
+    return <></>;
   }
 
   if (hasReseller) {
-    return <>Contact your account administrator to upgrade the plan.</>;
+    return (
+      <>
+        {t(
+          "billing.locked-feature:lockedFeatureContent.text.contactYourAccountAdministratorTo",
+        )}
+      </>
+    );
   }
 
   if (isAccountWithMSPParent && !isMSPInTenantContext) {
     return (
       <>
-        Contact your account administrator{" "}
-        <span className={"text-nb-gray-200 font-medium"}>{mspContact}</span> to
-        upgrade the plan.
+        {t(
+          "billing.locked-feature:lockedFeatureContent.text.contactYourAccountAdministrator",
+        )}{" "}
+        <span className={"text-nb-gray-200 font-medium"}>{mspContact}</span>{" "}
+        {t("billing.locked-feature:lockedFeatureContent.text.toUpgradeThePlan")}
       </>
     );
   }
 
   if (!isOwnerOrAdmin)
-    return "Only the owner or an admin can upgrade the plan.";
+    return t(
+      "billing.locked-feature:lockedFeatureContent.text.onlyTheOwnerOrAn",
+    );
 
   if (isTrialAvailable && offerTrial)
-    return "Upgrade or start a 14-day free trial to access this feature.";
+    return t(
+      "billing.locked-feature:lockedFeatureContent.text.upgradeOrStartA14",
+    );
 
-  return `Upgrade your ${
-    isMSPInTenantContext ? "tenants" : "current"
-  } plan to access this feature.`;
+  return t(
+    "billing.locked-feature:lockedFeatureContent.text.upgradeYourPlanToAccess",
+    { value: isMSPInTenantContext ? "tenants" : "current" },
+  );
 };
 
 const GetMSPSupportButton = () => {
@@ -160,7 +187,7 @@ const GetMSPSupportButton = () => {
           className={cn("w-full h-[34px]")}
         >
           <MailIcon size={15} className={"shrink-0"} />
-          Get Support
+          {t("billing.locked-feature:lockedFeatureContent.text.getSupport")}
         </Button>
       </a>
     </div>

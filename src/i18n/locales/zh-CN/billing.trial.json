@@ -1,0 +1,11 @@
+{
+  "trialOrUpgradeButton.text.onlyTheOwnerOrAn": "只有所有者或管理员可以开始免费试用。",
+  "trialOrUpgradeButton.text.onlyTheOwnerOrAn2": "只有所有者或管理员可以升级套餐。",
+  "trialOrUpgradeButton.text.goToPlansBilling": "前往套餐与账单",
+  "trialOrUpgradeButton.text.yourPlanWasRecentlyUpdated": "您的套餐最近已更新。请在上次更新 48 小时后再更改套餐。",
+  "trialOrUpgradeButton.text.start14DayFreeTrial": "开始 14 天免费试用",
+  "trialOrUpgradeButton.text.noCreditCardRequired": "无需信用卡",
+  "trialOrUpgradeButton.text.getALicense": "获取许可证",
+  "trialGradientCard.text.tryAllOfNetBirdS": "免费试用 NetBird 的全部功能",
+  "trialGradientCard.text.activateYour14DayTrial": "激活 14 天试用，即可使用 NetBird 的全部功能和集成。试用结束后，除非您选择升级，否则将恢复为 {{planName}} 套餐。"
+}

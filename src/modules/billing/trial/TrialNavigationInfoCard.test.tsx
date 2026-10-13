@@ -8,7 +8,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const push = vi.fn();
 
 vi.mock("next/navigation", () => ({
-  useRouter: () => ({ push, replace: vi.fn(), back: vi.fn(), forward: vi.fn(), refresh: vi.fn() }),
+  useRouter: () => ({
+    push,
+    replace: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    refresh: vi.fn(),
+  }),
 }));
 vi.mock("@/cloud/cloud-hooks/useTrial", () => ({
   useTrial: () => ({ trialDaysRemaining: 7 }),

@@ -44,5 +44,6 @@
   "nameserverGroupTable.title.thisGroupIsNotUsed": "This group is not used within any nameservers yet",
   "nameserverGroupTable.description.assignThisGroupAsA": "Assign this group as a distribution group in your nameservers to see them listed here.",
   "nameserverGroupTable.description.itLooksLikeYouDon": "It looks like you don't have any nameservers. Get started by adding one to your network. Select a predefined or add your custom nameservers.",
-  "nameserverNameserversCell.text.servers": "Servers"
+  "nameserverNameserversCell.text.servers": "Servers",
+  "nameserverModal.customPrefix.port": "Port"
 }

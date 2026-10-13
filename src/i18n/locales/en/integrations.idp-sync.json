@@ -1,0 +1,4 @@
+{
+  "identityProviderCard.title.identityProviderSync": "Identity Provider Sync",
+  "identityProviderCard.description.syncUsersAndGroupsFrom": "Sync users and groups from Okta, Microsoft or Google IdP"
+}

@@ -14,6 +14,10 @@ import { enResources, loaders, Namespace } from "./namespaces.generated";
 
 /** Modules used on many routes (header, dialogs, providers); loaded at start. */
 const SHARED_MODULES = [
+  "billing",
+  "cloud.main",
+  "integrations.event-streaming",
+  "integrations.idp-sync",
   "components",
   "users",
   "setup-netbird-modal",

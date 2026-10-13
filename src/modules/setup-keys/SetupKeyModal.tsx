@@ -297,7 +297,7 @@ export function SetupKeyModalContent({
             customPrefix={
               <MonitorSmartphoneIcon size={16} className={"text-nb-gray-300"} />
             }
-            customSuffix={"Peer(s)"}
+            customSuffix={t("common:word.peerS")}
           />
         </div>
 
@@ -327,7 +327,7 @@ export function SetupKeyModalContent({
             customPrefix={
               <AlarmClock size={16} className={"text-nb-gray-300"} />
             }
-            customSuffix={"Day(s)"}
+            customSuffix={t("common:word.dayS")}
           />
         </div>
 

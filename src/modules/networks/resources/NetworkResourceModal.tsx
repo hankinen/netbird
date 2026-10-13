@@ -341,9 +341,9 @@ export function ResourceModalContent({
                     "networks.resources:networkResourceModal.text.enterASingle",
                   )}{" "}
                   <HelpTooltip
-                    content={
-                      "A single host address, e.g., 10.0.0.1 or 192.168.1.5. Use this to give access to a specific machine or service."
-                    }
+                    content={t(
+                      "networks.resources:networkResourceModal.content.aSingleHostAddressE",
+                    )}
                   >
                     {t(
                       "networks.resources:networkResourceModal.text.iPAddress",
@@ -351,9 +351,9 @@ export function ResourceModalContent({
                   </HelpTooltip>
                   ,{" "}
                   <HelpTooltip
-                    content={
-                      "To give access to an entire subnet, use a CIDR block. For example, 10.0.0.0/24 or 192.168.1.0/24."
-                    }
+                    content={t(
+                      "networks.resources:networkResourceModal.content.toGiveAccessToAn",
+                    )}
                   >
                     {t(
                       "networks.resources:networkResourceModal.text.cIDRBlock",
@@ -361,9 +361,9 @@ export function ResourceModalContent({
                   </HelpTooltip>{" "}
                   {t("networks.resources:networkResourceModal.text.or")}{" "}
                   <HelpTooltip
-                    content={
-                      "A DNS domain name, e.g., service.internal, example.com or *.example.com to match all subdomains."
-                    }
+                    content={t(
+                      "networks.resources:networkResourceModal.content.aDNSDomainNameE",
+                    )}
                   >
                     {t(
                       "networks.resources:networkResourceModal.text.domainName",

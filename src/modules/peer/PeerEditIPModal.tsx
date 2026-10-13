@@ -41,7 +41,9 @@ const config: Record<
         "peer.main:peerEditIPModal.description.updateTheNetBirdIPAddress",
       );
     },
-    placeholder: "e.g., 100.64.0.15",
+    get placeholder() {
+      return t("common:placeholder.example", { value: "100.64.0.15" });
+    },
     get errorMessage() {
       return t("peer.main:peerEditIPModal.errorMessage.pleaseEnterAValidIP");
     },

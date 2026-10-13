@@ -7,7 +7,10 @@ import {
   PlanFeatureAvailability,
   useIsFeatureLocked,
 } from "@/cloud/cloud-hooks/useIsFeatureLocked";
-import { PLAN_TEXT } from "@/modules/billing/locked-feature/LockedFeatureContent";
+import {
+  PLAN_TEXT,
+  planText,
+} from "@/modules/billing/locked-feature/LockedFeatureContent";
 import { LockedFeatureInfoCardProps } from "@/modules/billing/locked-feature/LockedFeatureInfoCard";
 import { LockedFeatureTooltip } from "@/modules/billing/locked-feature/LockedFeatureTooltip";
 
@@ -64,9 +67,9 @@ export const LockedFeatureBadge = ({
             <LockIcon size={12} className={"relative -top-[1px]"} />
             {isNetBirdCloud()
               ? plan == "team"
-                ? PLAN_TEXT.TEAM
-                : PLAN_TEXT.BUSINESS
-              : PLAN_TEXT.ENTERPRISE}
+                ? planText(PLAN_TEXT.TEAM)
+                : planText(PLAN_TEXT.BUSINESS)
+              : planText(PLAN_TEXT.ENTERPRISE)}
             <IconHelpCircle size={13} className={"relative -top-[1px]"} />
           </div>
         </LockedFeatureTooltip>

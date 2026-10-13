@@ -43,6 +43,7 @@ import { useServerPagination } from "@/contexts/ServerPaginationProvider";
 import { useUsers } from "@/contexts/UsersProvider";
 import { NetworkResource } from "@/interfaces/Network";
 
+import { t as i18nT } from "@/i18n";
 export const getTrafficEventTypeText = (
   t: TrafficEventType,
   isP2P: boolean,
@@ -68,7 +69,9 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
   {
     id: "timestamp",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Time</DataTableHeader>
+      <DataTableHeader column={column}>
+        {i18nT("cloud.main:trafficEventsTable.text.time")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => (
       <TrafficEventsTimeCell timestamp={row.original.events[0].timestamp} />
@@ -87,7 +90,9 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     },
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Event</DataTableHeader>
+      <DataTableHeader column={column}>
+        {i18nT("cloud.main:trafficEventsTable.text.event")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => row.getValue("type"),
   },
@@ -101,7 +106,9 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     },
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Event</DataTableHeader>
+      <DataTableHeader column={column}>
+        {i18nT("cloud.main:trafficEventsTable.text.event")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => <TrafficEventsTextCell event={row.original} />,
     enableGlobalFilter: false,
@@ -110,7 +117,9 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     id: "source",
     accessorFn: (row) => row.source.address,
     header: ({ column }) => (
-      <DataTableHeader column={column}>Source</DataTableHeader>
+      <DataTableHeader column={column}>
+        {i18nT("cloud.main:trafficEventsTable.text.source")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => (
       <TrafficEventsMachineCell event={row.original} isSource={true} />
@@ -121,7 +130,9 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     accessorFn: (row) => row.protocol,
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Protocol & Port</DataTableHeader>
+      <DataTableHeader column={column}>
+        {i18nT("cloud.main:trafficEventsTable.text.protocolPort")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => <TrafficEventsPortCell event={row.original} />,
   },
@@ -144,7 +155,9 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     accessorFn: (row) => row.destination.address,
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Destination</DataTableHeader>
+      <DataTableHeader column={column}>
+        {i18nT("cloud.main:trafficEventsTable.text.destination")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => {
       return <TrafficEventsMachineCell event={row.original} isSource={false} />;
@@ -156,7 +169,9 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     accessorKey: "tx_bytes",
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Traffic</DataTableHeader>
+      <DataTableHeader column={column}>
+        {i18nT("cloud.main:trafficEventsTable.text.traffic")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => {
       return <TrafficEventsBytesCell event={row.original} />;
@@ -168,7 +183,9 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     accessorKey: "tx_bytes",
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Traffic</DataTableHeader>
+      <DataTableHeader column={column}>
+        {i18nT("cloud.main:trafficEventsTable.text.traffic")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => {
       return (
@@ -184,7 +201,9 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     accessorKey: "tx_bytes",
     filterFn: "arrIncludesSomeExact",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Traffic</DataTableHeader>
+      <DataTableHeader column={column}>
+        {i18nT("cloud.main:trafficEventsTable.text.traffic")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => {
       return (
@@ -199,7 +218,9 @@ export const TrafficEventsTableColumns: ColumnDef<TrafficEvent>[] = [
     id: "reporter",
     accessorKey: "reporter_id",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Router</DataTableHeader>
+      <DataTableHeader column={column}>
+        {i18nT("cloud.main:trafficEventsTable.text.router")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => <TrafficEventsReporterCell event={row.original} />,
   },
@@ -231,14 +252,8 @@ export default function TrafficEventsTable({
     "/networks/resources",
     true,
   );
-  const {
-    data,
-    isLoading,
-    mutate,
-    setFilter,
-    getFilter,
-    ...paginationProps
-  } = useServerPagination<TrafficEvent[]>();
+  const { data, isLoading, mutate, setFilter, getFilter, ...paginationProps } =
+    useServerPagination<TrafficEvent[]>();
 
   // `data` may resolve to a non-array (e.g. an error body) on locked /
   // self-hosted deployments; guard so `.map` never throws. Rows are keyed by
@@ -329,7 +344,7 @@ export default function TrafficEventsTable({
     () => [
       {
         id: "source_id",
-        label: "Source",
+        label: i18nT("cloud.main:trafficEventsTable.text.source"),
         renderPicker: (p) => (
           <PeerResourcePicker
             value={p.value as string | undefined}
@@ -359,7 +374,7 @@ export default function TrafficEventsTable({
       },
       {
         id: "destination_id",
-        label: "Destination",
+        label: i18nT("cloud.main:trafficEventsTable.text.destination"),
         renderPicker: (p) => (
           <PeerResourcePicker
             value={p.value as string | undefined}
@@ -434,24 +449,23 @@ export default function TrafficEventsTable({
           size={"large"}
         />
       }
-      title={"Traffic Events"}
-      description={
-        "Traffic Events help you understand the network activity in your organization. " +
-        "You can see which machines are connecting to each other, and what kind of traffic is flowing between them."
-      }
+      title={i18nT("cloud.main:trafficEventSetting.title.trafficEvents")}
+      description={i18nT(
+        "cloud.main:trafficEventsTable.text.trafficEventsHelpYouUnderstand",
+      )}
       button={
         <Button
           variant={"primary"}
           onClick={() => router.push("/settings?tab=networks")}
         >
-          Enable Traffic Events
+          {i18nT("cloud.main:trafficEventSetting.text.enableTrafficEvents")}
         </Button>
       }
       learnMore={
         <>
-          Learn more about
+          {i18nT("common:word.learnMoreAbout")}
           <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target={"_blank"}>
-            Traffic Events
+            {i18nT("cloud.main:trafficEventSetting.title.trafficEvents")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </>
@@ -466,15 +480,15 @@ export default function TrafficEventsTable({
           size={"large"}
         />
       }
-      title={"No traffic events yet"}
-      description={
-        "We haven't detected any traffic events yet. This could be because you just enabled the feature, or because there hasn't been any network activity."
-      }
+      title={i18nT("cloud.main:trafficEventsTable.title.noTrafficEventsYet")}
+      description={i18nT(
+        "cloud.main:trafficEventsTable.description.weHavenTDetectedAny",
+      )}
       learnMore={
         <>
-          Learn more about
+          {i18nT("common:word.learnMoreAbout")}
           <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target={"_blank"}>
-            Traffic Events
+            {i18nT("cloud.main:trafficEventSetting.title.trafficEvents")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </>
@@ -492,7 +506,7 @@ export default function TrafficEventsTable({
       {...paginationProps}
       serverSidePagination={false}
       headingTarget={headingTarget}
-      text={"Traffic Events"}
+      text={i18nT("cloud.main:trafficEventSetting.title.trafficEvents")}
       isLoading={isLoading}
       tableCellClassName={"py-2"}
       sorting={sorting}
@@ -522,7 +536,9 @@ export default function TrafficEventsTable({
         destination_id: false,
       }}
       data={events}
-      searchPlaceholder={"Search by ip, port, peer or resource..."}
+      searchPlaceholder={i18nT(
+        "cloud.main:trafficEventsTable.searchPlaceholder.searchByIpPortPeer",
+      )}
       aboveTable={(table) => (
         <TableFilterChips table={table} filters={filterDefs} />
       )}

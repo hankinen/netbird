@@ -79,8 +79,12 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
   const createDebugJob = async () => {
     notify({
       title: t("jobs.main:createDebugJobModal.title.createDebugJob"),
-      description: t("jobs.main:createDebugJobModal.description.debugJobTriggeredSuccessfully"),
-      loadingMessage: t("jobs.main:createDebugJobModal.loadingMessage.creatingJob"),
+      description: t(
+        "jobs.main:createDebugJobModal.description.debugJobTriggeredSuccessfully",
+      ),
+      loadingMessage: t(
+        "jobs.main:createDebugJobModal.loadingMessage.creatingJob",
+      ),
       promise: jobRequest
         .post({
           workload: {
@@ -109,7 +113,9 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
       <ModalHeader
         icon={<BugPlay size={20} />}
         title={t("jobs.main:createDebugJobModal.title.debugBundle")}
-        description={t("jobs.main:createDebugJobModal.description.generateADebugBundleOn")}
+        description={t(
+          "jobs.main:createDebugJobModal.description.generateADebugBundleOn",
+        )}
         color="netbird"
       />
 
@@ -118,7 +124,9 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
         {/* Log File Count */}
         <div className="flex justify-between gap-6">
           <div className={"max-w-[300px]"}>
-            <Label>{t("jobs.main:createDebugJobModal.text.logFileCount")}</Label>
+            <Label>
+              {t("jobs.main:createDebugJobModal.text.logFileCount")}
+            </Label>
             <HelpText>
               {t("jobs.main:createDebugJobModal.text.setsTheLimitForHow")}
             </HelpText>
@@ -133,7 +141,7 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
             onChange={(e) => setLogFileCount(e.target.value)}
             maxWidthClass="w-[220px]"
             customPrefix={<FileText size={16} className="text-nb-gray-300" />}
-            customSuffix="File(s)"
+            customSuffix={t("jobs.main:createDebugJobModal.customSuffix.fileS")}
           />
         </div>
         {/* Bundle Duration */}
@@ -154,15 +162,21 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
                 {t("jobs.main:createDebugJobModal.text.enableBundleDuration")}
               </>
             }
-            helpText={t("jobs.main:createDebugJobModal.helpText.whenEnabledAllowsYouTo")}
+            helpText={t(
+              "jobs.main:createDebugJobModal.helpText.whenEnabledAllowsYouTo",
+            )}
           />
 
           {bundleForTimeEnabled && (
             <div className="flex justify-between gap-6 mt-6 mb-3">
               <div className={"max-w-[300px]"}>
-                <Label>{t("jobs.main:createDebugJobModal.text.duration")}</Label>
+                <Label>
+                  {t("jobs.main:createDebugJobModal.text.duration")}
+                </Label>
                 <HelpText>
-                  {t("jobs.main:createDebugJobModal.text.timePeriodForWhichLogs")}
+                  {t(
+                    "jobs.main:createDebugJobModal.text.timePeriodForWhichLogs",
+                  )}
                 </HelpText>
               </div>
 
@@ -177,7 +191,9 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
                 customPrefix={
                   <AlarmClock size={16} className="text-nb-gray-300" />
                 }
-                customSuffix="Minute(s)"
+                customSuffix={t(
+                  "jobs.main:createDebugJobModal.customSuffix.minuteS",
+                )}
               />
             </div>
           )}
@@ -193,32 +209,48 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
               {t("jobs.main:createDebugJobModal.text.anonymizeLogData")}
             </>
           }
-          helpText={t("jobs.main:createDebugJobModal.helpText.removeSensitiveInformationIPAddresses")}
+          helpText={t(
+            "jobs.main:createDebugJobModal.helpText.removeSensitiveInformationIPAddresses",
+          )}
         />
 
         {/* Anonymization Level */}
         {anonymize && (
           <div className="flex justify-between gap-6">
             <div className={"max-w-[300px]"}>
-              <Label>{t("jobs.main:createDebugJobModal.text.anonymizationLevel")}</Label>
+              <Label>
+                {t("jobs.main:createDebugJobModal.text.anonymizationLevel")}
+              </Label>
               <HelpText>
-                {t("jobs.main:createDebugJobModal.text.defaultKeepsInternalPrivateIP")}
+                {t(
+                  "jobs.main:createDebugJobModal.text.defaultKeepsInternalPrivateIP",
+                )}
               </HelpText>
             </div>
 
             <Select
               value={anonymizeLevel}
-              onValueChange={(v) => setAnonymizeLevel(v as "default" | "strict")}
+              onValueChange={(v) =>
+                setAnonymizeLevel(v as "default" | "strict")
+              }
             >
               <SelectTrigger className="w-[220px]">
                 <div className="flex items-center gap-3">
                   <Shield size={15} className="text-nb-gray-300 shrink-0" />
-                  <SelectValue placeholder={t("jobs.main:createDebugJobModal.placeholder.selectLevel")} />
+                  <SelectValue
+                    placeholder={t(
+                      "jobs.main:createDebugJobModal.placeholder.selectLevel",
+                    )}
+                  />
                 </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="default">{t("jobs.main:createDebugJobModal.text.default")}</SelectItem>
-                <SelectItem value="strict">{t("jobs.main:createDebugJobModal.text.strict")}</SelectItem>
+                <SelectItem value="default">
+                  {t("jobs.main:createDebugJobModal.text.default")}
+                </SelectItem>
+                <SelectItem value="strict">
+                  {t("jobs.main:createDebugJobModal.text.strict")}
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -227,7 +259,9 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
         {/* Upload URL */}
         <div className="flex justify-between gap-6">
           <div className={"max-w-[300px]"}>
-            <Label>{t("jobs.main:createDebugJobModal.text.uploadURLOptional")}</Label>
+            <Label>
+              {t("jobs.main:createDebugJobModal.text.uploadURLOptional")}
+            </Label>
             <HelpText>
               {t("jobs.main:createDebugJobModal.text.serviceThePeerRequestsAn")}
             </HelpText>
@@ -235,11 +269,15 @@ export function CreateDebugJobModalContent({ peerID, onSuccess }: Props) {
 
           <Input
             type="text"
-            placeholder={t("jobs.main:createDebugJobModal.placeholder.httpsUploadDebugNetbirdIo")}
+            placeholder={t(
+              "jobs.main:createDebugJobModal.placeholder.httpsUploadDebugNetbirdIo",
+            )}
             value={uploadUrl}
             onChange={(e) => setUploadUrl(e.target.value)}
             maxWidthClass="w-[220px]"
-            customPrefix={<UploadCloud size={16} className="text-nb-gray-300" />}
+            customPrefix={
+              <UploadCloud size={16} className="text-nb-gray-300" />
+            }
           />
         </div>
       </div>
