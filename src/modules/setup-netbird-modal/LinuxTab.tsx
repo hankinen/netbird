@@ -12,12 +12,12 @@ import Steps from "@components/Steps";
 import TabsContentPadding, { TabsContent } from "@components/Tabs";
 import { PackageIcon, TerminalSquareIcon } from "lucide-react";
 import React, { useState } from "react";
+import { t } from "@/i18n";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import {
   NetBirdUpCommand,
   RoutingPeerSetupKeyInfo,
 } from "@/modules/setup-netbird-modal/SetupModal";
-
 type Props = {
   setupKey?: string;
   setupKeyContent?: React.ReactNode;
@@ -145,7 +145,7 @@ export default function LinuxTab({
       <TabsContentPadding>
         <p className={"font-medium flex gap-3 items-center text-base"}>
           <TerminalSquareIcon size={16} />
-          Install with Command-line
+          {t("setup-netbird-modal.main:linuxTab.text.installWithCommandLine")}
         </p>
         <Steps>
           <Steps.Step step={1}>
@@ -156,7 +156,9 @@ export default function LinuxTab({
           )}
           <Steps.Step step={runStep} line={false}>
             <p>
-              Run NetBird {!usingSetupKey && "and log in the browser"}
+              {t("setup-netbird-modal.main:linuxTab.text.runNetBird")}{" "}
+              {!usingSetupKey &&
+                t("setup-netbird-modal.main:linuxTab.text.andLogInTheBrowser")}
               {showSetupKeyInfo && <RoutingPeerSetupKeyInfo />}
             </p>
             <NetBirdUpCommand
@@ -173,7 +175,9 @@ export default function LinuxTab({
           <AccordionItem value="item-1">
             <AccordionTrigger>
               <PackageIcon size={16} />
-              Install manually with a package manager
+              {t(
+                "setup-netbird-modal.main:linuxTab.text.installManuallyWithAPackage",
+              )}
             </AccordionTrigger>
             <AccordionContent>
               <div className={"mt-1"}>
@@ -181,7 +185,9 @@ export default function LinuxTab({
                   value={distroValue}
                   className={"w-[280px]"}
                   onChange={setDistroValue}
-                  placeholder={"Select distribution"}
+                  placeholder={t(
+                    "setup-netbird-modal.main:linuxTab.placeholder.selectDistribution",
+                  )}
                   options={DISTROS.map(({ label, value }) => ({
                     label,
                     value,
@@ -191,7 +197,11 @@ export default function LinuxTab({
               </div>
               <Steps>
                 <Steps.Step step={1}>
-                  <p>Add our repository</p>
+                  <p>
+                    {t(
+                      "setup-netbird-modal.main:linuxTab.text.addOurRepository",
+                    )}
+                  </p>
                   <Code codeToCopy={distro.repository.join("\n")}>
                     {distro.repository.map((line) => (
                       <Code.Line key={line}>{line}</Code.Line>
@@ -199,7 +209,7 @@ export default function LinuxTab({
                   </Code>
                 </Steps.Step>
                 <Steps.Step step={2}>
-                  <p>Install NetBird</p>
+                  <p>{t("common:word.installNetBird")}</p>
                   <Code codeToCopy={installLines.join("\n")}>
                     {distro.beforeInstall?.map((line) => (
                       <Code.Line key={line}>{line}</Code.Line>
@@ -220,12 +230,18 @@ export default function LinuxTab({
                   <Callout variant={"info"} className={"mt-1"}>
                     {distro.note}
                     {hasDesktopApp &&
-                      " Desktop app packages are available for x86_64 only."}
+                      t(
+                        "setup-netbird-modal.main:linuxTab.text.desktopAppPackagesAreAvailable",
+                      )}
                   </Callout>
                 </Steps.Step>
                 <Steps.Step step={3} line={false}>
                   <p>
-                    Run NetBird {!usingSetupKey && "and log in the browser"}
+                    {t("setup-netbird-modal.main:linuxTab.text.runNetBird")}{" "}
+                    {!usingSetupKey &&
+                      t(
+                        "setup-netbird-modal.main:linuxTab.text.andLogInTheBrowser",
+                      )}
                     {showSetupKeyInfo && <RoutingPeerSetupKeyInfo />}
                   </p>
                   <NetBirdUpCommand

@@ -19,13 +19,13 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { t } from "@/i18n";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import {
   ManagementUrlStep,
   NetBirdUpCommand,
   RoutingPeerSetupKeyInfo,
 } from "@/modules/setup-netbird-modal/SetupModal";
-
 type Props = {
   setupKey?: string;
   setupKeyContent?: React.ReactNode;
@@ -53,12 +53,12 @@ export default function MacOSTab({
       <TabsContentPadding>
         <p className={"font-medium flex gap-3 items-center text-base"}>
           <PackageOpenIcon size={16} />
-          Install on macOS
+          {t("setup-netbird-modal.main:macOSTab.text.installOnMacOS")}
         </p>
         <Steps>
           <Steps.Step step={1}>
             <div className={"flex items-center gap-1 text-sm font-light"}>
-              Download and run macOS Installer
+              {t("setup-netbird-modal.main:macOSTab.text.downloadAndRunMacOSInstaller")}
             </div>
             <div className={"flex gap-4 mt-1 flex-wrap"}>
               <Link
@@ -68,7 +68,7 @@ export default function MacOSTab({
               >
                 <Button variant={"primary"}>
                   <DownloadIcon size={14} />
-                  Download NetBird
+                  {t("setup-netbird-modal.main:macOSTab.text.downloadNetBird")}
                 </Button>
               </Link>
             </div>
@@ -87,7 +87,7 @@ export default function MacOSTab({
           {useCliRun ? (
             <Steps.Step step={runStep} line={false}>
               <p>
-                Open Terminal and run NetBird{" "}
+                {t("setup-netbird-modal.main:macOSTab.text.openTerminalAndRunNetBird")}{" "}
                 {showSetupKeyInfo && <RoutingPeerSetupKeyInfo />}
               </p>
 
@@ -101,12 +101,12 @@ export default function MacOSTab({
             <>
               <Steps.Step step={runStep}>
                 <p>
-                  {/* eslint-disable-next-line react/no-unescaped-entities */}
-                  Click on "Connect" from the NetBird icon in your menu bar
+                  { }
+                  {t("setup-netbird-modal.main:macOSTab.text.clickOnConnectFromThe")}
                 </p>
               </Steps.Step>
               <Steps.Step step={runStep + 1} line={false}>
-                <p>Sign up using your email address</p>
+                <p>{t("setup-netbird-modal.main:androidTab.text.signUpUsingYourEmail")}</p>
               </Steps.Step>
             </>
           )}
@@ -118,7 +118,7 @@ export default function MacOSTab({
           <AccordionItem value="item-1">
             <AccordionTrigger>
               <TerminalSquareIcon size={16} />
-              Install manually with Terminal
+              {t("setup-netbird-modal.main:macOSTab.text.installManuallyWithTerminal")}
             </AccordionTrigger>
             <AccordionContent>
               <Steps>
@@ -129,7 +129,7 @@ export default function MacOSTab({
                 </Steps.Step>
                 <Steps.Step step={2} line={false}>
                   <p>
-                    Run NetBird {!usingSetupKeyParam && "and log in the browser"}
+                    {t("setup-netbird-modal.main:linuxTab.text.runNetBird")}{" "}{!usingSetupKeyParam && t("setup-netbird-modal.main:linuxTab.text.andLogInTheBrowser")}
                     {showSetupKeyInfo && <RoutingPeerSetupKeyInfo />}
                   </p>
                   <NetBirdUpCommand
@@ -148,23 +148,23 @@ export default function MacOSTab({
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
             <AccordionTrigger>
-              <BeerIcon size={16} /> Install manually with HomeBrew
+              <BeerIcon size={16} />{" "}{t("setup-netbird-modal.main:macOSTab.text.installManuallyWithHomeBrew")}
             </AccordionTrigger>
             <AccordionContent>
               <Steps>
                 <Steps.Step step={1}>
-                  <p>Download and install HomeBrew</p>
+                  <p>{t("setup-netbird-modal.main:macOSTab.text.downloadAndInstallHomeBrew")}</p>
                   <div className={"flex gap-4"}>
                     <Link href={"https://brew.sh/"} passHref target={"_blank"}>
                       <Button variant={"primary"}>
                         <ExternalLinkIcon size={14} />
-                        HomeBrew Installation Guide
+                        {t("setup-netbird-modal.main:macOSTab.text.homeBrewInstallationGuide")}
                       </Button>
                     </Link>
                   </div>
                 </Steps.Step>
                 <Steps.Step step={2}>
-                  <p>Install NetBird </p>
+                  <p>{t("common:word.installNetBird")}{" "}</p>
                   <Code
                     codeToCopy={[
                       `brew install netbirdio/tap/netbird`,
@@ -180,7 +180,7 @@ export default function MacOSTab({
                   </Code>
                 </Steps.Step>
                 <Steps.Step step={3}>
-                  <p>Start NetBird daemon</p>
+                  <p>{t("setup-netbird-modal.main:macOSTab.text.startNetBirdDaemon")}</p>
                   <Code>
                     <Code.Line>sudo netbird service install</Code.Line>
                     <Code.Line>sudo netbird service start</Code.Line>
@@ -188,7 +188,7 @@ export default function MacOSTab({
                 </Steps.Step>
                 <Steps.Step step={4} line={false}>
                   <p>
-                    Run NetBird {!usingSetupKeyParam && "and log in the browser"}
+                    {t("setup-netbird-modal.main:linuxTab.text.runNetBird")}{" "}{!usingSetupKeyParam && t("setup-netbird-modal.main:linuxTab.text.andLogInTheBrowser")}
                     {showSetupKeyInfo && <RoutingPeerSetupKeyInfo />}
                   </p>
                   <NetBirdUpCommand

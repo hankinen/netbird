@@ -30,6 +30,7 @@ import ShellIcon from "@/assets/icons/ShellIcon";
 import WindowsIcon from "@/assets/icons/WindowsIcon";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import useOperatingSystem from "@/hooks/useOperatingSystem";
+import { t } from "@/i18n";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { SetupKey } from "@/interfaces/SetupKey";
 import AndroidTab from "@/modules/setup-netbird-modal/AndroidTab";
@@ -38,7 +39,6 @@ import IOSTab from "@/modules/setup-netbird-modal/IOSTab";
 import LinuxTab from "@/modules/setup-netbird-modal/LinuxTab";
 import MacOSTab from "@/modules/setup-netbird-modal/MacOSTab";
 import WindowsTab from "@/modules/setup-netbird-modal/WindowsTab";
-
 type OidcUserInfo = {
   given_name?: string;
 };
@@ -154,14 +154,12 @@ export function SetupModalContent({
   const setupKeyContent = showKeyGenerator ? (
     <>
       <div className={"flex items-center gap-1.5 flex-wrap"}>
-        Generate a setup key
+        {t("setup-netbird-modal.main:setupModal.text.generateASetupKey")}
         <HelpTooltip
           content={
             <>
-              A setup key is a one-time, pre-authentication token used to
-              enroll an unattended machine with NetBird. Pass it to{" "}
-              <code>netbird up</code> via <code>--setup-key</code> and the
-              peer registers without an interactive login.
+              {t("setup-netbird-modal.main:setupModal.text.aSetupKeyIsA")}{" "}
+              <code>netbird up</code>{" "}{t("setup-netbird-modal.main:setupModal.text.via")}{" "}<code>--setup-key</code>{" "}{t("setup-netbird-modal.main:setupModal.text.andThePeerRegistersWithout")}
             </>
           }
         />
@@ -171,7 +169,7 @@ export function SetupModalContent({
           }
           target={"_blank"}
         >
-          Learn more
+          {t("common:word.learnMore")}
           <ExternalLinkIcon size={12} />
         </InlineLink>
       </div>
@@ -195,14 +193,14 @@ export function SetupModalContent({
       let name = user?.given_name || "there";
       return (
         <>
-          Hello {name}! 👋 <br /> It&apos;s time to add your first device.
+          {t("setup-netbird-modal.main:setupModal.text.hello")}{" "}{name}! 👋 <br />{" "}{t("setup-netbird-modal.main:setupModal.text.itAposSTimeTo")}
         </>
       );
     }
 
     return effectiveSetupKey
-      ? "Install NetBird with Setup Key"
-      : "Install NetBird";
+      ? t("setup-netbird-modal.main:setupModal.text.installNetBirdWithSetupKey")
+      : t("common:word.installNetBird");
   }, [
     isFirstRun,
     isInstallPage,
@@ -230,8 +228,8 @@ export function SetupModalContent({
             )}
           >
             {isUserDevice === false || effectiveSetupKey
-              ? "To get started, install and run NetBird with the setup key as a parameter."
-              : "To get started, install NetBird and log in with your email account."}
+              ? t("setup-netbird-modal.main:setupModal.text.toGetStartedInstallAnd")
+              : t("setup-netbird-modal.main:setupModal.text.toGetStartedInstallNetBird")}
           </Paragraph>
         </div>
       )}
@@ -248,7 +246,7 @@ export function SetupModalContent({
                 "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
               }
             />
-            Linux
+            {t("setup-netbird-modal.main:setupModal.text.linux")}
           </TabsTrigger>
 
           <TabsTrigger value={String(OperatingSystem.WINDOWS)}>
@@ -257,7 +255,7 @@ export function SetupModalContent({
                 "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
               }
             />
-            Windows
+            {t("setup-netbird-modal.main:setupModal.text.windows")}
           </TabsTrigger>
           <TabsTrigger value={String(OperatingSystem.APPLE)}>
             <AppleIcon
@@ -265,7 +263,7 @@ export function SetupModalContent({
                 "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
               }
             />
-            macOS
+            {t("setup-netbird-modal.main:setupModal.text.macOS")}
           </TabsTrigger>
 
           {!hideMobile && (
@@ -284,7 +282,7 @@ export function SetupModalContent({
                     "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
                   }
                 />
-                Android
+                {t("setup-netbird-modal.main:setupModal.text.android")}
               </TabsTrigger>
             </>
           )}
@@ -296,7 +294,7 @@ export function SetupModalContent({
                   "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all"
                 }
               />
-              Docker
+              {t("setup-netbird-modal.main:setupModal.text.docker")}
             </TabsTrigger>
           )}
         </TabsList>
@@ -344,16 +342,14 @@ export function SetupModalContent({
         <ModalFooter variant={"setup"}>
           <div>
             <SmallParagraph>
-              After that you should be connected. Add more devices to your
-              network or manage your existing devices in the admin panel. If you
-              have further questions check out our{" "}
+              {t("setup-netbird-modal.main:setupModal.text.afterThatYouShouldBe")}{" "}
               <InlineLink
                 href={
                   "https://docs.netbird.io/how-to/getting-started#installation"
                 }
                 target={"_blank"}
               >
-                Installation Guide
+                {t("setup-netbird-modal.main:setupModal.text.installationGuide")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </SmallParagraph>
@@ -379,7 +375,7 @@ export const SetupKeyParameter = ({
   return (
     <>
       {" "}
-      --setup-key <span className={"text-netbird"}>{display}</span>
+      {t("setup-netbird-modal.main:setupModal.text.setupKey")}{" "}<span className={"text-netbird"}>{display}</span>
     </>
   );
 };
@@ -451,17 +447,16 @@ export const ManagementUrlStep = ({ trayName }: ManagementUrlStepProps) => {
   return (
     <>
       <p>
-        On first launch, NetBird asks where to connect. Select{" "}
-        <Mark>Self-hosted</Mark> and enter the following{" "}
-        <Mark>Management server URL</Mark>
+        {t("setup-netbird-modal.main:setupModal.text.onFirstLaunchNetBirdAsks")}{" "}
+        <Mark>{t("setup-netbird-modal.main:setupModal.text.selfHosted")}</Mark>{" "}{t("setup-netbird-modal.main:setupModal.text.andEnterTheFollowing")}{" "}
+        <Mark>{t("setup-netbird-modal.main:setupModal.text.managementServerURL")}</Mark>
       </p>
       <Code>
         <Code.Line>{GRPC_API_ORIGIN}</Code.Line>
       </Code>
       <p className={"mt-2 text-xs text-nb-gray-300 font-normal"}>
-        Already past that screen? Click the NetBird icon in your {trayName},
-        open <Mark>Settings</Mark> and set <Mark>Management Server</Mark> to{" "}
-        <Mark>Self-hosted</Mark> under <Mark>General</Mark>.
+        {t("setup-netbird-modal.main:setupModal.text.alreadyPastThatScreenClick")}{" "}{trayName}{t("setup-netbird-modal.main:setupModal.text.open")}{" "}<Mark>{t("common:word.settings")}</Mark>{" "}{t("setup-netbird-modal.main:setupModal.text.andSet")}{" "}<Mark>{t("setup-netbird-modal.main:setupModal.text.managementServer")}</Mark>{" "}{t("setup-netbird-modal.main:setupModal.text.to")}{" "}
+        <Mark>{t("setup-netbird-modal.main:setupModal.text.selfHosted")}</Mark>{" "}{t("setup-netbird-modal.main:setupModal.text.under")}{" "}<Mark>{t("setup-netbird-modal.main:setupModal.text.general")}</Mark>.
       </p>
     </>
   );
@@ -472,7 +467,7 @@ export const HostnameParameter = ({ hostname }: { hostname?: string }) => {
     hostname && (
       <>
         {" "}
-        --hostname{" "}
+        {t("setup-netbird-modal.main:setupModal.text.hostname")}{" "}
         <span className={"text-netbird"}>
           {"'"}
           {hostname}
@@ -490,9 +485,9 @@ export const RoutingPeerSetupKeyInfo = () => {
         "flex gap-2 mt-1 items-center text-xs text-nb-gray-300 font-normal mb-1"
       }
     >
-      This setup key can be used only once within the next 24 hours.
+      {t("setup-netbird-modal.main:setupModal.text.thisSetupKeyCanBe")}
       <br />
-      When expired, the same key can not be used again.
+      {t("setup-netbird-modal.main:setupModal.text.whenExpiredTheSameKey")}
     </div>
   );
 };
@@ -546,9 +541,9 @@ function SetupKeyGenerator({
       .finally(() => setIsGenerating(false));
 
     notify({
-      title: "Setup Key Created",
-      description: "A one-off setup key was generated for this install.",
-      loadingMessage: "Generating setup key...",
+      title: t("setup-netbird-modal.main:setupModal.title.setupKeyCreated"),
+      description: t("setup-netbird-modal.main:setupModal.description.aOneOffSetupKey"),
+      loadingMessage: t("setup-netbird-modal.main:setupModal.loadingMessage.generatingSetupKey"),
       promise: request,
     });
   };
@@ -558,8 +553,8 @@ function SetupKeyGenerator({
     try {
       await navigator.clipboard.writeText(generatedKey.key);
       notify({
-        title: "Setup Key Copied",
-        description: "Successfully copied to clipboard.",
+        title: t("setup-netbird-modal.main:setupModal.title.setupKeyCopied"),
+        description: t("setup-netbird-modal.main:setupModal.description.successfullyCopiedToClipboard"),
       });
     } catch {}
   };
@@ -578,7 +573,7 @@ function SetupKeyGenerator({
           ) : (
             <KeyRoundIcon size={14} />
           )}
-          Generate Key
+          {t("setup-netbird-modal.main:setupModal.text.generateKey")}
         </Button>
       </div>
     );
@@ -597,7 +592,7 @@ function SetupKeyGenerator({
           }
         >
           <KeyRoundIcon size={12} />
-          Setup Key
+          {t("setup-netbird-modal.main:setupModal.text.setupKey2")}
         </div>
         <div
           className={"text-nb-gray-300 text-[0.8rem] text-left mt-0.5 truncate"}
@@ -610,7 +605,7 @@ function SetupKeyGenerator({
           }
         >
 
-          This setup key can be used only once and expires in 24 hours.
+          {t("setup-netbird-modal.main:setupModal.text.thisSetupKeyCanBe2")}
         </div>
       </div>
       <Button variant={"secondary"} onClick={copy}>
