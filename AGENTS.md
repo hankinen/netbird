@@ -4,6 +4,17 @@ Guidance for anyone, human or AI agent, changing this codebase. Folder-level
 guides go deeper: `e2e/CLAUDE.md`, `.storybook/visual-regression/CLAUDE.md`,
 `src/modules/control-center/CLAUDE.md`.
 
+## Scope
+
+This file applies to the whole repository; the root `CLAUDE.md` only
+imports it. Nested folder guides are more specific: they add rules for their
+own subtree, and inside that subtree they take precedence over this file.
+
+## Translations (i18n)
+
+All user-visible text goes through `t()` from `react-i18next`, with en and
+zh-CN kept in step. Read `src/i18n/I18N.md` before adding or changing text.
+
 ## Reuse before you build
 
 Every new component is one more place to update when the design or behaviour
@@ -51,7 +62,7 @@ When you:
 - **add or change a user flow** (create, edit, delete, navigation): add or
   update the e2e spec for that feature;
 - **add a component, a variant or a prop**: add it to the component's
-  stories (`src/components/<Name>.stories.tsx`);
+  stories (`src/components/Button.stories.tsx` is an example);
 - **add a page, tab, modal or state**: add a page story next to the route's
   `page.tsx`, with a `play` function for anything that has to be opened;
 - **call a new API endpoint**: add a fixture in `.storybook/mocks/fixtures/`,
@@ -67,10 +78,20 @@ and listed under "New stories" in the report, so reviewers see the new UI.
 
 ## Before you hand it over
 
-- `npm run lint`, and a type check (`npx tsc --noEmit`, or `npm run build`).
-- `npm run test:unit`.
+- Lint the changed files (`npx eslint src/modules/peers`); run the
+  full `npm run lint` only before handing over. Then type check
+  (`npx tsc --noEmit`, or `npm run build`).
+- Unit tests for one folder: `npx vitest run src/modules/peers`; the full
+  suite is `npm run test:unit`.
 - `npm run test:visual` for UI changes, with every difference intended.
 - E2E specs for the flows you touched, or say plainly that you couldn't run
   them (they need the Docker environment from `npm run test:setup`).
 - Folder guides (`CLAUDE.md` files) updated when the architecture or rules
   they describe changed.
+
+## Safety
+
+- Do not run destructive commands (`git push --force`, `git reset --hard`,
+  `rm -rf` outside build output) unless asked.
+- Never commit secrets, tokens or `.env` files, and never print credentials.
+- `npm run test:setup` starts Docker containers; run it only when you need e2e.
