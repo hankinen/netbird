@@ -12,7 +12,20 @@ export default function Layout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <BlankLayout>
-      <NamespaceGate modules={["peers", "peer", "groups", "setup-keys"]}>
+      <NamespaceGate
+        modules={[
+          "peers",
+          "peer",
+          "groups",
+          "setup-keys",
+          "onboarding",
+          "routes",
+          "networks",
+          "posture-checks",
+          "jobs",
+          "remote-access",
+        ]}
+      >
         {children}
       </NamespaceGate>
     </BlankLayout>

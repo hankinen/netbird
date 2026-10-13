@@ -13,7 +13,17 @@ export default function Layout({
   return (
     <BlankLayout>
       <NamespaceGate
-        modules={["groups", "peers", "access-control", "setup-keys"]}
+        modules={[
+          "groups",
+          "peers",
+          "access-control",
+          "setup-keys",
+          "routes",
+          "networks",
+          "dns",
+          "posture-checks",
+          "users",
+        ]}
       >
         {children}
       </NamespaceGate>
