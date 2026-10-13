@@ -1,0 +1,16 @@
+{
+  "networkActionCell.text.viewDetails": "View Details",
+  "networkActionCell.text.rename": "Rename",
+  "networkRoutingPeerCell.text.highAvailabilityIsCurrently": "High availability is currently",
+  "networkRoutingPeerCell.text.inactive": "inactive",
+  "networkRoutingPeerCell.text.forThisNetwork": "for this network.",
+  "networkRoutingPeerCell.text.active": "active",
+  "networkRoutingPeerCell.text.youCanAddMoreRouting": "You can add more routing peers to increase the availability of this network.",
+  "networkRoutingPeerCell.text.goAheadAndAddMore": "Go ahead and add more routing peers or groups with routing peers to enable high availability for this network.",
+  "networkRoutingPeerCell.ariaLabel.addRoutingPeer": "Add routing peer",
+  "networksTable.text.network": "Network",
+  "networksTable.searchPlaceholder.searchByNetworkNameOr": "Search by network name or description...",
+  "networksTable.title.createNewNetwork": "Create New Network",
+  "networksTable.description.itLooksLikeYouDon": "It looks like you don't have any networks. Access internal resources in your LANs and VPC by adding a network.",
+  "networksTable.text.addNetwork": "Add Network"
+}

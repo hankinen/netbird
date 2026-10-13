@@ -25,6 +25,7 @@ import * as React from "react";
 import { useMemo, useState } from "react";
 import PeerIcon from "@/assets/icons/PeerIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { NetworkRouter } from "@/interfaces/Network";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
 import { NetworkRoutingPeerName } from "@/modules/networks/routing-peers/NetworkRoutingPeerName";
@@ -32,7 +33,6 @@ import { RoutingPeersActionCell } from "@/modules/networks/routing-peers/Routing
 import { RoutingPeersEnabledCell } from "@/modules/networks/routing-peers/RoutingPeersEnabledCell";
 import { RoutingPeersMasqueradeCell } from "@/modules/networks/routing-peers/RoutingPeersMasqueradeCell";
 import RouteMetricCell from "@/modules/routes/RouteMetricCell";
-
 type Props = {
   routers?: NetworkRouter[];
   isLoading: boolean;
@@ -44,7 +44,11 @@ const NetworkRouterColumns: ColumnDef<NetworkRouter>[] = [
     id: "name",
     accessorKey: "id",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Peer</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("networks.routing-peers:networkRoutingPeersTable.text.peer")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <NetworkRoutingPeerName router={row.original} />,
@@ -57,7 +61,7 @@ const NetworkRouterColumns: ColumnDef<NetworkRouter>[] = [
     header: ({ column }) => {
       return (
         <DataTableHeader column={column} sorting={false}>
-          Active
+          {t("common:word.active")}
         </DataTableHeader>
       );
     },
@@ -67,7 +71,11 @@ const NetworkRouterColumns: ColumnDef<NetworkRouter>[] = [
     id: "metric",
     accessorKey: "metric",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Metric</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("networks.routing-peers:networkRoutingPeerModal.text.metric")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => (
       <RouteMetricCell metric={row.original.metric} useHoverStyle={false} />
@@ -77,7 +85,11 @@ const NetworkRouterColumns: ColumnDef<NetworkRouter>[] = [
     id: "masquerade",
     accessorKey: "masquerade",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Masquerade</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("networks.routing-peers:networkRoutingPeersTable.text.masquerade")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <RoutingPeersMasqueradeCell router={row.original} />,
   },
@@ -114,9 +126,17 @@ export default function NetworkRoutingPeersTable({
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Active", dotClass: "bg-green-500" },
-      { value: false, label: "Inactive", dotClass: "bg-nb-gray-700" },
+      {
+        value: undefined,
+        label: t("common:word.all"),
+        dotClass: "bg-nb-gray-500",
+      },
+      { value: true, label: t("common:word.active"), dotClass: "bg-green-500" },
+      {
+        value: false,
+        label: t("common:word.inactive"),
+        dotClass: "bg-nb-gray-700",
+      },
     ],
     [],
   );
@@ -125,7 +145,7 @@ export default function NetworkRoutingPeersTable({
     () => [
       {
         id: "enabled",
-        label: "Status",
+        label: t("common:word.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -152,7 +172,7 @@ export default function NetworkRoutingPeersTable({
       showSearchAndFilters={true}
       inset={false}
       tableClassName={"mt-0"}
-      text={"Routing Peers"}
+      text={t("common:word.routingPeers")}
       columns={NetworkRouterColumns}
       keepStateInLocalStorage={false}
       initialPageSize={25}
@@ -161,15 +181,19 @@ export default function NetworkRoutingPeersTable({
         <TableFilterChips table={table} filters={filterDefs} />
       )}
       data={routers}
-      searchPlaceholder={"Search by peer name, group name..."}
+      searchPlaceholder={t(
+        "networks.routing-peers:networkRoutingPeersTable.searchPlaceholder.searchByPeerNameGroup",
+      )}
       isLoading={isLoading}
       getStartedCard={
         <NoResults
           className={"py-4"}
-          title={"This network has no routing peers"}
-          description={
-            "Add routing peers to this network to access resources inside this network."
-          }
+          title={t(
+            "networks.routing-peers:networkRoutingPeersTable.title.thisNetworkHasNoRouting",
+          )}
+          description={t(
+            "networks.routing-peers:networkRoutingPeersTabContent.text.addRoutingPeersToThis",
+          )}
           icon={<PeerIcon size={18} className={"fill-nb-gray-400"} />}
         />
       }
@@ -184,7 +208,7 @@ export default function NetworkRoutingPeersTable({
           disabled={!permission.networks.update}
         >
           <PlusCircle size={16} />
-          Add
+          {t("common:word.add")}
         </Button>
       )}
     >

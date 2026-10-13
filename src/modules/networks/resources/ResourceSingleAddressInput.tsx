@@ -6,7 +6,7 @@ import { isValidIP } from "@utils/ip";
 import { GlobeIcon, NetworkIcon, WorkflowIcon } from "lucide-react";
 import * as React from "react";
 import { useEffect, useMemo } from "react";
-
+import { t } from "@/i18n";
 type Props = {
   value: string;
   onChange: (value: string) => void;
@@ -23,8 +23,12 @@ export const ResourceSingleAddressInput = ({
   label = "Address",
   className = "",
   onError,
-  description = "Enter a single IP address, CIDR block or domain name",
-  placeholder = "Address (IP, CIDR or Domain)",
+  description = t(
+    "networks.resources:resourceSingleAddressInput.text.enterASingleIPAddress",
+  ),
+  placeholder = t(
+    "networks.resources:resourceSingleAddressInput.text.addressIPCIDROrDomain",
+  ),
   autoFocus,
 }: Props) => {
   const hasChars = useMemo(() => {
@@ -51,14 +55,18 @@ export const ResourceSingleAddressInput = ({
         !value.includes(".") ||
         value.endsWith(".")
       ) {
-        return "Please enter a valid domain, e.g. service.internal, example.com or *.example.com";
+        return t(
+          "networks.resources:resourceSingleAddressInput.text.pleaseEnterAValidDomain",
+        );
       }
       return ""; // Valid domain
     }
 
     // Case 2: If it's not a valid domain, check if it's a valid CIDR
     if (!isValidIP(value)) {
-      return "Please enter a valid IP or CIDR, e.g., 10.0.0.21, 192.168.1.0/24, 2001:db8::1 or 2001:db8::/64";
+      return t(
+        "networks.resources:resourceSingleAddressInput.text.pleaseEnterAValidIP",
+      );
     }
 
     return ""; // Valid CIDR

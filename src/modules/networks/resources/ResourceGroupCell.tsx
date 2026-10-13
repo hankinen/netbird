@@ -5,10 +5,10 @@ import MultipleGroups, {
 import { IconCirclePlus } from "@tabler/icons-react";
 import * as React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { NetworkResource } from "@/interfaces/Network";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
-
 type Props = {
   resource?: NetworkResource;
 };
@@ -45,7 +45,7 @@ export const ResourceGroupCell = ({ resource }: Props) => {
           disabled={!permission.networks.update}
         >
           <IconCirclePlus size={14} />
-          Add
+          {t("common:word.add")}
         </Badge>
       )}
     </button>

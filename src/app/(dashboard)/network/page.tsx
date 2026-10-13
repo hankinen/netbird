@@ -51,6 +51,7 @@ import ReverseProxiesProvider, {
 } from "@/contexts/ReverseProxiesProvider";
 import { SkeletonNetwork } from "@components/skeletons/SkeletonNetwork";
 
+import { t } from "@/i18n";
 export default function NetworkDetailPage() {
   const queryParameter = useSearchParams();
   const networkId = queryParameter.get("id");
@@ -103,7 +104,7 @@ function NetworkOverview({ network }: Readonly<{ network: Network }>) {
             <Breadcrumbs>
               <Breadcrumbs.Item
                 href={"/networks"}
-                label={"Networks"}
+                label={t("common:word.networks")}
                 disabled={!permission.networks.read}
                 icon={<NetworkRoutesIcon size={13} />}
               />
@@ -229,7 +230,7 @@ function NetworkActions() {
         >
           <div className={"flex gap-3 items-center"}>
             <PencilLineIcon size={14} className={"shrink-0"} />
-            Rename
+            {t("network.page:page.text.rename")}
           </div>
         </DropdownMenuItem>
 
@@ -244,7 +245,7 @@ function NetworkActions() {
         >
           <div className={"flex gap-3 items-center"}>
             <Trash2 size={14} className={"shrink-0"} />
-            Delete
+            {t("common:word.delete")}
           </div>
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -260,9 +261,8 @@ function NetworkInformationCard({ network }: Readonly<{ network: Network }>) {
   const disabledText = useMemo(
     () => (
       <>
-        High availability is currently{" "}
-        <span className={"text-yellow-400 font-medium"}>inactive</span> for this
-        network.
+        {t("network.page:page.text.highAvailabilityIsCurrently")}{" "}
+        <span className={"text-yellow-400 font-medium"}>{t("network.page:page.text.inactive")}</span>{" "}{t("network.page:page.text.forThisNetwork")}
       </>
     ),
     [],
@@ -271,9 +271,8 @@ function NetworkInformationCard({ network }: Readonly<{ network: Network }>) {
   const enabledText = useMemo(
     () => (
       <>
-        High availability is{" "}
-        <span className={"text-green-500 font-medium"}>active</span> for this
-        network.
+        {t("common:word.highAvailabilityIs")}{" "}
+        <span className={"text-green-500 font-medium"}>{t("network.page:page.text.active")}</span>{" "}{t("network.page:page.text.forThisNetwork")}
       </>
     ),
     [],
@@ -289,7 +288,7 @@ function NetworkInformationCard({ network }: Readonly<{ network: Network }>) {
           label={
             <>
               <ServerIcon size={16} />
-              High Availability
+              {t("network.page:page.text.highAvailability")}
             </>
           }
           value={
@@ -300,13 +299,11 @@ function NetworkInformationCard({ network }: Readonly<{ network: Network }>) {
                   {isHighlyAvailable ? enabledText : disabledText}
                   {isHighlyAvailable ? (
                     <div className={"inline-flex mt-2"}>
-                      You can add more routing peers to increase the
-                      availability of this network.
+                      {t("network.page:page.text.youCanAddMoreRouting")}
                     </div>
                   ) : (
                     <div className={"inline-flex mt-2"}>
-                      Go ahead and add more routing peers or groups with routing
-                      peers to enable high availability for this network.
+                      {t("network.page:page.text.goAheadAndAddMore")}
                     </div>
                   )}
                 </div>
@@ -323,7 +320,7 @@ function NetworkInformationCard({ network }: Readonly<{ network: Network }>) {
                     !isHighlyAvailable ? "bg-yellow-400" : "bg-green-500",
                   )}
                 ></span>
-                {isHighlyAvailable ? "Active" : "Inactive"}
+                {isHighlyAvailable ? t("common:word.active") : t("common:word.inactive")}
                 <HelpCircle size={12} />
               </div>
             </FullTooltip>
@@ -336,19 +333,19 @@ function NetworkInformationCard({ network }: Readonly<{ network: Network }>) {
               <>
                 <ShieldCheckIcon size={16} className={"text-green-500"} />
                 {policyCount}{" "}
-                {policyCount === 1 ? "Active Policy" : "Active Policies"}
+                {policyCount === 1 ? t("network.page:page.text.activePolicy") : t("network.page:page.text.activePolicies")}
               </>
             ) : (
               <>
                 <ShieldXIcon size={16} className={"text-red-500"} />
-                No Active Policies
+                {t("network.page:page.text.noActivePolicies")}
               </>
             )
           }
           value={
             policyCount > 0 ? (
               <InlineLink href={"/access-control"}>
-                Go to Policies
+                {t("network.page:page.text.goToPolicies")}
                 <ArrowUpRightIcon size={14} />
               </InlineLink>
             ) : null

@@ -10,9 +10,9 @@ import { EyeIcon, MoreVertical, PencilLineIcon, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Network } from "@/interfaces/Network";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
-
 type Props = {
   network: Network;
 };
@@ -42,7 +42,7 @@ export default function NetworkActionCell({ network }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <EyeIcon size={14} className={"shrink-0"} />
-              View Details
+              {t("networks.table:networkActionCell.text.viewDetails")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -52,7 +52,7 @@ export default function NetworkActionCell({ network }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <PencilLineIcon size={14} className={"shrink-0"} />
-              Rename
+              {t("networks.table:networkActionCell.text.rename")}
             </div>
           </DropdownMenuItem>
 
@@ -65,7 +65,7 @@ export default function NetworkActionCell({ network }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Delete
+              {t("common:word.delete")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

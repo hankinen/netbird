@@ -22,6 +22,7 @@ import AccessControlProtocolCell from "@/modules/access-control/table/AccessCont
 import AccessControlPortsCell from "@/modules/access-control/table/AccessControlPortsCell";
 import TruncatedText from "@components/ui/TruncatedText";
 
+import { t } from "@/i18n";
 type Props = {
   existingPolicies: Policy[];
   newPolicies: Policy[];
@@ -125,11 +126,15 @@ export default function NetworkResourceAccessControl({
   return (
     <div className={"px-8 flex-col flex gap-6"}>
       <div>
-        <Label>Access Control Policies</Label>
+        <Label>
+          {t(
+            "networks.resources:networkResourceAccessControl.text.accessControlPolicies",
+          )}
+        </Label>
         <HelpText>
-          Define which source groups are allowed to access this resource. You
-          can also restrict access to specific protocols and ports. Without
-          policies access to this resource will not be possible.
+          {t(
+            "networks.resources:networkResourceAccessControl.text.defineWhichSourceGroupsAre",
+          )}
         </HelpText>
 
         {allPolicies.length > 0 && (
@@ -142,13 +147,17 @@ export default function NetworkResourceAccessControl({
               <thead>
                 <tr>
                   <th className="py-2 px-4 text-left text-[11px] uppercase tracking-wider text-nb-gray-400 font-medium">
-                    Name
+                    {t("common:word.name")}
                   </th>
                   <th className="py-2 pl-5 pr-2 text-left text-[11px] uppercase tracking-wider text-nb-gray-400 font-medium">
-                    Source Groups
+                    {t(
+                      "networks.resources:networkResourceAccessControl.text.sourceGroups",
+                    )}
                   </th>
                   <th className="py-2 px-4 text-left text-[11px] uppercase tracking-wider text-nb-gray-400 font-medium">
-                    Protocol & Ports
+                    {t(
+                      "networks.resources:networkResourceAccessControl.text.protocolPorts",
+                    )}
                   </th>
                   <th className="py-2 pr-4 pl-2" />
                 </tr>
@@ -235,7 +244,9 @@ export default function NetworkResourceAccessControl({
                               >
                                 <div className="flex gap-3 items-center">
                                   <Edit2 size={14} className="shrink-0" />
-                                  Edit Policy
+                                  {t(
+                                    "networks.resources:networkResourceAccessControl.text.editPolicy",
+                                  )}
                                 </div>
                               </DropdownMenuItem>
                               <DropdownMenuItem
@@ -244,7 +255,9 @@ export default function NetworkResourceAccessControl({
                               >
                                 <div className="flex gap-3 items-center">
                                   <Trash2 size={14} className="shrink-0" />
-                                  Delete Policy
+                                  {t(
+                                    "networks.resources:networkResourceAccessControl.text.deletePolicy",
+                                  )}
                                 </div>
                               </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -267,7 +280,7 @@ export default function NetworkResourceAccessControl({
           data-testid="add-policy"
         >
           <PlusIcon size={14} />
-          Add Policy
+          {t("networks.resources:networkResourceAccessControl.text.addPolicy")}
         </Button>
       </div>
 

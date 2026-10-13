@@ -25,6 +25,7 @@ import { useSWRConfig } from "swr";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { t } from "@/i18n";
 import { Network } from "@/interfaces/Network";
 import { NetworkAccessControlProvider } from "@/modules/networks/NetworkAccessControlProvider";
 import {
@@ -37,12 +38,13 @@ import { NetworkPolicyCell } from "@/modules/networks/table/NetworkPolicyCell";
 import { NetworkResourceCell } from "@/modules/networks/table/NetworkResourceCell";
 import NetworkRoutingPeerCell from "@/modules/networks/table/NetworkRoutingPeerCell";
 import { GlobalSearchModal } from "@/modules/search/GlobalSearchModal";
-
 export const NetworkTableColumns: ColumnDef<Network>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Network</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("networks.table:networksTable.text.network")}
+      </DataTableHeader>
     ),
     sortingFn: "text",
     cell: ({ row }) => <NetworkNameCell network={row.original} />,
@@ -54,7 +56,11 @@ export const NetworkTableColumns: ColumnDef<Network>[] = [
     accessorKey: "resources",
     accessorFn: (network) => network?.resources?.length,
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Resources</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.resources")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <NetworkResourceCell network={row.original} />,
   },
@@ -62,7 +68,11 @@ export const NetworkTableColumns: ColumnDef<Network>[] = [
     accessorKey: "policies",
     accessorFn: (network) => network?.policies?.length,
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Policies</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.policies")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <NetworkPolicyCell network={row.original} />,
   },
@@ -70,7 +80,11 @@ export const NetworkTableColumns: ColumnDef<Network>[] = [
     accessorKey: "routers",
     accessorFn: (network) => network?.routers?.length,
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Routing Peers</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.routingPeers")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <NetworkRoutingPeerCell network={row.original} />,
   },
@@ -113,9 +127,17 @@ export default function NetworksTable({
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Active", dotClass: "bg-green-500" },
-      { value: false, label: "Inactive", dotClass: "bg-nb-gray-700" },
+      {
+        value: undefined,
+        label: t("common:word.all"),
+        dotClass: "bg-nb-gray-500",
+      },
+      { value: true, label: t("common:word.active"), dotClass: "bg-green-500" },
+      {
+        value: false,
+        label: t("common:word.inactive"),
+        dotClass: "bg-nb-gray-700",
+      },
     ],
     [],
   );
@@ -124,7 +146,7 @@ export default function NetworksTable({
     () => [
       {
         id: "active",
-        label: "Status",
+        label: t("common:word.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -148,14 +170,16 @@ export default function NetworksTable({
           <DataTable
             headingTarget={headingTarget}
             isLoading={isLoading}
-            text={"Networks"}
+            text={t("common:word.networks")}
             sorting={sorting}
             setSorting={setSorting}
             columns={NetworkTableColumns}
             data={data}
             initialPageSize={25}
             showResetFilterButton={false}
-            searchPlaceholder={"Search by network name or description..."}
+            searchPlaceholder={t(
+              "networks.table:networksTable.searchPlaceholder.searchByNetworkNameOr",
+            )}
             columnVisibility={{
               description: false,
               active: false,
@@ -178,10 +202,10 @@ export default function NetworksTable({
                     size={"large"}
                   />
                 }
-                title={"Create New Network"}
-                description={
-                  "It looks like you don't have any networks. Access internal resources in your LANs and VPC by adding a network."
-                }
+                title={t("networks.table:networksTable.title.createNewNetwork")}
+                description={t(
+                  "networks.table:networksTable.description.itLooksLikeYouDon",
+                )}
                 button={
                   <div className={"gap-x-4 flex items-center justify-center"}>
                     <AddNetworkButton />
@@ -189,12 +213,12 @@ export default function NetworksTable({
                 }
                 learnMore={
                   <>
-                    Learn more about
+                    {t("common:word.learnMoreAbout")}
                     <InlineLink
                       href={"https://docs.netbird.io/how-to/networks"}
                       target={"_blank"}
                     >
-                      Networks
+                      {t("common:word.networks")}
                       <ExternalLinkIcon size={12} />
                     </InlineLink>
                   </>
@@ -252,7 +276,7 @@ const AddNetworkButton = () => {
       data-testid={"add-network"}
     >
       <PlusCircle size={16} />
-      Add Network
+      {t("networks.table:networksTable.text.addNetwork")}
     </Button>
   );
 };

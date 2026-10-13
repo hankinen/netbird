@@ -43,6 +43,7 @@ import useGroupHelper from "@/modules/groups/useGroupHelper";
 import NetworkResourceAccessControl from "@/modules/networks/resources/NetworkResourceAccessControl";
 import { ResourceSingleAddressInput } from "@/modules/networks/resources/ResourceSingleAddressInput";
 
+import { t } from "@/i18n";
 type Props = {
   open?: boolean;
   setOpen?: (open: boolean) => void;
@@ -172,7 +173,9 @@ export function ResourceModalContent({
       (normalized !== resource?.name?.toLowerCase() &&
         takenNames?.some((n) => n.toLowerCase() === normalized))
     )
-      return "A resource with this name already exists. Please use another name.";
+      return t(
+        "networks.resources:networkResourceModal.text.aResourceWithThisName",
+      );
     return "";
   }, [name, resourceExists, resource?.id, resource?.name, takenNames]);
 
@@ -188,12 +191,17 @@ export function ResourceModalContent({
   const confirmMissingPolicies = async () => {
     if (allResourcePolicies.length > 0) return true;
     return confirm({
-      title: "No Access Control Policies Configured",
-      description:
-        "Without access control policies, this resource will not be accessible by any peers. You can also create policies later. Are you sure you want to continue?",
+      title: t(
+        "networks.resources:networkResourceModal.title.noAccessControlPoliciesConfigured",
+      ),
+      description: t(
+        "networks.resources:networkResourceModal.description.withoutAccessControlPoliciesThis",
+      ),
       type: "warning",
-      confirmText: resource ? "Save Changes" : "Add Resource",
-      cancelText: "Cancel",
+      confirmText: resource
+        ? t("common:word.saveChanges")
+        : t("networks.resources:networkResourceModal.text.addResource"),
+      cancelText: t("common:word.cancel"),
       maxWidthClass: "max-w-lg",
     });
   };
@@ -213,9 +221,14 @@ export function ResourceModalContent({
     });
 
     notify({
-      title: "Resource Created",
-      description: `The resource "${name}" has been created successfully.`,
-      loadingMessage: "Creating resource...",
+      title: t("networks.resources:networkResourceModal.title.resourceCreated"),
+      description: t(
+        "networks.resources:networkResourceModal.description.theResourceHasBeenCreated",
+        { name },
+      ),
+      loadingMessage: t(
+        "networks.resources:networkResourceModal.loadingMessage.creatingResource",
+      ),
       promise,
     });
 
@@ -236,9 +249,14 @@ export function ResourceModalContent({
       onUpdated?.(r);
     });
     notify({
-      title: "Resource Updated",
-      description: `Resource "${name}" has been updated successfully.`,
-      loadingMessage: "Updating resource...",
+      title: t("networks.resources:networkResourceModal.title.resourceUpdated"),
+      description: t(
+        "networks.resources:networkResourceModal.description.resourceHasBeenUpdatedSuccessfully",
+        { name },
+      ),
+      loadingMessage: t(
+        "networks.resources:networkResourceModal.loadingMessage.updatingResource",
+      ),
       promise,
     });
   };
@@ -255,14 +273,21 @@ export function ResourceModalContent({
     >
       <ModalHeader
         icon={<WorkflowIcon size={20} />}
-        title={resource ? "Edit Resource" : "Add Resource"}
+        title={
+          resource
+            ? t("networks.resources:networkResourceModal.text.editResource")
+            : t("networks.resources:networkResourceModal.text.addResource")
+        }
         description={
           resource
             ? `${resource.name}`
             : network?.name
-            ? `Add new resource to "${network.name}"`
+            ? t(
+                "networks.resources:networkResourceModal.text.addNewResourceTo",
+                { name: network.name },
+              )
             : // No network yet on the draft canvas, so avoid an empty string.
-              "Add a new resource"
+              t("networks.resources:networkResourceModal.text.addANewResource")
         }
         color={"yellow"}
       />
@@ -271,7 +296,7 @@ export function ResourceModalContent({
         <TabsList justify={"start"} className={"px-8"}>
           <TabsTrigger value={"resource"}>
             <WorkflowIcon size={16} />
-            Resource
+            {t("networks.resources:networkResourceModal.text.resource")}
           </TabsTrigger>
           {useSave && (
             <TabsTrigger
@@ -279,7 +304,7 @@ export function ResourceModalContent({
               disabled={!resource && !canCreate}
             >
               <ShieldCheck size={16} />
-              Access Control
+              {t("networks.resources:networkResourceModal.text.accessControl")}
             </TabsTrigger>
           )}
         </TabsList>
@@ -287,16 +312,20 @@ export function ResourceModalContent({
         <TabsContent value={"resource"} className={"pb-4"}>
           <div className={"px-8 flex-col flex gap-6"}>
             <div>
-              <Label>Name</Label>
+              <Label>{t("common:word.name")}</Label>
               <HelpText>
-                Set an easily identifiable name for your resource
+                {t(
+                  "networks.resources:networkResourceModal.text.setAnEasilyIdentifiableName",
+                )}
               </HelpText>
               <Input
                 ref={nameRef}
                 autoFocus={true}
                 tabIndex={0}
                 data-testid="resource-name-input"
-                placeholder={"e.g., Postgres Database"}
+                placeholder={t(
+                  "networks.resources:networkResourceModal.placeholder.eGPostgresDatabase",
+                )}
                 value={name}
                 error={nameError}
                 onChange={(e) => setName(e.target.value)}
@@ -308,13 +337,17 @@ export function ResourceModalContent({
               onError={setAddressError}
               description={
                 <>
-                  Enter a single{" "}
+                  {t(
+                    "networks.resources:networkResourceModal.text.enterASingle",
+                  )}{" "}
                   <HelpTooltip
                     content={
                       "A single host address, e.g., 10.0.0.1 or 192.168.1.5. Use this to give access to a specific machine or service."
                     }
                   >
-                    IP Address
+                    {t(
+                      "networks.resources:networkResourceModal.text.iPAddress",
+                    )}
                   </HelpTooltip>
                   ,{" "}
                   <HelpTooltip
@@ -322,15 +355,19 @@ export function ResourceModalContent({
                       "To give access to an entire subnet, use a CIDR block. For example, 10.0.0.0/24 or 192.168.1.0/24."
                     }
                   >
-                    CIDR Block
+                    {t(
+                      "networks.resources:networkResourceModal.text.cIDRBlock",
+                    )}
                   </HelpTooltip>{" "}
-                  or{" "}
+                  {t("networks.resources:networkResourceModal.text.or")}{" "}
                   <HelpTooltip
                     content={
                       "A DNS domain name, e.g., service.internal, example.com or *.example.com to match all subdomains."
                     }
                   >
-                    Domain Name
+                    {t(
+                      "networks.resources:networkResourceModal.text.domainName",
+                    )}
                   </HelpTooltip>
                 </>
               }
@@ -348,68 +385,110 @@ export function ResourceModalContent({
                   data-testid="resource-optional-settings"
                 >
                   <span className={"relative top-[1px]"}>
-                    Optional Settings
+                    {t(
+                      "networks.resources:networkResourceModal.text.optionalSettings",
+                    )}
                   </span>
                 </AccordionTrigger>
                 <AccordionContent className={""}>
                   <div className={"flex flex-col gap-6 pb-4 pt-2"}>
                     <div>
-                      <Label>Description</Label>
+                      <Label>
+                        {t(
+                          "networks.resources:networkResourceModal.text.description",
+                        )}
+                      </Label>
                       <HelpText>
-                        Write a short description to add more context to this
-                        resource.
+                        {t(
+                          "networks.resources:networkResourceModal.text.writeAShortDescriptionTo",
+                        )}
                       </HelpText>
                       <Input
-                        placeholder={"e.g., Production, Development"}
+                        placeholder={t(
+                          "networks.resources:networkResourceModal.placeholder.eGProductionDevelopment",
+                        )}
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         data-testid="resource-description-input"
                       />
                     </div>
                     <div>
-                      <Label>Resource Groups</Label>
+                      <Label>
+                        {t(
+                          "networks.resources:networkResourceModal.text.resourceGroups",
+                        )}
+                      </Label>
                       <HelpText className={"mt-1"}>
-                        Add this resource to a group (e.g., Databases, Web
-                        Servers) and reference the group <br /> in access
-                        policies to simplify management.
+                        {t(
+                          "networks.resources:networkResourceModal.text.addThisResourceToA",
+                        )}{" "}
+                        <br />{" "}
+                        {t(
+                          "networks.resources:networkResourceModal.text.inAccessPoliciesToSimplify",
+                        )}
                       </HelpText>
                       <PeerGroupSelector
                         side={"top"}
                         onChange={setGroups}
                         values={groups}
                         showPeerCounter={false}
-                        placeholder={"Add or select resource group(s)..."}
+                        placeholder={t(
+                          "networks.resources:networkResourceModal.placeholder.addOrSelectResourceGroup",
+                        )}
                         policies={allPolicies}
                       />
                       {groupPolicyCount > 0 && (
                         <Callout variant={"info"} className={"mt-3"}>
-                          Your selected resource groups are used in{" "}
+                          {t(
+                            "networks.resources:networkResourceModal.text.yourSelectedResourceGroupsAre",
+                          )}{" "}
                           <span className="text-white font-medium">
-                            {groupPolicyCount} Access Control{" "}
-                            {groupPolicyCount === 1 ? "Policy" : "Policies"}
+                            {groupPolicyCount}{" "}
+                            {t(
+                              "networks.resources:networkResourceModal.text.accessControl",
+                            )}{" "}
+                            {groupPolicyCount === 1
+                              ? t("common:word.policy")
+                              : t("common:word.policies")}
                           </span>
-                          . This resource will inherit access from{" "}
+                          {t(
+                            "networks.resources:networkResourceModal.text.thisResourceWillInheritAccess",
+                          )}{" "}
                           {groupPolicyCount === 1
-                            ? "this policy"
-                            : "these policies"}
+                            ? t(
+                                "networks.resources:networkResourceModal.text.thisPolicy",
+                              )
+                            : t(
+                                "networks.resources:networkResourceModal.text.thesePolicies",
+                              )}
                           .
                           {useSave && (isAddressValid || resource) ? (
                             <>
                               {" "}
-                              Please review them in the{" "}
+                              {t(
+                                "networks.resources:networkResourceModal.text.pleaseReviewThemInThe",
+                              )}{" "}
                               <InlineButtonLink
                                 onClick={() => setTab("access-control")}
                                 variant={"dashed"}
                               >
-                                Access Control
+                                {t(
+                                  "networks.resources:networkResourceModal.text.accessControl",
+                                )}
                               </InlineButtonLink>{" "}
-                              tab.
+                              {t(
+                                "networks.resources:networkResourceModal.text.tab",
+                              )}
                             </>
                           ) : useSave ? (
-                            " Please review them in the Access Control tab."
+                            t(
+                              "networks.resources:networkResourceModal.text.pleaseReviewThemInThe2",
+                            )
                           ) : (
                             // Draft has no Access Control tab.
-                            " Review them on the canvas before you deploy."
+                            t(
+                              "networks.resources:networkResourceModal.text.reviewThemOnTheCanvas",
+                            )
                           )}
                         </Callout>
                       )}
@@ -441,12 +520,12 @@ export function ResourceModalContent({
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink
               href={"https://docs.netbird.io/how-to/networks#resources"}
               target={"_blank"}
             >
-              Resources
+              {t("common:word.resources")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
@@ -455,7 +534,7 @@ export function ResourceModalContent({
           {!useSave ? (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
               </ModalClose>
               <ModalClose asChild={true}>
                 <Button
@@ -464,7 +543,11 @@ export function ResourceModalContent({
                   onClick={saveDraft}
                   disabled={!canCreate}
                 >
-                  {resource ? "Save Changes" : "Add Resource"}
+                  {resource
+                    ? t("common:word.saveChanges")
+                    : t(
+                        "networks.resources:networkResourceModal.text.addResource",
+                      )}
                 </Button>
               </ModalClose>
             </>
@@ -473,7 +556,9 @@ export function ResourceModalContent({
               {tab === "resource" && (
                 <>
                   <ModalClose asChild={true}>
-                    <Button variant={"secondary"}>Cancel</Button>
+                    <Button variant={"secondary"}>
+                      {t("common:word.cancel")}
+                    </Button>
                   </ModalClose>
                   <Button
                     variant={"primary"}
@@ -481,7 +566,7 @@ export function ResourceModalContent({
                     onClick={() => setTab("access-control")}
                     disabled={!canCreate}
                   >
-                    Continue
+                    {t("common:word.continue")}
                   </Button>
                 </>
               )}
@@ -492,7 +577,7 @@ export function ResourceModalContent({
                     variant={"secondary"}
                     onClick={() => setTab("resource")}
                   >
-                    Back
+                    {t("common:word.back")}
                   </Button>
                   <Button
                     variant={"primary"}
@@ -501,7 +586,9 @@ export function ResourceModalContent({
                     disabled={!canCreate}
                   >
                     <PlusCircle size={16} />
-                    Add Resource
+                    {t(
+                      "networks.resources:networkResourceModal.text.addResource",
+                    )}
                   </Button>
                 </>
               )}
@@ -509,7 +596,7 @@ export function ResourceModalContent({
           ) : (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
@@ -517,7 +604,7 @@ export function ResourceModalContent({
                 onClick={updateResource}
                 disabled={!canCreate}
               >
-                Save Changes
+                {t("common:word.saveChanges")}
               </Button>
             </>
           )}

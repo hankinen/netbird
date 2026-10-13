@@ -34,6 +34,7 @@ import {
   isResourceTargetType,
   useReverseProxies,
 } from "@/contexts/ReverseProxiesProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { NetworkResource } from "@/interfaces/Network";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
@@ -44,7 +45,6 @@ import { ResourceExposeServiceCell } from "@/modules/networks/resources/Resource
 import { ResourceGroupCell } from "@/modules/networks/resources/ResourceGroupCell";
 import ResourceNameCell from "@/modules/networks/resources/ResourceNameCell";
 import { ResourcePolicyCell } from "@/modules/networks/resources/ResourcePolicyCell";
-
 type Props = {
   resources?: NetworkResource[];
   isLoading: boolean;
@@ -62,7 +62,11 @@ const NetworkResourceColumns: ColumnDef<NetworkResource>[] = [
     id: "name",
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Resource</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("networks.resources:networkResourceModal.text.resource")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => {
       return <ResourceNameCell resource={row.original} />;
@@ -78,7 +82,11 @@ const NetworkResourceColumns: ColumnDef<NetworkResource>[] = [
     id: "address",
     accessorKey: "address",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Address</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.address")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => {
       return <ResourceAddressCell resource={row.original} />;
@@ -92,7 +100,7 @@ const NetworkResourceColumns: ColumnDef<NetworkResource>[] = [
     header: ({ column }) => {
       return (
         <DataTableHeader column={column} sorting={false}>
-          Active
+          {t("common:word.active")}
         </DataTableHeader>
       );
     },
@@ -105,7 +113,11 @@ const NetworkResourceColumns: ColumnDef<NetworkResource>[] = [
       return groups.map((group) => group.name).join(", ");
     },
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Groups</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.groups")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => {
       return <ResourceGroupCell resource={row.original} />;
@@ -123,7 +135,11 @@ const NetworkResourceColumns: ColumnDef<NetworkResource>[] = [
     id: "policies",
     accessorKey: "id",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Policies</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.policies")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => {
       return <ResourcePolicyCell resource={row.original} />;
@@ -208,18 +224,32 @@ export default function ResourcesTable({
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Active", dotClass: "bg-green-500" },
-      { value: false, label: "Inactive", dotClass: "bg-nb-gray-700" },
+      {
+        value: undefined,
+        label: t("common:word.all"),
+        dotClass: "bg-nb-gray-500",
+      },
+      { value: true, label: t("common:word.active"), dotClass: "bg-green-500" },
+      {
+        value: false,
+        label: t("common:word.inactive"),
+        dotClass: "bg-nb-gray-700",
+      },
     ],
     [],
   );
 
   const exposedOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All" },
-      { value: true, label: "Exposed" },
-      { value: false, label: "Not Exposed" },
+      { value: undefined, label: t("common:word.all") },
+      {
+        value: true,
+        label: t("networks.resources:resourcesTable.label.exposed"),
+      },
+      {
+        value: false,
+        label: t("networks.resources:resourcesTable.label.notExposed"),
+      },
     ],
     [],
   );
@@ -228,7 +258,7 @@ export default function ResourcesTable({
     () => [
       {
         id: "enabled",
-        label: "Status",
+        label: t("common:word.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -242,7 +272,7 @@ export default function ResourcesTable({
       },
       {
         id: "group_names",
-        label: "Groups",
+        label: t("common:word.groups"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -255,7 +285,7 @@ export default function ResourcesTable({
       },
       {
         id: "exposed",
-        label: "Service",
+        label: t("networks.resources:resourcesTable.label.service"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -289,7 +319,7 @@ export default function ResourcesTable({
       showSearchAndFilters={true}
       inset={false}
       tableClassName={"mt-0"}
-      text={"Resources"}
+      text={t("common:word.resources")}
       columns={columns}
       keepStateInLocalStorage={false}
       initialPageSize={25}
@@ -303,20 +333,30 @@ export default function ResourcesTable({
         <TableFilterChips table={table} filters={filterDefs} />
       )}
       data={resources}
-      searchPlaceholder={"Search by name, address or group..."}
+      searchPlaceholder={t(
+        "networks.resources:resourcesTable.searchPlaceholder.searchByNameAddressOr",
+      )}
       isLoading={isLoading}
       getStartedCard={
         <NoResults
           className={"py-4"}
           title={
             isGroupPage
-              ? "This group has no assigned resources"
-              : "This network has no resources"
+              ? t(
+                  "networks.resources:resourcesTable.text.thisGroupHasNoAssigned",
+                )
+              : t(
+                  "networks.resources:resourcesTable.text.thisNetworkHasNoResources",
+                )
           }
           description={
             isGroupPage
-              ? "Assign this group to your resources inside your networks to see them listed here."
-              : "Add resources to this network to control what peers can access. Resources can be anything from a single IP, a subnet, or a domain."
+              ? t(
+                  "networks.resources:resourcesTable.text.assignThisGroupToYour",
+                )
+              : t(
+                  "networks.resources:resourcesTable.text.addResourcesToThisNetwork",
+                )
           }
           icon={<Layers3Icon size={20} className={"text-nb-gray-400"} />}
         >
@@ -327,7 +367,7 @@ export default function ResourcesTable({
                 className={"mt-4"}
                 onClick={() => router.push("/networks")}
               >
-                Go to Networks
+                {t("networks.resources:resourcesTable.text.goToNetworks")}
                 <ArrowUpRightIcon size={16} />
               </Button>
             </>
@@ -353,7 +393,7 @@ export default function ResourcesTable({
                 data-testid={"add-resource"}
               >
                 <PlusCircle size={16} />
-                Add
+                {t("common:word.add")}
               </Button>
             )
           : undefined

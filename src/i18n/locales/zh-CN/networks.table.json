@@ -1,0 +1,16 @@
+{
+  "networkActionCell.text.viewDetails": "查看详情",
+  "networkActionCell.text.rename": "重命名",
+  "networkRoutingPeerCell.text.highAvailabilityIsCurrently": "此路由的高可用当前已",
+  "networkRoutingPeerCell.text.inactive": "未激活",
+  "networkRoutingPeerCell.text.forThisNetwork": "（此网络）。",
+  "networkRoutingPeerCell.text.active": "已激活",
+  "networkRoutingPeerCell.text.youCanAddMoreRouting": "您可以添加更多路由设备来提高此网络的可用性。",
+  "networkRoutingPeerCell.text.goAheadAndAddMore": "添加更多路由设备或包含路由设备的组，即可为此网络启用高可用。",
+  "networkRoutingPeerCell.ariaLabel.addRoutingPeer": "添加路由设备",
+  "networksTable.text.network": "网络",
+  "networksTable.searchPlaceholder.searchByNetworkNameOr": "按网络名称或描述搜索...",
+  "networksTable.title.createNewNetwork": "创建新网络",
+  "networksTable.description.itLooksLikeYouDon": "您还没有任何网络。添加网络即可访问 LAN 和 VPC 中的内部资源。",
+  "networksTable.text.addNetwork": "添加网络"
+}

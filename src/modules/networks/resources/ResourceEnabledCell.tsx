@@ -5,10 +5,10 @@ import * as React from "react";
 import { useMemo } from "react";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { NetworkResource } from "@/interfaces/Network";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
-
 type Props = {
   resource: NetworkResource;
   mutateAllResourcesOnUpdate?: boolean;
@@ -28,11 +28,14 @@ export const ResourceEnabledCell = ({
 
   const toggle = async (enabled: boolean) => {
     notify({
-      title: `Update Resource`,
-      description: `'${resource?.name}' is now ${
-        enabled ? "enabled" : "disabled"
-      }`,
-      loadingMessage: "Updating resource...",
+      title: t("networks.resources:resourceActionCell.title.updateResource"),
+      description: t(
+        "networks.resources:resourceActionCell.description.isNow",
+        { name: resource?.name, value: enabled ? "enabled" : "disabled" },
+      ),
+      loadingMessage: t(
+        "networks.resources:networkResourceModal.loadingMessage.updatingResource",
+      ),
       duration: 1200,
       promise: update({
         ...resource,

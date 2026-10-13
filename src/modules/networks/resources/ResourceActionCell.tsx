@@ -18,10 +18,10 @@ import * as React from "react";
 import { useState } from "react";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { NetworkResource } from "@/interfaces/Network";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
-
 type Props = {
   resource: NetworkResource;
 };
@@ -38,11 +38,9 @@ export const ResourceActionCell = ({ resource }: Props) => {
   const toggleEnabled = async () => {
     const nextEnabled = !resource.enabled;
     notify({
-      title: `Update Resource`,
-      description: `'${resource?.name}' is now ${
-        nextEnabled ? "enabled" : "disabled"
-      }`,
-      loadingMessage: "Updating resource...",
+      title: t("networks.resources:resourceActionCell.title.updateResource"),
+      description: t("networks.resources:resourceActionCell.description.isNow", { name: resource?.name, value: nextEnabled ? "enabled" : "disabled" }),
+      loadingMessage: t("networks.resources:networkResourceModal.loadingMessage.updatingResource"),
       duration: 1200,
       promise: update({
         ...resource,
@@ -73,7 +71,7 @@ export const ResourceActionCell = ({ resource }: Props) => {
             disabled={
               !permission.networks.update && !permission.networks.delete
             }
-            aria-label={"Resource actions"}
+            aria-label={t("networks.resources:resourceActionCell.ariaLabel.resourceActions")}
           >
             <MoreVertical size={16} className={"shrink-0"} />
           </Button>
@@ -88,7 +86,7 @@ export const ResourceActionCell = ({ resource }: Props) => {
           >
             <div className={"flex gap-3 items-center"}>
               <SquarePenIcon size={14} className={"shrink-0"} />
-              Edit
+              {t("common:word.edit")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -100,7 +98,7 @@ export const ResourceActionCell = ({ resource }: Props) => {
           >
             <div className={"flex gap-3 items-center"}>
               <PowerIcon size={14} className={"shrink-0"} />
-              {resource.enabled ? "Disable" : "Enable"}
+              {resource.enabled ? t("common:word.disable") : t("common:word.enable")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -114,7 +112,7 @@ export const ResourceActionCell = ({ resource }: Props) => {
           >
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Delete
+              {t("common:word.delete")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

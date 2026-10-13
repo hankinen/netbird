@@ -7,10 +7,10 @@ import { cn } from "@utils/helpers";
 import { AlertCircleIcon, VenetianMask } from "lucide-react";
 import * as React from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { t } from "@/i18n";
 import { GroupPeer } from "@/interfaces/Group";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { Peer } from "@/interfaces/Peer";
-
 type Props = {
   value: boolean;
   onChange: (value: boolean) => void;
@@ -36,12 +36,14 @@ export const RoutingPeerMasqueradeSwitch = ({
           label={
             <>
               <VenetianMask size={15} />
-              Masquerade
+              {t(
+                "networks.routing-peers:networkRoutingPeersTable.text.masquerade",
+              )}
             </>
           }
-          helpText={
-            "Allow access to your private networks without configuring routes on your local routers or other devices."
-          }
+          helpText={t(
+            "networks.routing-peers:routingPeerMasqueradeSwitch.helpText.allowAccessToYourPrivate",
+          )}
         />
         {routingPeerGroupId && !value && (
           <RoutingPeerGroupNonLinuxWarning
@@ -66,7 +68,9 @@ export const RoutingPeerMasqueradeTooltip = ({
     <FullTooltip
       content={
         <div className={"text-xs"}>
-          Masquerade needs to be enabled for non-Linux routing peers.
+          {t(
+            "networks.routing-peers:routingPeerMasqueradeSwitch.text.masqueradeNeedsToBeEnabled",
+          )}
         </div>
       }
       delayDuration={250}
@@ -112,10 +116,15 @@ const RoutingPeerGroupNonLinuxWarning = ({
           />
         }
       >
-        Group <span className={"text-netbird font-normal"}>{group?.name}</span>{" "}
-        contains at least one non-Linux peer.
-        <br /> Disabled Masquerade will have no effect on non-Linux routing
-        peers.
+        {t("networks.routing-peers:routingPeerMasqueradeSwitch.text.group")}{" "}
+        <span className={"text-netbird font-normal"}>{group?.name}</span>{" "}
+        {t(
+          "networks.routing-peers:routingPeerMasqueradeSwitch.text.containsAtLeastOneNon",
+        )}
+        <br />{" "}
+        {t(
+          "networks.routing-peers:routingPeerMasqueradeSwitch.text.disabledMasqueradeWillHaveNo",
+        )}
       </Callout>
     )
   );

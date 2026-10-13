@@ -4,9 +4,9 @@ import { LayersIcon, PlusCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Network } from "@/interfaces/Network";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
-
 type Props = {
   network: Network;
 };
@@ -42,7 +42,7 @@ export const NetworkResourceCell = ({ network }: Props) => {
         data-testid={"add-resource"}
       >
         <PlusCircle size={12} />
-        Add
+        {t("common:word.add")}
       </Button>
     </div>
   ) : (
@@ -55,7 +55,7 @@ export const NetworkResourceCell = ({ network }: Props) => {
         data-testid={"add-resource"}
       >
         <PlusCircle size={12} />
-        Add
+        {t("common:word.add")}
       </Button>
     </>
   );

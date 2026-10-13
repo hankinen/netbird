@@ -6,12 +6,12 @@ import * as React from "react";
 import { useMemo } from "react";
 import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { NetworkRouter } from "@/interfaces/Network";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import type { Peer } from "@/interfaces/Peer";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
 import { RoutingPeerMasqueradeTooltip } from "@/modules/networks/routing-peers/RoutingPeerMasqueradeSwitch";
-
 type Props = {
   router: NetworkRouter;
 };
@@ -40,9 +40,16 @@ export const RoutingPeersMasqueradeCell = ({ router }: Props) => {
 
   const toggle = async (enabled: boolean) => {
     notify({
-      title: "Network Routing Peer",
-      description: `Masquerade is now ${enabled ? "enabled" : "disabled"}`,
-      loadingMessage: "Updating masquerade...",
+      title: t(
+        "networks.routing-peers:networkRoutingPeerModal.title.networkRoutingPeer",
+      ),
+      description: t(
+        "networks.routing-peers:routingPeersMasqueradeCell.description.masqueradeIsNow",
+        { value: enabled ? "enabled" : "disabled" },
+      ),
+      loadingMessage: t(
+        "networks.routing-peers:routingPeersMasqueradeCell.loadingMessage.updatingMasquerade",
+      ),
       promise: update({
         ...router,
         masquerade: enabled,

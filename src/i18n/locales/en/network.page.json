@@ -1,0 +1,14 @@
+{
+  "page.text.rename": "Rename",
+  "page.text.highAvailabilityIsCurrently": "High availability is currently",
+  "page.text.inactive": "inactive",
+  "page.text.forThisNetwork": "for this network.",
+  "page.text.active": "active",
+  "page.text.highAvailability": "High Availability",
+  "page.text.youCanAddMoreRouting": "You can add more routing peers to increase the availability of this network.",
+  "page.text.goAheadAndAddMore": "Go ahead and add more routing peers or groups with routing peers to enable high availability for this network.",
+  "page.text.activePolicy": "Active Policy",
+  "page.text.activePolicies": "Active Policies",
+  "page.text.noActivePolicies": "No Active Policies",
+  "page.text.goToPolicies": "Go to Policies"
+}

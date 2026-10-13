@@ -12,6 +12,7 @@ import { Policy } from "@/interfaces/Policy";
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
 import { cn } from "@utils/helpers";
 
+import { t } from "@/i18n";
 type Props = {
   resource?: NetworkResource;
 };
@@ -154,7 +155,9 @@ export const ResourcePolicyCell = ({ resource }: Props) => {
             e.stopPropagation();
             openResourceModal(network, resource, "access-control");
           }}
-          aria-label="Configure policies"
+          aria-label={t(
+            "networks.resources:resourcePolicyCell.ariaLabel.configurePolicies",
+          )}
         >
           <Settings size={12} />
         </Button>

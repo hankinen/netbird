@@ -20,8 +20,8 @@ import { useApiCall } from "@utils/api";
 import { ExternalLinkIcon, PlusCircle } from "lucide-react";
 import React, { useState } from "react";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
+import { t } from "@/i18n";
 import { Network } from "@/interfaces/Network";
-
 type Props = {
   open: boolean;
   setOpen?: (open: boolean) => void;
@@ -79,8 +79,12 @@ export const NetworkModalContent = ({
   const updateNetwork = async () => {
     notify({
       title: name,
-      description: "Network updated successfully.",
-      loadingMessage: "Updating network...",
+      description: t(
+        "networks.main:networkModal.description.networkUpdatedSuccessfully",
+      ),
+      loadingMessage: t(
+        "networks.main:networkModal.loadingMessage.updatingNetwork",
+      ),
       promise: update({ name, description }, `/${network?.id}`).then((n) => {
         onUpdated?.(n);
       }),
@@ -90,8 +94,12 @@ export const NetworkModalContent = ({
   const createNetwork = async () => {
     notify({
       title: name,
-      description: "Network created successfully.",
-      loadingMessage: "Creating network...",
+      description: t(
+        "networks.main:networkModal.description.networkCreatedSuccessfully",
+      ),
+      loadingMessage: t(
+        "networks.main:networkModal.loadingMessage.creatingNetwork",
+      ),
       promise: create({ name, description }).then((n) => {
         onCreated?.(n);
       }),
@@ -102,35 +110,45 @@ export const NetworkModalContent = ({
     <ModalContent maxWidthClass={"max-w-xl"}>
       <ModalHeader
         icon={<NetworkRoutesIcon className={"fill-netbird"} />}
-        title={network ? "Update Network" : "Add Network"}
+        title={
+          network
+            ? t("networks.main:networkModal.text.updateNetwork")
+            : t("networks.main:networkModal.text.addNetwork")
+        }
         description={
           network
             ? network.name
-            : "Access internal resources in LANs and VPC by adding a network."
+            : t("networks.main:networkModal.text.accessInternalResourcesInLANs")
         }
         color={"netbird"}
       />
       <Separator />
       <div className={"px-8 flex-col flex gap-6 py-6"}>
         <div>
-          <Label>Network Name</Label>
-          <HelpText>Provide a unique name for the network.</HelpText>
+          <Label>{t("networks.main:networkModal.text.networkName")}</Label>
+          <HelpText>
+            {t("networks.main:networkModal.text.provideAUniqueNameFor")}
+          </HelpText>
           <Input
             tabIndex={0}
             data-testid="network-name-input"
-            placeholder={"e.g., Office Network"}
+            placeholder={t(
+              "networks.main:networkModal.placeholder.eGOfficeNetwork",
+            )}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div>
-          <Label>Description (optional)</Label>
+          <Label>{t("common:word.descriptionOptional")}</Label>
           <HelpText>
-            Write a short description to add more context to this network.
+            {t("networks.main:networkModal.text.writeAShortDescriptionTo")}
           </HelpText>
           <Textarea
             data-testid="network-description-input"
-            placeholder={"e.g., Berlin, Münzstraße 12 "}
+            placeholder={t(
+              "networks.main:networkModal.placeholder.eGBerlinMNzstra",
+            )}
             value={description}
             rows={3}
             onChange={(e) => setDescription(e.target.value)}
@@ -141,19 +159,19 @@ export const NetworkModalContent = ({
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink
               href={"https://docs.netbird.io/how-to/networks"}
               target={"_blank"}
             >
-              Networks
+              {t("common:word.networks")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
           </ModalClose>
 
           <Button
@@ -169,11 +187,11 @@ export const NetworkModalContent = ({
             }
           >
             {network ? (
-              "Save Changes"
+              t("common:word.saveChanges")
             ) : (
               <>
                 <PlusCircle size={16} />
-                Add Network
+                {t("networks.main:networkModal.text.addNetwork")}
               </>
             )}
           </Button>

@@ -12,6 +12,7 @@ import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import Badge from "@components/Badge";
 import { CirclePlusIcon } from "lucide-react";
 
+import { t } from "@/i18n";
 type Props = {
   resource: NetworkResource;
 };
@@ -73,7 +74,7 @@ export const ResourceExposeServiceCell = ({ resource }: Props) => {
         disabled={!permission.services?.create}
       >
         <CirclePlusIcon size={12} />
-        Expose
+        {t("networks.resources:resourceExposeServiceCell.text.expose")}
       </Button>
     </div>
   );

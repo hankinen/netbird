@@ -1,0 +1,14 @@
+{
+  "page.text.rename": "重命名",
+  "page.text.highAvailabilityIsCurrently": "此路由的高可用当前已",
+  "page.text.inactive": "未激活",
+  "page.text.forThisNetwork": "（此网络）。",
+  "page.text.active": "已激活",
+  "page.text.highAvailability": "高可用",
+  "page.text.youCanAddMoreRouting": "您可以添加更多路由设备来提高此网络的可用性。",
+  "page.text.goAheadAndAddMore": "添加更多路由设备或包含路由设备的组，即可为此网络启用高可用。",
+  "page.text.activePolicy": "生效的策略",
+  "page.text.activePolicies": "生效的策略",
+  "page.text.noActivePolicies": "没有生效的策略",
+  "page.text.goToPolicies": "前往策略"
+}
