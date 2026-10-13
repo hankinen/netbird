@@ -7,8 +7,8 @@ import {
 } from "@components/Tooltip";
 import { Server } from "lucide-react";
 import React from "react";
+import { t } from "@/i18n";
 import { NameserverGroup } from "@/interfaces/Nameserver";
-
 type Props = {
   ns: NameserverGroup;
 };
@@ -22,7 +22,7 @@ export default function NameserverNameserversCell({ ns }: Props) {
           <TooltipTrigger asChild={true}>
             <Badge variant={"gray"} className={"font-mono cursor-help"}>
               <Server size={10} className={"mr-1"} />
-              {nameservers.length} Servers
+              {nameservers.length}{" "}{t("dns.nameservers:nameserverNameserversCell.text.servers")}
             </Badge>
           </TooltipTrigger>
           <TooltipContent className={"p-3"}>

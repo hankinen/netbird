@@ -37,9 +37,9 @@ import React, { useEffect, useMemo, useReducer, useState } from "react";
 import { useSWRConfig } from "swr";
 import DNSIcon from "@/assets/icons/DNSIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Nameserver, NameserverGroup } from "@/interfaces/Nameserver";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
-
 type Props = {
   children?: React.ReactNode;
   preset?: NameserverGroup;
@@ -112,9 +112,9 @@ export function NameserverModalContent({
 
   const update = async (groupIds: string[]) => {
     notify({
-      title: "Update Nameserver",
-      description: "Nameserver was updated successfully.",
-      loadingMessage: "Updating your nameserver...",
+      title: t("dns.nameservers:nameserverModal.title.updateNameserver"),
+      description: t("dns.nameservers:nameserverModal.description.nameserverWasUpdatedSuccessfully"),
+      loadingMessage: t("dns.nameservers:nameserverModal.loadingMessage.updatingYourNameserver"),
       promise: nsRequest
         .put(
           {
@@ -138,9 +138,9 @@ export function NameserverModalContent({
 
   const create = async (groupIds: string[]) => {
     notify({
-      title: "Create Nameserver",
-      description: "Nameserver was created successfully.",
-      loadingMessage: "Creating your nameserver...",
+      title: t("dns.nameservers:nameserverModal.title.createNameserver"),
+      description: t("dns.nameservers:nameserverModal.description.nameserverWasCreatedSuccessfully"),
+      loadingMessage: t("dns.nameservers:nameserverModal.loadingMessage.creatingYourNameserver"),
       promise: nsRequest
         .post({
           name: name,
@@ -222,7 +222,7 @@ export function NameserverModalContent({
   }, [domains]);
 
   const nameLengthError = useMemo(() => {
-    if (name.length > 40) return "Name should be less than 40 characters";
+    if (name.length > 40) return t("dns.nameservers:nameserverModal.text.nameShouldBeLessThan");
     return "";
   }, [name]);
 
@@ -253,8 +253,8 @@ export function NameserverModalContent({
     <ModalContent maxWidthClass={"max-w-xl"}>
       <ModalHeader
         icon={<DNSIcon className={"fill-netbird"} />}
-        title={isUpdate ? preset?.name : "Add Nameserver"}
-        description={"Use a nameserver to resolve domains in your network"}
+        title={isUpdate ? preset?.name : t("dns.nameservers:nameserverModal.text.addNameserver")}
+        description={t("dns.nameservers:nameserverModal.description.useANameserverToResolve")}
         color={"netbird"}
       />
 
@@ -267,7 +267,7 @@ export function NameserverModalContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Nameserver
+            {t("dns.nameservers:nameserverModal.text.nameserver")}
           </TabsTrigger>
           <TabsTrigger
             value={"domains"}
@@ -280,7 +280,7 @@ export function NameserverModalContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Domains
+            {t("dns.nameservers:nameserverModal.text.domains")}
           </TabsTrigger>
           <TabsTrigger
             value={"general"}
@@ -293,7 +293,7 @@ export function NameserverModalContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Name & Description
+            {t("dns.nameservers:nameserverModal.text.nameDescription")}
           </TabsTrigger>
         </TabsList>
 
@@ -334,15 +334,14 @@ export function NameserverModalContent({
                 data-testid="add-nameserver-row"
               >
                 <PlusIcon size={14} />
-                Add Nameserver
+                {t("dns.nameservers:nameserverModal.text.addNameserver")}
               </Button>
             </div>
 
             <div>
-              <Label>Distribution Groups</Label>
+              <Label>{t("common:word.distributionGroups")}</Label>
               <HelpText>
-                Advertise this nameserver to peers that belong to the following
-                groups
+                {t("dns.nameservers:nameserverModal.text.advertiseThisNameserverToPeers")}
               </HelpText>
               <PeerGroupSelector
                 onChange={setGroups}
@@ -359,10 +358,10 @@ export function NameserverModalContent({
               label={
                 <>
                   <Power size={15} />
-                  Enable Nameserver
+                  {t("dns.nameservers:nameserverModal.text.enableNameserver")}
                 </>
               }
-              helpText={"Use this switch to enable or disable the nameserver."}
+              helpText={t("dns.nameservers:nameserverModal.helpText.useThisSwitchToEnable")}
               disabled={!canAction}
             />
           </div>
@@ -370,10 +369,9 @@ export function NameserverModalContent({
         <TabsContent value={"domains"} className={"pb-8"}>
           <div className={"px-8 flex flex-col gap-6"}>
             <div>
-              <Label>Match Domains</Label>
+              <Label>{t("dns.nameservers:nameserverModal.text.matchDomains")}</Label>
               <HelpText>
-                Add domain if you want to have a specific one resolved by this
-                nameserver.
+                {t("dns.nameservers:nameserverModal.text.addDomainIfYouWant")}
               </HelpText>
               <div>
                 {domains.length > 0 && (
@@ -412,7 +410,7 @@ export function NameserverModalContent({
                   data-testid="add-match-domain"
                 >
                   <PlusIcon size={14} />
-                  Add Domain
+                  {t("dns.nameservers:nameserverModal.text.addDomain")}
                 </Button>
               </div>
             </div>
@@ -428,12 +426,10 @@ export function NameserverModalContent({
                 label={
                   <>
                     <Scan size={15} />
-                    Mark match domains as search domains
+                    {t("dns.nameservers:nameserverModal.text.markMatchDomainsAsSearch")}
                   </>
                 }
-                helpText={
-                  "E.g., 'peer.example.com' will be accessible with 'peer'"
-                }
+                helpText={t("dns.nameservers:nameserverModal.helpText.eGPeerExampleCom")}
                 disabled={!canAction}
               />
             </div>
@@ -442,13 +438,13 @@ export function NameserverModalContent({
         <TabsContent value={"general"} className={"px-8 pb-6"}>
           <div className={"flex flex-col gap-6"}>
             <div>
-              <Label>DNS Name</Label>
-              <HelpText>Enter a name for this nameserver.</HelpText>
+              <Label>{t("dns.nameservers:nameserverModal.text.dNSName")}</Label>
+              <HelpText>{t("dns.nameservers:nameserverModal.text.enterANameForThis")}</HelpText>
               <Input
                 autoFocus={true}
                 tabIndex={0}
                 error={nameLengthError}
-                placeholder={"e.g., Public DNS"}
+                placeholder={t("dns.nameservers:nameserverModal.placeholder.eGPublicDNS")}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 disabled={!canAction}
@@ -456,15 +452,12 @@ export function NameserverModalContent({
               />
             </div>
             <div>
-              <Label>Description (optional)</Label>
+              <Label>{t("common:word.descriptionOptional")}</Label>
               <HelpText>
-                Write a short description to add more context to this
-                nameserver.
+                {t("dns.nameservers:nameserverModal.text.writeAShortDescriptionTo")}
               </HelpText>
               <Textarea
-                placeholder={
-                  "e.g., Berlin office resolver for remote developers"
-                }
+                placeholder={t("dns.nameservers:nameserverModal.placeholder.eGBerlinOfficeResolver")}
                 value={description}
                 rows={3}
                 disabled={!canAction}
@@ -479,7 +472,7 @@ export function NameserverModalContent({
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink
               href={"https://docs.netbird.io/how-to/manage-dns-in-your-network"}
               target={"_blank"}
@@ -494,7 +487,7 @@ export function NameserverModalContent({
             <>
               {tab == "nameserver" && (
                 <ModalClose asChild={true}>
-                  <Button variant={"secondary"}>Cancel</Button>
+                  <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
                 </ModalClose>
               )}
 
@@ -503,7 +496,7 @@ export function NameserverModalContent({
                   variant={"secondary"}
                   onClick={() => setTab("nameserver")}
                 >
-                  Back
+                  {t("common:word.back")}
                 </Button>
               )}
 
@@ -514,7 +507,7 @@ export function NameserverModalContent({
                   disabled={!canContinueToDomains}
                   data-testid="nameserver-continue"
                 >
-                  Continue
+                  {t("common:word.continue")}
                 </Button>
               )}
 
@@ -525,7 +518,7 @@ export function NameserverModalContent({
                   disabled={!canContinueToGeneral}
                   data-testid="nameserver-continue"
                 >
-                  Continue
+                  {t("common:word.continue")}
                 </Button>
               )}
 
@@ -535,7 +528,7 @@ export function NameserverModalContent({
                     variant={"secondary"}
                     onClick={() => setTab("domains")}
                   >
-                    Back
+                    {t("common:word.back")}
                   </Button>
 
                   <Button
@@ -545,7 +538,7 @@ export function NameserverModalContent({
                     data-testid="submit-nameserver"
                   >
                     <PlusCircle size={16} />
-                    Add Nameserver
+                    {t("dns.nameservers:nameserverModal.text.addNameserver")}
                   </Button>
                 </>
               )}
@@ -553,7 +546,7 @@ export function NameserverModalContent({
           ) : (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
@@ -561,7 +554,7 @@ export function NameserverModalContent({
                 onClick={submit}
                 data-testid="submit-nameserver"
               >
-                Save Changes
+                {t("common:word.saveChanges")}
               </Button>
             </>
           )}
@@ -604,7 +597,7 @@ function NameserverInput({
     const validCIDR = isValidIP(ip);
     if (!validCIDR) {
       onError && onError(true);
-      return "Please enter a valid IP, e.g., 192.168.1.0";
+      return t("dns.nameservers:nameserverModal.text.pleaseEnterAValidIP");
     }
     onError && onError(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -19,12 +19,12 @@ import { useSWRConfig } from "swr";
 import DNSIcon from "@/assets/icons/DNSIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useHasChanges } from "@/hooks/useHasChanges";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { NameserverSettings } from "@/interfaces/NameserverSettings";
 import PageContainer from "@/layouts/PageContainer";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { useGroupIdsToGroups } from "@/modules/groups/useGroupIdsToGroups";
-
 export default function NameServerSettings() {
   const { permission } = usePermissions();
 
@@ -46,19 +46,19 @@ export default function NameServerSettings() {
           />
           <Breadcrumbs.Item
             href={"/dns/settings"}
-            label={"DNS Settings"}
+            label={t("dns.page:page.label.dNSSettings")}
             active
             icon={<IconSettings2 size={15} />}
           />
         </Breadcrumbs>
-        <h1>DNS Settings</h1>
+        <h1>{t("dns.page:page.label.dNSSettings")}</h1>
         <Paragraph>
-          {"Manage your account's DNS settings."}{" "}
+          {t("dns.page:page.text.manageYourAccountSDNS")}{" "}
           <InlineLink
             href={"https://docs.netbird.io/how-to/manage-dns-in-your-network"}
             target={"_blank"}
           >
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
@@ -101,8 +101,8 @@ const SettingDisabledManagementGroups = ({
   const saveSettings = async () => {
     const savedGroups = await saveGroups();
     notify({
-      title: "DNS Settings",
-      description: "Settings saved successfully.",
+      title: t("dns.page:page.label.dNSSettings"),
+      description: t("dns.page:page.description.settingsSavedSuccessfully"),
       promise: settingRequest
         .put({
           disabled_management_groups: savedGroups.map((g) => g.id),
@@ -111,17 +111,15 @@ const SettingDisabledManagementGroups = ({
           mutate("/dns/settings");
           updateChangesRef([selectedGroups]);
         }),
-      loadingMessage: "Saving the settings...",
+      loadingMessage: t("dns.page:page.loadingMessage.savingTheSettings"),
     });
   };
 
   return (
     <Card className={"mt-8 max-w-xl"}>
       <div className={"px-8 py-8"}>
-        <Label>Disable DNS management for these groups</Label>
-        <HelpText>
-          Peers in these groups will require manual domain name resolution
-        </HelpText>
+        <Label>{t("dns.page:page.text.disableDNSManagementForThese")}</Label>
+        <HelpText>{t("dns.page:page.text.peersInTheseGroupsWill")}</HelpText>
         <PeerGroupSelector
           data-testid={"dns-groups-selector"}
           onChange={setSelectedGroups}
@@ -141,7 +139,7 @@ const SettingDisabledManagementGroups = ({
           disabled={!hasChanges || !permission.dns.update}
           data-testid={"save-changes"}
         >
-          Save Changes
+          {t("common:word.saveChanges")}
         </Button>
       </div>
     </Card>

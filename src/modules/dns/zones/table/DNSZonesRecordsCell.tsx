@@ -3,9 +3,9 @@ import Button from "@components/Button";
 import { GlobeIcon, PlusCircle } from "lucide-react";
 import * as React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { DNSZone } from "@/interfaces/DNS";
 import { useDNSZones } from "@/modules/dns/zones/DNSZonesProvider";
-
 type Props = {
   zone: DNSZone;
 };
@@ -42,7 +42,7 @@ export const DNSZonesRecordsCell = ({ zone }: Props) => {
         data-testid="add-dns-record"
       >
         <PlusCircle size={12} />
-        Add
+        {t("common:word.add")}
       </Button>
     </div>
   );

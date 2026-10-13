@@ -1,0 +1,12 @@
+{
+  "page.label.nameservers": "域名服务器",
+  "page.text.addNameserversForDomainName": "添加域名服务器，用于 NetBird 网络中的域名解析。",
+  "page.label.dNSSettings": "DNS 设置",
+  "page.text.manageYourAccountSDNS": "管理账户的 DNS 设置。",
+  "page.description.settingsSavedSuccessfully": "设置保存成功。",
+  "page.loadingMessage.savingTheSettings": "正在保存设置...",
+  "page.text.disableDNSManagementForThese": "为这些组禁用 DNS 管理",
+  "page.text.peersInTheseGroupsWill": "这些组中的设备需要手动进行域名解析",
+  "page.label.zones": "区域",
+  "page.text.manageDNSZonesToControl": "管理 DNS 区域，以控制网络的域名解析。"
+}

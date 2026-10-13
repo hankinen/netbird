@@ -11,9 +11,9 @@ import { ExternalLinkIcon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import DNSIcon from "@/assets/icons/DNSIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { NameserverGroup } from "@/interfaces/Nameserver";
 import PageContainer from "@/layouts/PageContainer";
-
 const NameserverGroupTable = lazy(
   () => import("@/modules/dns/nameservers/table/NameserverGroupTable"),
 );
@@ -38,19 +38,19 @@ export default function NameServers() {
           />
           <Breadcrumbs.Item
             href={"/dns/nameservers"}
-            label={"Nameservers"}
+            label={t("dns.page:page.label.nameservers")}
             active
             icon={<DNSIcon size={13} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Nameservers</h1>
+        <h1 ref={headingRef}>{t("dns.page:page.label.nameservers")}</h1>
         <Paragraph>
-          Add nameservers for domain name resolution in your NetBird network.{" "}
+          {t("dns.page:page.text.addNameserversForDomainName")}{" "}
           <InlineLink
             href={"https://docs.netbird.io/how-to/manage-dns-in-your-network"}
             target={"_blank"}
           >
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>

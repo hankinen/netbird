@@ -1,0 +1,12 @@
+{
+  "page.label.nameservers": "Nameservers",
+  "page.text.addNameserversForDomainName": "Add nameservers for domain name resolution in your NetBird network.",
+  "page.label.dNSSettings": "DNS Settings",
+  "page.text.manageYourAccountSDNS": "Manage your account's DNS settings.",
+  "page.description.settingsSavedSuccessfully": "Settings saved successfully.",
+  "page.loadingMessage.savingTheSettings": "Saving the settings...",
+  "page.text.disableDNSManagementForThese": "Disable DNS management for these groups",
+  "page.text.peersInTheseGroupsWill": "Peers in these groups will require manual domain name resolution",
+  "page.label.zones": "Zones",
+  "page.text.manageDNSZonesToControl": "Manage DNS zones to control domain name resolution for your network."
+}

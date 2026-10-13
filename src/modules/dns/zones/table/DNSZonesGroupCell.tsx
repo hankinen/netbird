@@ -2,12 +2,12 @@ import * as React from "react";
 import { useMemo, useState } from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { DNSZone } from "@/interfaces/DNS";
 import { Group } from "@/interfaces/Group";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 import GroupsRow from "@/modules/common-table-rows/GroupsRow";
 import { useDNSZones } from "@/modules/dns/zones/DNSZonesProvider";
-
 type Props = {
   zone: DNSZone;
 };
@@ -45,10 +45,10 @@ export const DNSZonesGroupCell = ({ zone }: Props) => {
 
   return (
     <GroupsRow
-      label={"Distribution Groups"}
-      description={
-        "Advertise this zone to peers that belong to the following groups"
-      }
+      label={t("common:word.distributionGroups")}
+      description={t(
+        "dns.zones:dNSZonesGroupCell.description.advertiseThisZoneToPeers",
+      )}
       groups={groupIDs || []}
       hideAllGroup={false}
       disabled={!permission?.dns?.update}

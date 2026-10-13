@@ -2,10 +2,10 @@ import Button from "@components/Button";
 import { PenSquare, Trash2 } from "lucide-react";
 import * as React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { DNSRecord } from "@/interfaces/DNS";
 import { useDNSZones } from "@/modules/dns/zones/DNSZonesProvider";
 import { useDNSZone } from "@/modules/dns/zones/records/DNSRecordsTable";
-
 type Props = {
   record: DNSRecord;
 };
@@ -25,7 +25,7 @@ export const DNSRecordActionCell = ({ record }: Props) => {
         data-testid="edit-dns-record"
       >
         <PenSquare size={16} />
-        Edit
+        {t("common:word.edit")}
       </Button>
       <Button
         variant={"danger-outline"}
@@ -35,7 +35,7 @@ export const DNSRecordActionCell = ({ record }: Props) => {
         data-testid="delete-dns-record"
       >
         <Trash2 size={16} />
-        Delete
+        {t("common:word.delete")}
       </Button>
     </div>
   );

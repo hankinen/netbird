@@ -24,6 +24,7 @@ import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { Group } from "@/interfaces/Group";
 import DNSZoneIcon from "@/assets/icons/DNSZoneIcon";
 
+import { t } from "@/i18n";
 type Props = {
   children?: React.ReactNode;
   open: boolean;
@@ -95,7 +96,7 @@ export function DNSZoneModalContent({
       preventLeadingAndTrailingDots: true,
     });
     if (!valid) {
-      return "Please enter a valid domain, e.g. internal, company.internal or intra.example.com";
+      return t("dns.zones:dNSZoneModal.text.pleaseEnterAValidDomain");
     }
   }, [domain]);
 
@@ -130,10 +131,12 @@ export function DNSZoneModalContent({
     <ModalContent maxWidthClass={"max-w-2xl"}>
       <ModalHeader
         icon={<DNSZoneIcon size={20} className={"fill-netbird"} />}
-        title={zone ? "Update DNS Zone" : "Add DNS Zone"}
-        description={
-          "Use a zone to control domain name resolution for your network."
+        title={
+          zone
+            ? t("dns.zones:dNSZoneModal.text.updateDNSZone")
+            : t("dns.zones:dNSZoneModal.text.addDNSZone")
         }
+        description={t("dns.zones:dNSZoneModal.description.useAZoneToControl")}
         color={"netbird"}
       />
 
@@ -141,15 +144,16 @@ export function DNSZoneModalContent({
 
       <div className={"px-8 pt-6 pb-7 flex-col flex gap-6"}>
         <div>
-          <Label>Domain</Label>
+          <Label>{t("dns.zones:dNSZoneModal.text.domain")}</Label>
           <HelpText>
-            Enter a domain for this zone (e.g., company.internal,
-            intra.example.com)
+            {t("dns.zones:dNSZoneModal.text.enterADomainForThis")}
           </HelpText>
           <Input
             disabled={!!zone}
             readOnly={!!zone}
-            placeholder={"e.g., company.internal"}
+            placeholder={t(
+              "dns.zones:dNSZoneModal.placeholder.eGCompanyInternal",
+            )}
             errorTooltip={false}
             errorTooltipPosition={"top"}
             error={domainError}
@@ -159,10 +163,9 @@ export function DNSZoneModalContent({
           />
         </div>
         <div className={"mb-2"}>
-          <Label>Distribution Groups</Label>
+          <Label>{t("common:word.distributionGroups")}</Label>
           <HelpText>
-            Advertise this zone and its records to peers that belong to the
-            following groups
+            {t("dns.zones:dNSZoneModal.text.advertiseThisZoneAndIts")}
           </HelpText>
           <PeerGroupSelector
             onChange={setGroups}
@@ -180,12 +183,12 @@ export function DNSZoneModalContent({
           label={
             <>
               <ScanSearch size={15} />
-              Enable Search Domains
+              {t("dns.zones:dNSZoneModal.text.enableSearchDomains")}
             </>
           }
-          helpText={
-            "E.g., 'server.company.internal' will be accessible with 'server'"
-          }
+          helpText={t(
+            "dns.zones:dNSZoneModal.helpText.eGServerCompanyInternal",
+          )}
         />
 
         <FancyToggleSwitch
@@ -195,26 +198,26 @@ export function DNSZoneModalContent({
           label={
             <>
               <Power size={15} />
-              Enable DNS Zone
+              {t("dns.zones:dNSZoneModal.text.enableDNSZone")}
             </>
           }
-          helpText={"Use this switch to enable or disable the dns zone."}
+          helpText={t("dns.zones:dNSZoneModal.helpText.useThisSwitchToEnable")}
         />
       </div>
 
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink href={DNS_ZONE_DOCS_LINK} target={"_blank"}>
-              DNS Zones
+              {t("dns.zones:dNSZoneModal.text.dNSZones")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
         </div>
         <div className={"flex gap-3 w-full justify-end"}>
           <ModalClose asChild={true}>
-            <Button variant={"secondary"}>Cancel</Button>
+            <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
           </ModalClose>
           <Button
             variant={"primary"}
@@ -222,7 +225,9 @@ export function DNSZoneModalContent({
             disabled={!canUpdateOrCreate}
             data-testid="submit-dns-zone"
           >
-            {zone ? "Save Changes" : "Add Zone"}
+            {zone
+              ? t("common:word.saveChanges")
+              : t("dns.zones:dNSZoneModal.text.addZone")}
           </Button>
         </div>
       </ModalFooter>

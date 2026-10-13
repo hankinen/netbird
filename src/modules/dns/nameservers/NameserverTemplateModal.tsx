@@ -7,10 +7,10 @@ import React, { useState } from "react";
 import CloudflareLogo from "@/assets/nameservers/cloudflare.svg";
 import GoogleLogo from "@/assets/nameservers/google.svg";
 import Quad9Logo from "@/assets/nameservers/quad9.svg";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { NameserverGroup, NameserverPresets } from "@/interfaces/Nameserver";
 import NameserverModal from "@/modules/dns/nameservers/NameserverModal";
-
 type Props = {
   children: React.ReactNode;
   distributionGroups?: Group[];
@@ -70,40 +70,42 @@ export function NameserverTemplateModalContent({
           <NameserverTemplate
             onClick={() => onePresetSelection(NameserverPresets.Google)}
             src={GoogleLogo}
-            title={"Google DNS"}
-            description={
-              "A free, global DNS resolution service by Google that implements a number of security, performance, and compliance improvements."
-            }
+            title={t("dns.nameservers:nameserverTemplateModal.title.googleDNS")}
+            description={t(
+              "dns.nameservers:nameserverTemplateModal.description.aFreeGlobalDNSResolution",
+            )}
             href={"https://developers.google.com/speed/public-dns"}
             data-testid="nameserver-preset-google"
           />
           <NameserverTemplate
             onClick={() => onePresetSelection(NameserverPresets.Cloudflare)}
             src={CloudflareLogo}
-            title={"Cloudflare DNS"}
-            description={
-              "Enterprise-grade DNS service that offers the fastest response time, unparalleled redundancy, and advanced security with built-in DDoS mitigation and DNSSEC."
-            }
+            title={t(
+              "dns.nameservers:nameserverTemplateModal.title.cloudflareDNS",
+            )}
+            description={t(
+              "dns.nameservers:nameserverTemplateModal.description.enterpriseGradeDNSServiceThat",
+            )}
             href={"https://www.cloudflare.com/learning/dns/what-is-1.1.1.1/"}
             data-testid="nameserver-preset-cloudflare"
           />
           <NameserverTemplate
             onClick={() => onePresetSelection(NameserverPresets.Quad9)}
             src={Quad9Logo}
-            title={"Quad9 DNS"}
-            description={
-              "The Quad9 DNS service is operated by the Swiss-based Quad9 Foundation, whose mission is to provide a safer and more robust Internet for everyone."
-            }
+            title={t("dns.nameservers:nameserverTemplateModal.title.quad9DNS")}
+            description={t(
+              "dns.nameservers:nameserverTemplateModal.description.theQuad9DNSServiceIs",
+            )}
             href={"https://quad9.net/"}
             data-testid="nameserver-preset-quad9"
           />
           <NameserverTemplate
             onClick={() => onePresetSelection(NameserverPresets.Default)}
             icon={<GlobeIcon size={30} className={"text-netbird"} />}
-            title={"Custom DNS"}
-            description={
-              "Use custom nameservers to resolve domains in your network. You can either use a public DNS or your own nameservers."
-            }
+            title={t("dns.nameservers:nameserverTemplateModal.title.customDNS")}
+            description={t(
+              "dns.nameservers:nameserverTemplateModal.description.useCustomNameserversToResolve",
+            )}
             data-testid="nameserver-preset-custom"
           />
         </div>
@@ -165,7 +167,7 @@ function NameserverTemplate({
                 e.stopPropagation();
               }}
             >
-              {hrefTitle || "Learn more"}
+              {hrefTitle || t("common:word.learnMore")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </div>

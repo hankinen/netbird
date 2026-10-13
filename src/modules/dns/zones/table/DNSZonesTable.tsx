@@ -41,11 +41,12 @@ import { Group } from "@/interfaces/Group";
 import DNSZoneIcon from "@/assets/icons/DNSZoneIcon";
 import { useGroups } from "@/contexts/GroupsProvider";
 
+import { t } from "@/i18n";
 export const DNSZonesColumns: ColumnDef<DNSZone>[] = [
   {
     accessorKey: "domain",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Zone</DataTableHeader>
+      <DataTableHeader column={column}>{t("dns.zones:dNSZonesTable.text.zone")}</DataTableHeader>
     ),
     sortingFn: "text",
     cell: ({ row }) => <DNSZonesNameCell zone={row.original} />,
@@ -56,7 +57,7 @@ export const DNSZonesColumns: ColumnDef<DNSZone>[] = [
   {
     accessorKey: "records",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Records</DataTableHeader>
+      <DataTableHeader column={column}>{t("dns.zones:dNSZonesTable.text.records")}</DataTableHeader>
     ),
     sortingFn: "text",
     cell: ({ row }) => <DNSZonesRecordsCell zone={row.original} />,
@@ -64,7 +65,7 @@ export const DNSZonesColumns: ColumnDef<DNSZone>[] = [
   {
     accessorKey: "distribution_groups",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Groups</DataTableHeader>
+      <DataTableHeader column={column}>{t("common:word.groups")}</DataTableHeader>
     ),
     cell: ({ row }) => <DNSZonesGroupCell zone={row.original} />,
   },
@@ -77,7 +78,7 @@ export const DNSZonesColumns: ColumnDef<DNSZone>[] = [
   {
     accessorKey: "enable_search_domain",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Search Domain</DataTableHeader>
+      <DataTableHeader column={column}>{t("dns.zones:dNSZonesTable.text.searchDomain")}</DataTableHeader>
     ),
     cell: ({ row }) => <DNSZonesSearchDomainCell zone={row.original} />,
   },
@@ -163,9 +164,9 @@ export default function DNSZonesTable({
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Active", dotClass: "bg-green-500" },
-      { value: false, label: "Inactive", dotClass: "bg-nb-gray-700" },
+      { value: undefined, label: t("common:word.all"), dotClass: "bg-nb-gray-500" },
+      { value: true, label: t("common:word.active"), dotClass: "bg-green-500" },
+      { value: false, label: t("common:word.inactive"), dotClass: "bg-nb-gray-700" },
     ],
     [],
   );
@@ -174,7 +175,7 @@ export default function DNSZonesTable({
     () => [
       {
         id: "enabled",
-        label: "Status",
+        label: t("common:word.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -188,7 +189,7 @@ export default function DNSZonesTable({
       },
       {
         id: "group_names_filter",
-        label: "Groups",
+        label: t("common:word.groups"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -207,7 +208,7 @@ export default function DNSZonesTable({
     <DataTable
       headingTarget={headingTarget}
       isLoading={isLoading}
-      text={"DNS Zones"}
+      text={t("dns.zones:dNSZoneModal.text.dNSZones")}
       sorting={sorting}
       setSorting={setSorting}
       columns={DNSZonesColumns}
@@ -222,7 +223,7 @@ export default function DNSZonesTable({
       keepStateInLocalStorage={!isGroupPage}
       initialPageSize={25}
       showResetFilterButton={false}
-      searchPlaceholder={"Search by domain, ip, content or group..."}
+      searchPlaceholder={t("dns.zones:dNSZonesTable.searchPlaceholder.searchByDomainIpContent")}
       aboveTable={(table) => (
         <TableFilterChips table={table} filters={filterDefs} />
       )}
@@ -247,10 +248,8 @@ export default function DNSZonesTable({
             icon={<DNSZoneIcon className={"fill-nb-gray-200"} size={24} />}
             className={"py-4"}
             contentClassName={"max-w-lg"}
-            title={"This group is not used within any zones yet"}
-            description={
-              "Assign this group as a distribution group in your zones to see them listed here."
-            }
+            title={t("dns.zones:dNSZonesTable.title.thisGroupIsNotUsed")}
+            description={t("dns.zones:dNSZonesTable.description.assignThisGroupAsA")}
           >
             <div className={"gap-x-4 flex items-center justify-center mt-4"}>
               <AddZoneButton distributionGroups={distributionGroups} />
@@ -265,10 +264,8 @@ export default function DNSZonesTable({
                 size={"large"}
               />
             }
-            title={"Create New Zone"}
-            description={
-              "It looks like you don't have any zones. Control domain name resolution for your network by adding a zone."
-            }
+            title={t("dns.zones:dNSZonesTable.title.createNewZone")}
+            description={t("dns.zones:dNSZonesTable.description.itLooksLikeYouDon")}
             button={
               <div className={"gap-x-4 flex items-center justify-center"}>
                 <AddZoneButton distributionGroups={distributionGroups} />
@@ -276,9 +273,9 @@ export default function DNSZonesTable({
             }
             learnMore={
               <>
-                Learn more about
+                {t("common:word.learnMoreAbout")}
                 <InlineLink href={DNS_ZONE_DOCS_LINK} target={"_blank"}>
-                  DNS Zones
+                  {t("dns.zones:dNSZoneModal.text.dNSZones")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
@@ -341,7 +338,7 @@ const AddZoneButton = ({ distributionGroups }: AddZoneButtonProps) => {
       data-testid="add-dns-zone"
     >
       <PlusCircle size={16} />
-      Add Zone
+      {t("dns.zones:dNSZoneModal.text.addZone")}
     </Button>
   );
 };

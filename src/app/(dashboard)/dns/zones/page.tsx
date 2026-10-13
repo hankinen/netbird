@@ -16,6 +16,7 @@ import PageContainer from "@/layouts/PageContainer";
 import { DNSZonesProvider } from "@/modules/dns/zones/DNSZonesProvider";
 import DNSZoneIcon from "@/assets/icons/DNSZoneIcon";
 
+import { t } from "@/i18n";
 const DNSZonesTable = lazy(
   () => import("@/modules/dns/zones/table/DNSZonesTable"),
 );
@@ -35,16 +36,16 @@ export default function DNSZonePage() {
           <Breadcrumbs.Item label={"DNS"} icon={<DNSIcon size={13} />} />
           <Breadcrumbs.Item
             href={"/dns/zones"}
-            label={"Zones"}
+            label={t("dns.page:page.label.zones")}
             active
             icon={<DNSZoneIcon size={16} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Zones</h1>
+        <h1 ref={headingRef}>{t("dns.page:page.label.zones")}</h1>
         <Paragraph>
-          Manage DNS zones to control domain name resolution for your network.{" "}
+          {t("dns.page:page.text.manageDNSZonesToControl")}{" "}
           <InlineLink href={DNS_ZONE_DOCS_LINK} target={"_blank"}>
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
