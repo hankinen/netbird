@@ -12,7 +12,7 @@ own subtree, and inside that subtree they take precedence over this file.
 
 ## Translations (i18n)
 
-All user-visible text goes through `t()` from `react-i18next`, with en and
+All user-visible text goes through `t()` from `src/i18n/index.ts`, with en and
 zh-CN kept in step. Read `src/i18n/I18N.md` before adding or changing text.
 
 ## Reuse before you build
