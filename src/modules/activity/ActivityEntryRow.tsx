@@ -6,12 +6,12 @@ import dayjs from "dayjs";
 import { AlertCircle, ArrowUpRight, Cog, PlusIcon, XIcon } from "lucide-react";
 import React, { useMemo } from "react";
 import { useUsers } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { ActivityEvent } from "@/interfaces/ActivityEvent";
 import { User } from "@/interfaces/User";
 import ActivityDescription from "@/modules/activity/ActivityDescription";
 import ActivityTypeIcon from "@/modules/activity/ActivityTypeIcon";
 import { getColorFromCode } from "@/modules/activity/utils";
-
 export type ActionColor = "green" | "red" | "blue-darker" | "netbird";
 
 const ActionIcons: Record<ActionColor, React.ReactNode> = {
@@ -95,7 +95,7 @@ export const ActivityEntryRow = ({ event }: { event: ActivityEvent }) => {
 
               <span className={"text-sm text-nb-gray-200"}>
                 <TextWithTooltip
-                  text={user?.name || user?.id || "System"}
+                  text={user?.name || user?.id || t("common:word.system")}
                   maxChars={20}
                 />
               </span>
@@ -105,7 +105,7 @@ export const ActivityEntryRow = ({ event }: { event: ActivityEvent }) => {
               {isExternal && (
                 <span className={"flex items-center"}>
                   <SmallBadge
-                    text={"External"}
+                    text={t("activity.table:activityEntryRow.text.external")}
                     variant={"sky"}
                     className={
                       "text-[10px] py-[0.2rem] px-1.5 rounded-full leading-none -top-0"
@@ -120,7 +120,9 @@ export const ActivityEntryRow = ({ event }: { event: ActivityEvent }) => {
             className={"flex gap-2 items-center text-nb-gray-400 text-xs mr-1"}
           >
             <div className={"h-1 w-1 bg-nb-gray-700 rounded-full"}></div>
-            {dayjs(event?.timestamp).format("MMM D, YYYY [at] h:mm:s A")}
+            {dayjs(event?.timestamp).format(
+              t("activity.table:activityEntryRow.text.mMMDYYYYAtH"),
+            )}
           </span>
         </div>
 

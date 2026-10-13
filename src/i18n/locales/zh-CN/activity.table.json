@@ -1,0 +1,21 @@
+{
+  "activityEntryRow.text.external": "外部",
+  "activityEntryRow.text.mMMDYYYYAtH": "YYYY年M月D日 HH:mm:ss",
+  "activityEventCodeSelector.text.serviceUser": "服务用户",
+  "activityEventCodeSelector.text.eventS": "{{length}} 个事件",
+  "activityEventCodeSelector.text.allEventTypes": "所有事件类型",
+  "activityEventCodeSelector.placeholder.searchEvent": "搜索事件...",
+  "activityTable.text.code": "代码",
+  "activityTable.label.initiator": "发起人",
+  "activityTable.text.auditEvents": "审计事件",
+  "activityTable.searchPlaceholder.searchByAuditNameUser": "按审计名称、用户、设备、元数据搜索...",
+  "activityTable.title.getStartedWithNetBird": "开始使用 NetBird",
+  "activityTable.text.itLooksLikeYouDon": "您还没有已连接的设备。添加一台设备到您的网络即可开始使用。",
+  "activityTable.text.learnMoreInOur": "详情请参阅",
+  "activityTable.text.gettingStartedGuide": "入门指南",
+  "usersDropdownSelector.text.allUsers": "所有用户",
+  "usersDropdownSelector.placeholder.searchUser": "搜索用户...",
+  "usersDropdownSelector.text.noUsersAvailableToSelect": "没有可选择的用户。",
+  "usersDropdownSelector.text.thereAreNoUsersMatching": "没有与搜索匹配的用户。",
+  "usersDropdownSelector.text.netBird": "NetBird"
+}

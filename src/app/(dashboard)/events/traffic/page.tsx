@@ -15,12 +15,12 @@ import TrafficEventsTable from "@/cloud/traffic-events/TrafficEventsTable";
 import PeersProvider from "@/contexts/PeersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import ServerPaginationProvider from "@/contexts/ServerPaginationProvider";
+import { t } from "@/i18n";
 import PageContainer from "@/layouts/PageContainer";
 import { useAccount } from "@/modules/account/useAccount";
 import { LockedFeatureInfoCard } from "@/modules/billing/locked-feature/LockedFeatureInfoCard";
 import { LockedFeatureOverlay } from "@/modules/billing/locked-feature/LockedFeatureOverlay";
 import { EventStreamingCard } from "@/modules/integrations/event-streaming/EventStreamingCard";
-
 export default function NetworkTrafficPage() {
   const account = useAccount();
   const { permission } = usePermissions();
@@ -43,30 +43,30 @@ export default function NetworkTrafficPage() {
       <div className="p-default py-6">
         <Breadcrumbs>
           <Breadcrumbs.Item
-            label="Activity"
+            label={t("events.page:page.label.activity")}
             disabled
             icon={<ActivityIcon size={13} />}
           />
           <Breadcrumbs.Item
             href="/events/traffic"
-            label="Traffic Events"
+            label={t("events.page:page.label.trafficEvents")}
             icon={<ArrowLeftRightIcon size={15} />}
           />
         </Breadcrumbs>
 
-        <h1 ref={headingRef}>Traffic Events</h1>
+        <h1 ref={headingRef}>{t("events.page:page.label.trafficEvents")}</h1>
 
         <Paragraph>
-          Traffic events is an experimental feature. Functionality and behavior
-          may evolve, including changes to how data is collected or reported.
+          {t("events.page:page.text.trafficEventsIsAnExperimental")}
         </Paragraph>
 
         <Paragraph>
-          Learn more about{" "}
+          {t("common:word.learnMoreAbout")}{" "}
           <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target="_blank">
-            Traffic Events <ExternalLinkIcon size={12} />
+            {t("events.page:page.label.trafficEvents")}{" "}
+            <ExternalLinkIcon size={12} />
           </InlineLink>{" "}
-          in our documentation.
+          {t("events.page:page.text.inOurDocumentation")}
         </Paragraph>
       </div>
 
@@ -78,7 +78,7 @@ export default function NetworkTrafficPage() {
           <LockedFeatureInfoCard
             className={"mb-6"}
             feature={"TRAFFIC_EVENTS"}
-            featureText={"Traffic Events"}
+            featureText={t("events.page:page.label.trafficEvents")}
           />
         </div>
         <LockedFeatureOverlay feature={"TRAFFIC_EVENTS"}>

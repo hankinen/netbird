@@ -1,0 +1,8 @@
+{
+  "page.label.activity": "Activity",
+  "page.label.auditEvents": "Audit Events",
+  "page.text.auditConfigurationChangesAccessPolicy": "Audit configuration changes, access policy updates, and peer registration and login events across your network.",
+  "page.label.trafficEvents": "Traffic Events",
+  "page.text.trafficEventsIsAnExperimental": "Traffic events is an experimental feature. Functionality and behavior may evolve, including changes to how data is collected or reported.",
+  "page.text.inOurDocumentation": "in our documentation."
+}

@@ -1,0 +1,8 @@
+{
+  "page.label.activity": "活动日志",
+  "page.label.auditEvents": "审计事件",
+  "page.text.auditConfigurationChangesAccessPolicy": "审计整个网络中的配置变更、访问策略更新，以及设备注册和登录事件。",
+  "page.label.trafficEvents": "流量事件",
+  "page.text.trafficEventsIsAnExperimental": "流量事件是实验性功能。其功能和行为可能会变化，包括数据的收集和报告方式。",
+  "page.text.inOurDocumentation": "（详见我们的文档）。"
+}

@@ -9,9 +9,9 @@ import { trim, uniqBy } from "lodash";
 import { SearchIcon } from "lucide-react";
 import * as React from "react";
 import { useMemo, useRef } from "react";
+import { t } from "@/i18n";
 import { ActivityEvent } from "@/interfaces/ActivityEvent";
 import ActivityTypeIcon from "@/modules/activity/ActivityTypeIcon";
-
 // ActivityTypePicker — multi-select grouped list of activity codes used by
 // the Audit Events table. Mirrors the original ActivityEventCodeSelector
 // structure (category headers + search + checkbox per code), but renders
@@ -43,7 +43,7 @@ export function ActivityTypePicker({
       activity_code: event.activity_code,
       activity: event.activity,
       group: event.activity_code.startsWith("service.user")
-        ? "Service User"
+        ? t("activity.table:activityEventCodeSelector.text.serviceUser")
         : event.activity_code.split(".")[0],
     }));
     return items.reduce<Record<string, GroupedItem[]>>((acc, item) => {
@@ -80,7 +80,9 @@ export function ActivityTypePicker({
               "dark:placeholder:text-nb-gray-400 font-light placeholder:text-neutral-500 pl-9",
             )}
             ref={searchRef}
-            placeholder={"Search event..."}
+            placeholder={t(
+              "activity.table:activityEventCodeSelector.placeholder.searchEvent",
+            )}
           />
           <div
             className={

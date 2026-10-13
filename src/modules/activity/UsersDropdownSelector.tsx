@@ -12,8 +12,8 @@ import { ChevronsUpDown, Cog, UserCircle2 } from "lucide-react";
 import * as React from "react";
 import { useMemo, useState } from "react";
 import { useElementSize } from "@/hooks/useElementSize";
+import { t } from "@/i18n";
 import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
-
 interface Props {
   value?: string;
   onChange: (item: string | undefined) => void;
@@ -107,7 +107,7 @@ export function UsersDropdownSelector({
             {!selectedUser ? (
               <React.Fragment>
                 <UserCircle2 size={16} />
-                All Users
+                {t("activity.table:usersDropdownSelector.text.allUsers")}
               </React.Fragment>
             ) : (
               <React.Fragment>
@@ -122,7 +122,7 @@ export function UsersDropdownSelector({
                         : generateColorFromString(
                             selectedUser?.name ||
                               selectedUser?.id ||
-                              "System User",
+                              t("common:word.systemUser"),
                           ),
                   }}
                 >
@@ -136,7 +136,7 @@ export function UsersDropdownSelector({
                   <TextWithTooltip
                     text={
                       selectedUser?.email === "NetBird"
-                        ? "System"
+                        ? t("common:word.system")
                         : selectedUser?.name
                     }
                     maxChars={20}
@@ -165,14 +165,18 @@ export function UsersDropdownSelector({
           <DropdownInput
             value={search}
             onChange={setSearch}
-            placeholder={"Search user..."}
+            placeholder={t(
+              "activity.table:usersDropdownSelector.placeholder.searchUser",
+            )}
             hideEnterIcon={true}
           />
 
           {options.length == 0 && !search && (
             <div className={"max-w-xs mx-auto"}>
               <DropdownInfoText>
-                {"No users available to select."}
+                {t(
+                  "activity.table:usersDropdownSelector.text.noUsersAvailableToSelect",
+                )}
               </DropdownInfoText>
             </div>
           )}
@@ -180,7 +184,9 @@ export function UsersDropdownSelector({
           {filteredItems.length == 0 && search != "" && (
             <div className={"px-10"}>
               <DropdownInfoText>
-                There are no users matching your search.
+                {t(
+                  "activity.table:usersDropdownSelector.text.thereAreNoUsersMatching",
+                )}
               </DropdownInfoText>
             </div>
           )}
@@ -227,7 +233,9 @@ export function UsersDropdownSelector({
                       >
                         <TextWithTooltip
                           text={
-                            isSystemUser ? "System" : user?.name || user?.id
+                            isSystemUser
+                              ? t("common:word.system")
+                              : user?.name || user?.id
                           }
                           maxChars={20}
                         />
@@ -238,7 +246,12 @@ export function UsersDropdownSelector({
                         }
                       >
                         <TextWithTooltip
-                          text={user?.email || "NetBird"}
+                          text={
+                            user?.email ||
+                            t(
+                              "activity.table:usersDropdownSelector.text.netBird",
+                            )
+                          }
                           maxChars={20}
                         />
                       </span>
@@ -246,7 +259,9 @@ export function UsersDropdownSelector({
                     {user.external && (
                       <span className={"flex items-center ml-auto relative"}>
                         <SmallBadge
-                          text={"External"}
+                          text={t(
+                            "activity.table:activityEntryRow.text.external",
+                          )}
                           variant={"sky"}
                           className={
                             "text-[8.5px] py-[0.15rem] px-[.32rem] leading-none rounded-full -top-0"

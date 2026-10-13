@@ -10,9 +10,9 @@ import { ChevronsUpDown, Layers, SearchIcon } from "lucide-react";
 import * as React from "react";
 import { useMemo, useState } from "react";
 import { useElementSize } from "@/hooks/useElementSize";
+import { t } from "@/i18n";
 import { ActivityEvent } from "@/interfaces/ActivityEvent";
 import ActivityTypeIcon from "@/modules/activity/ActivityTypeIcon";
-
 interface MultiSelectProps {
   values: string[];
   onChange: (items: string[]) => void;
@@ -50,7 +50,7 @@ export function ActivityEventCodeSelector({
         activity_code: event.activity_code,
         activity: event.activity,
         group: event.activity_code.startsWith("service.user")
-          ? "Service User"
+          ? t("activity.table:activityEventCodeSelector.text.serviceUser")
           : event.activity_code.split(".")[0],
       };
     });
@@ -81,9 +81,13 @@ export function ActivityEventCodeSelector({
           <Layers size={16} className={"shrink-0"} />
           <div className={"w-full flex justify-between"}>
             {values.length > 0 ? (
-              <div>{values.length} Event(s)</div>
+              <div>
+                {t("activity.table:activityEventCodeSelector.text.eventS", {
+                  length: values.length,
+                })}
+              </div>
             ) : (
-              "All Event Types"
+              t("activity.table:activityEventCodeSelector.text.allEventTypes")
             )}
             <div className={"pl-2"}>
               <ChevronsUpDown size={18} className={"shrink-0"} />
@@ -122,7 +126,9 @@ export function ActivityEventCodeSelector({
                 ref={searchRef}
                 value={search}
                 onValueChange={setSearch}
-                placeholder={"Search event..."}
+                placeholder={t(
+                  "activity.table:activityEventCodeSelector.placeholder.searchEvent",
+                )}
               />
               <div
                 className={

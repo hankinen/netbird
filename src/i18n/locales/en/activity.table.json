@@ -1,0 +1,21 @@
+{
+  "activityEntryRow.text.external": "External",
+  "activityEntryRow.text.mMMDYYYYAtH": "MMM D, YYYY [at] h:mm:s A",
+  "activityEventCodeSelector.text.serviceUser": "Service User",
+  "activityEventCodeSelector.text.eventS": "{{length}} Event(s)",
+  "activityEventCodeSelector.text.allEventTypes": "All Event Types",
+  "activityEventCodeSelector.placeholder.searchEvent": "Search event...",
+  "activityTable.text.code": "Code",
+  "activityTable.label.initiator": "Initiator",
+  "activityTable.text.auditEvents": "Audit Events",
+  "activityTable.searchPlaceholder.searchByAuditNameUser": "Search by audit name, user, peer, meta...",
+  "activityTable.title.getStartedWithNetBird": "Get Started with NetBird",
+  "activityTable.text.itLooksLikeYouDon": "It looks like you don't have any connected machines. Get started by adding one to your network.",
+  "activityTable.text.learnMoreInOur": "Learn more in our",
+  "activityTable.text.gettingStartedGuide": "Getting Started Guide",
+  "usersDropdownSelector.text.allUsers": "All Users",
+  "usersDropdownSelector.placeholder.searchUser": "Search user...",
+  "usersDropdownSelector.text.noUsersAvailableToSelect": "No users available to select.",
+  "usersDropdownSelector.text.thereAreNoUsersMatching": "There are no users matching your search.",
+  "usersDropdownSelector.text.netBird": "NetBird"
+}

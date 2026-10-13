@@ -10,11 +10,11 @@ import { ExternalLinkIcon, LogsIcon } from "lucide-react";
 import React from "react";
 import ActivityIcon from "@/assets/icons/ActivityIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { ActivityEvent } from "@/interfaces/ActivityEvent";
 import PageContainer from "@/layouts/PageContainer";
 import ActivityTable from "@/modules/activity/ActivityTable";
 import { EventStreamingCard } from "@/modules/integrations/event-streaming/EventStreamingCard";
-
 export default function Activity() {
   const { permission } = usePermissions();
 
@@ -29,25 +29,24 @@ export default function Activity() {
       <div className={"p-default py-6"}>
         <Breadcrumbs>
           <Breadcrumbs.Item
-            label={"Activity"}
+            label={t("events.page:page.label.activity")}
             disabled={true}
             icon={<ActivityIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/events/audit"}
-            label={"Audit Events"}
+            label={t("events.page:page.label.auditEvents")}
             icon={<LogsIcon size={18} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Audit Events</h1>
+        <h1 ref={headingRef}>{t("events.page:page.label.auditEvents")}</h1>
         <Paragraph>
-          Audit configuration changes, access policy updates, and peer
-          registration and login events across your network.{" "}
+          {t("events.page:page.text.auditConfigurationChangesAccessPolicy")}{" "}
           <InlineLink
             href={"https://docs.netbird.io/how-to/audit-events-logging"}
             target={"_blank"}
           >
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
