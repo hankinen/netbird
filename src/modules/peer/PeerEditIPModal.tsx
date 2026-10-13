@@ -33,20 +33,38 @@ const config: Record<
   }
 > = {
   v4: {
-    title: "Edit Peer IP Address",
-    description: "Update the NetBird IP address for this peer.",
+    get title() {
+      return t("peer.main:peerEditIPModal.title.editPeerIPAddress");
+    },
+    get description() {
+      return t(
+        "peer.main:peerEditIPModal.description.updateTheNetBirdIPAddress",
+      );
+    },
     placeholder: "e.g., 100.64.0.15",
-    errorMessage: "Please enter a valid IP, e.g., 100.64.0.15",
+    get errorMessage() {
+      return t("peer.main:peerEditIPModal.errorMessage.pleaseEnterAValidIP");
+    },
     validate: (ip: string) =>
       /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
         ip,
       ),
   },
   v6: {
-    title: "Edit Peer IPv6 Address",
-    description: "Update the NetBird IPv6 address for this peer.",
-    placeholder: "e.g., fd00:1234::1",
-    errorMessage: "Please enter a valid IPv6 address, e.g., fd00:1234::1",
+    get title() {
+      return t("peer.main:peerEditIPModal.title.editPeerIPv6Address");
+    },
+    get description() {
+      return t(
+        "peer.main:peerEditIPModal.description.updateTheNetBirdIPv6Address",
+      );
+    },
+    get placeholder() {
+      return t("peer.main:peerEditIPModal.placeholder.eGFd0012341");
+    },
+    get errorMessage() {
+      return t("peer.main:peerEditIPModal.errorMessage.pleaseEnterAValidIPv6");
+    },
     validate: (ip: string) => isValidIP(ip) && ip.includes(":"),
   },
 };

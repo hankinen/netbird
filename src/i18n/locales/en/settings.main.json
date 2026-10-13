@@ -5,5 +5,7 @@
   "networkSettingsTab.text.networkRangeCannotBeEmpty": "Network range cannot be empty",
   "networkSettingsTab.text.pleaseEnterAValidIPv4": "Please enter a valid IPv4 CIDR range, e.g. 100.64.0.0/16 or 192.168.1.0/24",
   "networkSettingsTab.text.pleaseEnterAValidIPv6": "Please enter a valid IPv6 CIDR range, e.g. fd00:1234::/64",
-  "networkSettingsTab.text.prefixLengthMustBeBetween": "Prefix length must be between /48 and /112"
+  "networkSettingsTab.text.prefixLengthMustBeBetween": "Prefix length must be between /48 and /112",
+  "clientSettingsTab.label.latestVersion": "Latest Version",
+  "clientSettingsTab.label.customVersion": "Custom Version"
 }

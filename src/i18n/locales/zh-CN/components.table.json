@@ -21,5 +21,7 @@
   "usersPicker.placeholder.searchUser": "搜索用户...",
   "usersPicker.text.thereAreNoUsersMatching": "没有与搜索匹配的用户。",
   "usersPicker.text.netBird": "NetBird",
-  "tableFilters.text.removeFilter": "移除 {{label}} 筛选条件"
+  "tableFilters.text.removeFilter": "移除 {{label}} 筛选条件",
+  "statusPicker.label.online": "Online",
+  "statusPicker.label.offline": "Offline"
 }

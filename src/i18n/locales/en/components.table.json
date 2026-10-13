@@ -21,5 +21,7 @@
   "usersPicker.placeholder.searchUser": "Search user...",
   "usersPicker.text.thereAreNoUsersMatching": "There are no users matching your search.",
   "usersPicker.text.netBird": "NetBird",
-  "tableFilters.text.removeFilter": "Remove {{label}} filter"
+  "tableFilters.text.removeFilter": "Remove {{label}} filter",
+  "statusPicker.label.online": "Online",
+  "statusPicker.label.offline": "Offline"
 }

@@ -32,5 +32,11 @@
   "ironrdpWasmBridge.text.rDPSessionError": "RDP 会话错误：{{reason}}",
   "ironrdpWasmBridge.text.rDPConnectionFailed": "RDP 连接失败",
   "rdpCertificateHandler.text.unableToParse": "无法解析",
-  "websocketProxy.text.connectionFailed": "连接失败"
+  "websocketProxy.text.connectionFailed": "连接失败",
+  "ironrdpWasmBridge.wrongPassword.incorrectUsernameOrPassword": "用户名或密码错误。",
+  "ironrdpWasmBridge.logonFailure.loginFailedCheckYourUsername": "登录失败，请检查用户名和密码。",
+  "ironrdpWasmBridge.accessDenied.theRemoteHostDeniedAccess": "远程主机拒绝访问。",
+  "ironrdpWasmBridge.rDCleanPath.couldNotEstablishTheRDP": "无法与主机建立 RDP 连接。",
+  "ironrdpWasmBridge.proxyConnect.couldNotReachTheRemote": "无法连接到远程主机。",
+  "ironrdpWasmBridge.negotiationFailure.rDPNegotiationFailedTheHost": "RDP 协商失败，主机可能不支持所需的安全协议。"
 }

@@ -74,5 +74,15 @@
   "windowsTab.label.64Bit": "64 位",
   "windowsTab.label.64BitMSI": "64 位（MSI）",
   "windowsTab.text.openCommandLineAndRun": "打开命令行并运行 NetBird",
-  "windowsTab.text.clickOnConnectFromThe": "在系统托盘的 NetBird 图标中点击“Connect”"
+  "windowsTab.text.clickOnConnectFromThe": "在系统托盘的 NetBird 图标中点击“Connect”",
+  "linuxTab.label.debianUbuntuAPT": "Debian / Ubuntu (APT)",
+  "linuxTab.note.theDesktopAppNeedsUbuntu": "桌面应用需要 Ubuntu 24.04 或 Debian 13 及更高版本。较早版本请仅安装 CLI。",
+  "linuxTab.label.fedoraDNF": "Fedora (DNF)",
+  "linuxTab.note.theDesktopAppNeedsFedora": "桌面应用需要 Fedora 43 及更高版本。较早版本请仅安装 CLI。",
+  "linuxTab.label.rHELAlmaLinuxRockyDNF": "RHEL / AlmaLinux / Rocky (DNF)",
+  "linuxTab.note.theDesktopAppNeedsVersion": "桌面应用需要 10 或更高版本并启用 EPEL（提供 WebKitGTK 6.0）。版本 9 请仅安装 CLI。",
+  "linuxTab.label.openSUSEZypper": "openSUSE (Zypper)",
+  "linuxTab.note.theDesktopAppNeedsTumbleweed": "桌面应用需要 Tumbleweed 或 Leap 15.6 及更高版本。较早版本请仅安装 CLI。",
+  "linuxTab.label.amazonLinuxYUM": "Amazon Linux (YUM)",
+  "linuxTab.note.amazonLinuxDoesNotShip": "Amazon Linux 未提供 GTK 4 或 WebKitGTK 6.0，因此仅可使用 CLI。"
 }

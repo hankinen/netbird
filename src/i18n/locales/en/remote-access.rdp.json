@@ -32,5 +32,11 @@
   "ironrdpWasmBridge.text.rDPSessionError": "RDP session error: {{reason}}",
   "ironrdpWasmBridge.text.rDPConnectionFailed": "RDP connection failed",
   "rdpCertificateHandler.text.unableToParse": "Unable to parse",
-  "websocketProxy.text.connectionFailed": "Connection failed"
+  "websocketProxy.text.connectionFailed": "Connection failed",
+  "ironrdpWasmBridge.wrongPassword.incorrectUsernameOrPassword": "Incorrect username or password.",
+  "ironrdpWasmBridge.logonFailure.loginFailedCheckYourUsername": "Login failed. Check your username and password.",
+  "ironrdpWasmBridge.accessDenied.theRemoteHostDeniedAccess": "The remote host denied access.",
+  "ironrdpWasmBridge.rDCleanPath.couldNotEstablishTheRDP": "Could not establish the RDP connection to the host.",
+  "ironrdpWasmBridge.proxyConnect.couldNotReachTheRemote": "Could not reach the remote host.",
+  "ironrdpWasmBridge.negotiationFailure.rDPNegotiationFailedTheHost": "RDP negotiation failed. The host may not support the required security protocol."
 }

@@ -63,5 +63,7 @@
   "netBirdVersionTooltip.text.minClientVersion": "最低客户端版本",
   "peerNetworkRangeTooltip.text.theFollowingPeerNetworkRanges": "以下设备网络范围",
   "processTooltip.text.peersWhichAreRunningThe": "正在运行以下进程的设备",
-  "processTooltip.text.unknownPath": "未知路径"
+  "processTooltip.text.unknownPath": "未知路径",
+  "postureCheckOperatingSystem.label.allVersions": "All versions",
+  "postureCheckOperatingSystem.label.equalOrGreaterThan": "大于或等于"
 }

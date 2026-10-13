@@ -20,5 +20,6 @@
   "createAccessTokenModal.placeholder.eGInfraToken": "e.g., Infra token",
   "createAccessTokenModal.text.expiresIn": "Expires in",
   "createAccessTokenModal.text.shouldBeBetween1And": "Should be between 1 and 365 days.",
-  "createAccessTokenModal.text.createToken": "Create Token"
+  "createAccessTokenModal.text.createToken": "Create Token",
+  "tokenCopied": "Access token was copied to your clipboard!"
 }

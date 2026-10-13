@@ -4,6 +4,7 @@ import { cn } from "@utils/helpers";
 import { CheckIcon } from "lucide-react";
 import * as React from "react";
 
+import { t } from "@/i18n";
 // StatusPicker — three-way radio that maps to the `connected` column.
 //   undefined → All
 //   true      → Online
@@ -15,9 +16,27 @@ type Option = {
 };
 
 const OPTIONS: Option[] = [
-  { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-  { value: true, label: "Online", dotClass: "bg-green-500" },
-  { value: false, label: "Offline", dotClass: "bg-nb-gray-700" },
+  {
+    value: undefined,
+    get label() {
+      return t("common:word.all");
+    },
+    dotClass: "bg-nb-gray-500",
+  },
+  {
+    value: true,
+    get label() {
+      return t("components.table:statusPicker.label.online");
+    },
+    dotClass: "bg-green-500",
+  },
+  {
+    value: false,
+    get label() {
+      return t("components.table:statusPicker.label.offline");
+    },
+    dotClass: "bg-nb-gray-700",
+  },
 ];
 
 type Props = {
@@ -52,10 +71,7 @@ export function StatusPicker({ value, onChange, close }: Props) {
               )}
             />
             <span
-              className={cn(
-                "h-2 w-2 rounded-full shrink-0",
-                option.dotClass,
-              )}
+              className={cn("h-2 w-2 rounded-full shrink-0", option.dotClass)}
             />
             {option.label}
           </button>
@@ -67,7 +83,7 @@ export function StatusPicker({ value, onChange, close }: Props) {
 
 // formatChip helper exported for use in the filter def's formatChip().
 export function formatStatusChip(value: boolean | undefined): string | null {
-  if (value === true) return "Online";
-  if (value === false) return "Offline";
+  if (value === true) return t("components.table:statusPicker.label.online");
+  if (value === false) return t("components.table:statusPicker.label.offline");
   return null;
 }

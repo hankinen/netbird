@@ -43,15 +43,21 @@ type Props = {
 
 const latestOrCustomVersion = [
   {
-    label: "Disabled",
+    get label() {
+      return t("common:word.disabled");
+    },
     value: "disabled",
   },
   {
-    label: "Latest Version",
+    get label() {
+      return t("settings.main:clientSettingsTab.label.latestVersion");
+    },
     value: "latest",
   },
   {
-    label: "Custom Version",
+    get label() {
+      return t("settings.main:clientSettingsTab.label.customVersion");
+    },
     value: "custom",
   },
 ] as SelectOption[];

@@ -5,5 +5,7 @@
   "networkSettingsTab.text.networkRangeCannotBeEmpty": "网络范围不能为空",
   "networkSettingsTab.text.pleaseEnterAValidIPv4": "请输入有效的 IPv4 CIDR 范围，例如 100.64.0.0/16 或 192.168.1.0/24",
   "networkSettingsTab.text.pleaseEnterAValidIPv6": "请输入有效的 IPv6 CIDR 范围，例如 fd00:1234::/64",
-  "networkSettingsTab.text.prefixLengthMustBeBetween": "前缀长度必须在 /48 到 /112 之间"
+  "networkSettingsTab.text.prefixLengthMustBeBetween": "前缀长度必须在 /48 到 /112 之间",
+  "clientSettingsTab.label.latestVersion": "Latest Version",
+  "clientSettingsTab.label.customVersion": "Custom Version"
 }

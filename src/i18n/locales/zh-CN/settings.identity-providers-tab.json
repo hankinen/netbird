@@ -43,5 +43,7 @@
   "permissionsTab.label.permissions": "权限",
   "permissionsTab.text.restrictDashboardForRegularUsers": "限制普通用户使用控制台",
   "permissionsTab.helpText.accessToTheDashboardWill": "将限制对控制台的访问，普通用户将无法查看任何设备。",
-  "setupKeysTab.text.setupKeysArePreAuthentication": "安装密钥是预认证密钥，可用于在网络中注册新机器。"
+  "setupKeysTab.text.setupKeysArePreAuthentication": "安装密钥是预认证密钥，可用于在网络中注册新机器。",
+  "logoutUrlCopied": "登出 URL 已复制到剪贴板！",
+  "redirectUrlCopied": "重定向 URL 已复制到剪贴板！"
 }

@@ -76,42 +76,62 @@ export const UserRoles: {
     value: Role.Owner,
     icon: NetBirdIcon,
     category: "general",
-    description: "Full access, including transferring ownership.",
+    get description() {
+      return t(
+        "users.main:userRoleSelector.description.fullAccessIncludingTransferringOwnership",
+      );
+    },
   },
   {
     name: "Admin",
     value: Role.Admin,
     icon: Cog,
     category: "general",
-    description: "Manages users, peers, networks and account settings.",
+    get description() {
+      return t(
+        "users.main:userRoleSelector.description.managesUsersPeersNetworksAnd",
+      );
+    },
   },
   {
     name: "Network Admin",
     value: Role.NetworkAdmin,
     icon: NetworkIcon,
     category: "general",
-    description: "Manages peers, networks and access control.",
+    get description() {
+      return t(
+        "users.main:userRoleSelector.description.managesPeersNetworksAndAccess",
+      );
+    },
   },
   {
     name: "Billing Admin",
     value: Role.BillingAdmin,
     icon: CreditCard,
     category: "general",
-    description: "Manages the subscription and billing details.",
+    get description() {
+      return t(
+        "users.main:userRoleSelector.description.managesTheSubscriptionAndBilling",
+      );
+    },
   },
   {
     name: "Auditor",
     value: Role.Auditor,
     icon: EyeIcon,
     category: "general",
-    description: "Read-only access to the configuration and audit events.",
+    get description() {
+      return t("users.main:userRoleSelector.description.readOnlyAccessToThe");
+    },
   },
   {
     name: "User",
     value: Role.User,
     icon: User2,
     category: "general",
-    description: "Access to their own peers only.",
+    get description() {
+      return t("users.main:userRoleSelector.description.accessToTheirOwnPeers");
+    },
   },
   {
     name: "Agent Network Admin",
@@ -119,14 +139,20 @@ export const UserRoles: {
     value: Role.AgentNetworkAdmin,
     icon: AgentNetworkIcon,
     category: "agent-network",
-    description: "Manages AI providers, agent policies and guardrails.",
+    get description() {
+      return t(
+        "users.main:userRoleSelector.description.managesAIProvidersAgentPolicies",
+      );
+    },
   },
   {
     name: "Usage Viewer",
     value: Role.UsageViewer,
     icon: GaugeIcon,
     category: "agent-network",
-    description: "Read-only access to usage and logs.",
+    get description() {
+      return t("users.main:userRoleSelector.description.readOnlyAccessToUsage");
+    },
   },
 ];
 
@@ -169,7 +195,7 @@ const RoleList = ({
                 </div>
                 <div className={"flex flex-col text-sm font-medium"}>
                   <span className={"text-nb-gray-200 whitespace-nowrap"}>
-                    {useShortNames ? (item.shortName ?? item.name) : item.name}
+                    {useShortNames ? item.shortName ?? item.name : item.name}
                   </span>
                   <span className={"text-xs font-normal text-nb-gray-400"}>
                     {item.description}
@@ -210,7 +236,9 @@ export function UserRoleSelector({
         description: (
           <div className={"inline-block"}>
             {t("users.table:userRoleSelector.text.thisActionWillTransferThe")}{" "}
-            <span className={"text-netbird inline font-medium"}>{t("users.table:userRoleSelector.text.owner")}</span>{" "}
+            <span className={"text-netbird inline font-medium"}>
+              {t("users.table:userRoleSelector.text.owner")}
+            </span>{" "}
             {t("users.table:userRoleSelector.text.roleTo")}{" "}
             {currentUser ? (
               <span className={"text-netbird inline font-medium"}>
@@ -220,7 +248,9 @@ export function UserRoleSelector({
               t("users.table:userRoleSelector.text.thisUser")
             )}{" "}
             {t("users.table:userRoleSelector.text.andLeaveYouWithThe")}{" "}
-            <span className={"text-netbird inline font-medium"}>{t("users.table:userRoleSelector.text.admin")}</span>{" "}
+            <span className={"text-netbird inline font-medium"}>
+              {t("users.table:userRoleSelector.text.admin")}
+            </span>{" "}
             {t("users.table:userRoleSelector.text.roleThisActionCanOnly")}
           </div>
         ),
@@ -284,7 +314,7 @@ export function UserRoleSelector({
   // when the role was cleared or a group got filtered out.
   const activeTab = categories.some((category) => category.value === tab)
     ? tab
-    : (categories[0]?.value ?? UserRoleCategories[0].value);
+    : categories[0]?.value ?? UserRoleCategories[0].value;
 
   return (
     <Popover

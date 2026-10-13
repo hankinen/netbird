@@ -20,17 +20,23 @@ const parseApproverEmail = (message?: string): string =>
 
 const steps = [
   {
-    label: "Account Created",
+    get label() {
+      return t("users.main:pendingApproval.label.accountCreated");
+    },
     status: "complete",
     icon: <CheckIcon size={16} />,
   },
   {
-    label: "Waiting for Approval",
+    get label() {
+      return t("users.main:pendingApproval.label.waitingForApproval");
+    },
     status: "current",
     icon: <Loader2Icon size={16} className={"animate-spin text-netbird"} />,
   },
   {
-    label: "Join Account",
+    get label() {
+      return t("users.main:pendingApproval.label.joinAccount");
+    },
     status: "upcoming",
     icon: <UserCircleIcon size={16} />,
   },

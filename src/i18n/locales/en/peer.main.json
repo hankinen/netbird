@@ -74,5 +74,12 @@
   "peerExpirationToggle.text.youDonTHaveThe": "You don't have the required permissions to update this setting.",
   "peerRouteActionCell.text.deleteRoute": "Delete Route {{network_id}}",
   "peerRouteActiveCell.text.theNetworkRouteWasSuccessfully": "The network route was successfully enabled",
-  "peerRouteActiveCell.text.theNetworkRouteWasSuccessfully2": "The network route was successfully disabled"
+  "peerRouteActiveCell.text.theNetworkRouteWasSuccessfully2": "The network route was successfully disabled",
+  "peerEditIPModal.title.editPeerIPAddress": "Edit Peer IP Address",
+  "peerEditIPModal.description.updateTheNetBirdIPAddress": "Update the NetBird IP address for this peer.",
+  "peerEditIPModal.errorMessage.pleaseEnterAValidIP": "Please enter a valid IP, e.g., 100.64.0.15",
+  "peerEditIPModal.title.editPeerIPv6Address": "Edit Peer IPv6 Address",
+  "peerEditIPModal.description.updateTheNetBirdIPv6Address": "Update the NetBird IPv6 address for this peer.",
+  "peerEditIPModal.placeholder.eGFd0012341": "e.g., fd00:1234::1",
+  "peerEditIPModal.errorMessage.pleaseEnterAValidIPv6": "Please enter a valid IPv6 address, e.g., fd00:1234::1"
 }

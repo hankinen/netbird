@@ -74,5 +74,12 @@
   "peerExpirationToggle.text.youDonTHaveThe": "您没有更新此设置所需的权限。",
   "peerRouteActionCell.text.deleteRoute": "删除路由 {{network_id}}",
   "peerRouteActiveCell.text.theNetworkRouteWasSuccessfully": "网络路由已成功启用",
-  "peerRouteActiveCell.text.theNetworkRouteWasSuccessfully2": "网络路由已成功禁用"
+  "peerRouteActiveCell.text.theNetworkRouteWasSuccessfully2": "网络路由已成功禁用",
+  "peerEditIPModal.title.editPeerIPAddress": "Edit Peer IP Address",
+  "peerEditIPModal.description.updateTheNetBirdIPAddress": "更新此对等节点的 NetBird IP 地址。",
+  "peerEditIPModal.errorMessage.pleaseEnterAValidIP": "请输入有效的 IP，例如 100.64.0.15",
+  "peerEditIPModal.title.editPeerIPv6Address": "Edit Peer IPv6 Address",
+  "peerEditIPModal.description.updateTheNetBirdIPv6Address": "更新此对等节点的 NetBird IPv6 地址。",
+  "peerEditIPModal.placeholder.eGFd0012341": "e.g., fd00:1234::1",
+  "peerEditIPModal.errorMessage.pleaseEnterAValidIPv6": "请输入有效的 IPv6 地址，例如 fd00:1234::1"
 }

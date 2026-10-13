@@ -59,7 +59,9 @@ const YUM_REPOSITORY = [
 // them explicitly. Distributions below that floor get the CLI only.
 const DISTROS: Distro[] = [
   {
-    label: "Debian / Ubuntu (APT)",
+    get label() {
+      return t("setup-netbird-modal.main:linuxTab.label.debianUbuntuAPT");
+    },
     value: "apt",
     repository: [
       "sudo apt-get update",
@@ -72,18 +74,30 @@ const DISTROS: Distro[] = [
     desktopApp: [
       "sudo apt-get install netbird-ui libgtk-4-1 libwebkitgtk-6.0-4 xdg-utils",
     ],
-    note: "The desktop app needs Ubuntu 24.04 or Debian 13 and newer. On earlier releases install the CLI only.",
+    get note() {
+      return t(
+        "setup-netbird-modal.main:linuxTab.note.theDesktopAppNeedsUbuntu",
+      );
+    },
   },
   {
-    label: "Fedora (DNF)",
+    get label() {
+      return t("setup-netbird-modal.main:linuxTab.label.fedoraDNF");
+    },
     value: "fedora",
     repository: YUM_REPOSITORY,
     cli: "sudo dnf install netbird",
     desktopApp: ["sudo dnf install netbird-ui gtk4 webkitgtk6.0 xdg-utils"],
-    note: "The desktop app needs Fedora 43 and newer. On earlier releases install the CLI only.",
+    get note() {
+      return t(
+        "setup-netbird-modal.main:linuxTab.note.theDesktopAppNeedsFedora",
+      );
+    },
   },
   {
-    label: "RHEL / AlmaLinux / Rocky (DNF)",
+    get label() {
+      return t("setup-netbird-modal.main:linuxTab.label.rHELAlmaLinuxRockyDNF");
+    },
     value: "rhel",
     repository: YUM_REPOSITORY,
     cli: "sudo dnf install netbird",
@@ -93,10 +107,16 @@ const DISTROS: Distro[] = [
       "sudo dnf install epel-release -y",
       "sudo dnf install netbird-ui gtk4 webkitgtk6.0 xdg-utils",
     ],
-    note: "The desktop app needs version 10 or newer with EPEL enabled, which provides WebKitGTK 6.0. On version 9 install the CLI only.",
+    get note() {
+      return t(
+        "setup-netbird-modal.main:linuxTab.note.theDesktopAppNeedsVersion",
+      );
+    },
   },
   {
-    label: "openSUSE (Zypper)",
+    get label() {
+      return t("setup-netbird-modal.main:linuxTab.label.openSUSEZypper");
+    },
     value: "opensuse",
     // Zypper does not read gpgkey= from a .repo file, so the repository key is
     // imported by an explicit refresh instead of the YUM_REPOSITORY snippet.
@@ -108,14 +128,22 @@ const DISTROS: Distro[] = [
     desktopApp: [
       "sudo zypper install netbird-ui libgtk-4-1 libwebkitgtk-6_0-4 xdg-utils",
     ],
-    note: "The desktop app needs Tumbleweed or Leap 15.6 and newer. On earlier releases install the CLI only.",
+    get note() {
+      return t(
+        "setup-netbird-modal.main:linuxTab.note.theDesktopAppNeedsTumbleweed",
+      );
+    },
   },
   {
-    label: "Amazon Linux (YUM)",
+    get label() {
+      return t("setup-netbird-modal.main:linuxTab.label.amazonLinuxYUM");
+    },
     value: "amazon",
     repository: YUM_REPOSITORY,
     cli: "sudo yum install netbird",
-    note: "Amazon Linux does not ship GTK 4 or WebKitGTK 6.0, so only the CLI is available.",
+    get note() {
+      return t("setup-netbird-modal.main:linuxTab.note.amazonLinuxDoesNotShip");
+    },
   },
 ];
 

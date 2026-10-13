@@ -98,5 +98,7 @@
   "userResendInviteButton.description.theInvitationIsBeingSent": "正在向 {{email}} 发送邀请",
   "userResendInviteButton.loadingMessage.sendingInvitation": "正在发送邀请...",
   "userResendInviteButton.text.sending": "正在发送...",
-  "userResendInviteButton.text.resend": "重新发送"
+  "userResendInviteButton.text.resend": "重新发送",
+  "passwordCopied": "密码已复制到剪贴板！",
+  "inviteLinkCopied": "邀请链接已复制到剪贴板！"
 }

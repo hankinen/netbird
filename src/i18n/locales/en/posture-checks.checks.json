@@ -63,5 +63,7 @@
   "netBirdVersionTooltip.text.minClientVersion": "Min. Client Version",
   "peerNetworkRangeTooltip.text.theFollowingPeerNetworkRanges": "the following peer network ranges",
   "processTooltip.text.peersWhichAreRunningThe": "peers which are running the following processes",
-  "processTooltip.text.unknownPath": "Unknown path"
+  "processTooltip.text.unknownPath": "Unknown path",
+  "postureCheckOperatingSystem.label.allVersions": "All versions",
+  "postureCheckOperatingSystem.label.equalOrGreaterThan": "Equal or greater than"
 }

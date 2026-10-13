@@ -39,9 +39,6 @@ type Props = {
   groups?: Group[];
 };
 
-const passwordCopyMessage = "Password was copied to your clipboard!";
-const inviteLinkCopyMessage = "Invite link was copied to your clipboard!";
-
 type SuccessData =
   | { type: "password"; user: User }
   | { type: "invite"; invite: UserInvite };
@@ -92,8 +89,8 @@ export default function UserInviteModal({ children, groups }: Readonly<Props>) {
   const handleCopyAndClose = () => {
     const message =
       successData?.type === "password"
-        ? passwordCopyMessage
-        : inviteLinkCopyMessage;
+        ? t("users.modals:passwordCopied")
+        : t("users.modals:inviteLinkCopied");
     copyToClipboard(message).then(() => {
       setSuccessData(null);
       setSuccessModal(false);
@@ -156,7 +153,9 @@ export default function UserInviteModal({ children, groups }: Readonly<Props>) {
           <div className={"px-8 pb-6"}>
             <Code
               message={
-                isPasswordSuccess ? passwordCopyMessage : inviteLinkCopyMessage
+                isPasswordSuccess
+                  ? t("users.modals:passwordCopied")
+                  : t("users.modals:inviteLinkCopied")
               }
               codeToCopy={getCopyValue()}
             >

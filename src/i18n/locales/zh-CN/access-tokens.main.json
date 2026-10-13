@@ -20,5 +20,6 @@
   "createAccessTokenModal.placeholder.eGInfraToken": "例如：基础设施令牌",
   "createAccessTokenModal.text.expiresIn": "有效期",
   "createAccessTokenModal.text.shouldBeBetween1And": "应在 1 到 365 天之间。",
-  "createAccessTokenModal.text.createToken": "创建令牌"
+  "createAccessTokenModal.text.createToken": "创建令牌",
+  "tokenCopied": "访问令牌已复制到剪贴板！"
 }

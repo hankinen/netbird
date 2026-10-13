@@ -96,13 +96,36 @@ const IRON_ERROR_KIND_NAMES = [
 // User-facing message per error kind. "General" is intentionally absent: it
 // carries no structured detail, so its reason is read from the backtrace.
 const IRON_ERROR_KIND_MESSAGES: Record<string, string> = {
-  WrongPassword: "Incorrect username or password.",
-  LogonFailure: "Login failed. Check your username and password.",
-  AccessDenied: "The remote host denied access.",
-  RDCleanPath: "Could not establish the RDP connection to the host.",
-  ProxyConnect: "Could not reach the remote host.",
-  NegotiationFailure:
-    "RDP negotiation failed. The host may not support the required security protocol.",
+  get WrongPassword() {
+    return t(
+      "remote-access.rdp:ironrdpWasmBridge.wrongPassword.incorrectUsernameOrPassword",
+    );
+  },
+  get LogonFailure() {
+    return t(
+      "remote-access.rdp:ironrdpWasmBridge.logonFailure.loginFailedCheckYourUsername",
+    );
+  },
+  get AccessDenied() {
+    return t(
+      "remote-access.rdp:ironrdpWasmBridge.accessDenied.theRemoteHostDeniedAccess",
+    );
+  },
+  get RDCleanPath() {
+    return t(
+      "remote-access.rdp:ironrdpWasmBridge.rDCleanPath.couldNotEstablishTheRDP",
+    );
+  },
+  get ProxyConnect() {
+    return t(
+      "remote-access.rdp:ironrdpWasmBridge.proxyConnect.couldNotReachTheRemote",
+    );
+  },
+  get NegotiationFailure() {
+    return t(
+      "remote-access.rdp:ironrdpWasmBridge.negotiationFailure.rDPNegotiationFailedTheHost",
+    );
+  },
 };
 
 export class IronRDPWASMBridge {
@@ -196,9 +219,7 @@ export class IronRDPWASMBridge {
       // resized in-session (Session.resize) instead of reconnecting. Gated to
       // hosts known to handle it (Windows); xrdp mishandles the reactivation.
       if (enableDisplayControl && this.ironrdp.Extension) {
-        builder.extension(
-          new this.ironrdp.Extension("display_control", true),
-        );
+        builder.extension(new this.ironrdp.Extension("display_control", true));
       }
       if (canvas) {
         const ctx = canvas.getContext("2d");
@@ -313,7 +334,9 @@ export class IronRDPWASMBridge {
       10065: "no route to host",
       10067: "too many processes",
       10091: "network subsystem is unavailable",
-      10092: t("remote-access.rdp:ironrdpWasmBridge.text.winsockVersionNotSupported"),
+      10092: t(
+        "remote-access.rdp:ironrdpWasmBridge.text.winsockVersionNotSupported",
+      ),
       10093: "successful WSAStartup not yet performed",
       10101: "graceful shutdown in progress",
       10109: "class type not found",
@@ -331,12 +354,18 @@ export class IronRDPWASMBridge {
     if (wsaMatch) {
       const wsaCode = parseInt(wsaMatch[1], 10);
       const description = this.formatWSAError(wsaCode);
-      return t("remote-access.rdp:ironrdpWasmBridge.text.connectionFailedWSA", { description, wsaCode });
+      return t("remote-access.rdp:ironrdpWasmBridge.text.connectionFailedWSA", {
+        description,
+        wsaCode,
+      });
     }
 
     const httpMatch = backtraceMsg.match(/HTTP status code = (\d+)/);
     if (httpMatch) {
-      return t("remote-access.rdp:ironrdpWasmBridge.text.connectionFailedHTTP", { value: httpMatch[1] });
+      return t(
+        "remote-access.rdp:ironrdpWasmBridge.text.connectionFailedHTTP",
+        { value: httpMatch[1] },
+      );
     }
 
     return backtraceMsg;
@@ -360,7 +389,10 @@ export class IronRDPWASMBridge {
           }
           const reason = this.extractIronReason(backtrace);
           if (reason) {
-            return t("remote-access.rdp:ironrdpWasmBridge.text.rDPSessionError", { reason });
+            return t(
+              "remote-access.rdp:ironrdpWasmBridge.text.rDPSessionError",
+              { reason },
+            );
           }
         }
       } catch {

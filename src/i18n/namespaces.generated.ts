@@ -67,6 +67,7 @@ import en_setup_keys_main from "./locales/en/setup-keys.main.json";
 import en_setup_netbird_modal_main from "./locales/en/setup-netbird-modal.main.json";
 import en_team_page from "./locales/en/team.page.json";
 import en_titles from "./locales/en/titles.json";
+import en_users_main from "./locales/en/users.main.json";
 import en_users_modals from "./locales/en/users.modals.json";
 import en_users_table from "./locales/en/users.table.json";
 import en_users_table_cells from "./locales/en/users.table-cells.json";
@@ -140,9 +141,10 @@ export const namespaces = [
   "setup-netbird-modal.main",
   "team.page",
   "titles",
+  "users.main",
   "users.modals",
   "users.table",
-  "users.table-cells"
+  "users.table-cells",
 ] as const;
 export type Namespace = (typeof namespaces)[number];
 
@@ -155,7 +157,7 @@ export const enResources = {
   "activity.description": en_activity_description,
   "activity.table": en_activity_table,
   "auth.main": en_auth_main,
-  "common": en_common,
+  common: en_common,
   "common-table-rows.main": en_common_table_rows_main,
   "components.core": en_components_core,
   "components.modal": en_components_modal,
@@ -179,7 +181,7 @@ export const enResources = {
   "invite.page": en_invite_page,
   "jobs.main": en_jobs_main,
   "jobs.table": en_jobs_table,
-  "nav": en_nav,
+  nav: en_nav,
   "network-routes.page": en_network_routes_page,
   "network.page": en_network_page,
   "networks.main": en_networks_main,
@@ -214,24 +216,35 @@ export const enResources = {
   "setup-keys.main": en_setup_keys_main,
   "setup-netbird-modal.main": en_setup_netbird_modal_main,
   "team.page": en_team_page,
-  "titles": en_titles,
+  titles: en_titles,
+  "users.main": en_users_main,
   "users.modals": en_users_modals,
   "users.table": en_users_table,
   "users.table-cells": en_users_table_cells,
 };
 
-export const loaders: Record<string, Record<Namespace, () => Promise<{ default: Record<string, string> }>>> = {
+export const loaders: Record<
+  string,
+  Record<Namespace, () => Promise<{ default: Record<string, string> }>>
+> = {
   "zh-CN": {
-    "access-control.main": () => import("./locales/zh-CN/access-control.main.json"),
-    "access-control.page": () => import("./locales/zh-CN/access-control.page.json"),
-    "access-control.ssh": () => import("./locales/zh-CN/access-control.ssh.json"),
-    "access-control.table": () => import("./locales/zh-CN/access-control.table.json"),
-    "access-tokens.main": () => import("./locales/zh-CN/access-tokens.main.json"),
-    "activity.description": () => import("./locales/zh-CN/activity.description.json"),
+    "access-control.main": () =>
+      import("./locales/zh-CN/access-control.main.json"),
+    "access-control.page": () =>
+      import("./locales/zh-CN/access-control.page.json"),
+    "access-control.ssh": () =>
+      import("./locales/zh-CN/access-control.ssh.json"),
+    "access-control.table": () =>
+      import("./locales/zh-CN/access-control.table.json"),
+    "access-tokens.main": () =>
+      import("./locales/zh-CN/access-tokens.main.json"),
+    "activity.description": () =>
+      import("./locales/zh-CN/activity.description.json"),
     "activity.table": () => import("./locales/zh-CN/activity.table.json"),
     "auth.main": () => import("./locales/zh-CN/auth.main.json"),
-    "common": () => import("./locales/zh-CN/common.json"),
-    "common-table-rows.main": () => import("./locales/zh-CN/common-table-rows.main.json"),
+    common: () => import("./locales/zh-CN/common.json"),
+    "common-table-rows.main": () =>
+      import("./locales/zh-CN/common-table-rows.main.json"),
     "components.core": () => import("./locales/zh-CN/components.core.json"),
     "components.modal": () => import("./locales/zh-CN/components.modal.json"),
     "components.select": () => import("./locales/zh-CN/components.select.json"),
@@ -250,46 +263,61 @@ export const loaders: Record<string, Record<Namespace, () => Promise<{ default: 
     "groups.page": () => import("./locales/zh-CN/groups.page.json"),
     "groups.table": () => import("./locales/zh-CN/groups.table.json"),
     "hooks.main": () => import("./locales/zh-CN/hooks.main.json"),
-    "instance-setup.main": () => import("./locales/zh-CN/instance-setup.main.json"),
+    "instance-setup.main": () =>
+      import("./locales/zh-CN/instance-setup.main.json"),
     "invite.page": () => import("./locales/zh-CN/invite.page.json"),
     "jobs.main": () => import("./locales/zh-CN/jobs.main.json"),
     "jobs.table": () => import("./locales/zh-CN/jobs.table.json"),
-    "nav": () => import("./locales/zh-CN/nav.json"),
-    "network-routes.page": () => import("./locales/zh-CN/network-routes.page.json"),
+    nav: () => import("./locales/zh-CN/nav.json"),
+    "network-routes.page": () =>
+      import("./locales/zh-CN/network-routes.page.json"),
     "network.page": () => import("./locales/zh-CN/network.page.json"),
     "networks.main": () => import("./locales/zh-CN/networks.main.json"),
     "networks.misc": () => import("./locales/zh-CN/networks.misc.json"),
     "networks.page": () => import("./locales/zh-CN/networks.page.json"),
-    "networks.resources": () => import("./locales/zh-CN/networks.resources.json"),
-    "networks.routing-peers": () => import("./locales/zh-CN/networks.routing-peers.json"),
+    "networks.resources": () =>
+      import("./locales/zh-CN/networks.resources.json"),
+    "networks.routing-peers": () =>
+      import("./locales/zh-CN/networks.routing-peers.json"),
     "networks.table": () => import("./locales/zh-CN/networks.table.json"),
     "onboarding.main": () => import("./locales/zh-CN/onboarding.main.json"),
-    "onboarding.networks": () => import("./locales/zh-CN/onboarding.networks.json"),
+    "onboarding.networks": () =>
+      import("./locales/zh-CN/onboarding.networks.json"),
     "onboarding.p2p": () => import("./locales/zh-CN/onboarding.p2p.json"),
     "peer.main": () => import("./locales/zh-CN/peer.main.json"),
     "peer.page": () => import("./locales/zh-CN/peer.page.json"),
     "peers.main": () => import("./locales/zh-CN/peers.main.json"),
     "peers.page": () => import("./locales/zh-CN/peers.page.json"),
-    "posture-checks.checks": () => import("./locales/zh-CN/posture-checks.checks.json"),
-    "posture-checks.main": () => import("./locales/zh-CN/posture-checks.main.json"),
-    "posture-checks.modal": () => import("./locales/zh-CN/posture-checks.modal.json"),
-    "posture-checks.page": () => import("./locales/zh-CN/posture-checks.page.json"),
-    "posture-checks.table": () => import("./locales/zh-CN/posture-checks.table.json"),
+    "posture-checks.checks": () =>
+      import("./locales/zh-CN/posture-checks.checks.json"),
+    "posture-checks.main": () =>
+      import("./locales/zh-CN/posture-checks.main.json"),
+    "posture-checks.modal": () =>
+      import("./locales/zh-CN/posture-checks.modal.json"),
+    "posture-checks.page": () =>
+      import("./locales/zh-CN/posture-checks.page.json"),
+    "posture-checks.table": () =>
+      import("./locales/zh-CN/posture-checks.table.json"),
     "posture-checks.ui": () => import("./locales/zh-CN/posture-checks.ui.json"),
-    "remote-access.main": () => import("./locales/zh-CN/remote-access.main.json"),
+    "remote-access.main": () =>
+      import("./locales/zh-CN/remote-access.main.json"),
     "remote-access.rdp": () => import("./locales/zh-CN/remote-access.rdp.json"),
     "remote-access.ssh": () => import("./locales/zh-CN/remote-access.ssh.json"),
     "route-group.main": () => import("./locales/zh-CN/route-group.main.json"),
     "routes.main": () => import("./locales/zh-CN/routes.main.json"),
     "search.main": () => import("./locales/zh-CN/search.main.json"),
-    "settings.authentication-tab": () => import("./locales/zh-CN/settings.authentication-tab.json"),
-    "settings.identity-providers-tab": () => import("./locales/zh-CN/settings.identity-providers-tab.json"),
+    "settings.authentication-tab": () =>
+      import("./locales/zh-CN/settings.authentication-tab.json"),
+    "settings.identity-providers-tab": () =>
+      import("./locales/zh-CN/settings.identity-providers-tab.json"),
     "settings.main": () => import("./locales/zh-CN/settings.main.json"),
     "settings.page": () => import("./locales/zh-CN/settings.page.json"),
     "setup-keys.main": () => import("./locales/zh-CN/setup-keys.main.json"),
-    "setup-netbird-modal.main": () => import("./locales/zh-CN/setup-netbird-modal.main.json"),
+    "setup-netbird-modal.main": () =>
+      import("./locales/zh-CN/setup-netbird-modal.main.json"),
     "team.page": () => import("./locales/zh-CN/team.page.json"),
-    "titles": () => import("./locales/zh-CN/titles.json"),
+    titles: () => import("./locales/zh-CN/titles.json"),
+    "users.main": () => import("./locales/zh-CN/users.main.json"),
     "users.modals": () => import("./locales/zh-CN/users.modals.json"),
     "users.table": () => import("./locales/zh-CN/users.table.json"),
     "users.table-cells": () => import("./locales/zh-CN/users.table-cells.json"),

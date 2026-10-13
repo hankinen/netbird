@@ -1,0 +1,13 @@
+{
+  "pendingApproval.label.accountCreated": "Account Created",
+  "pendingApproval.label.waitingForApproval": "Waiting for Approval",
+  "pendingApproval.label.joinAccount": "Join Account",
+  "userRoleSelector.description.fullAccessIncludingTransferringOwnership": "Full access, including transferring ownership.",
+  "userRoleSelector.description.managesUsersPeersNetworksAnd": "Manages users, peers, networks and account settings.",
+  "userRoleSelector.description.managesPeersNetworksAndAccess": "Manages peers, networks and access control.",
+  "userRoleSelector.description.managesTheSubscriptionAndBilling": "Manages the subscription and billing details.",
+  "userRoleSelector.description.readOnlyAccessToThe": "Read-only access to the configuration and audit events.",
+  "userRoleSelector.description.accessToTheirOwnPeers": "Access to their own peers only.",
+  "userRoleSelector.description.managesAIProvidersAgentPolicies": "Manages AI providers, agent policies and guardrails.",
+  "userRoleSelector.description.readOnlyAccessToUsage": "Read-only access to usage and logs."
+}

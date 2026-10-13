@@ -36,7 +36,6 @@ type Props = {
   children: React.ReactNode;
   user: User;
 };
-const copyMessage = "Access token was copied to your clipboard!";
 export default function CreateAccessTokenModal({
   children,
   user,
@@ -91,7 +90,7 @@ export default function CreateAccessTokenModal({
           </div>
 
           <div className={"px-8 pb-6"}>
-            <Code message={copyMessage}>
+            <Code message={t("access-tokens.main:tokenCopied")}>
               <Code.Line>
                 {token || "Setup key could not be created..."}
               </Code.Line>
@@ -113,7 +112,7 @@ export default function CreateAccessTokenModal({
               <Button
                 variant={"primary"}
                 className={"w-full"}
-                onClick={() => copy(copyMessage)}
+                onClick={() => copy(t("access-tokens.main:tokenCopied"))}
               >
                 <CopyIcon size={14} />
                 {t(

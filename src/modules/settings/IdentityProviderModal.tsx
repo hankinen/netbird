@@ -72,8 +72,6 @@ type Props = {
   provider?: SSOIdentityProvider | null;
 };
 
-const copyMessage = "Redirect URL was copied to your clipboard!";
-const logoutCopyMessage = "Logout URL was copied to your clipboard!";
 const config = loadConfig();
 const redirectUrl = `${config.apiOrigin}/oauth2/callback`;
 const logoutUrl = `${config.apiOrigin}/oauth2/logout/callback`;
@@ -118,7 +116,15 @@ export default function IdentityProviderModal({
       return true;
 
     return false;
-  }, [name, issuer, clientId, clientSecret, isEditing, clientIdChanged, requiresIssuer]);
+  }, [
+    name,
+    issuer,
+    clientId,
+    clientSecret,
+    isEditing,
+    clientIdChanged,
+    requiresIssuer,
+  ]);
 
   const submit = () => {
     const payload: SSOIdentityProviderRequest = {
@@ -131,23 +137,35 @@ export default function IdentityProviderModal({
 
     if (isEditing) {
       notify({
-        title: t("settings.authentication-tab:identityProviderModal.title.updateIdentityProvider"),
-        description: t("settings.authentication-tab:identityProviderModal.description.identityProviderWasUpdatedSuccessfully"),
+        title: t(
+          "settings.authentication-tab:identityProviderModal.title.updateIdentityProvider",
+        ),
+        description: t(
+          "settings.authentication-tab:identityProviderModal.description.identityProviderWasUpdatedSuccessfully",
+        ),
         promise: updateRequest.put(payload).then(() => {
           mutate("/identity-providers");
           onClose();
         }),
-        loadingMessage: t("settings.authentication-tab:identityProviderModal.loadingMessage.updatingIdentityProvider"),
+        loadingMessage: t(
+          "settings.authentication-tab:identityProviderModal.loadingMessage.updatingIdentityProvider",
+        ),
       });
     } else {
       notify({
-        title: t("settings.authentication-tab:identityProviderModal.title.createIdentityProvider"),
-        description: t("settings.authentication-tab:identityProviderModal.description.identityProviderWasCreatedSuccessfully"),
+        title: t(
+          "settings.authentication-tab:identityProviderModal.title.createIdentityProvider",
+        ),
+        description: t(
+          "settings.authentication-tab:identityProviderModal.description.identityProviderWasCreatedSuccessfully",
+        ),
         promise: createRequest.post(payload).then(() => {
           mutate("/identity-providers");
           onClose();
         }),
-        loadingMessage: t("settings.authentication-tab:identityProviderModal.loadingMessage.creatingIdentityProvider"),
+        loadingMessage: t(
+          "settings.authentication-tab:identityProviderModal.loadingMessage.creatingIdentityProvider",
+        ),
       });
     }
   };
@@ -163,12 +181,22 @@ export default function IdentityProviderModal({
           <ModalHeader
             icon={<FingerprintIcon size={20} />}
             title={
-              isEditing ? t("settings.authentication-tab:identityProviderModal.text.editIdentityProvider") : t("settings.authentication-tab:identityProviderModal.text.addIdentityProvider")
+              isEditing
+                ? t(
+                    "settings.authentication-tab:identityProviderModal.text.editIdentityProvider",
+                  )
+                : t(
+                    "settings.authentication-tab:identityProviderModal.text.addIdentityProvider",
+                  )
             }
             description={
               isEditing
-                ? t("settings.authentication-tab:identityProviderModal.text.updateTheIdentityProviderConfiguration")
-                : t("settings.authentication-tab:identityProviderModal.text.configureANewIdentityProvider")
+                ? t(
+                    "settings.authentication-tab:identityProviderModal.text.updateTheIdentityProviderConfiguration",
+                  )
+                : t(
+                    "settings.authentication-tab:identityProviderModal.text.configureANewIdentityProvider",
+                  )
             }
             color={"netbird"}
           />
@@ -177,8 +205,16 @@ export default function IdentityProviderModal({
 
           <div className={"px-8 py-6 flex flex-col gap-6"}>
             <div>
-              <Label>{t("settings.authentication-tab:identityProviderModal.text.providerType")}</Label>
-              <HelpText>{t("settings.authentication-tab:identityProviderModal.text.selectTheTypeOfIdentity")}</HelpText>
+              <Label>
+                {t(
+                  "settings.authentication-tab:identityProviderModal.text.providerType",
+                )}
+              </Label>
+              <HelpText>
+                {t(
+                  "settings.authentication-tab:identityProviderModal.text.selectTheTypeOfIdentity",
+                )}
+              </HelpText>
               <Select
                 value={type}
                 onValueChange={(v) => {
@@ -191,7 +227,11 @@ export default function IdentityProviderModal({
                 disabled={isEditing}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={t("settings.authentication-tab:identityProviderModal.placeholder.selectProviderType")} />
+                  <SelectValue
+                    placeholder={t(
+                      "settings.authentication-tab:identityProviderModal.placeholder.selectProviderType",
+                    )}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {SSOIdentityProviderOptions.map((idp) => (
@@ -208,9 +248,15 @@ export default function IdentityProviderModal({
 
             <div>
               <Label>{t("common:word.name")}</Label>
-              <HelpText>{t("settings.authentication-tab:identityProviderModal.text.aFriendlyNameToIdentify")}</HelpText>
+              <HelpText>
+                {t(
+                  "settings.authentication-tab:identityProviderModal.text.aFriendlyNameToIdentify",
+                )}
+              </HelpText>
               <Input
-                placeholder={t("settings.authentication-tab:identityProviderModal.placeholder.eGCorporateSSO")}
+                placeholder={t(
+                  "settings.authentication-tab:identityProviderModal.placeholder.eGCorporateSSO",
+                )}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 customPrefix={
@@ -221,10 +267,23 @@ export default function IdentityProviderModal({
 
             {requiresIssuer && (
               <div>
-                <Label>{t("settings.authentication-tab:identityProviderModal.text.issuerURL")}</Label>
-                <HelpText>{t("settings.authentication-tab:identityProviderModal.text.theOIDCIssuerURLFor")}</HelpText>
+                <Label>
+                  {t(
+                    "settings.authentication-tab:identityProviderModal.text.issuerURL",
+                  )}
+                </Label>
+                <HelpText>
+                  {t(
+                    "settings.authentication-tab:identityProviderModal.text.theOIDCIssuerURLFor",
+                  )}
+                </HelpText>
                 <Input
-                  placeholder={issuerHints[type] ?? t("settings.authentication-tab:identityProviderModal.text.httpsLoginExampleCom")}
+                  placeholder={
+                    issuerHints[type] ??
+                    t(
+                      "settings.authentication-tab:identityProviderModal.text.httpsLoginExampleCom",
+                    )
+                  }
                   value={issuer}
                   onChange={(e) => setIssuer(e.target.value)}
                   customPrefix={
@@ -235,10 +294,20 @@ export default function IdentityProviderModal({
             )}
 
             <div>
-              <Label>{t("settings.authentication-tab:identityProviderModal.text.clientID")}</Label>
-              <HelpText>{t("settings.authentication-tab:identityProviderModal.text.theOAuth2ConfidentialClientID")}</HelpText>
+              <Label>
+                {t(
+                  "settings.authentication-tab:identityProviderModal.text.clientID",
+                )}
+              </Label>
+              <HelpText>
+                {t(
+                  "settings.authentication-tab:identityProviderModal.text.theOAuth2ConfidentialClientID",
+                )}
+              </HelpText>
               <Input
-                placeholder={t("settings.authentication-tab:identityProviderModal.placeholder.enterClientID")}
+                placeholder={t(
+                  "settings.authentication-tab:identityProviderModal.placeholder.enterClientID",
+                )}
                 value={clientId}
                 onChange={(e) => setClientId(e.target.value)}
                 customPrefix={<IdCard size={16} className="text-nb-gray-300" />}
@@ -246,17 +315,33 @@ export default function IdentityProviderModal({
             </div>
 
             <div>
-              <Label>{t("settings.authentication-tab:identityProviderModal.text.clientSecret")}</Label>
+              <Label>
+                {t(
+                  "settings.authentication-tab:identityProviderModal.text.clientSecret",
+                )}
+              </Label>
               <HelpText>
                 {isEditing
                   ? clientIdChanged
-                    ? t("settings.authentication-tab:identityProviderModal.text.requiredWhenClientIDIs")
-                    : t("settings.authentication-tab:identityProviderModal.text.leaveEmptyToKeepThe")
-                  : t("settings.authentication-tab:identityProviderModal.text.theOAuth2ClientSecret")}
+                    ? t(
+                        "settings.authentication-tab:identityProviderModal.text.requiredWhenClientIDIs",
+                      )
+                    : t(
+                        "settings.authentication-tab:identityProviderModal.text.leaveEmptyToKeepThe",
+                      )
+                  : t(
+                      "settings.authentication-tab:identityProviderModal.text.theOAuth2ClientSecret",
+                    )}
               </HelpText>
               <Input
                 type="password"
-                placeholder={isEditing ? "••••••••" : t("settings.authentication-tab:identityProviderModal.text.enterClientSecret")}
+                placeholder={
+                  isEditing
+                    ? "••••••••"
+                    : t(
+                        "settings.authentication-tab:identityProviderModal.text.enterClientSecret",
+                      )
+                }
                 value={clientSecret}
                 onChange={(e) => setClientSecret(e.target.value)}
                 customPrefix={
@@ -269,26 +354,50 @@ export default function IdentityProviderModal({
 
             <div className={"flex flex-col gap-3"}>
               <div>
-                <Label>{t("settings.authentication-tab:identityProviderModal.text.endpointURLs")}</Label>
+                <Label>
+                  {t(
+                    "settings.authentication-tab:identityProviderModal.text.endpointURLs",
+                  )}
+                </Label>
                 <HelpText margin={false}>
-                  {t("settings.authentication-tab:identityProviderModal.text.addTheseToYourIdentity")}
+                  {t(
+                    "settings.authentication-tab:identityProviderModal.text.addTheseToYourIdentity",
+                  )}
                 </HelpText>
               </div>
 
               <div>
-                <Label className={"text-xs mb-1"}>{t("settings.authentication-tab:identityProviderModal.text.redirectCallback")}</Label>
-                <Code codeToCopy={redirectUrl} message={copyMessage}>
+                <Label className={"text-xs mb-1"}>
+                  {t(
+                    "settings.authentication-tab:identityProviderModal.text.redirectCallback",
+                  )}
+                </Label>
+                <Code
+                  codeToCopy={redirectUrl}
+                  message={t(
+                    "settings.identity-providers-tab:redirectUrlCopied",
+                  )}
+                >
                   <Code.Line>{redirectUrl}</Code.Line>
                 </Code>
               </div>
 
               <div>
-                <Label className={"text-xs mb-1"}>{t("settings.authentication-tab:identityProviderModal.text.logout")}</Label>
-                <Code codeToCopy={logoutUrl} message={logoutCopyMessage}>
+                <Label className={"text-xs mb-1"}>
+                  {t(
+                    "settings.authentication-tab:identityProviderModal.text.logout",
+                  )}
+                </Label>
+                <Code
+                  codeToCopy={logoutUrl}
+                  message={t("settings.identity-providers-tab:logoutUrlCopied")}
+                >
                   <Code.Line>{logoutUrl}</Code.Line>
                 </Code>
                 <HelpText margin={false} className={"mt-1.5"}>
-                  {t("settings.authentication-tab:identityProviderModal.text.notAllIdentityProvidersSupport")}{" "}
+                  {t(
+                    "settings.authentication-tab:identityProviderModal.text.notAllIdentityProvidersSupport",
+                  )}{" "}
                   <InlineLink
                     href={
                       "https://docs.netbird.io/selfhosted/identity-providers"
@@ -326,7 +435,9 @@ export default function IdentityProviderModal({
                 ) : (
                   <>
                     <PlusCircle size={16} />
-                    {t("settings.authentication-tab:identityProviderModal.text.addProvider")}
+                    {t(
+                      "settings.authentication-tab:identityProviderModal.text.addProvider",
+                    )}
                   </>
                 )}
               </Button>

@@ -43,5 +43,7 @@
   "permissionsTab.label.permissions": "Permissions",
   "permissionsTab.text.restrictDashboardForRegularUsers": "Restrict dashboard for regular users",
   "permissionsTab.helpText.accessToTheDashboardWill": "Access to the dashboard will be limited and regular users will not be able to view any peers.",
-  "setupKeysTab.text.setupKeysArePreAuthentication": "Setup keys are pre-authentication keys that allow to register new machines in your network."
+  "setupKeysTab.text.setupKeysArePreAuthentication": "Setup keys are pre-authentication keys that allow to register new machines in your network.",
+  "logoutUrlCopied": "Logout URL was copied to your clipboard!",
+  "redirectUrlCopied": "Redirect URL was copied to your clipboard!"
 }

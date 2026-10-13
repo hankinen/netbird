@@ -98,5 +98,7 @@
   "userResendInviteButton.description.theInvitationIsBeingSent": "The invitation is being sent to {{email}}",
   "userResendInviteButton.loadingMessage.sendingInvitation": "Sending invitation...",
   "userResendInviteButton.text.sending": "Sending...",
-  "userResendInviteButton.text.resend": "Resend"
+  "userResendInviteButton.text.resend": "Resend",
+  "passwordCopied": "Password was copied to your clipboard!",
+  "inviteLinkCopied": "Invite link was copied to your clipboard!"
 }

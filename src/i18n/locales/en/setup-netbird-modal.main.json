@@ -74,5 +74,15 @@
   "windowsTab.label.64Bit": "64-Bit",
   "windowsTab.label.64BitMSI": "64-Bit (MSI)",
   "windowsTab.text.openCommandLineAndRun": "Open Command-line and run NetBird",
-  "windowsTab.text.clickOnConnectFromThe": "Click on \"Connect\" from the NetBird icon in your system tray"
+  "windowsTab.text.clickOnConnectFromThe": "Click on \"Connect\" from the NetBird icon in your system tray",
+  "linuxTab.label.debianUbuntuAPT": "Debian / Ubuntu (APT)",
+  "linuxTab.note.theDesktopAppNeedsUbuntu": "The desktop app needs Ubuntu 24.04 or Debian 13 and newer. On earlier releases install the CLI only.",
+  "linuxTab.label.fedoraDNF": "Fedora (DNF)",
+  "linuxTab.note.theDesktopAppNeedsFedora": "The desktop app needs Fedora 43 and newer. On earlier releases install the CLI only.",
+  "linuxTab.label.rHELAlmaLinuxRockyDNF": "RHEL / AlmaLinux / Rocky (DNF)",
+  "linuxTab.note.theDesktopAppNeedsVersion": "The desktop app needs version 10 or newer with EPEL enabled, which provides WebKitGTK 6.0. On version 9 install the CLI only.",
+  "linuxTab.label.openSUSEZypper": "openSUSE (Zypper)",
+  "linuxTab.note.theDesktopAppNeedsTumbleweed": "The desktop app needs Tumbleweed or Leap 15.6 and newer. On earlier releases install the CLI only.",
+  "linuxTab.label.amazonLinuxYUM": "Amazon Linux (YUM)",
+  "linuxTab.note.amazonLinuxDoesNotShip": "Amazon Linux does not ship GTK 4 or WebKitGTK 6.0, so only the CLI is available."
 }

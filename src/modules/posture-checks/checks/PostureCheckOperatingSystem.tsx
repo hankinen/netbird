@@ -302,12 +302,20 @@ type OperatingSystemTabProps = {
 
 const allOrMinOptions = [
   {
-    label: "All versions",
+    get label() {
+      return t(
+        "posture-checks.checks:postureCheckOperatingSystem.label.allVersions",
+      );
+    },
     value: "all",
     icon: GalleryHorizontalEnd,
   },
   {
-    label: "Equal or greater than",
+    get label() {
+      return t(
+        "posture-checks.checks:postureCheckOperatingSystem.label.equalOrGreaterThan",
+      );
+    },
     value: "min",
     icon: IconMathEqualGreater,
   },
