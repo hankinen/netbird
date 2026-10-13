@@ -1,7 +1,7 @@
 import { cn } from "@utils/helpers";
 import React from "react";
+import { t } from "@/i18n";
 import { Job } from "@/interfaces/Job";
-
 type Props = {
   job: Job;
 };
@@ -22,9 +22,9 @@ export default function JobStatusCell({ job }: Readonly<Props>) {
           status == "succeeded" && "bg-green-500",
         )}
       ></span>
-      {status == "pending" && "Pending"}
-      {status == "failed" && "Failed"}
-      {status == "succeeded" && "Completed"}
+      {status == "pending" && t("jobs.table:jobStatusCell.text.pending")}
+      {status == "failed" && t("jobs.table:jobStatusCell.text.failed")}
+      {status == "succeeded" && t("jobs.table:jobStatusCell.text.completed")}
     </div>
   );
 }

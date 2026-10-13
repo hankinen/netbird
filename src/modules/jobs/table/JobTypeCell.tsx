@@ -1,8 +1,8 @@
 import { BugIcon } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { Job } from "@/interfaces/Job";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
-
 type Props = {
   job: Job;
 };
@@ -13,7 +13,7 @@ export const JobTypeCell = ({ job }: Props) => {
         className={"flex items-center gap-2 whitespace-nowrap text-nb-gray-200"}
       >
         <BugIcon size={14} />
-        <span>Debug Bundle</span>
+        <span>{t("jobs.table:jobTypeCell.text.debugBundle")}</span>
       </div>
     );
   }

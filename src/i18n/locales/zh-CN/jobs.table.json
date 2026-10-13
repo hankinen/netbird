@@ -1,0 +1,17 @@
+{
+  "jobOutputCell.message.uploadKeyHasBeenCopied": "上传密钥已复制到剪贴板",
+  "jobOutputCell.text.yes": "是",
+  "jobParametersCell.text.parameters": "参数",
+  "jobStatusCell.text.pending": "待处理",
+  "jobStatusCell.text.failed": "失败",
+  "jobStatusCell.text.completed": "已完成",
+  "jobTypeCell.text.debugBundle": "调试包",
+  "peerRemoteJobsTable.text.created": "已创建",
+  "peerRemoteJobsTable.text.createdAt": "创建时间",
+  "peerRemoteJobsTable.text.completedAt": "完成时间",
+  "peerRemoteJobsTable.text.output": "输出",
+  "peerRemoteJobsTable.text.jobs": "任务",
+  "peerRemoteJobsTable.searchPlaceholder.searchByTypeStatusOr": "按类型、状态或参数搜索...",
+  "peerRemoteJobsTable.title.thisPeerHasNoRemote": "此设备没有远程任务",
+  "peerRemoteJobsTable.description.createADebugBundleOr": "创建调试包或触发其他远程任务后，会在此处列出。"
+}

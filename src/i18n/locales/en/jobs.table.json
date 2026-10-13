@@ -1,0 +1,17 @@
+{
+  "jobOutputCell.message.uploadKeyHasBeenCopied": "Upload key has been copied to your clipboard",
+  "jobOutputCell.text.yes": "Yes",
+  "jobParametersCell.text.parameters": "Parameters",
+  "jobStatusCell.text.pending": "Pending",
+  "jobStatusCell.text.failed": "Failed",
+  "jobStatusCell.text.completed": "Completed",
+  "jobTypeCell.text.debugBundle": "Debug Bundle",
+  "peerRemoteJobsTable.text.created": "Created",
+  "peerRemoteJobsTable.text.createdAt": "Created at",
+  "peerRemoteJobsTable.text.completedAt": "Completed at",
+  "peerRemoteJobsTable.text.output": "Output",
+  "peerRemoteJobsTable.text.jobs": "Jobs",
+  "peerRemoteJobsTable.searchPlaceholder.searchByTypeStatusOr": "Search by type, status, or parameters...",
+  "peerRemoteJobsTable.title.thisPeerHasNoRemote": "This peer has no remote jobs",
+  "peerRemoteJobsTable.description.createADebugBundleOr": "Create a debug bundle or trigger other remote jobs to see them listed here."
+}

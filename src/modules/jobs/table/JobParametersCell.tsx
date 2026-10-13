@@ -3,8 +3,8 @@ import FullTooltip from "@components/FullTooltip";
 import { TooltipListItem } from "@components/TooltipListItem";
 import { InfoIcon } from "lucide-react";
 import React from "react";
+import { t } from "@/i18n";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
-
 export const JobParametersCell = ({ parameters }: { parameters: any }) => {
   if (!parameters || Object.keys(parameters).length === 0) {
     return <EmptyRow />;
@@ -49,7 +49,7 @@ export const JobParametersCell = ({ parameters }: { parameters: any }) => {
         className="flex items-center gap-1.5 cursor-default"
       >
         <InfoIcon size={12} />
-        {entries.length} Parameters
+        {entries.length} {t("jobs.table:jobParametersCell.text.parameters")}
       </Badge>
     </FullTooltip>
   );

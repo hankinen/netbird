@@ -3,9 +3,9 @@ import CopyToClipboardText from "@components/CopyToClipboardText";
 import FullTooltip from "@components/FullTooltip";
 import { Input } from "@components/Input";
 import * as React from "react";
+import { t } from "@/i18n";
 import { Job } from "@/interfaces/Job";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
-
 type Props = {
   job: Job;
 };
@@ -22,13 +22,15 @@ export const JobOutputCell = ({ job }: Props) => {
             <br />
             <span className="text-nb-gray-200 truncate">
               <CopyToClipboardText
-                message={"Upload key has been copied to your clipboard"}
+                message={t(
+                  "jobs.table:jobOutputCell.message.uploadKeyHasBeenCopied",
+                )}
                 alwaysShowIcon={true}
               >
                 <span className={"font-mono truncate"}>
                   {typeof value === "boolean"
                     ? value
-                      ? "Yes"
+                      ? t("jobs.table:jobOutputCell.text.yes")
                       : "No"
                     : String(value)}
                 </span>
