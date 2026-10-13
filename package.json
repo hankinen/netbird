@@ -23,7 +23,9 @@
     "test:ci": "cross-env APP_ENV=test next build && npx playwright test --config=e2e/playwright.config.ts",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "test:visual": ".storybook/visual-regression/run.sh"
+    "test:visual": ".storybook/visual-regression/run.sh",
+    "i18n:types": "node scripts/i18n/gen-types.mjs",
+    "i18n:check": "node scripts/i18n/check.mjs"
   },
   "dependencies": {
     "@axa-fr/react-oidc": "^7.26.3",
