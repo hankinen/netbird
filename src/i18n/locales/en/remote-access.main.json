@@ -1,0 +1,5 @@
+{
+  "useNetBirdClient.text.failedToInitializeWASM": "Failed to initialize WASM",
+  "useNetBirdClient.text.netBirdClientIsNotAvailableOr": "NetBirdClient is not available or not a function",
+  "useNetBirdClient.text.connectionFailed": "Connection failed"
+}

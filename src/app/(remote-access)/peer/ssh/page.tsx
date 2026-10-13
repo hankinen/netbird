@@ -17,6 +17,7 @@ import {
   isNetbirdSSHProtocolSupported,
 } from "@utils/version";
 
+import { t } from "@/i18n";
 export default function SSHPage() {
   const { peerId, username, port, ipVersion } = useSSHQueryParams();
 
@@ -31,8 +32,7 @@ export default function SSHPage() {
       <div className={"w-screen h-screen overflow-hidden"}>
         <ErrorMessage
           error={{
-            message:
-              "This peer may have been deleted, or you may not have permission to view it.",
+            message: t("peer.page:page.message.thisPeerMayHaveBeen"),
             code: error.code,
           }}
         />
@@ -51,7 +51,9 @@ export default function SSHPage() {
           ipVersion={ipVersion}
         />
       ) : (
-        <LoadingMessage message={"Starting ssh session..."} />
+        <LoadingMessage
+          message={t("peer.page:page.message.startingSshSession")}
+        />
       )}
     </div>
   );
@@ -178,7 +180,12 @@ function SSHTerminal({ username, port, peer, ipVersion }: Props) {
     <>
       {session && <Terminal session={session} onClose={disconnect} />}
       {!isSSHConnected && (
-        <LoadingMessage message={`Connecting to ${username}@${peer.ip}...`} />
+        <LoadingMessage
+          message={t("peer.page:page.text.connectingTo", {
+            username,
+            ip: peer.ip,
+          })}
+        />
       )}
     </>
   );
@@ -238,14 +245,14 @@ const DisconnectedMessage = ({
     >
       <div className="text-nb-gray-200 font-normal text-base flex gap-2 items-center justify-center">
         <InfoIcon size={16} className={"shrink-0 text-nb-gray-200"} />
-        Disconnected from {username}@{peerIp}
+        {t("peer.page:page.text.disconnectedFrom")} {username}@{peerIp}
         <button
           className={
             "underline-offset-4 items-center transition-all duration-200 inline-flex texts-inherit gap-1 text-netbird hover:underline font-normal"
           }
           onClick={onReconnect}
         >
-          Reconnect
+          {t("peer.page:page.text.reconnect")}
         </button>
       </div>
     </div>

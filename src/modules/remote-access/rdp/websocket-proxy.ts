@@ -3,8 +3,8 @@
  * Provides WebSocket interface that routes through RDCleanPath proxy
  */
 
+import { t } from "@/i18n";
 import type { CertificateHandler, CertificateInfo, RDCleanPathResponse } from './rdp-certificate-handler';
-
 declare global {
   interface Window {
     handleRDCleanPathWebSocket?: (ws: RDCleanPathProxyWebSocket, proxyID: string) => void;
@@ -111,7 +111,7 @@ export class RDCleanPathProxyWebSocket extends BaseWebSocketProxy {
     } catch (error) {
       console.error('RDCleanPath WebSocket connection failed:', error);
       this.emitError(error);
-      this.emitClose(1006, error instanceof Error ? error.message : 'Connection failed');
+      this.emitClose(1006, error instanceof Error ? error.message : t("remote-access.rdp:websocketProxy.text.connectionFailed"));
     }
   }
 

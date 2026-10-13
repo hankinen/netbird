@@ -22,10 +22,10 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { useMemo, useState } from "react";
+import { t } from "@/i18n";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import { Peer } from "@/interfaces/Peer";
 import { SSH_DOCS_LINK } from "@/modules/remote-access/ssh/useSSH";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -43,14 +43,18 @@ export const SSHCredentialsModal = ({ open, onOpenChange, peer }: Props) => {
   const [port, setPort] = useState(initialPort);
 
   const userNameError = useMemo(() => {
-    if (username?.length === 0) return "Username cannot be empty";
+    if (username?.length === 0)
+      return t(
+        "remote-access.ssh:sSHCredentialsModal.text.usernameCannotBeEmpty",
+      );
   }, [username]);
 
   const portError = useMemo(() => {
     const portNumber = Number(port);
     const isValid =
       Number.isInteger(portNumber) && portNumber > 0 && portNumber <= 65535;
-    if (!isValid) return "Port must be a number between 1 and 65535";
+    if (!isValid)
+      return t("remote-access.ssh:sSHCredentialsModal.text.portMustBeANumber");
   }, [port]);
 
   const hasAnyError = useMemo(() => {
@@ -76,20 +80,29 @@ export const SSHCredentialsModal = ({ open, onOpenChange, peer }: Props) => {
         <ModalHeader
           icon={<TerminalIcon className={"text-netbird"} size={18} />}
           title={peer.name}
-          description={`Connect to ${peer.ip} via SSH`}
+          description={t(
+            "remote-access.ssh:sSHCredentialsModal.text.connectToViaSSH",
+            { ip: peer.ip },
+          )}
           color={"netbird"}
         />
         <Separator />
 
         <div className={"px-8 py-6 flex flex-col gap-8"}>
           <div className={""}>
-            <Label>Username & Port</Label>
+            <Label>
+              {t("remote-access.ssh:sSHCredentialsModal.text.usernamePort")}
+            </Label>
             <HelpText>
-              The username and port you will use to connect to the remote host.
+              {t(
+                "remote-access.ssh:sSHCredentialsModal.text.theUsernameAndPortYou",
+              )}
             </HelpText>
             <div className={"flex flex-col gap-2 w-full"}>
               <Input
-                placeholder={"root"}
+                placeholder={t(
+                  "remote-access.ssh:sSHCredentialsModal.placeholder.root",
+                )}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 customSuffix={`@${peer.ip}`}
@@ -127,7 +140,7 @@ export const SSHCredentialsModal = ({ open, onOpenChange, peer }: Props) => {
         <ModalFooter className={"items-center"}>
           <div className={"w-full"}>
             <Paragraph className={"text-sm mt-auto"}>
-              Learn more about
+              {t("common:word.learnMoreAbout")}
               <InlineLink href={SSH_DOCS_LINK} target={"_blank"}>
                 SSH
                 <ExternalLinkIcon size={12} />
@@ -136,7 +149,7 @@ export const SSHCredentialsModal = ({ open, onOpenChange, peer }: Props) => {
           </div>
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
-              <Button variant={"secondary"}>Cancel</Button>
+              <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
             </ModalClose>
 
             <Button
@@ -144,7 +157,7 @@ export const SSHCredentialsModal = ({ open, onOpenChange, peer }: Props) => {
               disabled={hasAnyError}
               onClick={openSSHWindow}
             >
-              Connect
+              {t("remote-access.ssh:sSHCredentialsModal.text.connect")}
             </Button>
           </div>
         </ModalFooter>

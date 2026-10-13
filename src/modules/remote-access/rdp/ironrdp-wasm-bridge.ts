@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 export interface IronRDPModule {
   SessionBuilder: new () => SessionBuilder;
   DesktopSize: new (width: number, height: number) => DesktopSize;
@@ -312,7 +313,7 @@ export class IronRDPWASMBridge {
       10065: "no route to host",
       10067: "too many processes",
       10091: "network subsystem is unavailable",
-      10092: "Winsock version not supported",
+      10092: t("remote-access.rdp:ironrdpWasmBridge.text.winsockVersionNotSupported"),
       10093: "successful WSAStartup not yet performed",
       10101: "graceful shutdown in progress",
       10109: "class type not found",
@@ -330,12 +331,12 @@ export class IronRDPWASMBridge {
     if (wsaMatch) {
       const wsaCode = parseInt(wsaMatch[1], 10);
       const description = this.formatWSAError(wsaCode);
-      return `Connection failed: ${description} (WSA ${wsaCode})`;
+      return t("remote-access.rdp:ironrdpWasmBridge.text.connectionFailedWSA", { description, wsaCode });
     }
 
     const httpMatch = backtraceMsg.match(/HTTP status code = (\d+)/);
     if (httpMatch) {
-      return `Connection failed: HTTP ${httpMatch[1]}`;
+      return t("remote-access.rdp:ironrdpWasmBridge.text.connectionFailedHTTP", { value: httpMatch[1] });
     }
 
     return backtraceMsg;
@@ -359,7 +360,7 @@ export class IronRDPWASMBridge {
           }
           const reason = this.extractIronReason(backtrace);
           if (reason) {
-            return `RDP session error: ${reason}`;
+            return t("remote-access.rdp:ironrdpWasmBridge.text.rDPSessionError", { reason });
           }
         }
       } catch {
@@ -369,7 +370,7 @@ export class IronRDPWASMBridge {
     if (error instanceof Error && error.message) {
       return error.message;
     }
-    return "RDP connection failed";
+    return t("remote-access.rdp:ironrdpWasmBridge.text.rDPConnectionFailed");
   }
 
   // extractIronReason pulls the human-readable reason out of an IronRDP

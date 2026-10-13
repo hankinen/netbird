@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { useOidcAccessToken } from "@axa-fr/react-oidc";
 
+import { t } from "@/i18n";
 interface SSHConfig {
   hostname: string;
   port: number;
@@ -58,7 +59,7 @@ export const useSSH = (client: any) => {
 
         if (requiresJwt && !accessToken) {
           console.error("No access token available");
-          setError("No access token available");
+          setError(t("remote-access.ssh:useSSH.text.noAccessTokenAvailable"));
           setStatus(SSHStatus.DISCONNECTED);
           setConfig(null);
           return SSHStatus.DISCONNECTED;
@@ -86,7 +87,7 @@ export const useSSH = (client: any) => {
         console.error("Connection failed:", err);
         session.current = null;
         setStatus(SSHStatus.DISCONNECTED);
-        setError("SSH connection failed. Check the console for details.");
+        setError(t("remote-access.ssh:useSSH.text.sSHConnectionFailedCheckThe"));
         setConfig(null);
         return SSHStatus.DISCONNECTED;
       }

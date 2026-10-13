@@ -1,0 +1,15 @@
+{
+  "sSHCredentialsModal.text.usernameCannotBeEmpty": "Username cannot be empty",
+  "sSHCredentialsModal.text.portMustBeANumber": "Port must be a number between 1 and 65535",
+  "sSHCredentialsModal.text.connectToViaSSH": "Connect to {{ip}} via SSH",
+  "sSHCredentialsModal.text.usernamePort": "Username & Port",
+  "sSHCredentialsModal.text.theUsernameAndPortYou": "The username and port you will use to connect to the remote host.",
+  "sSHCredentialsModal.placeholder.root": "root",
+  "sSHCredentialsModal.text.connect": "Connect",
+  "sSHTooltip.text.youDoNotHavePermission": "You do not have permission to launch the SSH console. Please contact your administrator.",
+  "sSHTooltip.text.connectingViaSSHIsOnly": "Connecting via SSH is only available when the peer is online.",
+  "sSHTooltip.text.sSHAccessIsCurrentlyDisabled": "SSH Access is currently disabled for this peer. Please enable SSH access for this peer and make sure to add an explicit access control policy allowing SSH access.",
+  "sSHTooltip.text.enableSSHAccess": "Enable SSH Access",
+  "useSSH.text.noAccessTokenAvailable": "No access token available",
+  "useSSH.text.sSHConnectionFailedCheckThe": "SSH connection failed. Check the console for details."
+}

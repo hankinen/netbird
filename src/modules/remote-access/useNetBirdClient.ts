@@ -4,10 +4,10 @@ import { getBrowserInfo } from "@utils/helpers";
 import { generateKeypair } from "@utils/wireguard";
 import { trim } from "lodash";
 import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
+import { t } from "@/i18n";
 import { IronRDPWASMBridge } from "@/modules/remote-access/rdp/ironrdp-wasm-bridge";
 import { RDPCertificateHandler } from "@/modules/remote-access/rdp/rdp-certificate-handler";
 import { installWebSocketProxy } from "@/modules/remote-access/rdp/websocket-proxy";
-
 const config = loadConfig();
 
 const WASM_CONFIG = {
@@ -143,7 +143,7 @@ export const useNetBirdClient = () => {
       netBirdStore.setState({
         wasmStatus: WASMStatus.UNINITIALIZED,
         error:
-          error instanceof Error ? error.message : "Failed to initialize WASM",
+          error instanceof Error ? error.message : t("remote-access.main:useNetBirdClient.text.failedToInitializeWASM"),
       });
       throw error;
     }
@@ -166,7 +166,7 @@ export const useNetBirdClient = () => {
       if (typeof (window as any).NetBirdClient !== "function") {
         netBirdStore.setState({
           status: NetBirdStatus.DISCONNECTED,
-          error: "NetBirdClient is not available or not a function",
+          error: t("remote-access.main:useNetBirdClient.text.netBirdClientIsNotAvailableOr"),
         });
         return false;
       }
@@ -187,7 +187,7 @@ export const useNetBirdClient = () => {
       } catch (error) {
         netBirdStore.setState({
           status: NetBirdStatus.DISCONNECTED,
-          error: error instanceof Error ? error.message : "Connection failed",
+          error: error instanceof Error ? error.message : t("remote-access.main:useNetBirdClient.text.connectionFailed"),
         });
         console.log(error);
         return false;

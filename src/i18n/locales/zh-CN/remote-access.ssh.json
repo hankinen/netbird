@@ -1,0 +1,15 @@
+{
+  "sSHCredentialsModal.text.usernameCannotBeEmpty": "用户名不能为空",
+  "sSHCredentialsModal.text.portMustBeANumber": "端口必须是 1 到 65535 之间的数字",
+  "sSHCredentialsModal.text.connectToViaSSH": "通过 SSH 连接到 {{ip}}",
+  "sSHCredentialsModal.text.usernamePort": "用户名和端口",
+  "sSHCredentialsModal.text.theUsernameAndPortYou": "连接远程主机时使用的用户名和端口。",
+  "sSHCredentialsModal.placeholder.root": "root",
+  "sSHCredentialsModal.text.connect": "连接",
+  "sSHTooltip.text.youDoNotHavePermission": "您没有启动 SSH 控制台的权限，请联系管理员。",
+  "sSHTooltip.text.connectingViaSSHIsOnly": "仅当设备在线时才能通过 SSH 连接。",
+  "sSHTooltip.text.sSHAccessIsCurrentlyDisabled": "此设备当前已禁用 SSH 访问。请为此设备启用 SSH 访问，并确保添加允许 SSH 访问的显式访问控制策略。",
+  "sSHTooltip.text.enableSSHAccess": "启用 SSH 访问",
+  "useSSH.text.noAccessTokenAvailable": "没有可用的访问令牌",
+  "useSSH.text.sSHConnectionFailedCheckThe": "SSH 连接失败，请查看控制台了解详情。"
+}

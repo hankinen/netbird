@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { t } from "@/i18n";
 import { useIronRDPInputHandler } from "./useIronRDPInputHandler";
 import {
   CertificatePromptInfo,
   useRDPCertificateHandler,
 } from "./useRDPCertificateHandler";
-
 interface RDPConfig {
   hostname: string;
   port: number;
@@ -226,7 +226,9 @@ export const useRemoteDesktop = (client: any) => {
           const errorMessage =
             err instanceof Error && err.message
               ? err.message
-              : "RDP connection failed";
+              : t(
+                  "remote-access.rdp:ironrdpWasmBridge.text.rDPConnectionFailed",
+                );
           setError(errorMessage);
           resetState();
           throw Error(errorMessage);
@@ -235,7 +237,9 @@ export const useRemoteDesktop = (client: any) => {
         }
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : "RDP connection failed";
+          err instanceof Error
+            ? err.message
+            : t("remote-access.rdp:ironrdpWasmBridge.text.rDPConnectionFailed");
         setError(errorMessage);
         resetState();
         throw Error(errorMessage);

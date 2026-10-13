@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 /**
  * RDP Certificate Handler
  * Handles X.509 certificate validation and user acceptance for RDP connections
@@ -250,8 +251,8 @@ export class RDPCertificateHandler implements CertificateHandler {
       raw: certBytes,
       fingerprint: fingerprint,
       hostname: hostname,
-      subject: "Unable to parse",
-      issuer: "Unable to parse",
+      subject: t("remote-access.rdp:rdpCertificateHandler.text.unableToParse"),
+      issuer: t("remote-access.rdp:rdpCertificateHandler.text.unableToParse"),
     };
     return this.promptUserAcceptance(hostname, certInfo);
   }

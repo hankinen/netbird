@@ -1,6 +1,6 @@
 import FullTooltip from "@components/FullTooltip";
 import * as React from "react";
-
+import { t } from "@/i18n";
 type Props = {
   disabled?: boolean;
   children?: React.ReactNode;
@@ -20,11 +20,12 @@ export const RDPTooltip = ({
       content={
         <div className={"max-w-xs text-xs flex flex-col gap-2"}>
           {hasPermission ? (
-            <div>This peer is offline and cannot be accessed via RDP.</div>
+            <div>
+              {t("remote-access.rdp:rDPTooltip.text.thisPeerIsOfflineAnd")}
+            </div>
           ) : (
             <div>
-              You do not have permission to launch an RDP session. Please
-              contact your administrator.
+              {t("remote-access.rdp:rDPTooltip.text.youDoNotHavePermission")}
             </div>
           )}
         </div>

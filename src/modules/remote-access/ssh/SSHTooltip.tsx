@@ -4,7 +4,7 @@ import { ArrowUpRightIcon } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
 import { usePeer } from "@/contexts/PeerProvider";
-
+import { t } from "@/i18n";
 type Props = {
   children?: React.ReactNode;
   hasPermission: boolean;
@@ -51,10 +51,7 @@ export const SSHTooltip = ({
 const NoPermissionText = () => {
   return (
     <div className={"max-w-xs text-xs flex flex-col gap-2"}>
-      <div>
-        You do not have permission to launch the SSH console. Please contact
-        your administrator.
-      </div>
+      <div>{t("remote-access.ssh:sSHTooltip.text.youDoNotHavePermission")}</div>
     </div>
   );
 };
@@ -62,7 +59,7 @@ const NoPermissionText = () => {
 const IsOfflineText = () => {
   return (
     <div className={"max-w-[200px] text-xs"}>
-      <div>Connecting via SSH is only available when the peer is online.</div>
+      <div>{t("remote-access.ssh:sSHTooltip.text.connectingViaSSHIsOnly")}</div>
     </div>
   );
 };
@@ -77,9 +74,7 @@ const SSHDisabledText = ({
   return (
     <div className={"max-w-xs text-xs flex flex-col gap-2"}>
       <div>
-        SSH Access is currently disabled for this peer. Please enable SSH access
-        for this peer and make sure to add an explicit access control policy
-        allowing SSH access.
+        {t("remote-access.ssh:sSHTooltip.text.sSHAccessIsCurrentlyDisabled")}
       </div>
       <div>
         <InlineLink
@@ -92,7 +87,8 @@ const SSHDisabledText = ({
           href={"#"}
           target={"_blank"}
         >
-          Enable SSH Access <ArrowUpRightIcon size={12} />
+          {t("remote-access.ssh:sSHTooltip.text.enableSSHAccess")}{" "}
+          <ArrowUpRightIcon size={12} />
         </InlineLink>
       </div>
     </div>

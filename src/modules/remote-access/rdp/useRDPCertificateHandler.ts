@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-
+import { t } from "@/i18n";
 export interface CertificateInfo {
   raw?: Uint8Array;
   fingerprint: string;
@@ -275,8 +275,12 @@ export const useRDPCertificateHandler = () => {
               raw: certBytes,
               fingerprint,
               hostname,
-              subject: "Unable to parse",
-              issuer: "Unable to parse",
+              subject: t(
+                "remote-access.rdp:rdpCertificateHandler.text.unableToParse",
+              ),
+              issuer: t(
+                "remote-access.rdp:rdpCertificateHandler.text.unableToParse",
+              ),
             };
           }
         }

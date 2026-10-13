@@ -23,6 +23,7 @@ import {
 } from "@/modules/remote-access/useNetBirdClient";
 import { cn } from "@utils/helpers";
 
+import { t } from "@/i18n";
 export default function RDPPage() {
   const { peerId } = useRDPQueryParams();
 
@@ -104,7 +105,7 @@ function RDPSession({ peer }: Props) {
         status = NetBirdStatus.DISCONNECTED;
       } catch (error) {
         sendErrorNotification(
-          "NetBird Connection Error",
+          t("peer.page:page.text.netBirdConnectionError"),
           (error as Error).message,
         );
         return;
@@ -121,7 +122,7 @@ function RDPSession({ peer }: Props) {
         setIsNetBirdConnecting(false);
       } catch (error) {
         sendErrorNotification(
-          "NetBird Connection Error",
+          t("peer.page:page.text.netBirdConnectionError"),
           (error as Error).message,
         );
         setIsNetBirdConnecting(false);
@@ -148,7 +149,7 @@ function RDPSession({ peer }: Props) {
       } else {
       }
     } catch (error) {
-      sendErrorNotification("RDP Connection Error", (error as Error).message);
+      sendErrorNotification(t("peer.page:page.text.rDPConnectionError"), (error as Error).message);
       setCredentialsModal(true);
       await reset();
     }
@@ -181,10 +182,10 @@ function RDPSession({ peer }: Props) {
    */
   useEffect(() => {
     if (rdp.error) {
-      sendErrorNotification("RDP Error", rdp.error);
+      sendErrorNotification(t("peer.page:page.text.rDPError"), rdp.error);
     }
     if (client.error) {
-      sendErrorNotification("NetBird Client Error", client.error);
+      sendErrorNotification(t("peer.page:page.text.netBirdClientError"), client.error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rdp.error, client.error]);
