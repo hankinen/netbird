@@ -1,0 +1,3 @@
+# Story-id prefixes skipped by the theme visual guard because they animate
+# between runs (pixel noise unrelated to the theme). Keep this list short.
+pages-core-controlcenter--   # animated dashed edges (cc-edge-dash), React Flow fitView timing

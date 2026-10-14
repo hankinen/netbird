@@ -1,0 +1,96 @@
+name: Theme AntD guard
+
+# Guards the Ant Design theme layer (src/styles/theme-antd, withAntdTheme):
+#   selectors : class-name selectors still match upstream components
+#   dark      : dark theme pixel-identical to the upstream base (parity)
+#   light     : AntD theme vs the PR target (only intended changes)
+#
+# Repository variable THEME_UPSTREAM_BRANCH names the branch the theme sits on
+# (default: i18n-zh-cn, the branch feature/theme-antd was cut from).
+on:
+  pull_request:
+    branches: [feature/theme-antd]
+  push:
+    branches: [feature/theme-antd]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: theme-antd-guard-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  selectors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - run: node scripts/theme/check-selectors.mjs --verbose
+
+  visual:
+    needs: selectors
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        theme: [dark, light]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx playwright install --with-deps --only-shell chromium
+      - name: Resolve baseline
+        env:
+          UPSTREAM: ${{ vars.THEME_UPSTREAM_BRANCH || 'i18n-zh-cn' }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ "${{ matrix.theme }}" = dark ]; then
+            # Dark must equal upstream: compare with the upstream branch tip
+            # this branch is based on.
+            BASE=$(git merge-base "origin/$UPSTREAM" HEAD)
+          else
+            # Light (AntD) compares with the previous approved theme state.
+            BASE="${PR_BASE:-$BEFORE}"
+            if [ -z "$BASE" ] || [ "$BASE" = 0000000000000000000000000000000000000000 ]; then BASE=HEAD~1; fi
+          fi
+          echo "BASE=$BASE" >> "$GITHUB_ENV"
+          echo "Baseline: $(git log --oneline -1 "$BASE")"
+      - name: Visual guard (${{ matrix.theme }})
+        env:
+          OUT: ${{ github.workspace }}/.theme-guard/${{ matrix.theme }}
+          THEME_GUARD_CACHE: ${{ runner.temp }}/theme-guard
+        # dark: zero changed stories is a hard requirement.
+        # light: changes are expected when the theme is being edited; the job
+        # fails so a reviewer looks at the uploaded shots and approves.
+        run: scripts/theme/visual-guard.sh --base "$BASE" --theme ${{ matrix.theme }}
+      - name: Summary
+        if: always()
+        run: |
+          R=.theme-guard/${{ matrix.theme }}/report.json
+          [ -f "$R" ] && node -e '
+            const r=require("./'"$R"'");
+            console.log(`### ${process.argv[1]}: identical ${r.identical}, changed ${r.changed.length}, unreadable ${r.unreadable.length}, masked ${r.masked.length}`);
+            for (const c of r.changed.slice(0,200)) console.log(`- \`${c.id}\` ${c.reason}`);
+          ' "${{ matrix.theme }}" >> "$GITHUB_STEP_SUMMARY" || true
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: theme-guard-${{ matrix.theme }}
+          path: .theme-guard/${{ matrix.theme }}
+          if-no-files-found: ignore
+          retention-days: 14

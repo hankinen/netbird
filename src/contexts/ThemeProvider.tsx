@@ -3,12 +3,13 @@
 import "react-loading-skeleton/dist/skeleton.css";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { SkeletonTheme } from "react-loading-skeleton";
+import { DEFAULT_RESOLVED_THEME } from "@/styles/theme-antd/defaultTheme";
 
 export type Theme = "dark" | "light" | "system";
 export type ResolvedTheme = Exclude<Theme, "system">;
 
 const STORAGE_KEY = "netbird-theme";
-const DEFAULT_THEME: ResolvedTheme = "light";
+const DEFAULT_THEME: ResolvedTheme = DEFAULT_RESOLVED_THEME;
 const THEME_CLASSES: ResolvedTheme[] = ["dark", "light"];
 const SKELETON_COLORS: Record<
   ResolvedTheme,

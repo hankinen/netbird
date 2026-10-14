@@ -23,6 +23,7 @@ import { NavigationEvents } from "@/contexts/NavigationEvents";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { useSignupSource } from "@/hooks/useSignupSource";
 import I18nProvider from "@/i18n/I18nProvider";
+import { HTML_THEME_PROPS } from "@/styles/theme-antd/defaultTheme";
 
 const inter = localFont({
   src: "../assets/fonts/Inter.ttf",
@@ -44,7 +45,7 @@ export default function AppLayout({
   useSignupSource();
 
   return (
-    <html lang="en" className="light" style={{ colorScheme: "light" }}>
+    <html lang="en" {...HTML_THEME_PROPS}>
       <head>
         <GoogleTagManagerHeadScript />
       </head>

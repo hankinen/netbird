@@ -1,0 +1,16 @@
+/*
+ * Ant Design theme for the NetBird dashboard (feature/theme-antd).
+ * Active only on <html class="theme-antd"> while not in dark mode, so the dark
+ * theme and the upstream light theme are untouched. See README.md.
+ *
+ *   tokens.css     design tokens (AntD names) + Tailwind palette variables
+ *   base.css       element defaults, zero/low specificity (utilities win)
+ *   overrides.css  component fixes keyed on upstream class names (fragile,
+ *                  every rule annotated with @depends, checked by
+ *                  scripts/theme/check-selectors.mjs)
+ *   vendors.css    third-party libraries
+ */
+@import "./tokens.css";
+@import "./base.css";
+@import "./overrides.css";
+@import "./vendors.css";

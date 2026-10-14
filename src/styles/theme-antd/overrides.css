@@ -1,0 +1,128 @@
+/*
+ * Component fixes for the AntD theme.
+ *
+ * Upstream only styled most components for the dark theme. Instead of editing
+ * the TSX (merge conflicts) these rules key on the class names the components
+ * render. That is FRAGILE: when upstream renames a class the rule silently
+ * stops matching. Therefore every rule that keys on a specific class carries
+ *     @depends <file>: <class token> [| <class token> ...]
+ * and `npm run theme:check-selectors` fails when a listed token is no longer
+ * present in that file. Colours come from tokens.css only.
+ *
+ * Scope: `:root.theme-antd:not(.dark)` (0,3,0) — above utilities, so the
+ * order relative to Tailwind's output does not matter.
+ */
+
+/* ---- 1. Light text that upstream hard-coded for the dark theme ------------- */
+/* Generic: any element; not tied to one component. */
+:root.theme-antd:not(.dark) :is(.text-white, .text-neutral-50, .text-neutral-100, .text-gray-50, .text-gray-100, .text-zinc-50, .text-zinc-100) {
+    color: var(--ant-color-text);
+}
+:root.theme-antd:not(.dark) :is(.hover\:text-white:hover, .group:hover .group-hover\:text-white) {
+    color: var(--ant-color-text);
+}
+:root.theme-antd:not(.dark) :is(.text-neutral-300, .text-gray-300, .text-zinc-300) {
+    color: var(--ant-color-text-secondary);
+}
+/* ...but keep white text on solid colour backgrounds (attribute match covers
+   opacity modifiers such as bg-red-600/80). */
+:root.theme-antd:not(.dark) :is([class*="bg-netbird"], [class*="bg-red-5"], [class*="bg-red-6"], [class*="bg-red-7"],
+                     [class*="bg-green-5"], [class*="bg-green-6"], [class*="bg-blue-5"], [class*="bg-blue-6"],
+                     [class*="bg-sky-5"], [class*="bg-sky-6"], [class*="bg-yellow-5"], [class*="bg-orange-5"],
+                     [class*="bg-black"], [class*="bg-neutral-9"], [class*="bg-gray-9"], [class*="bg-sky-9"],
+                     [class*="bg-sky-8"], [class*="bg-blue-9"], .xterm)
+    :is(.text-white, .text-neutral-50, .text-neutral-100, .text-gray-50, .text-gray-100, .text-zinc-50, .text-zinc-100),
+:root.theme-antd:not(.dark) :is(.text-white, .text-neutral-50, .text-neutral-100, .text-gray-50, .text-gray-100, .text-zinc-50, .text-zinc-100):is(
+                     [class*="bg-netbird"], [class*="bg-red-5"], [class*="bg-red-6"], [class*="bg-red-7"],
+                     [class*="bg-green-5"], [class*="bg-green-6"], [class*="bg-blue-5"], [class*="bg-blue-6"],
+                     [class*="bg-sky-5"], [class*="bg-sky-6"], [class*="bg-yellow-5"], [class*="bg-orange-5"],
+                     [class*="bg-black"], [class*="bg-neutral-9"], [class*="bg-gray-9"], [class*="bg-sky-9"],
+                     [class*="bg-sky-8"], [class*="bg-blue-9"]) {
+    color: var(--ant-color-text-light-solid);
+}
+
+/* Light-aware elements whose light value is a dark nb-gray shade: the
+   palette inversion would turn them light, restore dark text.
+   Heuristic: the element also carries a `dark:text-*` class. */
+:root.theme-antd:not(.dark) :is(.text-nb-gray-700, .text-nb-gray-800, .text-nb-gray-900, .text-nb-gray-950)[class*="dark:text-"] {
+    color: var(--ant-color-text);
+}
+/* @depends src/components/modal/Modal.tsx: border-nb-gray-100 */
+:root.theme-antd:not(.dark) .border-nb-gray-100[class*="dark:border-nb-gray"] { border-color: var(--ant-color-border-secondary); }
+/* @depends src/components/Tabs.tsx: bg-nb-gray-100
+   @depends src/components/Steps.tsx: bg-nb-gray-100 | step-circle */
+:root.theme-antd:not(.dark) :is(.bg-nb-gray-100[class*="dark:bg-nb-gray"], .step-circle) { background-color: var(--ant-color-fill-secondary); }
+:root.theme-antd:not(.dark) .bg-nb-gray-200[class*="dark:bg-nb-gray"] { background-color: var(--ant-color-fill); }
+
+/* ---- 2. Badges / status tags ---------------------------------------------- */
+/* @depends src/components/Badge.tsx: bg-sky-900 */
+:root.theme-antd:not(.dark) .bg-sky-900 { background-color: var(--ant-color-primary-bg); border-color: var(--ant-color-primary-border); }
+:root.theme-antd:not(.dark) .bg-sky-900:is(.text-white) { color: var(--ant-color-primary-active); }
+
+/* Dark-only status backgrounds (*-950 / *-900, any opacity) -> AntD status colours.
+   @depends src/components/Badge.tsx: bg-red-950/40 | bg-purple-950/50 | bg-yellow-950 | bg-green-950 | bg-netbird-950 */
+:root.theme-antd:not(.dark) :is([class*="bg-red-950"], [class*="bg-red-900"]) { background-color: var(--ant-color-error-bg); border-color: var(--ant-color-error-border); }
+:root.theme-antd:not(.dark) :is([class*="bg-green-950"], [class*="bg-green-900"]) { background-color: var(--ant-color-success-bg); border-color: var(--ant-color-success-border); }
+:root.theme-antd:not(.dark) :is([class*="bg-yellow-950"], [class*="bg-yellow-900"]) { background-color: var(--ant-color-warning-bg); border-color: var(--ant-color-warning-border); }
+:root.theme-antd:not(.dark) :is([class*="bg-purple-950"], [class*="bg-purple-900"]) { background-color: var(--ant-purple-bg); border-color: var(--ant-purple-border); }
+:root.theme-antd:not(.dark) :is([class*="bg-netbird-950"], [class*="bg-netbird-900"], [class*="bg-sky-950"]) { background-color: var(--ant-color-primary-bg); border-color: var(--ant-color-primary-border); }
+:root.theme-antd:not(.dark) :is([class*="bg-red-950"], [class*="bg-red-900"]) :is(.text-red-400, .text-red-500),
+:root.theme-antd:not(.dark) :is(.text-red-400, .text-red-500):is([class*="bg-red-950"], [class*="bg-red-900"]) { color: var(--ant-color-error-text); }
+:root.theme-antd:not(.dark) :is([class*="bg-green-950"], [class*="bg-green-900"]) :is(.text-green-400, .text-green-500),
+:root.theme-antd:not(.dark) :is(.text-green-400, .text-green-500):is([class*="bg-green-950"], [class*="bg-green-900"]) { color: var(--ant-color-success-text); }
+:root.theme-antd:not(.dark) :is([class*="bg-yellow-950"], [class*="bg-yellow-900"]) :is(.text-yellow-400, .text-yellow-500),
+:root.theme-antd:not(.dark) :is(.text-yellow-400, .text-yellow-500):is([class*="bg-yellow-950"], [class*="bg-yellow-900"]) { color: var(--ant-color-warning-text); }
+:root.theme-antd:not(.dark) :is([class*="bg-purple-950"], [class*="bg-purple-900"]) :is(.text-purple-400, .text-purple-500),
+:root.theme-antd:not(.dark) :is(.text-purple-400, .text-purple-500):is([class*="bg-purple-950"], [class*="bg-purple-900"]) { color: var(--ant-purple-text); }
+
+/* ---- 3. Buttons ------------------------------------------------------------ */
+/* Danger buttons have no light styles upstream ("TODO - add danger button styles for light mode").
+   @depends src/components/Button.tsx: dark:bg-red-600 | dark:text-red-500 */
+:root.theme-antd:not(.dark) button[class~="dark:bg-red-600"] {
+    background-color: var(--ant-color-error); color: var(--ant-color-text-light-solid); border-color: var(--ant-color-error);
+}
+:root.theme-antd:not(.dark) button[class~="dark:bg-red-600"]:hover:not(:disabled) {
+    background-color: var(--ant-color-error-hover); border-color: var(--ant-color-error-hover);
+}
+:root.theme-antd:not(.dark) button[class~="dark:text-red-500"] { color: var(--ant-color-error); }
+
+/* AntD default button: neutral border, primary colour on hover.
+   @depends src/components/Button.tsx: hover:bg-gray-100 */
+:root.theme-antd:not(.dark) button[class~="hover:bg-gray-100"]:not([class~="dark:bg-red-600"]) {
+    border-width: 1px; border-color: var(--ant-color-border);
+    background-color: var(--ant-color-bg-container); color: var(--ant-color-text);
+}
+:root.theme-antd:not(.dark) button[class~="hover:bg-gray-100"]:not([class~="dark:bg-red-600"]):hover:not(:disabled) {
+    border-color: var(--ant-color-primary-hover); color: var(--ant-color-primary-hover);
+    background-color: var(--ant-color-bg-container);
+}
+
+/* ---- 4. Switch / checkbox -------------------------------------------------- */
+/* @depends src/components/ToggleSwitch.tsx: data-[state=checked]:bg-neutral-900 | data-[state=unchecked]:bg-neutral-200 */
+:root.theme-antd:not(.dark) [role="switch"][class~="data-[state=checked]:bg-neutral-900"][data-state="checked"] { background-color: var(--ant-color-primary); }
+:root.theme-antd:not(.dark) [role="switch"][class~="data-[state=unchecked]:bg-neutral-200"][data-state="unchecked"] { background-color: var(--ant-color-text-quaternary); }
+/* @depends src/components/Checkbox.tsx: data-[state=checked]:bg-neutral-900 */
+:root.theme-antd:not(.dark) button[role="checkbox"][class~="data-[state=checked]:bg-neutral-900"][data-state="checked"] {
+    background-color: var(--ant-color-primary); border-color: var(--ant-color-primary); color: var(--ant-color-text-light-solid);
+}
+
+/* ---- 5. Inputs -------------------------------------------------------------- */
+/* Generic (element based): hover/focus border + AntD control outline. */
+:root.theme-antd:not(.dark) :is(input, textarea):not([type="checkbox"], [type="radio"], [type="hidden"], [type="range"], .timescape input, .xterm *):not(:disabled):not([readonly]):hover {
+    border-color: var(--ant-color-primary-hover);
+}
+:root.theme-antd:not(.dark) :is(input, textarea):not([type="checkbox"], [type="radio"], [type="hidden"], [type="range"], .timescape input, .xterm *):not([class~="border-0"]):focus {
+    border-color: var(--ant-color-primary-hover); outline: none;
+    box-shadow: 0 0 0 2px var(--ant-control-outline);
+}
+/* @depends src/components/Input.tsx: border-neutral-200 | dark:border-nb-gray-700 */
+:root.theme-antd:not(.dark) :is(input, textarea)[class~="border-neutral-200"],
+:root.theme-antd:not(.dark) [class~="border-neutral-200"][class~="dark:border-nb-gray-700"] { border-color: var(--ant-color-border); }
+
+/* ---- 6. Tables -------------------------------------------------------------- */
+/* @depends src/components/table/Table.tsx: dark:bg-nb-gray-900 | hover:bg-neutral-100/50 | data-[state=selected]:bg-neutral-100 */
+:root.theme-antd:not(.dark) th[class~="dark:bg-nb-gray-900"] {
+    background-color: var(--ant-color-fill-alter); color: var(--ant-color-text); font-weight: 600;
+}
+:root.theme-antd:not(.dark) tr[class~="hover:bg-neutral-100/50"]:hover { background-color: var(--ant-color-fill-alter); }
+:root.theme-antd:not(.dark) tr[class~="data-[state=selected]:bg-neutral-100"][data-state="selected"] { background-color: var(--ant-color-primary-bg); }

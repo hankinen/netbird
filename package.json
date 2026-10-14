@@ -26,6 +26,8 @@
     "test:visual": ".storybook/visual-regression/run.sh",
     "i18n:types": "node scripts/i18n/gen-types.mjs",
     "i18n:check": "node scripts/i18n/check.mjs",
+    "theme:check-selectors": "node scripts/theme/check-selectors.mjs",
+    "theme:visual-guard": "scripts/theme/visual-guard.sh",
     "i18n:extract": "node scripts/i18n/extract-module.mjs"
   },
   "dependencies": {

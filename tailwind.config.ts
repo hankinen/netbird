@@ -1,7 +1,5 @@
 import type { Config } from "tailwindcss";
-
-const nb = (n: string) => `rgb(var(--nb-${n}) / <alpha-value>)`;
-const nbg = (n: string) => `rgb(var(--nbg-${n}) / <alpha-value>)`;
+import { withAntdTheme } from "./src/styles/theme-antd/withAntdTheme";
 
 const config: Config = {
   content: [
@@ -109,44 +107,44 @@ const config: Config = {
           900: "#751A3D",
         },
         "nb-gray": {
-          DEFAULT: nbg("DEFAULT"),
-          "50": nbg("50"),
-          "100": nbg("100"),
-          "200": nbg("200"),
-          "250": nbg("250"),
-          "300": nbg("300"),
-          "350": nbg("350"),
-          "400": nbg("400"),
-          "500": nbg("500"),
-          "600": nbg("600"),
-          "700": nbg("700"),
-          "800": nbg("800"),
-          "850": nbg("850"),
-          "900": nbg("900"),
-          "910": nbg("910"),
-          "920": nbg("920"),
-          "925": nbg("925"),
-          "930": nbg("930"),
-          "935": nbg("935"),
-          "940": nbg("940"),
-          "950": nbg("950"),
-          "960": nbg("960"),
+          DEFAULT: "#181A1D",
+          "50": "#f4f6f7",
+          "100": "#e4e7e9",
+          "200": "#cbd2d6",
+          "250": "#b7c0c6",
+          "300": "#a3adb5",
+          "350": "#8f9ca8",
+          "400": "#7c8994",
+          "500": "#616e79",
+          "600": "#535d67",
+          "700": "#474e57",
+          "800": "#3f444b",
+          "850": "#363b40",
+          "900": "#2e3238",
+          "910": "#2b2f33",
+          "920": "#25282d",
+          "925": "#1e2123",
+          "930": "#25282c",
+          "935": "#1f2124",
+          "940": "#1c1e21",
+          "950": "#181a1d",
+          "960": "#16181b",
         },
 
         netbird: {
-          DEFAULT: nb("400"),
-          "50": nb("50"),
-          "100": nb("100"),
-          "150": nb("150"),
-          "200": nb("200"),
-          "300": nb("300"),
-          "400": nb("400"),
-          "500": nb("500"),
-          "600": nb("600"),
-          "700": nb("700"),
-          "800": nb("800"),
-          "900": nb("900"),
-          "950": nb("950"),
+          DEFAULT: "#f68330",
+          "50": "#fff6ed",
+          "100": "#feecd6",
+          "150": "#ffdfb8",
+          "200": "#ffd4a6",
+          "300": "#fab677",
+          "400": "#f68330",
+          "500": "#f46d1b",
+          "600": "#e55311",
+          "700": "#be3e10",
+          "800": "#973215",
+          "900": "#7a2b14",
+          "950": "#421308",
         },
         "nb-blue": {
           DEFAULT: "#31e4f5",
@@ -162,24 +160,6 @@ const config: Config = {
           "900": "#145365",
           "950": "#063746",
         },
-      },
-      borderRadius: {
-        sm: "var(--radius-sm, 0.125rem)",
-        DEFAULT: "var(--radius, 0.25rem)",
-        md: "var(--radius-md, 0.375rem)",
-        lg: "var(--radius-lg, 0.5rem)",
-        xl: "var(--radius-xl, 0.75rem)",
-        "2xl": "var(--radius-2xl, 1rem)",
-        "3xl": "var(--radius-3xl, 1.5rem)",
-        // full / none 不覆盖
-      },
-      boxShadow: {
-        sm: "var(--shadow-sm, 0 1px 2px 0 rgb(0 0 0 / 0.05))",
-        DEFAULT:
-          "var(--shadow, 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1))",
-        md: "var(--shadow-md, 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1))",
-        lg: "var(--shadow-lg, 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1))",
-        xl: "var(--shadow-xl, 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1))",
       },
       keyframes: {
         "accordion-down": {
@@ -202,4 +182,4 @@ const config: Config = {
   },
   plugins: [require("tailwindcss-animate")],
 };
-export default config;
+export default withAntdTheme(config);
