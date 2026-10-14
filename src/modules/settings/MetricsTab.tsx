@@ -28,10 +28,13 @@ export default function MetricsTab({ account }: Readonly<Props>) {
   const toggleMetricsPush = async (toggle: boolean) => {
     notify({
       title: t("settings.identity-providers-tab:metricsTab.title.metrics"),
-      description: t(
-        "settings.identity-providers-tab:metricsTab.description.metricsPushSuccessfully",
-        { value: toggle ? "enabled" : "disabled" },
-      ),
+      description: toggle
+        ? t(
+            "settings.identity-providers-tab:metricsTab.description.metricsPushSuccessfully.enabled",
+          )
+        : t(
+            "settings.identity-providers-tab:metricsTab.description.metricsPushSuccessfully.disabled",
+          ),
       promise: saveRequest
         .put({
           id: account.id,

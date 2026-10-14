@@ -24,6 +24,7 @@ import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import { useEnterpriseConnections } from "@/modules/integrations/sso/useEnterpriseConnections";
 
+import { t } from "@/i18n";
 export const Okta = () => {
   const { mutate } = useSWRConfig();
   const [setupModal, setSetupModal] = useState(false);
@@ -53,8 +54,14 @@ export const Okta = () => {
     if (!integration) return setSetupModal(true);
 
     notify({
-      title: "Okta Integration",
-      description: `Okta was successfully ${state ? "enabled" : "disabled"}`,
+      title: t("integrations.idp-sync:okta.title.oktaIntegration"),
+      description: state
+        ? t(
+            "integrations.idp-sync:okta.description.oktaWasSuccessfully.enabled",
+          )
+        : t(
+            "integrations.idp-sync:okta.description.oktaWasSuccessfully.disabled",
+          ),
       promise: oktaRequest
         .put(
           {
@@ -66,7 +73,9 @@ export const Okta = () => {
           mutate("/integrations/okta-scim-idp");
           setEnabled(state);
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t(
+        "integrations.idp-sync:azureAD.loadingMessage.updatingIntegration",
+      ),
     });
   };
 
@@ -80,14 +89,20 @@ export const Okta = () => {
     <>
       <IntegrationCard
         name="Okta"
-        description="Okta is a platform to provision and manage user accounts in cloud-based applications."
+        description={t(
+          "integrations.idp-sync:okta.description.oktaIsAPlatformTo",
+        )}
         url={{
-          title: "okta.com",
+          title: t("integrations.idp-sync:okta.title.oktaCom"),
           href: "https://www.okta.com/",
         }}
         image={integrationImage}
         data={integration}
-        disabled={(enabled ? !permission.idp.update : isAnyIntegrationEnabled || !permission.idp.create)}
+        disabled={
+          enabled
+            ? !permission.idp.update
+            : isAnyIntegrationEnabled || !permission.idp.create
+        }
         switchState={enabled}
         onEnabledChange={toggleSwitch}
         onSetup={() => setSetupModal(true)}
@@ -101,14 +116,13 @@ export const Okta = () => {
               onClick={() => setSetupModal(true)}
             >
               <Repeat size={13} />
-              Connect Okta
+              {t("integrations.idp-sync:okta.text.connectOkta")}
             </Button>
           ) : (
             <FullTooltip
               content={
                 <div className={"text-xs max-w-xs"}>
-                  Please setup Okta SSO from the Single-Sign-On tab to enable
-                  user and group sync.
+                  {t("integrations.idp-sync:okta.text.pleaseSetupOktaSSOFrom")}
                 </div>
               }
             >
@@ -118,7 +132,7 @@ export const Okta = () => {
                 className={"w-full items-center"}
                 onClick={() => switchTab("sso")}
               >
-                Okta SSO Required
+                {t("integrations.idp-sync:okta.text.oktaSSORequired")}
                 <IconInfoCircle size={14} />
               </Button>
             </FullTooltip>
@@ -151,8 +165,11 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
   const [configModal, setConfigModal] = useState(false);
 
   const lastSync = useMemo(() => {
-    if (isEmpty(logs)) return "Not synchronized";
-    return "Synced " + dayjs().to(logs?.[0]?.timestamp);
+    if (isEmpty(logs))
+      return t("integrations.idp-sync:azureAD.text.notSynchronized");
+    return t("integrations.idp-sync:azureAD.text.synced", {
+      to: dayjs().to(logs?.[0]?.timestamp),
+    });
   }, [logs]);
 
   return (

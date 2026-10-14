@@ -21,6 +21,7 @@ import GoogleWorkspaceSetup from "@/modules/integrations/idp-sync/google-workspa
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 
+import { t } from "@/i18n";
 export const GoogleWorkspace = () => {
   const { mutate } = useSWRConfig();
   const [setupModal, setSetupModal] = useState(false);
@@ -47,10 +48,16 @@ export const GoogleWorkspace = () => {
     if (!integration) return setSetupModal(true);
 
     notify({
-      title: "Google Workspace Integration",
-      description: `Google Workspace was successfully ${
-        state ? "enabled" : "disabled"
-      }`,
+      title: t(
+        "integrations.idp-sync:googleWorkspace.title.googleWorkspaceIntegration",
+      ),
+      description: state
+        ? t(
+            "integrations.idp-sync:googleWorkspace.description.googleWorkspaceWasSuccessfully.enabled",
+          )
+        : t(
+            "integrations.idp-sync:googleWorkspace.description.googleWorkspaceWasSuccessfully.disabled",
+          ),
       promise: googleRequest
         .put(
           {
@@ -62,7 +69,9 @@ export const GoogleWorkspace = () => {
           mutate("/integrations/google-idp");
           setEnabled(state);
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t(
+        "integrations.idp-sync:azureAD.loadingMessage.updatingIntegration",
+      ),
     });
   };
 
@@ -72,14 +81,22 @@ export const GoogleWorkspace = () => {
     <>
       <IntegrationCard
         name="Google Workspace"
-        description="A flexible, innovative solution for people and organizations to achieve more."
+        description={t(
+          "integrations.idp-sync:googleWorkspace.description.aFlexibleInnovativeSolutionFor",
+        )}
         url={{
-          title: "workspace.google.com",
+          title: t(
+            "integrations.idp-sync:googleWorkspace.title.workspaceGoogleCom",
+          ),
           href: "https://workspace.google.com/",
         }}
         image={integrationImage}
         data={integration}
-        disabled={(enabled ? !permission.idp.update : isAnyIntegrationEnabled || !permission.idp.create)}
+        disabled={
+          enabled
+            ? !permission.idp.update
+            : isAnyIntegrationEnabled || !permission.idp.create
+        }
         switchState={enabled}
         onEnabledChange={toggleSwitch}
         onSetup={() => setSetupModal(true)}
@@ -111,9 +128,15 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
 
   const forceSync = async () => {
     notify({
-      title: "Google Workspace Integration",
-      description: `Google Workspace was successfully synced`,
-      loadingMessage: "Syncing integration...",
+      title: t(
+        "integrations.idp-sync:googleWorkspace.title.googleWorkspaceIntegration",
+      ),
+      description: t(
+        "integrations.idp-sync:googleWorkspace.description.googleWorkspaceWasSuccessfullySynced",
+      ),
+      loadingMessage: t(
+        "integrations.idp-sync:azureAD.loadingMessage.syncingIntegration",
+      ),
       promise: syncRequest.post({}).then(() => {
         mutate(`/integrations/google-idp/${config.id}/logs`);
       }),
@@ -121,8 +144,11 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
   };
 
   const lastSync = useMemo(() => {
-    if (isEmpty(logs)) return "Not synchronized";
-    return "Synced " + dayjs().to(logs?.[0]?.timestamp);
+    if (isEmpty(logs))
+      return t("integrations.idp-sync:azureAD.text.notSynchronized");
+    return t("integrations.idp-sync:azureAD.text.synced", {
+      to: dayjs().to(logs?.[0]?.timestamp),
+    });
   }, [logs]);
 
   return (
@@ -131,7 +157,9 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
         <FullTooltip
           content={
             <div className={"text-xs"}>
-              Force synchronization of users and groups
+              {t(
+                "integrations.idp-sync:azureAD.text.forceSynchronizationOfUsersAnd",
+              )}
             </div>
           }
           disabled={!config.enabled}

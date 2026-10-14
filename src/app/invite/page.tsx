@@ -61,7 +61,10 @@ function InviteAcceptContent() {
           setError(t("invite.page:page.text.tooManyAttemptsPleaseWait"));
           setIsRateLimited(true);
         } else {
-          setError(translateApiError(err.message) || t("invite.page:page.text.invalidOrExpiredInviteLink"));
+          setError(
+            translateApiError(err.message) ||
+              t("invite.page:page.text.invalidOrExpiredInviteLink"),
+          );
           setIsRateLimited(false);
         }
         setLoading(false);
@@ -74,7 +77,8 @@ function InviteAcceptContent() {
   const hasLowercase = /[a-z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
   const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-  const passwordValid = hasMinLength && hasUppercase && hasLowercase && hasNumber && hasSpecialChar;
+  const passwordValid =
+    hasMinLength && hasUppercase && hasLowercase && hasNumber && hasSpecialChar;
   const canSubmit = passwordValid && passwordsMatch && !submitting;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -88,7 +92,10 @@ function InviteAcceptContent() {
       await acceptInvite(token, password);
       setSuccess(true);
     } catch (err: any) {
-      setError(translateApiError(err.message) || t("invite.page:page.text.failedToAcceptInvite"));
+      setError(
+        translateApiError(err.message) ||
+          t("invite.page:page.text.failedToAcceptInvite"),
+      );
     } finally {
       setSubmitting(false);
     }
@@ -223,7 +230,11 @@ function InviteAcceptContent() {
             {t("invite.page:page.text.welcomeToNetBird")}
           </h1>
           <p className="dark:text-nb-gray-400 text-nb-gray-500 text-base">
-            {t("invite.page:page.text.youAposVeBeenInvited")}{" "}<span className="dark:text-white text-nb-gray-900 font-medium">{inviteInfo.invited_by}</span>{" "}{t("invite.page:page.text.toJoinTheNetworkSet")}
+            {t("invite.page:page.text.youAposVeBeenInvited")}{" "}
+            <span className="dark:text-white text-nb-gray-900 font-medium">
+              {inviteInfo.invited_by}
+            </span>{" "}
+            {t("invite.page:page.text.toJoinTheNetworkSet")}
           </p>
         </div>
 
@@ -254,11 +265,26 @@ function InviteAcceptContent() {
               />
               {password && (
                 <div className="mt-2 space-y-1">
-                  <PasswordRule met={hasMinLength} text={t("invite.page:page.text.atLeast8Characters")} />
-                  <PasswordRule met={hasUppercase} text={t("invite.page:page.text.oneUppercaseLetter")} />
-                  <PasswordRule met={hasLowercase} text={t("invite.page:page.text.oneLowercaseLetter")} />
-                  <PasswordRule met={hasNumber} text={t("invite.page:page.text.oneNumber")} />
-                  <PasswordRule met={hasSpecialChar} text={t("invite.page:page.text.oneSpecialCharacter")} />
+                  <PasswordRule
+                    met={hasMinLength}
+                    text={t("invite.page:page.text.atLeast8Characters")}
+                  />
+                  <PasswordRule
+                    met={hasUppercase}
+                    text={t("invite.page:page.text.oneUppercaseLetter")}
+                  />
+                  <PasswordRule
+                    met={hasLowercase}
+                    text={t("invite.page:page.text.oneLowercaseLetter")}
+                  />
+                  <PasswordRule
+                    met={hasNumber}
+                    text={t("invite.page:page.text.oneNumber")}
+                  />
+                  <PasswordRule
+                    met={hasSpecialChar}
+                    text={t("invite.page:page.text.oneSpecialCharacter")}
+                  />
                 </div>
               )}
             </div>
@@ -292,13 +318,19 @@ function InviteAcceptContent() {
               className="w-full"
               disabled={!canSubmit}
             >
-              {submitting ? t("invite.page:page.text.creatingAccount") : t("invite.page:page.text.createAccount")}
+              {submitting
+                ? t("invite.page:page.text.creatingAccount")
+                : t("invite.page:page.text.createAccount")}
             </Button>
           </form>
         </div>
 
         <p className="text-center text-xs text-nb-gray-500">
-          {t("invite.page:page.text.inviteExpiresOn", { format: dayjs(inviteInfo.expires_at).format("D MMMM, YYYY [at] h:mm A") })}
+          {t("invite.page:page.text.inviteExpiresOn", {
+            format: dayjs(inviteInfo.expires_at).format(
+              t("common-table-rows.main:lastTimeRow.text.dMMMMYYYYAtH"),
+            ),
+          })}
         </p>
       </div>
     </div>
@@ -313,7 +345,9 @@ function PasswordRule({ met, text }: { met: boolean; text: string }) {
       ) : (
         <AlertCircle className="w-3 h-3 text-nb-gray-500" />
       )}
-      <span className={met ? "text-green-500" : "text-nb-gray-500"}>{text}</span>
+      <span className={met ? "text-green-500" : "text-nb-gray-500"}>
+        {text}
+      </span>
     </div>
   );
 }

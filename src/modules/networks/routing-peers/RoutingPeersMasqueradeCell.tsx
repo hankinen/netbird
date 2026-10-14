@@ -43,10 +43,13 @@ export const RoutingPeersMasqueradeCell = ({ router }: Props) => {
       title: t(
         "networks.routing-peers:networkRoutingPeerModal.title.networkRoutingPeer",
       ),
-      description: t(
-        "networks.routing-peers:routingPeersMasqueradeCell.description.masqueradeIsNow",
-        { value: enabled ? "enabled" : "disabled" },
-      ),
+      description: enabled
+        ? t(
+            "networks.routing-peers:routingPeersMasqueradeCell.description.masqueradeIsNow.enabled",
+          )
+        : t(
+            "networks.routing-peers:routingPeersMasqueradeCell.description.masqueradeIsNow.disabled",
+          ),
       loadingMessage: t(
         "networks.routing-peers:routingPeersMasqueradeCell.loadingMessage.updatingMasquerade",
       ),

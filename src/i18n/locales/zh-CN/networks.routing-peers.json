@@ -28,10 +28,12 @@
   "routingPeerMasqueradeSwitch.text.group": "组",
   "routingPeerMasqueradeSwitch.text.containsAtLeastOneNon": "包含至少一台非 Linux 设备。",
   "routingPeerMasqueradeSwitch.text.disabledMasqueradeWillHaveNo": "禁用地址伪装对非 Linux 路由设备无效。",
-  "routingPeersActionCell.description.routingPeerIsNow": "路由设备现已{{value}}",
   "routingPeersActionCell.loadingMessage.updatingRoutingPeer": "正在更新路由设备...",
   "routingPeersActionCell.ariaLabel.routingPeerActions": "路由设备操作",
   "routingPeersActionCell.text.remove": "移除",
-  "routingPeersMasqueradeCell.description.masqueradeIsNow": "地址伪装现已{{value}}",
-  "routingPeersMasqueradeCell.loadingMessage.updatingMasquerade": "正在更新地址伪装..."
+  "routingPeersMasqueradeCell.loadingMessage.updatingMasquerade": "正在更新地址伪装...",
+  "routingPeersActionCell.description.routingPeerIsNow.enabled": "路由设备现已启用",
+  "routingPeersActionCell.description.routingPeerIsNow.disabled": "路由设备现已禁用",
+  "routingPeersMasqueradeCell.description.masqueradeIsNow.enabled": "地址伪装现已启用",
+  "routingPeersMasqueradeCell.description.masqueradeIsNow.disabled": "地址伪装现已禁用"
 }

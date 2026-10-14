@@ -17,6 +17,7 @@ import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import { Group } from "@/interfaces/Group";
 
+import { t } from "@/i18n";
 type Props = {
   account: Account;
 };
@@ -48,11 +49,12 @@ export const Intune = ({ account }: Props) => {
 
     const choice = isCurrentlyEnabled
       ? await confirm({
-          title: `Disable Intune?`,
-          description:
-            "Are you sure you want to disable the Intune integration?",
-          confirmText: "Disable",
-          cancelText: "Cancel",
+          title: t("integrations.edr:intune.title.disableIntune"),
+          description: t(
+            "integrations.edr:intune.description.areYouSureYouWant",
+          ),
+          confirmText: t("common:word.disable"),
+          cancelText: t("common:word.cancel"),
           type: "warning",
         })
       : true;
@@ -62,10 +64,14 @@ export const Intune = ({ account }: Props) => {
       integration.groups?.map((group) => (group as Group).id) || [];
 
     notify({
-      title: "Intune Integration",
-      description: `Intune was successfully ${
-        isCurrentlyEnabled ? "disabled" : "enabled"
-      }`,
+      title: t("integrations.edr:intune.title.intuneIntegration"),
+      description: isCurrentlyEnabled
+        ? t(
+            "integrations.edr:intune.description.intuneWasSuccessfully.disabled",
+          )
+        : t(
+            "integrations.edr:intune.description.intuneWasSuccessfully.enabled",
+          ),
       promise: intuneRequest
         .put({
           ...integration,
@@ -76,7 +82,9 @@ export const Intune = ({ account }: Props) => {
         .then(() => {
           mutate("/integrations/edr/intune");
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t(
+        "integrations.edr:intune.loadingMessage.updatingIntegration",
+      ),
     });
   };
 
@@ -86,9 +94,11 @@ export const Intune = ({ account }: Props) => {
     <>
       <IntegrationCard
         name="Intune"
-        description="Microsoft Intune is a cloud-based unified endpoint management for your organization."
+        description={t(
+          "integrations.edr:intune.description.microsoftIntuneIsACloud",
+        )}
         url={{
-          title: "microsoft.com",
+          title: t("integrations.edr:intune.title.microsoftCom"),
           href: "https://www.microsoft.com/en-us/security/business/endpoint-management/microsoft-intune",
         }}
         image={integrationImage}
@@ -132,7 +142,7 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
           }}
         >
           <Settings size={14} />
-          Settings
+          {t("common:word.settings")}
         </Button>
       </div>
       <IntuneConfiguration

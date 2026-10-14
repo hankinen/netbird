@@ -12,6 +12,7 @@ import { EventStream } from "@/interfaces/EventStream";
 import DatadogSetup from "@/modules/integrations/event-streaming/datadog/DatadogSetup";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 
+import { t } from "@/i18n";
 export default function Datadog() {
   const { permission } = usePermissions();
   // Event Streaming is a licensed feature; skip the call on open-source.
@@ -46,22 +47,29 @@ export default function Datadog() {
     if (!dataDogSettings) return setSetupModal(true);
 
     const choice = await confirm({
-      title: `Disconnect Datadog?`,
-      description:
-        "Disconnecting deletes the current configuration. You will need to start the setup process again.",
-      confirmText: "Disconnect",
-      cancelText: "Cancel",
+      title: t("integrations.event-streaming:datadog.title.disconnectDatadog"),
+      description: t(
+        "integrations.event-streaming:datadog.description.disconnectingDeletesTheCurrentConfiguration",
+      ),
+      confirmText: t(
+        "integrations.event-streaming:datadog.confirmText.disconnect",
+      ),
+      cancelText: t("common:word.cancel"),
       type: "warning",
     });
     if (!choice) return;
 
     notify({
-      title: "Datadog Integration",
-      description: `Datadog was successfully disconnected`,
+      title: t("integrations.event-streaming:datadog.title.datadogIntegration"),
+      description: t(
+        "integrations.event-streaming:datadog.description.datadogWasSuccessfullyDisconnected",
+      ),
       promise: integrationRequest.del({}, "/" + dataDogSettings.id).then(() => {
         mutate("/integrations/event-streaming");
       }),
-      loadingMessage: "Disconnecting integration...",
+      loadingMessage: t(
+        "integrations.event-streaming:datadog.loadingMessage.disconnectingIntegration",
+      ),
     });
   };
 
@@ -71,9 +79,11 @@ export default function Datadog() {
     <>
       <IntegrationCard
         name="Datadog"
-        description="Datadog is a monitoring service for cloud-scale applications."
+        description={t(
+          "integrations.event-streaming:datadog.description.datadogIsAMonitoringService",
+        )}
         url={{
-          title: "datadoghq.com",
+          title: t("integrations.event-streaming:datadog.title.datadoghqCom"),
           href: "https://www.datadoghq.com/",
         }}
         image={integrationImage}

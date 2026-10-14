@@ -650,7 +650,7 @@ function NameserverInput({
     <div className={"flex gap-2 w-full"}>
       <div className={"w-full"}>
         <Input
-          customPrefix={"IP"}
+          customPrefix={t("common:word.ipLabel")}
           placeholder={t("common:placeholder.example", { value: "172.16.0.0" })}
           maxWidthClass={"w-full"}
           value={ip}

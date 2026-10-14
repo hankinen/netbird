@@ -97,5 +97,19 @@
   "word.dayS": "Day(s)",
   "placeholder.example": "e.g., {{value}}",
   "word.peersSelected": "Peer(s) selected",
-  "placeholder.exampleOr": "e.g., {{a}} or {{b}}"
+  "placeholder.exampleOr": "e.g., {{a}} or {{b}}",
+  "countWord.activePolicies": "Active Policies",
+  "countWord.nameservers": "Nameservers",
+  "countWord.networkRoutes": "Network Routes",
+  "countWord.peers": "Peers",
+  "countWord.policies": "Policies",
+  "countWord.resources": "Resources",
+  "countWord.routingPeers": "Routing Peers",
+  "countWord.services": "Services",
+  "countWord.setupKeys": "Setup Keys",
+  "countWord.users": "Users",
+  "countWord.zones": "Zones",
+  "protocol.all": "ALL",
+  "word.ipLabel": "IP",
+  "word.integrations": "Integrations"
 }

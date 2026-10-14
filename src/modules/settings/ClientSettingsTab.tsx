@@ -174,10 +174,10 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
 
     notify({
       title: t(
-        "settings.authentication-tab:clientSettingsTab.title.clientSettings",
+        "settings.client-settings-tab:clientSettingsTab.title.clientSettings",
       ),
       description: t(
-        "settings.authentication-tab:clientSettingsTab.description.clientSettingsSuccessfullyUpdated",
+        "settings.client-settings-tab:clientSettingsTab.description.clientSettingsSuccessfullyUpdated",
       ),
       promise: saveRequest
         .put({
@@ -204,7 +204,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           ]);
         }),
       loadingMessage: t(
-        "settings.authentication-tab:clientSettingsTab.loadingMessage.updatingClientSettings",
+        "settings.client-settings-tab:clientSettingsTab.loadingMessage.updatingClientSettings",
       ),
     });
   };
@@ -212,12 +212,15 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
   const toggleLazyConnection = async (toggle: boolean) => {
     notify({
       title: t(
-        "settings.authentication-tab:clientSettingsTab.title.lazyConnections",
+        "settings.client-settings-tab:clientSettingsTab.title.lazyConnections",
       ),
-      description: t(
-        "settings.authentication-tab:clientSettingsTab.description.lazyConnectionsSuccessfully",
-        { value: toggle ? "enabled" : "disabled" },
-      ),
+      description: toggle
+        ? t(
+            "settings.client-settings-tab:clientSettingsTab.description.lazyConnectionsSuccessfully.enabled",
+          )
+        : t(
+            "settings.client-settings-tab:clientSettingsTab.description.lazyConnectionsSuccessfully.disabled",
+          ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -231,7 +234,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           mutate("/accounts");
         }),
       loadingMessage: t(
-        "settings.authentication-tab:clientSettingsTab.loadingMessage.updatingLazyConnectionsSetting",
+        "settings.client-settings-tab:clientSettingsTab.loadingMessage.updatingLazyConnectionsSetting",
       ),
     });
   };
@@ -239,12 +242,15 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
   const toggleHostnameCollisionRejected = async (toggle: boolean) => {
     notify({
       title: t(
-        "settings.authentication-tab:clientSettingsTab.title.uniquePeerHostnames",
+        "settings.client-settings-tab:clientSettingsTab.title.uniquePeerHostnames",
       ),
-      description: t(
-        "settings.authentication-tab:clientSettingsTab.description.uniquePeerHostnamesSuccessfully",
-        { value: toggle ? "enabled" : "disabled" },
-      ),
+      description: toggle
+        ? t(
+            "settings.client-settings-tab:clientSettingsTab.description.uniquePeerHostnamesSuccessfully.enabled",
+          )
+        : t(
+            "settings.client-settings-tab:clientSettingsTab.description.uniquePeerHostnamesSuccessfully.disabled",
+          ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -258,7 +264,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           mutate("/accounts");
         }),
       loadingMessage: t(
-        "settings.authentication-tab:clientSettingsTab.loadingMessage.updatingUniquePeerHostnamesSetting",
+        "settings.client-settings-tab:clientSettingsTab.loadingMessage.updatingUniquePeerHostnamesSetting",
       ),
     });
   };
@@ -266,12 +272,15 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
   const toggleAgentNetworkOnly = async (toggle: boolean) => {
     notify({
       title: t(
-        "settings.authentication-tab:clientSettingsTab.title.agentNetworkFocusedView",
+        "settings.client-settings-tab:clientSettingsTab.title.agentNetworkFocusedView",
       ),
-      description: t(
-        "settings.authentication-tab:clientSettingsTab.description.agentNetworkFocusedViewSuccessfully",
-        { value: toggle ? "enabled" : "disabled" },
-      ),
+      description: toggle
+        ? t(
+            "settings.client-settings-tab:clientSettingsTab.description.agentNetworkFocusedViewSuccessfully.enabled",
+          )
+        : t(
+            "settings.client-settings-tab:clientSettingsTab.description.agentNetworkFocusedViewSuccessfully.disabled",
+          ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -285,7 +294,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           mutate("/accounts");
         }),
       loadingMessage: t(
-        "settings.authentication-tab:clientSettingsTab.loadingMessage.updatingAgentNetworkFocusedView",
+        "settings.client-settings-tab:clientSettingsTab.loadingMessage.updatingAgentNetworkFocusedView",
       ),
     });
   };
@@ -302,7 +311,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
           <Breadcrumbs.Item
             href={"/settings?tab=clients"}
             label={t(
-              "settings.authentication-tab:clientSettingsTab.label.clients",
+              "settings.client-settings-tab:clientSettingsTab.label.clients",
             )}
             icon={<MonitorSmartphoneIcon size={14} />}
             active
@@ -310,7 +319,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
         </Breadcrumbs>
         <div className={"flex items-start justify-between -mt-1"}>
           <h1>
-            {t("settings.authentication-tab:clientSettingsTab.label.clients")}
+            {t("settings.client-settings-tab:clientSettingsTab.label.clients")}
           </h1>
           <Button
             variant={"primary"}
@@ -327,7 +336,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
             <Label>
               <RefreshCcw size={15} />
               {t(
-                "settings.authentication-tab:clientSettingsTab.text.automaticUpdates",
+                "settings.client-settings-tab:clientSettingsTab.text.automaticUpdates",
               )}
               <SmallBadge
                 text={t(
@@ -340,7 +349,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
             </Label>
             <HelpText>
               {t(
-                "settings.authentication-tab:clientSettingsTab.text.configureHowNetBirdClientsReceive",
+                "settings.client-settings-tab:clientSettingsTab.text.configureHowNetBirdClientsReceive",
               )}{" "}
               <span className={"text-white font-medium"}>v0.61.0</span>.{" "}
               <InlineLink
@@ -384,12 +393,12 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
                 <>
                   <AlertTriangle size={15} className={"text-yellow-400"} />
                   {t(
-                    "settings.authentication-tab:clientSettingsTab.text.forceAutomaticUpdates",
+                    "settings.client-settings-tab:clientSettingsTab.text.forceAutomaticUpdates",
                   )}
                 </>
               }
               helpText={t(
-                "settings.authentication-tab:clientSettingsTab.helpText.whenEnabledUpdatesAreInstalled",
+                "settings.client-settings-tab:clientSettingsTab.helpText.whenEnabledUpdatesAreInstalled",
               )}
               disabled={
                 !permission.settings.update || autoUpdateMethod === "disabled"
@@ -407,7 +416,7 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
                 }
               >
                 {t(
-                  "settings.authentication-tab:clientSettingsTab.text.enablingAutomaticUpdatesWillRestart",
+                  "settings.client-settings-tab:clientSettingsTab.text.enablingAutomaticUpdatesWillRestart",
                 )}
               </Callout>
             )}
@@ -418,16 +427,16 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               <Label>
                 <ReverseProxyIcon size={15} className={"text-nb-gray-300"} />
                 {t(
-                  "settings.authentication-tab:clientSettingsTab.text.exposeServicesFromCLI",
+                  "settings.client-settings-tab:clientSettingsTab.text.exposeServicesFromCLI",
                 )}
               </Label>
               <HelpText>
                 {t(
-                  "settings.authentication-tab:clientSettingsTab.text.allowPeersToExposeLocal",
+                  "settings.client-settings-tab:clientSettingsTab.text.allowPeersToExposeLocal",
                 )}{" "}
                 <br />{" "}
                 {t(
-                  "settings.authentication-tab:clientSettingsTab.text.thisRequiresAtLeastNetBird",
+                  "settings.client-settings-tab:clientSettingsTab.text.thisRequiresAtLeastNetBird",
                 )}{" "}
                 <span className={"text-white font-medium"}>v0.66.0</span>.{" "}
                 <InlineLink
@@ -448,10 +457,10 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               onChange={setPeerExposeEnabled}
               data-testid="peer-expose"
               label={t(
-                "settings.authentication-tab:clientSettingsTab.label.enablePeerExpose",
+                "settings.client-settings-tab:clientSettingsTab.label.enablePeerExpose",
               )}
               helpText={t(
-                "settings.authentication-tab:clientSettingsTab.helpText.whenEnabledPeersCanExpose",
+                "settings.client-settings-tab:clientSettingsTab.helpText.whenEnabledPeersCanExpose",
               )}
               disabled={!permission.settings.update}
             />
@@ -467,19 +476,19 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               <div className={"mt-2"}>
                 <Label>
                   {t(
-                    "settings.authentication-tab:clientSettingsTab.text.allowedPeerGroups",
+                    "settings.client-settings-tab:clientSettingsTab.text.allowedPeerGroups",
                   )}
                 </Label>
                 <HelpText>
                   {t(
-                    "settings.authentication-tab:clientSettingsTab.text.selectWhichPeerGroupsAre",
+                    "settings.client-settings-tab:clientSettingsTab.text.selectWhichPeerGroupsAre",
                   )}
                 </HelpText>
                 <PeerGroupSelector
                   values={peerExposeGroups}
                   onChange={setPeerExposeGroups}
                   placeholder={t(
-                    "settings.authentication-tab:clientSettingsTab.placeholder.selectPeerGroups",
+                    "settings.client-settings-tab:clientSettingsTab.placeholder.selectPeerGroups",
                   )}
                   data-testid="peer-expose-groups-selector"
                 />
@@ -491,13 +500,13 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
             <Label>
               <ClockFadingIcon size={15} />
               {t(
-                "settings.authentication-tab:clientSettingsTab.title.lazyConnections",
+                "settings.client-settings-tab:clientSettingsTab.title.lazyConnections",
               )}
             </Label>
 
             <HelpText>
               {t(
-                "settings.authentication-tab:clientSettingsTab.text.insteadOfMaintainingAlwaysOn",
+                "settings.client-settings-tab:clientSettingsTab.text.insteadOfMaintainingAlwaysOn",
               )}{" "}
               <InlineLink
                 href={"https://docs.netbird.io/how-to/lazy-connection"}
@@ -515,14 +524,14 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               label={
                 <>
                   {t(
-                    "settings.authentication-tab:clientSettingsTab.text.enableLazyConnections",
+                    "settings.client-settings-tab:clientSettingsTab.text.enableLazyConnections",
                   )}
                 </>
               }
               helpText={
                 <>
                   {t(
-                    "settings.authentication-tab:clientSettingsTab.text.allowToEstablishConnectionsBetween",
+                    "settings.client-settings-tab:clientSettingsTab.text.allowToEstablishConnectionsBetween",
                   )}
                 </>
               }
@@ -534,12 +543,12 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
             <Label>
               <TagIcon size={15} />
               {t(
-                "settings.authentication-tab:clientSettingsTab.title.uniquePeerHostnames",
+                "settings.client-settings-tab:clientSettingsTab.title.uniquePeerHostnames",
               )}
             </Label>
             <HelpText>
               {t(
-                "settings.authentication-tab:clientSettingsTab.text.byDefaultAPeerRegistering",
+                "settings.client-settings-tab:clientSettingsTab.text.byDefaultAPeerRegistering",
               )}
             </HelpText>
             <FancyToggleSwitch
@@ -548,10 +557,10 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               onChange={toggleHostnameCollisionRejected}
               data-testid="peer-hostname-collision-rejected"
               label={t(
-                "settings.authentication-tab:clientSettingsTab.label.rejectHostnameCollisions",
+                "settings.client-settings-tab:clientSettingsTab.label.rejectHostnameCollisions",
               )}
               helpText={t(
-                "settings.authentication-tab:clientSettingsTab.helpText.whenEnabledRegisteringOrRenaming",
+                "settings.client-settings-tab:clientSettingsTab.helpText.whenEnabledRegisteringOrRenaming",
               )}
               disabled={!permission.settings.update}
             />
@@ -562,12 +571,12 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
               <Label>
                 <AgentNetworkIcon size={15} />
                 {t(
-                  "settings.authentication-tab:clientSettingsTab.text.agentNetwork",
+                  "settings.client-settings-tab:clientSettingsTab.text.agentNetwork",
                 )}
               </Label>
               <HelpText>
                 {t(
-                  "settings.authentication-tab:clientSettingsTab.text.focusTheDashboardOnThe",
+                  "settings.client-settings-tab:clientSettingsTab.text.focusTheDashboardOnThe",
                 )}
               </HelpText>
               <FancyToggleSwitch
@@ -576,10 +585,10 @@ function ClientSettingsTabContent({ account }: Readonly<Props>) {
                 onChange={toggleAgentNetworkOnly}
                 data-testid="agent-network-only"
                 label={t(
-                  "settings.authentication-tab:clientSettingsTab.label.agentNetworkFocusedView",
+                  "settings.client-settings-tab:clientSettingsTab.label.agentNetworkFocusedView",
                 )}
                 helpText={t(
-                  "settings.authentication-tab:clientSettingsTab.helpText.whenEnabledTheDashboardShows",
+                  "settings.client-settings-tab:clientSettingsTab.helpText.whenEnabledTheDashboardShows",
                 )}
                 disabled={!permission.settings.update}
               />

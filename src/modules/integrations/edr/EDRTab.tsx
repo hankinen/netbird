@@ -15,6 +15,7 @@ import { Intune } from "./intune/Intune";
 import { FleetDM } from "@/modules/integrations/edr/fleetdm/FleetDM";
 import { Huntress } from "@/modules/integrations/edr/huntress/Huntress";
 
+import { t } from "@/i18n";
 type Props = {
   account: Account;
 };
@@ -27,21 +28,19 @@ export default function EDRTab({ account }: Props) {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/integrations"}
-            label={"Integrations"}
+            label={t("common:word.integrations")}
             icon={<IntegrationIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/integrations?tab=edr"}
-            label={"MDM & EDR"}
+            label={t("integrations.edr:eDRTab.text.mDMEDR")}
             icon={<ShieldCheck size={15} />}
             active
           />
         </Breadcrumbs>
         <h1>MDM & EDR</h1>
         <Paragraph className={"max-w-3xl"}>
-          Endpoint Detection and Response (EDR) and Mobile Device Management
-          (MDM) integrations allow you to restrict network access only to
-          devices managed by the IT department.
+          {t("integrations.edr:eDRTab.text.endpointDetectionAndResponseEDR")}
         </Paragraph>
         <Paragraph>
           <InlineLink
@@ -50,12 +49,15 @@ export default function EDRTab({ account }: Props) {
             }
             target={"_blank"}
           >
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
 
-        <LockedFeatureInfoCard feature={"EDR"} featureText={"MDM & EDR"} />
+        <LockedFeatureInfoCard
+          feature={"EDR"}
+          featureText={t("integrations.edr:eDRTab.text.mDMEDR")}
+        />
         <LockedFeatureOverlay feature={"EDR"} opacity={100}>
           <div
             className={

@@ -8,12 +8,7 @@ import {
 } from "@components/DropdownMenu";
 import { notify } from "@components/Notification";
 import { useApiCall } from "@utils/api";
-import {
-  MoreVertical,
-  PowerIcon,
-  SquarePenIcon,
-  Trash2,
-} from "lucide-react";
+import { MoreVertical, PowerIcon, SquarePenIcon, Trash2 } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
 import { useSWRConfig } from "swr";
@@ -39,8 +34,17 @@ export const ResourceActionCell = ({ resource }: Props) => {
     const nextEnabled = !resource.enabled;
     notify({
       title: t("networks.resources:resourceActionCell.title.updateResource"),
-      description: t("networks.resources:resourceActionCell.description.isNow", { name: resource?.name, value: nextEnabled ? "enabled" : "disabled" }),
-      loadingMessage: t("networks.resources:networkResourceModal.loadingMessage.updatingResource"),
+      description: nextEnabled
+        ? t("networks.resources:resourceActionCell.description.isNow.enabled", {
+            name: resource?.name,
+          })
+        : t(
+            "networks.resources:resourceActionCell.description.isNow.disabled",
+            { name: resource?.name },
+          ),
+      loadingMessage: t(
+        "networks.resources:networkResourceModal.loadingMessage.updatingResource",
+      ),
       duration: 1200,
       promise: update({
         ...resource,
@@ -71,7 +75,9 @@ export const ResourceActionCell = ({ resource }: Props) => {
             disabled={
               !permission.networks.update && !permission.networks.delete
             }
-            aria-label={t("networks.resources:resourceActionCell.ariaLabel.resourceActions")}
+            aria-label={t(
+              "networks.resources:resourceActionCell.ariaLabel.resourceActions",
+            )}
           >
             <MoreVertical size={16} className={"shrink-0"} />
           </Button>
@@ -98,7 +104,9 @@ export const ResourceActionCell = ({ resource }: Props) => {
           >
             <div className={"flex gap-3 items-center"}>
               <PowerIcon size={14} className={"shrink-0"} />
-              {resource.enabled ? t("common:word.disable") : t("common:word.enable")}
+              {resource.enabled
+                ? t("common:word.disable")
+                : t("common:word.enable")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />

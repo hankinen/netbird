@@ -39,8 +39,11 @@ declare module "i18next" {
       "groups.table": typeof import("./locales/en/groups.table.json");
       "hooks.main": typeof import("./locales/en/hooks.main.json");
       "instance-setup.main": typeof import("./locales/en/instance-setup.main.json");
+      "integrations.edr": typeof import("./locales/en/integrations.edr.json");
       "integrations.event-streaming": typeof import("./locales/en/integrations.event-streaming.json");
       "integrations.idp-sync": typeof import("./locales/en/integrations.idp-sync.json");
+      "integrations.main": typeof import("./locales/en/integrations.main.json");
+      "integrations.page": typeof import("./locales/en/integrations.page.json");
       "invite.page": typeof import("./locales/en/invite.page.json");
       "jobs.main": typeof import("./locales/en/jobs.main.json");
       "jobs.table": typeof import("./locales/en/jobs.table.json");
@@ -73,6 +76,7 @@ declare module "i18next" {
       "routes.main": typeof import("./locales/en/routes.main.json");
       "search.main": typeof import("./locales/en/search.main.json");
       "settings.authentication-tab": typeof import("./locales/en/settings.authentication-tab.json");
+      "settings.client-settings-tab": typeof import("./locales/en/settings.client-settings-tab.json");
       "settings.identity-providers-tab": typeof import("./locales/en/settings.identity-providers-tab.json");
       "settings.main": typeof import("./locales/en/settings.main.json");
       "settings.page": typeof import("./locales/en/settings.page.json");

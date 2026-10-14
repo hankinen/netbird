@@ -22,6 +22,7 @@ import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import EntraSCIMSetup from "@/modules/integrations/idp-sync/entra-scim/EntraSCIMSetup";
 
+import { t } from "@/i18n";
 export interface GenericSCIMProps {
   name?: string;
   description?: string;
@@ -34,10 +35,12 @@ export interface GenericSCIMProps {
 }
 
 export const GenericSCIM = ({
-  name = "Generic SCIM",
-  description = "Provide your own custom SCIM provider to sync users and groups.",
+  name = t("integrations.idp-sync:genericSCIM.text.genericSCIM"),
+  description = t(
+    "integrations.idp-sync:genericSCIM.text.provideYourOwnCustomSCIM",
+  ),
   url = {
-    title: "docs.netbird.io",
+    title: t("integrations.idp-sync:genericSCIM.title.docsNetbirdIo"),
     href: "https://docs.netbird.io/how-to/idp-sync#supported-identity-providers",
   },
   image = integrationImage,
@@ -68,8 +71,16 @@ export const GenericSCIM = ({
     if (!integration) return setSetupModal(true);
 
     notify({
-      title: `${name} Integration`,
-      description: `${name} was successfully ${state ? "enabled" : "disabled"}`,
+      title: t("integrations.idp-sync:genericSCIM.title.integration", { name }),
+      description: state
+        ? t(
+            "integrations.idp-sync:genericSCIM.description.wasSuccessfully.enabled",
+            { name },
+          )
+        : t(
+            "integrations.idp-sync:genericSCIM.description.wasSuccessfully.disabled",
+            { name },
+          ),
       promise: scimRequest
         .put(
           {
@@ -81,7 +92,9 @@ export const GenericSCIM = ({
           mutate("/integrations/scim-idp");
           setEnabled(state);
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t(
+        "integrations.idp-sync:azureAD.loadingMessage.updatingIntegration",
+      ),
     });
   };
 
@@ -111,7 +124,7 @@ export const GenericSCIM = ({
             onClick={() => setSetupModal(true)}
           >
             <Repeat size={13} />
-            Connect {name}
+            {t("integrations.idp-sync:genericSCIM.text.connect")} {name}
           </Button>
         }
       >
@@ -170,8 +183,11 @@ const ConfigurationButton = ({
   const [configModal, setConfigModal] = useState(false);
 
   const lastSync = useMemo(() => {
-    if (isEmpty(logs)) return "Not synchronized";
-    return "Synced " + dayjs().to(logs?.[0]?.timestamp);
+    if (isEmpty(logs))
+      return t("integrations.idp-sync:azureAD.text.notSynchronized");
+    return t("integrations.idp-sync:azureAD.text.synced", {
+      to: dayjs().to(logs?.[0]?.timestamp),
+    });
   }, [logs]);
 
   return (

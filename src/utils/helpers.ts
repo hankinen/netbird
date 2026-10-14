@@ -2,6 +2,7 @@ import chroma from "chroma-js";
 import { type ClassValue, clsx } from "clsx";
 import deepClone from "lodash/cloneDeep";
 import { twMerge } from "tailwind-merge";
+import { i18n, t } from "@/i18n";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -244,11 +245,32 @@ export const getBrowserInfo = () => {
   }
 };
 
+const COUNT_WORD_KEYS: Record<string, string> = {
+  "Active Policies": "common:countWord.activePolicies",
+  Nameservers: "common:countWord.nameservers",
+  "Network Routes": "common:countWord.networkRoutes",
+  Peers: "common:countWord.peers",
+  Policies: "common:countWord.policies",
+  Resources: "common:countWord.resources",
+  "Routing Peers": "common:countWord.routingPeers",
+  Services: "common:countWord.services",
+  "Setup Keys": "common:countWord.setupKeys",
+  Users: "common:countWord.users",
+  Zones: "common:countWord.zones",
+};
+
 export const singularize = (
   word: string,
   count?: number,
   showZero?: boolean,
 ) => {
+  if (i18n.language && i18n.language !== "en") {
+    // Display only: translate known plural words; Chinese has no plural form.
+    const key = COUNT_WORD_KEYS[word];
+    const label = key ? String(t(key as never)) : word;
+    if (!count) return showZero ? `0 ${label}` : label;
+    return `${count} ${label}`;
+  }
   if (!count) return showZero ? `0 ${word}` : word;
   if (word.endsWith("ies") && count === 1) {
     return count + " " + word.slice(0, -3) + "y";

@@ -12,13 +12,11 @@
   "identityProvidersTab.title.addIdentityProvider": "添加身份提供商",
   "identityProvidersTab.description.configureAnIdentityProviderTo": "配置身份提供商，为用户启用 SSO 认证。",
   "metricsTab.title.metrics": "指标",
-  "metricsTab.description.metricsPushSuccessfully": "指标推送已成功{{value}}。",
   "metricsTab.loadingMessage.updatingMetricsSetting": "正在更新指标设置...",
   "metricsTab.text.shareClientPerformanceMetricsTo": "共享客户端性能指标，帮助我们改进 NetBird。",
   "metricsTab.text.sharePerformanceMetrics": "共享性能指标",
   "metricsTab.helpText.whenEnabledClientsWillPeriodically": "启用后，客户端会定期发送性能数据，帮助我们发现并修复问题。",
   "networkSettingsTab.title.routingPeerDNSResolution": "路由设备 DNS 解析",
-  "networkSettingsTab.description.routingPeerDNSResolutionSuccessfully": "路由设备 DNS 解析已成功{{value}}。",
   "networkSettingsTab.loadingMessage.updatingRoutingPeerDNSResolution": "正在更新路由设备 DNS 解析设置...",
   "networkSettingsTab.title.networkSettings": "网络设置",
   "networkSettingsTab.description.networkSettingsSuccessfullyUpdated": "网络设置已成功更新。",
@@ -45,5 +43,9 @@
   "permissionsTab.helpText.accessToTheDashboardWill": "将限制对控制台的访问，普通用户将无法查看任何设备。",
   "setupKeysTab.text.setupKeysArePreAuthentication": "安装密钥是预认证密钥，可用于在网络中注册新机器。",
   "logoutUrlCopied": "登出 URL 已复制到剪贴板！",
-  "redirectUrlCopied": "重定向 URL 已复制到剪贴板！"
+  "redirectUrlCopied": "重定向 URL 已复制到剪贴板！",
+  "networkSettingsTab.description.routingPeerDNSResolutionSuccessfully.enabled": "路由设备 DNS 解析已成功启用。",
+  "networkSettingsTab.description.routingPeerDNSResolutionSuccessfully.disabled": "路由设备 DNS 解析已成功禁用。",
+  "metricsTab.description.metricsPushSuccessfully.enabled": "指标推送已成功启用。",
+  "metricsTab.description.metricsPushSuccessfully.disabled": "指标推送已成功禁用。"
 }

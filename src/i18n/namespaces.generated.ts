@@ -31,8 +31,11 @@ import en_groups_page from "./locales/en/groups.page.json";
 import en_groups_table from "./locales/en/groups.table.json";
 import en_hooks_main from "./locales/en/hooks.main.json";
 import en_instance_setup_main from "./locales/en/instance-setup.main.json";
+import en_integrations_edr from "./locales/en/integrations.edr.json";
 import en_integrations_event_streaming from "./locales/en/integrations.event-streaming.json";
 import en_integrations_idp_sync from "./locales/en/integrations.idp-sync.json";
+import en_integrations_main from "./locales/en/integrations.main.json";
+import en_integrations_page from "./locales/en/integrations.page.json";
 import en_invite_page from "./locales/en/invite.page.json";
 import en_jobs_main from "./locales/en/jobs.main.json";
 import en_jobs_table from "./locales/en/jobs.table.json";
@@ -65,6 +68,7 @@ import en_route_group_main from "./locales/en/route-group.main.json";
 import en_routes_main from "./locales/en/routes.main.json";
 import en_search_main from "./locales/en/search.main.json";
 import en_settings_authentication_tab from "./locales/en/settings.authentication-tab.json";
+import en_settings_client_settings_tab from "./locales/en/settings.client-settings-tab.json";
 import en_settings_identity_providers_tab from "./locales/en/settings.identity-providers-tab.json";
 import en_settings_main from "./locales/en/settings.main.json";
 import en_settings_page from "./locales/en/settings.page.json";
@@ -110,8 +114,11 @@ export const namespaces = [
   "groups.table",
   "hooks.main",
   "instance-setup.main",
+  "integrations.edr",
   "integrations.event-streaming",
   "integrations.idp-sync",
+  "integrations.main",
+  "integrations.page",
   "invite.page",
   "jobs.main",
   "jobs.table",
@@ -144,6 +151,7 @@ export const namespaces = [
   "routes.main",
   "search.main",
   "settings.authentication-tab",
+  "settings.client-settings-tab",
   "settings.identity-providers-tab",
   "settings.main",
   "settings.page",
@@ -191,8 +199,11 @@ export const enResources = {
   "groups.table": en_groups_table,
   "hooks.main": en_hooks_main,
   "instance-setup.main": en_instance_setup_main,
+  "integrations.edr": en_integrations_edr,
   "integrations.event-streaming": en_integrations_event_streaming,
   "integrations.idp-sync": en_integrations_idp_sync,
+  "integrations.main": en_integrations_main,
+  "integrations.page": en_integrations_page,
   "invite.page": en_invite_page,
   "jobs.main": en_jobs_main,
   "jobs.table": en_jobs_table,
@@ -225,6 +236,7 @@ export const enResources = {
   "routes.main": en_routes_main,
   "search.main": en_search_main,
   "settings.authentication-tab": en_settings_authentication_tab,
+  "settings.client-settings-tab": en_settings_client_settings_tab,
   "settings.identity-providers-tab": en_settings_identity_providers_tab,
   "settings.main": en_settings_main,
   "settings.page": en_settings_page,
@@ -272,8 +284,11 @@ export const loaders: Record<string, Record<Namespace, () => Promise<{ default: 
     "groups.table": () => import("./locales/zh-CN/groups.table.json"),
     "hooks.main": () => import("./locales/zh-CN/hooks.main.json"),
     "instance-setup.main": () => import("./locales/zh-CN/instance-setup.main.json"),
+    "integrations.edr": () => import("./locales/zh-CN/integrations.edr.json"),
     "integrations.event-streaming": () => import("./locales/zh-CN/integrations.event-streaming.json"),
     "integrations.idp-sync": () => import("./locales/zh-CN/integrations.idp-sync.json"),
+    "integrations.main": () => import("./locales/zh-CN/integrations.main.json"),
+    "integrations.page": () => import("./locales/zh-CN/integrations.page.json"),
     "invite.page": () => import("./locales/zh-CN/invite.page.json"),
     "jobs.main": () => import("./locales/zh-CN/jobs.main.json"),
     "jobs.table": () => import("./locales/zh-CN/jobs.table.json"),
@@ -306,6 +321,7 @@ export const loaders: Record<string, Record<Namespace, () => Promise<{ default: 
     "routes.main": () => import("./locales/zh-CN/routes.main.json"),
     "search.main": () => import("./locales/zh-CN/search.main.json"),
     "settings.authentication-tab": () => import("./locales/zh-CN/settings.authentication-tab.json"),
+    "settings.client-settings-tab": () => import("./locales/zh-CN/settings.client-settings-tab.json"),
     "settings.identity-providers-tab": () => import("./locales/zh-CN/settings.identity-providers-tab.json"),
     "settings.main": () => import("./locales/zh-CN/settings.main.json"),
     "settings.page": () => import("./locales/zh-CN/settings.page.json"),

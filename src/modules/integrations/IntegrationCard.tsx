@@ -9,6 +9,7 @@ import Image from "next/image";
 import * as React from "react";
 import { useMemo } from "react";
 
+import { t } from "@/i18n";
 type Props<T> = {
   image: StaticImport | string;
   name: string;
@@ -54,7 +55,7 @@ export function IntegrationCard<T>({
             onClick={onSetup}
           >
             <Repeat size={13} />
-            Connect {name}
+            {t("integrations.main:integrationCard.text.connect")} {name}
           </Button>
         </div>
       ),

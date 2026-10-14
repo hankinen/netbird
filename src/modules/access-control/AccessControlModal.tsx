@@ -369,7 +369,9 @@ export function AccessControlModalContent({
                   </div>
                 </SelectTrigger>
                 <SelectContent data-testid={"protocol-selection"}>
-                  <SelectItem value="all">ALL</SelectItem>
+                  <SelectItem value="all">
+                    {t("common:protocol.all")}
+                  </SelectItem>
                   <SelectItem value="tcp">TCP</SelectItem>
                   <SelectItem value="udp">UDP</SelectItem>
                   <SelectItem value="icmp">ICMP</SelectItem>

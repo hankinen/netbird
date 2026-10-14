@@ -13,6 +13,7 @@ import { EventStream } from "@/interfaces/EventStream";
 import GenericHTTPModal from "@/modules/integrations/event-streaming/generic-http/GenericHTTPModal";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 
+import { t } from "@/i18n";
 export default function GenericHTTP() {
   const { permission } = usePermissions();
   // Event Streaming is a licensed feature; skip the call on open-source.
@@ -48,10 +49,16 @@ export default function GenericHTTP() {
     const enabled = !genericHTTPIntegration.enabled;
 
     notify({
-      title: `Generic HTTP Integration`,
-      description: `HTTP Integration was successfully ${
-        enabled ? "enabled" : "disabled"
-      }.`,
+      title: t(
+        "integrations.event-streaming:genericHTTP.title.genericHTTPIntegration",
+      ),
+      description: enabled
+        ? t(
+            "integrations.event-streaming:genericHTTP.description.hTTPIntegrationWasSuccessfully.enabled",
+          )
+        : t(
+            "integrations.event-streaming:genericHTTP.description.hTTPIntegrationWasSuccessfully.disabled",
+          ),
       promise: integrationRequest
         .put(
           { config: genericHTTPIntegration.config, enabled },
@@ -60,9 +67,13 @@ export default function GenericHTTP() {
         .then(() => {
           mutate("/integrations/event-streaming");
         }),
-      loadingMessage: `${
-        enabled ? "Enabling" : "Disabling"
-      } Generic HTTP Integration...,`,
+      loadingMessage: enabled
+        ? t(
+            "integrations.event-streaming:genericHTTP.loadingMessage.genericHTTPIntegration.enabling",
+          )
+        : t(
+            "integrations.event-streaming:genericHTTP.loadingMessage.genericHTTPIntegration.disabling",
+          ),
     });
   };
 
@@ -72,9 +83,13 @@ export default function GenericHTTP() {
     <>
       <IntegrationCard
         name="Generic HTTP"
-        description="Provide your custom HTTP endpoint to stream audit & traffic events."
+        description={t(
+          "integrations.event-streaming:genericHTTP.description.provideYourCustomHTTPEndpoint",
+        )}
         url={{
-          title: "docs.netbird.io",
+          title: t(
+            "integrations.event-streaming:genericHTTP.title.docsNetbirdIo",
+          ),
           href: "https://docs.netbird.io/how-to/stream-activity-to-generic-http",
         }}
         image={integrationImage}
@@ -97,7 +112,7 @@ export default function GenericHTTP() {
           onClick={() => setOpen(true)}
         >
           <Settings size={14} />
-          Configuration
+          {t("integrations.event-streaming:genericHTTP.text.configuration")}
         </Button>
       </IntegrationCard>
       <GenericHTTPModal

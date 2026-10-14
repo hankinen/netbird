@@ -29,10 +29,14 @@ export const ResourceEnabledCell = ({
   const toggle = async (enabled: boolean) => {
     notify({
       title: t("networks.resources:resourceActionCell.title.updateResource"),
-      description: t(
-        "networks.resources:resourceActionCell.description.isNow",
-        { name: resource?.name, value: enabled ? "enabled" : "disabled" },
-      ),
+      description: enabled
+        ? t("networks.resources:resourceActionCell.description.isNow.enabled", {
+            name: resource?.name,
+          })
+        : t(
+            "networks.resources:resourceActionCell.description.isNow.disabled",
+            { name: resource?.name },
+          ),
       loadingMessage: t(
         "networks.resources:networkResourceModal.loadingMessage.updatingResource",
       ),

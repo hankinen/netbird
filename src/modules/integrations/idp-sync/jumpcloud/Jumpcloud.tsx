@@ -19,6 +19,7 @@ import JumpcloudSetup from "@/modules/integrations/idp-sync/jumpcloud/JumpcloudS
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 
+import { t } from "@/i18n";
 export const Jumpcloud = () => {
   const { mutate } = useSWRConfig();
   const [setupModal, setSetupModal] = useState(false);
@@ -43,10 +44,14 @@ export const Jumpcloud = () => {
     if (!integration) return setSetupModal(true);
 
     notify({
-      title: "Jumpcloud Integration",
-      description: `Jumpcloud was successfully ${
-        state ? "enabled" : "disabled"
-      }`,
+      title: t("integrations.idp-sync:jumpcloud.title.jumpcloudIntegration"),
+      description: state
+        ? t(
+            "integrations.idp-sync:jumpcloud.description.jumpcloudWasSuccessfully.enabled",
+          )
+        : t(
+            "integrations.idp-sync:jumpcloud.description.jumpcloudWasSuccessfully.disabled",
+          ),
       promise: scimRequest
         .put(
           {
@@ -58,7 +63,9 @@ export const Jumpcloud = () => {
           mutate("/integrations/scim-idp");
           setEnabled(state);
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t(
+        "integrations.idp-sync:azureAD.loadingMessage.updatingIntegration",
+      ),
     });
   };
 
@@ -68,9 +75,11 @@ export const Jumpcloud = () => {
     <>
       <IntegrationCard
         name="Jumpcloud"
-        description="Jumpcloud is a unified identity, device, and access management platform."
+        description={t(
+          "integrations.idp-sync:jumpcloud.description.jumpcloudIsAUnifiedIdentity",
+        )}
         url={{
-          title: "jumpcloud.com",
+          title: t("integrations.idp-sync:jumpcloud.title.jumpcloudCom"),
           href: "https://jumpcloud.com/",
         }}
         image={integrationImage}
@@ -91,7 +100,7 @@ export const Jumpcloud = () => {
             onClick={() => setSetupModal(true)}
           >
             <Repeat size={13} />
-            Connect Jumpcloud
+            {t("integrations.idp-sync:jumpcloud.text.connectJumpcloud")}
           </Button>
         }
       >
@@ -121,8 +130,11 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
   const [configModal, setConfigModal] = useState(false);
 
   const lastSync = useMemo(() => {
-    if (isEmpty(logs)) return "Not synchronized";
-    return "Synced " + dayjs().to(logs?.[0]?.timestamp);
+    if (isEmpty(logs))
+      return t("integrations.idp-sync:azureAD.text.notSynchronized");
+    return t("integrations.idp-sync:azureAD.text.synced", {
+      to: dayjs().to(logs?.[0]?.timestamp),
+    });
   }, [logs]);
 
   return (

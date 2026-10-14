@@ -12,13 +12,11 @@
   "identityProvidersTab.title.addIdentityProvider": "Add Identity Provider",
   "identityProvidersTab.description.configureAnIdentityProviderTo": "Configure an identity provider to enable SSO authentication for your users.",
   "metricsTab.title.metrics": "Metrics",
-  "metricsTab.description.metricsPushSuccessfully": "Metrics push successfully {{value}}.",
   "metricsTab.loadingMessage.updatingMetricsSetting": "Updating metrics setting...",
   "metricsTab.text.shareClientPerformanceMetricsTo": "Share client performance metrics to help us improve NetBird.",
   "metricsTab.text.sharePerformanceMetrics": "Share performance metrics",
   "metricsTab.helpText.whenEnabledClientsWillPeriodically": "When enabled, clients will periodically send performance data to help us identify and fix issues.",
   "networkSettingsTab.title.routingPeerDNSResolution": "Routing Peer DNS Resolution",
-  "networkSettingsTab.description.routingPeerDNSResolutionSuccessfully": "Routing Peer DNS Resolution successfully {{value}}.",
   "networkSettingsTab.loadingMessage.updatingRoutingPeerDNSResolution": "Updating routing peer DNS resolution setting...",
   "networkSettingsTab.title.networkSettings": "Network Settings",
   "networkSettingsTab.description.networkSettingsSuccessfullyUpdated": "Network settings successfully updated.",
@@ -45,5 +43,9 @@
   "permissionsTab.helpText.accessToTheDashboardWill": "Access to the dashboard will be limited and regular users will not be able to view any peers.",
   "setupKeysTab.text.setupKeysArePreAuthentication": "Setup keys are pre-authentication keys that allow to register new machines in your network.",
   "logoutUrlCopied": "Logout URL was copied to your clipboard!",
-  "redirectUrlCopied": "Redirect URL was copied to your clipboard!"
+  "redirectUrlCopied": "Redirect URL was copied to your clipboard!",
+  "networkSettingsTab.description.routingPeerDNSResolutionSuccessfully.enabled": "Routing Peer DNS Resolution successfully enabled.",
+  "networkSettingsTab.description.routingPeerDNSResolutionSuccessfully.disabled": "Routing Peer DNS Resolution successfully disabled.",
+  "metricsTab.description.metricsPushSuccessfully.enabled": "Metrics push successfully enabled.",
+  "metricsTab.description.metricsPushSuccessfully.disabled": "Metrics push successfully disabled."
 }

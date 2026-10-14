@@ -19,6 +19,7 @@ import { Okta } from "@/modules/integrations/idp-sync/okta-scim/Okta";
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
 import { Callout } from "@components/Callout";
 
+import { t } from "@/i18n";
 export default function IdentityProviderTab() {
   const account = useAccount();
 
@@ -30,33 +31,42 @@ export default function IdentityProviderTab() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/integrations"}
-            label={"Integrations"}
+            label={t("common:word.integrations")}
             icon={<IntegrationIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings?tab=identity-provider"}
-            label={"Identity Provider Sync"}
+            label={t(
+              "integrations.idp-sync:identityProviderCard.title.identityProviderSync",
+            )}
             icon={<FingerprintIcon size={14} />}
             active
           />
         </Breadcrumbs>
-        <h1>Identity Provider Sync</h1>
+        <h1>
+          {t(
+            "integrations.idp-sync:identityProviderCard.title.identityProviderSync",
+          )}
+        </h1>
         <Paragraph>
-          Configure your preferred Identity Provider (IdP) to synchronize your
-          users and groups to NetBird.
+          {t(
+            "integrations.idp-sync:identityProviderTab.text.configureYourPreferredIdentityProvider",
+          )}
         </Paragraph>
         <Paragraph>
           <InlineLink
             href={"https://docs.netbird.io/how-to/idp-sync"}
             target={"_blank"}
           >
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
 
         <LockedFeatureInfoCard
-          featureText={"Identity Provider (IdP) Sync"}
+          featureText={t(
+            "integrations.idp-sync:identityProviderTab.featureText.identityProviderIdPSync",
+          )}
           feature={"IDP_SYNC"}
         />
 
@@ -84,17 +94,26 @@ export default function IdentityProviderTab() {
               </>
             )}
           </div>
-            { isNetBirdCloud() && <Callout variant={"warning"} className={"max-w-lg mt-6"}>
-            Looking to enable a custom IdP like Keycloak? <br />
-            Please contact us at{" "}
-            <InlineLink
-              href={"mailto:support@netbird.io"}
-              className={"inline !text-netbird-500 font-medium"}
-            >
-              {" "}
-              support@netbird.io
-            </InlineLink>{" "}
-          </Callout>}
+          {isNetBirdCloud() && (
+            <Callout variant={"warning"} className={"max-w-lg mt-6"}>
+              {t(
+                "integrations.idp-sync:identityProviderTab.text.lookingToEnableACustom",
+              )}{" "}
+              <br />
+              {t(
+                "integrations.idp-sync:identityProviderTab.text.pleaseContactUsAt",
+              )}{" "}
+              <InlineLink
+                href={"mailto:support@netbird.io"}
+                className={"inline !text-netbird-500 font-medium"}
+              >
+                {" "}
+                {t(
+                  "integrations.idp-sync:identityProviderTab.text.supportNetbirdIo",
+                )}
+              </InlineLink>{" "}
+            </Callout>
+          )}
         </LockedFeatureOverlay>
       </div>
     </Tabs.Content>

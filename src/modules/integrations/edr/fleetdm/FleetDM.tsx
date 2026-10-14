@@ -12,16 +12,14 @@ import integrationImage from "@/assets/integrations/fleetdm.png";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { Account } from "@/interfaces/Account";
-import {
-  FleetDMIntegration,
-  FleetDMMatchAttributes,
-} from "@/interfaces/EDR";
+import { FleetDMIntegration, FleetDMMatchAttributes } from "@/interfaces/EDR";
 import FleetDMConfiguration from "@/modules/integrations/edr/fleetdm/FleetDMConfiguration";
 import FleetDMSetup from "@/modules/integrations/edr/fleetdm/FleetDMSetup";
 import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import { Group } from "@/interfaces/Group";
 
+import { t } from "@/i18n";
 type Props = {
   account: Account;
 };
@@ -53,10 +51,12 @@ export const FleetDM = ({ account }: Props) => {
 
     const choice = isCurrentlyEnabled
       ? await confirm({
-          title: `Disable FleetDM?`,
-          description: `Are you sure you want to disable the FleetDM integration?`,
-          confirmText: "Disable",
-          cancelText: "Cancel",
+          title: t("integrations.edr:fleetDM.title.disableFleetDM"),
+          description: t(
+            "integrations.edr:fleetDM.description.areYouSureYouWant",
+          ),
+          confirmText: t("common:word.disable"),
+          cancelText: t("common:word.cancel"),
           type: "warning",
         })
       : true;
@@ -66,10 +66,14 @@ export const FleetDM = ({ account }: Props) => {
       integration.groups?.map((group) => (group as Group).id) || [];
 
     notify({
-      title: "FleetDM Integration",
-      description: `FleetDM was successfully ${
-        isCurrentlyEnabled ? "disabled" : "enabled"
-      }`,
+      title: t("integrations.edr:fleetDM.title.fleetDMIntegration"),
+      description: isCurrentlyEnabled
+        ? t(
+            "integrations.edr:fleetDM.description.fleetDMWasSuccessfully.disabled",
+          )
+        : t(
+            "integrations.edr:fleetDM.description.fleetDMWasSuccessfully.enabled",
+          ),
       promise: integrationRequest
         .put({
           ...integration,
@@ -80,7 +84,9 @@ export const FleetDM = ({ account }: Props) => {
         .then(() => {
           mutate("/integrations/edr/fleetdm");
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t(
+        "integrations.edr:intune.loadingMessage.updatingIntegration",
+      ),
     });
   };
 
@@ -90,9 +96,11 @@ export const FleetDM = ({ account }: Props) => {
     <>
       <IntegrationCard
         name={"FleetDM"}
-        description="Open-source device management platform for macOS, Windows, and Linux with osquery-based compliance policies."
+        description={t(
+          "integrations.edr:fleetDM.description.openSourceDeviceManagementPlatform",
+        )}
         url={{
-          title: "fleetdm.com",
+          title: t("integrations.edr:fleetDM.title.fleetdmCom"),
           href: "https://fleetdm.com/",
         }}
         image={integrationImage}
@@ -125,8 +133,11 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
   const [configModal, setConfigModal] = useState(false);
 
   const lastSync = useMemo(() => {
-    if (isEmpty(config?.last_synced_at)) return "Not synchronized";
-    return "Synced " + dayjs().to(config?.last_synced_at);
+    if (isEmpty(config?.last_synced_at))
+      return t("integrations.edr:fleetDM.text.notSynchronized");
+    return t("integrations.edr:fleetDM.text.synced", {
+      to: dayjs().to(config?.last_synced_at),
+    });
   }, [config]);
 
   return (
@@ -150,7 +161,7 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
           }}
         >
           <Settings size={14} />
-          Settings
+          {t("common:word.settings")}
         </Button>
       </div>
       <FleetDMConfiguration
@@ -176,9 +187,15 @@ export function matchAttributesReducer(
       return { ...state, status_online: val ? true : undefined };
     }
     case "SET_FAILING_POLICIES_COUNT_MAX":
-      return { ...state, failing_policies_count_max: action.payload as number | undefined };
+      return {
+        ...state,
+        failing_policies_count_max: action.payload as number | undefined,
+      };
     case "SET_VULNERABLE_SOFTWARE_COUNT_MAX":
-      return { ...state, vulnerable_software_count_max: action.payload as number | undefined };
+      return {
+        ...state,
+        vulnerable_software_count_max: action.payload as number | undefined,
+      };
     case "SET_REQUIRED_POLICIES": {
       const raw = action.payload as string;
       const ids = raw

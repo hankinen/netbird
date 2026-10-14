@@ -19,6 +19,7 @@ import IdentityProviderTab from "@/modules/integrations/idp-sync/IdentityProvide
 import SSOTab from "@/modules/integrations/sso/SSOTab";
 import { isNetBirdCloud } from "@utils/netbird";
 
+import { t } from "@/i18n";
 export default function Integrations() {
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab");
@@ -32,23 +33,23 @@ export default function Integrations() {
         <VerticalTabs.List>
           <VerticalTabs.Trigger value="identity-provider">
             <FingerprintIcon size={14} />
-            Identity Provider Sync
+            {t("integrations.page:page.text.identityProviderSync")}
           </VerticalTabs.Trigger>
 
           {isNetBirdCloud() && (
             <VerticalTabs.Trigger value="sso">
               <KeyRoundIcon size={14} />
-              Single Sign-On
+              {t("integrations.page:page.text.singleSignOn")}
             </VerticalTabs.Trigger>
           )}
 
           <VerticalTabs.Trigger value="event-streaming">
             <FileText size={14} />
-            Event Streaming
+            {t("integrations.page:page.text.eventStreaming")}
           </VerticalTabs.Trigger>
           <VerticalTabs.Trigger value="edr">
             <ShieldCheckIcon size={15} />
-            MDM & EDR
+            {t("integrations.edr:eDRTab.text.mDMEDR")}
           </VerticalTabs.Trigger>
         </VerticalTabs.List>
         <RestrictedAccess

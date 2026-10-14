@@ -479,7 +479,7 @@ export default function AccessControlTable({
             value={p.value as string | undefined}
             onChange={p.onChange}
             close={p.close}
-            placeholder={"e.g. 443"}
+            placeholder={t("common:placeholder.example", { value: "443" })}
           />
         ),
         formatChip: (v) => formatTextChip(v as string | undefined),

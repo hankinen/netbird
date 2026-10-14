@@ -70,10 +70,13 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
       title: t(
         "settings.identity-providers-tab:networkSettingsTab.title.routingPeerDNSResolution",
       ),
-      description: t(
-        "settings.identity-providers-tab:networkSettingsTab.description.routingPeerDNSResolutionSuccessfully",
-        { value: toggle ? "enabled" : "disabled" },
-      ),
+      description: toggle
+        ? t(
+            "settings.identity-providers-tab:networkSettingsTab.description.routingPeerDNSResolutionSuccessfully.enabled",
+          )
+        : t(
+            "settings.identity-providers-tab:networkSettingsTab.description.routingPeerDNSResolutionSuccessfully.disabled",
+          ),
       promise: saveRequest
         .put({
           id: account.id,
@@ -297,7 +300,9 @@ function NetworkSettingsTabContent({ account }: Readonly<Props>) {
               </div>
               <div className={"w-full"}>
                 <Input
-                  placeholder={"e.g. 100.64.0.0/16"}
+                  placeholder={t("common:placeholder.example", {
+                    value: "100.64.0.0/16",
+                  })}
                   errorTooltip={true}
                   errorTooltipPosition={"top"}
                   error={networkRangeError}

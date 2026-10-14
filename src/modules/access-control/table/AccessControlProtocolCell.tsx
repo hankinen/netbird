@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import Badge from "@components/Badge";
 import { Share2 } from "lucide-react";
 import React, { useMemo } from "react";
@@ -20,7 +21,9 @@ export default function AccessControlProtocolCell({ policy }: Props) {
         className={"uppercase tracking-wider font-medium"}
       >
         <Share2 size={12} />
-        {firstRule.protocol}
+        {firstRule.protocol === "all"
+          ? t("common:protocol.all")
+          : firstRule.protocol}
       </Badge>
     </div>
   ) : (

@@ -25,10 +25,13 @@ export const RoutingPeersEnabledCell = ({ router }: Props) => {
       title: t(
         "networks.routing-peers:networkRoutingPeerModal.title.networkRoutingPeer",
       ),
-      description: t(
-        "networks.routing-peers:routingPeersActionCell.description.routingPeerIsNow",
-        { value: enabled ? "enabled" : "disabled" },
-      ),
+      description: enabled
+        ? t(
+            "networks.routing-peers:routingPeersActionCell.description.routingPeerIsNow.enabled",
+          )
+        : t(
+            "networks.routing-peers:routingPeersActionCell.description.routingPeerIsNow.disabled",
+          ),
       loadingMessage: t(
         "networks.routing-peers:routingPeersActionCell.loadingMessage.updatingRoutingPeer",
       ),

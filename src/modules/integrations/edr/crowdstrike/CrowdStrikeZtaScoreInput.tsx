@@ -5,6 +5,7 @@ import { cn } from "@utils/helpers";
 import { ArrowUpWideNarrowIcon } from "lucide-react";
 import * as React from "react";
 
+import { t } from "@/i18n";
 type Props = {
   enabled: boolean;
   value: string;
@@ -25,11 +26,11 @@ export const CrowdStrikeZtaScoreInput = ({
       )}
     >
       <div>
-        <Label>Score Threshold</Label>
+        <Label>
+          {t("integrations.edr:crowdStrikeZtaScoreInput.text.scoreThreshold")}
+        </Label>
         <HelpText>
-          {
-            "If the peer's ZTA score is below the threshold, the peer will be rejected. The score should be between 1 and 100."
-          }
+          {t("integrations.edr:crowdStrikeZtaScoreInput.text.ifThePeerSZTA")}
         </HelpText>
       </div>
       <Input

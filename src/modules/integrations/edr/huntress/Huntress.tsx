@@ -19,6 +19,7 @@ import HuntressSetup from "@/modules/integrations/edr/huntress/HuntressSetup";
 import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 
+import { t } from "@/i18n";
 type Props = {
   account: Account;
 };
@@ -56,10 +57,12 @@ export const Huntress = ({ account }: Props) => {
 
     const choice = isCurrentlyEnabled
       ? await confirm({
-          title: `Disable Huntress?`,
-          description: `Are you sure you want to disable the Huntress integration?`,
-          confirmText: "Disable",
-          cancelText: "Cancel",
+          title: t("integrations.edr:huntress.title.disableHuntress"),
+          description: t(
+            "integrations.edr:huntress.description.areYouSureYouWant",
+          ),
+          confirmText: t("common:word.disable"),
+          cancelText: t("common:word.cancel"),
           type: "warning",
         })
       : true;
@@ -71,10 +74,14 @@ export const Huntress = ({ account }: Props) => {
       ) || [];
 
     notify({
-      title: "Huntress Integration",
-      description: `Huntress was successfully ${
-        isCurrentlyEnabled ? "disabled" : "enabled"
-      }`,
+      title: t("integrations.edr:huntress.title.huntressIntegration"),
+      description: isCurrentlyEnabled
+        ? t(
+            "integrations.edr:huntress.description.huntressWasSuccessfully.disabled",
+          )
+        : t(
+            "integrations.edr:huntress.description.huntressWasSuccessfully.enabled",
+          ),
       promise: integrationRequest
         .put({
           ...integration,
@@ -84,7 +91,9 @@ export const Huntress = ({ account }: Props) => {
         .then(() => {
           mutate("/integrations/edr/huntress");
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t(
+        "integrations.edr:intune.loadingMessage.updatingIntegration",
+      ),
     });
   };
 
@@ -94,9 +103,11 @@ export const Huntress = ({ account }: Props) => {
     <>
       <IntegrationCard
         name={"Huntress"}
-        description="EDR with comprehensive, enterprise-grade protection, continuously backed by 24/7 AI-assisted SOC."
+        description={t(
+          "integrations.edr:huntress.description.eDRWithComprehensiveEnterpriseGrade",
+        )}
         url={{
-          title: "huntress.com",
+          title: t("integrations.edr:huntress.title.huntressCom"),
           href: "https://huntress.com/",
         }}
         image={integrationImage}
@@ -130,8 +141,11 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
   const [configModal, setConfigModal] = useState(false);
 
   const lastSync = useMemo(() => {
-    if (isEmpty(config?.last_synced_at)) return "Not synchronized";
-    return "Synced " + dayjs().to(config?.last_synced_at);
+    if (isEmpty(config?.last_synced_at))
+      return t("integrations.edr:fleetDM.text.notSynchronized");
+    return t("integrations.edr:fleetDM.text.synced", {
+      to: dayjs().to(config?.last_synced_at),
+    });
   }, [config]);
 
   return (
@@ -155,7 +169,7 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
           }}
         >
           <Settings size={14} />
-          Settings
+          {t("common:word.settings")}
         </Button>
       </div>
       <HuntressConfiguration

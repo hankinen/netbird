@@ -30,7 +30,7 @@ for (const ns of new Set([...Object.keys(en), ...Object.keys(zh)])) {
   for (const k of zb) if (!eb.has(k)) errors.push(`zh-CN/${ns}.json has extra key "${k}"`);
   for (const [k, v] of Object.entries(en[ns])) {
     const z = zh[ns][k] ?? zh[ns][base(k) + "_other"];
-    if (z === v && !KEEP_EN.has(v) && /[A-Za-z][a-z]{2,} [A-Za-z][a-z]{2,}/.test(v.replace(/\{\{\w+\}\}/g, "")) && !/^https?:|@/.test(v)) warnings.push(`untranslated zh-CN ${ns}:${k}`);
+    if (z === v && !KEEP_EN.has(v) && /[A-Za-z]{2,}/.test(v.replace(/\{\{\w+\}\}/g, "")) && !/^https?:|@|^[-/]|\\|^[\w.]+\.\w+$/.test(v)) warnings.push(`untranslated zh-CN ${ns}:${k}`);
     if (typeof z === "string" && vars(v) !== vars(z)) errors.push(`${ns}:${k} interpolation differs: en {${vars(v)}} zh-CN {${vars(z)}}`);
   }
 }

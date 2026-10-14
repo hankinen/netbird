@@ -12,6 +12,7 @@ import S3 from "@/modules/integrations/event-streaming/amazon/s3/S3";
 import Datadog from "@/modules/integrations/event-streaming/datadog/Datadog";
 import GenericHTTP from "@/modules/integrations/event-streaming/generic-http/GenericHTTP";
 
+import { t } from "@/i18n";
 export default function EventStreamingTab() {
   return (
     <Tabs.Content value={"event-streaming"}>
@@ -19,33 +20,42 @@ export default function EventStreamingTab() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/integrations"}
-            label={"Integrations"}
+            label={t("common:word.integrations")}
             icon={<IntegrationIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/integrations"}
-            label={"Event Streaming"}
+            label={t(
+              "integrations.event-streaming:eventStreamingCard.title.eventStreaming",
+            )}
             icon={<FileText size={14} />}
             active
           />
         </Breadcrumbs>
-        <h1>Event Streaming</h1>
+        <h1>
+          {t(
+            "integrations.event-streaming:eventStreamingCard.title.eventStreaming",
+          )}
+        </h1>
         <Paragraph>
-          Event Streaming allows you to stream NetBirds audit & traffic events
-          to different third-party services.
+          {t(
+            "integrations.event-streaming:eventStreamingTab.text.eventStreamingAllowsYouTo",
+          )}
         </Paragraph>
         <Paragraph>
           <InlineLink
             href={"https://docs.netbird.io/how-to/activity-event-streaming"}
             target={"_blank"}
           >
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
 
         <LockedFeatureInfoCard
-          featureText={"Event Streaming"}
+          featureText={t(
+            "integrations.event-streaming:eventStreamingCard.title.eventStreaming",
+          )}
           feature={"EVENT_STREAMING"}
         />
         <LockedFeatureOverlay feature={"EVENT_STREAMING"} opacity={100}>

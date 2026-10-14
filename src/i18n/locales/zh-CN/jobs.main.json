@@ -21,6 +21,6 @@
   "createDebugJobModal.text.serviceThePeerRequestsAn": "设备请求上传 URL 的服务。留空则使用默认上传服务器。必须是 https URL。",
   "createDebugJobModal.placeholder.httpsUploadDebugNetbirdIo": "https://upload.debug.netbird.io",
   "createDebugJobModal.text.createDebugBundle": "创建调试包",
-  "createDebugJobModal.customSuffix.fileS": "File(s)",
-  "createDebugJobModal.customSuffix.minuteS": "Minute(s)"
+  "createDebugJobModal.customSuffix.fileS": "个文件",
+  "createDebugJobModal.customSuffix.minuteS": "分钟"
 }

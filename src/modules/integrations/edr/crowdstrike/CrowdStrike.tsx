@@ -16,6 +16,7 @@ import CrowdStrikeSetup from "@/modules/integrations/edr/crowdstrike/CrowdStrike
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import { useIntegrations } from "../useIntegrations";
 
+import { t } from "@/i18n";
 type Props = {
   account: Account;
 };
@@ -49,11 +50,12 @@ export const CrowdStrike = ({ account }: Props) => {
 
     const choice = isCurrentlyEnabled
       ? await confirm({
-          title: `Disable CrowdStrike?`,
-          description:
-            "Are you sure you want to disable the CrowdStrike integration?",
-          confirmText: "Disable",
-          cancelText: "Cancel",
+          title: t("integrations.edr:crowdStrike.title.disableCrowdStrike"),
+          description: t(
+            "integrations.edr:crowdStrike.description.areYouSureYouWant",
+          ),
+          confirmText: t("common:word.disable"),
+          cancelText: t("common:word.cancel"),
           type: "warning",
         })
       : true;
@@ -65,10 +67,14 @@ export const CrowdStrike = ({ account }: Props) => {
       ) || [];
 
     notify({
-      title: "CrowdStrike Integration",
-      description: `CrowdStrike was successfully ${
-        isCurrentlyEnabled ? "disabled" : "enabled"
-      }`,
+      title: t("integrations.edr:crowdStrike.title.crowdStrikeIntegration"),
+      description: isCurrentlyEnabled
+        ? t(
+            "integrations.edr:crowdStrike.description.crowdStrikeWasSuccessfully.disabled",
+          )
+        : t(
+            "integrations.edr:crowdStrike.description.crowdStrikeWasSuccessfully.enabled",
+          ),
       promise: integrationRequest
         .put({
           ...integration,
@@ -80,7 +86,9 @@ export const CrowdStrike = ({ account }: Props) => {
         .then(() => {
           mutate("/integrations/edr/falcon");
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t(
+        "integrations.edr:intune.loadingMessage.updatingIntegration",
+      ),
     });
   };
 
@@ -90,9 +98,11 @@ export const CrowdStrike = ({ account }: Props) => {
     <>
       <IntegrationCard
         name="CrowdStrike"
-        description="CrowdStrike is a cloud-native platform for protecting endpoints, cloud workloads, identities and data."
+        description={t(
+          "integrations.edr:crowdStrike.description.crowdStrikeIsACloudNative",
+        )}
         url={{
-          title: "crowdstrike.com",
+          title: t("integrations.edr:crowdStrike.title.crowdstrikeCom"),
           href: "https://www.crowdstrike.com/",
         }}
         image={integrationImage}
@@ -139,7 +149,7 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
           }}
         >
           <Settings size={14} />
-          Settings
+          {t("common:word.settings")}
         </Button>
       </div>
       <CrowdStrikeConfiguration

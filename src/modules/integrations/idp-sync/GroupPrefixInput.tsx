@@ -5,6 +5,7 @@ import { Folder, MinusCircleIcon, PlusIcon } from "lucide-react";
 import * as React from "react";
 import { useEffect, useState } from "react";
 
+import { t } from "@/i18n";
 type GroupPrefixInputProps = {
   value: string[];
   onChange: (values: string[]) => void;
@@ -17,10 +18,10 @@ type GroupPrefixInputProps = {
 export function GroupPrefixInput({
   value,
   onChange,
-  addText = "Add group filter",
+  addText = t("integrations.idp-sync:groupPrefixInput.text.addGroupFilter"),
   icon = <Folder size={14} />,
-  text = "Group starts with...",
-  placeholder = "e.g., NetBird_",
+  text = t("integrations.idp-sync:groupPrefixInput.text.groupStartsWith"),
+  placeholder = t("common:placeholder.example", { value: "NetBird_" }),
 }: GroupPrefixInputProps) {
   const [groupPrefixes, setGroupPrefixes] = useState<string[]>(value);
   const prefixes = useDebounce(groupPrefixes, 100);

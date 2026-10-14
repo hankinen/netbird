@@ -45,7 +45,6 @@
   "networkResourceModal.text.pleaseReviewThemInThe2": "请在“访问控制”选项卡中查看。",
   "networkResourceModal.text.reviewThemOnTheCanvas": "部署前请在画布上检查。",
   "resourceActionCell.title.updateResource": "更新资源",
-  "resourceActionCell.description.isNow": "“{{name}}”现已{{value}}",
   "resourceActionCell.ariaLabel.resourceActions": "资源操作",
   "resourceExposeServiceCell.text.expose": "暴露",
   "resourceGroupModal.description.groupsUpdated": "“{{name}}”的组已更新",
@@ -71,5 +70,7 @@
   "resourcesTable.text.goToNetworks": "前往网络",
   "networkResourceModal.content.aSingleHostAddressE": "单个主机地址，例如 10.0.0.1 或 192.168.1.5。用于授予对特定机器或服务的访问权限。",
   "networkResourceModal.content.toGiveAccessToAn": "要授予对整个子网的访问权限，请使用 CIDR 块，例如 10.0.0.0/24 或 192.168.1.0/24。",
-  "networkResourceModal.content.aDNSDomainNameE": "DNS 域名，例如 service.internal、example.com，或使用 *.example.com 匹配所有子域名。"
+  "networkResourceModal.content.aDNSDomainNameE": "DNS 域名，例如 service.internal、example.com，或使用 *.example.com 匹配所有子域名。",
+  "resourceActionCell.description.isNow.enabled": "“{{name}}”现已启用",
+  "resourceActionCell.description.isNow.disabled": "“{{name}}”现已禁用"
 }

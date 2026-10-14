@@ -28,10 +28,12 @@
   "routingPeerMasqueradeSwitch.text.group": "Group",
   "routingPeerMasqueradeSwitch.text.containsAtLeastOneNon": "contains at least one non-Linux peer.",
   "routingPeerMasqueradeSwitch.text.disabledMasqueradeWillHaveNo": "Disabled Masquerade will have no effect on non-Linux routing peers.",
-  "routingPeersActionCell.description.routingPeerIsNow": "Routing peer is now {{value}}",
   "routingPeersActionCell.loadingMessage.updatingRoutingPeer": "Updating routing peer...",
   "routingPeersActionCell.ariaLabel.routingPeerActions": "Routing peer actions",
   "routingPeersActionCell.text.remove": "Remove",
-  "routingPeersMasqueradeCell.description.masqueradeIsNow": "Masquerade is now {{value}}",
-  "routingPeersMasqueradeCell.loadingMessage.updatingMasquerade": "Updating masquerade..."
+  "routingPeersMasqueradeCell.loadingMessage.updatingMasquerade": "Updating masquerade...",
+  "routingPeersActionCell.description.routingPeerIsNow.enabled": "Routing peer is now enabled",
+  "routingPeersActionCell.description.routingPeerIsNow.disabled": "Routing peer is now disabled",
+  "routingPeersMasqueradeCell.description.masqueradeIsNow.enabled": "Masquerade is now enabled",
+  "routingPeersMasqueradeCell.description.masqueradeIsNow.disabled": "Masquerade is now disabled"
 }

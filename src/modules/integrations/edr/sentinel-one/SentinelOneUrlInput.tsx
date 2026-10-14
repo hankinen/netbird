@@ -2,6 +2,7 @@ import { Input, InputProps } from "@components/Input";
 import React, { useMemo } from "react";
 import { isValidSentinelOneApiUrl } from "@/modules/integrations/edr/sentinel-one/SentinelOne";
 
+import { t } from "@/i18n";
 type Props = {
   value: string;
   setValue: (value: string) => void;
@@ -19,7 +20,9 @@ export default function SentinelOneUrlInput({
   const error = useMemo(() => {
     if (value === "") return "";
     if (isValid) return "";
-    return "Please enter a valid SentinelOne url e.g., https://your-tenant.sentinelone.net";
+    return t(
+      "integrations.edr:sentinelOneUrlInput.text.pleaseEnterAValidSentinelOne",
+    );
   }, [value, isValid]);
 
   return (
@@ -28,7 +31,9 @@ export default function SentinelOneUrlInput({
       className={"w-full"}
       autoCorrect={"off"}
       autoComplete={"off"}
-      placeholder={"https://your-tenant.sentinelone.net"}
+      placeholder={t(
+        "integrations.edr:sentinelOneUrlInput.placeholder.httpsYourTenantSentineloneNet",
+      )}
       value={value}
       error={error}
       onChange={(e) => setValue(e.target.value)}

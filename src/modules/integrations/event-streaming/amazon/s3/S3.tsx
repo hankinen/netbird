@@ -12,6 +12,7 @@ import { EventStream } from "@/interfaces/EventStream";
 import S3Setup from "@/modules/integrations/event-streaming/amazon/s3/S3Setup";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 
+import { t } from "@/i18n";
 export default function S3() {
   const { permission } = usePermissions();
   // Event Streaming is a licensed feature; skip the call on open-source.
@@ -46,22 +47,29 @@ export default function S3() {
     if (!s3Settings) return setSetupModal(true);
 
     const choice = await confirm({
-      title: `Disconnect S3?`,
-      description:
-        "Disconnecting deletes the current configuration. You will need to start the setup process again.",
-      confirmText: "Disconnect",
-      cancelText: "Cancel",
+      title: t("integrations.event-streaming:s3.title.disconnectS3"),
+      description: t(
+        "integrations.event-streaming:datadog.description.disconnectingDeletesTheCurrentConfiguration",
+      ),
+      confirmText: t(
+        "integrations.event-streaming:datadog.confirmText.disconnect",
+      ),
+      cancelText: t("common:word.cancel"),
       type: "warning",
     });
     if (!choice) return;
 
     notify({
-      title: "S3 Integration",
-      description: `S3 was successfully disconnected`,
+      title: t("integrations.event-streaming:s3.title.s3Integration"),
+      description: t(
+        "integrations.event-streaming:s3.description.s3WasSuccessfullyDisconnected",
+      ),
       promise: integrationRequest.del({}, "/" + s3Settings.id).then(() => {
         mutate("/integrations/event-streaming");
       }),
-      loadingMessage: "Disconnecting integration...",
+      loadingMessage: t(
+        "integrations.event-streaming:datadog.loadingMessage.disconnectingIntegration",
+      ),
     });
   };
 
@@ -71,9 +79,11 @@ export default function S3() {
     <>
       <IntegrationCard
         name="Amazon S3"
-        description="Amazon S3 is a scalable storage in the cloud."
+        description={t(
+          "integrations.event-streaming:s3.description.amazonS3IsAScalable",
+        )}
         url={{
-          title: "aws.amazon.com/s3",
+          title: t("integrations.event-streaming:s3.title.awsAmazonComS3"),
           href: "https://aws.amazon.com/s3",
         }}
         image={integrationImage}

@@ -35,12 +35,13 @@ export default function AccessControlProtoPortsCell({
   if (!rule) return <EmptyRow />;
 
   const isNetBirdSSH = rule.protocol?.toLowerCase() === "netbird-ssh";
-  const protocolLabel = isNetBirdSSH ? "NB-SSH" : rule.protocol;
+  const protocolLabel = isNetBirdSSH
+    ? "NB-SSH"
+    : rule.protocol === "all"
+    ? t("common:protocol.all")
+    : rule.protocol;
   const protocolBadge = (
-    <Badge
-      variant={"gray"}
-      className={"uppercase tracking-wider font-medium"}
-    >
+    <Badge variant={"gray"} className={"uppercase tracking-wider font-medium"}>
       <Share2 size={12} />
       {protocolLabel}
     </Badge>
@@ -92,7 +93,10 @@ export default function AccessControlProtoPortsCell({
                     "px-3 whitespace-nowrap uppercase tracking-wider font-medium"
                   }
                 >
-                  {t("access-control.table:accessControlProtoPortsCell.text.ports", { length: allPorts.length })}
+                  {t(
+                    "access-control.table:accessControlProtoPortsCell.text.ports",
+                    { length: allPorts.length },
+                  )}
                 </Badge>
               )}
             </div>

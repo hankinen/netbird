@@ -23,6 +23,7 @@ import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import { Group } from "@/interfaces/Group";
 
+import { t } from "@/i18n";
 type Props = {
   account: Account;
 };
@@ -54,10 +55,12 @@ export const SentinelOne = ({ account }: Props) => {
 
     const choice = isCurrentlyEnabled
       ? await confirm({
-          title: `Disable SentinelOne?`,
-          description: `Are you sure you want to disable the SentinelOne integration?`,
-          confirmText: "Disable",
-          cancelText: "Cancel",
+          title: t("integrations.edr:sentinelOne.title.disableSentinelOne"),
+          description: t(
+            "integrations.edr:sentinelOne.description.areYouSureYouWant",
+          ),
+          confirmText: t("common:word.disable"),
+          cancelText: t("common:word.cancel"),
           type: "warning",
         })
       : true;
@@ -67,10 +70,14 @@ export const SentinelOne = ({ account }: Props) => {
       integration.groups?.map((group) => (group as Group).id) || [];
 
     notify({
-      title: "SentinelOne Integration",
-      description: `SentinelOne was successfully ${
-        isCurrentlyEnabled ? "disabled" : "enabled"
-      }`,
+      title: t("integrations.edr:sentinelOne.title.sentinelOneIntegration"),
+      description: isCurrentlyEnabled
+        ? t(
+            "integrations.edr:sentinelOne.description.sentinelOneWasSuccessfully.disabled",
+          )
+        : t(
+            "integrations.edr:sentinelOne.description.sentinelOneWasSuccessfully.enabled",
+          ),
       promise: integrationRequest
         .put({
           ...integration,
@@ -81,7 +88,9 @@ export const SentinelOne = ({ account }: Props) => {
         .then(() => {
           mutate("/integrations/edr/sentinelone");
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t(
+        "integrations.edr:intune.loadingMessage.updatingIntegration",
+      ),
     });
   };
 
@@ -91,9 +100,11 @@ export const SentinelOne = ({ account }: Props) => {
     <>
       <IntegrationCard
         name={"SentinelOne"}
-        description="AI-powered endpoint protection platform for real-time threat detection and automated response."
+        description={t(
+          "integrations.edr:sentinelOne.description.aIPoweredEndpointProtectionPlatform",
+        )}
         url={{
-          title: "sentinelone.com",
+          title: t("integrations.edr:sentinelOne.title.sentineloneCom"),
           href: "https://www.sentinelone.com/",
         }}
         image={integrationImage}
@@ -126,8 +137,11 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
   const [configModal, setConfigModal] = useState(false);
 
   const lastSync = useMemo(() => {
-    if (isEmpty(config?.last_synced_at)) return "Not synchronized";
-    return "Synced " + dayjs().to(config?.last_synced_at);
+    if (isEmpty(config?.last_synced_at))
+      return t("integrations.edr:fleetDM.text.notSynchronized");
+    return t("integrations.edr:fleetDM.text.synced", {
+      to: dayjs().to(config?.last_synced_at),
+    });
   }, [config]);
 
   return (
@@ -151,7 +165,7 @@ const ConfigurationButton = ({ config }: ConfigurationProps) => {
           }}
         >
           <Settings size={14} />
-          Settings
+          {t("common:word.settings")}
         </Button>
       </div>
       <SentinelOneConfiguration

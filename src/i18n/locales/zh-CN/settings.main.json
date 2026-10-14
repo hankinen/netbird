@@ -8,5 +8,5 @@
   "networkSettingsTab.text.prefixLengthMustBeBetween": "前缀长度必须在 /48 到 /112 之间",
   "clientSettingsTab.label.latestVersion": "最新版本",
   "clientSettingsTab.label.customVersion": "自定义版本",
-  "clientSettingsTab.customPrefix.version": "Version"
+  "clientSettingsTab.customPrefix.version": "版本"
 }
