@@ -11,6 +11,7 @@ import ModalHeader from "@components/modal/ModalHeader";
 import { trim } from "lodash";
 import { Group } from "@/interfaces/Group";
 
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -37,11 +38,19 @@ export const CreateGroupNameModal = ({
     const trimmed = trim(newName);
     // "All" is the system group; name-based checks would misidentify a copy.
     if (trimmed === "All") {
-      setError('The name "All" is reserved. Please choose another name.');
+      setError(
+        t(
+          "control-center.draft.draft-mode-switcher:createGroupNameModal.text.theNameAllIsReserved",
+        ),
+      );
     } else {
       const exists = groups?.some((g) => g.name === trimmed);
       setError(
-        exists ? "This group already exists. Please choose another name." : "",
+        exists
+          ? t(
+              "control-center.draft.draft-mode-switcher:createGroupNameModal.text.thisGroupAlreadyExistsPlease",
+            )
+          : "",
       );
     }
     setName(newName);
@@ -58,13 +67,19 @@ export const CreateGroupNameModal = ({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass={"max-w-md"}>
         <ModalHeader
-          title={"Create Group"}
-          description={"Set an easily identifiable name for your group."}
+          title={t(
+            "control-center.draft.draft-mode-switcher:createGroupNameModal.title.createGroup",
+          )}
+          description={t(
+            "control-center.draft.draft-mode-switcher:createGroupNameModal.description.setAnEasilyIdentifiableName",
+          )}
           color={"blue"}
         />
         <div className={"p-default flex flex-col gap-4"}>
           <Input
-            placeholder={"e.g., Developers"}
+            placeholder={t(
+              "control-center.draft.draft-mode-switcher:createGroupNameModal.placeholder.eGDevelopers",
+            )}
             value={name}
             onChange={handleNameChange}
             error={error}
@@ -75,7 +90,7 @@ export const CreateGroupNameModal = ({
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
               <Button variant={"secondary"} className={"w-full"}>
-                Cancel
+                {t("common:word.cancel")}
               </Button>
             </ModalClose>
             <Button
@@ -85,7 +100,7 @@ export const CreateGroupNameModal = ({
               disabled={isDisabled}
               type={"submit"}
             >
-              Save
+              {t("common:word.save")}
             </Button>
           </div>
         </ModalFooter>

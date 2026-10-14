@@ -14,7 +14,9 @@ export const PeerAddressTooltipContent = ({ peer }: Props) => {
   const { isLoading, getRegionByPeer } = useCountries();
 
   const countryText = useMemo(() => {
-    return getRegionByPeer(peer);
+    const region = getRegionByPeer(peer);
+    // Display only: "Unknown" is the provider's fallback, not backend data.
+    return region === "Unknown" ? t("common:word.unknownRegion") : region;
   }, [getRegionByPeer, peer]);
 
   return (

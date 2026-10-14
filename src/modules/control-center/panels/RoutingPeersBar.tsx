@@ -15,6 +15,7 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
 import { PeerOperatingSystemIcon } from "@/modules/peers/PeerOperatingSystemIcon";
 
+import { t } from "@/i18n";
 export const RoutingPeersIndicator = ({
   count,
   dotSize = 8,
@@ -238,9 +239,7 @@ export const RoutingPeersBar = ({
                 )
               }
               renderItem={(row) => (
-                <div
-                  className={"flex items-center gap-2.5 p-1 w-full min-w-0"}
-                >
+                <div className={"flex items-center gap-2.5 p-1 w-full min-w-0"}>
                   {row.isGroup ? (
                     <span
                       className={
@@ -287,7 +286,7 @@ export const RoutingPeersBar = ({
           )}
         >
           <CirclePlusIcon size={12} className={"shrink-0"} />
-          Add
+          {t("common:word.add")}
         </button>
       )}
     </div>

@@ -29,6 +29,7 @@ import { useDraftNodeCreation } from "@/modules/control-center/hooks/useDraftNod
 import { useEdgeAwareMenuPosition } from "@/modules/control-center/hooks/useEdgeAwareMenuPosition";
 import { menuItemSlug } from "@/modules/control-center/menus/menuItemTestId";
 
+import { t } from "@/i18n";
 type MenuPosition = {
   x: number;
   y: number;
@@ -44,7 +45,8 @@ const shortcutLabel = (n: number): React.ReactNode =>
     </span>
   ) : (
     <span className={"flex items-center gap-0.5"}>
-      Alt<span>+</span>
+      {t("control-center.menus:canvasContextMenu.text.alt")}
+      <span>+</span>
       {n}
     </span>
   );
@@ -95,13 +97,13 @@ export const CanvasContextMenu = ({ onOpenChange }: CanvasContextMenuProps) => {
     const groups = [
       [
         {
-          label: "New Server",
+          label: t("control-center.menus:canvasContextMenu.label.newServer"),
           icon: <ServerIcon size={14} />,
           permitted: true,
           action: (pos: XYPosition) => addPeerPlaceholder("server", pos),
         },
         {
-          label: "New Agent",
+          label: t("control-center.menus:canvasContextMenu.label.newAgent"),
           icon: <BotIcon size={14} />,
           permitted: true,
           action: (pos: XYPosition) => addPeerPlaceholder("agent", pos),
@@ -109,13 +111,13 @@ export const CanvasContextMenu = ({ onOpenChange }: CanvasContextMenuProps) => {
       ],
       [
         {
-          label: "New Policy",
+          label: t("control-center.menus:canvasContextMenu.label.newPolicy"),
           icon: <ShieldIcon size={14} />,
           permitted: permission.policies.create,
           action: (pos: XYPosition) => addBlankPolicy(pos),
         },
         {
-          label: "New Group",
+          label: t("control-center.menus:canvasContextMenu.label.newGroup"),
           icon: <FolderGit2 size={14} />,
           permitted: permission.groups.create,
           action: (pos: XYPosition) =>
@@ -125,7 +127,9 @@ export const CanvasContextMenu = ({ onOpenChange }: CanvasContextMenuProps) => {
       drilled
         ? [
             {
-              label: "New Resource",
+              label: t(
+                "control-center.menus:canvasContextMenu.label.newResource",
+              ),
               icon: <WorkflowIcon size={14} />,
               permitted: permission.networks.create,
               // Created into the drilled network. Pass the right-click point so
@@ -138,7 +142,9 @@ export const CanvasContextMenu = ({ onOpenChange }: CanvasContextMenuProps) => {
                 }),
             },
             {
-              label: "Add Routing Peer",
+              label: t(
+                "control-center.menus:canvasContextMenu.label.addRoutingPeer",
+              ),
               icon: <WaypointsIcon size={14} />,
               permitted: permission.networks.create,
               action: () =>
@@ -149,13 +155,17 @@ export const CanvasContextMenu = ({ onOpenChange }: CanvasContextMenuProps) => {
           ]
         : [
             {
-              label: "New Network",
+              label: t(
+                "control-center.menus:canvasContextMenu.label.newNetwork",
+              ),
               icon: <NetworkIcon size={14} />,
               permitted: permission.networks.create,
               action: (pos: XYPosition) => addBlankNode("network", pos),
             },
             {
-              label: "New Resource",
+              label: t(
+                "control-center.menus:canvasContextMenu.label.newResource",
+              ),
               icon: <WorkflowIcon size={14} />,
               permitted: permission.networks.create,
               // Open the editor first — a resource must have an IP/CIDR/domain;
@@ -166,7 +176,9 @@ export const CanvasContextMenu = ({ onOpenChange }: CanvasContextMenuProps) => {
           ],
       [
         {
-          label: "New Agent Policy",
+          label: t(
+            "control-center.menus:canvasContextMenu.label.newAgentPolicy",
+          ),
           icon: <ShieldIcon size={14} />,
           permitted:
             agentNetworkEnabled &&
@@ -174,7 +186,9 @@ export const CanvasContextMenu = ({ onOpenChange }: CanvasContextMenuProps) => {
           action: (pos: XYPosition) => addBlankAgentPolicy(pos),
         },
         {
-          label: "New Agent Provider",
+          label: t(
+            "control-center.menus:canvasContextMenu.label.newAgentProvider",
+          ),
           icon: <SparklesIcon size={14} />,
           permitted:
             agentNetworkEnabled &&

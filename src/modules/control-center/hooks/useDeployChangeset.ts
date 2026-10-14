@@ -37,6 +37,7 @@ import {
 } from "@/modules/control-center/utils/changeset-request";
 import { isDeployablePolicy } from "@/modules/control-center/utils/helpers";
 
+import { t } from "@/i18n";
 // Executes the draft changeset in CHANGE_DEPLOY_ORDER, stopping on the first failure.
 export type DeployStatus = "deploying" | "done" | "error";
 
@@ -550,12 +551,14 @@ export function useDeployChangeset() {
       setIsDeploying(false);
       deployInFlight.current = false;
       notify({
-        title: "Deploy failed",
-        description: `You don't have permission to ${forbidden
-          .map((c) => getChangeApiCall(c))
-          .join(", ")}. Remove ${
-          forbidden.length === 1 ? "that change" : "those changes"
-        } and try again.`,
+        title: t("control-center.hooks:useDeployChangeset.title.deployFailed"),
+        description: t(
+          "control-center.hooks:useDeployChangeset.description.youDonTHavePermission",
+          {
+            join: forbidden.map((c) => getChangeApiCall(c)).join(", "),
+            value: forbidden.length === 1 ? "that change" : "those changes",
+          },
+        ),
         backgroundColor: "bg-red-500",
       });
       return false;
@@ -574,10 +577,11 @@ export function useDeployChangeset() {
       setIsDeploying(false);
       deployInFlight.current = false;
       notify({
-        title: "Deploy failed",
-        description: `Policy “${
-          (contradicted as { name?: string }).name ?? "Policy"
-        }” is marked both for update and for deletion. Remove one of the two changes and try again.`,
+        title: t("control-center.hooks:useDeployChangeset.title.deployFailed"),
+        description: t(
+          "control-center.hooks:useDeployChangeset.description.policyIsMarkedBothFor",
+          { value: (contradicted as { name?: string }).name ?? "Policy" },
+        ),
         backgroundColor: "bg-red-500",
       });
       return false;
@@ -599,7 +603,12 @@ export function useDeployChangeset() {
           const e = err as { message?: string; code?: number };
           // Failed + remaining changes stay in the draft for a retry.
           throw {
-            message: `${label}: ${e?.message ?? "The API request failed."}`,
+            message: `${label}: ${
+              e?.message ??
+              t(
+                "control-center.hooks:useDeployChangeset.text.theAPIRequestFailed",
+              )
+            }`,
             code: e?.code ?? 0,
           };
         }
@@ -617,9 +626,11 @@ export function useDeployChangeset() {
       const rejected = Promise.reject(err);
       void rejected.catch(() => {});
       notify({
-        title: "Deploy failed",
+        title: t("control-center.hooks:useDeployChangeset.title.deployFailed"),
         // Only reached on rejection, where the toast renders the error instead.
-        description: "The deploy stopped on a failed change.",
+        description: t(
+          "control-center.hooks:useDeployChangeset.description.theDeployStoppedOnA",
+        ),
         promise: rejected,
       });
       return false;

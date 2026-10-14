@@ -1,0 +1,10 @@
+{
+  "selectPeerNode.text.searchPeers": "搜索设备...",
+  "resourceNode.text.iPCIDROrDomain": "IP、CIDR 或域名",
+  "resourceGroupNode.text.noResources": "暂无资源",
+  "selectUserNode.text.netBird": "NetBird",
+  "selectUserNode.searchPlaceholder.searchUserByNameOr": "按名称或邮箱搜索用户...",
+  "moreResourcesNode.text.more": "+{{count}} 更多",
+  "selectGroupNode.searchPlaceholder.searchGroups": "搜索组...",
+  "peerNode.text.installOrAssign": "安装或分配"
+}

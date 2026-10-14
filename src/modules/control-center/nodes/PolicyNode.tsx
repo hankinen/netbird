@@ -9,6 +9,7 @@ import { FullAreaTargetHandle } from "@/modules/control-center/handles/FullAreaT
 import { getPolicyProtocolAndPortText } from "@/modules/control-center/utils/helpers";
 import { Policy } from "@/interfaces/Policy";
 
+import { t } from "@/i18n";
 type PolicyNode = Node<
   {
     policy: Policy;
@@ -63,7 +64,7 @@ export const PolicyNode = ({ data, id }: PolicyNode) => {
           "border-l border-nb-gray-800 flex items-center text-nb-gray-300 text-[0.65rem] pl-2 pr-3 font-mono"
         }
       >
-        <div>{label === "" ? "All" : label}</div>
+        <div>{label === "" ? t("common:word.all") : label}</div>
       </div>
 
       <Handle

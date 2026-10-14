@@ -59,6 +59,7 @@ import { ToolbarContainer } from "@/modules/control-center/toolbar/ToolbarContai
 import { ToolbarDivider } from "@/modules/control-center/toolbar/ToolbarDivider";
 import { ToolbarGroup } from "@/modules/control-center/toolbar/ToolbarGroup";
 
+import { t } from "@/i18n";
 export const CanvasToolbar = () => {
   const {
     isDraft,
@@ -169,7 +170,9 @@ export const CanvasToolbar = () => {
     <ToolbarContainer>
       <ToolbarGroup position="first" className="pl-2 py-1.5">
         <ToolbarButton
-          tooltip="Add Components"
+          tooltip={t(
+            "control-center.draft.control-center-components-panel:canvasToolbar.tooltip.addComponents",
+          )}
           data-testid="cc-toolbar-add"
           shortcut="C"
           variant="primary"
@@ -184,7 +187,7 @@ export const CanvasToolbar = () => {
               "group-hover/add:rotate-90",
             )}
           />
-          Add
+          {t("common:word.add")}
         </ToolbarButton>
       </ToolbarGroup>
 
@@ -192,7 +195,9 @@ export const CanvasToolbar = () => {
 
       <ToolbarGroup position="middle">
         <ToolbarButton
-          tooltip="Select Tool"
+          tooltip={t(
+            "control-center.draft.control-center-components-panel:canvasToolbar.tooltip.selectTool",
+          )}
           shortcut="V"
           active={activeTool === CanvasTool.Select}
           onClick={() => setActiveTool(CanvasTool.Select)}
@@ -201,7 +206,9 @@ export const CanvasToolbar = () => {
           <MousePointer2Icon size={16} />
         </ToolbarButton>
         <ToolbarButton
-          tooltip="Hand Tool"
+          tooltip={t(
+            "control-center.draft.control-center-components-panel:canvasToolbar.tooltip.handTool",
+          )}
           shortcut="H"
           active={activeTool === CanvasTool.Hand}
           onClick={() => setActiveTool(CanvasTool.Hand)}
@@ -216,7 +223,9 @@ export const CanvasToolbar = () => {
       <ToolbarGroup compact position="middle">
         <ToolbarButton
           disabled={!canUndo}
-          tooltip="Undo"
+          tooltip={t(
+            "control-center.draft.control-center-components-panel:canvasToolbar.tooltip.undo",
+          )}
           data-testid="cc-toolbar-undo"
           shortcut={UndoShortcut}
           onClick={undo}
@@ -226,7 +235,9 @@ export const CanvasToolbar = () => {
         </ToolbarButton>
         <ToolbarButton
           disabled={!canRedo}
-          tooltip="Redo"
+          tooltip={t(
+            "control-center.draft.control-center-components-panel:canvasToolbar.tooltip.redo",
+          )}
           data-testid="cc-toolbar-redo"
           shortcut={RedoShortcut}
           onClick={redo}
@@ -240,7 +251,9 @@ export const CanvasToolbar = () => {
 
       <ToolbarGroup compact position="last">
         <ToolbarButton
-          tooltip="Zoom In"
+          tooltip={t(
+            "control-center.draft.control-center-components-panel:canvasToolbar.tooltip.zoomIn",
+          )}
           shortcut="+"
           onClick={handleZoomIn}
           className="w-8"
@@ -248,7 +261,9 @@ export const CanvasToolbar = () => {
           <PlusIcon size={14} />
         </ToolbarButton>
         <ToolbarButton
-          tooltip="Zoom Out"
+          tooltip={t(
+            "control-center.draft.control-center-components-panel:canvasToolbar.tooltip.zoomOut",
+          )}
           shortcut="-"
           onClick={handleZoomOut}
           className="w-8"
@@ -256,7 +271,9 @@ export const CanvasToolbar = () => {
           <MinusIcon size={14} />
         </ToolbarButton>
         <ToolbarButton
-          tooltip="Fit to View"
+          tooltip={t(
+            "control-center.draft.control-center-components-panel:canvasToolbar.tooltip.fitToView",
+          )}
           data-testid="cc-toolbar-fit"
           shortcut="1"
           onClick={handleFitView}
@@ -265,7 +282,9 @@ export const CanvasToolbar = () => {
           <FullscreenIcon size={14} />
         </ToolbarButton>
         <ToolbarButton
-          tooltip="Auto Arrange"
+          tooltip={t(
+            "control-center.draft.control-center-components-panel:canvasToolbar.tooltip.autoArrange",
+          )}
           data-testid="cc-toolbar-arrange"
           shortcut="A"
           onClick={handleArrange}

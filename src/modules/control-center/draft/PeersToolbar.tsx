@@ -31,6 +31,7 @@ import {
 } from "@/modules/control-center/utils/helpers";
 import { DROPPABLE_INTO_GROUP_NODE_TYPES as GROUPABLE_NODE_TYPES } from "@/modules/control-center/utils/node-capabilities";
 
+import { t } from "@/i18n";
 const PEER_NODE_TYPES = new Set([
   "peerNode",
   "sourcePeerNode",
@@ -321,7 +322,8 @@ export const PeersToolbar = () => {
     selectionNodes.length >= 2,
   );
 
-  const showToolbar = selectionNodes.length >= 2 && toolbarPosition && !mouseDown;
+  const showToolbar =
+    selectionNodes.length >= 2 && toolbarPosition && !mouseDown;
 
   return (
     <>
@@ -344,21 +346,29 @@ export const PeersToolbar = () => {
                     className="px-3"
                   >
                     <FolderPlusIcon size={14} />
-                    <span className="text-xs ml-2">Create Group</span>
+                    <span className="text-xs ml-2">
+                      {t(
+                        "control-center.draft.control-center-components-panel:peersToolbar.text.createGroup",
+                      )}
+                    </span>
                   </ToolbarButton>
                   <ToolbarButton
                     onClick={handleRemoveGroupables}
                     className="px-3"
                   >
                     <CircleXIcon size={14} />
-                    <span className="text-xs ml-2">Remove</span>
+                    <span className="text-xs ml-2">
+                      {t("common:word.remove")}
+                    </span>
                   </ToolbarButton>
                 </>
               ) : selectedGroupNodes.length >= 2 ? (
                 <>
                   <ToolbarButton onClick={handleRemoveGroups} className="px-3">
                     <CircleXIcon size={14} />
-                    <span className="text-xs ml-2">Remove</span>
+                    <span className="text-xs ml-2">
+                      {t("common:word.remove")}
+                    </span>
                   </ToolbarButton>
                   {deletableSelectedGroups.length > 0 && (
                     <ToolbarButton
@@ -366,17 +376,18 @@ export const PeersToolbar = () => {
                       className="px-3 text-red-500 hover:text-red-400"
                     >
                       <TrashIcon size={14} />
-                      <span className="text-xs ml-2">Delete</span>
+                      <span className="text-xs ml-2">
+                        {t("common:word.delete")}
+                      </span>
                     </ToolbarButton>
                   )}
                 </>
               ) : (
-                <ToolbarButton
-                  onClick={handleRemoveSelection}
-                  className="px-3"
-                >
+                <ToolbarButton onClick={handleRemoveSelection} className="px-3">
                   <CircleXIcon size={14} />
-                  <span className="text-xs ml-2">Remove</span>
+                  <span className="text-xs ml-2">
+                    {t("common:word.remove")}
+                  </span>
                 </ToolbarButton>
               )}
             </ToolbarGroup>

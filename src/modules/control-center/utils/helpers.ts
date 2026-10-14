@@ -11,6 +11,7 @@ import { Network, NetworkResource } from "@/interfaces/Network";
 import { Peer } from "@/interfaces/Peer";
 import { Policy } from "@/interfaces/Policy";
 
+import { t as i18nT } from "@/i18n";
 // crypto.randomUUID is missing in non-secure contexts and older Safari.
 export const draftUid = () =>
   typeof crypto !== "undefined" && crypto.randomUUID
@@ -45,7 +46,7 @@ export const getGroupCountLabel = (group?: Group, userCount = 0) => {
   const peerCount = group?.peers_count || 0;
   const resourceCount = group?.resources_count || 0;
   if (peerCount === 0 && resourceCount === 0 && userCount === 0) {
-    return "No Peers";
+    return i18nT("control-center.utils:helpers.text.noPeers");
   }
   return [
     { count: userCount, label: singularize("Users", userCount, true) },

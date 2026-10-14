@@ -8,12 +8,12 @@
   "trafficEventSetting.text.experimental": "实验性功能",
   "trafficEventSetting.text.trafficEventsIsAnExperimental": "流量事件是一项实验性功能，其功能和行为可能会变化，包括数据的收集或上报方式。流量事件数据最多保留 48 小时，且上限为 50,000 条事件。",
   "trafficEventSetting.text.enableTrafficEvents": "启用流量事件",
-  "trafficEventSetting.text.enableTrafficEventsForAll": "为所有对等节点启用流量事件。需要 NetBird 客户端 v0.39 或更高版本。",
+  "trafficEventSetting.text.enableTrafficEventsForAll": "为所有设备启用流量事件。需要 NetBird 客户端 v0.39 或更高版本。",
   "trafficEventSetting.text.enableTrafficReportingKernel": "启用流量上报（内核）",
   "trafficEventSetting.text.trafficReportingIsAlwaysEnabled": "流量上报在用户态中始终启用，此设置仅适用于内核模式。启用后，将统计并上报网络数据包及其大小。",
   "trafficEventSetting.text.limitToSpecificGroups": "仅限特定组",
-  "trafficEventSetting.text.selectPeerGroupsForWhich": "选择需要记录流量事件的对等节点组。",
-  "trafficEventSetting.text.ifNoGroupIsSelected": "如果未选择任何组，则对所有对等节点记录。",
+  "trafficEventSetting.text.selectPeerGroupsForWhich": "选择需要记录流量事件的设备组。",
+  "trafficEventSetting.text.ifNoGroupIsSelected": "如果未选择任何组，则对所有设备记录。",
   "trafficEventSetting.title.trafficEventsGroups": "流量事件组",
   "trafficEventSetting.description.trafficEventsGroupsSuccessfullyUpdated": "流量事件组已成功更新。",
   "trafficEventSetting.loadingMessage.updatingTrafficEventsGroups": "正在更新流量事件组...",
@@ -28,7 +28,7 @@
   "trafficEventsTable.text.trafficEventsHelpYouUnderstand": "流量事件帮助您了解组织内的网络活动。您可以看到哪些机器在相互连接，以及它们之间流动的是何种流量。",
   "trafficEventsTable.title.noTrafficEventsYet": "暂无流量事件",
   "trafficEventsTable.description.weHavenTDetectedAny": "尚未检测到任何流量事件。这可能是因为您刚刚启用此功能，或者还没有网络活动。",
-  "trafficEventsTable.searchPlaceholder.searchByIpPortPeer": "按 IP、端口、对等节点或资源搜索...",
+  "trafficEventsTable.searchPlaceholder.searchByIpPortPeer": "按 IP、端口、设备或资源搜索...",
   "trafficEventsPeerTabContent.text.inOurDocumentation": "（参见文档）。",
   "trafficEventsPeerTabContent.text.noTrafficEvents": "暂无流量事件",
   "trafficEventsPeerTabContent.text.trafficEventsDisabled": "流量事件已禁用",
@@ -39,6 +39,6 @@
   "trafficEventSetting.description.trafficEventsSuccessfully.disabled": "流量事件已成功禁用。",
   "trafficEventSetting.description.trafficReportingSuccessfully.enabled": "流量上报已成功启用。",
   "trafficEventSetting.description.trafficReportingSuccessfully.disabled": "流量上报已成功禁用。",
-  "trafficEventsPeerTabContent.text.inboundSentence": "这里显示此对等节点的所有入站流量事件。",
-  "trafficEventsPeerTabContent.text.outboundSentence": "这里显示此对等节点的所有出站流量事件。"
+  "trafficEventsPeerTabContent.text.inboundSentence": "这里显示此设备的所有入站流量事件。",
+  "trafficEventsPeerTabContent.text.outboundSentence": "这里显示此设备的所有出站流量事件。"
 }

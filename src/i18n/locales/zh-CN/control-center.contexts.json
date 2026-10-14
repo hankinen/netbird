@@ -1,0 +1,9 @@
+{
+  "controlCenterPolicyModals.title.savePolicyChanges": "保存策略更改？",
+  "controlCenterPolicyModals.description.youAreInLiveMode": "当前处于实时模式。保存后，更改将立即应用到您的账户。",
+  "controlCenterPolicyModals.title.saveChanges": "保存更改？",
+  "controlCenterPolicyModals.text.agentNetworkChangesArenT": "Agent Network 的更改不属于草稿。保存后将立即应用到您的账户。",
+  "controlCenterPolicyModals.title.replaceCurrentSourceGroup": "替换当前源组？",
+  "controlCenterPolicyModals.description.areYouSureYouWant": "确定要将“{{value}}”替换为“{{value2}}”吗？“{{value3}}”将无法再访问此策略的提供商。",
+  "controlCenterPolicyModals.confirmText.replace": "替换"
+}

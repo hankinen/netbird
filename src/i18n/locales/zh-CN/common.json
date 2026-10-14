@@ -96,12 +96,12 @@
   "apiError.tokenInUse": "此令牌正在使用中。",
   "word.dayS": "天",
   "placeholder.example": "例如 {{value}}",
-  "word.peersSelected": "已选对等节点",
+  "word.peersSelected": "已选设备",
   "placeholder.exampleOr": "例如 {{a}} 或 {{b}}",
   "countWord.activePolicies": "条已启用策略",
   "countWord.nameservers": "域名服务器",
   "countWord.networkRoutes": "网络路由",
-  "countWord.peers": "对等节点",
+  "countWord.peers": "设备",
   "countWord.policies": "策略",
   "countWord.resources": "资源",
   "countWord.routingPeers": "路由设备",
@@ -111,5 +111,12 @@
   "countWord.zones": "区域",
   "protocol.all": "全部",
   "word.ipLabel": "IP 地址",
-  "word.integrations": "集成"
+  "word.integrations": "集成",
+  "word.os": "操作系统",
+  "word.unknownRegion": "未知",
+  "word.addResource": "添加资源",
+  "word.remove": "移除",
+  "word.noNetwork": "无网络",
+  "word.waiting": "等待中",
+  "word.install": "安装"
 }

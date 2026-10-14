@@ -1,0 +1,16 @@
+{
+  "flowSelector.label.peer": "Peer",
+  "flowSelector.label.group": "Group",
+  "controlCenterEmptyStates.title.createResources": "Create Resources",
+  "controlCenterEmptyStates.description.itLooksLikeYouDon": "It looks like you don't have any resources. Add internal services like hosts, subnets or domains so your peers can reach them.",
+  "controlCenterEmptyStates.title.createNewNetwork": "Create New Network",
+  "controlCenterEmptyStates.description.itLooksLikeYouDon2": "It looks like you don't have any networks. Access internal resources in your LANs and VPC by adding a network.",
+  "controlCenterEmptyStates.text.addNetwork": "Add Network",
+  "controlCenterHeader.ariaLabel.networkActions": "Network actions",
+  "controlCenterHeader.text.network": "Network",
+  "controlCenterHeader.label.allNetworks": "All Networks",
+  "controlCenterHeader.text.focusingOn": "Focusing on “{{value}}”",
+  "controlCenterHeader.text.selectANodeToFocus": "Select a node to focus",
+  "controlCenterHeader.ariaLabel.exitFocus": "Exit Focus",
+  "controlCenterHeader.text.feedback": "Feedback"
+}

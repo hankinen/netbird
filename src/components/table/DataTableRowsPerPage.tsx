@@ -1,3 +1,4 @@
+import { Trans } from "react-i18next";
 import Button from "@components/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@components/Popover";
 import { Table } from "@tanstack/react-table";
@@ -32,14 +33,13 @@ export function DataTableRowsPerPage<TData>({
             className="w-[200px] justify-between"
           >
             <RowsIcon size={15} className={"text-nb-gray-300 shrink-0"} />
-            <div>
-              <span className={"text-white"}>
-                {table.getState().pagination.pageSize}
-              </span>
-              <span className={"text-nb-gray-300"}>
-                {" "}
-                {t("components.table:dataTableRowsPerPage.text.rowsPerPage")}
-              </span>
+            <div className={"text-nb-gray-300"}>
+              <Trans
+                ns={"components.table"}
+                i18nKey={"dataTableRowsPerPage.text.rowsPerPageCount"}
+                values={{ count: table.getState().pagination.pageSize }}
+                components={{ n: <span className={"text-white"} /> }}
+              />
             </div>
             <ChevronDown className="h-4 w-4 opacity-50" />
           </Button>

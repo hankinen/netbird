@@ -6,6 +6,7 @@ import { useControlCenterUI } from "@/modules/control-center/contexts/ControlCen
 import { FlowView } from "@/modules/control-center/header/FlowSelector";
 import { usePlaceholderArtifacts } from "@/modules/control-center/hooks/usePlaceholderArtifacts";
 
+import { t } from "@/i18n";
 // Leaving draft destroys the changeset; a deploy exits via exitAfterDeploy.
 export function useDiscardDraft() {
   const { setIsDraft } = useDraftMode();
@@ -37,12 +38,17 @@ export function useDiscardDraft() {
   const discardAndExit = useCallback(async () => {
     if (changeCount > 0) {
       const choice = await confirm({
-        title: "Discard draft changes?",
-        description: `You have ${changeCount} pending change${
-          changeCount !== 1 ? "s" : ""
-        } that will be lost. This cannot be undone.`,
-        confirmText: "Discard",
-        cancelText: "Cancel",
+        title: t(
+          "control-center.draft.draft-mode-switcher:useDiscardDraft.title.discardDraftChanges",
+        ),
+        description: t(
+          "control-center.draft.draft-mode-switcher:useDiscardDraft.description.youHavePendingChangeThat",
+          { changeCount, plural: changeCount !== 1 ? "s" : "" },
+        ),
+        confirmText: t(
+          "control-center.draft.draft-mode-switcher:useDiscardDraft.confirmText.discard",
+        ),
+        cancelText: t("common:word.cancel"),
         type: "danger",
         dismissOnOutsideClick: true,
       });

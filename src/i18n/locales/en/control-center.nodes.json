@@ -1,0 +1,10 @@
+{
+  "selectPeerNode.text.searchPeers": "Search peers...",
+  "resourceNode.text.iPCIDROrDomain": "IP, CIDR or Domain",
+  "resourceGroupNode.text.noResources": "No Resources",
+  "selectUserNode.text.netBird": "NetBird",
+  "selectUserNode.searchPlaceholder.searchUserByNameOr": "Search user by name or email...",
+  "moreResourcesNode.text.more": "+{{count}} more",
+  "selectGroupNode.searchPlaceholder.searchGroups": "Search groups...",
+  "peerNode.text.installOrAssign": "Install or assign"
+}

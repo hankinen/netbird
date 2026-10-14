@@ -10,7 +10,6 @@
   "dataTableRefreshButton.text.youCanRefreshItAgain": "5 秒后可再次刷新",
   "dataTableRefreshButton.text.refresh": "刷新",
   "dataTableResetFilterButton.text.resetFiltersSearch": "重置筛选和搜索",
-  "dataTableRowsPerPage.text.rowsPerPage": "每页行数",
   "tableFilters.text.filters": "筛选",
   "groupsPicker.placeholder.searchGroup": "搜索组...",
   "peerResourcePicker.placeholder.search": "搜索...",
@@ -23,5 +22,6 @@
   "usersPicker.text.netBird": "NetBird",
   "tableFilters.text.removeFilter": "移除 {{label}} 筛选条件",
   "statusPicker.label.online": "在线",
-  "statusPicker.label.offline": "离线"
+  "statusPicker.label.offline": "离线",
+  "dataTableRowsPerPage.text.rowsPerPageCount": "每页 <n>{{count}}</n> 行"
 }

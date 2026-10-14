@@ -103,7 +103,9 @@ const GroupPeersTableColumns: ColumnDef<Peer>[] = [
   {
     accessorKey: "os",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>OS</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>{t("common:word.os")}</DataTableHeader>
+      );
     },
     cell: ({ row }) => <PeerOSCell os={row.original.os} />,
   },

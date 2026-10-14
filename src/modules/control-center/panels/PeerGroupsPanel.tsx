@@ -43,6 +43,7 @@ import {
   useStructuralNodes,
 } from "@/modules/control-center/utils/helpers";
 
+import { t } from "@/i18n";
 interface PeerGroupsPanelProps {
   // Real peer id; empty means closed.
   peerId: string;
@@ -167,11 +168,14 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
     }
 
     const choice = await confirm({
-      title: `Save groups of “${peer.name}”?`,
-      description:
-        "You are in live mode. Saving your changes will apply them to your account immediately.",
-      confirmText: "Save",
-      cancelText: "Cancel",
+      title: t("control-center.panels:peerGroupsPanel.title.saveGroupsOf", {
+        name: peer.name,
+      }),
+      description: t(
+        "control-center.panels:peerGroupsPanel.description.youAreInLiveMode",
+      ),
+      confirmText: t("common:word.save"),
+      cancelText: t("common:word.cancel"),
       type: "warning",
       dismissOnOutsideClick: true,
     });
@@ -205,10 +209,11 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
     })();
     // useApiCall rejects but never toasts, so the promise drives the toast.
     notify({
-      title: peer.name ?? "Peer",
-      description: `Groups of ${
-        peer.name ?? "the peer"
-      } were successfully saved.`,
+      title: peer.name ?? t("control-center.panels:peerGroupsPanel.text.peer"),
+      description: t(
+        "control-center.panels:peerGroupsPanel.description.groupsOfWereSuccessfullySaved",
+        { value: peer.name ?? "the peer" },
+      ),
       promise: request,
     });
     try {
@@ -271,14 +276,24 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
   const confirmDiscard = async () => {
     if (!dirty) return true;
     return !!(await confirm({
-      title: "You have unsaved group changes",
-      description: `The group assignments you toggled for “${
-        peer?.name ?? "this peer"
-      }” haven't been ${
-        isDraft ? "applied" : "saved"
-      } yet. Closing the panel will lose them.`,
-      confirmText: "Discard",
-      cancelText: "Keep editing",
+      title: t(
+        "control-center.panels:peerGroupsPanel.title.youHaveUnsavedGroupChanges",
+      ),
+      description: isDraft
+        ? t(
+            "control-center.panels:peerGroupsPanel.description.theGroupAssignmentsYouToggled.applied",
+            { value: peer?.name ?? "this peer" },
+          )
+        : t(
+            "control-center.panels:peerGroupsPanel.description.theGroupAssignmentsYouToggled.saved",
+            { value: peer?.name ?? "this peer" },
+          ),
+      confirmText: t(
+        "control-center.panels:peerGroupsPanel.confirmText.discard",
+      ),
+      cancelText: t(
+        "control-center.panels:peerGroupsPanel.cancelText.keepEditing",
+      ),
       type: "warning",
       dismissOnOutsideClick: true,
     }));
@@ -314,7 +329,9 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             autoFocus
-            placeholder={"Search group..."}
+            placeholder={t(
+              "control-center.panels:peerGroupsPanel.placeholder.searchGroup",
+            )}
           />
           <div
             className={"absolute left-0 top-1 bottom-0 flex items-center pl-5"}
@@ -343,7 +360,7 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
                   "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                 }
               />
-              Groups
+              {t("common:word.groups")}
             </TabsTrigger>
           </TabsList>
         </div>
@@ -414,8 +431,12 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
             <div className={"px-3 pt-3"}>
               <DropdownInfoText className={"mt-5 max-w-sm mx-auto text-sm"}>
                 {query
-                  ? "There are no groups matching your search. Please try a different search term."
-                  : "There are no groups yet."}
+                  ? t(
+                      "control-center.panels:peerGroupsPanel.text.thereAreNoGroupsMatching",
+                    )
+                  : t(
+                      "control-center.panels:peerGroupsPanel.text.thereAreNoGroupsYet",
+                    )}
               </DropdownInfoText>
             </div>
           )}
@@ -438,7 +459,7 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
               className={"py-2.5"}
               onClick={onClose}
             >
-              Cancel
+              {t("common:word.cancel")}
             </Button>
             <Button
               variant={"primary"}
@@ -448,7 +469,9 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
               onClick={() => void saveAssignments()}
             >
               <span className={cn(saving && "invisible")}>
-                {isDraft ? "Assign" : "Save"}
+                {isDraft
+                  ? t("control-center.panels:peerGroupsPanel.text.assign")
+                  : t("common:word.save")}
               </span>
               {saving && (
                 <Loader2

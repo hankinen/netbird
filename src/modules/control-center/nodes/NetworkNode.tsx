@@ -34,6 +34,7 @@ import {
 } from "@/modules/control-center/utils/helpers";
 import { NodeType } from "@/modules/control-center/utils/nodes";
 
+import { t } from "@/i18n";
 type NetworkNodeType = {
   network: Network;
   enabled?: boolean;
@@ -54,9 +55,7 @@ export const NetworkNode = ({ data, id }: NetworkNodeProps) => {
   const { hoveredNetworkNodeId, setHoveredNetworkNodeId } = useNetworkHover();
   const isFrameHovered = hoveredNetworkNodeId === id;
   const isDrilled = drillDownNetworkNodeId === id;
-  const isTarget = useConnection(
-    (c) => c.inProgress && c.fromNode?.id !== id,
-  );
+  const isTarget = useConnection((c) => c.inProgress && c.fromNode?.id !== id);
   const showHalo = useIsContextMenuTarget(id);
 
   // Hovering the floating controls must neither highlight the frame nor reveal
@@ -125,8 +124,10 @@ export const NetworkNode = ({ data, id }: NetworkNodeProps) => {
   // API router rows are fetched lazily on first popover open: a routers GET per
   // frame on mount lagged views with many networks.
   const [routersRequested, setRoutersRequested] = React.useState(false);
-  const { rows: routerRows, isLoading: routerRowsLoading } =
-    useFrameRouterRows(id, routersRequested);
+  const { rows: routerRows, isLoading: routerRowsLoading } = useFrameRouterRows(
+    id,
+    routersRequested,
+  );
 
   // A pending update-router that disables a live router must drop its peers from
   // the badge before the lazy rows fetch runs.
@@ -194,7 +195,7 @@ export const NetworkNode = ({ data, id }: NetworkNodeProps) => {
           </div>
           <div className={cn("text-nb-gray-400 whitespace-nowrap mt-0.5")}>
             {resourceCount === 0
-              ? "No Resources"
+              ? t("control-center.nodes:resourceGroupNode.text.noResources")
               : singularize("Resources", resourceCount, true)}
           </div>
         </div>
@@ -301,9 +302,7 @@ const FrameAddResourceButton = ({
       // frame; only the button captures events and blocks the drag.
       className={cn(
         "absolute inset-x-0 bottom-0 pointer-events-none",
-        frameCellCount === 0
-          ? "flex items-center justify-center"
-          : "px-5 pb-5",
+        frameCellCount === 0 ? "flex items-center justify-center" : "px-5 pb-5",
       )}
       style={frameCellCount === 0 ? { top: NETWORK_FRAME_HEADER } : undefined}
     >
@@ -330,7 +329,7 @@ const FrameAddResourceButton = ({
         }}
       >
         <CirclePlusIcon size={12} />
-        Add Resource
+        {t("common:word.addResource")}
       </Button>
     </div>
   );

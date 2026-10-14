@@ -24,6 +24,7 @@ import {
   withResourceLiveBaseline,
 } from "@/modules/control-center/utils/helpers";
 
+import { t } from "@/i18n";
 export const getNetworkRef = (node?: Node): DraftNetworkRef | undefined => {
   const network = (node?.data as { network?: Network })?.network;
   if (!node || !network) return undefined;
@@ -266,8 +267,7 @@ export function useDraftNetworkActions() {
         const list = (n.data as { draftResources?: NetworkResource[] })
           ?.draftResources;
         if (!list?.some((r) => r.id === resourceId)) return;
-        const g = (n.data as { group?: { id?: string; name?: string } })
-          ?.group;
+        const g = (n.data as { group?: { id?: string; name?: string } })?.group;
         const ref = g?.id ?? g?.name;
         if (ref && ref !== "All" && !holders.includes(ref)) holders.push(ref);
         held = held ?? list.find((r) => r.id === resourceId);
@@ -309,7 +309,12 @@ export function useDraftNetworkActions() {
       const nodeId = findNetworkNodeIdForRef(networkRef);
       if (nodeId) highlightNetworkNode(nodeId);
     },
-    [reactFlow, trackCreateResource, findNetworkNodeIdForRef, highlightNetworkNode],
+    [
+      reactFlow,
+      trackCreateResource,
+      findNetworkNodeIdForRef,
+      highlightNetworkNode,
+    ],
   );
 
   // An EXISTING (API) network with no frame on the canvas: stamp the ref only.
@@ -346,7 +351,12 @@ export function useDraftNetworkActions() {
       });
       if (nodeId) highlightNetworkNode(nodeId);
     },
-    [reactFlow, syncDraftResource, findNetworkNodeIdForRef, highlightNetworkNode],
+    [
+      reactFlow,
+      syncDraftResource,
+      findNetworkNodeIdForRef,
+      highlightNetworkNode,
+    ],
   );
 
   const saveDraftResource = useCallback(
@@ -403,8 +413,9 @@ export function useDraftNetworkActions() {
           // rename the deploy never carries, so refuse the save outright.
           notify({
             title: resource?.name ?? name,
-            description:
-              "The resource's network could not be determined, so the edit was not saved.",
+            description: t(
+              "control-center.hooks:useDraftNetworkActions.description.theResourceSNetworkCould",
+            ),
             backgroundColor: "bg-red-500",
           });
           return;
@@ -550,9 +561,7 @@ export function useDraftNetworkActions() {
     }) => {
       const { networkNodeId, peer, peerGroups, metric, masquerade, enabled } =
         params;
-      const frame = reactFlow
-        .getNodes()
-        .find((n) => n.id === networkNodeId);
+      const frame = reactFlow.getNodes().find((n) => n.id === networkNodeId);
       const networkRef = getNetworkRef(frame);
       const group = peerGroups[0];
       if (!networkRef || (peer ? !peer.id : !group?.name)) return;

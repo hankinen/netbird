@@ -26,5 +26,7 @@
   "postureChecks": "Posture Checks",
   "auditEvents": "Audit Events",
   "trafficEvents": "Traffic Events",
-  "activity": "Activity"
+  "activity": "Activity",
+  "controlCenter": "Control Center",
+  "integrations": "Integrations"
 }

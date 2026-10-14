@@ -10,7 +10,6 @@
   "dataTableRefreshButton.text.youCanRefreshItAgain": "You can refresh it again in 5 seconds",
   "dataTableRefreshButton.text.refresh": "Refresh",
   "dataTableResetFilterButton.text.resetFiltersSearch": "Reset Filters & Search",
-  "dataTableRowsPerPage.text.rowsPerPage": "rows per page",
   "tableFilters.text.filters": "Filters",
   "groupsPicker.placeholder.searchGroup": "Search group...",
   "peerResourcePicker.placeholder.search": "Search...",
@@ -23,5 +22,6 @@
   "usersPicker.text.netBird": "NetBird",
   "tableFilters.text.removeFilter": "Remove {{label}} filter",
   "statusPicker.label.online": "Online",
-  "statusPicker.label.offline": "Offline"
+  "statusPicker.label.offline": "Offline",
+  "dataTableRowsPerPage.text.rowsPerPageCount": "<n>{{count}}</n> rows per page"
 }

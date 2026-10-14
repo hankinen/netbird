@@ -32,6 +32,7 @@ import {
   sameGroupMatcher,
 } from "@/modules/control-center/utils/policy-group-sync";
 
+import { t, isEnglish } from "@/i18n";
 export const GROUP_NODE_TYPES = new Set([
   "groupNode",
   "sourceGroupNode",
@@ -918,58 +919,93 @@ export function useDraftGroupActions() {
         .map(({ policy }) => `“${policy.name}”`);
 
       const choice = await confirm({
-        title: `Delete ${
-          deletable.length === 1 ? "group" : `${deletable.length} groups`
-        } ${names}?`,
-        description: `${
-          deletable.length === 1 ? "It" : "They"
-        } will be marked for deletion and deleted when you review and deploy.${
-          emptiedLive.length > 0
-            ? ` This also deletes ${
-                emptiedLive.length === 1
-                  ? "the policy"
-                  : `${emptiedLive.length} policies`
-              } ${nameList(
-                emptiedLive,
-              )}, which would be left authorizing nothing.`
-            : ""
-        }${
-          emptiedDraft.length > 0
-            ? ` ${
-                emptiedDraft.length === 1
-                  ? "The new policy"
-                  : `${emptiedDraft.length} new policies`
-              } ${nameList(
-                emptiedDraft,
-              )} would be left without a source or destination, and won't deploy until you complete ${
-                emptiedDraft.length === 1 ? "it" : "them"
-              }.`
-            : ""
-        }${
-          emptiedAgent.length > 0
-            ? ` ${
-                emptiedAgent.length === 1
-                  ? "The agent policy"
-                  : `${emptiedAgent.length} agent policies`
-              } ${emptiedAgent.join(", ")} authorize nothing without ${
-                deletable.length === 1 ? "it" : "them"
-              } and are deleted too.`
-            : ""
-        }${
-          blockerNames.length > 0
-            ? ` ${
-                blockerNames.length === 1 ? "Your change to" : "Your changes to"
-              } ${blockerNames.join(", ")} still ${
-                blockerNames.length === 1 ? "references" : "reference"
-              } ${
-                deletable.length === 1 ? "it" : "them"
-              }, and the deletion can't deploy until you take the group off ${
-                blockerNames.length === 1 ? "it" : "them"
-              }.`
-            : ""
-        }`,
-        confirmText: "Delete",
-        cancelText: "Cancel",
+        title: isEnglish()
+          ? `Delete ${
+              deletable.length === 1 ? "group" : `${deletable.length} groups`
+            } ${names}?`
+          : t("control-center.hooks:useDraftGroupActions.deleteGroups.title", {
+              count: deletable.length,
+              names,
+            }),
+        description: isEnglish()
+          ? `${
+              deletable.length === 1 ? "It" : "They"
+            } will be marked for deletion and deleted when you review and deploy.${
+              emptiedLive.length > 0
+                ? ` This also deletes ${
+                    emptiedLive.length === 1
+                      ? "the policy"
+                      : `${emptiedLive.length} policies`
+                  } ${nameList(
+                    emptiedLive,
+                  )}, which would be left authorizing nothing.`
+                : ""
+            }${
+              emptiedDraft.length > 0
+                ? ` ${
+                    emptiedDraft.length === 1
+                      ? "The new policy"
+                      : `${emptiedDraft.length} new policies`
+                  } ${nameList(
+                    emptiedDraft,
+                  )} would be left without a source or destination, and won't deploy until you complete ${
+                    emptiedDraft.length === 1 ? "it" : "them"
+                  }.`
+                : ""
+            }${
+              emptiedAgent.length > 0
+                ? ` ${
+                    emptiedAgent.length === 1
+                      ? "The agent policy"
+                      : `${emptiedAgent.length} agent policies`
+                  } ${emptiedAgent.join(", ")} authorize nothing without ${
+                    deletable.length === 1 ? "it" : "them"
+                  } and are deleted too.`
+                : ""
+            }${
+              blockerNames.length > 0
+                ? ` ${
+                    blockerNames.length === 1
+                      ? "Your change to"
+                      : "Your changes to"
+                  } ${blockerNames.join(", ")} still ${
+                    blockerNames.length === 1 ? "references" : "reference"
+                  } ${
+                    deletable.length === 1 ? "it" : "them"
+                  }, and the deletion can't deploy until you take the group off ${
+                    blockerNames.length === 1 ? "it" : "them"
+                  }.`
+                : ""
+            }`
+          : [
+              t("control-center.hooks:useDraftGroupActions.deleteGroups.base"),
+              emptiedLive.length > 0
+                ? t(
+                    "control-center.hooks:useDraftGroupActions.deleteGroups.live",
+                    { names: nameList(emptiedLive) },
+                  )
+                : "",
+              emptiedDraft.length > 0
+                ? t(
+                    "control-center.hooks:useDraftGroupActions.deleteGroups.draft",
+                    { names: nameList(emptiedDraft) },
+                  )
+                : "",
+              emptiedAgent.length > 0
+                ? t(
+                    "control-center.hooks:useDraftGroupActions.deleteGroups.agent",
+                    { names: emptiedAgent.join(", ") },
+                  )
+                : "",
+              blockerNames.length > 0
+                ? t(
+                    "control-center.hooks:useDraftGroupActions.deleteGroups.blocker",
+                    { names: blockerNames.join(", ") },
+                  )
+                : "",
+            ].join(""),
+        confirmText: t("common:word.delete"),
+        cancelText: t("common:word.cancel"),
         type: "danger",
         dismissOnOutsideClick: true,
       });

@@ -1,0 +1,19 @@
+{
+  "changeCascade.text.removeTheNewGroup": "Remove the new group “{{name}}”?",
+  "changeCascade.text.removeTheNewNetwork": "Remove the new network “{{name}}”?",
+  "changeCascade.text.removeTheNewResource": "Remove the new resource “{{name}}”?",
+  "changeCascade.text.removeTheInstalledPeerFrom": "Remove the installed peer “{{name}}” from this list?",
+  "changeCascade.text.thePeerItselfStaysOn": "The peer itself stays on the canvas and in your network",
+  "changeCascade.text.removeThePeer": "Remove the peer “{{name}}”?",
+  "changeCascade.text.restoreTheNetwork": "Restore the network “{{name}}”?",
+  "changeCascade.text.restoreTheGroup": "Restore the group “{{name}}”?",
+  "changeCascade.text.restoreThePolicy": "Restore the policy “{{name}}”?",
+  "changeCascade.text.restoreTheResource": "Restore the resource “{{name}}”?",
+  "changeCascade.text.revertYourChangesTo": "Revert your changes to “{{value}}”?",
+  "changeCascade.text.restoresTheLiveValuesOn": "Restores the live values on the canvas",
+  "changeCascade.text.revertYourChangesTo2": "Revert your changes to “{{name}}”?",
+  "changeCascade.text.removeTheNewPolicy": "Remove the new policy “{{name}}”?",
+  "changeCascade.text.removeTheRoutingPeer": "Remove the routing peer “{{value}}”?",
+  "changeCascade.text.removeThisChange": "Remove this change?",
+  "helpers.text.noPeers": "No Peers"
+}

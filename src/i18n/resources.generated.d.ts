@@ -18,7 +18,7 @@ declare module "i18next" {
       "billing.locked-feature": typeof import("./locales/en/billing.locked-feature.json");
       "billing.trial": typeof import("./locales/en/billing.trial.json");
       "cloud.main": typeof import("./locales/en/cloud.main.json");
-      "common": typeof import("./locales/en/common.json");
+      common: typeof import("./locales/en/common.json");
       "common-table-rows.main": typeof import("./locales/en/common-table-rows.main.json");
       "components.core": typeof import("./locales/en/components.core.json");
       "components.modal": typeof import("./locales/en/components.modal.json");
@@ -26,6 +26,15 @@ declare module "i18next" {
       "components.table": typeof import("./locales/en/components.table.json");
       "components.ui": typeof import("./locales/en/components.ui.json");
       "contexts.main": typeof import("./locales/en/contexts.main.json");
+      "control-center.contexts": typeof import("./locales/en/control-center.contexts.json");
+      "control-center.draft.control-center-components-panel": typeof import("./locales/en/control-center.draft.control-center-components-panel.json");
+      "control-center.draft.draft-mode-switcher": typeof import("./locales/en/control-center.draft.draft-mode-switcher.json");
+      "control-center.header": typeof import("./locales/en/control-center.header.json");
+      "control-center.hooks": typeof import("./locales/en/control-center.hooks.json");
+      "control-center.menus": typeof import("./locales/en/control-center.menus.json");
+      "control-center.nodes": typeof import("./locales/en/control-center.nodes.json");
+      "control-center.panels": typeof import("./locales/en/control-center.panels.json");
+      "control-center.utils": typeof import("./locales/en/control-center.utils.json");
       "dns.nameservers": typeof import("./locales/en/dns.nameservers.json");
       "dns.page": typeof import("./locales/en/dns.page.json");
       "dns.zones": typeof import("./locales/en/dns.zones.json");
@@ -47,7 +56,7 @@ declare module "i18next" {
       "invite.page": typeof import("./locales/en/invite.page.json");
       "jobs.main": typeof import("./locales/en/jobs.main.json");
       "jobs.table": typeof import("./locales/en/jobs.table.json");
-      "nav": typeof import("./locales/en/nav.json");
+      nav: typeof import("./locales/en/nav.json");
       "network-routes.page": typeof import("./locales/en/network-routes.page.json");
       "network.page": typeof import("./locales/en/network.page.json");
       "networks.main": typeof import("./locales/en/networks.main.json");
@@ -83,7 +92,7 @@ declare module "i18next" {
       "setup-keys.main": typeof import("./locales/en/setup-keys.main.json");
       "setup-netbird-modal.main": typeof import("./locales/en/setup-netbird-modal.main.json");
       "team.page": typeof import("./locales/en/team.page.json");
-      "titles": typeof import("./locales/en/titles.json");
+      titles: typeof import("./locales/en/titles.json");
       "users.main": typeof import("./locales/en/users.main.json");
       "users.modals": typeof import("./locales/en/users.modals.json");
       "users.table": typeof import("./locales/en/users.table.json");

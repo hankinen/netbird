@@ -1,11 +1,6 @@
 import { SmallBadge } from "@components/ui/SmallBadge";
 import { cn } from "@utils/helpers";
-import {
-  type Node,
-  Position,
-  useConnection,
-  useStore,
-} from "@xyflow/react";
+import { type Node, Position, useConnection, useStore } from "@xyflow/react";
 import { GlobeIcon } from "lucide-react";
 import * as React from "react";
 import { NetworkResource } from "@/interfaces/Network";
@@ -26,6 +21,7 @@ import {
 import { AllHandles } from "@/modules/control-center/handles/AllHandles";
 import { ConnectHandle } from "@/modules/control-center/handles/ConnectHandle";
 
+import { t } from "@/i18n";
 type ResourceNode = Node<
   {
     resource?: NetworkResource;
@@ -53,9 +49,7 @@ export const ResourceNode = ({ data, id, parentId }: ResourceNode) => {
   // Dragging FROM a framed resource is drill-down-only; dropping onto it isn't.
   const isFramed = !!parentId?.startsWith("network-");
   const handlesActive = !isFramed || drillDownNetworkNodeId === parentId;
-  const isTarget = useConnection(
-    (c) => c.inProgress && c.fromNode.id !== id,
-  );
+  const isTarget = useConnection((c) => c.inProgress && c.fromNode.id !== id);
   const showHalo = useIsContextMenuTarget(id);
 
   const isDraftResource = id.startsWith("resource-new-");
@@ -131,7 +125,8 @@ export const ResourceNode = ({ data, id, parentId }: ResourceNode) => {
                 "font-normal text-sm text-nb-gray-500 relative -top-[0.1rem]"
               }
             >
-              {cardResource.address || "IP, CIDR or Domain"}
+              {cardResource.address ||
+                t("control-center.nodes:resourceNode.text.iPCIDROrDomain")}
             </span>
           </div>
         </div>

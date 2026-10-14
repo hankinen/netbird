@@ -31,6 +31,8 @@ const titleKeys = {
   "Audit Events": "titles:auditEvents",
   "Traffic Events": "titles:trafficEvents",
   Activity: "titles:activity",
+  "Control Center": "titles:controlCenter",
+  Integrations: "titles:integrations",
 } as const;
 
 export function translateTitle(title: string): string {

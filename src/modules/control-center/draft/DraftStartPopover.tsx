@@ -9,6 +9,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -52,15 +53,23 @@ export const DraftStartPopover = ({
         <div className={"p-1.5"}>
           <StartOption
             icon={CirclePlusIcon}
-            label={"New Empty Draft"}
-            description={"Start from a blank canvas"}
+            label={t(
+              "control-center.draft.draft-mode-switcher:draftStartPopover.label.newEmptyDraft",
+            )}
+            description={t(
+              "control-center.draft.draft-mode-switcher:draftStartPopover.description.startFromABlankCanvas",
+            )}
             onClick={() => choose(onStartBlank)}
             data-testid={"cc-draft-start-blank-option"}
           />
           <StartOption
             icon={GroupIcon}
-            label={"From Current View"}
-            description={"Start from the current canvas"}
+            label={t(
+              "control-center.draft.draft-mode-switcher:draftStartPopover.label.fromCurrentView",
+            )}
+            description={t(
+              "control-center.draft.draft-mode-switcher:draftStartPopover.description.startFromTheCurrentCanvas",
+            )}
             onClick={() => choose(onUseCurrent)}
             data-testid={"cc-draft-use-current-option"}
           />

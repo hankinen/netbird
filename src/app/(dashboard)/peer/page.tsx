@@ -401,7 +401,9 @@ const PeerOverviewTabs = () => {
             targets={flatTargets}
             isLoading={isServicesLoading}
             hideResourceColumn
-            emptyTableTitle={t("peer.page:page.emptyTableTitle.thisPeerHasNoServices")}
+            emptyTableTitle={t(
+              "peer.page:page.emptyTableTitle.thisPeerHasNoServices",
+            )}
             emptyTableDescription={
               "Add your services to this peer and securely expose them through NetBird's reverse proxy"
             }
@@ -460,7 +462,9 @@ const PeerOverviewTabContent = () => {
 
           <div>
             <Label>{t("peer.page:page.text.remoteAccess")}</Label>
-            <HelpText>{t("peer.page:page.text.connectDirectlyToThisPeer")}</HelpText>
+            <HelpText>
+              {t("peer.page:page.text.connectDirectlyToThisPeer")}
+            </HelpText>
             <div className="flex gap-3">
               <SSHButton peer={peer} />
               <RDPButton peer={peer} />
@@ -481,7 +485,9 @@ function PeerInformationCard({ peer }: Readonly<{ peer: Peer }>) {
   const { permission } = usePermissions();
 
   const countryText = useMemo(() => {
-    return getRegionByPeer(peer);
+    const region = getRegionByPeer(peer);
+    // Display only: "Unknown" is the provider's fallback, not backend data.
+    return region === "Unknown" ? t("common:word.unknownRegion") : region;
   }, [getRegionByPeer, peer]);
 
   const handleSaveIP = (newIP: string) => {
@@ -499,7 +505,9 @@ function PeerInformationCard({ peer }: Readonly<{ peer: Peer }>) {
   const handleSaveIPv6 = (newIPv6: string) => {
     notify({
       title: peer.name,
-      description: t("peer.page:page.description.netBirdPeerIPv6WasSuccessfully"),
+      description: t(
+        "peer.page:page.description.netBirdPeerIPv6WasSuccessfully",
+      ),
       promise: update({ ipv6: newIPv6 }).then(() => {
         mutate("/peers/" + peer.id);
         setShowEditIPv6Modal(false);
@@ -674,9 +682,7 @@ function PeerInformationCard({ peer }: Readonly<{ peer: Peer }>) {
                   {t("peer.page:page.copyText.mACAddress")}
                 </>
               }
-              className={
-                peerMacAddresses(peer).length > 1 ? "items-start" : ""
-              }
+              className={peerMacAddresses(peer).length > 1 ? "items-start" : ""}
               value={peerMacAddresses(peer)[0]}
               extraText={peerMacAddresses(peer).slice(1)}
             />
@@ -691,7 +697,9 @@ function PeerInformationCard({ peer }: Readonly<{ peer: Peer }>) {
                 </>
               }
               value={
-                dayjs(peer.created_at).format(t("peer.page:page.text.dMMMMYYYYAtH")) +
+                dayjs(peer.created_at).format(
+                  t("peer.page:page.text.dMMMMYYYYAtH"),
+                ) +
                 " (" +
                 dayjs().to(peer.created_at) +
                 ")"
@@ -709,7 +717,9 @@ function PeerInformationCard({ peer }: Readonly<{ peer: Peer }>) {
             value={
               peer.connected
                 ? "just now"
-                : dayjs(peer.last_seen).format(t("peer.page:page.text.dMMMMYYYYAtH")) +
+                : dayjs(peer.last_seen).format(
+                    t("peer.page:page.text.dMMMMYYYYAtH"),
+                  ) +
                   " (" +
                   dayjs().to(peer.last_seen) +
                   ")"

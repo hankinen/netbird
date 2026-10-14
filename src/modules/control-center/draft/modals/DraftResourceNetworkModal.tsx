@@ -23,6 +23,7 @@ import { useDraftNodeCreation } from "@/modules/control-center/hooks/useDraftNod
 import { NetworkModalContent } from "@/modules/networks/NetworkModal";
 import { SmallBadge } from "@components/ui/SmallBadge";
 
+import { t } from "@/i18n";
 // "No Network" picker for a standalone draft resource: assign it to an existing
 // network (a canvas frame or a real API network) or to a new draft network.
 export const DraftResourceNetworkModal = () => {
@@ -66,8 +67,7 @@ const PickerContent = ({
     const frameNodes = reactFlow.getNodes().filter(isFrameNode);
     const frames = frameNodes.map((n) => {
       const name =
-        (n.data as { network?: { name?: string } })?.network?.name ??
-        "Network";
+        (n.data as { network?: { name?: string } })?.network?.name ?? "Network";
       const isNew = n.id.startsWith("network-new-");
       return {
         value: `frame:${n.id}`,
@@ -172,8 +172,12 @@ const PickerContent = ({
       <ModalContent maxWidthClass={"max-w-lg"}>
         <ModalHeader
           icon={<NetworkRoutesIcon className={"fill-netbird"} />}
-          title={"Assign a network"}
-          description={"Pick a network for this resource or create a new one."}
+          title={t(
+            "control-center.draft.draft-mode-switcher:draftResourceNetworkModal.title.assignANetwork",
+          )}
+          description={t(
+            "control-center.draft.draft-mode-switcher:draftResourceNetworkModal.description.pickANetworkForThis",
+          )}
           color={"netbird"}
         />
         <Separator />
@@ -183,8 +187,12 @@ const PickerContent = ({
             onChange={setSelected}
             options={options}
             showSearch={true}
-            searchPlaceholder={"Search networks..."}
-            placeholder={"Select or create a network..."}
+            searchPlaceholder={t(
+              "control-center.draft.draft-mode-switcher:draftResourceNetworkModal.searchPlaceholder.searchNetworks",
+            )}
+            placeholder={t(
+              "control-center.draft.draft-mode-switcher:draftResourceNetworkModal.placeholder.selectOrCreateANetwork",
+            )}
             maxHeight={190}
             // Pinned below the options so scroll or search can't hide it.
             footer={(close) => (
@@ -200,7 +208,9 @@ const PickerContent = ({
                   }}
                 >
                   <PlusCircle size={14} />
-                  Create New Network
+                  {t(
+                    "control-center.draft.draft-mode-switcher:draftResourceNetworkModal.text.createNewNetwork",
+                  )}
                 </button>
               </div>
             )}
@@ -211,10 +221,12 @@ const PickerContent = ({
         <ModalFooter className={"items-center"} separator={false}>
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
-              <Button variant={"secondary"}>Cancel</Button>
+              <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
             </ModalClose>
             <Button variant={"primary"} disabled={!selected} onClick={save}>
-              Assign Network
+              {t(
+                "control-center.draft.draft-mode-switcher:draftResourceNetworkModal.text.assignNetwork",
+              )}
             </Button>
           </div>
         </ModalFooter>

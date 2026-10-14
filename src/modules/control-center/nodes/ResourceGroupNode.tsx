@@ -13,6 +13,7 @@ import { GroupNode } from "@/modules/control-center/nodes/GroupNode";
 import { AllHandles } from "@/modules/control-center/handles/AllHandles";
 import { ConnectHandle } from "@/modules/control-center/handles/ConnectHandle";
 
+import { t } from "@/i18n";
 type ResourceGroupNode = Node<
   {
     group: Group;
@@ -26,7 +27,11 @@ type ResourceGroupNode = Node<
 
 // A resource group shown INSIDE a network frame: a flat row (no card
 // background), laid out by the frame like its resources.
-export const ResourceGroupNode = ({ data, id, parentId }: ResourceGroupNode) => {
+export const ResourceGroupNode = ({
+  data,
+  id,
+  parentId,
+}: ResourceGroupNode) => {
   const { group, showHandles = true } = data;
   const { isDraft, drillDownNetworkNodeId } = useDraftMode();
   const { selectedDestinationGroup, setSelectedDestinationGroup } =
@@ -41,9 +46,7 @@ export const ResourceGroupNode = ({ data, id, parentId }: ResourceGroupNode) => 
   // drill-down-only.
   const isFramed = !!parentId?.startsWith("network-");
   const handlesActive = !isFramed || drillDownNetworkNodeId === parentId;
-  const isTarget = useConnection(
-    (c) => c.inProgress && c.fromNode.id !== id,
-  );
+  const isTarget = useConnection((c) => c.inProgress && c.fromNode.id !== id);
 
   // While drilled the parent frame is HIDDEN and the row promotes to a full
   // GroupNode card. Boolean store selector on purpose, not useInternalNode.
@@ -106,7 +109,7 @@ export const ResourceGroupNode = ({ data, id, parentId }: ResourceGroupNode) => 
           >
             {group?.resources_count
               ? singularize("Resources", group.resources_count, true)
-              : "No Resources"}
+              : t("control-center.nodes:resourceGroupNode.text.noResources")}
           </span>
         </div>
       </div>

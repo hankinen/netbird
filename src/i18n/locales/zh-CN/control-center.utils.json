@@ -1,0 +1,19 @@
+{
+  "changeCascade.text.removeTheNewGroup": "移除新组“{{name}}”？",
+  "changeCascade.text.removeTheNewNetwork": "移除新网络“{{name}}”？",
+  "changeCascade.text.removeTheNewResource": "移除新资源“{{name}}”？",
+  "changeCascade.text.removeTheInstalledPeerFrom": "从列表中移除已安装的设备“{{name}}”？",
+  "changeCascade.text.thePeerItselfStaysOn": "设备本身仍保留在画布和您的网络中",
+  "changeCascade.text.removeThePeer": "移除设备“{{name}}”？",
+  "changeCascade.text.restoreTheNetwork": "恢复网络“{{name}}”？",
+  "changeCascade.text.restoreTheGroup": "恢复组“{{name}}”？",
+  "changeCascade.text.restoreThePolicy": "恢复策略“{{name}}”？",
+  "changeCascade.text.restoreTheResource": "恢复资源“{{name}}”？",
+  "changeCascade.text.revertYourChangesTo": "还原您对“{{value}}”的更改？",
+  "changeCascade.text.restoresTheLiveValuesOn": "在画布上恢复实时值",
+  "changeCascade.text.revertYourChangesTo2": "还原您对“{{name}}”的更改？",
+  "changeCascade.text.removeTheNewPolicy": "移除新策略“{{name}}”？",
+  "changeCascade.text.removeTheRoutingPeer": "移除路由设备“{{value}}”？",
+  "changeCascade.text.removeThisChange": "移除此更改？",
+  "helpers.text.noPeers": "暂无设备"
+}

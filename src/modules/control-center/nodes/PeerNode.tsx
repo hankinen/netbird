@@ -27,6 +27,7 @@ import {
   useAnySourceGroupEnabled,
 } from "@/modules/control-center/utils/helpers";
 
+import { t } from "@/i18n";
 // A not-yet-installed peer dropped from the components sidebar.
 export type PeerPlaceholderKind = "server" | "agent" | "user-device";
 
@@ -126,10 +127,10 @@ export const PeerNode = ({ data, id }: PeerNodeType) => {
               <DownloadIcon size={12} className={"text-yellow-400"} />
             )}
             {placeholderKind === "user-device"
-              ? "Install or assign"
+              ? t("control-center.nodes:peerNode.text.installOrAssign")
               : setupKey
-              ? "Waiting"
-              : "Install"}
+              ? t("common:word.waiting")
+              : t("common:word.install")}
           </Button>
         </div>
         <div className={"flex items-center gap-2.5 text-nb-gray-300"}>

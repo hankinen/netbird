@@ -10,6 +10,7 @@ import type { Peer } from "@/interfaces/Peer";
 import { PLACEHOLDER_ICONS } from "@/modules/peers/PeerOperatingSystemIcon";
 import { OSLogo } from "@/modules/peers/PeerOSCell";
 
+import { t } from "@/i18n";
 type DeviceCardSize = "default" | "small";
 
 type DeviceCardProps = {
@@ -93,7 +94,9 @@ export const DeviceCard = ({
           )}
         >
           <TruncatedText
-            text={device?.name || resource?.name || "Unknown"}
+            text={
+              device?.name || resource?.name || t("common:word.unknownRegion")
+            }
             maxWidth={nameMaxWidth ?? (isSmall ? "120px" : "150px")}
             hideTooltip={true}
           />

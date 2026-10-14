@@ -75,6 +75,7 @@ import {
 } from "@/modules/control-center/utils/helpers";
 import { NodeType } from "@/modules/control-center/utils/nodes";
 
+import { t as i18nT } from "@/i18n";
 type BlankKind = "group" | "network" | "resource";
 
 type PeerTemplate = {
@@ -860,7 +861,12 @@ const PanelContent = React.memo(
     const showAgentProviderTemplate =
       agentNetworkCategory || matchesSearch("Provider");
     const showAgentPolicyTemplate =
-      agentNetworkCategory || matchesSearch("Agent Policy");
+      agentNetworkCategory ||
+      matchesSearch(
+        i18nT(
+          "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.text.agentPolicy",
+        ),
+      );
 
     const buildPeerTemplateRows = () =>
       filteredPeerTemplates.map((tpl) => (
@@ -880,8 +886,10 @@ const PanelContent = React.memo(
             <TemplateItem
               key={"policy-template"}
               icon={ShieldIcon}
-              label={"Policy"}
-              description={"Control access between sources and destinations"}
+              label={i18nT("common:word.policy")}
+              description={i18nT(
+                "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.description.controlAccessBetweenSourcesAnd",
+              )}
               onPointerDown={(e) => handlePolicyDragStart(e)}
               data-testid={"cc-template-policy"}
             />,
@@ -964,14 +972,14 @@ const PanelContent = React.memo(
                   }
                 >
                   <TruncatedText
-                    text={policy.name ?? "Policy"}
+                    text={policy.name ?? i18nT("common:word.policy")}
                     maxWidth={"150px"}
                     hideTooltip={true}
                   />
                   <SmallBadge />
                 </span>
                 <span className={"text-[0.72rem] text-nb-gray-400 truncate"}>
-                  {protocolLabel || "All"}
+                  {protocolLabel || i18nT("common:word.all")}
                 </span>
               </div>
             </div>
@@ -1006,7 +1014,9 @@ const PanelContent = React.memo(
               <span className={"text-[0.72rem] text-nb-gray-400 truncate"}>
                 {resourceCount
                   ? singularize("Resources", resourceCount)
-                  : "No Resources"}
+                  : i18nT(
+                      "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.text.noResources",
+                    )}
               </span>
             </div>
           </div>
@@ -1051,7 +1061,9 @@ const PanelContent = React.memo(
                 <span className={"text-[0.72rem] text-nb-gray-400 truncate"}>
                   {network.resources?.length
                     ? singularize("Resources", network.resources.length)
-                    : "No Resources"}
+                    : i18nT(
+                        "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.text.noResources",
+                      )}
                 </span>
               </div>
             </div>
@@ -1190,8 +1202,12 @@ const PanelContent = React.memo(
             <TemplateItem
               key={"agent-provider-template"}
               icon={SparklesIcon}
-              label={"Provider"}
-              description={"Connect an AI provider or gateway"}
+              label={i18nT(
+                "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.label.provider",
+              )}
+              description={i18nT(
+                "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.description.connectAnAIProviderOr",
+              )}
               onPointerDown={(e) =>
                 handleAgentDragStart(e, (position) =>
                   openProviderWizard(position),
@@ -1206,8 +1222,12 @@ const PanelContent = React.memo(
             <TemplateItem
               key={"agent-policy-template"}
               icon={ShieldIcon}
-              label={"Agent Policy"}
-              description={"Authorize groups to reach providers"}
+              label={i18nT(
+                "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.text.agentPolicy",
+              )}
+              description={i18nT(
+                "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.description.authorizeGroupsToReachProviders",
+              )}
               onPointerDown={(e) =>
                 handleAgentDragStart(e, (position) =>
                   addBlankAgentPolicy(position),
@@ -1303,9 +1323,15 @@ const PanelContent = React.memo(
                   {pendingDelete && <DeletedBadge />}
                 </span>
                 <span className={"text-[0.72rem] text-nb-gray-400 truncate"}>
-                  {policy.sourceGroups.length} group
+                  {policy.sourceGroups.length}{" "}
+                  {i18nT(
+                    "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.text.group",
+                  )}
                   {policy.sourceGroups.length !== 1 ? "s" : ""} →{" "}
-                  {policy.destinationProviderIds.length} provider
+                  {policy.destinationProviderIds.length}{" "}
+                  {i18nT(
+                    "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.text.provider",
+                  )}
                   {policy.destinationProviderIds.length !== 1 ? "s" : ""}
                 </span>
               </div>
@@ -1349,7 +1375,7 @@ const PanelContent = React.memo(
                   {pendingDelete && <DeletedBadge />}
                 </span>
                 <span className={"text-[0.72rem] text-nb-gray-400 truncate"}>
-                  {protocolLabel || "All"}
+                  {protocolLabel || i18nT("common:word.all")}
                 </span>
               </div>
             </div>
@@ -1363,7 +1389,9 @@ const PanelContent = React.memo(
       : (isSearching
           ? [
               {
-                title: "Add New",
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.addNew",
+                ),
                 rows: [
                   ...buildPeerTemplateRows(),
                   ...buildPolicyTemplateRows(),
@@ -1373,75 +1401,127 @@ const PanelContent = React.memo(
                 ],
               },
               {
-                title: "Peers",
+                title: i18nT("common:countWord.peers"),
                 rows: [...buildDraftPeerRows(), ...buildPeerRows()],
               },
               {
-                title: "Policies",
+                title: i18nT("common:countWord.policies"),
                 rows: [...buildDraftPolicyRows(), ...buildPolicyRows()],
               },
               {
-                title: "Groups",
+                title: i18nT("common:word.groups"),
                 rows: [...buildDraftGroupRows(), ...buildGroupRows()],
               },
               {
-                title: "Networks",
+                title: i18nT("common:word.networks"),
                 rows: [...buildDraftNetworkRows(), ...buildNetworkRows()],
               },
               {
-                title: "Resources",
+                title: i18nT("common:countWord.resources"),
                 rows: [...buildDraftResourceRows(), ...buildResourceRows()],
               },
               // The category tab is not reachable from a search, so its rows
               // have to be offered here or a provider can't be searched for.
               ...(agentNetworkEnabled
                 ? [
-                    { title: "Providers", rows: buildProviderRows() },
-                    { title: "Agent Policies", rows: buildAgentPolicyRows() },
+                    {
+                      title: i18nT(
+                        "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.providers",
+                      ),
+                      rows: buildProviderRows(),
+                    },
+                    {
+                      title: i18nT(
+                        "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.agentPolicies",
+                      ),
+                      rows: buildAgentPolicyRows(),
+                    },
                   ]
                 : []),
             ]
           : category === "peers"
           ? [
-              { title: "Add New", rows: buildPeerTemplateRows() },
               {
-                title: "Existing Peers",
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.addNew",
+                ),
+                rows: buildPeerTemplateRows(),
+              },
+              {
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.existingPeers",
+                ),
                 rows: [...buildDraftPeerRows(), ...buildPeerRows()],
               },
             ]
           : category === "policies"
           ? [
-              { title: "Add New", rows: buildPolicyTemplateRows() },
               {
-                title: "Existing Policies",
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.addNew",
+                ),
+                rows: buildPolicyTemplateRows(),
+              },
+              {
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.existingPolicies",
+                ),
                 rows: [...buildDraftPolicyRows(), ...buildPolicyRows()],
               },
             ]
           : category === "agent-network" && agentNetworkEnabled
           ? [
-              { title: "Add New", rows: buildAgentTemplateRows() },
-              { title: "Existing Providers", rows: buildProviderRows() },
               {
-                title: "Existing Agent Policies",
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.addNew",
+                ),
+                rows: buildAgentTemplateRows(),
+              },
+              {
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.existingProviders",
+                ),
+                rows: buildProviderRows(),
+              },
+              {
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.existingAgentPolicies",
+                ),
                 rows: buildAgentPolicyRows(),
               },
             ]
           : category === "groups"
           ? [
-              { title: "Add New", rows: buildGroupTemplateRows() },
               {
-                title: "Existing Groups",
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.addNew",
+                ),
+                rows: buildGroupTemplateRows(),
+              },
+              {
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.existingGroups",
+                ),
                 rows: [...buildDraftGroupRows(), ...buildGroupRows()],
               },
             ]
           : [
-              { title: "Add New", rows: buildResourceTemplateRows() },
               {
-                title: "Existing Networks",
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.addNew",
+                ),
+                rows: buildResourceTemplateRows(),
+              },
+              {
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.existingNetworks",
+                ),
                 rows: [...buildDraftNetworkRows(), ...buildNetworkRows()],
               },
               {
-                title: "Existing Resources",
+                title: i18nT(
+                  "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.title.existingResources",
+                ),
                 rows: [...buildDraftResourceRows(), ...buildResourceRows()],
               },
             ]
@@ -1507,7 +1587,9 @@ const PanelContent = React.memo(
                   typeof DropdownInput
                 >["onChange"]
               }
-              placeholder={"Search components, peers, groups, resources..."}
+              placeholder={i18nT(
+                "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.placeholder.searchComponentsPeersGroupsResources",
+              )}
               className={"py-3.5"}
               hideEnterIcon
             />
@@ -1608,14 +1690,18 @@ const PanelContent = React.memo(
                     </div>
                   </div>
                   <div className={"text-nb-gray-100 mb-1"}>
-                    Could not find any results
+                    {i18nT(
+                      "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.text.couldNotFindAnyResults",
+                    )}
                   </div>
                   <div
                     className={
                       "text-sm text-nb-gray-350 font-light max-w-xs px-6"
                     }
                   >
-                    {`We couldn't find any results. Please try a different search term.`}
+                    {i18nT(
+                      "control-center.draft.control-center-components-panel:controlCenterComponentsPanel.text.weCouldnTFindAny",
+                    )}
                   </div>
                 </div>
               </div>

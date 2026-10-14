@@ -56,6 +56,7 @@ import {
   useStructuralNodes,
 } from "@/modules/control-center/utils/helpers";
 
+import { t } from "@/i18n";
 interface DestinationGroupPanelProps {
   // Real group id, or the canvas node id for draft groups without an API id.
   groupId: string;
@@ -327,7 +328,13 @@ const DraftPeerRowActions = ({ draftPeer }: { draftPeer: Peer }) => {
   return (
     <DraftStatusChip
       label={
-        isUserDevice ? "Install or assign" : setupKey ? "Waiting" : "Install"
+        isUserDevice
+          ? t(
+              "control-center.panels:destinationGroupPanel.text.installOrAssign",
+            )
+          : setupKey
+          ? t("common:word.waiting")
+          : t("common:word.install")
       }
       icon={
         isUserDevice ? undefined : setupKey ? (
@@ -826,11 +833,14 @@ export const DestinationGroupPanel = ({
     // Live — the PUT hits the account immediately, so confirm first.
     if (!group.id) return;
     const choice = await confirm({
-      title: `Save group “${group.name}”?`,
-      description:
-        "You are in live mode. Saving your changes will apply them to your account immediately.",
-      confirmText: "Save",
-      cancelText: "Cancel",
+      title: t("control-center.panels:destinationGroupPanel.title.saveGroup", {
+        name: group.name,
+      }),
+      description: t(
+        "control-center.panels:peerGroupsPanel.description.youAreInLiveMode",
+      ),
+      confirmText: t("common:word.save"),
+      cancelText: t("common:word.cancel"),
       type: "warning",
       dismissOnOutsideClick: true,
     });
@@ -867,7 +877,10 @@ export const DestinationGroupPanel = ({
     if (membersDirty) {
       notify({
         title: group.name,
-        description: `${group.name} was successfully saved.`,
+        description: t(
+          "control-center.panels:destinationGroupPanel.description.wasSuccessfullySaved",
+          { name: group.name },
+        ),
         promise: request,
       });
     }
@@ -878,7 +891,10 @@ export const DestinationGroupPanel = ({
       if (!membersDirty) {
         notify({
           title: group.name,
-          description: `${group.name} was successfully saved.`,
+          description: t(
+            "control-center.panels:destinationGroupPanel.description.wasSuccessfullySaved",
+            { name: group.name },
+          ),
         });
       }
       // DON'T rebuild the view: the toggles already previewed it, and a rebuild refits.
@@ -959,10 +975,13 @@ export const DestinationGroupPanel = ({
     await mutate("/users?service_user=false");
     if (failed.length > 0) {
       notify({
-        title: "Some users were not updated",
-        description: `${failed.join(", ")} could not be moved in or out of “${
-          group?.name ?? "this group"
-        }”. Their membership is unchanged.`,
+        title: t(
+          "control-center.panels:destinationGroupPanel.title.someUsersWereNotUpdated",
+        ),
+        description: t(
+          "control-center.panels:destinationGroupPanel.description.couldNotBeMovedIn",
+          { join: failed.join(", "), value: group?.name ?? "this group" },
+        ),
         backgroundColor: "bg-red-500",
       });
     }
@@ -1140,14 +1159,22 @@ export const DestinationGroupPanel = ({
   const confirmDiscard = async () => {
     if (!dirty || !canSave) return true;
     return !!(await confirm({
-      title: "Unsaved Changes",
-      description: `The members you toggled for “${
-        group?.name ?? "this group"
-      }” haven't been ${
-        isDraft ? "applied" : "saved"
-      } yet. Closing the panel will lose them.`,
-      confirmText: "Discard",
-      cancelText: "Cancel",
+      title: t(
+        "control-center.panels:destinationGroupPanel.title.unsavedChanges",
+      ),
+      description: isDraft
+        ? t(
+            "control-center.panels:destinationGroupPanel.description.theMembersYouToggledFor.applied",
+            { value: group?.name ?? "this group" },
+          )
+        : t(
+            "control-center.panels:destinationGroupPanel.description.theMembersYouToggledFor.saved",
+            { value: group?.name ?? "this group" },
+          ),
+      confirmText: t(
+        "control-center.panels:peerGroupsPanel.confirmText.discard",
+      ),
+      cancelText: t("common:word.cancel"),
       type: "danger",
       dismissOnOutsideClick: true,
     }));
@@ -1211,10 +1238,16 @@ export const DestinationGroupPanel = ({
             autoFocus
             placeholder={
               tab === "peers"
-                ? "Search peer by name or ip..."
+                ? t(
+                    "control-center.panels:destinationGroupPanel.text.searchPeerByNameOr",
+                  )
                 : tab === "users"
-                ? "Search user by name, email or role..."
-                : "Search resource..."
+                ? t(
+                    "control-center.panels:destinationGroupPanel.text.searchUserByNameEmail",
+                  )
+                : t(
+                    "control-center.panels:destinationGroupPanel.text.searchResource",
+                  )
             }
           />
           {/* top-1 mirrors the row's pt-1 so the icon centers on the input. */}
@@ -1247,7 +1280,7 @@ export const DestinationGroupPanel = ({
                   "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                 }
               />
-              Peers
+              {t("common:countWord.peers")}
             </TabsTrigger>
             <TabsTrigger
               value={"resources"}
@@ -1259,7 +1292,7 @@ export const DestinationGroupPanel = ({
                   "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                 }
               />
-              Resources
+              {t("common:countWord.resources")}
             </TabsTrigger>
             <TabsTrigger value={"users"} className={"text-[.8rem] font-normal"}>
               <UsersIcon
@@ -1268,7 +1301,7 @@ export const DestinationGroupPanel = ({
                   "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                 }
               />
-              Users
+              {t("common:countWord.users")}
             </TabsTrigger>
           </TabsList>
         </div>
@@ -1325,8 +1358,12 @@ export const DestinationGroupPanel = ({
             <div className={"px-3 pt-3"}>
               <DropdownInfoText className={"mt-5 max-w-sm mx-auto text-sm"}>
                 {query
-                  ? "There are no peers matching your search. Please try a different search term."
-                  : "There are no peers in this group yet."}
+                  ? t(
+                      "control-center.panels:destinationGroupPanel.text.thereAreNoPeersMatching",
+                    )
+                  : t(
+                      "control-center.panels:destinationGroupPanel.text.thereAreNoPeersIn",
+                    )}
               </DropdownInfoText>
             </div>
           )}
@@ -1370,7 +1407,7 @@ export const DestinationGroupPanel = ({
                         !(resource as { draftNetwork?: unknown })
                           .draftNetwork && (
                           <DraftStatusChip
-                            label={"No Network"}
+                            label={t("common:word.noNetwork")}
                             onClick={() =>
                               setResourceNetworkPicker({
                                 nodeId: `resource-${resource.id}`,
@@ -1389,8 +1426,12 @@ export const DestinationGroupPanel = ({
             <div className={"px-3 pt-3"}>
               <DropdownInfoText className={"mt-5 max-w-sm mx-auto text-sm"}>
                 {query
-                  ? "There are no resources matching your search. Please try a different search term."
-                  : "There are no resources in this group yet."}
+                  ? t(
+                      "control-center.panels:destinationGroupPanel.text.thereAreNoResourcesMatching",
+                    )
+                  : t(
+                      "control-center.panels:destinationGroupPanel.text.thereAreNoResourcesIn",
+                    )}
               </DropdownInfoText>
             </div>
           )}
@@ -1424,10 +1465,16 @@ export const DestinationGroupPanel = ({
             <div className={"px-3 pt-3"}>
               <DropdownInfoText className={"mt-5 max-w-sm mx-auto text-sm"}>
                 {query
-                  ? "There are no users matching your search. Please try a different search term."
+                  ? t(
+                      "control-center.panels:destinationGroupPanel.text.thereAreNoUsersMatching",
+                    )
                   : canEditUsers
-                  ? "There are no users in this account yet."
-                  : "There are no users in this group yet."}
+                  ? t(
+                      "control-center.panels:destinationGroupPanel.text.thereAreNoUsersIn",
+                    )
+                  : t(
+                      "control-center.panels:destinationGroupPanel.text.thereAreNoUsersIn2",
+                    )}
               </DropdownInfoText>
             </div>
           )}
@@ -1454,7 +1501,7 @@ export const DestinationGroupPanel = ({
               className={"py-2.5"}
               onClick={onClose}
             >
-              Cancel
+              {t("common:word.cancel")}
             </Button>
             <Button
               variant={"primary"}
@@ -1465,7 +1512,9 @@ export const DestinationGroupPanel = ({
             >
               {/* Keep the label's width while saving so nothing jumps. */}
               <span className={cn(saving && "invisible")}>
-                {isDraft ? "Assign" : "Save"}
+                {isDraft
+                  ? t("control-center.panels:peerGroupsPanel.text.assign")
+                  : t("common:word.save")}
               </span>
               {saving && (
                 <Loader2

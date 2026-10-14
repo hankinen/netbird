@@ -111,7 +111,11 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
     id: "name",
     accessorFn: (peer) => `${peer?.name}${peer?.dns_label}`,
     header: ({ column }) => {
-      return <DataTableHeader column={column}>{t("common:word.name")}</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.name")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <PeerNameCell peer={row.original} />,
@@ -149,7 +153,11 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
     id: "dns_label",
     accessorKey: "dns_label",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>{t("common:word.address")}</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.address")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <PeerAddressCell peer={row.original} />,
   },
@@ -168,7 +176,11 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
     accessorFn: (peer) => peer.groups?.length,
     id: "groups",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>{t("common:word.groups")}</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.groups")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => (
       <PeerProvider peer={row.original}>
@@ -198,7 +210,9 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
     id: "os",
     accessorFn: (peer) => removeAllSpaces(peer?.os),
     header: ({ column }) => {
-      return <DataTableHeader column={column}>OS</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>{t("common:word.os")}</DataTableHeader>
+      );
     },
     cell: ({ row }) => (
       <PeerOSCell os={row.original.os} serial={row.original.serial_number} />
@@ -212,7 +226,11 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
   {
     id: "serial",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>{t("peers.main:peersTable.text.serialNumber")}</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("peers.main:peersTable.text.serialNumber")}
+        </DataTableHeader>
+      );
     },
     accessorFn: (peer) => peer.serial_number,
     sortingFn: "text",
@@ -220,7 +238,11 @@ const PeersTableColumns: ColumnDef<Peer>[] = [
   {
     accessorKey: "version",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>{t("peers.main:peersTable.text.version")}</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("peers.main:peersTable.text.version")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => (
       <PeerVersionCell
@@ -432,7 +454,9 @@ export default function PeersTable({
       },
       {
         id: "os_kind",
-        label: "OS",
+        get label() {
+          return t("common:word.os");
+        },
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -496,7 +520,9 @@ export default function PeersTable({
         showResetFilterButton={false}
         columns={PeersTableColumns}
         data={showBrowserPeers ? browserPeers : regularPeers}
-        searchPlaceholder={t("peers.main:peersTable.searchPlaceholder.searchByNameIPMAC")}
+        searchPlaceholder={t(
+          "peers.main:peersTable.searchPlaceholder.searchByNameIPMAC",
+        )}
         columnVisibility={{
           select: permission.groups.read,
           connected: false,
@@ -522,13 +548,9 @@ export default function PeersTable({
         // "Get Started" card. With no peers at all (kind unselected), the card
         // still shows.
         hasServerSideFilters={kind !== undefined && (peers?.length ?? 0) > 0}
-        getStartedCard={
-          <NoPeersGettingStarted showBackground={true} />
-        }
+        getStartedCard={<NoPeersGettingStarted showBackground={true} />}
         rightSide={() => (
-          <>
-            {peers && peers.length > 0 && <AddPeerDropdown />}
-          </>
+          <>{peers && peers.length > 0 && <AddPeerDropdown />}</>
         )}
         aboveTable={(table) => (
           <TableFilterChips table={table} filters={filterDefs} />
@@ -585,8 +607,12 @@ export default function PeersTable({
                 content={
                   <div className={"text-xs max-w-xs"}>
                     {isAnyIntegrationEnabled
-                      ? t("peers.main:peersTable.text.peersThatFailedComplianceChecks")
-                      : t("peers.main:peersTable.text.peersWaitingForAdministratorApproval")}
+                      ? t(
+                          "peers.main:peersTable.text.peersThatFailedComplianceChecks",
+                        )
+                      : t(
+                          "peers.main:peersTable.text.peersWaitingForAdministratorApproval",
+                        )}
                   </div>
                 }
               >
@@ -651,7 +677,9 @@ export default function PeersTable({
               <FullTooltip
                 content={
                   <div className={"text-xs max-w-xs"}>
-                    {t("peers.main:peersTable.text.peersWithComplianceChecksBypassed")}
+                    {t(
+                      "peers.main:peersTable.text.peersWithComplianceChecksBypassed",
+                    )}
                   </div>
                 }
               >
@@ -709,7 +737,9 @@ export default function PeersTable({
               <FullTooltip
                 content={
                   <div className={"max-w-sm text-xs"}>
-                    {t("peers.main:peersTable.text.showTemporaryPeersCreatedBy")}
+                    {t(
+                      "peers.main:peersTable.text.showTemporaryPeersCreatedBy",
+                    )}
                   </div>
                 }
               >

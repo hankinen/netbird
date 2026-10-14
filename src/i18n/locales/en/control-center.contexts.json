@@ -1,0 +1,9 @@
+{
+  "controlCenterPolicyModals.title.savePolicyChanges": "Save policy changes?",
+  "controlCenterPolicyModals.description.youAreInLiveMode": "You are in live mode. Saving your changes will apply them to your account immediately.",
+  "controlCenterPolicyModals.title.saveChanges": "Save changes?",
+  "controlCenterPolicyModals.text.agentNetworkChangesArenT": "Agent Network changes aren't part of the draft. Saving applies them to your account immediately.",
+  "controlCenterPolicyModals.title.replaceCurrentSourceGroup": "Replace current source group?",
+  "controlCenterPolicyModals.description.areYouSureYouWant": "Are you sure you want to replace “{{value}}” with “{{value2}}”? “{{value3}}” will no longer have access to this policy's providers.",
+  "controlCenterPolicyModals.confirmText.replace": "Replace"
+}

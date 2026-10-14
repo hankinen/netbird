@@ -2,7 +2,12 @@ import Button from "@components/Button";
 import { SmallBadge } from "@components/ui/SmallBadge";
 import { cn } from "@utils/helpers";
 import { type Node, Position, useConnection } from "@xyflow/react";
-import { AlertTriangleIcon, GlobeIcon, NetworkIcon, WorkflowIcon } from "lucide-react";
+import {
+  AlertTriangleIcon,
+  GlobeIcon,
+  NetworkIcon,
+  WorkflowIcon,
+} from "lucide-react";
 import * as React from "react";
 import { NetworkResource } from "@/interfaces/Network";
 import { useIsContextMenuTarget } from "@/modules/control-center/contexts/ControlCenterContext";
@@ -15,6 +20,7 @@ import {
 import { AllHandles } from "@/modules/control-center/handles/AllHandles";
 import { ConnectHandle } from "@/modules/control-center/handles/ConnectHandle";
 
+import { t } from "@/i18n";
 export const RESOURCE_TYPE_ICONS = {
   domain: GlobeIcon,
   subnet: NetworkIcon,
@@ -42,9 +48,7 @@ export const StandaloneResourceNode = ({
   const { isDraft, setResourceEditor, setResourceNetworkPicker } =
     useDraftMode();
   const showHalo = useIsContextMenuTarget(id);
-  const isTarget = useConnection(
-    (c) => c.inProgress && c.fromNode.id !== id,
-  );
+  const isTarget = useConnection((c) => c.inProgress && c.fromNode.id !== id);
 
   const isDraftResource = id.startsWith("resource-new-");
   const node = { id, data, position: { x: 0, y: 0 } } as Node;
@@ -86,7 +90,7 @@ export const StandaloneResourceNode = ({
             }}
           >
             <AlertTriangleIcon size={12} className={"text-yellow-400"} />
-            No Network
+            {t("common:word.noNetwork")}
           </Button>
         </div>
       )}
@@ -130,7 +134,8 @@ export const StandaloneResourceNode = ({
               "font-normal text-sm text-nb-gray-500 relative -top-[0.1rem]"
             }
           >
-            {resource.address || "IP, CIDR or Domain"}
+            {resource.address ||
+              t("control-center.nodes:resourceNode.text.iPCIDROrDomain")}
           </span>
         </div>
       </div>

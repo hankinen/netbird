@@ -42,6 +42,7 @@ import {
 import { ChangeCodeView } from "@/modules/control-center/draft/changeset/ChangeCodeView";
 import { DeployStatus } from "@/modules/control-center/hooks/useDeployChangeset";
 
+import { t } from "@/i18n";
 type Props = {
   change: DraftChange;
   changes: DraftChange[];
@@ -74,7 +75,12 @@ export const ChangeAccordionItem = ({
   const doCopy = async (showInlineCheck: boolean) => {
     try {
       await navigator.clipboard.writeText(copyText);
-      notify({ title: "Copied as cURL request", description: apiCall });
+      notify({
+        title: t(
+          "control-center.draft.draft-mode-switcher:changeAccordionItem.title.copiedAsCURLRequest",
+        ),
+        description: apiCall,
+      });
       if (showInlineCheck) {
         setCopied(true);
         window.setTimeout(() => setCopied(false), 1200);
@@ -98,8 +104,9 @@ export const ChangeAccordionItem = ({
     const preview = previewRemove(change);
     const ok = await confirm({
       title: preview.summary,
-      description:
-        "This reverts it on the canvas and drops it from the changeset. It won't be deployed.",
+      description: t(
+        "control-center.draft.draft-mode-switcher:changeAccordionItem.description.thisRevertsItOnThe",
+      ),
       children: preview.effects.length ? (
         <ul className={"list-disc pl-5 text-sm text-nb-gray-300 space-y-1"}>
           {preview.effects.map((e) => (
@@ -107,8 +114,8 @@ export const ChangeAccordionItem = ({
           ))}
         </ul>
       ) : undefined,
-      confirmText: "Remove",
-      cancelText: "Cancel",
+      confirmText: t("common:word.remove"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
       dismissOnOutsideClick: true,
     });
@@ -174,7 +181,9 @@ export const ChangeAccordionItem = ({
                 doCopy(true);
               }
             }}
-            aria-label={"Copy URL"}
+            aria-label={t(
+              "control-center.draft.draft-mode-switcher:changeAccordionItem.ariaLabel.copyURL",
+            )}
             className={
               "group/copy relative top-[1px] flex items-center gap-1.5 font-mono text-[0.7rem] text-nb-gray-400 min-w-0 max-w-[18rem] cursor-pointer hover:text-nb-gray-200 transition-colors"
             }
@@ -221,14 +230,18 @@ export const ChangeAccordionItem = ({
         {status === "deploying" ? (
           <div
             className={"self-center shrink-0 p-1.5 text-white"}
-            aria-label={"Deploying"}
+            aria-label={t(
+              "control-center.draft.draft-mode-switcher:changeAccordionItem.ariaLabel.deploying",
+            )}
           >
             <Loader2 size={16} className={"animate-spin"} />
           </div>
         ) : status === "done" ? (
           <div
             className={"self-center shrink-0 p-1.5 text-green-500"}
-            aria-label={"Deployed"}
+            aria-label={t(
+              "control-center.draft.draft-mode-switcher:changeAccordionItem.ariaLabel.deployed",
+            )}
           >
             <CheckIcon size={16} />
           </div>
@@ -243,7 +256,9 @@ export const ChangeAccordionItem = ({
                 className={
                   "self-center shrink-0 p-1.5 rounded text-nb-gray-400 hover:text-nb-gray-100 hover:bg-nb-gray-800 data-[state=open]:bg-nb-gray-800 data-[state=open]:text-nb-gray-100 transition-colors disabled:opacity-50 outline-none"
                 }
-                aria-label={"More actions"}
+                aria-label={t(
+                  "control-center.draft.draft-mode-switcher:changeAccordionItem.ariaLabel.moreActions",
+                )}
               >
                 <MoreVerticalIcon size={16} />
               </button>
@@ -257,7 +272,9 @@ export const ChangeAccordionItem = ({
                 }}
               >
                 <CopyIcon size={14} />
-                Copy cURL
+                {t(
+                  "control-center.draft.draft-mode-switcher:changeAccordionItem.text.copyCURL",
+                )}
               </DropdownMenuItem>
               <DropdownMenuItem
                 variant={"danger"}
@@ -266,7 +283,7 @@ export const ChangeAccordionItem = ({
                 onClick={handleRemove}
               >
                 <Trash2Icon size={14} />
-                Remove
+                {t("common:word.remove")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -2,6 +2,7 @@ import { cn } from "@utils/helpers";
 import { MoreHorizontal } from "lucide-react";
 import * as React from "react";
 
+import { t } from "@/i18n";
 // NOT a ReactFlow node: NetworkNode overlays it at an absolute rect.
 export const MoreResourcesNode = ({
   count,
@@ -32,7 +33,7 @@ export const MoreResourcesNode = ({
             "font-normal text-sm text-nb-gray-400 group-hover/more:text-nb-gray-200 transition-all"
           }
         >
-          +{count} more
+          {t("control-center.nodes:moreResourcesNode.text.more", { count })}
         </span>
       </div>
     </div>

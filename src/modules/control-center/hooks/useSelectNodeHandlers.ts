@@ -25,6 +25,7 @@ import {
   nodeYNudge,
 } from "@/modules/control-center/utils/layouts";
 
+import { t as i18nT } from "@/i18n";
 interface UseSelectNodeHandlersParams {
   views: {
     applySingleGroupView: (id: string, policiesOverride?: Policy[]) => any;
@@ -491,11 +492,15 @@ export function useSelectNodeHandlers(params: UseSelectNodeHandlersParams) {
         if (resource?.id && resNetworkId) {
           void (async () => {
             const choice = await confirm({
-              title: `Edit resource “${resource.name ?? "Resource"}”?`,
-              description:
-                "You are in live mode. Saving your changes will apply them to your account immediately.",
-              confirmText: "Edit",
-              cancelText: "Cancel",
+              title: i18nT(
+                "control-center.hooks:useSelectNodeHandlers.title.editResource",
+                { value: resource.name ?? "Resource" },
+              ),
+              description: i18nT(
+                "control-center.hooks:useSelectNodeHandlers.description.youAreInLiveMode",
+              ),
+              confirmText: i18nT("common:word.edit"),
+              cancelText: i18nT("common:word.cancel"),
               type: "warning",
               dismissOnOutsideClick: true,
             });

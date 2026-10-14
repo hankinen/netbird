@@ -15,6 +15,7 @@ import { useCloseOnCanvasClick } from "@/modules/control-center/hooks/useCloseOn
 import { DeviceCard } from "@/modules/control-center/nodes/DeviceCard";
 import { OSLogo } from "@/modules/peers/PeerOSCell";
 
+import { t } from "@/i18n";
 type PeerNodeProps = Node<
   {
     currentPeer: string;
@@ -78,7 +79,10 @@ export const SelectPeerNode = ({ data, id }: PeerNodeProps) => {
         onChange={data.onPeerChange}
         options={peerSelectOptions}
         showSearch={true}
-        searchPlaceholder={data?.placeholder ?? "Search peers..."}
+        searchPlaceholder={
+          data?.placeholder ??
+          t("control-center.nodes:selectPeerNode.text.searchPeers")
+        }
         open={open}
         onOpenChange={setOpen}
         popoverWidth={280}

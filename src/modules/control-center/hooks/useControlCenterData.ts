@@ -10,6 +10,7 @@ import { Peer } from "@/interfaces/Peer";
 import { Policy } from "@/interfaces/Policy";
 import { User } from "@/interfaces/User";
 
+import { t } from "@/i18n";
 export function useControlCenterData() {
   const { data: policies, isLoading: isPoliciesLoading } =
     useFetchApi<Policy[]>("/policies");
@@ -54,7 +55,7 @@ export function useControlCenterData() {
     );
     allNetworks.unshift({
       value: "",
-      label: "All Networks",
+      label: t("control-center.hooks:useControlCenterData.label.allNetworks"),
       icon: () => React.createElement(LayoutGridIcon, { size: 14 }),
     } as SelectOption);
     return allNetworks;

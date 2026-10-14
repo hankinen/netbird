@@ -13,6 +13,7 @@ import { useCanvasUI } from "@/modules/control-center/contexts/ControlCenterCont
 import { useCloseOnCanvasClick } from "@/modules/control-center/hooks/useCloseOnCanvasClick";
 import { getGroupCountLabel } from "@/modules/control-center/utils/helpers";
 
+import { t } from "@/i18n";
 type NodeProps = Node<
   {
     currentGroup: string;
@@ -63,7 +64,9 @@ export const SelectGroupNode = ({ data, id }: NodeProps) => {
         onChange={data.onChange}
         options={groupOptions}
         showSearch={true}
-        searchPlaceholder={"Search groups..."}
+        searchPlaceholder={t(
+          "control-center.nodes:selectGroupNode.searchPlaceholder.searchGroups",
+        )}
         open={open}
         onOpenChange={setOpen}
         popoverWidth={280}

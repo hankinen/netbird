@@ -111,5 +111,12 @@
   "countWord.zones": "Zones",
   "protocol.all": "ALL",
   "word.ipLabel": "IP",
-  "word.integrations": "Integrations"
+  "word.integrations": "Integrations",
+  "word.os": "OS",
+  "word.unknownRegion": "Unknown",
+  "word.addResource": "Add Resource",
+  "word.remove": "Remove",
+  "word.noNetwork": "No Network",
+  "word.waiting": "Waiting",
+  "word.install": "Install"
 }

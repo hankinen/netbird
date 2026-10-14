@@ -54,6 +54,7 @@ import {
   useStructuralNodes,
 } from "@/modules/control-center/utils/helpers";
 
+import { t } from "@/i18n";
 // Sized to the longest option label (~6.5px/char at text-xs), clamped to 256px.
 const networkSelectorWidth = (labels: unknown[]) => {
   const longest = labels.reduce<number>(
@@ -106,7 +107,9 @@ function NetworkActionsMenu({
       <DropdownMenuTrigger asChild>
         <button
           type={"button"}
-          aria-label={"Network actions"}
+          aria-label={t(
+            "control-center.header:controlCenterHeader.ariaLabel.networkActions",
+          )}
           className={
             "flex items-center justify-center h-[40px] px-4 shrink-0 rounded-r-md border border-l-0 border-gray-700/40 bg-nb-gray-920 text-gray-400 hover:text-white hover:bg-nb-gray-910 transition-colors"
           }
@@ -119,7 +122,7 @@ function NetworkActionsMenu({
           <DropdownMenuItem onClick={() => setNetworkEditor({ networkNodeId })}>
             <div className={"flex gap-3 items-center"}>
               <SquarePenIcon size={14} className={"shrink-0"} />
-              Edit
+              {t("common:word.edit")}
             </div>
           </DropdownMenuItem>
         )}
@@ -132,7 +135,7 @@ function NetworkActionsMenu({
               ) : (
                 <Trash2Icon size={14} className={"shrink-0"} />
               )}
-              {isDraftNew ? "Remove" : "Delete"}
+              {isDraftNew ? t("common:word.remove") : t("common:word.delete")}
             </div>
           </DropdownMenuItem>
         )}
@@ -157,7 +160,7 @@ function AddResourceButton({ networkNodeId }: { networkNodeId: string }) {
       )}
     >
       <CirclePlusIcon size={14} className={"shrink-0"} />
-      Add Resource
+      {t("common:word.addResource")}
     </button>
   );
 }
@@ -187,14 +190,14 @@ function DraftDrillDownHeader() {
           value: n.id,
           label:
             (n.data as { network?: { name?: string } })?.network?.name ??
-            "Network",
+            t("control-center.header:controlCenterHeader.text.network"),
           icon: NetworkIcon,
         })),
       "label",
     );
     options.unshift({
       value: "",
-      label: "All Networks",
+      label: t("control-center.header:controlCenterHeader.label.allNetworks"),
       icon: () => <LayoutGridIcon size={14} />,
     } as SelectOption);
     return options;
@@ -469,8 +472,12 @@ function FocusModePill() {
           >
             <FocusIcon size={13} className={"text-sky-400 shrink-0"} />
             {focusedNodeId
-              ? `Focusing on “${focusedName || "node"}”`
-              : "Select a node to focus"}
+              ? t("control-center.header:controlCenterHeader.text.focusingOn", {
+                  value: focusedName || "node",
+                })
+              : t(
+                  "control-center.header:controlCenterHeader.text.selectANodeToFocus",
+                )}
             <button
               onClick={() => {
                 setHighlightArmed(false);
@@ -479,7 +486,9 @@ function FocusModePill() {
               className={
                 "p-1.5 rounded-full text-nb-gray-400 hover:text-nb-gray-100 hover:bg-nb-gray-800 transition-colors"
               }
-              aria-label={"Exit Focus"}
+              aria-label={t(
+                "control-center.header:controlCenterHeader.ariaLabel.exitFocus",
+              )}
             >
               <XIcon size={15} />
             </button>
@@ -530,7 +539,7 @@ function FeedbackButton() {
       >
         <Button variant={"secondary"} size={"xs"} className={"h-[39px] px-4.5"}>
           <MessageSquareShare size={14} />
-          Feedback
+          {t("control-center.header:controlCenterHeader.text.feedback")}
         </Button>
       </a>
     </div>

@@ -13,6 +13,7 @@ import type {
   UpdatePolicyChange,
 } from "@/modules/control-center/draft/DraftChangesetContext";
 
+import { t } from "@/i18n";
 // Removing a changeset entry must leave the draft as if the change had never
 // been made. The canvas half lives in hooks/useRemoveChange.ts.
 
@@ -789,7 +790,10 @@ export function previewRemoveChange(
       if (routerCount)
         effects.push(`Drops ${plural(routerCount, "routing-peer change")}`);
       return {
-        summary: `Remove the new group “${change.name}”?`,
+        summary: t(
+          "control-center.utils:changeCascade.text.removeTheNewGroup",
+          { name: change.name },
+        ),
         effects,
       };
     }
@@ -808,7 +812,10 @@ export function previewRemoveChange(
       if (routerCount)
         effects.push(`Drops ${plural(routerCount, "routing-peer change")}`);
       return {
-        summary: `Remove the new network “${change.name}”?`,
+        summary: t(
+          "control-center.utils:changeCascade.text.removeTheNewNetwork",
+          { name: change.name },
+        ),
         effects,
       };
     }
@@ -828,7 +835,10 @@ export function previewRemoveChange(
           `Removes it from ${plural(policyCount, "policy", "policies")}`,
         );
       return {
-        summary: `Remove the new resource “${change.name}”?`,
+        summary: t(
+          "control-center.utils:changeCascade.text.removeTheNewResource",
+          { name: change.name },
+        ),
         effects,
       };
     }
@@ -836,8 +846,13 @@ export function previewRemoveChange(
     case "install-peer": {
       if (change.installedPeerId) {
         return {
-          summary: `Remove the installed peer “${change.name}” from this list?`,
-          effects: ["The peer itself stays on the canvas and in your network"],
+          summary: t(
+            "control-center.utils:changeCascade.text.removeTheInstalledPeerFrom",
+            { name: change.name },
+          ),
+          effects: [
+            t("control-center.utils:changeCascade.text.thePeerItselfStaysOn"),
+          ],
         };
       }
       const nodeId = `peer-${change.clientId}`;
@@ -855,58 +870,88 @@ export function previewRemoveChange(
         effects.push(`Drops ${plural(routerCount, "routing-peer change")}`);
       effects.push("Deletes its generated setup key");
       return {
-        summary: `Remove the peer “${change.name}”?`,
+        summary: t("control-center.utils:changeCascade.text.removeThePeer", {
+          name: change.name,
+        }),
         effects,
       };
     }
 
     case "delete-network":
       return {
-        summary: `Restore the network “${change.name}”?`,
+        summary: t(
+          "control-center.utils:changeCascade.text.restoreTheNetwork",
+          { name: change.name },
+        ),
         effects: ["Re-adds it and its resources to the canvas"],
       };
     case "delete-group":
       return {
-        summary: `Restore the group “${change.name}”?`,
+        summary: t("control-center.utils:changeCascade.text.restoreTheGroup", {
+          name: change.name,
+        }),
         effects: ["Re-adds it to the canvas and its policies"],
       };
     case "delete-policy":
       return {
-        summary: `Restore the policy “${change.name}”?`,
+        summary: t("control-center.utils:changeCascade.text.restoreThePolicy", {
+          name: change.name,
+        }),
         effects: ["Re-adds it to the canvas"],
       };
     case "delete-resource":
       return {
-        summary: `Restore the resource “${change.name}”?`,
+        summary: t(
+          "control-center.utils:changeCascade.text.restoreTheResource",
+          { name: change.name },
+        ),
         effects: ["Re-adds it to the canvas"],
       };
 
     case "update-router":
       return {
-        summary: `Revert your changes to “${
-          change.peerName ?? change.groupName ?? "routing peer"
-        }”?`,
-        effects: ["Restores the live values on the canvas"],
+        summary: t(
+          "control-center.utils:changeCascade.text.revertYourChangesTo",
+          { value: change.peerName ?? change.groupName ?? "routing peer" },
+        ),
+        effects: [
+          t("control-center.utils:changeCascade.text.restoresTheLiveValuesOn"),
+        ],
       };
     case "update-group":
     case "update-network":
     case "update-policy":
     case "update-resource":
       return {
-        summary: `Revert your changes to “${change.name}”?`,
-        effects: ["Restores the live values on the canvas"],
+        summary: t(
+          "control-center.utils:changeCascade.text.revertYourChangesTo2",
+          { name: change.name },
+        ),
+        effects: [
+          t("control-center.utils:changeCascade.text.restoresTheLiveValuesOn"),
+        ],
       };
 
     case "create-policy":
-      return { summary: `Remove the new policy “${change.name}”?`, effects };
+      return {
+        summary: t(
+          "control-center.utils:changeCascade.text.removeTheNewPolicy",
+          { name: change.name },
+        ),
+        effects,
+      };
     case "create-router":
       return {
-        summary: `Remove the routing peer “${
-          change.peerName ?? change.groupName ?? ""
-        }”?`,
+        summary: t(
+          "control-center.utils:changeCascade.text.removeTheRoutingPeer",
+          { value: change.peerName ?? change.groupName ?? "" },
+        ),
         effects,
       };
     default:
-      return { summary: "Remove this change?", effects };
+      return {
+        summary: t("control-center.utils:changeCascade.text.removeThisChange"),
+        effects,
+      };
   }
 }

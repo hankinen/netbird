@@ -75,11 +75,11 @@
   "peerRouteActionCell.text.deleteRoute": "删除路由 {{network_id}}",
   "peerRouteActiveCell.text.theNetworkRouteWasSuccessfully": "网络路由已成功启用",
   "peerRouteActiveCell.text.theNetworkRouteWasSuccessfully2": "网络路由已成功禁用",
-  "peerEditIPModal.title.editPeerIPAddress": "编辑对等节点 IP 地址",
-  "peerEditIPModal.description.updateTheNetBirdIPAddress": "更新此对等节点的 NetBird IP 地址。",
+  "peerEditIPModal.title.editPeerIPAddress": "编辑设备 IP 地址",
+  "peerEditIPModal.description.updateTheNetBirdIPAddress": "更新此设备的 NetBird IP 地址。",
   "peerEditIPModal.errorMessage.pleaseEnterAValidIP": "请输入有效的 IP，例如 100.64.0.15",
-  "peerEditIPModal.title.editPeerIPv6Address": "编辑对等节点 IPv6 地址",
-  "peerEditIPModal.description.updateTheNetBirdIPv6Address": "更新此对等节点的 NetBird IPv6 地址。",
+  "peerEditIPModal.title.editPeerIPv6Address": "编辑设备 IPv6 地址",
+  "peerEditIPModal.description.updateTheNetBirdIPv6Address": "更新此设备的 NetBird IPv6 地址。",
   "peerEditIPModal.placeholder.eGFd0012341": "例如 fd00:1234::1",
   "peerEditIPModal.errorMessage.pleaseEnterAValidIPv6": "请输入有效的 IPv6 地址，例如 fd00:1234::1"
 }

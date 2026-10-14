@@ -5,6 +5,7 @@ import { mutate } from "swr";
 import { Group } from "@/interfaces/Group";
 import { SetupKey } from "@/interfaces/SetupKey";
 
+import { t as i18nT } from "@/i18n";
 // Real API objects a server/agent placeholder creates: a throwaway group the key
 // auto-assigns to match the registering peer, and the setup key.
 export type PlaceholderArtifacts = {
@@ -123,14 +124,18 @@ export function usePlaceholderArtifacts() {
 
       if (failed.length > 0) {
         notify({
-          title: "Draft cleanup",
-          description: `Could not delete the temporary ${failed.join(
-            " and ",
-          )}. Remove it manually.${
-            keyUsable
-              ? " The setup key could not be revoked either, so it stays usable until it expires."
-              : ""
-          }`,
+          title: i18nT(
+            "control-center.hooks:usePlaceholderArtifacts.title.draftCleanup",
+          ),
+          description: i18nT(
+            "control-center.hooks:usePlaceholderArtifacts.description.couldNotDeleteTheTemporary",
+            {
+              join: failed.join(" and "),
+              value: keyUsable
+                ? " The setup key could not be revoked either, so it stays usable until it expires."
+                : "",
+            },
+          ),
           backgroundColor: "bg-red-500",
         });
       }
@@ -221,9 +226,7 @@ export function usePlaceholderArtifacts() {
           ? { boundGroupId: extra.boundGroupId }
           : {}),
       };
-      const targets = hasArtifacts(leftover)
-        ? [...entries, leftover]
-        : entries;
+      const targets = hasArtifacts(leftover) ? [...entries, leftover] : entries;
       targets.forEach((t) => hasArtifacts(t) && void deleteNow(t));
     },
     [deleteNow],
@@ -235,7 +238,9 @@ export function usePlaceholderArtifacts() {
     (setupKeyId?: string) => {
       if (!setupKeyId) return;
       void (async () => {
-        const key = await keyRequest.get(`/${setupKeyId}`).catch(() => undefined);
+        const key = await keyRequest
+          .get(`/${setupKeyId}`)
+          .catch(() => undefined);
         if (!key || key.revoked) return;
         await keyRequest
           .put(setupKeyUpdateBody(key, { revoked: true }), `/${setupKeyId}`)
@@ -247,10 +252,13 @@ export function usePlaceholderArtifacts() {
               .catch(() => undefined);
             if (!still || still.revoked) return;
             notify({
-              title: "Draft cleanup",
-              description: `Could not revoke the temporary setup key “${
-                still.name ?? key.name ?? setupKeyId
-              }”. It stays usable until the draft is closed.`,
+              title: i18nT(
+                "control-center.hooks:usePlaceholderArtifacts.title.draftCleanup",
+              ),
+              description: i18nT(
+                "control-center.hooks:usePlaceholderArtifacts.description.couldNotRevokeTheTemporary",
+                { value: still.name ?? key.name ?? setupKeyId },
+              ),
               backgroundColor: "bg-red-500",
             });
           });

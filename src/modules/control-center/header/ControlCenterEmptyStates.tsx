@@ -13,6 +13,7 @@ import { useControlCenterData } from "@/modules/control-center/hooks/useControlC
 import { useNetworksContext } from "@/modules/networks/NetworkProvider";
 import { useCanvasTransitionActive } from "@/modules/control-center/utils/canvas-transition";
 
+import { t } from "@/i18n";
 // Must stay a literal: Tailwind only emits classes it finds as static text.
 const EMPTY_STATE_REVEAL_IN =
   "animate-in fade-in zoom-in-[.97] duration-[700ms] ease-out fill-mode-both";
@@ -73,14 +74,14 @@ export function ControlCenterEmptyStates() {
                   size={"large"}
                 />
               }
-              title={"Create Resources"}
-              description={
-                "It looks like you don't have any resources. Add internal services like hosts, subnets or domains so your peers can reach them."
-              }
+              title={t(
+                "control-center.header:controlCenterEmptyStates.title.createResources",
+              )}
+              description={t(
+                "control-center.header:controlCenterEmptyStates.description.itLooksLikeYouDon",
+              )}
               button={
-                <div
-                  className={"gap-x-4 flex items-center justify-center"}
-                >
+                <div className={"gap-x-4 flex items-center justify-center"}>
                   <Button
                     variant={"primary"}
                     onClick={() =>
@@ -89,18 +90,18 @@ export function ControlCenterEmptyStates() {
                     disabled={!permission.networks.update}
                   >
                     <PlusCircle size={16} />
-                    Add Resource
+                    {t("common:word.addResource")}
                   </Button>
                 </div>
               }
               learnMore={
                 <>
-                  Learn more about
+                  {t("common:word.learnMoreAbout")}
                   <InlineLink
                     href={"https://docs.netbird.io/how-to/networks#resources"}
                     target={"_blank"}
                   >
-                    Resources
+                    {t("common:countWord.resources")}
                     <ExternalLinkIcon size={12} />
                   </InlineLink>
                 </>
@@ -128,32 +129,34 @@ export function ControlCenterEmptyStates() {
                   size={"large"}
                 />
               }
-              title={"Create New Network"}
-              description={
-                "It looks like you don't have any networks. Access internal resources in your LANs and VPC by adding a network."
-              }
+              title={t(
+                "control-center.header:controlCenterEmptyStates.title.createNewNetwork",
+              )}
+              description={t(
+                "control-center.header:controlCenterEmptyStates.description.itLooksLikeYouDon2",
+              )}
               button={
-                <div
-                  className={"gap-x-4 flex items-center justify-center"}
-                >
+                <div className={"gap-x-4 flex items-center justify-center"}>
                   <Button
                     variant={"primary"}
                     onClick={openCreateNetworkModal}
                     disabled={!permission.networks.create}
                   >
                     <PlusCircle size={16} />
-                    Add Network
+                    {t(
+                      "control-center.header:controlCenterEmptyStates.text.addNetwork",
+                    )}
                   </Button>
                 </div>
               }
               learnMore={
                 <>
-                  Learn more about
+                  {t("common:word.learnMoreAbout")}
                   <InlineLink
                     href={"https://docs.netbird.io/how-to/networks"}
                     target={"_blank"}
                   >
-                    Networks
+                    {t("common:word.networks")}
                     <ExternalLinkIcon size={12} />
                   </InlineLink>
                 </>

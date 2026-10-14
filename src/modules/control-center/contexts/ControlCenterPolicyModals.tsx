@@ -44,6 +44,7 @@ import {
   isTrackablePolicy,
 } from "@/modules/control-center/utils/helpers";
 
+import { t } from "@/i18n";
 interface PolicyContextType {
   setSelectedPolicy: (id: string) => void;
   setPolicyModalOpen: (open: boolean) => void;
@@ -119,23 +120,32 @@ export function ControlCenterPolicyProvider({
   // Live edits apply to the account immediately, so confirm before the PUT.
   const confirmLivePolicySave = () =>
     confirm({
-      title: "Save policy changes?",
-      description:
-        "You are in live mode. Saving your changes will apply them to your account immediately.",
-      confirmText: "Save",
-      cancelText: "Cancel",
+      title: t(
+        "control-center.contexts:controlCenterPolicyModals.title.savePolicyChanges",
+      ),
+      description: t(
+        "control-center.contexts:controlCenterPolicyModals.description.youAreInLiveMode",
+      ),
+      confirmText: t("common:word.save"),
+      cancelText: t("common:word.cancel"),
       type: "warning",
       dismissOnOutsideClick: true,
     });
 
   const confirmLiveAgentSave = () =>
     confirm({
-      title: "Save changes?",
+      title: t(
+        "control-center.contexts:controlCenterPolicyModals.title.saveChanges",
+      ),
       description: isDraft
-        ? "Agent Network changes aren't part of the draft. Saving applies them to your account immediately."
-        : "You are in live mode. Saving your changes will apply them to your account immediately.",
-      confirmText: "Save",
-      cancelText: "Cancel",
+        ? t(
+            "control-center.contexts:controlCenterPolicyModals.text.agentNetworkChangesArenT",
+          )
+        : t(
+            "control-center.contexts:controlCenterPolicyModals.description.youAreInLiveMode",
+          ),
+      confirmText: t("common:word.save"),
+      cancelText: t("common:word.cancel"),
       type: "warning",
       dismissOnOutsideClick: true,
     });
@@ -948,14 +958,21 @@ export function ControlCenterPolicyProvider({
       return;
     }
     void confirm({
-      title: "Replace current source group?",
-      description: `Are you sure you want to replace “${groupNameForRef(
-        current,
-      )}” with “${groupNameForRef(groupRef)}”? “${groupNameForRef(
-        current,
-      )}” will no longer have access to this policy's providers.`,
-      confirmText: "Replace",
-      cancelText: "Cancel",
+      title: t(
+        "control-center.contexts:controlCenterPolicyModals.title.replaceCurrentSourceGroup",
+      ),
+      description: t(
+        "control-center.contexts:controlCenterPolicyModals.description.areYouSureYouWant",
+        {
+          value: groupNameForRef(current),
+          value2: groupNameForRef(groupRef),
+          value3: groupNameForRef(current),
+        },
+      ),
+      confirmText: t(
+        "control-center.contexts:controlCenterPolicyModals.confirmText.replace",
+      ),
+      cancelText: t("common:word.cancel"),
       type: "warning",
     }).then((ok) => ok && apply());
   };

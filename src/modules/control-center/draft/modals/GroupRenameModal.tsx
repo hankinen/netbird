@@ -10,6 +10,7 @@ import {
 import ModalHeader from "@components/modal/ModalHeader";
 import { trim } from "lodash";
 
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -29,9 +30,15 @@ export const GroupRenameModal = ({
   onRename,
   currentName,
   takenNames,
-  duplicateError = "This group already exists. Please choose another name.",
-  title = "Rename Group",
-  description = "Set an easily identifiable name for your group.",
+  duplicateError = t(
+    "control-center.draft.draft-mode-switcher:createGroupNameModal.text.thisGroupAlreadyExistsPlease",
+  ),
+  title = t(
+    "control-center.draft.draft-mode-switcher:groupRenameModal.text.renameGroup",
+  ),
+  description = t(
+    "control-center.draft.draft-mode-switcher:createGroupNameModal.description.setAnEasilyIdentifiableName",
+  ),
   inputPlaceholder = "e.g., Developers",
 }: Props) => {
   const [name, setName] = useState(currentName);
@@ -83,7 +90,7 @@ export const GroupRenameModal = ({
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
               <Button variant={"secondary"} className={"w-full"}>
-                Cancel
+                {t("common:word.cancel")}
               </Button>
             </ModalClose>
             <Button
@@ -93,7 +100,9 @@ export const GroupRenameModal = ({
               onClick={submit}
               data-testid="cc-rename-submit"
             >
-              Rename
+              {t(
+                "control-center.draft.draft-mode-switcher:groupRenameModal.text.rename",
+              )}
             </Button>
           </div>
         </ModalFooter>

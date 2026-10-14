@@ -72,6 +72,7 @@ import {
 import { canRenamePeerNode } from "@/modules/control-center/utils/node-capabilities";
 import { EditPeerNameModal } from "@/modules/peers/EditPeerNameModal";
 
+import { t } from "@/i18n";
 type MenuPosition = {
   x: number;
   y: number;
@@ -329,11 +330,14 @@ export const NodeContextMenu = ({
         (target?.data as { resource?: NetworkResource })?.resource?.name ??
         "Resource";
       const choice = await confirm({
-        title: `Delete resource “${resourceName}”?`,
-        description:
-          "It will be marked for deletion and deleted when you review and deploy.",
-        confirmText: "Delete",
-        cancelText: "Cancel",
+        title: t("control-center.menus:nodeContextMenu.title.deleteResource", {
+          resourceName,
+        }),
+        description: t(
+          "control-center.menus:nodeContextMenu.description.itWillBeMarkedFor",
+        ),
+        confirmText: t("common:word.delete"),
+        cancelText: t("common:word.cancel"),
         type: "danger",
         dismissOnOutsideClick: true,
       });
@@ -434,11 +438,14 @@ export const NodeContextMenu = ({
   const handleDeletePolicy = useCallback(async () => {
     if (!nodePolicy) return;
     const choice = await confirm({
-      title: `Delete policy “${nodePolicy.name ?? "Policy"}”?`,
-      description:
-        "It will be marked for deletion and deleted when you review and deploy.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("control-center.menus:nodeContextMenu.title.deletePolicy", {
+        value: nodePolicy.name ?? "Policy",
+      }),
+      description: t(
+        "control-center.menus:nodeContextMenu.description.itWillBeMarkedFor",
+      ),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
       dismissOnOutsideClick: true,
     });
@@ -490,14 +497,22 @@ export const NodeContextMenu = ({
     if (!livePolicy?.id) return;
     const enabled = !(livePolicy.enabled ?? true);
     const choice = await confirm({
-      title: `${enabled ? "Enable" : "Disable"} policy “${
-        livePolicy.name ?? "Policy"
-      }”?`,
-      description: `You are in live mode. The policy will be ${
-        enabled ? "enabled" : "disabled"
-      } on your account immediately.`,
-      confirmText: enabled ? "Enable" : "Disable",
-      cancelText: "Cancel",
+      title: enabled
+        ? t("control-center.menus:nodeContextMenu.title.policy.enable", {
+            value2: livePolicy.name ?? "Policy",
+          })
+        : t("control-center.menus:nodeContextMenu.title.policy.disable", {
+            value2: livePolicy.name ?? "Policy",
+          }),
+      description: enabled
+        ? t(
+            "control-center.menus:nodeContextMenu.description.youAreInLiveMode.enabled",
+          )
+        : t(
+            "control-center.menus:nodeContextMenu.description.youAreInLiveMode.disabled",
+          ),
+      confirmText: enabled ? t("common:word.enable") : t("common:word.disable"),
+      cancelText: t("common:word.cancel"),
       type: "warning",
       dismissOnOutsideClick: true,
     });
@@ -510,8 +525,12 @@ export const NodeContextMenu = ({
         refreshLiveViewRef.current(p);
       },
       enabled
-        ? "The policy was successfully enabled"
-        : "The policy was successfully disabled",
+        ? t(
+            "control-center.menus:nodeContextMenu.text.thePolicyWasSuccessfullyEnabled",
+          )
+        : t(
+            "control-center.menus:nodeContextMenu.text.thePolicyWasSuccessfullyDisabled",
+          ),
     );
   }, [livePolicy, confirm, updatePolicy, serializeRules, refreshLiveViewRef]);
 
@@ -528,11 +547,14 @@ export const NodeContextMenu = ({
       const ref = liveResourceOf(n);
       if (!ref) return;
       const choice = await confirm({
-        title: `Edit resource “${ref.resource.name ?? "Resource"}”?`,
-        description:
-          "You are in live mode. Saving your changes will apply them to your account immediately.",
-        confirmText: "Edit",
-        cancelText: "Cancel",
+        title: t("control-center.menus:nodeContextMenu.title.editResource", {
+          value: ref.resource.name ?? "Resource",
+        }),
+        description: t(
+          "control-center.menus:nodeContextMenu.description.youAreInLiveMode2",
+        ),
+        confirmText: t("common:word.edit"),
+        cancelText: t("common:word.cancel"),
         type: "warning",
         dismissOnOutsideClick: true,
       });
@@ -551,14 +573,24 @@ export const NodeContextMenu = ({
       if (!ref) return;
       const enabled = !(ref.resource.enabled ?? true);
       const choice = await confirm({
-        title: `${enabled ? "Enable" : "Disable"} resource “${
-          ref.resource.name ?? "Resource"
-        }”?`,
-        description: `You are in live mode. The resource will be ${
-          enabled ? "enabled" : "disabled"
-        } immediately.`,
-        confirmText: enabled ? "Enable" : "Disable",
-        cancelText: "Cancel",
+        title: enabled
+          ? t("control-center.menus:nodeContextMenu.title.resource.enable", {
+              value2: ref.resource.name ?? "Resource",
+            })
+          : t("control-center.menus:nodeContextMenu.title.resource.disable", {
+              value2: ref.resource.name ?? "Resource",
+            }),
+        description: enabled
+          ? t(
+              "control-center.menus:nodeContextMenu.description.youAreInLiveMode3.enabled",
+            )
+          : t(
+              "control-center.menus:nodeContextMenu.description.youAreInLiveMode3.disabled",
+            ),
+        confirmText: enabled
+          ? t("common:word.enable")
+          : t("common:word.disable"),
+        cancelText: t("common:word.cancel"),
         type: "warning",
         dismissOnOutsideClick: true,
       });
@@ -600,7 +632,7 @@ export const NodeContextMenu = ({
       if (!isFocusWorthy(n.id, nodes, edges)) return [];
       return [
         {
-          label: "Focus",
+          label: t("control-center.menus:nodeContextMenu.label.focus"),
           icon: <FocusIcon size={14} />,
           onClick: () => setFocusedNodeId(n.id),
         },
@@ -629,18 +661,22 @@ export const NodeContextMenu = ({
         : !!permission?.[permKey]?.update;
       const mayDelete = !!permission?.[permKey]?.delete;
       const enabled = data?.enabled !== false;
-      const label = data?.name ?? (isProvider ? "Provider" : "Agent policy");
+      const label =
+        data?.name ??
+        (isProvider
+          ? "Provider"
+          : t("control-center.menus:nodeContextMenu.text.agentPolicy"));
 
       const items: MenuItem[] = [];
       if (mayWrite) {
         items.push({
-          label: "Edit",
+          label: t("common:word.edit"),
           icon: <SquarePenIcon size={14} />,
           onClick: () =>
             isProvider ? openProvider(recordId) : openAgentPolicy(recordId),
         });
         items.push({
-          label: enabled ? "Disable" : "Enable",
+          label: enabled ? t("common:word.disable") : t("common:word.enable"),
           icon: enabled ? <PowerOffIcon size={14} /> : <PowerIcon size={14} />,
           onClick: () => {
             const syncEdges = () =>
@@ -694,19 +730,25 @@ export const NodeContextMenu = ({
       }
       if (mayDelete || (isNew && mayWrite)) {
         items.push({
-          label: isNew ? "Remove" : "Delete",
+          label: isNew ? t("common:word.remove") : t("common:word.delete"),
           icon: isNew ? <CircleMinusIcon size={14} /> : <TrashIcon size={14} />,
           danger: !isNew,
           onClick: () => {
             void (async () => {
               if (!isNew) {
                 const choice = await confirm({
-                  title: `Delete “${label}”?`,
+                  title: t(
+                    "control-center.menus:nodeContextMenu.title.delete",
+                    { label },
+                  ),
                   description: isDraft
                     ? `“${label}” is marked for deletion and removed when you deploy.`
-                    : `You are in live mode. “${label}” is deleted from your account immediately.`,
-                  confirmText: "Delete",
-                  cancelText: "Cancel",
+                    : t(
+                        "control-center.menus:nodeContextMenu.text.youAreInLiveMode",
+                        { label },
+                      ),
+                  confirmText: t("common:word.delete"),
+                  cancelText: t("common:word.cancel"),
                   type: "danger",
                 });
                 if (!choice) return;
@@ -760,11 +802,14 @@ export const NodeContextMenu = ({
   const handleLiveDeletePolicy = useCallback(async () => {
     if (!livePolicy?.id) return;
     const choice = await confirm({
-      title: `Delete '${livePolicy.name ?? "Policy"}'?`,
-      description:
-        "Are you sure you want to delete this access control policy? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("control-center.menus:nodeContextMenu.title.delete2", {
+        value: livePolicy.name ?? "Policy",
+      }),
+      description: t(
+        "control-center.menus:nodeContextMenu.description.areYouSureYouWant",
+      ),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!choice) return;
@@ -774,18 +819,25 @@ export const NodeContextMenu = ({
   const handleLiveDeletePeer = useCallback(
     async (peer: Peer) => {
       const choice = await confirm({
-        title: `Delete '${peer.name}'?`,
-        description:
-          "Are you sure you want to delete this peer? This action cannot be undone.",
-        confirmText: "Delete",
-        cancelText: "Cancel",
+        title: t("control-center.menus:nodeContextMenu.title.delete3", {
+          name: peer.name,
+        }),
+        description: t(
+          "control-center.menus:nodeContextMenu.description.areYouSureYouWant2",
+        ),
+        confirmText: t("common:word.delete"),
+        cancelText: t("common:word.cancel"),
         type: "danger",
       });
       if (!choice) return;
       notify({
         title: peer.name,
-        description: "Peer was successfully deleted",
-        loadingMessage: "Deleting peer...",
+        description: t(
+          "control-center.menus:nodeContextMenu.description.peerWasSuccessfullyDeleted",
+        ),
+        loadingMessage: t(
+          "control-center.menus:nodeContextMenu.loadingMessage.deletingPeer",
+        ),
         promise: peerRequest.del({}, `/${peer.id}`).then(() => {
           mutate("/peers");
           mutate("/groups");
@@ -809,7 +861,7 @@ export const NodeContextMenu = ({
       if (!isPeer || !peerId) return [];
       const items: MenuItem[] = [
         {
-          label: "View Details",
+          label: t("control-center.menus:nodeContextMenu.label.viewDetails"),
           icon: <EyeIcon size={14} />,
           onClick: () => {
             setSelectedDestinationGroup("");
@@ -821,7 +873,7 @@ export const NodeContextMenu = ({
       const realPeer = (n.data as { peer?: Peer })?.peer;
       if (realPeer?.id && permission.peers.update) {
         items.push({
-          label: "Rename",
+          label: t("control-center.menus:nodeContextMenu.label.rename"),
           icon: <PencilLineIcon size={14} />,
           onClick: () => setPeerRenameTarget(realPeer),
         });
@@ -829,7 +881,7 @@ export const NodeContextMenu = ({
       // Draft mode manages peers on the canvas (Remove), never a real delete.
       if (!isDraft && realPeer?.id && permission.peers.delete) {
         items.push({
-          label: "Delete",
+          label: t("common:word.delete"),
           icon: <TrashIcon size={14} />,
           danger: true,
           onClick: () => void handleLiveDeletePeer(realPeer),
@@ -874,11 +926,14 @@ export const NodeContextMenu = ({
       const group = getNodeGroup(target);
       if (!group?.id) return;
       const choice = await confirm({
-        title: `Rename group “${group.name}”?`,
-        description:
-          "You are in live mode. Saving your changes will apply them to your account immediately.",
-        confirmText: "Rename",
-        cancelText: "Cancel",
+        title: t("control-center.menus:nodeContextMenu.title.renameGroup", {
+          name: group.name,
+        }),
+        description: t(
+          "control-center.menus:nodeContextMenu.description.youAreInLiveMode2",
+        ),
+        confirmText: t("control-center.menus:nodeContextMenu.label.rename"),
+        cancelText: t("common:word.cancel"),
         type: "warning",
         dismissOnOutsideClick: true,
       });
@@ -929,12 +984,14 @@ export const NodeContextMenu = ({
         if (permission.policies.update) {
           items.push(
             {
-              label: "Edit",
+              label: t("common:word.edit"),
               icon: <SquarePenIcon size={14} />,
               onClick: () => void handleLiveEditPolicy(),
             },
             {
-              label: enabled ? "Disable" : "Enable",
+              label: enabled
+                ? t("common:word.disable")
+                : t("common:word.enable"),
               icon: enabled ? (
                 <PowerOffIcon size={14} />
               ) : (
@@ -946,7 +1003,7 @@ export const NodeContextMenu = ({
         }
         if (permission.policies.delete) {
           items.push({
-            label: "Delete",
+            label: t("common:word.delete"),
             icon: <TrashIcon size={14} />,
             danger: true,
             onClick: () => void handleLiveDeletePolicy(),
@@ -962,7 +1019,7 @@ export const NodeContextMenu = ({
         const items: MenuItem[] = [
           ...focusItems(node),
           {
-            label: "View Details",
+            label: t("control-center.menus:nodeContextMenu.label.viewDetails"),
             icon: <EyeIcon size={14} />,
             onClick: () => setSelectedDestinationGroup(group?.id || node.id),
           },
@@ -973,7 +1030,7 @@ export const NodeContextMenu = ({
           permission.groups.update
         ) {
           items.push({
-            label: "Rename",
+            label: t("control-center.menus:nodeContextMenu.label.rename"),
             icon: <PencilLineIcon size={14} />,
             onClick: () => void handleLiveRenameGroup(node),
           });
@@ -990,12 +1047,14 @@ export const NodeContextMenu = ({
         if (permission.networks.update) {
           items.push(
             {
-              label: "Edit",
+              label: t("common:word.edit"),
               icon: <SquarePenIcon size={14} />,
               onClick: () => void handleLiveEditResource(node),
             },
             {
-              label: resEnabled ? "Disable" : "Enable",
+              label: resEnabled
+                ? t("common:word.disable")
+                : t("common:word.enable"),
               icon: resEnabled ? (
                 <PowerOffIcon size={14} />
               ) : (
@@ -1014,7 +1073,7 @@ export const NodeContextMenu = ({
         if (!liveNetwork?.id) return [];
         const items: MenuItem[] = [
           {
-            label: "View Details",
+            label: t("control-center.menus:nodeContextMenu.label.viewDetails"),
             icon: <EyeIcon size={14} />,
             onClick: () => handleViewNetworkDetails(node),
           },
@@ -1023,13 +1082,15 @@ export const NodeContextMenu = ({
         if (permission.networks.update) {
           items.push(
             {
-              label: "Add Resource",
+              label: t("common:word.addResource"),
               icon: <WorkflowIcon size={14} />,
               onClick: () =>
                 setResourceEditor({ createInNetworkNodeId: nodeId }),
             },
             {
-              label: "Add Routing Peer",
+              label: t(
+                "control-center.menus:canvasContextMenu.label.addRoutingPeer",
+              ),
               icon: <Share2Icon size={14} />,
               onClick: () => setRoutingPeerModal({ network: liveNetwork }),
             },
@@ -1037,7 +1098,7 @@ export const NodeContextMenu = ({
         }
         if (permission.networks.delete) {
           items.push({
-            label: "Delete",
+            label: t("common:word.delete"),
             icon: <TrashIcon size={14} />,
             danger: true,
             onClick: () => void deleteNetwork(nodeId),
@@ -1052,12 +1113,12 @@ export const NodeContextMenu = ({
       const group = getNodeGroup(node);
       const focus = focusItems(node);
       const remove: MenuItem = {
-        label: "Remove",
+        label: t("common:word.remove"),
         icon: <CircleMinusIcon size={14} />,
         onClick: () => removeGroup(node),
       };
       const edit: MenuItem = {
-        label: "View Details",
+        label: t("control-center.menus:nodeContextMenu.label.viewDetails"),
         icon: <EyeIcon size={14} />,
         onClick: () => setSelectedDestinationGroup(group?.id || node.id),
       };
@@ -1073,7 +1134,7 @@ export const NodeContextMenu = ({
           : permission.groups.update);
       if (mayRename) {
         items.push({
-          label: "Rename",
+          label: t("control-center.menus:nodeContextMenu.label.rename"),
           icon: <PencilLineIcon size={14} />,
           onClick: () => openRename(node),
         });
@@ -1081,7 +1142,7 @@ export const NodeContextMenu = ({
       items.push(remove);
       if (!isNewGroup(group) && canDeleteGroup(group)) {
         items.push({
-          label: "Delete",
+          label: t("common:word.delete"),
           icon: <TrashIcon size={14} />,
           onClick: () => void confirmAndDeleteGroups([node]),
           danger: true,
@@ -1106,7 +1167,7 @@ export const NodeContextMenu = ({
         ...(mayWrite
           ? [
               {
-                label: "Edit",
+                label: t("common:word.edit"),
                 icon: <SquarePenIcon size={14} />,
                 onClick: () => {
                   setSelectedPolicy(policyClientId);
@@ -1119,7 +1180,9 @@ export const NodeContextMenu = ({
           ? []
           : [
               {
-                label: policyEnabled ? "Disable" : "Enable",
+                label: policyEnabled
+                  ? t("common:word.disable")
+                  : t("common:word.enable"),
                 icon: policyEnabled ? (
                   <PowerOffIcon size={14} />
                 ) : (
@@ -1134,7 +1197,7 @@ export const NodeContextMenu = ({
           ? mayWrite
             ? [
                 {
-                  label: "Remove",
+                  label: t("common:word.remove"),
                   icon: <CircleMinusIcon size={14} />,
                   onClick: () => void handleRemovePolicyFromCanvas(),
                 },
@@ -1143,7 +1206,7 @@ export const NodeContextMenu = ({
           : permission.policies.delete
           ? [
               {
-                label: "Delete",
+                label: t("common:word.delete"),
                 icon: <TrashIcon size={14} />,
                 onClick: handleDeletePolicy,
                 danger: true,
@@ -1160,12 +1223,12 @@ export const NodeContextMenu = ({
         ...focusItems(node),
         ...peerDetailsItems(node),
         {
-          label: "Rename",
+          label: t("control-center.menus:nodeContextMenu.label.rename"),
           icon: <PencilLineIcon size={14} />,
           onClick: () => openRename(node),
         },
         {
-          label: "Remove",
+          label: t("common:word.remove"),
           icon: <CircleMinusIcon size={14} />,
           onClick: handleRemove,
         },
@@ -1180,7 +1243,7 @@ export const NodeContextMenu = ({
         : permission.networks.update;
       return [
         {
-          label: "View Details",
+          label: t("control-center.menus:nodeContextMenu.label.viewDetails"),
           icon: <EyeIcon size={14} />,
           onClick: () => handleViewNetworkDetails(node),
         },
@@ -1188,7 +1251,7 @@ export const NodeContextMenu = ({
         ...(draftNetwork && mayWrite
           ? [
               {
-                label: "Edit",
+                label: t("common:word.edit"),
                 icon: <SquarePenIcon size={14} />,
                 onClick: () => setNetworkEditor({ networkNodeId: nodeId }),
               },
@@ -1197,19 +1260,23 @@ export const NodeContextMenu = ({
         ...(mayWrite
           ? [
               {
-                label: "Add Resource",
+                label: t("common:word.addResource"),
                 icon: <WorkflowIcon size={14} />,
                 // The row is created into the frame only on save.
                 onClick: () =>
                   setResourceEditor({ createInNetworkNodeId: nodeId }),
               },
               {
-                label: "Add Resource Group",
+                label: t(
+                  "control-center.menus:nodeContextMenu.label.addResourceGroup",
+                ),
                 icon: <GroupBadgeIcon size={14} />,
                 onClick: () => addResourceGroupToFrame(nodeId),
               },
               {
-                label: "Add Routing Peer",
+                label: t(
+                  "control-center.menus:canvasContextMenu.label.addRoutingPeer",
+                ),
                 icon: <Share2Icon size={14} />,
                 onClick: () => setRoutingPeerModal({ networkNodeId: nodeId }),
               },
@@ -1221,7 +1288,7 @@ export const NodeContextMenu = ({
           ? mayWrite
             ? [
                 {
-                  label: "Remove",
+                  label: t("common:word.remove"),
                   icon: <CircleMinusIcon size={14} />,
                   onClick: handleRemove,
                 },
@@ -1230,7 +1297,7 @@ export const NodeContextMenu = ({
           : permission.networks.delete
           ? [
               {
-                label: "Delete",
+                label: t("common:word.delete"),
                 icon: <TrashIcon size={14} />,
                 danger: true,
                 onClick: () => deleteNetwork(nodeId),
@@ -1255,13 +1322,13 @@ export const NodeContextMenu = ({
           : permission.groups.update);
       if (mayRename) {
         items.push({
-          label: "Rename",
+          label: t("control-center.menus:nodeContextMenu.label.rename"),
           icon: <PencilLineIcon size={14} />,
           onClick: () => openRename(node),
         });
       }
       items.push({
-        label: "Remove",
+        label: t("common:word.remove"),
         icon: <CircleMinusIcon size={14} />,
         onClick: handleRemove,
       });
@@ -1281,21 +1348,23 @@ export const NodeContextMenu = ({
       const items: MenuItem[] = [...focusItems(node)];
       if (mayWrite) {
         items.push({
-          label: "Edit",
+          label: t("common:word.edit"),
           icon: <SquarePenIcon size={14} />,
           onClick: () => setResourceEditor({ nodeId }),
         });
       }
       if (isDraftRes && mayWrite) {
         items.push({
-          label: "Rename",
+          label: t("control-center.menus:nodeContextMenu.label.rename"),
           icon: <PencilLineIcon size={14} />,
           onClick: () => openRename(node),
         });
       }
       if (mayWrite) {
         items.push({
-          label: resEnabled ? "Disable" : "Enable",
+          label: resEnabled
+            ? t("common:word.disable")
+            : t("common:word.enable"),
           icon: resEnabled ? (
             <PowerOffIcon size={14} />
           ) : (
@@ -1307,7 +1376,7 @@ export const NodeContextMenu = ({
       if (!isDraftRes && isFramed) {
         if (permission.networks.delete) {
           items.push({
-            label: "Delete",
+            label: t("common:word.delete"),
             icon: <TrashIcon size={14} />,
             onClick: () => deleteResource(nodeId),
             danger: true,
@@ -1315,7 +1384,7 @@ export const NodeContextMenu = ({
         }
       } else if (mayWrite) {
         items.push({
-          label: "Remove",
+          label: t("common:word.remove"),
           icon: <CircleMinusIcon size={14} />,
           onClick: handleRemove,
         });
@@ -1327,7 +1396,7 @@ export const NodeContextMenu = ({
       ...focusItems(node),
       ...peerDetailsItems(node),
       {
-        label: "Remove",
+        label: t("common:word.remove"),
         icon: <CircleMinusIcon size={14} />,
         onClick: handleRemove,
       },
@@ -1436,16 +1505,20 @@ export const NodeContextMenu = ({
         onOpenChange={setRenameOpen}
         title={
           isPlaceholderRename
-            ? "Rename Peer"
+            ? t("control-center.menus:nodeContextMenu.text.renamePeer")
             : isResourceRename
-            ? "Rename Resource"
+            ? t("control-center.menus:nodeContextMenu.text.renameResource")
             : undefined
         }
         description={
           isPlaceholderRename
-            ? "Set an easily identifiable name for this peer."
+            ? t(
+                "control-center.menus:nodeContextMenu.text.setAnEasilyIdentifiableName",
+              )
             : isResourceRename
-            ? "Set an easily identifiable name for this resource."
+            ? t(
+                "control-center.menus:nodeContextMenu.text.setAnEasilyIdentifiableName2",
+              )
             : undefined
         }
         inputPlaceholder={
@@ -1471,7 +1544,9 @@ export const NodeContextMenu = ({
         }
         duplicateError={
           isPlaceholderRename || isResourceRename
-            ? "Name already taken. Please choose another name."
+            ? t(
+                "control-center.menus:nodeContextMenu.text.nameAlreadyTakenPleaseChoose",
+              )
             : undefined
         }
         onRename={(name) => {

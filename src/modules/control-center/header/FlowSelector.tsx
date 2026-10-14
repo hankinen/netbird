@@ -13,6 +13,7 @@ import * as React from "react";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 import { useCloseOnCanvasClick } from "@/modules/control-center/hooks/useCloseOnCanvasClick";
 
+import { t } from "@/i18n";
 export enum FlowView {
   NETWORKS = "networks",
   GROUPS = "groups",
@@ -35,14 +36,22 @@ export const FlowSelector = ({ value, onChange }: Props) => {
 
   const selectOptions = React.useMemo(() => {
     const options: SelectOption[] = [
-      { value: FlowView.PEERS, label: "Peer", icon: MonitorSmartphoneIcon },
-      { value: FlowView.USERS, label: "User", icon: UsersIcon },
-      { value: FlowView.GROUPS, label: "Group", icon: FolderGit2 },
+      {
+        value: FlowView.PEERS,
+        label: t("control-center.header:flowSelector.label.peer"),
+        icon: MonitorSmartphoneIcon,
+      },
+      { value: FlowView.USERS, label: t("common:word.user"), icon: UsersIcon },
+      {
+        value: FlowView.GROUPS,
+        label: t("control-center.header:flowSelector.label.group"),
+        icon: FolderGit2,
+      },
     ];
     if (!agentNetworkOnly) {
       options.push({
         value: FlowView.NETWORKS,
-        label: "Networks",
+        label: t("common:word.networks"),
         icon: NetworkIcon,
       });
     }
@@ -82,7 +91,7 @@ export const FlowSelector = ({ value, onChange }: Props) => {
               data-testid={"cc-flow-peers"}
             >
               <MonitorSmartphoneIcon size={12} />
-              Peer
+              {t("control-center.header:flowSelector.label.peer")}
             </SegmentedTabs.Trigger>
             <SegmentedTabs.Trigger
               value={FlowView.USERS}
@@ -90,7 +99,7 @@ export const FlowSelector = ({ value, onChange }: Props) => {
               data-testid={"cc-flow-users"}
             >
               <UsersIcon size={12} />
-              User
+              {t("common:word.user")}
             </SegmentedTabs.Trigger>
             <SegmentedTabs.Trigger
               value={FlowView.GROUPS}
@@ -98,7 +107,7 @@ export const FlowSelector = ({ value, onChange }: Props) => {
               data-testid={"cc-flow-groups"}
             >
               <FolderGit2 size={12} />
-              Group
+              {t("control-center.header:flowSelector.label.group")}
             </SegmentedTabs.Trigger>
             {/* The agent-network repackaging drops Networks as a top-level
                 pivot. */}
@@ -109,7 +118,7 @@ export const FlowSelector = ({ value, onChange }: Props) => {
                 data-testid={"cc-flow-networks"}
               >
                 <NetworkIcon size={12} />
-                Networks
+                {t("common:word.networks")}
               </SegmentedTabs.Trigger>
             )}
           </SegmentedTabs.List>

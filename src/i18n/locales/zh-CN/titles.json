@@ -26,5 +26,7 @@
   "postureChecks": "设备合规检查",
   "auditEvents": "审计事件",
   "trafficEvents": "流量事件",
-  "activity": "活动日志"
+  "activity": "活动日志",
+  "controlCenter": "控制中心",
+  "integrations": "集成"
 }

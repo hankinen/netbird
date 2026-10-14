@@ -1,0 +1,16 @@
+{
+  "flowSelector.label.peer": "设备",
+  "flowSelector.label.group": "组",
+  "controlCenterEmptyStates.title.createResources": "创建资源",
+  "controlCenterEmptyStates.description.itLooksLikeYouDon": "您还没有任何资源。添加主机、子网或域名等内部服务，让您的设备可以访问它们。",
+  "controlCenterEmptyStates.title.createNewNetwork": "创建新网络",
+  "controlCenterEmptyStates.description.itLooksLikeYouDon2": "您还没有任何网络。添加网络即可访问 LAN 和 VPC 中的内部资源。",
+  "controlCenterEmptyStates.text.addNetwork": "添加网络",
+  "controlCenterHeader.ariaLabel.networkActions": "网络操作",
+  "controlCenterHeader.text.network": "网络",
+  "controlCenterHeader.label.allNetworks": "所有网络",
+  "controlCenterHeader.text.focusingOn": "正在聚焦“{{value}}”",
+  "controlCenterHeader.text.selectANodeToFocus": "选择要聚焦的节点",
+  "controlCenterHeader.ariaLabel.exitFocus": "退出聚焦",
+  "controlCenterHeader.text.feedback": "反馈"
+}

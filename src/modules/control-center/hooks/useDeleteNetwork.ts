@@ -9,6 +9,7 @@ import { useDraftChangeset } from "@/modules/control-center/draft/DraftChangeset
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
 import { useDraftGroupActions } from "@/modules/control-center/hooks/useDraftGroupActions";
 
+import { t } from "@/i18n";
 // Deletes an EXISTING network by its canvas node id. Resolves true only once the
 // network is really gone, so callers can navigate out of its view.
 export function useDeleteNetwork() {
@@ -31,11 +32,15 @@ export function useDeleteNetwork() {
 
       if (isDraft) {
         const choice = await confirm({
-          title: `Delete network “${network.name}”?`,
-          description:
-            "Its resources and routing peers are removed too. It will be marked for deletion and deleted when you review and deploy.",
-          confirmText: "Delete",
-          cancelText: "Cancel",
+          title: t(
+            "control-center.hooks:useDeleteNetwork.title.deleteNetwork",
+            { name: network.name },
+          ),
+          description: t(
+            "control-center.hooks:useDeleteNetwork.description.itsResourcesAndRoutingPeers",
+          ),
+          confirmText: t("common:word.delete"),
+          cancelText: t("common:word.cancel"),
           type: "danger",
           dismissOnOutsideClick: true,
         });
@@ -46,11 +51,14 @@ export function useDeleteNetwork() {
       }
 
       const choice = await confirm({
-        title: `Delete network '${network.name}'?`,
-        description:
-          "Are you sure you want to delete this network? Every resource and routing peer will be removed from this network. This action cannot be undone.",
-        confirmText: "Delete",
-        cancelText: "Cancel",
+        title: t("control-center.hooks:useDeleteNetwork.title.deleteNetwork2", {
+          name: network.name,
+        }),
+        description: t(
+          "control-center.hooks:useDeleteNetwork.description.areYouSureYouWant",
+        ),
+        confirmText: t("common:word.delete"),
+        cancelText: t("common:word.cancel"),
         type: "danger",
       });
       if (!choice) return false;
@@ -62,8 +70,12 @@ export function useDeleteNetwork() {
       });
       notify({
         title: network.name,
-        description: "Network deleted successfully.",
-        loadingMessage: "Deleting network...",
+        description: t(
+          "control-center.hooks:useDeleteNetwork.description.networkDeletedSuccessfully",
+        ),
+        loadingMessage: t(
+          "control-center.hooks:useDeleteNetwork.loadingMessage.deletingNetwork",
+        ),
         promise,
       });
       try {

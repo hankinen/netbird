@@ -14,6 +14,7 @@ import TextWithTooltip from "@components/ui/TextWithTooltip";
 import { useCloseOnCanvasClick } from "@/modules/control-center/hooks/useCloseOnCanvasClick";
 import { SmallUserAvatar } from "@/modules/users/SmallUserAvatar";
 
+import { t } from "@/i18n";
 type UserNodeProps = Node<
   {
     currentUser: string;
@@ -63,7 +64,10 @@ export const SelectUserNode = ({ data, id }: UserNodeProps) => {
                       }
                     >
                       <TextWithTooltip
-                        text={user?.email || "NetBird"}
+                        text={
+                          user?.email ||
+                          t("control-center.nodes:selectUserNode.text.netBird")
+                        }
                         maxChars={20}
                       />
                     </span>
@@ -96,7 +100,9 @@ export const SelectUserNode = ({ data, id }: UserNodeProps) => {
         onChange={data.onUserChange}
         options={userSelectOptions}
         showSearch={true}
-        searchPlaceholder={"Search user by name or email..."}
+        searchPlaceholder={t(
+          "control-center.nodes:selectUserNode.searchPlaceholder.searchUserByNameOr",
+        )}
         open={open}
         onOpenChange={setOpen}
         popoverWidth={280}

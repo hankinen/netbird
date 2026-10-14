@@ -113,3 +113,6 @@ export function setLanguage(lang: Language) {
   localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
   window.location.reload();
 }
+
+/** True when the UI language is English (for messages whose English grammar is built in code). */
+export const isEnglish = () => !i18next.language || i18next.language === "en";

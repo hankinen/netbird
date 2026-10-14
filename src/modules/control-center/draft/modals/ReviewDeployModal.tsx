@@ -37,6 +37,7 @@ import { useRemoveChange } from "@/modules/control-center/hooks/useRemoveChange"
 import { LiveData } from "@/modules/control-center/utils/changeset-request";
 import { getPlaceholderSetupKey } from "@/modules/control-center/utils/helpers";
 
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -165,9 +166,10 @@ export const ReviewDeployModal = ({
 
   // Counts install steps too, so the header matches the button badge.
   const totalCount = changes.length;
-  const description = `Review ${totalCount} change${
-    totalCount !== 1 ? "s" : ""
-  } before deploying to your network.`;
+  const description = t(
+    "control-center.draft.draft-mode-switcher:reviewDeployModal.text.reviewChangeBeforeDeployingTo",
+    { totalCount, plural: totalCount !== 1 ? "s" : "" },
+  );
 
   const handleDeploy = async () => {
     const ok = await deploy();
@@ -175,13 +177,21 @@ export const ReviewDeployModal = ({
     // retry.
     if (!ok) return;
     notify({
-      title: "Deploy complete",
+      title: t(
+        "control-center.draft.draft-mode-switcher:reviewDeployModal.title.deployComplete",
+      ),
       description:
         deployableCount > 0
-          ? `Your ${deployableCount} change${
-              deployableCount !== 1 ? "s were" : " was"
-            } applied to your network.`
-          : "Your installed peers are already live — no API changes were needed.",
+          ? t(
+              "control-center.draft.draft-mode-switcher:reviewDeployModal.text.yourChangeAppliedToYour",
+              {
+                deployableCount,
+                plural: deployableCount !== 1 ? "s were" : " was",
+              },
+            )
+          : t(
+              "control-center.draft.draft-mode-switcher:reviewDeployModal.text.yourInstalledPeersAreAlready",
+            ),
     });
     // Reset the changeset only AFTER the modal closed, or it flashes an empty
     // "no changes" state on the way out.
@@ -204,7 +214,9 @@ export const ReviewDeployModal = ({
           icon={
             <GitPullRequestArrowIcon size={18} className={"text-netbird"} />
           }
-          title={"Review & Deploy"}
+          title={t(
+            "control-center.draft.draft-mode-switcher:draftModeSwitcher.text.reviewDeploy",
+          )}
           description={description}
           color={"netbird"}
         />
@@ -214,7 +226,9 @@ export const ReviewDeployModal = ({
         <div className={"px-8 pb-6 border-t border-nb-gray-910 pt-6 min-w-0"}>
           {changes.length === 0 ? (
             <div className={"text-sm text-nb-gray-400 text-center py-10"}>
-              No pending changes.
+              {t(
+                "control-center.draft.draft-mode-switcher:reviewDeployModal.text.noPendingChanges",
+              )}
             </div>
           ) : (
             <Accordion
@@ -248,14 +262,16 @@ export const ReviewDeployModal = ({
         <ModalFooter className={"items-center"}>
           <div className={"w-full"}>
             <Paragraph className={"text-sm mt-auto"}>
-              Learn more about
+              {t("common:word.learnMoreAbout")}
               <InlineLink
                 // TODO: point at the Control Center / Review & Deploy docs
                 // page once it exists.
                 href={"https://docs.netbird.io/"}
                 target={"_blank"}
               >
-                Review & Deploy
+                {t(
+                  "control-center.draft.draft-mode-switcher:draftModeSwitcher.text.reviewDeploy",
+                )}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>
@@ -263,13 +279,15 @@ export const ReviewDeployModal = ({
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
               <Button variant={"secondary"} disabled={isDeploying}>
-                Cancel
+                {t("common:word.cancel")}
               </Button>
             </ModalClose>
             {/* A disabled button emits no hover, so the wrapper div FullTooltip
                 adds carries the tooltip. */}
             <FullTooltip
-              content={"Resolve issues before deploying"}
+              content={t(
+                "control-center.draft.draft-mode-switcher:reviewDeployModal.content.resolveIssuesBeforeDeploying",
+              )}
               disabled={!hasIssues}
               side={"top"}
             >
@@ -293,7 +311,9 @@ export const ReviewDeployModal = ({
                   )}
                 >
                   <ListTodoIcon size={16} />
-                  Approve & Deploy
+                  {t(
+                    "control-center.draft.draft-mode-switcher:reviewDeployModal.text.approveDeploy",
+                  )}
                 </span>
                 {isDeploying && (
                   <span

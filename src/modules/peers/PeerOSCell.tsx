@@ -40,7 +40,11 @@ export function PeerOSCell({ os, serial }: Readonly<Props>) {
         </TooltipTrigger>
         <TooltipContent className={"!p-0"}>
           <div>
-            <ListItem icon={<CpuIcon size={14} />} label={"OS"} value={os} />
+            <ListItem
+              icon={<CpuIcon size={14} />}
+              label={t("common:word.os")}
+              value={os}
+            />
             {serial && serial !== "" && (
               <ListItem
                 icon={<Barcode size={14} />}
