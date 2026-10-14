@@ -10,6 +10,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/jumpcloud.png";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import {
   IdentityProviderLog,
   ScimIntegration,
@@ -18,8 +19,6 @@ import JumpcloudConfiguration from "@/modules/integrations/idp-sync/jumpcloud/Ju
 import JumpcloudSetup from "@/modules/integrations/idp-sync/jumpcloud/JumpcloudSetup";
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
-
-import { t } from "@/i18n";
 export const Jumpcloud = () => {
   const { mutate } = useSWRConfig();
   const [setupModal, setSetupModal] = useState(false);

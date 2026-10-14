@@ -1,4 +1,3 @@
-import { Trans } from "react-i18next";
 import Button from "@components/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@components/Popover";
 import { Table } from "@tanstack/react-table";
@@ -6,6 +5,7 @@ import { cn } from "@utils/helpers";
 import { Command, CommandGroup, CommandItem } from "cmdk";
 import { Check, ChevronDown, RowsIcon } from "lucide-react";
 import * as React from "react";
+import { Trans } from "react-i18next";
 import { t } from "@/i18n";
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;

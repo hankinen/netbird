@@ -9,14 +9,13 @@ import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/crowdstrike.png";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Account } from "@/interfaces/Account";
 import { CrowdstrikeIntegration } from "@/interfaces/EDR";
 import CrowdStrikeConfiguration from "@/modules/integrations/edr/crowdstrike/CrowdStrikeConfiguration";
 import CrowdStrikeSetup from "@/modules/integrations/edr/crowdstrike/CrowdStrikeSetup";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import { useIntegrations } from "../useIntegrations";
-
-import { t } from "@/i18n";
 type Props = {
   account: Account;
 };

@@ -2,7 +2,6 @@ import FancyToggleSwitch from "@components/FancyToggleSwitch";
 import InlineLink from "@components/InlineLink";
 import { ExternalLinkIcon, GaugeIcon } from "lucide-react";
 import * as React from "react";
-
 import { t } from "@/i18n";
 type Props = {
   value: boolean;

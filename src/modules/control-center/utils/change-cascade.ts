@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { NetworkResource } from "@/interfaces/Network";
 import { Policy } from "@/interfaces/Policy";
@@ -12,8 +13,6 @@ import type {
   UpdateGroupChange,
   UpdatePolicyChange,
 } from "@/modules/control-center/draft/DraftChangesetContext";
-
-import { t } from "@/i18n";
 // Removing a changeset entry must leave the draft as if the change had never
 // been made. The canvas half lives in hooks/useRemoveChange.ts.
 

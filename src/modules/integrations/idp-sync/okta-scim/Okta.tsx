@@ -14,6 +14,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/okta.png";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import {
   IdentityProviderLog,
   OktaIntegration,
@@ -23,8 +24,6 @@ import OktaSetup from "@/modules/integrations/idp-sync/okta-scim/OktaSetup";
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import { useEnterpriseConnections } from "@/modules/integrations/sso/useEnterpriseConnections";
-
-import { t } from "@/i18n";
 export const Okta = () => {
   const { mutate } = useSWRConfig();
   const [setupModal, setSetupModal] = useState(false);

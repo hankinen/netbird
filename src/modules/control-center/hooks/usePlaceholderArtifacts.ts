@@ -2,10 +2,9 @@ import { notify } from "@components/Notification";
 import { useApiCall } from "@utils/api";
 import { useCallback, useSyncExternalStore } from "react";
 import { mutate } from "swr";
+import { t as i18nT } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { SetupKey } from "@/interfaces/SetupKey";
-
-import { t as i18nT } from "@/i18n";
 // Real API objects a server/agent placeholder creates: a throwaway group the key
 // auto-assigns to match the registering peer, and the setup key.
 export type PlaceholderArtifacts = {

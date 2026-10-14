@@ -1,6 +1,7 @@
 import { Node, Rect, useReactFlow } from "@xyflow/react";
 import React, { useCallback, useEffect } from "react";
 import { useDialog } from "@/contexts/DialogProvider";
+import { t as i18nT } from "@/i18n";
 import { Policy } from "@/interfaces/Policy";
 import { useCanvasState } from "@/modules/control-center/contexts/ControlCenterContext";
 import { useDestinationGroup } from "@/modules/control-center/contexts/ControlCenterContext";
@@ -24,8 +25,6 @@ import {
   EMPTY_STATE_ZOOM,
   nodeYNudge,
 } from "@/modules/control-center/utils/layouts";
-
-import { t as i18nT } from "@/i18n";
 interface UseSelectNodeHandlersParams {
   views: {
     applySingleGroupView: (id: string, policiesOverride?: Policy[]) => any;

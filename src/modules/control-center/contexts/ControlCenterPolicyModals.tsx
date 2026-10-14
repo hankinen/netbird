@@ -12,6 +12,7 @@ import React, {
 } from "react";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { Policy, PolicyRuleResource } from "@/interfaces/Policy";
 import {
@@ -43,8 +44,6 @@ import {
   getPlaceholderPeer,
   isTrackablePolicy,
 } from "@/modules/control-center/utils/helpers";
-
-import { t } from "@/i18n";
 interface PolicyContextType {
   setSelectedPolicy: (id: string) => void;
   setPolicyModalOpen: (open: boolean) => void;

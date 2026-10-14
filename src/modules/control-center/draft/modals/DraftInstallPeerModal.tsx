@@ -11,6 +11,7 @@ import { useApiCall } from "@utils/api";
 import { useReactFlow } from "@xyflow/react";
 import { CheckCircle2Icon } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { Peer } from "@/interfaces/Peer";
 import { SetupKey } from "@/interfaces/SetupKey";
@@ -28,8 +29,6 @@ import {
   PLACEHOLDER_BASE_NAMES,
 } from "@/modules/control-center/utils/helpers";
 import SetupModal from "@/modules/setup-netbird-modal/SetupModal";
-
-import { t } from "@/i18n";
 // Server/Agent installs arrive without a setup key: it is generated on demand
 // and written back onto the placeholder node so reopening Install reuses it.
 export const DraftInstallPeerModal = () => {

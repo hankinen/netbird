@@ -26,6 +26,7 @@ import { Virtuoso } from "react-virtuoso";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { NetworkResource } from "@/interfaces/Network";
 import { Peer } from "@/interfaces/Peer";
@@ -55,8 +56,6 @@ import {
   pinByOrder,
   useStructuralNodes,
 } from "@/modules/control-center/utils/helpers";
-
-import { t } from "@/i18n";
 interface DestinationGroupPanelProps {
   // Real group id, or the canvas node id for draft groups without an API id.
   groupId: string;

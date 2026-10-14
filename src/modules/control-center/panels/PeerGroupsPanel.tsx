@@ -15,6 +15,7 @@ import { Virtuoso } from "react-virtuoso";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { useCanvasUI } from "@/modules/control-center/contexts/ControlCenterContext";
 import { useDraftChangeset } from "@/modules/control-center/draft/DraftChangesetContext";
@@ -42,8 +43,6 @@ import {
   pinByOrder,
   useStructuralNodes,
 } from "@/modules/control-center/utils/helpers";
-
-import { t } from "@/i18n";
 interface PeerGroupsPanelProps {
   // Real peer id; empty means closed.
   peerId: string;

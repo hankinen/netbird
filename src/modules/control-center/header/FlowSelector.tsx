@@ -10,10 +10,9 @@ import {
   UsersIcon,
 } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 import { useCloseOnCanvasClick } from "@/modules/control-center/hooks/useCloseOnCanvasClick";
-
-import { t } from "@/i18n";
 export enum FlowView {
   NETWORKS = "networks",
   GROUPS = "groups",

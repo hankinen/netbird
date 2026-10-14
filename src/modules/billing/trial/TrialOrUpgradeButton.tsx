@@ -10,10 +10,9 @@ import { useState } from "react";
 import { PlanFeatures } from "@/cloud/cloud-hooks/useIsFeatureLocked";
 import { useTrial } from "@/cloud/cloud-hooks/useTrial";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { PlanTier } from "@/interfaces/Subscription";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
-
-import { t } from "@/i18n";
 type Props = {
   plan?: PlanTier;
   variant?: "primary" | "white";

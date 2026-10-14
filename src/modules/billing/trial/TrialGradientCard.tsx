@@ -3,10 +3,9 @@ import { cn } from "@utils/helpers";
 import { Sparkles } from "lucide-react";
 import * as React from "react";
 import { useBilling } from "@/contexts/BillingProvider";
+import { t } from "@/i18n";
 import { PlanTier } from "@/interfaces/Subscription";
 import { TrialOrUpgradeButton } from "@/modules/billing/trial/TrialOrUpgradeButton";
-
-import { t } from "@/i18n";
 export const TrialGradientCard = () => {
   const { currentPlan, canUpgrade, isTrialAvailable } = useBilling();
   let planName = currentPlan?.name || "Free";

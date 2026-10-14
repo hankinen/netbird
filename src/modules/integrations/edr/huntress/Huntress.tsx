@@ -11,6 +11,7 @@ import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/huntress.png";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Account } from "@/interfaces/Account";
 import { HuntressIntegration, HuntressMatchAttributes } from "@/interfaces/EDR";
 import { Group } from "@/interfaces/Group";
@@ -18,8 +19,6 @@ import HuntressConfiguration from "@/modules/integrations/edr/huntress/HuntressC
 import HuntressSetup from "@/modules/integrations/edr/huntress/HuntressSetup";
 import { useIntegrations } from "@/modules/integrations/edr/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
-
-import { t } from "@/i18n";
 type Props = {
   account: Account;
 };

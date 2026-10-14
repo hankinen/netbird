@@ -4,7 +4,6 @@ import { Label } from "@components/Label";
 import { cn } from "@utils/helpers";
 import { ArrowUpWideNarrowIcon } from "lucide-react";
 import * as React from "react";
-
 import { t } from "@/i18n";
 type Props = {
   enabled: boolean;

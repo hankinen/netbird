@@ -20,11 +20,10 @@ import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Account } from "@/interfaces/Account";
 import { LockedFeatureBadge } from "@/modules/billing/locked-feature/LockedFeatureBadge";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
-
-import { t } from "@/i18n";
 type Props = {
   account: Account;
 };

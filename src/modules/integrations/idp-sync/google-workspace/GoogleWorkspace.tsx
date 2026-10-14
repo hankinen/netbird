@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/google-workspace.png";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import {
   AzureADIntegration,
   GoogleWorkspaceIntegration,
@@ -20,8 +21,6 @@ import GoogleWorkspaceConfiguration from "@/modules/integrations/idp-sync/google
 import GoogleWorkspaceSetup from "@/modules/integrations/idp-sync/google-workspace/GoogleWorkspaceSetup";
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
-
-import { t } from "@/i18n";
 export const GoogleWorkspace = () => {
   const { mutate } = useSWRConfig();
   const [setupModal, setSetupModal] = useState(false);

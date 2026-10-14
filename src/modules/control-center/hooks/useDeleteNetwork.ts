@@ -4,12 +4,11 @@ import { useReactFlow } from "@xyflow/react";
 import { useCallback } from "react";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
+import { t } from "@/i18n";
 import { Network } from "@/interfaces/Network";
 import { useDraftChangeset } from "@/modules/control-center/draft/DraftChangesetContext";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
 import { useDraftGroupActions } from "@/modules/control-center/hooks/useDraftGroupActions";
-
-import { t } from "@/i18n";
 // Deletes an EXISTING network by its canvas node id. Resolves true only once the
 // network is really gone, so callers can navigate out of its view.
 export function useDeleteNetwork() {

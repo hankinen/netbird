@@ -9,11 +9,10 @@ import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/generic-http.png";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useIsLicensed } from "@/hooks/useIsLicensed";
+import { t } from "@/i18n";
 import { EventStream } from "@/interfaces/EventStream";
 import GenericHTTPModal from "@/modules/integrations/event-streaming/generic-http/GenericHTTPModal";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
-
-import { t } from "@/i18n";
 export default function GenericHTTP() {
   const { permission } = usePermissions();
   // Event Streaming is a licensed feature; skip the call on open-source.

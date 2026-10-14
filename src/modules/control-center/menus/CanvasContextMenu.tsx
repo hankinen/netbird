@@ -20,6 +20,7 @@ import React, {
 } from "react";
 import { createPortal } from "react-dom";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 import { useControlCenterPolicy } from "@/modules/control-center/contexts/ControlCenterPolicyModals";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
@@ -28,8 +29,6 @@ import { useDraftGroupActions } from "@/modules/control-center/hooks/useDraftGro
 import { useDraftNodeCreation } from "@/modules/control-center/hooks/useDraftNodeCreation";
 import { useEdgeAwareMenuPosition } from "@/modules/control-center/hooks/useEdgeAwareMenuPosition";
 import { menuItemSlug } from "@/modules/control-center/menus/menuItemTestId";
-
-import { t } from "@/i18n";
 type MenuPosition = {
   x: number;
   y: number;

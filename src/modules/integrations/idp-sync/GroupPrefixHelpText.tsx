@@ -1,6 +1,5 @@
 import HelpText from "@components/HelpText";
 import * as React from "react";
-
 import { t } from "@/i18n";
 type Props = {
   type?: "user-groups" | "groups";

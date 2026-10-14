@@ -6,12 +6,11 @@ import {
   useStore,
 } from "@xyflow/react";
 import { orderBy } from "lodash";
+import { t as i18nT } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { Network, NetworkResource } from "@/interfaces/Network";
 import { Peer } from "@/interfaces/Peer";
 import { Policy } from "@/interfaces/Policy";
-
-import { t as i18nT } from "@/i18n";
 // crypto.randomUUID is missing in non-secure contexts and older Safari.
 export const draftUid = () =>
   typeof crypto !== "undefined" && crypto.randomUUID

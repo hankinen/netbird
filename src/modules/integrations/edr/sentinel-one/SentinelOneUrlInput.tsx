@@ -1,8 +1,7 @@
 import { Input, InputProps } from "@components/Input";
 import React, { useMemo } from "react";
-import { isValidSentinelOneApiUrl } from "@/modules/integrations/edr/sentinel-one/SentinelOne";
-
 import { t } from "@/i18n";
+import { isValidSentinelOneApiUrl } from "@/modules/integrations/edr/sentinel-one/SentinelOne";
 type Props = {
   value: string;
   setValue: (value: string) => void;

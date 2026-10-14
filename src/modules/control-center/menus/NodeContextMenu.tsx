@@ -27,6 +27,7 @@ import { mutate } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { usePolicies } from "@/contexts/PoliciesProvider";
+import { t } from "@/i18n";
 import { Group, GroupIssued } from "@/interfaces/Group";
 import { Network, NetworkResource } from "@/interfaces/Network";
 import { Peer } from "@/interfaces/Peer";
@@ -71,8 +72,6 @@ import {
 } from "@/modules/control-center/utils/helpers";
 import { canRenamePeerNode } from "@/modules/control-center/utils/node-capabilities";
 import { EditPeerNameModal } from "@/modules/peers/EditPeerNameModal";
-
-import { t } from "@/i18n";
 type MenuPosition = {
   x: number;
   y: number;

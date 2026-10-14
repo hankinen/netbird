@@ -8,7 +8,6 @@ import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import * as React from "react";
 import { useMemo } from "react";
-
 import { t } from "@/i18n";
 type Props<T> = {
   image: StaticImport | string;

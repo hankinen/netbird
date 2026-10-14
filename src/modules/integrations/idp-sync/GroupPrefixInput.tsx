@@ -4,7 +4,6 @@ import { useDebounce } from "@hooks/useDebounce";
 import { Folder, MinusCircleIcon, PlusIcon } from "lucide-react";
 import * as React from "react";
 import { useEffect, useState } from "react";
-
 import { t } from "@/i18n";
 type GroupPrefixInputProps = {
   value: string[];

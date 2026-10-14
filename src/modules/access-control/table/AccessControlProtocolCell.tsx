@@ -1,7 +1,7 @@
-import { t } from "@/i18n";
 import Badge from "@components/Badge";
 import { Share2 } from "lucide-react";
 import React, { useMemo } from "react";
+import { t } from "@/i18n";
 import { Policy } from "@/interfaces/Policy";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 

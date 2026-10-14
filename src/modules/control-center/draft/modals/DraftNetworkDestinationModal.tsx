@@ -10,6 +10,7 @@ import { PeerGroupSelector } from "@components/PeerGroupSelector";
 import * as React from "react";
 import { useMemo, useState } from "react";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { Network, NetworkResource } from "@/interfaces/Network";
 import { Policy, PolicyRuleResource } from "@/interfaces/Policy";
@@ -21,8 +22,6 @@ import {
 } from "@/modules/control-center/draft/DraftModeContext";
 import { useControlCenterData } from "@/modules/control-center/hooks/useControlCenterData";
 import { getDraftResource } from "@/modules/control-center/utils/helpers";
-
-import { t } from "@/i18n";
 // Destination picker for a POLICY connected with a network frame: the policy
 // modal's destination selector, limited to that network's resources and groups.
 export const DraftNetworkDestinationModal = () => {

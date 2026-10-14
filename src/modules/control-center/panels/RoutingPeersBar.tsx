@@ -12,10 +12,9 @@ import * as React from "react";
 import Skeleton from "react-loading-skeleton";
 import CircleIcon from "@/assets/icons/CircleIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
 import { PeerOperatingSystemIcon } from "@/modules/peers/PeerOperatingSystemIcon";
-
-import { t } from "@/i18n";
 export const RoutingPeersIndicator = ({
   count,
   dotSize = 8,

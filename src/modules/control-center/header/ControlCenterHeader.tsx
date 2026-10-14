@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { useDestinationGroup } from "@/modules/control-center/contexts/ControlCenterContext";
 import {
   useCanvasState,
@@ -53,8 +54,6 @@ import {
   isFrameNode,
   useStructuralNodes,
 } from "@/modules/control-center/utils/helpers";
-
-import { t } from "@/i18n";
 // Sized to the longest option label (~6.5px/char at text-xs), clamped to 256px.
 const networkSelectorWidth = (labels: unknown[]) => {
   const longest = labels.reduce<number>(

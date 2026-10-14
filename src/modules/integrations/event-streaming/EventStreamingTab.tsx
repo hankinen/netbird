@@ -5,14 +5,13 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { ExternalLinkIcon, FileText } from "lucide-react";
 import React from "react";
 import IntegrationIcon from "@/assets/icons/IntegrationIcon";
+import { t } from "@/i18n";
 import { LockedFeatureInfoCard } from "@/modules/billing/locked-feature/LockedFeatureInfoCard";
 import { LockedFeatureOverlay } from "@/modules/billing/locked-feature/LockedFeatureOverlay";
 import Firehose from "@/modules/integrations/event-streaming/amazon/firehose/Firehose";
 import S3 from "@/modules/integrations/event-streaming/amazon/s3/S3";
 import Datadog from "@/modules/integrations/event-streaming/datadog/Datadog";
 import GenericHTTP from "@/modules/integrations/event-streaming/generic-http/GenericHTTP";
-
-import { t } from "@/i18n";
 export default function EventStreamingTab() {
   return (
     <Tabs.Content value={"event-streaming"}>

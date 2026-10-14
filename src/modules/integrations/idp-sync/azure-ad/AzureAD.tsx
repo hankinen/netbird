@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/entra-id.png";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import {
   AzureADIntegration,
   IdentityProviderLog,
@@ -19,8 +20,6 @@ import AzureADConfiguration from "@/modules/integrations/idp-sync/azure-ad/Azure
 import AzureADSetup from "@/modules/integrations/idp-sync/azure-ad/AzureADSetup";
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
-
-import { t } from "@/i18n";
 export const AzureAD = () => {
   const { mutate } = useSWRConfig();
   const [setupModal, setSetupModal] = useState(false);

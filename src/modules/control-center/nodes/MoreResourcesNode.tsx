@@ -1,7 +1,6 @@
 import { cn } from "@utils/helpers";
 import { MoreHorizontal } from "lucide-react";
 import * as React from "react";
-
 import { t } from "@/i18n";
 // NOT a ReactFlow node: NetworkNode overlays it at an absolute rect.
 export const MoreResourcesNode = ({

@@ -1,4 +1,3 @@
-import { t } from "@/i18n";
 import Button from "@components/Button";
 import { cn } from "@utils/helpers";
 import { isNetBirdCloud } from "@utils/netbird";
@@ -8,6 +7,7 @@ import { PlanFeatureAvailability } from "@/cloud/cloud-hooks/useIsFeatureLocked"
 import { useTrial } from "@/cloud/cloud-hooks/useTrial";
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { PlanTier } from "@/interfaces/Subscription";
 import { LockedFeatureInfoCardProps } from "@/modules/billing/locked-feature/LockedFeatureInfoCard";
 import { TrialOrUpgradeButton } from "@/modules/billing/trial/TrialOrUpgradeButton";

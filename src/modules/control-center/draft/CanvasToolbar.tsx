@@ -50,6 +50,7 @@ const RedoShortcut = isMac ? (
     <span>+</span>Z
   </span>
 );
+import { t } from "@/i18n";
 import {
   isInputFocused,
   useControlCenterShortcuts,
@@ -58,8 +59,6 @@ import { ToolbarButton } from "@/modules/control-center/toolbar/ToolbarButton";
 import { ToolbarContainer } from "@/modules/control-center/toolbar/ToolbarContainer";
 import { ToolbarDivider } from "@/modules/control-center/toolbar/ToolbarDivider";
 import { ToolbarGroup } from "@/modules/control-center/toolbar/ToolbarGroup";
-
-import { t } from "@/i18n";
 export const CanvasToolbar = () => {
   const {
     isDraft,

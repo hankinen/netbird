@@ -1,6 +1,7 @@
 import { Edge, Node, useReactFlow, XYPosition } from "@xyflow/react";
 import { useCallback } from "react";
 import { useDialog } from "@/contexts/DialogProvider";
+import { isEnglish,t } from "@/i18n";
 import { Group, GroupIssued } from "@/interfaces/Group";
 import { NetworkResource } from "@/interfaces/Network";
 import { Policy } from "@/interfaces/Policy";
@@ -31,8 +32,6 @@ import {
   patchGroupInPolicies,
   sameGroupMatcher,
 } from "@/modules/control-center/utils/policy-group-sync";
-
-import { t, isEnglish } from "@/i18n";
 export const GROUP_NODE_TYPES = new Set([
   "groupNode",
   "sourceGroupNode",

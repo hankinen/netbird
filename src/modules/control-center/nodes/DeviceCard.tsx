@@ -4,13 +4,12 @@ import { cn } from "@utils/helpers";
 import * as React from "react";
 import RoundedFlag from "@/assets/countries/RoundedFlag";
 import { ResourceIcon } from "@/assets/icons/ResourceIcon";
+import { t } from "@/i18n";
 import { NetworkResource } from "@/interfaces/Network";
 import { OperatingSystem } from "@/interfaces/OperatingSystem";
 import type { Peer } from "@/interfaces/Peer";
 import { PLACEHOLDER_ICONS } from "@/modules/peers/PeerOperatingSystemIcon";
 import { OSLogo } from "@/modules/peers/PeerOSCell";
-
-import { t } from "@/i18n";
 type DeviceCardSize = "default" | "small";
 
 type DeviceCardProps = {

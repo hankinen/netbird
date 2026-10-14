@@ -10,9 +10,8 @@ import genericHttpLogo from "@/assets/integrations/generic-http.png";
 import s3Logo from "@/assets/integrations/s3.svg";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useIsLicensed } from "@/hooks/useIsLicensed";
-import { EventStream } from "@/interfaces/EventStream";
-
 import { t } from "@/i18n";
+import { EventStream } from "@/interfaces/EventStream";
 type Platform = "datadog" | "s3" | "firehose" | "generic_http";
 const platformImages: { [key in Platform]?: StaticImageData } = {
   datadog: datadogLogo,

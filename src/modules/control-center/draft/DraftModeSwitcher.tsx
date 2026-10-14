@@ -10,13 +10,12 @@ import {
 import * as React from "react";
 import { useState } from "react";
 import CircleIcon from "@/assets/icons/CircleIcon";
+import { t } from "@/i18n";
 import { useDraftChangeset } from "@/modules/control-center/draft/DraftChangesetContext";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
 import { DraftStartPopover } from "@/modules/control-center/draft/DraftStartPopover";
 import { ReviewDeployModal } from "@/modules/control-center/draft/modals/ReviewDeployModal";
 import { useDiscardDraft } from "@/modules/control-center/draft/useDiscardDraft";
-
-import { t } from "@/i18n";
 type Props = {};
 export const DraftModeSwitcher = ({}: Props) => {
   const { isDraft, startBlankDraft, startCurrentDraft } = useDraftMode();

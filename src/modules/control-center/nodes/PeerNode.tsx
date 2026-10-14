@@ -12,6 +12,7 @@ import {
   ServerIcon,
 } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import type { Peer } from "@/interfaces/Peer";
 import {
   useCanvasUI,
@@ -26,8 +27,6 @@ import {
   PLACEHOLDER_BASE_NAMES,
   useAnySourceGroupEnabled,
 } from "@/modules/control-center/utils/helpers";
-
-import { t } from "@/i18n";
 // A not-yet-installed peer dropped from the components sidebar.
 export type PeerPlaceholderKind = "server" | "agent" | "user-device";
 

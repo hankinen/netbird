@@ -8,12 +8,11 @@ import { Handle, type Node, Position } from "@xyflow/react";
 import { sortBy } from "lodash";
 import { ChevronsUpDown } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { useCanvasUI } from "@/modules/control-center/contexts/ControlCenterContext";
 import { useCloseOnCanvasClick } from "@/modules/control-center/hooks/useCloseOnCanvasClick";
 import { getGroupCountLabel } from "@/modules/control-center/utils/helpers";
-
-import { t } from "@/i18n";
 type NodeProps = Node<
   {
     currentGroup: string;

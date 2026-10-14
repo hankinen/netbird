@@ -2,6 +2,7 @@ import { useReactFlow, useStoreApi, useViewport } from "@xyflow/react";
 import { CircleXIcon, FolderPlusIcon, TrashIcon } from "lucide-react";
 import * as React from "react";
 import { useEffect, useMemo } from "react";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { NetworkResource } from "@/interfaces/Network";
 import { Peer } from "@/interfaces/Peer";
@@ -30,8 +31,6 @@ import {
   NETWORK_FRAME_FALLBACK_ROW,
 } from "@/modules/control-center/utils/helpers";
 import { DROPPABLE_INTO_GROUP_NODE_TYPES as GROUPABLE_NODE_TYPES } from "@/modules/control-center/utils/node-capabilities";
-
-import { t } from "@/i18n";
 const PEER_NODE_TYPES = new Set([
   "peerNode",
   "sourcePeerNode",

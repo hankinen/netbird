@@ -11,6 +11,7 @@ import {
 import { CirclePlusIcon, NetworkIcon } from "lucide-react";
 import * as React from "react";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { t } from "@/i18n";
 import { Network, NetworkResource } from "@/interfaces/Network";
 import { useIsContextMenuTarget } from "@/modules/control-center/contexts/ControlCenterContext";
 import { useDraftChangeset } from "@/modules/control-center/draft/DraftChangesetContext";
@@ -33,8 +34,6 @@ import {
   NETWORK_FRAME_HEADER,
 } from "@/modules/control-center/utils/helpers";
 import { NodeType } from "@/modules/control-center/utils/nodes";
-
-import { t } from "@/i18n";
 type NetworkNodeType = {
   network: Network;
   enabled?: boolean;

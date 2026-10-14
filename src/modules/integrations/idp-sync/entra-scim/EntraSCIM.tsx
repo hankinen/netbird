@@ -1,9 +1,8 @@
 import * as React from "react";
 import integrationImage from "@/assets/integrations/entra-id.png";
+import { t } from "@/i18n";
 import { IdentityProvider } from "@/interfaces/IdentityProvider";
 import { GenericSCIM } from "@/modules/integrations/idp-sync/generic-scim/GenericSCIM";
-
-import { t } from "@/i18n";
 export const EntraSCIM = () => {
   return (
     <GenericSCIM
