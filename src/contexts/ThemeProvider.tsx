@@ -8,7 +8,7 @@ export type Theme = "dark" | "light" | "system";
 export type ResolvedTheme = Exclude<Theme, "system">;
 
 const STORAGE_KEY = "netbird-theme";
-const DEFAULT_THEME: ResolvedTheme = "dark";
+const DEFAULT_THEME: ResolvedTheme = "light";
 const THEME_CLASSES: ResolvedTheme[] = ["dark", "light"];
 const SKELETON_COLORS: Record<
   ResolvedTheme,

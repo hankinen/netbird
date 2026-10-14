@@ -44,7 +44,7 @@ export default function AppLayout({
   useSignupSource();
 
   return (
-    <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
+    <html lang="en" className="light" style={{ colorScheme: "light" }}>
       <head>
         <GoogleTagManagerHeadScript />
       </head>

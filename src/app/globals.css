@@ -7,6 +7,179 @@
     --lift: 1;
 }
 
+/* =====================================================================
+   Ant Design 风格主题（feature/theme-antd）
+   - 只改 tailwind.config.ts + 本文件，不改组件，方便合并上游。
+   - 调色板通过 CSS 变量提供；暗色主题 (html.dark) 保持原有数值不变。
+   - 浅色主题（默认）= AntD 企业高密度风格。
+   ===================================================================== */
+:root {
+    /* netbird 品牌色（RGB 通道）—— 暗色原值 */
+    --nb-50: 255 246 237;  --nb-100: 254 236 214; --nb-150: 255 223 184;
+    --nb-200: 255 212 166; --nb-300: 250 182 119; --nb-400: 246 131 48;
+    --nb-500: 244 109 27;  --nb-600: 229 83 17;   --nb-700: 190 62 16;
+    --nb-800: 151 50 21;   --nb-900: 122 43 20;   --nb-950: 66 19 8;
+
+    /* nb-gray —— 暗色原值 */
+    --nbg-DEFAULT: 24 26 29;
+    --nbg-50: 244 246 247;  --nbg-100: 228 231 233; --nbg-200: 203 210 214;
+    --nbg-250: 183 192 198; --nbg-300: 163 173 181; --nbg-350: 143 156 168;
+    --nbg-400: 124 137 148; --nbg-500: 97 110 121;  --nbg-600: 83 93 103;
+    --nbg-700: 71 78 87;    --nbg-800: 63 68 75;    --nbg-850: 54 59 64;
+    --nbg-900: 46 50 56;    --nbg-910: 43 47 51;    --nbg-920: 37 40 45;
+    --nbg-925: 30 33 35;    --nbg-930: 37 40 44;    --nbg-935: 31 33 36;
+    --nbg-940: 28 30 33;    --nbg-950: 24 26 29;    --nbg-960: 22 24 27;
+}
+
+:root:not(.dark) {
+    color-scheme: light;
+
+    /* AntD blue，主色 #1677ff */
+    --nb-50: 230 244 255;  --nb-100: 186 224 255; --nb-150: 145 202 255;
+    --nb-200: 145 202 255; --nb-300: 105 177 255; --nb-400: 22 119 255;
+    --nb-500: 64 150 255;  --nb-600: 9 88 217;    --nb-700: 0 62 179;
+    --nb-800: 0 44 140;    --nb-900: 0 29 102;    --nb-950: 0 18 64;
+
+    /* nb-gray 反转为 AntD 中性色：深色表面 -> 白/浅灰，浅色文字 -> 深色文字 */
+    --nbg-DEFAULT: 245 245 245;                       /* 页面背景 #f5f5f5 */
+    --nbg-50: 31 31 31;    --nbg-100: 38 38 38;    --nbg-200: 51 51 51;
+    --nbg-250: 67 67 67;   --nbg-300: 89 89 89;    --nbg-350: 115 115 115;
+    --nbg-400: 115 115 115; --nbg-500: 140 140 140; --nbg-600: 191 191 191;
+    --nbg-700: 217 217 217; --nbg-800: 217 217 217; --nbg-850: 232 232 232;
+    --nbg-900: 240 240 240; --nbg-910: 240 240 240; --nbg-920: 250 250 250;
+    --nbg-925: 255 255 255; --nbg-930: 255 255 255; --nbg-935: 255 255 255;
+    --nbg-940: 255 255 255; --nbg-950: 255 255 255; --nbg-960: 255 255 255;
+
+    /* 圆角：基准 6px，上限 8px；rounded-full / rounded-none 不受影响 */
+    --radius-sm: 2px; --radius: 4px; --radius-md: 6px;
+    --radius-lg: 8px; --radius-xl: 8px; --radius-2xl: 8px; --radius-3xl: 8px;
+
+    /* AntD 弥散阴影 */
+    --shadow-sm: 0 1px 2px 0 rgba(0,0,0,.03), 0 1px 6px -1px rgba(0,0,0,.02), 0 2px 4px 0 rgba(0,0,0,.02);
+    --shadow: var(--shadow-sm);
+    --shadow-md: 0 6px 16px 0 rgba(0,0,0,.08), 0 3px 6px -4px rgba(0,0,0,.12), 0 9px 28px 8px rgba(0,0,0,.05);
+    --shadow-lg: var(--shadow-md);
+    --shadow-xl: var(--shadow-md);
+
+    --antd-text: rgba(0,0,0,.88);
+    --antd-text-2: rgba(0,0,0,.65);
+    --antd-text-3: rgba(0,0,0,.45);
+}
+
+@layer base {
+    :where(:root:not(.dark)) body {
+        font-size: 14px;
+        line-height: 1.5715;
+        color: var(--antd-text);
+        background-color: #f5f5f5;
+    }
+    /* 默认边框色（只影响没写 border-<color> 的元素） */
+    :where(:root:not(.dark)) *, :where(:root:not(.dark)) ::before, :where(:root:not(.dark)) ::after {
+        border-color: #f0f0f0;
+    }
+    :where(:root:not(.dark)) :where(input:not([type="checkbox"],[type="radio"],[type="hidden"],[type="range"]), textarea, select) {
+        border-color: #d9d9d9;
+    }
+    /* 聚焦光晕：仅键盘聚焦 (:focus-visible)；特异性为 0，组件自带 ring 类优先 */
+    :where(:root:not(.dark)) :where(button, a, input, textarea, select, [role="switch"], [role="checkbox"], [role="tab"], [role="combobox"], [tabindex]:not([tabindex="-1"])):where(:focus-visible):where(:not(.timescape input, .xterm *, .react-flow *, [type="hidden"])) {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(22,119,255,.2);
+    }
+}
+
+/* ---- 浅色主题：修正只为暗色设计的硬编码浅色文字 ---------------------- */
+:root:not(.dark) :is(.text-white, .text-neutral-50, .text-neutral-100, .text-gray-50, .text-gray-100, .text-zinc-50, .text-zinc-100) {
+    color: var(--antd-text);
+}
+:root:not(.dark) :is(.hover\:text-white:hover, .group:hover .group-hover\:text-white) {
+    color: var(--antd-text);
+}
+:root:not(.dark) :is(.text-neutral-300, .text-gray-300, .text-zinc-300) { color: var(--antd-text-2); }
+/* 在实色背景（主色/危险/成功等）上保留白字 */
+:root:not(.dark) :is([class*="bg-netbird"], [class*="bg-red-5"], [class*="bg-red-6"], [class*="bg-red-7"],
+                     [class*="bg-green-5"], [class*="bg-green-6"], [class*="bg-blue-5"], [class*="bg-blue-6"],
+                     [class*="bg-sky-5"], [class*="bg-sky-6"], [class*="bg-yellow-5"], [class*="bg-orange-5"],
+                     [class*="bg-black"], [class*="bg-neutral-9"], [class*="bg-gray-9"], [class*="bg-sky-9"], [class*="bg-sky-8"], [class*="bg-blue-9"], .xterm)
+    :is(.text-white, .text-neutral-50, .text-neutral-100, .text-gray-50, .text-gray-100, .text-zinc-50, .text-zinc-100),
+:root:not(.dark) :is(.text-white, .text-neutral-50, .text-neutral-100, .text-gray-50, .text-gray-100, .text-zinc-50, .text-zinc-100):is(
+                     [class*="bg-netbird"], [class*="bg-red-5"], [class*="bg-red-6"], [class*="bg-red-7"],
+                     [class*="bg-green-5"], [class*="bg-green-6"], [class*="bg-blue-5"], [class*="bg-blue-6"],
+                     [class*="bg-sky-5"], [class*="bg-sky-6"], [class*="bg-yellow-5"], [class*="bg-orange-5"],
+                     [class*="bg-black"], [class*="bg-neutral-9"], [class*="bg-gray-9"], [class*="bg-sky-9"], [class*="bg-sky-8"], [class*="bg-blue-9"]) {
+    color: #fff;
+}
+/* 危险按钮：上游只写了 dark: 样式，浅色下补 AntD danger */
+:root:not(.dark) button[class~="dark:bg-red-600"] {
+    background-color: #ff4d4f; color: #fff; border-color: #ff4d4f;
+}
+:root:not(.dark) button[class~="dark:bg-red-600"]:hover:not(:disabled) { background-color: #ff7875; border-color: #ff7875; }
+:root:not(.dark) button[class~="dark:text-red-500"] { color: #ff4d4f; }
+
+/* 深蓝徽标（Beta 等）-> AntD 蓝色标签 */
+:root:not(.dark) .bg-sky-900 { background-color: #e6f4ff; border-color: #91caff; }
+:root:not(.dark) .bg-sky-900:is(.text-white) { color: #0958d9; }
+
+/* 默认/次要按钮：AntD default button（#d9d9d9 边框，悬停主色） */
+:root:not(.dark) button[class~="hover:bg-gray-100"]:not([class~="dark:bg-red-600"]) {
+    border-width: 1px; border-color: #d9d9d9; background-color: #fff; color: var(--antd-text);
+}
+:root:not(.dark) button[class~="hover:bg-gray-100"]:not([class~="dark:bg-red-600"]):hover:not(:disabled) {
+    border-color: #4096ff; color: #4096ff; background-color: #fff;
+}
+
+/* 开关：选中为主色，未选中 rgba(0,0,0,.25) */
+:root:not(.dark) [role="switch"][class~="data-[state=checked]:bg-neutral-900"][data-state="checked"] { background-color: #1677ff; }
+:root:not(.dark) [role="switch"][class~="data-[state=unchecked]:bg-neutral-200"][data-state="unchecked"] { background-color: rgba(0,0,0,.25); }
+
+/* 输入框：悬停/聚焦主色边框 + AntD 光晕 */
+:root:not(.dark) :is(input, textarea):not([type="checkbox"], [type="radio"], [type="hidden"], [type="range"], .timescape input, .xterm *):not(:disabled):not([readonly]):hover {
+    border-color: #4096ff;
+}
+:root:not(.dark) :is(input, textarea):not([type="checkbox"], [type="radio"], [type="hidden"], [type="range"], .timescape input, .xterm *):not([class~="border-0"]):focus {
+    border-color: #4096ff; outline: none;
+    box-shadow: 0 0 0 2px rgba(5,145,255,.1);
+}
+
+/* 少数上游已适配浅色的元素用 nb-gray 浅色调做分隔线/底色，反转后需还原 */
+:root:not(.dark) .border-nb-gray-100[class*="dark:border-nb-gray"] { border-color: #f0f0f0; }
+:root:not(.dark) :is(.bg-nb-gray-100[class*="dark:bg-nb-gray"], .step-circle) { background-color: #f0f0f0; }
+:root:not(.dark) .bg-nb-gray-200[class*="dark:bg-nb-gray"] { background-color: #e8e8e8; }
+
+/* 输入框/前后缀默认边框 #d9d9d9 */
+:root:not(.dark) :is(input, textarea)[class~="border-neutral-200"],
+:root:not(.dark) [class~="border-neutral-200"][class~="dark:border-nb-gray-700"] { border-color: #d9d9d9; }
+
+/* 表格：AntD 表头 #fafafa、行悬停 #fafafa、选中 #e6f4ff */
+:root:not(.dark) th[class~="dark:bg-nb-gray-900"] {
+    background-color: #fafafa; color: var(--antd-text); font-weight: 600;
+}
+:root:not(.dark) tr[class~="hover:bg-neutral-100/50"]:hover { background-color: #fafafa; }
+:root:not(.dark) tr[class~="data-[state=selected]:bg-neutral-100"][data-state="selected"] { background-color: #e6f4ff; }
+
+/* 复选框：选中为主色 */
+:root:not(.dark) button[role="checkbox"][class~="data-[state=checked]:bg-neutral-900"][data-state="checked"] {
+    background-color: #1677ff; border-color: #1677ff; color: #fff;
+}
+
+/* 控制中心拓扑画布：上游在 TSX 内联写死暗色背景，这里在浅色主题下改为浅灰点阵 */
+:root:not(.dark) .react-flow .react-flow__background { background-color: #f5f5f5 !important; }
+:root:not(.dark) .react-flow .react-flow__background circle { fill: #d9d9d9; }
+:root:not(.dark) .react-flow { --xy-edge-label-background-color: #fff; }
+
+/* 暗色专用的深色状态底（*-950 背景，用于徽标/提示条）-> AntD 浅色状态色 */
+:root:not(.dark) :is([class*="bg-red-950"], [class*="bg-red-900"]) { background-color: #fff2f0; border-color: #ffccc7; }
+:root:not(.dark) :is([class*="bg-green-950"], [class*="bg-green-900"]) { background-color: #f6ffed; border-color: #b7eb8f; }
+:root:not(.dark) :is([class*="bg-yellow-950"], [class*="bg-yellow-900"]) { background-color: #fffbe6; border-color: #ffe58f; }
+:root:not(.dark) :is([class*="bg-purple-950"], [class*="bg-purple-900"]) { background-color: #f9f0ff; border-color: #d3adf7; }
+:root:not(.dark) :is([class*="bg-netbird-950"], [class*="bg-netbird-900"], [class*="bg-sky-950"]) { background-color: #e6f4ff; border-color: #91caff; }
+:root:not(.dark) :is([class*="bg-red-950"], [class*="bg-red-900"]) :is(.text-red-400, .text-red-500), :root:not(.dark) :is(.text-red-400, .text-red-500):is([class*="bg-red-950"], [class*="bg-red-900"]) { color: #cf1322; }
+:root:not(.dark) :is([class*="bg-green-950"], [class*="bg-green-900"]) :is(.text-green-400, .text-green-500), :root:not(.dark) :is(.text-green-400, .text-green-500):is([class*="bg-green-950"], [class*="bg-green-900"]) { color: #389e0d; }
+:root:not(.dark) :is([class*="bg-yellow-950"], [class*="bg-yellow-900"]) :is(.text-yellow-400, .text-yellow-500), :root:not(.dark) :is(.text-yellow-400, .text-yellow-500):is([class*="bg-yellow-950"], [class*="bg-yellow-900"]) { color: #d48806; }
+:root:not(.dark) :is([class*="bg-purple-950"], [class*="bg-purple-900"]) :is(.text-purple-400, .text-purple-500), :root:not(.dark) :is(.text-purple-400, .text-purple-500):is([class*="bg-purple-950"], [class*="bg-purple-900"]) { color: #531dab; }
+
+/* 上游已适配浅色、但浅色值写成深色 nb-gray 的文字：反转后需还原为深色 */
+:root:not(.dark) :is(.text-nb-gray-700, .text-nb-gray-800, .text-nb-gray-900, .text-nb-gray-950)[class*="dark:text-"] { color: var(--antd-text); }
+
 html{
     @apply bg-nb-gray;
 }
