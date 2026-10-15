@@ -16,6 +16,7 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 
 const config = loadConfig();
 
+// @theme: unused while the remote fetch below is disabled.
 const ANNOUNCEMENTS_URL =
   "https://raw.githubusercontent.com/netbirdio/dashboard/main/announcements.json";
 const STORAGE_KEY = "netbird-announcements";
@@ -90,14 +91,17 @@ const getRemoteAnnouncements = async (): Promise<{
     if (stored && now - stored.timestamp < CACHE_DURATION_MS) {
       raw = stored.announcements;
     } else {
-      const response = await fetch(ANNOUNCEMENTS_URL);
-      if (!response.ok) {
-        return {
-          announcements: [],
-          closedAnnouncements: stored?.closedAnnouncements ?? [],
-        };
-      }
-      raw = await response.json();
+      // @theme: remote announcements from GitHub disabled (theme-antd README
+      // "公告横幅"). To restore, delete `raw = [];` and uncomment the fetch.
+      raw = [];
+      // const response = await fetch(ANNOUNCEMENTS_URL);
+      // if (!response.ok) {
+      //   return {
+      //     announcements: [],
+      //     closedAnnouncements: stored?.closedAnnouncements ?? [],
+      //   };
+      // }
+      // raw = await response.json();
     }
 
     const isCloud = isNetBirdCloud();

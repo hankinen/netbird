@@ -35,8 +35,9 @@ withAntdTheme(config)` in `tailwind.config.ts`, the first line of
 `src/app/globals.css`, one import + one line each in `src/layouts/AppLayout.tsx`
 and `src/contexts/ThemeProvider.tsx`, three npm scripts and the
 `@rc-component/pagination` dependency in `package.json` (+ lock file), two
-`paths` lines in `tsconfig.json` (DataTablePagination, Table), and 18 keys in `components.table.json`
-(en + zh-CN).
+`paths` lines in `tsconfig.json` (DataTablePagination, Table), 18 keys in `components.table.json`
+(en + zh-CN), and the commented-out remote fetch in
+`src/contexts/AnnouncementProvider.tsx` (see "公告横幅").
 
 ## Specificity policy
 
@@ -223,6 +224,30 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 日期范围选择器在手机上底部的起止时间输入框仍偏挤（不溢出页面，只是排版拥挤）。
 
 **检查。** `npm run theme:mobile-guard`（见下文「Checks」）。
+
+## 公告横幅（不再拉取 NetBird 官方公告）
+
+**做什么：** `src/contexts/AnnouncementProvider.tsx` 里拉取
+`https://raw.githubusercontent.com/netbirdio/dashboard/main/announcements.json`
+的那段 `fetch` 被注释掉，换成 `raw = [];`（带 `@theme` 注释，原代码原样保留在注释里）。
+页面顶部不再出现官方公告（例如 “Roll Out NetBird Across Your Organization with MDM”）。
+
+**为什么：** 那些是 NetBird 官方的产品推广，对自建部署的用户没有意义；同时避免浏览器每 30 分钟访问一次 GitHub。
+
+**没有动的：** 横幅组件 `AnnouncementBanner`、部署方自己的公告（运行时配置 `NETBIRD_ANNOUNCEMENT`，
+见 `src/utils/announcement.ts`）、计费提醒、MSP 公告的逻辑都原样保留。要显示自己的公告，用
+`NETBIRD_ANNOUNCEMENT`：Docker 镜像里是同名环境变量；静态部署则是 `config.json` 里的
+`"announcement"` 字段。它只支持一段纯文本，醒目样式（`important`），不可关闭；留空即不显示。
+
+**注意：** 公告会在浏览器 `localStorage`（键 `netbird-announcements`）里缓存最多 30 分钟。
+已经打开过旧版本的浏览器，最多 30 分钟内还可能看到缓存里的官方公告，过期后自动消失
+（也可以手动清除这个键）。
+
+**怎么恢复：** 在 `getRemoteAnnouncements()` 里删掉 `raw = [];`，取消下面 `fetch` 那几行的注释
+（`ANNOUNCEMENTS_URL` 常量一直保留着）。合并上游时如果这里冲突，以上游为准再重新注释即可。
+
+**Storybook：** 上游的 `Components/AnnouncementBanner` 故事是通过模拟这个远程 URL 来显示横幅的，
+关掉 `fetch` 之后这几个故事不再显示横幅（不影响其他故事和页面）。
 
 ## Checks
 
