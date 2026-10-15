@@ -4,10 +4,10 @@
 // 1. Every `@depends <file>: <token> | <token>` annotation in
 //    src/styles/theme-antd/*.css must point at an existing file that still
 //    contains each token verbatim.
-// 2. Every `[class~="x"]` selector must still match a class token somewhere
-//    under src/ (dead selector = upstream changed the component).
-//    `[class*="x"]` colour-family selectors are defensive; misses are only
-//    reported with --verbose.
+// 2. Every `[class~="x"]` selector whose token is named in an @depends must
+//    still match a class token under src/ (dead selector = upstream changed
+//    the component). Generic colour-family selectors ([class*=], and [class~=]
+//    not named in @depends) are defensive; misses are reported with --verbose.
 //
 // Exit code 1 lists what broke. Run: npm run theme:check-selectors
 import fs from "node:fs";
@@ -43,6 +43,16 @@ const warnings = [];
 let depends = 0;
 let attrs = 0;
 
+// Tokens named by @depends (split into single classes): a [class~=] selector
+// on one of these is a component contract and must keep matching. Other
+// [class~=] selectors are generic colour families and only warn.
+const dependTokens = new Set();
+for (const file of cssFiles) {
+  const css = fs.readFileSync(path.join(themeDir, file), "utf8");
+  for (const m of css.matchAll(/@depends\s+(.+?):\s+(.+?)(?=\*\/|\n|$)/g))
+    for (const t of m[2].split(/[|\s]+/)) if (t) dependTokens.add(t);
+}
+
 for (const file of cssFiles) {
   const css = fs.readFileSync(path.join(themeDir, file), "utf8");
 
@@ -69,7 +79,7 @@ for (const file of cssFiles) {
   // strip comments before scanning selectors
   const code = css.replace(/\/\*[\s\S]*?\*\//g, "");
   const seen = new Set();
-  for (const m of code.matchAll(/\[class([~*])="([^"]+)"\]/g)) {
+  for (const m of code.matchAll(/\[class([~*])="([^"]+)"(?: i)?\]/g)) {
     const key = m[1] + m[2];
     if (seen.has(key)) continue;
     seen.add(key);
@@ -88,13 +98,13 @@ for (const file of cssFiles) {
     if (found) continue;
     // [class~=] keys on one component class: a miss means upstream renamed it.
     // [class*=] is a defensive colour family (e.g. any bg-red-6xx): warn only.
-    if (m[1] === "~")
+    if (m[1] === "~" && dependTokens.has(token))
       errors.push(
         `${file}: selector [class~="${token}"] matches no class under src/`,
       );
     else
       warnings.push(
-        `${file}: [class*="${token}"] currently matches nothing (defensive, ok)`,
+        `${file}: [class${m[1]}="${token}"] currently matches nothing (generic, ok)`,
       );
   }
 }
