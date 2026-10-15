@@ -45,7 +45,14 @@ html:where(.theme-antd:not(.dark))
     [role="combobox"],
     [tabindex]:not([tabindex="-1"])
   ):where(:focus-visible):where(
-    :not(.timescape input, .xterm *, .react-flow *, [type="hidden"])
+    :not(
+        .timescape input,
+        .xterm *,
+        .react-flow *,
+        [type="hidden"],
+        [role^="menuitem"],
+        [role="option"]
+      )
   ) {
   outline: none;
   box-shadow: var(--ant-focus-ring);

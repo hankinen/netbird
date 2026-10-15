@@ -21,6 +21,39 @@
    portals inherit the :root variables; skeleton colours come from
    ThemeProvider's SKELETON_COLORS.light. */
 
+/* timescape (date/time segments in the date range picker): upstream styles it
+   as a dark filled box. AntD: a bordered 32px control, focused segment
+   highlighted in primary-bg.
+   @depends src/app/globals.css: .timescape { | .timescape input:focus {
+   @depends src/components/ui/AbsoluteDateTimeInput.tsx: timescape w-full */
+:root.theme-antd:not(.dark) .timescape {
+  background-color: var(--ant-color-bg-container);
+  border: 1px solid var(--ant-color-border);
+  border-radius: var(--ant-border-radius);
+  padding: 1px 11px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+:root.theme-antd:not(.dark) .timescape:hover {
+  border-color: var(--ant-color-primary-hover);
+}
+:root.theme-antd:not(.dark) .timescape:focus-within {
+  border-color: var(--ant-color-primary);
+  box-shadow: 0 0 0 2px var(--ant-control-outline);
+}
+:root.theme-antd:not(.dark) .timescape input {
+  color: var(--ant-color-text);
+}
+:root.theme-antd:not(.dark) .timescape input:focus {
+  background-color: var(--ant-color-primary-bg);
+  color: var(--ant-color-primary);
+  outline: none; /* the UA focus ring; the segment fill already marks focus */
+}
+:root.theme-antd:not(.dark) .timescape .separator {
+  color: var(--ant-color-text-tertiary);
+}
+
 /* ---- Control centre: colours upstream sets inline in TSX -------------------
    React serialises inline colours as rgb(); the attribute selectors below
    match those serialised values. !important is required to beat inline style.
