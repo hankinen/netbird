@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import type { ColumnDef, SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { userEvent } from "storybook/test";
+import { i18n, loadNamespaces } from "@/i18n";
 import { settle } from "@/storybook/wait";
 
 /* The AntD pagination (components/DataTablePagination.tsx) renders only in the
@@ -154,4 +155,18 @@ export const ServerPagination: StoryObj = {
 
 export const EmbeddedNoPagination: StoryObj = {
   render: () => <EmbeddedTable />,
+};
+
+/* zh-CN strings (共 N 条 / N 条/页 / 前往 X 页). Storybook bundles English
+   only, so the story loads the zh-CN namespace itself and switches back
+   afterwards. */
+export const ZhCN: StoryObj = {
+  render: () => <ClientTable total={500} />,
+  beforeEach: async () => {
+    await i18n.changeLanguage("zh-CN");
+    await loadNamespaces(["components.table"]);
+    return async () => {
+      await i18n.changeLanguage("en");
+    };
+  },
 };

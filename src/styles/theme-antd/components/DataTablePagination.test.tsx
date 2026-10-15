@@ -9,6 +9,7 @@ import {
 import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import React from "react";
 import { afterEach, describe, expect, it } from "vitest";
+import { i18n, loadNamespaces } from "@/i18n";
 import { DataTablePagination } from "./DataTablePagination";
 
 type Row = { id: number };
@@ -134,5 +135,21 @@ describe("theme-antd DataTablePagination", () => {
     expect(container.textContent).toContain("Total 1234 items");
     fireEvent.click(container.querySelector(".rc-pagination-next")!);
     expect(state.pageIndex).toBe(1);
+  });
+
+  it("uses the zh-CN strings", async () => {
+    setHtml("light theme-antd");
+    await i18n.changeLanguage("zh-CN");
+    await loadNamespaces(["components.table"]);
+    try {
+      const { container } = render(<Harness n={47} />);
+      const text = container.textContent ?? "";
+      expect(text).toContain("共 47 条");
+      expect(text).toContain("10 条/页");
+      expect(text).toContain("前往");
+      expect(text).toContain("页");
+    } finally {
+      await i18n.changeLanguage("en");
+    }
   });
 });

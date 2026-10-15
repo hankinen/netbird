@@ -168,7 +168,7 @@ function AntdDataTablePagination<TData>({
                 label: `${o.value} ${locale.items_per_page}`,
               }))}
               popoverWidth={"auto"}
-              popoverMinWidth={110}
+              popoverMinWidth={130}
             />
           </div>
         )}
