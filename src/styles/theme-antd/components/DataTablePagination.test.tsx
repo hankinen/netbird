@@ -89,6 +89,26 @@ describe("theme-antd DataTablePagination", () => {
     ).not.toBeNull();
   });
 
+  it("drops the quick jumper on phones (max-width 767.98px)", () => {
+    setHtml("light theme-antd");
+    const original = window.matchMedia;
+    window.matchMedia = ((query: string) => ({
+      matches: query === "(max-width: 767.98px)",
+      media: query,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    })) as unknown as typeof window.matchMedia;
+    try {
+      const { container } = render(<Harness n={47} />);
+      expect(container.querySelector(".rc-pagination")).not.toBeNull();
+      expect(
+        container.querySelector(".rc-pagination-options-quick-jumper"),
+      ).toBeNull();
+    } finally {
+      window.matchMedia = original;
+    }
+  });
+
   it("switches live when the theme class changes", async () => {
     setHtml("light theme-antd");
     const { container } = render(<Harness n={47} />);

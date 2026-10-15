@@ -66,8 +66,14 @@ export function useAntdLight() {
 }
 
 const PHONE_QUERY = "(max-width: 767.98px)";
+// matchMedia is missing in some environments (jsdom): treat as not a phone.
+const phoneQuery = () =>
+  typeof window.matchMedia === "function"
+    ? window.matchMedia(PHONE_QUERY)
+    : null;
 function subscribePhone(onChange: () => void) {
-  const mql = window.matchMedia(PHONE_QUERY);
+  const mql = phoneQuery();
+  if (!mql) return () => {};
   mql.addEventListener("change", onChange);
   return () => mql.removeEventListener("change", onChange);
 }
@@ -75,7 +81,7 @@ function subscribePhone(onChange: () => void) {
 export function useIsPhone() {
   return React.useSyncExternalStore(
     subscribePhone,
-    () => window.matchMedia(PHONE_QUERY).matches,
+    () => phoneQuery()?.matches ?? false,
     () => false,
   );
 }
