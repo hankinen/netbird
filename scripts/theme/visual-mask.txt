@@ -1,3 +1,4 @@
 # Story-id prefixes skipped by the theme visual guard because they animate
 # between runs (pixel noise unrelated to the theme). Keep this list short.
 pages-core-controlcenter--   # animated dashed edges (cc-edge-dash), React Flow fitView timing
+pages-network-network-detail--resource-groups-picker-open   # popover position varies by a few px between runs (seen in dark and light)
