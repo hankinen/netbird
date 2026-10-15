@@ -26,14 +26,16 @@ upstream light theme render exactly as upstream.
 | `overrides.css`    | component fixes keyed on upstream class names, each with `@depends`                                     |
 | `vendors.css`      | third-party widgets: React Flow, sonner, Radix portals, timescape, xterm                                |
 | `density.css`      | AntD "middle" density: 32px controls, 12px/16px table cells                                             |
+| `responsive.css`   | phones / tablets (< 1280px only), see "手机端适配" below                                                 |
+| `components/`      | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`                        |
 | `defaultTheme.ts`  | env switch, `<html>` props, ThemeProvider default                                                       |
 
 Upstream touch points (the only conflict hotspots): one import + `export default
 withAntdTheme(config)` in `tailwind.config.ts`, the first line of
 `src/app/globals.css`, one import + one line each in `src/layouts/AppLayout.tsx`
-and `src/contexts/ThemeProvider.tsx`, two npm scripts and the
-`@rc-component/pagination` dependency in `package.json` (+ lock file), one
-`paths` line in `tsconfig.json`, and 18 keys in `components.table.json`
+and `src/contexts/ThemeProvider.tsx`, three npm scripts and the
+`@rc-component/pagination` dependency in `package.json` (+ lock file), two
+`paths` lines in `tsconfig.json` (DataTablePagination, Table), and 18 keys in `components.table.json`
 (en + zh-CN).
 
 ## Specificity policy
@@ -64,7 +66,8 @@ last two points.
   would mean editing `globals.css` and reordering against unlayered vendor
   CSS (xyflow, sonner), which risks dark-theme drift. Revisit with Tailwind v4,
   which layers its output natively. Until then, order comes from `index.css`
-  (tokens, base, overrides, vendors, density); later files win
+  (tokens, base, overrides, vendors, density, pagination, responsive); later
+  files win
   equal-specificity ties.
 
 ## Pagination component replacement
@@ -164,6 +167,63 @@ upstream rewrites `LoadingIcon` (no `<rect><animate>` children) the `:has()`
 selector stops matching and the upstream loader shows as is; check-selectors
 flags the `@depends` tokens.
 
+## 手机端适配（responsive.css + components/Table.tsx）
+
+原则：**桌面优先、单一代码库**。所有规则都在 `max-width: 1279.98px` /
+`767.98px` 媒体查询或 `(pointer: coarse)` 里，并且同样限定在
+`:root.theme-antd:not(.dark)` 下，所以 ≥1280px 的桌面、暗色主题、上游浅色主题都与之前
+逐像素一致。没有改任何页面代码；表格转卡片是**同一个 `<table>`** 用 CSS 重新排版。
+
+断点：`< 768px` 手机；`768–1279px` 平板 / 小笔记本；`≥ 1280px` 不受影响。
+
+整体关闭：删掉 `index.css` 里的 `@import "./responsive.css";`，再删 `tsconfig.json`
+里 `@components/table/Table` 那一行（可选，见 R4）。单独关闭某一项：删掉
+`responsive.css` 里对应编号的块（注释里有 R1…R6 编号）。
+
+| 编号 | 做什么 | 为什么 | 怎么关 |
+| ---- | ------ | ------ | ------ |
+| R1 `< 1280px` | `.table-fixed-scroll` 改为 `display:block`，表格工具栏（搜索 / 筛选 / 按钮）允许换行 | 上游 `globals.css` 把它设成 `display:table`，外层被表格撑宽，`Table` 自带的 `overflow-x-auto` 永远不滚动，整页横向溢出（上游在 1280 也有这个问题，但 1280 起不改，保证桌面一致） | 删 R1 块 |
+| R2 `768–1279px` | 行操作列（⋮ 菜单，`data-nb-cell="trail"`）`position:sticky; right:0`，背景跟随行的 hover / 选中色 | 平板上表格在自己的框内横向滚动，操作按钮常在最右侧看不到 | 删 R2 块 |
+| R3 `< 768px` | 通用防溢出：页面头部「标题 … 操作」行（`justify-between max-w-6xl`）和 `inline-flex gap-4` 按钮组换行；页面标题（h1/h2 以及 `whitespace-nowrap text-xl` 标题行）里的长名称可断行；Radix 弹层（菜单、下拉、Popover）最大宽度 `100vw - 16px`；输入框 / 文本域 / select 字号 16px；日期范围选择器固定在屏幕顶部（左右各 8px，可纵向滚动） | 375px 下 336/419 个页面 story 横向溢出；iOS Safari 在字号 < 16px 的输入框聚焦时会自动放大页面；日期选择器默认向右侧弹出、两个月并排，手机上超出屏幕（`!important` 用来覆盖 Radix 的内联 `transform/left/top`） | 删 R3 中对应规则 |
+| R4 `< 768px` | **表格转卡片**：表头行变成可横向滚动的「全选 + 排序」条；每一行变成一张卡片：第一行是【勾选框】【第一列（名称）】【⋮ 操作】，其余列为「列名 …… 值」；上游已隐藏的列（如 `hidden xl:table-cell`）保持隐藏；选中 / hover 颜色沿用 `overrides.css` | 参考 ThingsBoard / AntD Pro 的手机列表；不维护第二套页面，排序、筛选、勾选、行操作、展开行、分页都是原表格本身，所以全部照常工作 | 删 R4 块（表格回到 R1 的内部横向滚动）；再删 `tsconfig.json` 的 Table 行即可完全去掉包装组件 |
+| R5 `< 768px` | 弹窗（`Modal`）全屏：`min-height:100dvh`、去圆角和边框；底部按钮栏 `position:sticky; bottom:0`（含 iOS 安全区）；弹窗内大间距（`gap-6/8/10`）的横向 flex 改为纵向、`grid-cols-2` 改为单列 | 手机上居中小弹窗内容被挤压，主按钮常在长表单底部看不到；左右两栏（如访问控制的「来源 → 目标」）放不下 | 删 R5 块 |
+| R6 `pointer: coarse` | 勾选框、开关、弹窗关闭按钮、面包屑链接加不可见的 `::after` 热区（向外扩 8–12px） | 触屏点击目标 < 24px；只扩大点击区域，不改外观 | 删 R6 块 |
+| 分页 | `components/DataTablePagination.tsx`：`< 768px` 时 `showLessItems`、不显示快速跳转（`useIsPhone()`，`matchMedia`） | 完整分页在 375px 放不下 | 删掉两个 `phone` 相关的 prop |
+
+**表格包装组件（`components/Table.tsx`）。** 与分页组件相同的方式替换：
+`tsconfig.json` 里加一行精确别名
+`"@components/table/Table": ["./src/styles/theme-antd/components/Table.tsx"]`
+（唯一的引用方是 `DataTable.tsx`），包装组件通过 `@/components/table/Table` 引入原组件并
+`export *` 其余导出。它只读 DOM、只写属性，不改任何行为：
+
+- 从表头第一行读列名，写到每个单元格的 `data-label`，并写 `data-nb-col`（第几列，从 1 开始）；
+- `data-nb-cell` 标记单元格角色：`lead`（标题前的无标题列，如勾选框）、`title`（第一个有列名的列）、
+  `trail`（标题后最后一个无标题列，通常是 ⋮ 操作）、`field`（其他列）、`full`（`colSpan` 的展开行 / 空状态）；
+- `<table data-nb-cards>` 表示有表头可以转卡片；`data-nb-route` 是当前路由（每表配置用）；
+- `MutationObserver`（只观察子节点和文本，不观察属性，所以不会自我触发）在行变化时重新标记。
+
+CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格样式不会让卡片布局失效。
+`components/Table.contract.ts` 在上游改了 `Table` 的 props 时让 `tsc` 报错。
+
+**每表配置（按需隐藏卡片里的列）。** 在 R4 末尾的「Per-table card config」处写，键是
+路由 + 列号，例如 `table[data-nb-route="/peers"] td[data-nb-col="7"] { display: none; }`。
+目前**没有任何条目**：所有列在卡片里都显示（上游在窄屏已隐藏的列除外）。新增时请在这里登记。
+
+**已知仍会横向溢出的页面**（都是单个页面的特殊布局，按「宁可列出、不打脆弱补丁」原则未处理；
+共 47 条，已写入 `scripts/theme/mobile-allow.json`，`npm run theme:mobile-guard` 只防止新增或变严重）：
+
+- peer 详情页：超长主机名（375 +157px，768 +245px）、登录过期提示头部（768 +150px）、
+  768 下标题旁的操作按钮组 `flex gap-4`（+34px）、「Add Exit Node / Add Route」按钮组（375 +27px）；
+- 活动 → 审计日志的行（375 +69px）；
+- 设置 → 认证里的「小时」输入行（375 +32px）；
+- 团队 → 用户（cloud）的 MFA 卡片及其上的邀请弹窗（375 +73px）；
+- 用户详情页的组选择器（375 +58px）；
+- 集成页在 768 下约 3px（在 4px 容差内，不计）。
+
+日期范围选择器在手机上底部的起止时间输入框仍偏挤（不溢出页面，只是排版拥挤）。
+
+**检查。** `npm run theme:mobile-guard`（见下文「Checks」）。
+
 ## Checks
 
 - `npm run theme:check-selectors`: every `@depends` token still exists in its
@@ -174,7 +234,11 @@ flags the `@depends` tokens.
   dark, must be pixel-identical to the upstream base.
 - `npm run theme:visual-guard -- --base <ref> --theme light` — AntD theme vs
   the last approved theme commit; review every change.
-- CI: `.github/workflows/theme-antd-guard.yml` runs all three.
+- `npm run theme:mobile-guard` — every page story at 375 / 390 / 768px (AntD
+  light): fails when a page scrolls sideways more than
+  `scripts/theme/mobile-allow.json` allows (> 4px). `--storybook <dir>` reuses
+  a build, `--update` rewrites the allowlist (review its diff).
+- CI: `.github/workflows/theme-antd-guard.yml` runs all four.
 
 ## Merging upstream
 
@@ -183,7 +247,8 @@ flags the `@depends` tokens.
 ```sh
 scripts/theme/sync-upstream.sh            # dry run: fetch origin/main, replay i18n-zh-cn
                                           # and feature/theme-antd, check-selectors,
-                                          # build, dark visual guard. No branch moves.
+                                          # build, dark visual guard, phone overflow
+                                          # guard. No branch moves.
 scripts/theme/sync-upstream.sh --quick    # dry run, rebase + check-selectors only
 scripts/theme/sync-upstream.sh --apply    # rebase feature/theme-antd onto i18n-zh-cn
 scripts/theme/sync-upstream.sh --apply --rebase-i18n   # also rebase i18n-zh-cn onto upstream

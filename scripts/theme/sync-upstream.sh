@@ -4,7 +4,8 @@
 #   upstream (origin/main) <- i18n branch (i18n-zh-cn) <- theme branch (feature/theme-antd)
 #
 # Default is a DRY RUN: both rebases are replayed in a throw-away detached
-# worktree, then check-selectors, build and the dark visual guard run there.
+# worktree, then check-selectors, build, the dark visual guard and the phone
+# overflow guard (mobile-guard.mjs) run there.
 # No branch moves, nothing is pushed.
 #
 #   scripts/theme/sync-upstream.sh                 # dry run, full checks
@@ -35,7 +36,7 @@ while [ $# -gt 0 ]; do
     --quick) QUICK=1 ;;
     --no-fetch) FETCH=0 ;;
     --keep) KEEP=1 ;;
-    -h|--help) sed -n '2,24p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,25p' "$0"; exit 0 ;;
     *) echo "unknown option: $1" >&2; exit 2 ;;
   esac
   shift
@@ -72,6 +73,8 @@ checks() { # $1 = dir
   (cd "$d" && npm run build > .sync-build.log 2>&1) || die "build failed, see $d/.sync-build.log"
   log "dark visual guard vs the upstream-side base"
   (cd "$d" && scripts/theme/visual-guard.sh --base "$2" --theme dark)
+  log "phone overflow guard (375/390/768, allowlist scripts/theme/mobile-allow.json)"
+  (cd "$d" && node scripts/theme/mobile-guard.mjs)
 }
 
 if [ "$APPLY" = 0 ]; then

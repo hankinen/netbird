@@ -4,6 +4,7 @@ name: Theme AntD guard
 #   selectors : class-name selectors still match upstream components
 #   dark      : dark theme pixel-identical to the upstream base (parity)
 #   light     : AntD theme vs the PR target (only intended changes)
+#   mobile    : no new sideways page overflow at 375/390/768 (AntD light)
 #
 # Repository variable THEME_UPSTREAM_BRANCH names the branch the theme sits on
 # (default: i18n-zh-cn, the branch feature/theme-antd was cut from).
@@ -94,3 +95,20 @@ jobs:
           path: .theme-guard/${{ matrix.theme }}
           if-no-files-found: ignore
           retention-days: 14
+
+  mobile:
+    needs: selectors
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx playwright install --with-deps --only-shell chromium
+      # Fails when a page story scrolls sideways more than mobile-allow.json allows.
+      - run: node scripts/theme/mobile-guard.mjs

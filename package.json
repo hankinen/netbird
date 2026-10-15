@@ -28,6 +28,7 @@
     "i18n:check": "node scripts/i18n/check.mjs",
     "theme:check-selectors": "node scripts/theme/check-selectors.mjs",
     "theme:visual-guard": "scripts/theme/visual-guard.sh",
+    "theme:mobile-guard": "node scripts/theme/mobile-guard.mjs",
     "i18n:extract": "node scripts/i18n/extract-module.mjs"
   },
   "dependencies": {
