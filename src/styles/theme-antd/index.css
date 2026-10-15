@@ -8,9 +8,11 @@
  *   overrides.css  component fixes keyed on upstream class names (fragile,
  *                  every rule annotated with @depends, checked by
  *                  scripts/theme/check-selectors.mjs)
- *   vendors.css    third-party libraries
+ *   vendors.css    third-party libraries (React Flow / control centre)
+ *   density.css    control heights, table cell padding (AntD middle)
  */
 @import "./tokens.css";
 @import "./base.css";
 @import "./overrides.css";
 @import "./vendors.css";
+@import "./density.css";

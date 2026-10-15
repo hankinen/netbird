@@ -1,0 +1,59 @@
+/*
+ * Density (AntD "middle"): controls 32px, table cells 12px/16px.
+ * Upstream uses fixed 42px controls (h-[42px] / min-h-[42px]) and py-2.5
+ * buttons. Heights become tokens; min-height stays min-height so multi-line
+ * selectors (group chips) still grow instead of clipping.
+ */
+
+/* Fixed-height controls: inputs, selects, square icon buttons.
+   @depends src/components/Input.tsx: h-[42px]
+   @depends src/components/Select.tsx: h-[42px]
+   @depends src/components/table/DataTableRefreshButton.tsx: h-[42px] */
+:root.theme-antd:not(.dark) .h-\[42px\] { height: var(--ant-control-height); }
+/* @depends src/components/PinCodeInput.tsx: w-[42px] h-[42px]
+   @depends src/modules/reverse-proxy/ReverseProxyAccessControlRules.tsx: h-[42px] w-[42px] */
+:root.theme-antd:not(.dark) .w-\[42px\].h-\[42px\] { width: var(--ant-control-height); }
+/* Growing controls (multi-select triggers, textarea).
+   @depends src/components/PeerGroupSelector.tsx: min-h-[42px]
+   @depends src/components/DropdownInput.tsx: min-h-[42px]
+   @depends src/components/Textarea.tsx: min-h-[42px] */
+:root.theme-antd:not(.dark) .min-h-\[42px\] { min-height: var(--ant-control-height); }
+
+/* Buttons: fixed control height (buttons are inline-flex, items-center and
+   whitespace-nowrap upstream, so content stays centred and never wraps).
+   @depends src/components/Button.tsx: text-sm py-2.5 px-4 | text-xs py-2 px-4 | shadow-sm | inline-flex gap-2 items-center | whitespace-nowrap */
+:root.theme-antd:not(.dark) button[class~="shadow-sm"][class~="inline-flex"]:is([class~="py-2.5"], [class~="py-2"]) {
+    height: var(--ant-control-height);
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Tables: header and cells 12px/16px (AntD middle), header no fixed 48px.
+   @depends src/components/table/Table.tsx: h-12 px-4 text-left align-middle uppercase | align-middle [&:has([role=checkbox])]:pr-0 | p-4 */
+:root.theme-antd:not(.dark) th[class~="h-12"][class~="uppercase"] {
+    height: auto;
+    padding-top: var(--ant-table-cell-padding-block);
+    padding-bottom: var(--ant-table-cell-padding-block);
+}
+:root.theme-antd:not(.dark) td[class~="p-4"][class~="align-middle"] {
+    padding-top: var(--ant-table-cell-padding-block);
+    padding-bottom: var(--ant-table-cell-padding-block);
+}
+
+/* Pagination block: py-8 -> 16px.
+   @depends src/components/table/DataTablePagination.tsx: px-8 py-8 */
+:root.theme-antd:not(.dark) [class~="px-8"][class~="py-8"][class~="justify-between"] {
+    padding-top: var(--ant-padding);
+    padding-bottom: var(--ant-padding);
+}
+
+/* Multi-select triggers (group / peer / user pickers).
+   @depends src/components/PeerGroupSelector.tsx: min-h-[46px]
+   @depends src/components/PeerSelector.tsx: min-h-[46px]
+   @depends src/components/UserSelector.tsx: min-h-[46px] */
+:root.theme-antd:not(.dark) .min-h-\[46px\] { min-height: var(--ant-control-height); }
+
+/* Segmented button group (e.g. "User Devices | Servers"): buttons sit inside a
+   1px bordered container, so they are 2px shorter than a control.
+   @depends src/components/ButtonGroup.tsx: first:border-l-0 last:border-r-0 border-t-0 border-b-0 h-[40px] */
+:root.theme-antd:not(.dark) .h-\[40px\][class~="first:border-l-0"] { height: calc(var(--ant-control-height) - 2px); }
