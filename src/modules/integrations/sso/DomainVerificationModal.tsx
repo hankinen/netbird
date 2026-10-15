@@ -16,7 +16,7 @@ import { Mark } from "@components/ui/Mark";
 import { cn } from "@utils/helpers";
 import { ExternalLinkIcon, GlobeIcon } from "lucide-react";
 import * as React from "react";
-
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -33,12 +33,19 @@ export const DomainVerificationModal = ({
 }: Props) => {
   const startVerification = async () => {
     notify({
-      title: "Domain Verification",
-      description: `Verification for ${domain} has started`,
+      title: t(
+        "integrations.sso:domainVerificationModal.title.domainVerification",
+      ),
+      description: t(
+        "integrations.sso:domainVerificationModal.description.verificationForHasStarted",
+        { domain },
+      ),
       promise: onVerify().then(() => {
         onOpenChange(false);
       }),
-      loadingMessage: "Starting domain verification...",
+      loadingMessage: t(
+        "integrations.sso:domainVerificationModal.loadingMessage.startingDomainVerification",
+      ),
     });
   };
 
@@ -55,7 +62,9 @@ export const DomainVerificationModal = ({
         <GradientFadedBackground />
         <ModalHeader
           icon={<GlobeIcon size={20} />}
-          title={"Verify Domain Ownership"}
+          title={t(
+            "integrations.sso:domainVerificationModal.title.verifyDomainOwnership",
+          )}
           description={domain}
           color={"netbird"}
         />
@@ -63,14 +72,18 @@ export const DomainVerificationModal = ({
           <Steps className={"pt-0"}>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Sign in to your domain name provider (e.g. cloudflare.com or
-                godaddy.com)
+                {t(
+                  "integrations.sso:domainVerificationModal.text.signInToYourDomain",
+                )}
               </p>
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                Copy the <Mark>TXT record</Mark> below and add it to your DNS
-                configuration for <Mark>{domain}</Mark>
+                {t("common:word.copyThe")} <Mark>TXT record</Mark>{" "}
+                {t(
+                  "integrations.sso:domainVerificationModal.text.belowAndAddItTo",
+                )}{" "}
+                <Mark>{domain}</Mark>
               </p>
             </Steps.Step>
           </Steps>
@@ -78,23 +91,27 @@ export const DomainVerificationModal = ({
             <Card.List>
               <Card.ListItem
                 copy
-                copyText={"TXT Host"}
-                label={"Host"}
+                copyText={t(
+                  "integrations.sso:domainVerificationModal.copyText.tXTHost",
+                )}
+                label={t("integrations.sso:domainVerificationModal.label.host")}
                 value={domain}
               />
               <Card.ListItem
                 copy
-                copyText={"TXT Value"}
-                label={"Value"}
+                copyText={t(
+                  "integrations.sso:domainVerificationModal.copyText.tXTValue",
+                )}
+                label={t("common:word.value")}
                 value={`nb-verification=${token}`}
               />
             </Card.List>
           </Card>
 
           <Paragraph className={"text-sm mt-4"}>
-            {
-              "Note: DNS changes may take some time to apply. If NetBird doesn't find the record immediately, please wait a day and try again."
-            }
+            {t(
+              "integrations.sso:domainVerificationModal.text.noteDNSChangesMayTake",
+            )}
           </Paragraph>
 
           <div
@@ -102,35 +119,44 @@ export const DomainVerificationModal = ({
               "bg-nb-gray-900/70 px-4 py-3 rounded-md border border-nb-gray-800/70 my-6 !text-nb-gray-300 text-sm"
             }
           >
-            If you do not have access to your DNS configuration, you can also
-            verify your domain by sending us an email to{" "}
+            {t("integrations.sso:domainVerificationModal.text.ifYouDoNotHave")}{" "}
             <InlineLink
               href={"mailto:support@netbird.io"}
               className={"inline font-medium"}
             >
               {" "}
-              support@netbird.io
+              {t(
+                "integrations.sso:domainVerificationModal.text.supportNetbirdIo",
+              )}
             </InlineLink>
-            . The email should be sent from the domain you are trying to verify.
+            {t(
+              "integrations.sso:domainVerificationModal.text.theEmailShouldBeSent",
+            )}
           </div>
         </div>
         <ModalFooter className={"items-center"}>
           <div className={"w-full"}>
             <Paragraph className={"text-sm mt-auto"}>
-              Learn more about
+              {t("common:word.learnMoreAbout")}
               <InlineLink href={"#"} target={"_blank"}>
-                Domain Verification
+                {t(
+                  "integrations.sso:domainVerificationModal.title.domainVerification",
+                )}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>
           </div>
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
-              <Button variant={"secondary"}>Verify Later</Button>
+              <Button variant={"secondary"}>
+                {t("integrations.sso:domainVerificationModal.text.verifyLater")}
+              </Button>
             </ModalClose>
 
             <Button variant={"primary"} onClick={startVerification}>
-              Start Verification
+              {t(
+                "integrations.sso:domainVerificationModal.text.startVerification",
+              )}
             </Button>
           </div>
         </ModalFooter>

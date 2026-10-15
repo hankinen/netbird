@@ -34,12 +34,12 @@ import FullTooltip from "@/components/FullTooltip";
 import { PeerGroupSelector } from "@/components/PeerGroupSelector";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { t } from "@/i18n";
 import { FleetDMIntegration } from "@/interfaces/EDR";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { matchAttributesReducer } from "@/modules/integrations/edr/fleetdm/FleetDM";
 import { FleetDMMatchSettings } from "@/modules/integrations/edr/fleetdm/FleetDMMatchSettings";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -108,23 +108,31 @@ export function ConfigurationContent({
 
   const deleteIntegration = async () => {
     const choice = await confirm({
-      title: `Delete integration?`,
-      description: "Are you sure you want to delete this integration?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t(
+        "integrations.edr.crowd-strike-configuration:crowdStrikeConfiguration.title.deleteIntegration",
+      ),
+      description: t(
+        "integrations.edr.crowd-strike-configuration:crowdStrikeConfiguration.description.areYouSureYouWant",
+      ),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "FleetDM Integration",
-      description: `FleetDM was successfully deleted`,
+      title: t(
+        "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.title.fleetDMIntegration",
+      ),
+      description: t(
+        "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.description.fleetDMWasSuccessfullyDeleted",
+      ),
       promise: integrationRequest.del({}).then(() => {
         mutate("/integrations/edr/fleetdm");
         onSuccess();
       }),
-      loadingMessage: "Deleting integration...",
+      loadingMessage: t("integrations.shared:word.deletingIntegration"),
     });
   };
 
@@ -132,8 +140,12 @@ export function ConfigurationContent({
     const savedGroups = await saveGroups();
 
     notify({
-      title: "FleetDM Integration",
-      description: `FleetDM was successfully updated`,
+      title: t(
+        "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.title.fleetDMIntegration",
+      ),
+      description: t(
+        "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.description.fleetDMWasSuccessfullyUpdated",
+      ),
       promise: integrationRequest
         .put({
           api_token: secretPlaceholder === apiToken ? undefined : apiToken,
@@ -147,14 +159,16 @@ export function ConfigurationContent({
           mutate("/integrations/edr/fleetdm");
           onSuccess();
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("integrations.shared:word.updatingIntegration"),
     });
   };
 
   const urlError = useMemo(() => {
     if (apiUrl === "") return "";
     if (!validator.isValidUrl(apiUrl)) {
-      return "Please enter a valid url, e.g., https://fleet.example.com";
+      return t(
+        "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.pleaseEnterAValidUrl",
+      );
     }
     return "";
   }, [apiUrl]);
@@ -179,10 +193,12 @@ export function ConfigurationContent({
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"FleetDM Configuration"}
-        description={
-          "Restrict network access to IT-managed devices based on FleetDM compliance policies."
-        }
+        title={t(
+          "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.title.fleetDMConfiguration",
+        )}
+        description={t(
+          "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.description.restrictNetworkAccessToIT",
+        )}
       />
 
       <Tabs
@@ -198,7 +214,9 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Peer Approval
+            {t(
+              "integrations.edr.crowd-strike-configuration:crowdStrikeConfiguration.text.peerApproval",
+            )}
           </TabsTrigger>
           <TabsTrigger value={"compliance"}>
             <ShieldCheckIcon
@@ -207,7 +225,9 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Compliance
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.compliance",
+            )}
           </TabsTrigger>
           <TabsTrigger value={"settings"}>
             <Cog
@@ -216,7 +236,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Settings
+            {t("common:word.settings")}
           </TabsTrigger>
           <TabsTrigger value={"danger"}>
             <AlertOctagon
@@ -225,7 +245,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Danger Zone
+            {t("integrations.shared:word.dangerZone")}
           </TabsTrigger>
         </TabsList>
 
@@ -234,11 +254,13 @@ export function ConfigurationContent({
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <FolderGit2 size={14} />
-                Groups
+                {t("common:word.groups")}
               </div>
             </Label>
             <HelpText className={"mt-2"}>
-              Select groups you want to apply the FleetDM integration to
+              {t(
+                "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.selectGroupsYouWantTo",
+              )}
             </HelpText>
 
             <PeerGroupSelector
@@ -252,11 +274,16 @@ export function ConfigurationContent({
         <TabsContent value={"compliance"} className={"px-8"}>
           <div className={""}>
             <Label>
-              <div className={"flex gap-2 items-center"}>Requirements</div>
+              <div className={"flex gap-2 items-center"}>
+                {t(
+                  "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.requirements",
+                )}
+              </div>
             </Label>
             <HelpText className={"mt-2"}>
-              Set the specific requirements that devices must meet to be
-              considered compliant.
+              {t(
+                "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.setTheSpecificRequirementsThat",
+              )}
             </HelpText>
 
             <FleetDMMatchSettings
@@ -272,23 +299,25 @@ export function ConfigurationContent({
               <Label>
                 <div className={"flex gap-2 items-center"}>
                   <RefreshCcw size={14} />
-                  Sync Window
+                  {t(
+                    "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.syncWindow",
+                  )}
                 </div>
               </Label>
               <FullTooltip
                 interactive={false}
                 content={
                   <div className={"max-w-xs text-xs"}>
-                    Example: This property is set to 24 hours. Jane&apos;s
-                    laptop hasn&apos;t synced with FleetDM for 27 hours. Even
-                    though it&apos;s marked as Compliant in FleetDM, it will
-                    still be blocked from network access
+                    {t(
+                      "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.exampleThisPropertyIsSet",
+                    )}
                   </div>
                 }
               >
                 <HelpText className={"max-w-sm mt-1"}>
-                  Devices not synced with FleetDM in this time won&apos;t have
-                  network access.
+                  {t(
+                    "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.devicesNotSyncedWithFleetDM",
+                  )}
                   <IconInfoCircle
                     size={14}
                     className={"relative inline ml-1 -top-[1px]"}
@@ -305,7 +334,9 @@ export function ConfigurationContent({
               value={lastSyncedInterval}
               type={"number"}
               onChange={(e) => setLastSyncedInterval(e.target.value)}
-              customSuffix={"Hours"}
+              customSuffix={t(
+                "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.customSuffix.hours",
+              )}
             />
           </div>
 
@@ -317,10 +348,14 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <GlobeIcon size={16} />
-                  Server URL
+                  {t(
+                    "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.serverURL",
+                  )}
                 </div>
               }
-              placeholder={"https://fleet.example.com"}
+              placeholder={t(
+                "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.placeholder.httpsFleetExampleCom",
+              )}
               value={apiUrl}
               error={urlError}
               onChange={(e) => setApiUrl(e.target.value)}
@@ -333,10 +368,14 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <KeyRound size={16} />
-                  API Token
+                  {t(
+                    "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.aPIToken",
+                  )}
                 </div>
               }
-              placeholder={"Enter your FleetDM API token"}
+              placeholder={t(
+                "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.placeholder.enterYourFleetDMAPIToken",
+              )}
               value={apiToken}
               onFocus={(e) => {
                 if (e.target.value == secretPlaceholder) {
@@ -358,13 +397,13 @@ export function ConfigurationContent({
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <AlertOctagon size={14} />
-                Delete Integration
+                {t("integrations.shared:word.deleteIntegration")}
               </div>
             </Label>
             <HelpText className={"max-w-lg mt-2"}>
-              Deleting this integration will remove the ability to enforce
-              compliance policies from FleetDM. If you delete the integration
-              you will need to reconfigure it again.
+              {t(
+                "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.deletingThisIntegrationWillRemove",
+              )}
             </HelpText>
           </div>
           <Button
@@ -373,7 +412,7 @@ export function ConfigurationContent({
             className={"mt-3"}
             onClick={deleteIntegration}
           >
-            Delete Integration
+            {t("integrations.shared:word.deleteIntegration")}
           </Button>
         </TabsContent>
       </Tabs>
@@ -382,12 +421,14 @@ export function ConfigurationContent({
       <ModalFooter className={"items-center gap-4"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink
               href={"https://fleetdm.com/docs/rest-api/rest-api"}
               target={"_blank"}
             >
-              FleetDM Integration
+              {t(
+                "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.title.fleetDMIntegration",
+              )}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
@@ -395,7 +436,7 @@ export function ConfigurationContent({
         <div className={"flex gap-4"}>
           <ModalClose asChild={true}>
             <Button variant={"secondary"} className={"w-full"}>
-              Cancel
+              {t("common:word.cancel")}
             </Button>
           </ModalClose>
 
@@ -405,7 +446,7 @@ export function ConfigurationContent({
             disabled={!canSave}
             onClick={updateIntegration}
           >
-            Save Changes
+            {t("common:word.saveChanges")}
           </Button>
         </div>
       </ModalFooter>

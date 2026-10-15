@@ -1,0 +1,16 @@
+{
+  "word.estimatedSetupTime": "Estimated setup time:",
+  "word.deletingIntegration": "Deleting integration...",
+  "word.updatingIntegration": "Updating integration...",
+  "word.dangerZone": "Danger Zone",
+  "word.clientID": "Client ID",
+  "word.deleteIntegration": "Delete Integration",
+  "word.getStarted": "Get Started",
+  "word.requiredPermissions": "Required Permissions",
+  "word.withTheFollowing": "with the following",
+  "word.permissions": "permissions",
+  "word.clientSecret": "Client Secret",
+  "word.navigateTo": "Navigate to",
+  "word.select": "select",
+  "word.andClick": "and click"
+}

@@ -26,13 +26,13 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import datadogLogo from "@/assets/integrations/datadog.png";
+import { t } from "@/i18n";
 import { EventStream } from "@/interfaces/EventStream";
 import {
   DatadogApiKeysPage,
   DatadogRegions,
 } from "@/modules/integrations/event-streaming/datadog/DatadogRegions";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -97,8 +97,10 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
 
   const connect = async () => {
     notify({
-      title: "Datadog Integration",
-      description: `Datadog was successfully connected to NetBird.`,
+      title: t("integrations.event-streaming:datadog.title.datadogIntegration"),
+      description: t(
+        "integrations.event-streaming:datadogSetup.description.datadogWasSuccessfullyConnectedTo",
+      ),
       promise: integrationRequest
         .post({
           platform: "datadog",
@@ -112,7 +114,9 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
           mutate("/integrations/event-streaming");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t(
+        "integrations.event-streaming:firehoseSetup.loadingMessage.settingUpIntegration",
+      ),
     });
   };
 
@@ -128,27 +132,35 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
 
       <IntegrationModalHeader
         image={datadogLogo}
-        title={"Connect NetBird with Datadog"}
-        description={
-          "Start streaming your NetBird audit & traffic events to Datadog. Follow the steps below to get started."
-        }
+        title={t(
+          "integrations.event-streaming:datadogSetup.title.connectNetBirdWithDatadog",
+        )}
+        description={t(
+          "integrations.event-streaming:datadogSetup.description.startStreamingYourNetBirdAudit",
+        )}
       />
 
       {step == 1 && (
         <div className={"px-8 py-3 flex flex-col mt-4 z-0"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <GlobeIcon size={16} />
-            Select your Datadog region
+            {t(
+              "integrations.event-streaming:datadogSetup.text.selectYourDatadogRegion",
+            )}
           </p>
           <p className={"mb-3 mt-2"}>
-            To identify which region you are on please check out the{" "}
+            {t(
+              "integrations.event-streaming:firehoseSetup.text.toIdentifyWhichRegionYou",
+            )}{" "}
             <InlineLink
               href={"https://docs.datadoghq.com/getting_started/site/"}
               target={"_blank"}
               variant={"default"}
               className={"inline"}
             >
-              Datadog Documentation.
+              {t(
+                "integrations.event-streaming:datadogSetup.text.datadogDocumentation",
+              )}
             </InlineLink>
           </p>
           <SelectDropdown
@@ -165,7 +177,9 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                   <Globe size={16} className={"text-nb-gray-300"} />
                 </div>
               }
-              placeholder={"https://http-intake.logs.datadoghq.eu/api/v2/logs"}
+              placeholder={t(
+                "integrations.event-streaming:datadogSetup.placeholder.httpsHttpIntakeLogsDatadoghq",
+              )}
               value={apiUrl}
               onChange={(e) => setApiUrl(e.target.value)}
             />
@@ -179,31 +193,41 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 z-0"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <KeyRound size={16} />
-            Get your Datadog API Key
+            {t(
+              "integrations.event-streaming:datadogSetup.text.getYourDatadogAPIKey",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
-              <p>Navigate to Datadogs API Keys page</p>
+              <p>
+                {t(
+                  "integrations.event-streaming:datadogSetup.text.navigateToDatadogsAPIKeys",
+                )}
+              </p>
               <div className={"flex gap-4"}>
                 <Link href={apiPageUrl} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
                     <ExternalLinkIcon size={14} />
-                    API Keys
+                    {t(
+                      "integrations.event-streaming:datadogSetup.text.aPIKeys",
+                    )}
                   </Button>
                 </Link>
               </div>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>+ New Key</Mark>
-                at the top
+                {t("common:word.click")} <Mark>+ New Key</Mark>
+                {t("integrations.event-streaming:datadogSetup.text.atTheTop")}
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Give it a descriptive name like{" "}
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.giveItADescriptiveName",
+                )}{" "}
                 <Mark copy>NetBird Activity Events</Mark>
-                and click <Mark>Create Key</Mark>
+                {t("integrations.shared:word.andClick")} <Mark>Create Key</Mark>
                 <Tooltip>
                   <TooltipTrigger>
                     <InfoIcon
@@ -215,14 +239,20 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                   </TooltipTrigger>
                   <TooltipContent>
                     <p className={"max-w-[200px] text-xs"}>
-                      {`When creating a new Datadog API key, it could take up to 5 minutes for the key to be available for use.`}
+                      {t(
+                        "integrations.event-streaming:datadogSetup.text.whenCreatingANewDatadog",
+                      )}
                     </p>
                   </TooltipContent>
                 </Tooltip>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
-              <p className={"font-normal"}>Enter your API-Key</p>
+              <p className={"font-normal"}>
+                {t(
+                  "integrations.event-streaming:datadogSetup.text.enterYourAPIKey",
+                )}
+              </p>
             </Steps.Step>
           </Steps>
           <div className={"mb-4"}>
@@ -234,7 +264,9 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                   <KeyRound size={16} className={"text-nb-gray-300"} />
                 </div>
               }
-              placeholder={"1c17401cf170f7ac33dd9dcdf8040eb2"}
+              placeholder={t(
+                "integrations.event-streaming:datadogSetup.placeholder.1c17401cf170f7ac33dd9dcdf8040eb2",
+              )}
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
             />
@@ -250,7 +282,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             disabled={!apiUrlEntered}
             onClick={() => setStep(2)}
           >
-            Continue
+            {t("common:word.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -262,7 +294,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               onClick={() => setStep(1)}
             >
               <IconArrowLeft size={16} />
-              Back
+              {t("common:word.back")}
             </Button>
             <Button
               variant={"primary"}
@@ -271,7 +303,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               onClick={connect}
             >
               <Repeat size={16} />
-              Connect
+              {t("common:word.connect")}
             </Button>
           </>
         )}

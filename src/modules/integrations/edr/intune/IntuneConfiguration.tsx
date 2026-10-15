@@ -18,10 +18,10 @@ import FullTooltip from "@/components/FullTooltip";
 import { PeerGroupSelector } from "@/components/PeerGroupSelector";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { t } from "@/i18n";
 import { IntuneIntegration } from "@/interfaces/EDR";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -89,23 +89,23 @@ export function ConfigurationContent({
 
   const deleteIntegration = async () => {
     const choice = await confirm({
-      title: `Delete integration?`,
-      description: "Are you sure you want to delete this integration?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("integrations.edr.huntress-match-settings:intuneConfiguration.title.deleteIntegration"),
+      description: t("integrations.edr.huntress-match-settings:intuneConfiguration.description.areYouSureYouWant"),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "Intune Integration",
-      description: `Intune was successfully deleted`,
+      title: t("integrations.edr.huntress-match-settings:intuneConfiguration.title.intuneIntegration"),
+      description: t("integrations.edr.huntress-match-settings:intuneConfiguration.description.intuneWasSuccessfullyDeleted"),
       promise: intuneRequest.del({}).then(() => {
         mutate("/integrations/edr/intune");
         onSuccess();
       }),
-      loadingMessage: "Deleting integration...",
+      loadingMessage: t("integrations.shared:word.deletingIntegration"),
     });
   };
 
@@ -113,8 +113,8 @@ export function ConfigurationContent({
     const savedGroups = await saveGroups();
 
     notify({
-      title: "Intune Integration",
-      description: `Intune was successfully updated`,
+      title: t("integrations.edr.huntress-match-settings:intuneConfiguration.title.intuneIntegration"),
+      description: t("integrations.edr.huntress-match-settings:intuneConfiguration.description.intuneWasSuccessfullyUpdated"),
       promise: intuneRequest
         .put({
           client_id: clientId,
@@ -129,7 +129,7 @@ export function ConfigurationContent({
           mutate("/integrations/edr/intune");
           onSuccess();
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("integrations.shared:word.updatingIntegration"),
     });
   };
 
@@ -153,10 +153,8 @@ export function ConfigurationContent({
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Intune Configuration"}
-        description={
-          "Restrict network access to IT-managed devices marked Compliant in Intune."
-        }
+        title={t("integrations.edr.huntress-match-settings:intuneConfiguration.title.intuneConfiguration")}
+        description={t("integrations.edr.huntress-match-settings:intuneConfiguration.description.restrictNetworkAccessToIT")}
       />
 
       <Tabs
@@ -172,7 +170,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Peer Approval
+            {t("integrations.edr.huntress-match-settings:huntressSetup.text.peerApproval")}
           </TabsTrigger>
           <TabsTrigger value={"sync-window"}>
             <RefreshCcw
@@ -181,7 +179,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Intune Sync Window
+            {t("integrations.edr.huntress-match-settings:intuneConfiguration.text.intuneSyncWindow")}
           </TabsTrigger>
           <TabsTrigger value={"settings"}>
             <Cog
@@ -190,7 +188,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Settings
+            {t("common:word.settings")}
           </TabsTrigger>
           <TabsTrigger value={"danger"}>
             <AlertOctagon
@@ -199,7 +197,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Danger Zone
+            {t("integrations.shared:word.dangerZone")}
           </TabsTrigger>
         </TabsList>
         <TabsContent value={"settings"} className={"px-8 text-sm"}>
@@ -212,7 +210,7 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <Box size={16} />
-                  Application (client) ID
+                  {t("integrations.edr.huntress-match-settings:intuneConfiguration.text.applicationClientID")}
                 </div>
               }
               placeholder={"62d3a656-c87d-4f30-a242-5b6347e29e9f"}
@@ -227,10 +225,10 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <Folder size={16} />
-                  Directory (tenant) ID
+                  {t("integrations.edr.huntress-match-settings:intuneConfiguration.text.directoryTenantID")}
                 </div>
               }
-              placeholder={"5d60468a-65b7-45eb-a61a-53ecfbcd1ea3"}
+              placeholder={t("integrations.edr.huntress-match-settings:intuneConfiguration.placeholder.5d60468a65b745ebA61a53ecfbcd1ea3")}
               value={tenantId}
               onChange={(e) => setTenantId(e.target.value)}
             />
@@ -242,10 +240,10 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <KeyRound size={16} />
-                  Client Secret
+                  {t("integrations.shared:word.clientSecret")}
                 </div>
               }
-              placeholder={"YdV7Q~JJ62Xl.LvYoBanxZR2sJA2va_3UbqvncY8"}
+              placeholder={t("integrations.edr.huntress-match-settings:intuneConfiguration.placeholder.ydV7QJJ62XlLvYoBanxZR2sJA2va3UbqvncY8")}
               value={clientSecret}
               onFocus={(e) => {
                 if (e.target.value == clientSecretPlaceholder) {
@@ -267,11 +265,11 @@ export function ConfigurationContent({
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <FolderGit2 size={14} />
-                Groups
+                {t("common:word.groups")}
               </div>
             </Label>
             <HelpText className={"max-w-lg mt-2"}>
-              Select groups you want to apply the Intune integration to
+              {t("integrations.edr.huntress-match-settings:intuneConfiguration.text.selectGroupsYouWantTo")}
             </HelpText>
 
             <PeerGroupSelector values={groups} onChange={setGroups} />
@@ -284,16 +282,12 @@ export function ConfigurationContent({
               interactive={false}
               content={
                 <div className={"max-w-xs text-xs"}>
-                  Example: This property is set to 24 hours. Jane&apos;s laptop
-                  hasn&apos;t synced with Intune for 27 hours. Even though
-                  it&apos;s marked as Compliant in Intune, it will still be
-                  blocked from network access
+                  {t("integrations.edr.huntress-match-settings:intuneConfiguration.text.exampleThisPropertyIsSet")}
                 </div>
               }
             >
               <HelpText className={"max-w-sm"}>
-                Devices not synced with Intune in this time won&apos;t have
-                network access.
+                {t("integrations.edr.huntress-match-settings:intuneConfiguration.text.devicesNotSyncedWithIntune")}
                 <IconInfoCircle
                   size={14}
                   className={"relative inline ml-1 -top-[1px]"}
@@ -308,7 +302,7 @@ export function ConfigurationContent({
               value={lastSyncedInterval}
               type={"number"}
               onChange={(e) => setLastSyncedInterval(e.target.value)}
-              customSuffix={"Hours"}
+              customSuffix={t("integrations.edr.huntress-match-settings:huntressSetup.customSuffix.hours")}
             />
           </div>
         </TabsContent>
@@ -318,14 +312,11 @@ export function ConfigurationContent({
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <AlertOctagon size={16} />
-                Delete Integration
+                {t("integrations.shared:word.deleteIntegration")}
               </div>
             </Label>
             <HelpText className={"max-w-lg mt-2"}>
-              Deleting this integration will remove the ability to sync users
-              and groups from your IdP to NetBird. If you delete the integration
-              you will need to reconfigure it again to enable the
-              synchronization.
+              {t("integrations.edr.huntress-match-settings:intuneConfiguration.text.deletingThisIntegrationWillRemove")}
             </HelpText>
           </div>
           <Button
@@ -334,7 +325,7 @@ export function ConfigurationContent({
             className={"mt-3"}
             onClick={deleteIntegration}
           >
-            Delete Integration
+            {t("integrations.shared:word.deleteIntegration")}
           </Button>
         </TabsContent>
       </Tabs>
@@ -343,7 +334,7 @@ export function ConfigurationContent({
       <ModalFooter className={"items-center gap-4"}>
         <ModalClose asChild={true}>
           <Button variant={"secondary"} className={"w-full"}>
-            Cancel
+            {t("common:word.cancel")}
           </Button>
         </ModalClose>
 
@@ -353,7 +344,7 @@ export function ConfigurationContent({
           disabled={!canSave}
           onClick={updateIntegration}
         >
-          Save
+          {t("common:word.save")}
         </Button>
       </ModalFooter>
     </ModalContent>

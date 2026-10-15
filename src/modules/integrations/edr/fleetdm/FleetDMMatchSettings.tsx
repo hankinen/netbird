@@ -6,8 +6,8 @@ import { cn } from "@utils/helpers";
 import { Bug, FileWarning, HardDrive, ShieldAlert, Wifi } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
+import { t } from "@/i18n";
 import { FleetDMMatchAttributes } from "@/interfaces/EDR";
-
 type Props = {
   value: FleetDMMatchAttributes;
   dispatch: React.Dispatch<any>;
@@ -26,14 +26,20 @@ export const FleetDMMatchSettings = ({
         <div className={"w-full"}>
           <Label>
             <ShieldAlert size={14} />
-            Max Failing Policies
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.text.maxFailingPolicies",
+            )}
           </Label>
           <HelpText>
-            Maximum number of allowed failing policies on a device.
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.text.maximumNumberOfAllowedFailing",
+            )}
           </HelpText>
         </div>
         <Input
-          placeholder={"Not set"}
+          placeholder={t(
+            "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.placeholder.notSet",
+          )}
           min={0}
           max={999}
           className={"w-full min-w-[160px]"}
@@ -46,7 +52,7 @@ export const FleetDMMatchSettings = ({
                 e.target.value === "" ? undefined : Number(e.target.value),
             })
           }
-          customSuffix={"Policies"}
+          customSuffix={t("common:countWord.policies")}
         />
       </div>
 
@@ -54,14 +60,20 @@ export const FleetDMMatchSettings = ({
         <div className={"w-full"}>
           <Label>
             <Bug size={14} />
-            Max Vulnerable Software
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.text.maxVulnerableSoftware",
+            )}
           </Label>
           <HelpText>
-            Maximum number of allowed vulnerable software on a device.
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.text.maximumNumberOfAllowedVulnerable",
+            )}
           </HelpText>
         </div>
         <Input
-          placeholder={"Not set"}
+          placeholder={t(
+            "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.placeholder.notSet",
+          )}
           min={0}
           max={999}
           className={"w-full min-w-[160px]"}
@@ -74,7 +86,9 @@ export const FleetDMMatchSettings = ({
                 e.target.value === "" ? undefined : Number(e.target.value),
             })
           }
-          customSuffix={"Software"}
+          customSuffix={t(
+            "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.customSuffix.software",
+          )}
         />
       </div>
 
@@ -82,10 +96,14 @@ export const FleetDMMatchSettings = ({
         <div className={"w-full"}>
           <Label>
             <FileWarning size={14} />
-            Required FleetDM Policy IDs
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.text.requiredFleetDMPolicyIDs",
+            )}
           </Label>
           <HelpText>
-            Comma-separated policy IDs that must pass on the device.
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.text.commaSeparatedPolicyIDsThat",
+            )}
           </HelpText>
         </div>
         <Input
@@ -116,12 +134,14 @@ export const FleetDMMatchSettings = ({
           label={
             <>
               <HardDrive size={14} />
-              Disk Encryption
+              {t(
+                "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.text.diskEncryption",
+              )}
             </>
           }
-          helpText={
-            "Devices must have disk encryption (FileVault/BitLocker) enabled."
-          }
+          helpText={t(
+            "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.helpText.devicesMustHaveDiskEncryption",
+          )}
           textWrapperClassName={"max-w-lg"}
         />
         <FancyToggleSwitch
@@ -136,10 +156,14 @@ export const FleetDMMatchSettings = ({
           label={
             <>
               <Wifi size={14} />
-              Online Status
+              {t(
+                "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.text.onlineStatus",
+              )}
             </>
           }
-          helpText={"Require the host to be online (recently seen by Fleet)."}
+          helpText={t(
+            "integrations.edr.crowd-strike-configuration:fleetDMMatchSettings.helpText.requireTheHostToBe",
+          )}
         />
       </div>
     </>

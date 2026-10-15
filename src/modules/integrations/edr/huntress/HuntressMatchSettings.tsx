@@ -1,11 +1,11 @@
 import FancyToggleSwitch from "@components/FancyToggleSwitch";
 import { BrickWallShieldIcon, ShieldCheckIcon, ShieldIcon } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import {
   DEFAULT_HUNTRESS_MATCH_ATTRIBUTES,
   HuntressMatchAttributes,
 } from "@/interfaces/EDR";
-
 type Props = {
   value: HuntressMatchAttributes;
   dispatch: React.Dispatch<any>;
@@ -44,12 +44,14 @@ export const HuntressMatchSettings = ({
         label={
           <>
             <ShieldIcon size={14} />
-            Managed Microsoft Defender
+            {t(
+              "integrations.edr.huntress-match-settings:huntressMatchSettings.text.managedMicrosoftDefender",
+            )}
           </>
         }
-        helpText={
-          "Defender is enabled, up-to-date, scanned recently, and no conflicting antivirus detected"
-        }
+        helpText={t(
+          "integrations.edr.huntress-match-settings:huntressMatchSettings.helpText.defenderIsEnabledUpTo",
+        )}
       />
 
       <FancyToggleSwitch
@@ -66,12 +68,14 @@ export const HuntressMatchSettings = ({
         label={
           <>
             <ShieldCheckIcon size={14} />
-            Defender Policy Compliance
+            {t(
+              "integrations.edr.huntress-match-settings:huntressMatchSettings.text.defenderPolicyCompliance",
+            )}
           </>
         }
-        helpText={
-          "Defender configuration should match your organization's security policy requirements"
-        }
+        helpText={t(
+          "integrations.edr.huntress-match-settings:huntressMatchSettings.helpText.defenderConfigurationShouldMatchYour",
+        )}
       />
 
       <FancyToggleSwitch
@@ -88,13 +92,20 @@ export const HuntressMatchSettings = ({
         label={
           <>
             <BrickWallShieldIcon size={14} />
-            Firewall
+            {t(
+              "integrations.edr.huntress-match-settings:huntressMatchSettings.text.firewall",
+            )}
           </>
         }
         helpText={
           <span>
-            Device has an active firewall with <br />
-            all required profiles enabled
+            {t(
+              "integrations.edr.huntress-match-settings:huntressMatchSettings.text.deviceHasAnActiveFirewall",
+            )}{" "}
+            <br />
+            {t(
+              "integrations.edr.huntress-match-settings:huntressMatchSettings.text.allRequiredProfilesEnabled",
+            )}
           </span>
         }
       />

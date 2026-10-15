@@ -46,5 +46,6 @@
   "fleetDM.description.fleetDMWasSuccessfully.disabled": "FleetDM 已成功禁用。",
   "fleetDM.description.fleetDMWasSuccessfully.enabled": "FleetDM 已成功启用。",
   "intune.description.intuneWasSuccessfully.disabled": "Intune 已成功禁用。",
-  "intune.description.intuneWasSuccessfully.enabled": "Intune 已成功启用。"
+  "intune.description.intuneWasSuccessfully.enabled": "Intune 已成功启用。",
+  "eDRTab.title.mdmEdr": "MDM 与 EDR"
 }

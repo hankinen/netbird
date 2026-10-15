@@ -1,6 +1,6 @@
 import { Clock4 } from "lucide-react";
 import * as React from "react";
-
+import { t } from "@/i18n";
 type Props = {
   minutes?: number;
 };
@@ -13,8 +13,11 @@ export const EstimatedSetupTime = ({ minutes = 5 }: Props) => {
     >
       <Clock4 size={12} />
       <div>
-        Estimated setup time:
-        <span className={"font-medium"}> {minutes} Minutes</span>
+        {t("integrations.shared:word.estimatedSetupTime")}
+        <span className={"font-medium"}>
+          {" "}
+          {t("integrations.main:estimatedSetupTime.text.minutes", { minutes })}
+        </span>
       </div>
     </div>
   );

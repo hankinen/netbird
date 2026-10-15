@@ -7,13 +7,13 @@ import * as React from "react";
 import { useMemo, useState } from "react";
 import integrationImage from "@/assets/integrations/okta.png";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { DomainValidationStatus } from "@/interfaces/Account";
 import { EnterpriseConnection } from "@/interfaces/IdentityProvider";
 import { IntegrationCard } from "@/modules/integrations/IntegrationCard";
 import { OktaSsoSettings } from "@/modules/integrations/sso/okta/OktaSSOSettings";
 import OktaSSOSetup from "@/modules/integrations/sso/okta/OktaSSOSetup";
 import { useEnterpriseConnections } from "@/modules/integrations/sso/useEnterpriseConnections";
-
 export const OktaSSOIntegrationCard = () => {
   const [setupModal, setSetupModal] = useState(false);
   const { oktaConnection, isDataLoading, toggleConnection, mutate, error } =
@@ -23,14 +23,12 @@ export const OktaSSOIntegrationCard = () => {
   const handleToggleConnection = () => {
     if (!oktaConnection) return;
     notify({
-      title: "Okta SSO Integration",
-      description: `Okta was successfully ${
-        oktaConnection?.enabled ? "disabled" : "enabled"
-      }`,
+      title: t("integrations.sso:oidcSetupModal.title.oktaSSOIntegration"),
+      description: (oktaConnection?.enabled ? t("integrations.sso:oidcIntegrationCard.description.oktaWasSuccessfullyDisabled") : t("integrations.sso:oidcIntegrationCard.description.oktaWasSuccessfullyEnabled")),
       promise: toggleConnection(oktaConnection.id).then(() => {
         mutate();
       }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("integrations.shared:word.updatingIntegration"),
     });
   };
 
@@ -40,10 +38,10 @@ export const OktaSSOIntegrationCard = () => {
     <>
       <IntegrationCard
         name="Okta"
-        description="Okta is a platform to provision and manage user accounts in cloud-based applications."
+        description={t("integrations.sso:oktaSSOIntegrationCard.description.oktaIsAPlatformTo")}
         data={oktaConnection}
         url={{
-          title: "okta.com",
+          title: t("integrations.sso:oktaSSOIntegrationCard.title.oktaCom"),
           href: "https://www.okta.com/",
         }}
         disabled={error || (oktaConnection?.enabled ? !permission.idp.update : !permission.idp.create)}
@@ -109,12 +107,12 @@ const ConfigurationContent = ({ connection }: ConfigurationProps) => {
             )}
           ></span>
           {hasSomeVerifiedDomains
-            ? "Active"
+            ? t("common:word.active")
             : hasSomePendingDomains
-            ? "Pending Verification"
+            ? t("integrations.sso:domainVerificationCard.text.pendingVerification")
             : hasSomeFailedDomains
-            ? "Failed Verification"
-            : "Inactive"}
+            ? t("integrations.sso:oidcIntegrationCard.text.failedVerification")
+            : t("common:word.inactive")}
         </div>
       ) : (
         <div
@@ -123,7 +121,7 @@ const ConfigurationContent = ({ connection }: ConfigurationProps) => {
           }
         >
           <span className={cn("h-2 w-2 rounded-full bg-nb-gray-600")}></span>
-          Inactive
+          {t("common:word.inactive")}
         </div>
       )}
       <Button
@@ -133,7 +131,7 @@ const ConfigurationContent = ({ connection }: ConfigurationProps) => {
         onClick={() => setOpen(true)}
       >
         <Settings size={14} />
-        Settings
+        {t("common:word.settings")}
       </Button>
       {open && (
         <OktaSsoSettings

@@ -46,5 +46,6 @@
   "fleetDM.description.fleetDMWasSuccessfully.disabled": "FleetDM was successfully disabled",
   "fleetDM.description.fleetDMWasSuccessfully.enabled": "FleetDM was successfully enabled",
   "intune.description.intuneWasSuccessfully.disabled": "Intune was successfully disabled",
-  "intune.description.intuneWasSuccessfully.enabled": "Intune was successfully enabled"
+  "intune.description.intuneWasSuccessfully.enabled": "Intune was successfully enabled",
+  "eDRTab.title.mdmEdr": "MDM & EDR"
 }

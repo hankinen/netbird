@@ -27,6 +27,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/crowdstrike.png";
+import { t } from "@/i18n";
 import { Account } from "@/interfaces/Account";
 import { CrowdstrikeIntegration } from "@/interfaces/EDR";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
@@ -37,7 +38,6 @@ import {
 import { CrowdStrikeZtaScoreInput } from "@/modules/integrations/edr/crowdstrike/CrowdStrikeZtaScoreInput";
 import { CrowdStrikeZtaToggle } from "@/modules/integrations/edr/crowdstrike/CrowdStrikeZtaToggle";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -122,8 +122,12 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
     const score = parseInt(ztaScore);
 
     notify({
-      title: "CrowdStrike Integration",
-      description: `CrowdStrike was successfully connected to NetBird.`,
+      title: t(
+        "integrations.edr.crowd-strike-configuration:crowdStrikeConfiguration.title.crowdStrikeIntegration",
+      ),
+      description: t(
+        "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.description.crowdStrikeWasSuccessfullyConnectedTo",
+      ),
       promise: falconRequest({
         client_id: clientId,
         secret: secret,
@@ -136,13 +140,17 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
         mutate("/integrations/edr/falcon");
         onSuccess();
       }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t(
+        "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.loadingMessage.settingUpIntegration",
+      ),
     });
   };
 
   const ztaError =
     ztaEnabled && (parseInt(ztaScore) <= 0 || parseInt(ztaScore) > 100)
-      ? "Score should be between 1 and 100"
+      ? t(
+          "integrations.edr.crowd-strike-configuration:crowdStrikeConfiguration.text.scoreShouldBeBetween1",
+        )
       : undefined;
 
   const hasZtaError = ztaError != undefined;
@@ -177,21 +185,26 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Connect NetBird with CrowdStrike"}
-        description={
-          "Restrict network access only to devices managed by the company's IT department"
-        }
+        title={t(
+          "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.title.connectNetBirdWithCrowdStrike",
+        )}
+        description={t(
+          "integrations.edr.crowd-strike-configuration:crowdStrikeConfiguration.description.restrictNetworkAccessOnlyTo",
+        )}
       />
 
       {step == 0 && (
         <div className={"px-8 py-3 flex flex-col mt-4 z-0"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <GlobeIcon size={16} />
-            Select your CrowdStrike region
+            {t(
+              "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.text.selectYourCrowdStrikeRegion",
+            )}
           </p>
           <p className={"mb-3 mt-2"}>
-            To identify which region you are on check your CrowdStrike dashboard
-            url.
+            {t(
+              "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.text.toIdentifyWhichRegionYou",
+            )}
           </p>
           <SelectDropdown
             value={selectedRegion}
@@ -207,31 +220,51 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 z-0"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <KeyRound size={16} />
-            Get your API Credentials
+            {t(
+              "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.text.getYourAPICredentials",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
-              <p>{"Navigate to the CrowdStrike's API Clients & Keys page"}</p>
+              <p>
+                {t(
+                  "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.text.navigateToTheCrowdStrikeS",
+                )}
+              </p>
               <div className={"flex gap-4"}>
                 <Link href={apiPageUrl} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
                     <ExternalLinkIcon size={14} />
-                    API Clients & Keys
+                    {t(
+                      "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.text.aPIClientsKeys",
+                    )}
                   </Button>
                 </Link>
               </div>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>Create API client</Mark> and enter
+                {t("common:word.click")} <Mark>Create API client</Mark>{" "}
+                {t(
+                  "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.text.andEnter",
+                )}
                 <Mark copy>NetBird</Mark>
-                as the client name and select <Mark>Hosts (Read)</Mark> and{" "}
-                <Mark>Zero Trust Assessment (Read)</Mark> as the scope
+                {t(
+                  "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.text.asTheClientNameAnd",
+                )}{" "}
+                <Mark>Hosts (Read)</Mark> {t("common:word.and")}{" "}
+                <Mark>Zero Trust Assessment (Read)</Mark>{" "}
+                {t(
+                  "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.text.asTheScope",
+                )}
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Create</Mark> and enter your credentials
+                {t("common:word.click")} <Mark>Create</Mark>{" "}
+                {t(
+                  "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.text.andEnterYourCredentials",
+                )}
               </p>
             </Steps.Step>
           </Steps>
@@ -239,16 +272,30 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
             <Input
               type={"text"}
               className={"w-full"}
-              customPrefix={<div className={"min-w-[60px]"}>Client ID</div>}
-              placeholder={"9f6c80ac8a384e1d88a1fd1f279541d0"}
+              customPrefix={
+                <div className={"min-w-[60px]"}>
+                  {t("integrations.shared:word.clientID")}
+                </div>
+              }
+              placeholder={t(
+                "integrations.edr.crowd-strike-configuration:crowdStrikeConfiguration.placeholder.9f6c80ac8a384e1d88a1fd1f279541d0",
+              )}
               value={clientId}
               onChange={(e) => setClientId(e.target.value)}
             />
             <Input
               type={"text"}
               className={"w-full"}
-              customPrefix={<div className={"min-w-[60px]"}>Secret</div>}
-              placeholder={"qF41DKYkQJBS53w0XPVyO6v9AtZ8WMbHp72eIdml"}
+              customPrefix={
+                <div className={"min-w-[60px]"}>
+                  {t(
+                    "integrations.edr.crowd-strike-configuration:crowdStrikeConfiguration.text.secret",
+                  )}
+                </div>
+              }
+              placeholder={t(
+                "integrations.edr.crowd-strike-configuration:crowdStrikeConfiguration.placeholder.qF41DKYkQJBS53w0XPVyO6v9AtZ8WMbHp72eIdml",
+              )}
               value={secret}
               onChange={(e) => setSecret(e.target.value)}
             />
@@ -260,13 +307,17 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <IconDevicesCheck size={20} />
-            Peer Approval
+            {t(
+              "integrations.edr.crowd-strike-configuration:crowdStrikeConfiguration.text.peerApproval",
+            )}
           </p>
 
           <div className={"flex flex-col gap-6"}>
             <div>
               <HelpText className={"max-w-lg mt-2"}>
-                Select groups you want to apply the CrowdStrike integration to
+                {t(
+                  "integrations.edr.crowd-strike-configuration:crowdStrikeConfiguration.text.selectGroupsYouWantTo",
+                )}
               </HelpText>
 
               <PeerGroupSelector values={groups} onChange={setGroups} />
@@ -295,7 +346,7 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
             onClick={() => setStep(step - 1)}
           >
             <IconArrowLeft size={16} />
-            Back
+            {t("common:word.back")}
           </Button>
         )}
         {step >= 0 && step < maxSteps && (
@@ -305,7 +356,9 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
             onClick={() => setStep(step + 1)}
             disabled={isDisabled}
           >
-            {step == 0 ? "Get Started" : "Continue"}
+            {step == 0
+              ? t("integrations.shared:word.getStarted")
+              : t("common:word.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -317,7 +370,7 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
             disabled={isDisabled || hasZtaError}
           >
             <Repeat size={16} />
-            Connect
+            {t("common:word.connect")}
           </Button>
         )}
       </ModalFooter>
@@ -329,8 +382,13 @@ export function SetupContent({ onSuccess, account }: ModalProps) {
         >
           <Clock4 size={12} />
           <div>
-            Estimated setup time:
-            <span className={"font-medium"}> 5-10 Minutes</span>
+            {t("integrations.shared:word.estimatedSetupTime")}
+            <span className={"font-medium"}>
+              {" "}
+              {t(
+                "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.text.510Minutes",
+              )}
+            </span>
           </div>
         </div>
       )}

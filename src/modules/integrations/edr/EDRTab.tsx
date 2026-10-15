@@ -38,7 +38,7 @@ export default function EDRTab({ account }: Props) {
             active
           />
         </Breadcrumbs>
-        <h1>MDM & EDR</h1>
+        <h1>{t("integrations.edr:eDRTab.title.mdmEdr")}</h1>
         <Paragraph className={"max-w-3xl"}>
           {t("integrations.edr:eDRTab.text.endpointDetectionAndResponseEDR")}
         </Paragraph>

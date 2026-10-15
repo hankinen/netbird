@@ -34,13 +34,13 @@ import FullTooltip from "@/components/FullTooltip";
 import { PeerGroupSelector } from "@/components/PeerGroupSelector";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
+import { t } from "@/i18n";
 import { SentinelOneIntegration } from "@/interfaces/EDR";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { matchAttributesReducer } from "@/modules/integrations/edr/sentinel-one/SentinelOne";
 import { SentinelOneMatchSettings } from "@/modules/integrations/edr/sentinel-one/SentinelOneMatchSettings";
 import SentinelOneUrlInput from "@/modules/integrations/edr/sentinel-one/SentinelOneUrlInput";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -109,23 +109,31 @@ export function ConfigurationContent({
 
   const deleteIntegration = async () => {
     const choice = await confirm({
-      title: `Delete integration?`,
-      description: "Are you sure you want to delete this integration?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t(
+        "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.title.deleteIntegration",
+      ),
+      description: t(
+        "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.description.areYouSureYouWant",
+      ),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "SentinelOne Integration",
-      description: `SentinelOne was successfully deleted`,
+      title: t(
+        "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.title.sentinelOneIntegration",
+      ),
+      description: t(
+        "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.description.sentinelOneWasSuccessfullyDeleted",
+      ),
       promise: integrationRequest.del({}).then(() => {
         mutate("/integrations/edr/sentinelone");
         onSuccess();
       }),
-      loadingMessage: "Deleting integration...",
+      loadingMessage: t("integrations.shared:word.deletingIntegration"),
     });
   };
 
@@ -133,8 +141,12 @@ export function ConfigurationContent({
     const savedGroups = await saveGroups();
 
     notify({
-      title: "SentinelOne Integration",
-      description: `SentinelOne was successfully updated`,
+      title: t(
+        "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.title.sentinelOneIntegration",
+      ),
+      description: t(
+        "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.description.sentinelOneWasSuccessfullyUpdated",
+      ),
       promise: integrationRequest
         .put({
           api_token: secretPlaceholder === apiToken ? undefined : apiToken,
@@ -148,7 +160,7 @@ export function ConfigurationContent({
           mutate("/integrations/edr/sentinelone");
           onSuccess();
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("integrations.shared:word.updatingIntegration"),
     });
   };
 
@@ -172,10 +184,12 @@ export function ConfigurationContent({
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"SentinelOne Configuration"}
-        description={
-          "Restrict network access to IT-managed devices marked Compliant in SentinelOne."
-        }
+        title={t(
+          "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.title.sentinelOneConfiguration",
+        )}
+        description={t(
+          "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.description.restrictNetworkAccessToIT",
+        )}
       />
 
       <Tabs
@@ -191,7 +205,9 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Peer Approval
+            {t(
+              "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.peerApproval",
+            )}
           </TabsTrigger>
           <TabsTrigger value={"compliance"}>
             <ShieldCheckIcon
@@ -200,7 +216,9 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Compliance
+            {t(
+              "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.compliance",
+            )}
           </TabsTrigger>
           <TabsTrigger value={"settings"}>
             <Cog
@@ -209,7 +227,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Settings
+            {t("common:word.settings")}
           </TabsTrigger>
           <TabsTrigger value={"danger"}>
             <AlertOctagon
@@ -218,7 +236,7 @@ export function ConfigurationContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Danger Zone
+            {t("integrations.shared:word.dangerZone")}
           </TabsTrigger>
         </TabsList>
 
@@ -227,11 +245,13 @@ export function ConfigurationContent({
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <FolderGit2 size={14} />
-                Groups
+                {t("common:word.groups")}
               </div>
             </Label>
             <HelpText className={"mt-2"}>
-              Select groups you want to apply the SentinelOne integration to
+              {t(
+                "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.selectGroupsYouWantTo",
+              )}
             </HelpText>
 
             <PeerGroupSelector values={groups} onChange={setGroups} />
@@ -241,11 +261,16 @@ export function ConfigurationContent({
         <TabsContent value={"compliance"} className={"px-8"}>
           <div className={""}>
             <Label>
-              <div className={"flex gap-2 items-center"}>Requirements</div>
+              <div className={"flex gap-2 items-center"}>
+                {t(
+                  "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.requirements",
+                )}
+              </div>
             </Label>
             <HelpText className={"mt-2"}>
-              Set the specific requirements that devices must meet to be
-              considered compliant.
+              {t(
+                "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.setTheSpecificRequirementsThat",
+              )}
             </HelpText>
 
             <SentinelOneMatchSettings
@@ -261,23 +286,25 @@ export function ConfigurationContent({
               <Label>
                 <div className={"flex gap-2 items-center"}>
                   <RefreshCcw size={14} />
-                  Sync Window
+                  {t(
+                    "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.syncWindow",
+                  )}
                 </div>
               </Label>
               <FullTooltip
                 interactive={false}
                 content={
                   <div className={"max-w-xs text-xs"}>
-                    Example: This property is set to 24 hours. Jane&apos;s
-                    laptop hasn&apos;t synced with SentinelOne for 27 hours.
-                    Even though it&apos;s marked as Compliant in SentinelOne, it
-                    will still be blocked from network access
+                    {t(
+                      "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.exampleThisPropertyIsSet",
+                    )}
                   </div>
                 }
               >
                 <HelpText className={"max-w-sm mt-1"}>
-                  Devices not synced with SentinelOne in this time won&apos;t
-                  have network access.
+                  {t(
+                    "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.devicesNotSyncedWithSentinelOne",
+                  )}
                   <IconInfoCircle
                     size={14}
                     className={"relative inline ml-1 -top-[1px]"}
@@ -294,7 +321,9 @@ export function ConfigurationContent({
               value={lastSyncedInterval}
               type={"number"}
               onChange={(e) => setLastSyncedInterval(e.target.value)}
-              customSuffix={"Hours"}
+              customSuffix={t(
+                "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.customSuffix.hours",
+              )}
             />
           </div>
 
@@ -306,7 +335,9 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <GlobeIcon size={16} />
-                  Console URL
+                  {t(
+                    "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.consoleURL",
+                  )}
                 </div>
               }
             />
@@ -318,12 +349,14 @@ export function ConfigurationContent({
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <KeyRound size={16} />
-                  API Token
+                  {t(
+                    "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.aPIToken",
+                  )}
                 </div>
               }
-              placeholder={
-                "eyJraWQiOiJ1cy1lYXN0LTEtcHJvZC0wIiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzZXJ2aWNldXNlci1lYjFiNmNhNy00Y2IxLTRjNjQtYWUyZS0wMTQwMDk2YjczYTVAbWdtdC"
-              }
+              placeholder={t(
+                "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.placeholder.eyJraWQiOiJ1cy1lYXN0LTEtcHJvZC0wIiwiYWxnIjoiRVMyNTYifQEyJzdWIiOiJzZXJ2aWNldXNlci1lYjFiNmNhNy00Y2IxLTRjNjQtYWUyZS0wMTQwMDk2YjczYTVAbWdtdC",
+              )}
               value={apiToken}
               onFocus={(e) => {
                 if (e.target.value == secretPlaceholder) {
@@ -345,14 +378,13 @@ export function ConfigurationContent({
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <AlertOctagon size={14} />
-                Delete Integration
+                {t("integrations.shared:word.deleteIntegration")}
               </div>
             </Label>
             <HelpText className={"max-w-lg mt-2"}>
-              Deleting this integration will remove the ability to sync users
-              and groups from your IdP to NetBird. If you delete the integration
-              you will need to reconfigure it again to enable the
-              synchronization.
+              {t(
+                "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.deletingThisIntegrationWillRemove",
+              )}
             </HelpText>
           </div>
           <Button
@@ -361,7 +393,7 @@ export function ConfigurationContent({
             className={"mt-3"}
             onClick={deleteIntegration}
           >
-            Delete Integration
+            {t("integrations.shared:word.deleteIntegration")}
           </Button>
         </TabsContent>
       </Tabs>
@@ -370,12 +402,14 @@ export function ConfigurationContent({
       <ModalFooter className={"items-center gap-4"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink
               href={"https://docs.netbird.io/how-to/sentinelone-edr"}
               target={"_blank"}
             >
-              SentinelOne Integration
+              {t(
+                "integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.title.sentinelOneIntegration",
+              )}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
@@ -383,7 +417,7 @@ export function ConfigurationContent({
         <div className={"flex gap-4"}>
           <ModalClose asChild={true}>
             <Button variant={"secondary"} className={"w-full"}>
-              Cancel
+              {t("common:word.cancel")}
             </Button>
           </ModalClose>
 
@@ -393,7 +427,7 @@ export function ConfigurationContent({
             disabled={!canSave}
             onClick={updateIntegration}
           >
-            Save Changes
+            {t("common:word.saveChanges")}
           </Button>
         </div>
       </ModalFooter>
