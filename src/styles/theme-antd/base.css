@@ -4,25 +4,49 @@
  * rules but every explicit utility class in a component still wins.
  */
 html:where(.theme-antd:not(.dark)) body {
-    font-size: var(--ant-font-size);
-    line-height: var(--ant-line-height);
-    color: var(--ant-color-text);
-    background-color: var(--ant-color-bg-layout);
+  font-size: var(--ant-font-size);
+  line-height: var(--ant-line-height);
+  color: var(--ant-color-text);
+  background-color: var(--ant-color-bg-layout);
 }
 
 /* Default border colour for elements without a border-<colour> utility. */
 html:where(.theme-antd:not(.dark)) *,
 html:where(.theme-antd:not(.dark)) ::before,
 html:where(.theme-antd:not(.dark)) ::after {
-    border-color: var(--ant-color-border-secondary);
+  border-color: var(--ant-color-border-secondary);
 }
 
-html:where(.theme-antd:not(.dark)) :where(input:not([type="checkbox"], [type="radio"], [type="hidden"], [type="range"]), textarea, select) {
-    border-color: var(--ant-color-border);
+html:where(.theme-antd:not(.dark))
+  :where(
+    input:not(
+        [type="checkbox"],
+        [type="radio"],
+        [type="hidden"],
+        [type="range"]
+      ),
+    textarea,
+    select
+  ) {
+  border-color: var(--ant-color-border);
 }
 
 /* Keyboard focus glow; component focus:ring-* utilities take precedence. */
-html:where(.theme-antd:not(.dark)) :where(button, a, input, textarea, select, [role="switch"], [role="checkbox"], [role="tab"], [role="combobox"], [tabindex]:not([tabindex="-1"])):where(:focus-visible):where(:not(.timescape input, .xterm *, .react-flow *, [type="hidden"])) {
-    outline: none;
-    box-shadow: var(--ant-focus-ring);
+html:where(.theme-antd:not(.dark))
+  :where(
+    button,
+    a,
+    input,
+    textarea,
+    select,
+    [role="switch"],
+    [role="checkbox"],
+    [role="tab"],
+    [role="combobox"],
+    [tabindex]:not([tabindex="-1"])
+  ):where(:focus-visible):where(
+    :not(.timescape input, .xterm *, .react-flow *, [type="hidden"])
+  ) {
+  outline: none;
+  box-shadow: var(--ant-focus-ring);
 }

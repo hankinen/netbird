@@ -15,128 +15,329 @@
 
 /* ---- 1. Light text that upstream hard-coded for the dark theme ------------- */
 /* Generic: any element; not tied to one component. */
-:root.theme-antd:not(.dark) :is([class~="text-white" i], [class~="text-neutral-50" i], [class~="text-neutral-100" i], [class~="text-gray-50" i], [class~="text-gray-100" i], [class~="text-zinc-50" i], [class~="text-zinc-100" i]) {
-    color: var(--ant-color-text);
+:root.theme-antd:not(.dark)
+  :is(
+    [class~="text-white" i],
+    [class~="text-neutral-50" i],
+    [class~="text-neutral-100" i],
+    [class~="text-gray-50" i],
+    [class~="text-gray-100" i],
+    [class~="text-zinc-50" i],
+    [class~="text-zinc-100" i]
+  ) {
+  color: var(--ant-color-text);
 }
-:root.theme-antd:not(.dark) :is([class~="hover:text-white" i]:hover, .group:hover [class~="group-hover:text-white" i]) {
-    color: var(--ant-color-text);
+:root.theme-antd:not(.dark)
+  :is(
+    [class~="hover:text-white" i]:hover,
+    .group:hover [class~="group-hover:text-white" i]
+  ) {
+  color: var(--ant-color-text);
 }
-:root.theme-antd:not(.dark) :is([class~="text-neutral-300" i], [class~="text-gray-300" i], [class~="text-zinc-300" i]) {
-    color: var(--ant-color-text-secondary);
+:root.theme-antd:not(.dark)
+  :is(
+    [class~="text-neutral-300" i],
+    [class~="text-gray-300" i],
+    [class~="text-zinc-300" i]
+  ) {
+  color: var(--ant-color-text-secondary);
 }
 /* ...but keep white text on solid colour backgrounds (attribute match covers
    opacity modifiers such as bg-red-600/80). */
-:root.theme-antd:not(.dark) :is([class*="bg-netbird" i], [class*="bg-red-5" i], [class*="bg-red-6" i], [class*="bg-red-7" i],
-                     [class*="bg-green-5" i], [class*="bg-green-6" i], [class*="bg-blue-5" i], [class*="bg-blue-6" i],
-                     [class*="bg-sky-5" i], [class*="bg-sky-6" i], [class*="bg-yellow-5" i], [class*="bg-orange-5" i],
-                     [class*="bg-black" i], [class*="bg-neutral-9" i], [class*="bg-gray-9" i], [class*="bg-sky-9" i],
-                     [class*="bg-sky-8" i], [class*="bg-blue-9" i], .xterm)
-    :is([class~="text-white" i], [class~="text-neutral-50" i], [class~="text-neutral-100" i], [class~="text-gray-50" i], [class~="text-gray-100" i], [class~="text-zinc-50" i], [class~="text-zinc-100" i]),
-:root.theme-antd:not(.dark) :is([class~="text-white" i], [class~="text-neutral-50" i], [class~="text-neutral-100" i], [class~="text-gray-50" i], [class~="text-gray-100" i], [class~="text-zinc-50" i], [class~="text-zinc-100" i]):is(
-                     [class*="bg-netbird" i], [class*="bg-red-5" i], [class*="bg-red-6" i], [class*="bg-red-7" i],
-                     [class*="bg-green-5" i], [class*="bg-green-6" i], [class*="bg-blue-5" i], [class*="bg-blue-6" i],
-                     [class*="bg-sky-5" i], [class*="bg-sky-6" i], [class*="bg-yellow-5" i], [class*="bg-orange-5" i],
-                     [class*="bg-black" i], [class*="bg-neutral-9" i], [class*="bg-gray-9" i], [class*="bg-sky-9" i],
-                     [class*="bg-sky-8" i], [class*="bg-blue-9" i]) {
-    color: var(--ant-color-text-light-solid);
+:root.theme-antd:not(.dark)
+  :is(
+    [class*="bg-netbird" i],
+    [class*="bg-red-5" i],
+    [class*="bg-red-6" i],
+    [class*="bg-red-7" i],
+    [class*="bg-green-5" i],
+    [class*="bg-green-6" i],
+    [class*="bg-blue-5" i],
+    [class*="bg-blue-6" i],
+    [class*="bg-sky-5" i],
+    [class*="bg-sky-6" i],
+    [class*="bg-yellow-5" i],
+    [class*="bg-orange-5" i],
+    [class*="bg-black" i],
+    [class*="bg-neutral-9" i],
+    [class*="bg-gray-9" i],
+    [class*="bg-sky-9" i],
+    [class*="bg-sky-8" i],
+    [class*="bg-blue-9" i],
+    .xterm
+  )
+  :is(
+    [class~="text-white" i],
+    [class~="text-neutral-50" i],
+    [class~="text-neutral-100" i],
+    [class~="text-gray-50" i],
+    [class~="text-gray-100" i],
+    [class~="text-zinc-50" i],
+    [class~="text-zinc-100" i]
+  ),
+:root.theme-antd:not(.dark)
+  :is(
+    [class~="text-white" i],
+    [class~="text-neutral-50" i],
+    [class~="text-neutral-100" i],
+    [class~="text-gray-50" i],
+    [class~="text-gray-100" i],
+    [class~="text-zinc-50" i],
+    [class~="text-zinc-100" i]
+  ):is(
+    [class*="bg-netbird" i],
+    [class*="bg-red-5" i],
+    [class*="bg-red-6" i],
+    [class*="bg-red-7" i],
+    [class*="bg-green-5" i],
+    [class*="bg-green-6" i],
+    [class*="bg-blue-5" i],
+    [class*="bg-blue-6" i],
+    [class*="bg-sky-5" i],
+    [class*="bg-sky-6" i],
+    [class*="bg-yellow-5" i],
+    [class*="bg-orange-5" i],
+    [class*="bg-black" i],
+    [class*="bg-neutral-9" i],
+    [class*="bg-gray-9" i],
+    [class*="bg-sky-9" i],
+    [class*="bg-sky-8" i],
+    [class*="bg-blue-9" i]
+  ) {
+  color: var(--ant-color-text-light-solid);
 }
 
 /* Light-aware elements whose light value is a dark nb-gray shade: the
    palette inversion would turn them light, restore dark text.
    Heuristic: the element also carries a `dark:text-*` class. */
-:root.theme-antd:not(.dark) :is([class~="text-nb-gray-700" i], [class~="text-nb-gray-800" i], [class~="text-nb-gray-900" i], [class~="text-nb-gray-950" i])[class*="dark:text-" i] {
-    color: var(--ant-color-text);
+:root.theme-antd:not(.dark)
+  :is(
+    [class~="text-nb-gray-700" i],
+    [class~="text-nb-gray-800" i],
+    [class~="text-nb-gray-900" i],
+    [class~="text-nb-gray-950" i]
+  )[class*="dark:text-" i] {
+  color: var(--ant-color-text);
 }
 /* @depends src/components/modal/Modal.tsx: border-nb-gray-100 */
-:root.theme-antd:not(.dark) [class~="border-nb-gray-100" i][class*="dark:border-nb-gray" i] { border-color: var(--ant-color-border-secondary); }
+:root.theme-antd:not(.dark)
+  [class~="border-nb-gray-100" i][class*="dark:border-nb-gray" i] {
+  border-color: var(--ant-color-border-secondary);
+}
 /* @depends src/components/Tabs.tsx: bg-nb-gray-100
    @depends src/components/Steps.tsx: bg-nb-gray-100 | step-circle */
-:root.theme-antd:not(.dark) :is([class~="bg-nb-gray-100" i][class*="dark:bg-nb-gray" i], .step-circle) { background-color: var(--ant-color-fill-secondary); }
-:root.theme-antd:not(.dark) [class~="bg-nb-gray-200" i][class*="dark:bg-nb-gray" i] { background-color: var(--ant-color-fill); }
+:root.theme-antd:not(.dark)
+  :is([class~="bg-nb-gray-100" i][class*="dark:bg-nb-gray" i], .step-circle) {
+  background-color: var(--ant-color-fill-secondary);
+}
+:root.theme-antd:not(.dark)
+  [class~="bg-nb-gray-200" i][class*="dark:bg-nb-gray" i] {
+  background-color: var(--ant-color-fill);
+}
 
 /* ---- 2. Badges / status tags ---------------------------------------------- */
 /* @depends src/components/Badge.tsx: bg-sky-900 */
-:root.theme-antd:not(.dark) [class~="bg-sky-900" i] { background-color: var(--ant-color-primary-bg); border-color: var(--ant-color-primary-border); }
-:root.theme-antd:not(.dark) [class~="bg-sky-900" i]:is([class~="text-white" i]) { color: var(--ant-color-primary-active); }
+:root.theme-antd:not(.dark) [class~="bg-sky-900" i] {
+  background-color: var(--ant-color-primary-bg);
+  border-color: var(--ant-color-primary-border);
+}
+:root.theme-antd:not(.dark)
+  [class~="bg-sky-900" i]:is([class~="text-white" i]) {
+  color: var(--ant-color-primary-active);
+}
 
 /* Dark-only status backgrounds (*-950 / *-900, any opacity) -> AntD status colours.
    @depends src/components/Badge.tsx: bg-red-950/40 | bg-purple-950/50 | bg-yellow-950 | bg-green-950 | bg-netbird-950 */
-:root.theme-antd:not(.dark) :is([class*="bg-red-950" i], [class*="bg-red-900" i]) { background-color: var(--ant-color-error-bg); border-color: var(--ant-color-error-border); }
-:root.theme-antd:not(.dark) :is([class*="bg-green-950" i], [class*="bg-green-900" i]) { background-color: var(--ant-color-success-bg); border-color: var(--ant-color-success-border); }
-:root.theme-antd:not(.dark) :is([class*="bg-yellow-950" i], [class*="bg-yellow-900" i]) { background-color: var(--ant-color-warning-bg); border-color: var(--ant-color-warning-border); }
-:root.theme-antd:not(.dark) :is([class*="bg-purple-950" i], [class*="bg-purple-900" i]) { background-color: var(--ant-purple-bg); border-color: var(--ant-purple-border); }
-:root.theme-antd:not(.dark) :is([class*="bg-netbird-950" i], [class*="bg-netbird-900" i], [class*="bg-sky-950" i]) { background-color: var(--ant-color-primary-bg); border-color: var(--ant-color-primary-border); }
-:root.theme-antd:not(.dark) :is([class*="bg-red-950" i], [class*="bg-red-900" i]) :is([class~="text-red-400" i], [class~="text-red-500" i]),
-:root.theme-antd:not(.dark) :is([class~="text-red-400" i], [class~="text-red-500" i]):is([class*="bg-red-950" i], [class*="bg-red-900" i]) { color: var(--ant-color-error-text); }
-:root.theme-antd:not(.dark) :is([class*="bg-green-950" i], [class*="bg-green-900" i]) :is([class~="text-green-400" i], [class~="text-green-500" i]),
-:root.theme-antd:not(.dark) :is([class~="text-green-400" i], [class~="text-green-500" i]):is([class*="bg-green-950" i], [class*="bg-green-900" i]) { color: var(--ant-color-success-text); }
-:root.theme-antd:not(.dark) :is([class*="bg-yellow-950" i], [class*="bg-yellow-900" i]) :is([class~="text-yellow-400" i], [class~="text-yellow-500" i]),
-:root.theme-antd:not(.dark) :is([class~="text-yellow-400" i], [class~="text-yellow-500" i]):is([class*="bg-yellow-950" i], [class*="bg-yellow-900" i]) { color: var(--ant-color-warning-text); }
-:root.theme-antd:not(.dark) :is([class*="bg-purple-950" i], [class*="bg-purple-900" i]) :is([class~="text-purple-400" i], [class~="text-purple-500" i]),
-:root.theme-antd:not(.dark) :is([class~="text-purple-400" i], [class~="text-purple-500" i]):is([class*="bg-purple-950" i], [class*="bg-purple-900" i]) { color: var(--ant-purple-text); }
+:root.theme-antd:not(.dark)
+  :is([class*="bg-red-950" i], [class*="bg-red-900" i]) {
+  background-color: var(--ant-color-error-bg);
+  border-color: var(--ant-color-error-border);
+}
+:root.theme-antd:not(.dark)
+  :is([class*="bg-green-950" i], [class*="bg-green-900" i]) {
+  background-color: var(--ant-color-success-bg);
+  border-color: var(--ant-color-success-border);
+}
+:root.theme-antd:not(.dark)
+  :is([class*="bg-yellow-950" i], [class*="bg-yellow-900" i]) {
+  background-color: var(--ant-color-warning-bg);
+  border-color: var(--ant-color-warning-border);
+}
+:root.theme-antd:not(.dark)
+  :is([class*="bg-purple-950" i], [class*="bg-purple-900" i]) {
+  background-color: var(--ant-purple-bg);
+  border-color: var(--ant-purple-border);
+}
+:root.theme-antd:not(.dark)
+  :is(
+    [class*="bg-netbird-950" i],
+    [class*="bg-netbird-900" i],
+    [class*="bg-sky-950" i]
+  ) {
+  background-color: var(--ant-color-primary-bg);
+  border-color: var(--ant-color-primary-border);
+}
+:root.theme-antd:not(.dark)
+  :is([class*="bg-red-950" i], [class*="bg-red-900" i])
+  :is([class~="text-red-400" i], [class~="text-red-500" i]),
+:root.theme-antd:not(.dark)
+  :is([class~="text-red-400" i], [class~="text-red-500" i]):is(
+    [class*="bg-red-950" i],
+    [class*="bg-red-900" i]
+  ) {
+  color: var(--ant-color-error-text);
+}
+:root.theme-antd:not(.dark)
+  :is([class*="bg-green-950" i], [class*="bg-green-900" i])
+  :is([class~="text-green-400" i], [class~="text-green-500" i]),
+:root.theme-antd:not(.dark)
+  :is([class~="text-green-400" i], [class~="text-green-500" i]):is(
+    [class*="bg-green-950" i],
+    [class*="bg-green-900" i]
+  ) {
+  color: var(--ant-color-success-text);
+}
+:root.theme-antd:not(.dark)
+  :is([class*="bg-yellow-950" i], [class*="bg-yellow-900" i])
+  :is([class~="text-yellow-400" i], [class~="text-yellow-500" i]),
+:root.theme-antd:not(.dark)
+  :is([class~="text-yellow-400" i], [class~="text-yellow-500" i]):is(
+    [class*="bg-yellow-950" i],
+    [class*="bg-yellow-900" i]
+  ) {
+  color: var(--ant-color-warning-text);
+}
+:root.theme-antd:not(.dark)
+  :is([class*="bg-purple-950" i], [class*="bg-purple-900" i])
+  :is([class~="text-purple-400" i], [class~="text-purple-500" i]),
+:root.theme-antd:not(.dark)
+  :is([class~="text-purple-400" i], [class~="text-purple-500" i]):is(
+    [class*="bg-purple-950" i],
+    [class*="bg-purple-900" i]
+  ) {
+  color: var(--ant-purple-text);
+}
 
 /* ---- 3. Buttons ------------------------------------------------------------ */
 /* Danger buttons have no light styles upstream ("TODO - add danger button styles for light mode").
    @depends src/components/Button.tsx: dark:bg-red-600 | dark:text-red-500 */
 :root.theme-antd:not(.dark) button[class~="dark:bg-red-600" i] {
-    background-color: var(--ant-color-error); color: var(--ant-color-text-light-solid); border-color: var(--ant-color-error);
+  background-color: var(--ant-color-error);
+  color: var(--ant-color-text-light-solid);
+  border-color: var(--ant-color-error);
 }
-:root.theme-antd:not(.dark) button[class~="dark:bg-red-600" i]:hover:not(:disabled) {
-    background-color: var(--ant-color-error-hover); border-color: var(--ant-color-error-hover);
+:root.theme-antd:not(.dark)
+  button[class~="dark:bg-red-600" i]:hover:not(:disabled) {
+  background-color: var(--ant-color-error-hover);
+  border-color: var(--ant-color-error-hover);
 }
-:root.theme-antd:not(.dark) button[class~="dark:text-red-500" i] { color: var(--ant-color-error); }
+:root.theme-antd:not(.dark) button[class~="dark:text-red-500" i] {
+  color: var(--ant-color-error);
+}
 
 /* AntD default button: neutral border, primary colour on hover.
    @depends src/components/Button.tsx: hover:bg-gray-100 */
-:root.theme-antd:not(.dark) button[class~="hover:bg-gray-100" i]:not([class~="dark:bg-red-600" i]) {
-    border-width: 1px; border-color: var(--ant-color-border);
-    background-color: var(--ant-color-bg-container); color: var(--ant-color-text);
+:root.theme-antd:not(.dark)
+  button[class~="hover:bg-gray-100" i]:not([class~="dark:bg-red-600" i]) {
+  border-width: 1px;
+  border-color: var(--ant-color-border);
+  background-color: var(--ant-color-bg-container);
+  color: var(--ant-color-text);
 }
-:root.theme-antd:not(.dark) button[class~="hover:bg-gray-100" i]:not([class~="dark:bg-red-600" i]):hover:not(:disabled) {
-    border-color: var(--ant-color-primary-hover); color: var(--ant-color-primary-hover);
-    background-color: var(--ant-color-bg-container);
+:root.theme-antd:not(.dark)
+  button[class~="hover:bg-gray-100" i]:not(
+    [class~="dark:bg-red-600" i]
+  ):hover:not(:disabled) {
+  border-color: var(--ant-color-primary-hover);
+  color: var(--ant-color-primary-hover);
+  background-color: var(--ant-color-bg-container);
 }
 
 /* ---- 4. Switch / checkbox -------------------------------------------------- */
 /* @depends src/components/ToggleSwitch.tsx: data-[state=checked]:bg-neutral-900 | data-[state=unchecked]:bg-neutral-200 */
-:root.theme-antd:not(.dark) [role="switch"][class~="data-[state=checked]:bg-neutral-900" i][data-state="checked"] { background-color: var(--ant-color-primary); }
-:root.theme-antd:not(.dark) [role="switch"][class~="data-[state=unchecked]:bg-neutral-200" i][data-state="unchecked"] { background-color: var(--ant-color-text-quaternary); }
+:root.theme-antd:not(.dark)
+  [role="switch"][class~="data-[state=checked]:bg-neutral-900" i][data-state="checked"] {
+  background-color: var(--ant-color-primary);
+}
+:root.theme-antd:not(.dark)
+  [role="switch"][class~="data-[state=unchecked]:bg-neutral-200" i][data-state="unchecked"] {
+  background-color: var(--ant-color-text-quaternary);
+}
 /* @depends src/components/Checkbox.tsx: data-[state=checked]:bg-neutral-900 */
-:root.theme-antd:not(.dark) button[role="checkbox"][class~="data-[state=checked]:bg-neutral-900" i][data-state="checked"] {
-    background-color: var(--ant-color-primary); border-color: var(--ant-color-primary); color: var(--ant-color-text-light-solid);
+:root.theme-antd:not(.dark)
+  button[role="checkbox"][class~="data-[state=checked]:bg-neutral-900" i][data-state="checked"] {
+  background-color: var(--ant-color-primary);
+  border-color: var(--ant-color-primary);
+  color: var(--ant-color-text-light-solid);
 }
 
 /* ---- 5. Inputs -------------------------------------------------------------- */
 /* Generic (element based): hover/focus border + AntD control outline. */
-:root.theme-antd:not(.dark) :is(input, textarea):not([type="checkbox"], [type="radio"], [type="hidden"], [type="range"], .timescape input, .xterm *):not(:disabled):not([readonly]):hover {
-    border-color: var(--ant-color-primary-hover);
+:root.theme-antd:not(.dark)
+  :is(input, textarea):not(
+    [type="checkbox"],
+    [type="radio"],
+    [type="hidden"],
+    [type="range"],
+    .timescape input,
+    .xterm *
+  ):not(:disabled):not([readonly]):hover {
+  border-color: var(--ant-color-primary-hover);
 }
-:root.theme-antd:not(.dark) :is(input, textarea):not([type="checkbox"], [type="radio"], [type="hidden"], [type="range"], .timescape input, .xterm *):not([class~="border-0" i]):focus {
-    border-color: var(--ant-color-primary-hover); outline: none;
-    box-shadow: 0 0 0 2px var(--ant-control-outline);
+:root.theme-antd:not(.dark)
+  :is(input, textarea):not(
+    [type="checkbox"],
+    [type="radio"],
+    [type="hidden"],
+    [type="range"],
+    .timescape input,
+    .xterm *
+  ):not([class~="border-0" i]):focus {
+  border-color: var(--ant-color-primary-hover);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ant-control-outline);
 }
 /* @depends src/components/Input.tsx: border-neutral-200 | dark:border-nb-gray-700 */
 :root.theme-antd:not(.dark) :is(input, textarea)[class~="border-neutral-200" i],
-:root.theme-antd:not(.dark) [class~="border-neutral-200" i][class~="dark:border-nb-gray-700" i] { border-color: var(--ant-color-border); }
+:root.theme-antd:not(.dark)
+  [class~="border-neutral-200" i][class~="dark:border-nb-gray-700" i] {
+  border-color: var(--ant-color-border);
+}
 
 /* ---- 6. Tables -------------------------------------------------------------- */
 /* @depends src/components/table/Table.tsx: dark:bg-nb-gray-900 | hover:bg-neutral-100/50 | data-[state=selected]:bg-neutral-100 */
 :root.theme-antd:not(.dark) th[class~="dark:bg-nb-gray-900" i] {
-    background-color: var(--ant-color-fill-alter); color: var(--ant-color-text); font-weight: 600;
+  background-color: var(--ant-color-fill-alter);
+  color: var(--ant-color-text);
+  font-weight: 600;
 }
-:root.theme-antd:not(.dark) tr[class~="hover:bg-neutral-100/50" i]:hover { background-color: var(--ant-color-fill-alter); }
-:root.theme-antd:not(.dark) tr[class~="data-[state=selected]:bg-neutral-100" i][data-state="selected"] { background-color: var(--ant-color-primary-bg); }
+:root.theme-antd:not(.dark) tr[class~="hover:bg-neutral-100/50" i]:hover {
+  background-color: var(--ant-color-fill-alter);
+}
+:root.theme-antd:not(.dark)
+  tr[class~="data-[state=selected]:bg-neutral-100" i][data-state="selected"] {
+  background-color: var(--ant-color-primary-bg);
+}
 
 /* ---- 7. Date picker (react-day-picker) ------------------------------------ */
 /* Selected day / range ends: neutral-900 -> primary; range middle -> primary-bg
    (the middle rule is more specific so it wins over the "white text on solid
    background" exemption in section 1).
    @depends src/components/ui/Calendar.tsx: bg-neutral-900 text-neutral-50 | dark:bg-neutral-50 | aria-selected:bg-neutral-100 aria-selected:text-neutral-900 */
-:root.theme-antd:not(.dark) [class~="bg-neutral-900" i][class~="dark:bg-neutral-50" i] {
-    background-color: var(--ant-color-primary);
-    color: var(--ant-color-text-light-solid);
+:root.theme-antd:not(.dark)
+  [class~="bg-neutral-900" i][class~="dark:bg-neutral-50" i] {
+  background-color: var(--ant-color-primary);
+  color: var(--ant-color-text-light-solid);
 }
-:root.theme-antd:not(.dark) td[class~="aria-selected:bg-neutral-100" i][class~="aria-selected:text-neutral-900" i][aria-selected="true"] {
-    background-color: var(--ant-color-primary-bg);
-    color: var(--ant-color-text);
+:root.theme-antd:not(.dark)
+  td[class~="aria-selected:bg-neutral-100" i][class~="aria-selected:text-neutral-900" i][aria-selected="true"] {
+  background-color: var(--ant-color-primary-bg);
+  color: var(--ant-color-text);
+}
+
+/* Slider thumb: AntD uses a primary-coloured ring on a white handle.
+   @depends src/components/Slider.tsx: border-2 border-neutral-900 bg-white | dark:border-neutral-50 */
+:root.theme-antd:not(.dark)
+  [class~="border-neutral-900" i][class~="dark:border-neutral-50" i][class~="rounded-full" i] {
+  border-color: var(--ant-color-primary);
 }
