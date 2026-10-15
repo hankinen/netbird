@@ -65,6 +65,21 @@ export function useAntdLight() {
   );
 }
 
+const PHONE_QUERY = "(max-width: 767.98px)";
+function subscribePhone(onChange: () => void) {
+  const mql = window.matchMedia(PHONE_QUERY);
+  mql.addEventListener("change", onChange);
+  return () => mql.removeEventListener("change", onChange);
+}
+/** True below 768px (phones): compact pagination, see README "手机端适配". */
+export function useIsPhone() {
+  return React.useSyncExternalStore(
+    subscribePhone,
+    () => window.matchMedia(PHONE_QUERY).matches,
+    () => false,
+  );
+}
+
 function paginationLocale(): PaginationLocale {
   return {
     items_per_page: t("components.table:dataTablePagination.text.itemsPerPage"),
@@ -102,6 +117,7 @@ function AntdDataTablePagination<TData>({
   totalRecords,
 }: DataTablePaginationProps<TData>) {
   const { pageIndex, pageSize } = table.getState().pagination;
+  const phone = useIsPhone();
   const manual = !!table.options.manualPagination;
 
   // Upstream DataTable drops the first onPaginationChange in manual mode
@@ -141,7 +157,8 @@ function AntdDataTablePagination<TData>({
         total={total}
         pageSizeOptions={PAGE_SIZE_OPTIONS}
         showSizeChanger
-        showQuickJumper
+        showQuickJumper={!phone}
+        showLessItems={phone}
         showTitle={false}
         locale={locale}
         showTotal={(n) =>

@@ -12,6 +12,8 @@
  *   density.css    control heights, table cell padding (AntD middle)
  *   pagination.css @rc-component/pagination styled as AntD v5 Pagination
  *                  (components/DataTablePagination.tsx)
+ *   responsive.css phones / tablets below 1280px: table cards, full-screen
+ *                  modals (components/Table.tsx adds the data-label hooks)
  */
 @import "./tokens.css";
 @import "./base.css";
@@ -19,3 +21,4 @@
 @import "./vendors.css";
 @import "./density.css";
 @import "./pagination.css";
+@import "./responsive.css";

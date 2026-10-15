@@ -1,0 +1,247 @@
+/*
+ * Responsive layer (phones / tablets) for the AntD light theme.
+ * See README.md "手机端适配" for what each block does, why, and how to turn it off.
+ *
+ * Breakpoints (same as Tailwind / upstream responsive.ts):
+ *   < 768px   phones: card tables, full-screen modals, 16px inputs
+ *   < 1280px  tablets + small laptops: tables scroll inside their own box
+ *   >= 1280px nothing here applies (desktop stays pixel-identical)
+ *   (pointer: coarse) touch screens of any width: invisible larger hit areas
+ *
+ * Own attributes (data-nb-cards, data-nb-cell, data-label, data-nb-col,
+ * data-nb-route) are written by components/Table.tsx; rules keyed on them do
+ * not depend on upstream class names.
+ */
+
+/* ---- R1. Tables scroll inside their own box (< 1280px) --------------------
+   Upstream .table-fixed-scroll is display:table, which grows to the table's
+   min-content width, so Table.tsx's overflow-x-auto wrapper never scrolls and
+   the whole page pans sideways. As a block it keeps the page width and the
+   table scrolls inside its wrapper; the toolbar (search, filters, buttons)
+   then has to wrap.
+   @depends src/app/globals.css: .table-fixed-scroll
+   @depends src/components/table/DataTable.tsx: relative table-fixed-scroll | flex gap-x-4 gap-y-6 */
+@media (max-width: 1279.98px) {
+  :root.theme-antd:not(.dark) .table-fixed-scroll {
+    display: block;
+  }
+  :root.theme-antd:not(.dark) .table-fixed-scroll > [class~="gap-x-4" i] {
+    flex-wrap: wrap;
+  }
+}
+
+/* ---- R2. Sticky row-action column (768-1279px, scrolling tables) ---------
+   The last unlabeled cell after the title (the ⋮ menu) stays visible while
+   the table scrolls. Rows are transparent (page background shows through),
+   so the column is drawn like an AntD fixed column: container background
+   plus a hairline on the left; hover / selected tints are layered on top. */
+@media (min-width: 768px) and (max-width: 1279.98px) {
+  :root.theme-antd:not(.dark) td[data-nb-cell="trail"] {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    background-color: var(--ant-color-bg-container);
+    box-shadow: inset 1px 0 0 var(--ant-color-border-secondary);
+  }
+  :root.theme-antd:not(.dark) tr:hover > td[data-nb-cell="trail"] {
+    background-image: linear-gradient(var(--ant-color-fill-alter), var(--ant-color-fill-alter));
+  }
+  :root.theme-antd:not(.dark) tr[data-state="selected"] > td[data-nb-cell="trail"] {
+    background-image: linear-gradient(var(--ant-color-primary-bg), var(--ant-color-primary-bg));
+  }
+}
+
+@media (max-width: 767.98px) {
+  /* ---- R3. Phones: generic overflow guards --------------------------------
+     Toolbar rows wrap less loosely; page header "title … actions" rows wrap
+     the actions under the title; button groups wrap.
+     @depends src/app/(dashboard)/peer/page.tsx: flex justify-between max-w-6xl items-start */
+  :root.theme-antd:not(.dark) .table-fixed-scroll > [class~="gap-x-4" i] {
+    row-gap: 8px;
+  }
+  :root.theme-antd:not(.dark) [class~="justify-between" i][class~="max-w-6xl" i] {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+  :root.theme-antd:not(.dark) [class~="inline-flex" i][class~="gap-4" i] {
+    flex-wrap: wrap;
+  }
+
+  /* Long names in page titles wrap instead of widening the page. */
+  :root.theme-antd:not(.dark) [class~="overflow-auto" i][class~="flex-auto" i] :is(h1, h2) {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  /* Menus, popovers and selects never wider than the screen. */
+  :root.theme-antd:not(.dark) [data-radix-popper-content-wrapper] > * {
+    max-width: calc(100vw - 16px);
+  }
+
+  /* iOS Safari zooms the page when an input below 16px gets focus. */
+  :root.theme-antd:not(.dark)
+    :is(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
+    font-size: 16px;
+  }
+
+  /* Date range picker (presets + calendar, opens to the side) as a sheet at
+     the top of the screen. Radix positions the wrapper with an inline
+     transform. !important: inline style. */
+  :root.theme-antd:not(.dark) [data-radix-popper-content-wrapper]:has(.rdp-root) {
+    transform: none !important;
+    left: 8px !important;
+    right: 8px;
+    top: 8px !important;
+    max-height: calc(100dvh - 16px);
+    overflow-y: auto;
+  }
+
+  /* ---- R4. Phones: tables as cards (same table, CSS re-layout) ------------
+     Header row becomes a horizontally scrolling bar (select-all + sort
+     buttons keep working). Each body row becomes a card:
+       [lead: checkbox] [title: first column]       [trail: ⋮ actions]
+       label ........................................................ value
+     Cells hidden by upstream (e.g. `hidden xl:table-cell`) stay hidden. */
+  :root.theme-antd:not(.dark) table[data-nb-cards] {
+    display: block;
+    border-width: 0;
+  }
+  :root.theme-antd:not(.dark) table[data-nb-cards] > :is(thead, tbody) {
+    display: block;
+  }
+  :root.theme-antd:not(.dark) table[data-nb-cards] > thead > tr {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 0 12px 8px;
+    border-width: 0;
+  }
+  :root.theme-antd:not(.dark) th[data-nb-cell]:not([class~="hidden" i]) {
+    display: block;
+    flex: none;
+    width: auto;
+    height: auto;
+    padding: 6px 8px;
+    white-space: nowrap;
+    background-color: transparent;
+    font-size: 12px;
+  }
+  :root.theme-antd:not(.dark) th[data-nb-cell="blank"] {
+    display: none;
+  }
+  :root.theme-antd:not(.dark) table[data-nb-cards] > tbody > tr {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    row-gap: 8px;
+    margin: 0 12px 12px;
+    padding: 12px;
+    border: 1px solid var(--ant-color-border-secondary);
+    border-radius: var(--ant-border-radius-lg);
+    background-color: var(--ant-color-bg-container);
+  }
+  :root.theme-antd:not(.dark) td[data-nb-cell]:not([class~="hidden" i]) {
+    display: block;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    padding: 0;
+    border-width: 0;
+  }
+  :root.theme-antd:not(.dark) td[data-nb-cell="lead"] {
+    grid-column: 1;
+    grid-row: 1;
+    margin-right: 12px;
+  }
+  :root.theme-antd:not(.dark) td[data-nb-cell="title"] {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  :root.theme-antd:not(.dark) td[data-nb-cell="trail"] {
+    grid-column: 3;
+    grid-row: 1;
+    margin-left: 12px;
+  }
+  :root.theme-antd:not(.dark) td:is([data-nb-cell="field"], [data-nb-cell="full"]) {
+    grid-column: 1 / -1;
+  }
+  :root.theme-antd:not(.dark) td[data-nb-cell="field"]:not([class~="hidden" i]) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    overflow: hidden;
+  }
+  :root.theme-antd:not(.dark) td[data-nb-cell="field"]::before {
+    content: attr(data-label);
+    flex: none;
+    max-width: 40%;
+    color: var(--ant-color-text-tertiary);
+    font-size: 12px;
+  }
+  :root.theme-antd:not(.dark) td[data-nb-cell="field"] > :last-child {
+    min-width: 0;
+  }
+
+  /* Per-table card config (phones): hide columns that add little on a card.
+     Key = route (data-nb-route) + 1-based column index (data-nb-col). Keep
+     this list short; every entry is documented in README.md.
+     (no entries yet) */
+
+  /* ---- R5. Phones: modals full screen, footer pinned to the bottom --------
+     @depends src/components/modal/Modal.tsx: mx-auto relative top-0 z-[52] grid w-full | flex flex-col-reverse sm:flex-row sm:justify-between sm:space-x-2 */
+  :root.theme-antd:not(.dark) [role="dialog"][class~="z-[52]" i][class~="mx-auto" i] {
+    min-height: 100dvh;
+    max-width: none;
+    padding-bottom: 0;
+    border-width: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  :root.theme-antd:not(.dark)
+    [role="dialog"] div:has(> [class~="flex-col-reverse" i][class~="sm:justify-between" i]) {
+    position: sticky;
+    bottom: 0;
+    z-index: 3;
+    padding-bottom: env(safe-area-inset-bottom);
+    background-color: var(--ant-color-bg-container);
+  }
+  /* Side-by-side panels inside modals (large gaps = two columns) stack. */
+  :root.theme-antd:not(.dark)
+    [role="dialog"] :is([class~="gap-6" i], [class~="gap-8" i], [class~="gap-10" i])[class~="flex" i]:not([class~="flex-col" i]) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  :root.theme-antd:not(.dark) [role="dialog"] [class~="grid-cols-2" i] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---- R6. Touch screens: larger hit areas, same visuals -------------------
+   An invisible ::after extends the clickable area to >= 32-40px.
+   @depends src/components/modal/Modal.tsx: data-testid={"modal-close"} */
+@media (pointer: coarse) {
+  :root.theme-antd:not(.dark) :is(button[role="checkbox"], button[role="switch"]) {
+    position: relative;
+  }
+  :root.theme-antd:not(.dark) :is(button[role="checkbox"], button[role="switch"])::after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+  }
+  :root.theme-antd:not(.dark) [data-testid="modal-close"]::after {
+    content: "";
+    position: absolute;
+    inset: -12px;
+  }
+  :root.theme-antd:not(.dark) a[data-testid="breadcrumb-item"] {
+    position: relative;
+  }
+  :root.theme-antd:not(.dark) a[data-testid="breadcrumb-item"]::after {
+    content: "";
+    position: absolute;
+    inset: -8px -4px;
+  }
+}
