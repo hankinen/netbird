@@ -35,6 +35,7 @@ import { useSWRConfig } from "swr";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { t } from "@/i18n";
 import {
   REVERSE_PROXY_DOCS_LINK,
   ReverseProxyDomain,
@@ -43,12 +44,15 @@ import {
 import CustomDomainClusterCell from "@/modules/reverse-proxy/domain/CustomDomainClusterCell";
 import { CustomDomainModal } from "./CustomDomainModal";
 import { CustomDomainVerificationModal } from "./CustomDomainVerificationModal";
-
 const CustomDomainsColumns: ColumnDef<ReverseProxyDomain>[] = [
   {
     accessorKey: "domain",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Domain</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.domain")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => <CustomDomainNameCell domain={row.original} />,
@@ -56,7 +60,11 @@ const CustomDomainsColumns: ColumnDef<ReverseProxyDomain>[] = [
   {
     accessorKey: "validated",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.status")}
+        </DataTableHeader>
+      );
     },
     filterFn: "exactMatch",
     cell: ({ row }) => <CustomDomainStatusCell domain={row.original} />,
@@ -64,7 +72,11 @@ const CustomDomainsColumns: ColumnDef<ReverseProxyDomain>[] = [
   {
     accessorKey: "target_cluster",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Cluster</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.cluster")}
+        </DataTableHeader>
+      );
     },
     cell: ({ row }) => <CustomDomainClusterCell domain={row.original} />,
   },
@@ -114,9 +126,17 @@ export default function CustomDomainsTable({ headingTarget }: Readonly<Props>) {
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Active", dotClass: "bg-green-500" },
-      { value: false, label: "Pending", dotClass: "bg-yellow-400" },
+      {
+        value: undefined,
+        label: t("common:word.all"),
+        dotClass: "bg-nb-gray-500",
+      },
+      { value: true, label: t("common:word.active"), dotClass: "bg-green-500" },
+      {
+        value: false,
+        label: t("reverse-proxy.domain:customDomainsTable.label.pending"),
+        dotClass: "bg-yellow-400",
+      },
     ],
     [],
   );
@@ -125,7 +145,7 @@ export default function CustomDomainsTable({ headingTarget }: Readonly<Props>) {
     () => [
       {
         id: "validated",
-        label: "Status",
+        label: t("common:word.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -174,13 +194,15 @@ export default function CustomDomainsTable({ headingTarget }: Readonly<Props>) {
         initialPageSize={10000}
         showResetFilterButton={false}
         keepStateInLocalStorage={false}
-        text={"Domains"}
+        text={t("reverse-proxy.domain:customDomainsTable.text.domains")}
         sorting={sorting}
         setSorting={setSorting}
         columns={CustomDomainsColumns}
         data={data}
         useRowId={true}
-        searchPlaceholder={"Search by domain..."}
+        searchPlaceholder={t(
+          "reverse-proxy.domain:customDomainsTable.searchPlaceholder.searchByDomain",
+        )}
         aboveTable={(table) => (
           <TableFilterChips table={table} filters={filterDefs} />
         )}
@@ -194,10 +216,12 @@ export default function CustomDomainsTable({ headingTarget }: Readonly<Props>) {
                 size={"large"}
               />
             }
-            title={"Add Custom Domains"}
-            description={
-              "Use your own domains with NetBird's reverse proxy. To get started, add a CNAME record that points to a cluster and verify domain ownership."
-            }
+            title={t(
+              "reverse-proxy.domain:customDomainsTable.title.addCustomDomains",
+            )}
+            description={t(
+              "reverse-proxy.domain:customDomainsTable.description.useYourOwnDomainsWith",
+            )}
             button={
               <Button
                 variant={"primary"}
@@ -207,14 +231,16 @@ export default function CustomDomainsTable({ headingTarget }: Readonly<Props>) {
                 data-testid={"add-custom-domain"}
               >
                 <PlusCircle size={16} />
-                Add Domain
+                {t("reverse-proxy.domain:customDomainModal.text.addDomain")}
               </Button>
             }
             learnMore={
               <>
-                Learn more about
+                {t("common:word.learnMoreAbout")}
                 <InlineLink href={REVERSE_PROXY_DOCS_LINK} target={"_blank"}>
-                  Custom Domains
+                  {t(
+                    "reverse-proxy.domain:customDomainModal.text.customDomains",
+                  )}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
@@ -232,7 +258,7 @@ export default function CustomDomainsTable({ headingTarget }: Readonly<Props>) {
                 data-testid={"add-custom-domain"}
               >
                 <PlusCircle size={16} />
-                Add Domain
+                {t("reverse-proxy.domain:customDomainModal.text.addDomain")}
               </Button>
             )}
           </>
@@ -293,7 +319,7 @@ function CustomDomainStatusCell({ domain }: Readonly<CellProps>) {
     return (
       <div className={cn("flex gap-2.5 items-center text-nb-gray-300 text-sm")}>
         <span className="h-2 w-2 rounded-full bg-green-500"></span>
-        Active
+        {t("common:word.active")}
       </div>
     );
   }
@@ -307,15 +333,17 @@ function CustomDomainStatusCell({ domain }: Readonly<CellProps>) {
         <FullTooltip
           content={
             <div className={"text-xs max-w-xs"}>
-              DNS changes may take some time to propagate. If NetBird does not
-              find the record immediately, please wait up to 24 hours and try
-              again.
+              {t(
+                "reverse-proxy.domain:customDomainVerificationModal.text.dNSChangesMayTakeSome",
+              )}
             </div>
           }
           interactive={false}
         >
           <Badge variant={"yellow"} className={"cursor-help"}>
-            Pending Verification
+            {t(
+              "reverse-proxy.domain:customDomainsTable.text.pendingVerification",
+            )}
             <HelpCircle size={12} />
           </Badge>
         </FullTooltip>
@@ -327,7 +355,9 @@ function CustomDomainStatusCell({ domain }: Readonly<CellProps>) {
           disabled={!permission?.services?.update}
         >
           <ShieldCheckIcon size={14} />
-          Verify Domain
+          {t(
+            "reverse-proxy.domain:customDomainVerificationModal.title.verifyDomain",
+          )}
         </Button>
       </div>
 
@@ -359,7 +389,7 @@ function CustomDomainActionCell({ domain }: Readonly<CellProps>) {
         data-testid={"delete-custom-domain"}
       >
         <Trash2 size={16} />
-        Delete
+        {t("common:word.delete")}
       </Button>
     </div>
   );

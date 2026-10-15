@@ -43,11 +43,12 @@ import ReverseProxyTargetsCell from "@/modules/reverse-proxy/table/ReverseProxyT
 import ReverseProxyTargetsTable from "@/modules/reverse-proxy/targets/ReverseProxyTargetsTable";
 import { ReverseProxyTypeCell } from "@/modules/reverse-proxy/table/ReverseProxyTypeCell";
 
+import { t as i18nT } from "@/i18n";
 const ReverseProxyColumns: ColumnDef<ReverseProxy>[] = [
   {
     accessorKey: "domain",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Domain</DataTableHeader>;
+      return <DataTableHeader column={column}>{i18nT("common:word.domain")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <ReverseProxyNameCell reverseProxy={row.original} />,
@@ -55,7 +56,7 @@ const ReverseProxyColumns: ColumnDef<ReverseProxy>[] = [
   {
     accessorKey: "mode",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Type</DataTableHeader>;
+      return <DataTableHeader column={column}>{i18nT("common:word.type")}</DataTableHeader>;
     },
     sortingFn: "text",
     cell: ({ row }) => <ReverseProxyTypeCell reverseProxy={row.original} />,
@@ -68,14 +69,14 @@ const ReverseProxyColumns: ColumnDef<ReverseProxy>[] = [
   {
     accessorKey: "targets",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Target(s)</DataTableHeader>;
+      return <DataTableHeader column={column}>{i18nT("reverse-proxy.table:reverseProxyTable.text.targetS")}</DataTableHeader>;
     },
     cell: ({ row }) => <ReverseProxyTargetsCell reverseProxy={row.original} />,
   },
   {
     id: "auth_and_access",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Auth &amp; Access</DataTableHeader>;
+      return <DataTableHeader column={column}>{i18nT("reverse-proxy.table:reverseProxyTable.text.authAmpAccess")}</DataTableHeader>;
     },
     cell: ({ row }) => (
       <div className={"flex items-center gap-2"}>
@@ -125,9 +126,9 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Active", dotClass: "bg-green-500" },
-      { value: false, label: "Inactive", dotClass: "bg-nb-gray-700" },
+      { value: undefined, label: i18nT("common:word.all"), dotClass: "bg-nb-gray-500" },
+      { value: true, label: i18nT("common:word.active"), dotClass: "bg-green-500" },
+      { value: false, label: i18nT("common:word.inactive"), dotClass: "bg-nb-gray-700" },
     ],
     [],
   );
@@ -146,7 +147,7 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
     () => [
       {
         id: "enabled",
-        label: "Status",
+        label: i18nT("common:word.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -160,7 +161,7 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
       },
       {
         id: "mode",
-        label: "Type",
+        label: i18nT("common:word.type"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -181,7 +182,7 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
       headingTarget={headingTarget}
       isLoading={isLoading}
       inset={false}
-      text={"Reverse Proxy"}
+      text={i18nT("reverse-proxy.table:reverseProxyTable.text.reverseProxy")}
       sorting={sorting}
       setSorting={setSorting}
       columns={ReverseProxyColumns}
@@ -189,7 +190,7 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
       useRowId={true}
       initialPageSize={25}
       showResetFilterButton={false}
-      searchPlaceholder={"Search by URL, domain, or target..."}
+      searchPlaceholder={i18nT("reverse-proxy.table:reverseProxyTable.searchPlaceholder.searchByURLDomainOr")}
       rowClassName={(row) => (row.original.enabled ? "" : "opacity-50")}
       aboveTable={(table) => (
         <TableFilterChips table={table} filters={filterDefs} />
@@ -218,10 +219,8 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
               size={"large"}
             />
           }
-          title={"Create Services"}
-          description={
-            "Expose your internal services securely through NetBird's reverse proxy with automatic TLS and optional authentication to protect your services."
-          }
+          title={i18nT("reverse-proxy.table:reverseProxyTable.title.createServices")}
+          description={i18nT("reverse-proxy.table:reverseProxyTable.description.exposeYourInternalServicesSecurely")}
           button={
             <Button
               variant={"primary"}
@@ -230,14 +229,14 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
               data-testid={"add-service"}
             >
               <PlusCircle size={16} />
-              Add Service
+              {i18nT("reverse-proxy.table:reverseProxyTable.text.addService")}
             </Button>
           }
           learnMore={
             <>
-              Learn more about
+              {i18nT("common:word.learnMoreAbout")}
               <InlineLink href={REVERSE_PROXY_DOCS_LINK} target={"_blank"}>
-                Services
+                {i18nT("common:countWord.services")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>
@@ -255,7 +254,7 @@ export default function ReverseProxyTable({ headingTarget }: Readonly<Props>) {
               data-testid={"add-service"}
             >
               <PlusCircle size={16} />
-              Add Service
+              {i18nT("reverse-proxy.table:reverseProxyTable.text.addService")}
             </Button>
           )}
         </>

@@ -7,6 +7,7 @@ import { cn } from "@utils/helpers";
 import { isHostInCIDR, isValidCIDR, isValidIP, parseCIDR } from "@utils/ip";
 import { HelpTooltip } from "@components/HelpTooltip";
 
+import { t } from "@/i18n";
 export function useReverseProxyAddress(target: Target | undefined) {
   const { resources } = useReverseProxies();
   const resource = useMemo(
@@ -61,7 +62,7 @@ export function CidrHelpText({ target }: { target: Target | undefined }) {
   const { cidrInfo, resourceAddress } = useReverseProxyAddress(target);
   if (!cidrInfo) return null;
   return (
-    <HelpTooltip content={`Enter an IP address within ${resourceAddress}`} />
+    <HelpTooltip content={t("reverse-proxy.targets:reverseProxyAddressInput.text.enterAnIPAddressWithin", { resourceAddress })} />
   );
 }
 

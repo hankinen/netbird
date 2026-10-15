@@ -1,0 +1,14 @@
+{
+  "page.label.reverseProxy": "Reverse Proxy",
+  "page.label.clusters": "Clusters",
+  "page.text.proxyClustersRouteInboundTraffic": "Proxy clusters route inbound traffic to your services. Shared clusters are run by the platform; account clusters (self-hosted) run on your own infrastructure.",
+  "page.label.customDomains": "Custom Domains",
+  "page.text.domains": "Domains",
+  "page.text.addAndManageCustomDomains": "Add and manage custom domains for your reverse proxy services.",
+  "page.label.accessLogs": "Access Logs",
+  "page.text.viewAccessLogsForYour": "View access logs for your reverse proxy services, including allowed and denied requests.",
+  "page.text.exposeServicesSecurelyThroughNetBird": "Expose services securely through NetBird's reverse proxy.",
+  "page.text.netBirdAposSReverseProxy": "NetBird's Reverse Proxy is currently in beta and available at no cost during this period. Features, functionality, and pricing are subject to change upon release.",
+  "page.text.netBirdAposSReverseProxy2": "NetBird's Reverse Proxy is currently in beta.",
+  "page.text.featuresAndFunctionalityAreSubject": "Features and functionality are subject to change upon release."
+}

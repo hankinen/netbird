@@ -10,9 +10,9 @@ import { ExternalLinkIcon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
 import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { REVERSE_PROXY_CLUSTERS_DOCS_LINK } from "@/interfaces/ReverseProxy";
 import PageContainer from "@/layouts/PageContainer";
-
 const ClustersTable = lazy(
   () => import("@/modules/reverse-proxy/clusters/ClustersTable"),
 );
@@ -29,22 +29,20 @@ export default function ReverseProxyClustersPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/reverse-proxy/services"}
-            label={"Reverse Proxy"}
+            label={t("reverse-proxy.page:page.label.reverseProxy")}
             icon={<ReverseProxyIcon size={16} />}
           />
           <Breadcrumbs.Item
             href={"/reverse-proxy/clusters"}
-            label={"Clusters"}
+            label={t("reverse-proxy.page:page.label.clusters")}
             active={true}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Clusters</h1>
+        <h1 ref={headingRef}>{t("reverse-proxy.page:page.label.clusters")}</h1>
         <Paragraph>
-          Proxy clusters route inbound traffic to your services. Shared clusters
-          are run by the platform; account clusters (self-hosted) run on your
-          own infrastructure.{" "}
+          {t("reverse-proxy.page:page.text.proxyClustersRouteInboundTraffic")}{" "}
           <InlineLink href={REVERSE_PROXY_CLUSTERS_DOCS_LINK} target={"_blank"}>
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>

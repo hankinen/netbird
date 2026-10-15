@@ -4,7 +4,7 @@ import ModalHeader from "@components/modal/ModalHeader";
 import PinCodeInput from "@components/PinCodeInput";
 import { GradientFadedBackground } from "@components/ui/GradientFadedBackground";
 import React, { useState } from "react";
-
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -43,8 +43,8 @@ export default function AuthPinModal({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass="max-w-md">
         <ModalHeader
-          title="PIN Code"
-          description="Require a numeric PIN code to access this service."
+          title={t("common:word.pINCode")}
+          description={t("reverse-proxy.auth:authPinModal.description.requireANumericPINCode")}
         />
 
         <GradientFadedBackground />
@@ -69,18 +69,18 @@ export default function AuthPinModal({
             {isEditing ? (
               <>
                 <Button variant="danger-text" data-testid="remove-pin" onClick={handleRemove}>
-                  Remove
+                  {t("common:word.remove")}
                 </Button>
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common:word.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"
                     onClick={handleSave}
                     disabled={pin.length !== 6}
                   >
-                    Save
+                    {t("common:word.save")}
                   </Button>
                 </div>
               </>
@@ -89,7 +89,7 @@ export default function AuthPinModal({
                 <div />
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common:word.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"
@@ -97,7 +97,7 @@ export default function AuthPinModal({
                     disabled={pin.length !== 6}
                     data-testid="submit-pin"
                   >
-                    Add PIN
+                    {t("reverse-proxy.auth:authPinModal.text.addPIN")}
                   </Button>
                 </div>
               </>

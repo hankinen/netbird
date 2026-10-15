@@ -6,12 +6,12 @@ import SkeletonTable, {
 import { ExternalLinkIcon } from "lucide-react";
 import * as React from "react";
 import { Suspense } from "react";
+import { t } from "@/i18n";
 import {
   REVERSE_PROXY_DOCS_LINK,
   ReverseProxyFlatTarget,
 } from "@/interfaces/ReverseProxy";
 import { ReverseProxyFlatTargetsTable } from "@/modules/reverse-proxy/targets/flat/ReverseProxyFlatTargetsTable";
-
 type Props = {
   targets: ReverseProxyFlatTarget[];
   isLoading?: boolean;
@@ -24,17 +24,23 @@ export const ReverseProxyFlatTargetsTabContent = ({
   targets,
   isLoading,
   hideResourceColumn,
-  emptyTableTitle = "This network has no services",
-  emptyTableDescription = "Create resources and expose services securely through NetBird's reverse proxy.",
+  emptyTableTitle = t(
+    "reverse-proxy.targets:reverseProxyFlatTargetsTabContent.text.thisNetworkHasNoServices",
+  ),
+  emptyTableDescription = t(
+    "reverse-proxy.targets:reverseProxyFlatTargetsTabContent.text.createResourcesAndExposeServices",
+  ),
 }: Props) => {
   return (
     <div className={"pb-10 px-8"}>
       <div className={"flex justify-between items-center mb-5"}>
         <div>
           <Paragraph>
-            Expose services securely through NetBird&apos;s reverse proxy.{" "}
+            {t(
+              "reverse-proxy.targets:reverseProxyFlatTargetsTabContent.text.exposeServicesSecurelyThroughNetBird",
+            )}{" "}
             <InlineLink href={REVERSE_PROXY_DOCS_LINK} target={"_blank"}>
-              Learn more
+              {t("common:word.learnMore")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>

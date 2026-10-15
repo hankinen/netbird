@@ -21,17 +21,26 @@ import { CountrySelector } from "@/components/ui/CountrySelector";
 import { AccessRestrictions, CrowdSecMode } from "@/interfaces/ReverseProxy";
 import { ReverseProxyCrowdSecIPReputation } from "@/modules/reverse-proxy/ReverseProxyCrowdSecIPReputation";
 
+import { t } from "@/i18n";
 type AccessAction = "allow" | "block";
 type AccessRuleType = "country" | "ip" | "cidr";
 
 const ACTION_OPTIONS: SelectOption[] = [
   {
-    label: "Allow Only",
+    get label() {
+      return t(
+        "reverse-proxy.main:reverseProxyAccessControlRules.label.allowOnly",
+      );
+    },
     value: "allow",
     icon: (props) => <ShieldCheckIcon {...props} className="text-green-500" />,
   },
   {
-    label: "Block Only",
+    get label() {
+      return t(
+        "reverse-proxy.main:reverseProxyAccessControlRules.label.blockOnly",
+      );
+    },
     value: "block",
     icon: (props) => <ShieldXIcon {...props} className="text-red-500" />,
   },
@@ -39,17 +48,29 @@ const ACTION_OPTIONS: SelectOption[] = [
 
 const TYPE_OPTIONS: SelectOption[] = [
   {
-    label: "Country",
+    get label() {
+      return t(
+        "reverse-proxy.main:reverseProxyAccessControlRules.label.country",
+      );
+    },
     value: "country",
     icon: (props) => <FlagIcon {...props} />,
   },
   {
-    label: "IP Address",
+    get label() {
+      return t(
+        "reverse-proxy.main:reverseProxyAccessControlRules.label.iPAddress",
+      );
+    },
     value: "ip",
     icon: (props) => <WorkflowIcon {...props} />,
   },
   {
-    label: "CIDR Block",
+    get label() {
+      return t(
+        "reverse-proxy.main:reverseProxyAccessControlRules.label.cIDRBlock",
+      );
+    },
     value: "cidr",
     icon: (props) => <NetworkIcon {...props} />,
   },
@@ -177,11 +198,15 @@ function validateRule(rule: AccessRule): string {
       val = `${val}/${suffix}`;
     }
     if (!isValidIP(val)) {
-      return "Please enter a valid IP address, e.g., 85.203.15.42 or 2001:db8::1";
+      return t(
+        "reverse-proxy.main:reverseProxyAccessControlRules.text.pleaseEnterAValidIP",
+      );
     }
   } else {
     if (!rule.value.includes("/") || !isValidIP(rule.value)) {
-      return "Please enter a valid CIDR block, e.g., 74.125.0.0/16 or 2001:db8::/64";
+      return t(
+        "reverse-proxy.main:reverseProxyAccessControlRules.text.pleaseEnterAValidCIDR",
+      );
     }
   }
   return "";
@@ -242,12 +267,19 @@ export const ReverseProxyAccessControlRules = ({
         />
       )}
       <div>
-        <Label>Access Control Rules</Label>
+        <Label>
+          {t(
+            "reverse-proxy.main:reverseProxyAccessControlRules.text.accessControlRules",
+          )}
+        </Label>
         <HelpText>
-          Define rules to allow or block traffic based on country, IP address,
-          or CIDR block.
+          {t(
+            "reverse-proxy.main:reverseProxyAccessControlRules.text.defineRulesToAllowOr",
+          )}
           <br />
-          Block rules always take priority over allow rules.
+          {t(
+            "reverse-proxy.main:reverseProxyAccessControlRules.text.blockRulesAlwaysTakePriority",
+          )}
         </HelpText>
       </div>
       {rules.length > 0 && (
@@ -316,8 +348,12 @@ export const ReverseProxyAccessControlRules = ({
                   <Input
                     placeholder={
                       rule.type === "ip"
-                        ? "e.g., 85.203.15.42 or 2001:db8::1"
-                        : "e.g., 74.125.0.0/16 or 2001:db8::/64"
+                        ? t(
+                            "reverse-proxy.main:reverseProxyAccessControlRules.text.eG8520315",
+                          )
+                        : t(
+                            "reverse-proxy.main:reverseProxyAccessControlRules.text.eG741250",
+                          )
                     }
                     value={rule.value}
                     onChange={(e) =>
@@ -340,7 +376,9 @@ export const ReverseProxyAccessControlRules = ({
                 variant="default-outline"
                 className="h-[42px] w-[42px] !px-0 shrink-0 ml-2"
                 onClick={() => dispatch({ type: "remove", id: rule.id })}
-                aria-label="Remove rule"
+                aria-label={t(
+                  "reverse-proxy.main:reverseProxyAccessControlRules.ariaLabel.removeRule",
+                )}
                 data-testid="remove-access-rule"
               >
                 <MinusCircleIcon size={14} />
@@ -357,7 +395,7 @@ export const ReverseProxyAccessControlRules = ({
         data-testid="add-access-rule"
       >
         <PlusIcon size={14} />
-        Add Rule
+        {t("reverse-proxy.main:reverseProxyAccessControlRules.text.addRule")}
       </Button>
     </div>
   );

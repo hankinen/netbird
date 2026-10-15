@@ -16,6 +16,7 @@ import ReverseProxyEventsTable from "@/modules/reverse-proxy/events/ReverseProxy
 import { usePortalElement } from "@hooks/usePortalElement";
 import { REVERSE_PROXY_EVENTS_DOCS_LINK } from "@/interfaces/ReverseProxy";
 
+import { t } from "@/i18n";
 export default function ProxyLogsPage() {
   const { permission } = usePermissions();
   const { ref: headingRef, portalTarget } =
@@ -36,24 +37,25 @@ export default function ProxyLogsPage() {
       <div className="p-default py-6">
         <Breadcrumbs>
           <Breadcrumbs.Item
-            label="Reverse Proxy"
+            label={t("reverse-proxy.page:page.label.reverseProxy")}
             disabled
             icon={<ReverseProxyIcon size={15} />}
           />
           <Breadcrumbs.Item
             href="/reverse-proxy/logs"
-            label="Access Logs"
+            label={t("reverse-proxy.page:page.label.accessLogs")}
             icon={<ReverseProxyIcon size={15} />}
           />
         </Breadcrumbs>
 
-        <h1 ref={headingRef}>Access Logs</h1>
+        <h1 ref={headingRef}>
+          {t("reverse-proxy.page:page.label.accessLogs")}
+        </h1>
 
         <Paragraph>
-          View access logs for your reverse proxy services, including allowed
-          and denied requests.{" "}
+          {t("reverse-proxy.page:page.text.viewAccessLogsForYour")}{" "}
           <InlineLink href={REVERSE_PROXY_EVENTS_DOCS_LINK} target="_blank">
-            Learn more <ExternalLinkIcon size={12} />
+            {t("common:word.learnMore")} <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
       </div>

@@ -2,12 +2,12 @@ import CopyToClipboardText from "@components/CopyToClipboardText";
 import TruncatedText from "@components/ui/TruncatedText";
 import { wrapIPv6 } from "@utils/ip";
 import * as React from "react";
+import { t } from "@/i18n";
 import {
   isL4Event,
   ReverseProxy,
   ReverseProxyEvent,
 } from "@/interfaces/ReverseProxy";
-
 type Props = {
   event: ReverseProxyEvent;
   service?: ReverseProxy;
@@ -50,7 +50,7 @@ export const ReverseProxyEventsUrlCell = ({ event, service }: Props) => {
         </div>
       }
     >
-      <CopyToClipboardText message={"URL has been copied to your clipboard"}>
+      <CopyToClipboardText message={t("reverse-proxy.events:reverseProxyEventsRequestCell.message.uRLHasBeenCopiedTo")}>
         <span className="font-mono text-[0.82rem] whitespace-nowrap">
           <span className="text-nb-gray-200">{wrappedHost}</span>
           {isL4 && listenPort && (

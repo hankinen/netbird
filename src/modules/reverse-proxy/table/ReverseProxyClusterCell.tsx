@@ -13,6 +13,7 @@ import FullTooltip from "@components/FullTooltip";
 import { isNetBirdCloud } from "@/utils/netbird";
 import InlineLink from "@components/InlineLink";
 
+import { t } from "@/i18n";
 type Props = {
   reverseProxy: ReverseProxy;
   compact?: boolean;
@@ -37,8 +38,10 @@ export default function ReverseProxyClusterCell({
         interactive={false}
         content={
           <span className={"text-xs"}>
-            <span className={"text-nb-gray-400"}>Cluster: </span>
-            <span className={"text-nb-gray-100"}>All</span>
+            <span className={"text-nb-gray-400"}>
+              {t("reverse-proxy.table:reverseProxyClusterCell.text.cluster")}{" "}
+            </span>
+            <span className={"text-nb-gray-100"}>{t("common:word.all")}</span>
           </span>
         }
       >
@@ -46,14 +49,14 @@ export default function ReverseProxyClusterCell({
           className={"inline-flex items-center gap-1.5 truncate cursor-help"}
         >
           <Globe size={11} className={"shrink-0"} />
-          All
+          {t("common:word.all")}
         </span>
       </FullTooltip>
     ) : (
       <div className="flex items-center gap-2" data-cluster-cell>
         <Badge variant="gray" className="font-normal">
           <Globe size={12} />
-          All
+          {t("common:word.all")}
         </Badge>
       </div>
     );
@@ -65,7 +68,9 @@ export default function ReverseProxyClusterCell({
         interactive={false}
         content={
           <span className={"text-xs"}>
-            <span className={"text-nb-gray-400"}>Cluster: </span>
+            <span className={"text-nb-gray-400"}>
+              {t("reverse-proxy.table:reverseProxyClusterCell.text.cluster")}{" "}
+            </span>
             <span className={"text-nb-gray-100"}>
               {reverseProxy.proxy_cluster}
             </span>
@@ -94,20 +99,29 @@ export default function ReverseProxyClusterCell({
       content={
         isNetBirdCloud() ? (
           <div className={"text-xs max-w-xs"}>
-            Cluster {reverseProxy.proxy_cluster} is offline. Please try again in
-            a few minutes. If the issue persists, check{" "}
+            {t("common:word.cluster")} {reverseProxy.proxy_cluster}{" "}
+            {t(
+              "reverse-proxy.table:reverseProxyClusterCell.text.isOfflinePleaseTryAgain",
+            )}{" "}
             <InlineLink href={"https://status.netbird.io/"} target={"_blank"}>
-              NetBird Status
+              {t(
+                "reverse-proxy.table:reverseProxyClusterCell.text.netBirdStatus",
+              )}
             </InlineLink>{" "}
-            or reach out to{"  "}
+            {t("reverse-proxy.table:reverseProxyClusterCell.text.orReachOutTo")}
+            {"  "}
             <InlineLink href={"mailto:support@netbird.io"}>
-              support@netbird.io
+              {t(
+                "reverse-proxy.table:reverseProxyClusterCell.text.supportNetbirdIo",
+              )}
             </InlineLink>
           </div>
         ) : (
           <div className={"flex flex-col gap-1 text-xs max-w-xs"}>
-            Cluster {reverseProxy.proxy_cluster} is offline. Make sure the proxy
-            server is running and connected to the right management address.
+            {t(
+              "reverse-proxy.table:reverseProxyClusterCell.text.clusterIsOfflineMakeSure",
+              { proxy_cluster: reverseProxy.proxy_cluster },
+            )}
           </div>
         )
       }

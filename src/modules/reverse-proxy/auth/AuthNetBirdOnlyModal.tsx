@@ -9,6 +9,7 @@ import { useUsers } from "@/contexts/UsersProvider";
 import Badge from "@components/Badge";
 import { CircleUser } from "lucide-react";
 
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -45,8 +46,10 @@ export default function AuthNetBirdOnlyModal({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass="max-w-xl">
         <ModalHeader
-          title="NetBird-Only Access"
-          description="Reachable from peers in selected groups only."
+          title={t("common:word.netBirdOnlyAccess")}
+          description={t(
+            "reverse-proxy.auth:authNetBirdOnlyModal.description.reachableFromPeersInSelected",
+          )}
         />
 
         <GradientFadedBackground />
@@ -59,9 +62,11 @@ export default function AuthNetBirdOnlyModal({
               <div className={"flex items-center gap-2"}>
                 <Badge className={"py-[3px]"} variant={"gray-ghost"}>
                   <CircleUser size={12} />
-                  Pick groups
+                  {t("reverse-proxy.auth:authNetBirdOnlyModal.text.pickGroups")}
                 </Badge>
-                Select access groups...
+                {t(
+                  "reverse-proxy.auth:authNetBirdOnlyModal.text.selectAccessGroups",
+                )}
               </div>
             }
             users={users}
@@ -70,18 +75,20 @@ export default function AuthNetBirdOnlyModal({
             {isEditing ? (
               <>
                 <Button variant="danger-text" onClick={handleRemove}>
-                  Remove
+                  {t("common:word.remove")}
                 </Button>
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">
+                      {t("common:word.cancel")}
+                    </Button>
                   </ModalClose>
                   <Button
                     variant="primary"
                     onClick={handleSave}
                     disabled={groups.length === 0}
                   >
-                    Save
+                    {t("common:word.save")}
                   </Button>
                 </div>
               </>
@@ -90,14 +97,16 @@ export default function AuthNetBirdOnlyModal({
                 <div />
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">
+                      {t("common:word.cancel")}
+                    </Button>
                   </ModalClose>
                   <Button
                     variant="primary"
                     onClick={handleSave}
                     disabled={groups.length === 0}
                   >
-                    Enable
+                    {t("common:word.enable")}
                   </Button>
                 </div>
               </>

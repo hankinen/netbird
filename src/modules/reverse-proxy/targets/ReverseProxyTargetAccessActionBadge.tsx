@@ -1,11 +1,11 @@
 import Badge from "@components/Badge";
 import FullTooltip from "@components/FullTooltip";
 import { HelpCircle, LockOpen, ShieldX } from "lucide-react";
+import { t } from "@/i18n";
 import {
   TargetAccessAction,
   type TargetAccessAction as TargetAccessActionValue,
 } from "@/interfaces/ReverseProxy";
-
 type Props = {
   action?: TargetAccessActionValue | string;
 };
@@ -18,10 +18,10 @@ export default function ReverseProxyTargetAccessActionBadge({
   const blocked = action === TargetAccessAction.BLOCK;
   const bypass = action === TargetAccessAction.BYPASS;
   const label = bypass
-    ? "Bypass authentication"
+    ? t("reverse-proxy.targets:reverseProxyTargetAccessActionBadge.text.bypassAuthentication")
     : blocked
-      ? "Block access"
-      : `Unsupported access setting (${action})`;
+      ? t("reverse-proxy.targets:reverseProxyTargetAccessActionBadge.text.blockAccess")
+      : t("reverse-proxy.targets:reverseProxyTargetAccessActionBadge.text.unsupportedAccessSetting", { action });
   const Icon = bypass ? LockOpen : blocked ? ShieldX : HelpCircle;
 
   return (

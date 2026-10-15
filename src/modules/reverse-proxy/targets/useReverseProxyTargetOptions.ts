@@ -1,17 +1,19 @@
 import { useCallback, useState } from "react";
+import { t } from "@/i18n";
 import { ServiceTargetOptions } from "@/interfaces/ReverseProxy";
 import {
   headerEntriesToRecord,
   useCustomHeaders,
 } from "@/modules/reverse-proxy/targets/ReverseProxyTargetCustomHeaders";
-
 // Go time.ParseDuration format: one or more {number}{unit} pairs
 const DURATION_RE = /^(\d+(\.\d+)?(ns|us|µs|ms|s|m|h))+$/;
 
 export function validateTimeout(timeout: string): string | undefined {
   if (!timeout) return undefined;
   if (!DURATION_RE.test(timeout))
-    return 'Invalid duration, use e.g., "10s", "30s", "1m"';
+    return t(
+      "reverse-proxy.targets:useReverseProxyTargetOptions.text.invalidDurationUseEG",
+    );
   return undefined;
 }
 
@@ -20,7 +22,9 @@ export function validateSessionIdleTimeout(
 ): string | undefined {
   if (!timeout) return undefined;
   if (!DURATION_RE.test(timeout))
-    return 'Invalid duration, use e.g., "30s", "2m", "5m"';
+    return t(
+      "reverse-proxy.targets:useReverseProxyTargetOptions.text.invalidDurationUseEG2",
+    );
   return undefined;
 }
 

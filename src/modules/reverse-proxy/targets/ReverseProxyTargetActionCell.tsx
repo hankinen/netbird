@@ -3,9 +3,9 @@ import { PenSquare, Trash2 } from "lucide-react";
 import * as React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
+import { t } from "@/i18n";
 import { ReverseProxyTarget } from "@/interfaces/ReverseProxy";
 import { useReverseProxyTarget } from "./ReverseProxyTargetContext";
-
 type Props = {
   target: ReverseProxyTarget;
 };
@@ -27,7 +27,7 @@ export const ReverseProxyTargetActionCell = ({ target }: Props) => {
         }}
       >
         <PenSquare size={16} />
-        Edit
+        {t("common:word.edit")}
       </Button>
       <Button
         variant={"danger-outline"}
@@ -39,7 +39,7 @@ export const ReverseProxyTargetActionCell = ({ target }: Props) => {
         }}
       >
         <Trash2 size={16} />
-        Delete
+        {t("common:word.delete")}
       </Button>
     </div>
   );

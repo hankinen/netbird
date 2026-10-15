@@ -3,8 +3,8 @@ import FullTooltip from "@components/FullTooltip";
 import { ListItem } from "@components/ListItem";
 import { Info, ShieldAlert } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { ReverseProxyEvent } from "@/interfaces/ReverseProxy";
-
 const VERDICT_LABELS: Record<string, string> = {
   crowdsec_ban: "Ban",
   crowdsec_captcha: "Captcha",
@@ -49,7 +49,10 @@ export const ReverseProxyEventsReasonCell = ({ event }: Props) => {
         <div className="px-3 py-2">
           <Badge variant="gray" className="gap-1.5">
             <ShieldAlert size={12} className="text-yellow-500" />
-            CrowdSec Observe: {verdictLabel}
+            {t(
+              "reverse-proxy.events:reverseProxyEventsReasonCell.text.crowdSecObserve",
+            )}{" "}
+            {verdictLabel}
           </Badge>
         </div>
       </FullTooltip>

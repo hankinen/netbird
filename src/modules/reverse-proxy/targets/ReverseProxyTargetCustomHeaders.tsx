@@ -4,7 +4,7 @@ import { Input } from "@components/Input";
 import { Label } from "@components/Label";
 import { MinusCircleIcon, PlusIcon } from "lucide-react";
 import { useCallback, useState } from "react";
-
+import { t } from "@/i18n";
 const HEADER_NAME_RE = /^[A-Za-z0-9!#$%&'*+\-.^_`|~]+$/;
 const BLOCKED_HEADERS = new Set([
   "host",
@@ -49,19 +49,26 @@ function validateHeaderName(
 ): string | undefined {
   if (!name) return undefined;
   if (!HEADER_NAME_RE.test(name))
-    return "Invalid characters in header name. Please use another one.";
+    return t(
+      "reverse-proxy.targets:reverseProxyTargetCustomHeaders.text.invalidCharactersInHeaderName",
+    );
   if (BLOCKED_HEADERS.has(name.toLowerCase()))
     return `"${name}" is a reserved header. Please use another one.`;
   const dupeCount = allNames.filter(
     (n) => n.toLowerCase() === name.toLowerCase(),
   ).length;
-  if (dupeCount > 1) return "Duplicate header name. Please use another one.";
+  if (dupeCount > 1)
+    return t(
+      "reverse-proxy.targets:reverseProxyTargetCustomHeaders.text.duplicateHeaderNamePleaseUse",
+    );
   return undefined;
 }
 
 function validateHeaderValue(value: string): string | undefined {
   if (value.includes("\r") || value.includes("\n"))
-    return "Value must not contain line breaks";
+    return t(
+      "reverse-proxy.targets:reverseProxyTargetCustomHeaders.text.valueMustNotContainLine",
+    );
   return undefined;
 }
 
@@ -132,19 +139,32 @@ export default function ReverseProxyTargetCustomHeaders({
 }: CustomHeadersProps) {
   return (
     <div>
-      <Label>Custom Headers</Label>
+      <Label>
+        {t(
+          "reverse-proxy.targets:reverseProxyTargetCustomHeaders.text.customHeaders",
+        )}
+      </Label>
       <HelpText>
-        Add additional headers to include when forwarding requests.
+        {t(
+          "reverse-proxy.targets:reverseProxyTargetCustomHeaders.text.addAdditionalHeadersToInclude",
+        )}
         <br />
-        Hop-by-hop headers like Host or Connection are not allowed.
+        {t(
+          "reverse-proxy.targets:reverseProxyTargetCustomHeaders.text.hopByHopHeadersLike",
+        )}
       </HelpText>
       {headerEntries.length > 0 && (
         <div className="flex flex-col gap-2 mb-3">
           {headerEntries.map((entry, index) => (
             <div key={entry.id} className="flex items-center gap-2">
               <Input
-                placeholder="Header, e.g., Authorization"
-                aria-label={`Header name for entry ${entry.id}`}
+                placeholder={t(
+                  "reverse-proxy.targets:reverseProxyTargetCustomHeaders.placeholder.headerEGAuthorization",
+                )}
+                aria-label={t(
+                  "reverse-proxy.targets:reverseProxyTargetCustomHeaders.text.headerNameForEntry",
+                  { id: entry.id },
+                )}
                 value={entry.name}
                 onChange={(e) =>
                   updateHeaderEntry(entry.id, "name", e.target.value)
@@ -155,8 +175,13 @@ export default function ReverseProxyTargetCustomHeaders({
                 data-testid={`custom-header-name-${index}`}
               />
               <Input
-                placeholder="Value, e.g., Bearer eyJhbGci..."
-                aria-label={`Header value for entry ${entry.id}`}
+                placeholder={t(
+                  "reverse-proxy.targets:reverseProxyTargetCustomHeaders.placeholder.valueEGBearerEyJhbGci",
+                )}
+                aria-label={t(
+                  "reverse-proxy.targets:reverseProxyTargetCustomHeaders.text.headerValueForEntry",
+                  { id: entry.id },
+                )}
                 value={entry.value}
                 onChange={(e) =>
                   updateHeaderEntry(entry.id, "value", e.target.value)
@@ -170,7 +195,9 @@ export default function ReverseProxyTargetCustomHeaders({
                 variant="default-outline"
                 className="!px-2 shrink-0"
                 onClick={() => removeHeader(entry.id)}
-                aria-label="Remove header"
+                aria-label={t(
+                  "reverse-proxy.targets:reverseProxyTargetCustomHeaders.ariaLabel.removeHeader",
+                )}
               >
                 <MinusCircleIcon size={14} />
               </Button>
@@ -186,7 +213,9 @@ export default function ReverseProxyTargetCustomHeaders({
         data-testid={"add-custom-header"}
       >
         <PlusIcon size={14} />
-        Add Header
+        {t(
+          "reverse-proxy.targets:reverseProxyTargetCustomHeaders.text.addHeader",
+        )}
       </Button>
     </div>
   );
