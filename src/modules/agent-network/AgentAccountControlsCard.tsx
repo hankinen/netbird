@@ -18,17 +18,47 @@ import { cn } from "@utils/helpers";
 import { Clock, FileText, ScrollText } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
+import { t } from "@/i18n";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
-
 // Retention options for access-log rows. "0" keeps them indefinitely. Usage
 // records are retained independently and aren't affected by this.
 const RETENTION_OPTIONS = [
-  { value: "7", label: "7 days" },
-  { value: "14", label: "14 days" },
-  { value: "30", label: "30 days" },
-  { value: "60", label: "60 days" },
-  { value: "90", label: "90 days" },
-  { value: "0", label: "Indefinite" },
+  {
+    value: "7",
+    get label() {
+      return t("agent-network.main:agentAccountControlsCard.label.7Days");
+    },
+  },
+  {
+    value: "14",
+    get label() {
+      return t("agent-network.main:agentAccountControlsCard.label.14Days");
+    },
+  },
+  {
+    value: "30",
+    get label() {
+      return t("agent-network.main:agentAccountControlsCard.label.30Days");
+    },
+  },
+  {
+    value: "60",
+    get label() {
+      return t("agent-network.main:agentAccountControlsCard.label.60Days");
+    },
+  },
+  {
+    value: "90",
+    get label() {
+      return t("agent-network.main:agentAccountControlsCard.label.90Days");
+    },
+  },
+  {
+    value: "0",
+    get label() {
+      return t("agent-network.main:agentAccountControlsCard.label.indefinite");
+    },
+  },
 ];
 
 export default function AgentAccountControlsCard() {
@@ -87,19 +117,27 @@ export default function AgentAccountControlsCard() {
       <Breadcrumbs>
         <Breadcrumbs.Item
           href={"/agent-network/providers"}
-          label={"Agent Network"}
+          label={t(
+            "agent-network.aiproviders-provider:agentAccessLogTable.text.agentNetwork",
+          )}
           icon={<AgentNetworkIcon size={16} />}
         />
         <Breadcrumbs.Item
           href={"/agent-network/configuration?tab=log-settings"}
-          label={"Log Collection"}
+          label={t(
+            "agent-network.aiproviders-provider:agentAccountControlsCard.label.logCollection",
+          )}
           icon={<ScrollText size={14} />}
           active
         />
       </Breadcrumbs>
 
       <div className={"flex items-start justify-between"}>
-        <h1>Log Collection</h1>
+        <h1>
+          {t(
+            "agent-network.aiproviders-provider:agentAccountControlsCard.label.logCollection",
+          )}
+        </h1>
 
         <Button
           variant={"primary"}
@@ -107,7 +145,7 @@ export default function AgentAccountControlsCard() {
           onClick={onSave}
           data-testid={"save-account-controls"}
         >
-          Save Changes
+          {t("common:word.saveChanges")}
         </Button>
       </div>
 
@@ -120,11 +158,17 @@ export default function AgentAccountControlsCard() {
             label={
               <>
                 <ScrollText size={15} />
-                Enable Log Collection
+                {t(
+                  "agent-network.aiproviders-provider:agentAccountControlsCard.text.enableLogCollection",
+                )}
               </>
             }
             helpText={
-              <>Persist access log entries for every agent-network request.</>
+              <>
+                {t(
+                  "agent-network.aiproviders-provider:agentAccountControlsCard.text.persistAccessLogEntriesFor",
+                )}
+              </>
             }
           />
 
@@ -138,10 +182,15 @@ export default function AgentAccountControlsCard() {
           >
             <div className={"flex justify-between gap-10 mt-2"}>
               <div className={"w-full"}>
-                <Label>Retention Period</Label>
+                <Label>
+                  {t(
+                    "agent-network.aiproviders-provider:agentAccountControlsCard.text.retentionPeriod",
+                  )}
+                </Label>
                 <HelpText className={"mt-1"}>
-                  How long access logs are kept before they&apos;re deleted.
-                  Usage history is kept separately.
+                  {t(
+                    "agent-network.aiproviders-provider:agentAccountControlsCard.text.howLongAccessLogsAre",
+                  )}
                 </HelpText>
               </div>
               <div className={"w-40 shrink-0"}>
@@ -156,7 +205,11 @@ export default function AgentAccountControlsCard() {
                   >
                     <div className={"flex items-center gap-3"}>
                       <Clock size={15} className={"text-nb-gray-300"} />
-                      <SelectValue placeholder={"Select retention..."} />
+                      <SelectValue
+                        placeholder={t(
+                          "agent-network.aiproviders-provider:agentAccountControlsCard.placeholder.selectRetention",
+                        )}
+                      />
                     </div>
                   </SelectTrigger>
                   <SelectContent>
@@ -179,13 +232,16 @@ export default function AgentAccountControlsCard() {
           label={
             <>
               <FileText size={15} />
-              Enable Prompt Collection
+              {t(
+                "agent-network.aiproviders-provider:agentAccountControlsCard.text.enablePromptCollection",
+              )}
             </>
           }
           helpText={
             <>
-              Capture prompt and completion bodies. A policy guardrail must also
-              be enabled.
+              {t(
+                "agent-network.aiproviders-provider:agentAccountControlsCard.text.capturePromptAndCompletionBodies",
+              )}
             </>
           }
         />

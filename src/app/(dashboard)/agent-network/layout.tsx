@@ -2,6 +2,7 @@
 
 import { notFound } from "next/navigation";
 import * as React from "react";
+import NamespaceGate from "@/i18n/NamespaceGate";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 
 // Gates the entire Agent Network route tree behind the NETBIRD_AGENT_NETWORK
@@ -17,7 +18,19 @@ export default function AgentNetworkLayout({
   const { enabled, loading } = useAgentNetworkMode();
 
   if (enabled) {
-    return <>{children}</>;
+    return (
+      <NamespaceGate
+        modules={[
+          "agent-network",
+          "reverse-proxy",
+          "onboarding",
+          "groups",
+          "users",
+        ]}
+      >
+        {children}
+      </NamespaceGate>
+    );
   }
   if (loading) {
     return null;

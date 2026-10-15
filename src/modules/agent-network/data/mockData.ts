@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 // Mock data for the Agent Network section. No backend wired up yet.
 // All numbers, IDs, and text are static placeholders for click-through.
 
@@ -260,12 +261,24 @@ export type AIAccessLogSession = {
 // resolve — bare ("model_not_routable") and prefixed deny codes
 // ("llm_policy.token_cap_exceeded", "llm_account.budget_cap_exceeded").
 const DENY_REASON_LABELS: Record<string, string> = {
-  model_not_routable: "Model not available",
-  no_authorised_provider: "No authorized provider",
-  model_blocked: "Model not allowed",
-  cap_exceeded: "Limit exceeded",
-  token_cap_exceeded: "Token limit exceeded",
-  budget_cap_exceeded: "Budget limit exceeded",
+  get model_not_routable() {
+    return t("agent-network.data:mockData.modelNotRoutable.modelNotAvailable");
+  },
+  get no_authorised_provider() {
+    return t("agent-network.data:mockData.noAuthorisedProvider.noAuthorizedProvider");
+  },
+  get model_blocked() {
+    return t("agent-network.data:mockData.modelBlocked.modelNotAllowed");
+  },
+  get cap_exceeded() {
+    return t("agent-network.data:mockData.capExceeded.limitExceeded");
+  },
+  get token_cap_exceeded() {
+    return t("agent-network.data:mockData.tokenCapExceeded.tokenLimitExceeded");
+  },
+  get budget_cap_exceeded() {
+    return t("agent-network.data:mockData.budgetCapExceeded.budgetLimitExceeded");
+  },
 };
 
 // formatDenyReason turns a proxy llm_policy.reason value into short, concise
@@ -278,7 +291,7 @@ export function formatDenyReason(reason: string | undefined): string {
   const base =
     DENY_REASON_LABELS[bare] ??
     bare.replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase());
-  return isAccount ? `Account ${base.toLowerCase()}` : base;
+  return isAccount ? t("agent-network.data:mockData.text.account", { toLowerCase: base.toLowerCase() }) : base;
 }
 
 export const MOCK_GROUPS = [

@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { t } from "@/i18n";
 import type {
   APIAgentNetworkAccessLog,
   APIAgentNetworkAccessLogsResponse,
@@ -32,7 +33,6 @@ import {
   testRequestOutcome,
 } from "@/modules/onboarding/agent-network/testRequest";
 import { WaitingForDevice } from "@/modules/onboarding/OnboardingDevices";
-
 const QUICKSTART_DOCS = "https://docs.netbird.io/agent-network/quickstart";
 
 type Props = {
@@ -64,18 +64,25 @@ export const OnboardingAgentEnd = ({
     <div className={"relative flex flex-col h-full gap-4"}>
       <div>
         <h1 className={"text-xl text-center max-w-sm mx-auto"}>
-          Send a test request
+          {t(
+            "onboarding.agent-network:onboardingAgentEnd.text.sendATestRequest",
+          )}
         </h1>
         <div
           className={
             "text-sm text-nb-gray-300 font-light mt-2 block text-center sm:px-4"
           }
         >
-          Run your agent, or the cURL command from the previous step, on{" "}
+          {t(
+            "onboarding.agent-network:onboardingAgentEnd.text.runYourAgentOrThe",
+          )}{" "}
           <span className={"text-nb-gray-100 whitespace-nowrap"}>
-            {deviceName || "your device"}
+            {deviceName ||
+              t("onboarding.agent-network:onboardingAgentEnd.text.yourDevice")}
           </span>
-          . The request shows up here once NetBird logs it.
+          {t(
+            "onboarding.agent-network:onboardingAgentEnd.text.theRequestShowsUpHere",
+          )}
         </div>
       </div>
 
@@ -83,10 +90,10 @@ export const OnboardingAgentEnd = ({
 
       <div className={"flex items-center justify-center mt-4 gap-3"}>
         <Button variant={"secondary"} onClick={onBack}>
-          Go Back
+          {t("onboarding.agent-network:onboardingAgentConfigure.text.goBack")}
         </Button>
         <Button variant={"secondaryLighter"} onClick={onFinish}>
-          Skip
+          {t("onboarding.agent-network:onboardingAgentEnd.text.skip")}
         </Button>
       </div>
     </div>
@@ -97,43 +104,95 @@ export const OnboardingAgentEnd = ({
 const SECTIONS: { icon: LucideIcon; title: string; description: string }[] = [
   {
     icon: KeyRoundIcon,
-    title: "Providers",
-    description: "Connect providers and pick models.",
+    get title() {
+      return t("common:word.providers");
+    },
+    get description() {
+      return t(
+        "onboarding.agent-network:onboardingAgentEnd.description.connectProvidersAndPickModels",
+      );
+    },
   },
   {
     icon: ShieldCheckIcon,
-    title: "Policies",
-    description: "Choose who can use each provider.",
+    get title() {
+      return t("common:countWord.policies");
+    },
+    get description() {
+      return t(
+        "onboarding.agent-network:onboardingAgentEnd.description.chooseWhoCanUseEach",
+      );
+    },
   },
   {
     icon: ListChecksIcon,
-    title: "Guardrails",
-    description: "Limit models and capture prompts.",
+    get title() {
+      return t("onboarding.agent-network:onboardingAgentEnd.title.guardrails");
+    },
+    get description() {
+      return t(
+        "onboarding.agent-network:onboardingAgentEnd.description.limitModelsAndCapturePrompts",
+      );
+    },
   },
   {
     icon: GaugeIcon,
-    title: "Budgets and limits",
-    description: "Cap token use and spend.",
+    get title() {
+      return t(
+        "onboarding.agent-network:onboardingAgentEnd.title.budgetsAndLimits",
+      );
+    },
+    get description() {
+      return t(
+        "onboarding.agent-network:onboardingAgentEnd.description.capTokenUseAndSpend",
+      );
+    },
   },
   {
     icon: ChartColumnIcon,
-    title: "Usage",
-    description: "Track tokens and spend over time.",
+    get title() {
+      return t("onboarding.agent-network:onboardingAgentEnd.title.usage");
+    },
+    get description() {
+      return t(
+        "onboarding.agent-network:onboardingAgentEnd.description.trackTokensAndSpendOver",
+      );
+    },
   },
   {
     icon: ScrollTextIcon,
-    title: "Access Logs",
-    description: "See every request and who sent it.",
+    get title() {
+      return t("onboarding.agent-network:onboardingAgentEnd.text.accessLogs");
+    },
+    get description() {
+      return t(
+        "onboarding.agent-network:onboardingAgentEnd.description.seeEveryRequestAndWho",
+      );
+    },
   },
   {
     icon: DatabaseIcon,
-    title: "Log retention",
-    description: "Choose how long logs are kept.",
+    get title() {
+      return t(
+        "onboarding.agent-network:onboardingAgentEnd.title.logRetention",
+      );
+    },
+    get description() {
+      return t(
+        "onboarding.agent-network:onboardingAgentEnd.description.chooseHowLongLogsAre",
+      );
+    },
   },
   {
     icon: SquareTerminalIcon,
-    title: "Agent setup",
-    description: "Configure Claude Code and Codex.",
+    get title() {
+      return t("onboarding.agent-network:onboardingAgentEnd.title.agentSetup");
+    },
+    get description() {
+      return t(
+        "onboarding.agent-network:onboardingAgentEnd.description.configureClaudeCodeAndCodex",
+      );
+    },
   },
 ];
 
@@ -151,7 +210,7 @@ const AllSet = ({
   <div className={"relative flex flex-col h-full gap-4"}>
     <div>
       <h1 className={"text-xl text-center max-w-sm mx-auto"}>
-        You&apos;re all set!
+        {t("onboarding.agent-network:onboardingAgentEnd.text.youAposReAllSet")}
       </h1>
       <PassedRequest entry={entry} />
     </div>
@@ -175,10 +234,10 @@ const AllSet = ({
 
     <div className={"flex items-center justify-center mt-4 gap-3"}>
       <Button variant={"secondary"} onClick={onBack}>
-        Go Back
+        {t("onboarding.agent-network:onboardingAgentConfigure.text.goBack")}
       </Button>
       <Button variant={"primary"} onClick={onFinish}>
-        Finish
+        {t("onboarding.agent-network:onboardingAgentEnd.text.finish")}
         <CheckIcon size={16} />
       </Button>
     </div>
@@ -212,10 +271,19 @@ const passedSentence = (
   const target = providerName || entry.model;
   const tokens =
     entry.total_tokens > 0
-      ? ` and used ${entry.total_tokens.toLocaleString()} tokens`
+      ? t("onboarding.agent-network:onboardingAgentEnd.text.andUsedTokens", {
+          total: entry.total_tokens.toLocaleString(),
+        })
       : "";
-  if (!target) return `Your request went through${tokens}.`;
-  return `Your request reached ${target}${tokens}.`;
+  if (!target)
+    return t(
+      "onboarding.agent-network:onboardingAgentEnd.text.yourRequestWentThrough",
+      { tokens },
+    );
+  return t(
+    "onboarding.agent-network:onboardingAgentEnd.text.yourRequestReached",
+    { target, tokens },
+  );
 };
 
 // TestRequestStatus shows what became of the latest request. onOpenLogs leaves
@@ -229,11 +297,21 @@ const TestRequestStatus = ({
   onOpenLogs: () => void;
 }) => {
   if (outcome.kind === "waiting") {
-    return <WaitingForDevice text={"Waiting for your first request"} />;
+    return (
+      <WaitingForDevice
+        text={t(
+          "onboarding.agent-network:onboardingAgentEnd.text.waitingForYourFirstRequest",
+        )}
+      />
+    );
   }
 
   const { entry } = outcome;
-  const forModel = entry.model ? `, for ${entry.model},` : "";
+  const forModel = entry.model
+    ? t("onboarding.agent-network:onboardingAgentEnd.text.forModel", {
+        model: entry.model,
+      })
+    : "";
 
   return (
     <div className={"flex flex-col"}>
@@ -244,29 +322,44 @@ const TestRequestStatus = ({
       >
         <p>
           {outcome.kind === "denied"
-            ? `Your last request${forModel} was denied: ${
-                formatDenyReason(entry.deny_reason) || "no reason given"
-              }.`
-            : `Your last request${forModel} reached the provider and came back with status ${entry.status_code}.`}
+            ? t(
+                "onboarding.agent-network:onboardingAgentEnd.text.yourLastRequestWasDenied",
+                {
+                  forModel,
+                  value:
+                    formatDenyReason(entry.deny_reason) ||
+                    t(
+                      "onboarding.agent-network:onboardingAgentEnd.text.noReasonGiven",
+                    ),
+                },
+              )
+            : t(
+                "onboarding.agent-network:onboardingAgentEnd.text.yourLastRequestReachedThe",
+                { forModel, status_code: entry.status_code },
+              )}
         </p>
         <p className={"mt-1"}>
-          Learn more in the{" "}
+          {t("onboarding.agent-network:onboardingAgentEnd.text.learnMoreInThe")}{" "}
           <InlineButtonLink variant={"dashed"} onClick={onOpenLogs}>
-            Access Logs
+            {t("onboarding.agent-network:onboardingAgentEnd.text.accessLogs")}
           </InlineButtonLink>{" "}
-          or the{" "}
+          {t("onboarding.agent-network:onboardingAgentEnd.text.orThe")}{" "}
           <InlineLink
             variant={"dashed"}
             href={QUICKSTART_DOCS}
             target={"_blank"}
           >
-            docs
+            {t("onboarding.agent-network:onboardingAgentEnd.text.docs")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
           .
         </p>
       </Callout>
-      <WaitingForDevice text={"Waiting for your next request"} />
+      <WaitingForDevice
+        text={t(
+          "onboarding.agent-network:onboardingAgentEnd.text.waitingForYourNextRequest",
+        )}
+      />
     </div>
   );
 };

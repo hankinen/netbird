@@ -51,6 +51,7 @@ import { useDialog } from "@/contexts/DialogProvider";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { duplicateAgentPolicy } from "@/modules/agent-network/agentPolicyDuplicate";
 import AgentPolicyModal from "@/modules/agent-network/AgentPolicyModal";
@@ -65,7 +66,6 @@ import {
 } from "@/modules/agent-network/data/mockData";
 import ActiveInactiveRow from "@/modules/common-table-rows/ActiveInactiveRow";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
-
 function NameCell({ policy }: { policy: AgentPolicy }) {
   return (
     <ActiveInactiveRow
@@ -95,10 +95,12 @@ function SourceCell({ policy }: { policy: AgentPolicy }) {
   return (
     <MultipleGroups
       groups={groups}
-      label={"Source Groups"}
-      description={
-        "Members of these groups are allowed to call the destination providers."
-      }
+      label={t(
+        "agent-network.agent-overview-panel:agentPoliciesTable.label.sourceGroups",
+      )}
+      description={t(
+        "agent-network.agent-overview-panel:agentPoliciesTable.description.membersOfTheseGroupsAre",
+      )}
     />
   );
 }
@@ -180,7 +182,9 @@ function ModelsCell({
           }}
         >
           <IconCirclePlus size={14} />
-          Restrict
+          {t(
+            "agent-network.agent-overview-panel:agentPoliciesTable.text.restrict",
+          )}
         </Badge>
       </div>
     );
@@ -209,11 +213,22 @@ function ModelsCell({
       <FullTooltip
         content={
           <div className={"text-xs space-y-0.5"}>
-            <div className={"font-semibold"}>Model allowlist</div>
+            <div className={"font-semibold"}>
+              {t(
+                "agent-network.agent-overview-panel:agentPoliciesTable.text.modelAllowlist",
+              )}
+            </div>
             {listed.map((model) => (
               <div key={model}>· {model}</div>
             ))}
-            {rest > 0 && <div>· and {rest} more</div>}
+            {rest > 0 && (
+              <div>
+                {t(
+                  "agent-network.agent-overview-panel:agentPoliciesTable.text.andMore",
+                  { rest },
+                )}
+              </div>
+            )}
           </div>
         }
       >
@@ -222,7 +237,10 @@ function ModelsCell({
           useHover={true}
           className={"px-3 gap-2 whitespace-nowrap"}
         >
-          {models.length} Models
+          {t(
+            "agent-network.agent-overview-panel:agentPoliciesTable.text.models",
+            { length: models.length },
+          )}
         </Badge>
       </FullTooltip>
     </div>
@@ -251,7 +269,9 @@ function LimitsCell({
           }}
         >
           <IconCirclePlus size={14} />
-          Add Limit
+          {t(
+            "agent-network.agent-overview-panel:agentPoliciesTable.text.addLimit",
+          )}
         </Badge>
       </div>
     );
@@ -264,10 +284,29 @@ function LimitsCell({
         <FullTooltip
           content={
             <div className={"text-xs space-y-0.5"}>
-              <div className={"font-semibold"}>Token Limit</div>
-              <div>· Group: {capDisplay(tl.groupCap, false)}</div>
-              <div>· Individual: {capDisplay(tl.userCap, false)}</div>
-              <div>· Resets every {formatLimitWindow(tl.windowSeconds)}</div>
+              <div className={"font-semibold"}>
+                {t(
+                  "agent-network.agent-overview-panel:agentPoliciesTable.text.tokenLimit",
+                )}
+              </div>
+              <div>
+                {t(
+                  "agent-network.agent-overview-panel:agentPoliciesTable.text.group",
+                  { value: capDisplay(tl.groupCap, false) },
+                )}
+              </div>
+              <div>
+                {t(
+                  "agent-network.agent-overview-panel:agentPoliciesTable.text.individual",
+                  { value: capDisplay(tl.userCap, false) },
+                )}
+              </div>
+              <div>
+                {t(
+                  "agent-network.agent-overview-panel:agentPoliciesTable.text.resetsEvery",
+                  { value: formatLimitWindow(tl.windowSeconds) },
+                )}
+              </div>
             </div>
           }
         >
@@ -281,10 +320,29 @@ function LimitsCell({
         <FullTooltip
           content={
             <div className={"text-xs space-y-0.5"}>
-              <div className={"font-semibold"}>Budget Limit</div>
-              <div>· Group: {capDisplay(bl.groupCapUsd, true)}</div>
-              <div>· Individual: {capDisplay(bl.userCapUsd, true)}</div>
-              <div>· Resets every {formatLimitWindow(bl.windowSeconds)}</div>
+              <div className={"font-semibold"}>
+                {t(
+                  "agent-network.agent-overview-panel:agentPoliciesTable.text.budgetLimit",
+                )}
+              </div>
+              <div>
+                {t(
+                  "agent-network.agent-overview-panel:agentPoliciesTable.text.group",
+                  { value: capDisplay(bl.groupCapUsd, true) },
+                )}
+              </div>
+              <div>
+                {t(
+                  "agent-network.agent-overview-panel:agentPoliciesTable.text.individual",
+                  { value: capDisplay(bl.userCapUsd, true) },
+                )}
+              </div>
+              <div>
+                {t(
+                  "agent-network.agent-overview-panel:agentPoliciesTable.text.resetsEvery",
+                  { value: formatLimitWindow(bl.windowSeconds) },
+                )}
+              </div>
             </div>
           }
         >
@@ -322,16 +380,38 @@ function formatLimitWindow(seconds: number): string {
   if (seconds <= 0) return "—";
   if (seconds < 3600) {
     const minutes = Math.round(seconds / 60);
-    return `${minutes} minute${minutes === 1 ? "" : "s"}`;
+    return minutes === 1
+      ? t("agent-network.agent-overview-panel:limitWindow.text.minute", {
+          count: minutes,
+        })
+      : t("agent-network.agent-overview-panel:limitWindow.text.minutes", {
+          count: minutes,
+        });
   }
   if (seconds < 86_400) {
     const hours = Math.round(seconds / 3600);
-    return `${hours} hour${hours === 1 ? "" : "s"}`;
+    return hours === 1
+      ? t("agent-network.agent-overview-panel:limitWindow.text.hour", {
+          count: hours,
+        })
+      : t("agent-network.agent-overview-panel:limitWindow.text.hours", {
+          count: hours,
+        });
   }
   const days = Math.floor(seconds / 86_400);
   const remHours = Math.round((seconds % 86_400) / 3600);
-  if (remHours === 0) return `${days} day${days === 1 ? "" : "s"}`;
-  return `${days}d ${remHours}h`;
+  if (remHours === 0)
+    return days === 1
+      ? t("agent-network.agent-overview-panel:limitWindow.text.day", {
+          count: days,
+        })
+      : t("agent-network.agent-overview-panel:limitWindow.text.days", {
+          count: days,
+        });
+  return t("agent-network.agent-overview-panel:limitWindow.text.daysHours", {
+    days,
+    remHours,
+  });
 }
 
 function ActionsCell({
@@ -350,11 +430,15 @@ function ActionsCell({
 
   const onDelete = async () => {
     const ok = await confirm({
-      title: `Delete '${policy.name}'?`,
-      description:
-        "Are you sure you want to delete this policy? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t(
+        "agent-network.agent-overview-panel:agentPoliciesTable.title.delete",
+        { name: policy.name },
+      ),
+      description: t(
+        "agent-network.agent-overview-panel:agentPoliciesTable.description.areYouSureYouWant",
+      ),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!ok) return;
@@ -374,7 +458,9 @@ function ActionsCell({
           <Button
             variant={"secondary"}
             className={"!px-3"}
-            aria-label={"Policy actions"}
+            aria-label={t(
+              "agent-network.agent-overview-panel:agentPoliciesTable.ariaLabel.policyActions",
+            )}
             data-testid={"agent-policy-actions"}
           >
             <MoreVertical size={16} className={"shrink-0"} />
@@ -384,7 +470,9 @@ function ActionsCell({
           <DropdownMenuItem onClick={() => onEdit(policy)}>
             <div className={"flex gap-3 items-center"}>
               <PencilLineIcon size={14} className={"shrink-0"} />
-              Edit Policy
+              {t(
+                "agent-network.agent-overview-panel:agentPoliciesTable.text.editPolicy",
+              )}
             </div>
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -394,20 +482,24 @@ function ActionsCell({
           >
             <div className={"flex gap-3 items-center"}>
               <Copy size={14} className={"shrink-0"} />
-              Duplicate
+              {t(
+                "agent-network.agent-overview-panel:agentPoliciesTable.text.duplicate",
+              )}
             </div>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => togglePolicy(policy.id)}>
             <div className={"flex gap-3 items-center"}>
               <Power size={14} className={"shrink-0"} />
-              {policy.enabled ? "Disable" : "Enable"}
+              {policy.enabled
+                ? t("common:word.disable")
+                : t("common:word.enable")}
             </div>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={onDelete} variant={"danger"}>
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Delete
+              {t("common:word.delete")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -451,7 +543,7 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
     () => [
       {
         id: "source_group_names",
-        label: "Groups",
+        label: t("common:word.groups"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -464,7 +556,7 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
       },
       {
         id: "provider_ids",
-        label: "Providers",
+        label: t("common:word.providers"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -514,7 +606,9 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
       accessorKey: "name",
       sortingFn: "text",
       header: ({ column }) => (
-        <DataTableHeader column={column}>Name</DataTableHeader>
+        <DataTableHeader column={column}>
+          {t("common:word.name")}
+        </DataTableHeader>
       ),
       cell: ({ row }) => <NameCell policy={row.original} />,
     },
@@ -523,7 +617,9 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
       accessorFn: (p) => p.sourceGroups.length,
       sortingFn: "basic",
       header: ({ column }) => (
-        <DataTableHeader column={column}>Groups</DataTableHeader>
+        <DataTableHeader column={column}>
+          {t("common:word.groups")}
+        </DataTableHeader>
       ),
       cell: ({ row }) => <SourceCell policy={row.original} />,
     },
@@ -532,7 +628,11 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
       accessorFn: (p) => p.destinationProviderIds.length,
       sortingFn: "basic",
       header: ({ column }) => (
-        <DataTableHeader column={column}>Provider</DataTableHeader>
+        <DataTableHeader column={column}>
+          {t(
+            "agent-network.agent-overview-panel:agentPoliciesTable.text.provider",
+          )}
+        </DataTableHeader>
       ),
       cell: ({ row }) => <ProviderCell policy={row.original} />,
     },
@@ -541,7 +641,11 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
       accessorFn: (p) => allowlistModels(p, guardrails).length,
       sortingFn: "basic",
       header: ({ column }) => (
-        <DataTableHeader column={column}>Models</DataTableHeader>
+        <DataTableHeader column={column}>
+          {t(
+            "agent-network.agent-overview-panel:agentPoliciesTable.text.models2",
+          )}
+        </DataTableHeader>
       ),
       cell: ({ row }) => (
         <ModelsCell
@@ -568,7 +672,11 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
         (p.limits.budgetLimit.enabled ? 1 : 0),
       sortingFn: "basic",
       header: ({ column }) => (
-        <DataTableHeader column={column}>Limits</DataTableHeader>
+        <DataTableHeader column={column}>
+          {t(
+            "agent-network.agent-overview-panel:agentPoliciesTable.text.limits",
+          )}
+        </DataTableHeader>
       ),
       cell: ({ row }) => (
         <LimitsCell
@@ -617,13 +725,15 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
         key={`policies-${initialSearch ?? ""}`}
         headingTarget={headingTarget}
         isLoading={isLoading}
-        text={"Policies"}
+        text={t("common:countWord.policies")}
         sorting={sorting}
         setSorting={setSorting}
         columns={columns}
         data={policies}
         initialSearch={initialSearch}
-        searchPlaceholder={"Search by name or description..."}
+        searchPlaceholder={t(
+          "agent-network.agent-overview-panel:agentPoliciesTable.searchPlaceholder.searchByNameOrDescription",
+        )}
         // Clicking the Models cell lands on the tab that actually owns the
         // model allowlist — the guardrails attached to the policy.
         onRowClick={(row, cell) =>
@@ -640,10 +750,12 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
                 size={"large"}
               />
             }
-            title={"Create your first policy"}
-            description={
-              "Policies connect user and agent groups to AI providers, with optional token and budget limits and guardrails for model access and prompt capture."
-            }
+            title={t(
+              "agent-network.agent-overview-panel:agentPoliciesTable.title.createYourFirstPolicy",
+            )}
+            description={t(
+              "agent-network.agent-overview-panel:agentPoliciesTable.description.policiesConnectUserAndAgent",
+            )}
             button={
               <Button
                 variant={"primary"}
@@ -653,17 +765,21 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
                 }}
               >
                 <PlusCircle size={16} />
-                Add Policy
+                {t(
+                  "agent-network.agent-overview-panel:agentPoliciesTable.text.addPolicy",
+                )}
               </Button>
             }
             learnMore={
               <>
-                Learn more about
+                {t("common:word.learnMoreAbout")}
                 <InlineLink
                   href={"https://docs.netbird.io/agent-network"}
                   target={"_blank"}
                 >
-                  Agent Network
+                  {t(
+                    "agent-network.agent-overview-panel:agentOverviewPanel.text.agentNetwork",
+                  )}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
@@ -681,7 +797,9 @@ export default function AgentPoliciesTable({ headingTarget }: Readonly<Props>) {
                 }}
               >
                 <PlusCircle size={16} />
-                Add Policy
+                {t(
+                  "agent-network.agent-overview-panel:agentPoliciesTable.text.addPolicy",
+                )}
               </Button>
             </div>
           )

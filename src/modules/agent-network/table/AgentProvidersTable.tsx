@@ -16,13 +16,13 @@ import React from "react";
 import AIAccessIcon from "@/assets/icons/AgentNetworkIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { t } from "@/i18n";
 import AIProviderLogo from "@/modules/agent-network/AIProviderLogo";
 import AIProviderModal from "@/modules/agent-network/AIProviderModal";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
 import { AIProvider } from "@/modules/agent-network/data/mockData";
 import AgentProviderActionCell from "@/modules/agent-network/table/AgentProviderActionCell";
 import { useProviderCatalog } from "@/modules/agent-network/useProviderCatalog";
-
 function NameCell({ provider }: { provider: AIProvider }) {
   const { getById } = useProviderCatalog();
   const catalog = getById(provider.providerId);
@@ -82,7 +82,9 @@ function ModelsCell({ provider }: { provider: AIProvider }) {
       >
         <Boxes size={11} />
         <span className={"font-medium text-xs"}>
-          {count === 0 ? "All Models" : count}
+          {count === 0
+            ? t("agent-network.table:agentProvidersTable.text.allModels")
+            : count}
         </span>
       </Badge>
     </div>
@@ -95,7 +97,7 @@ const columns: ColumnDef<AIProvider>[] = [
     accessorKey: "name",
     sortingFn: "text",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Name</DataTableHeader>
+      <DataTableHeader column={column}>{t("common:word.name")}</DataTableHeader>
     ),
     cell: ({ row }) => <NameCell provider={row.original} />,
   },
@@ -104,7 +106,9 @@ const columns: ColumnDef<AIProvider>[] = [
     accessorFn: (p) => p.models.length,
     sortingFn: "basic",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Models</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("agent-network.table:agentProvidersTable.text.models")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => <ModelsCell provider={row.original} />,
   },
@@ -156,12 +160,14 @@ export default function AgentProvidersTable({
       <DataTable
         headingTarget={headingTarget}
         isLoading={isLoading}
-        text={"Providers"}
+        text={t("common:word.providers")}
         sorting={sorting}
         setSorting={setSorting}
         columns={columns}
         data={providers}
-        searchPlaceholder={"Search by name..."}
+        searchPlaceholder={t(
+          "agent-network.table:agentProvidersTable.searchPlaceholder.searchByName",
+        )}
         onRowClick={
           canUpdate ? (row) => openProviderEdit(row.original) : undefined
         }
@@ -174,10 +180,12 @@ export default function AgentProvidersTable({
                 size={"large"}
               />
             }
-            title={"Connect a provider"}
-            description={
-              "Route OpenAI, Anthropic, and other LLM APIs through NetBird to enforce access control, track token spend, and capture prompts."
-            }
+            title={t(
+              "agent-network.table:agentProvidersTable.title.connectAProvider",
+            )}
+            description={t(
+              "agent-network.table:agentProvidersTable.description.routeOpenAIAnthropicAndOther",
+            )}
             button={
               <div className={"gap-x-4 flex items-center justify-center"}>
                 <AddProviderButton />
@@ -185,12 +193,14 @@ export default function AgentProvidersTable({
             }
             learnMore={
               <>
-                Learn more about
+                {t("common:word.learnMoreAbout")}
                 <InlineLink
                   href={"https://docs.netbird.io/agent-network/providers"}
                   target={"_blank"}
                 >
-                  Agent Network Providers
+                  {t(
+                    "agent-network.table:agentProvidersTable.text.agentNetworkProviders",
+                  )}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
@@ -223,7 +233,7 @@ const AddProviderButton = () => {
       data-testid={"connect-agent-network-provider"}
     >
       <PlusCircle size={16} />
-      Connect Provider
+      {t("common:word.connectProvider")}
     </Button>
   );
 };

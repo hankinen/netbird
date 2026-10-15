@@ -5,12 +5,12 @@ import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import React from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
+import { t } from "@/i18n";
 import PageContainer from "@/layouts/PageContainer";
 import { AgentConnectTabs } from "@/modules/agent-network/AgentConnectTabs";
 import EndpointBadge from "@/modules/agent-network/EndpointBadge";
 import ConnectProvidersTable from "@/modules/agent-network/table/ConnectProvidersTable";
 import { useMyAgentNetworkSetup } from "@/modules/agent-network/useMyAgentNetworkSetup";
-
 // ConnectAgentPage is the caller-scoped self-service view: the endpoint to
 // configure tools with and the per-tool config that goes with it — the one
 // place the agent config lives — plus the providers and models the caller's
@@ -32,23 +32,21 @@ export default function ConnectAgentPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/agent-network/connect"}
-            label={"Agent Network"}
+            label={t("agent-network.page:page.label.agentNetwork")}
             icon={<AgentNetworkIcon size={16} />}
           />
           <Breadcrumbs.Item
             href={"/agent-network/connect"}
-            label={"Connect Agent"}
+            label={t("agent-network.page:page.label.connectAgent")}
             active
           />
         </Breadcrumbs>
-        <h1>Connect Your Agent</h1>
+        <h1>{t("agent-network.page:page.text.connectYourAgent")}</h1>
         {/* block, so the <br /> lands: Paragraph is a flex container by
             default and a break element does nothing between flex items. */}
         <Paragraph className={"block"}>
-          Point your agent at the NetBird endpoint as its base URL. No provider
-          API key is required on the client. <br />
-          NetBird authenticates you through your identity provider and
-          authorizes each request against your access policies.
+          {t("agent-network.page:page.text.pointYourAgentAtThe")} <br />
+          {t("agent-network.page:page.text.netBirdAuthenticatesYouThroughYour")}
         </Paragraph>
 
         {/* The server hands the endpoint to every member of an account that
@@ -87,7 +85,9 @@ export default function ConnectAgentPage() {
           {/* Same box as the tab content above — gutter and max-width on one
               element — so the table lines up with the snippets. */}
           <div className={"p-default pt-8 pb-10 max-w-3xl"}>
-            <h2 className={"text-base mb-0"}>Your Providers &amp; Models</h2>
+            <h2 className={"text-base mb-0"}>
+              {t("agent-network.page:page.text.yourProvidersAmpModels")}
+            </h2>
             <ConnectProvidersTable providers={providers} />
           </div>
         </>

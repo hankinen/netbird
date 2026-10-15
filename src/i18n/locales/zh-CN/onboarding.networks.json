@@ -39,5 +39,8 @@
   "onboardingTestResource.text.toPingYourResource": "上运行此命令来 ping 您的资源。",
   "onboardingTestResource.text.everythingWorkingGreatYouCan": "一切正常？太好了！现在可以继续新手引导。如果有问题，请查看我们的",
   "onboardingTestResource.text.troubleshootingGuide": "故障排查指南",
-  "onboardingTestResource.text.itWorksContinue": "成功了！继续"
+  "onboardingTestResource.text.itWorksContinue": "成功了！继续",
+  "onboardingAddResource.description.createdDuringOnboarding": "在入门引导期间创建",
+  "onboardingAddResource.description.allowsAccessToThis": "允许访问此{{value}}",
+  "onboardingAddResource.description.allowsUsersToAccessRouting": "允许用户访问路由设备"
 }

@@ -20,6 +20,7 @@ import AgentOverviewPanel from "@/modules/agent-network/AgentOverviewPanel";
 import AIProvidersProvider from "@/modules/agent-network/AIProvidersProvider";
 import { useMyAgentNetworkSetup } from "@/modules/agent-network/useMyAgentNetworkSetup";
 
+import { t } from "@/i18n";
 // Tab ids — kept stable so ?tab=<id> URL hand-off works (e.g.
 // /agent-network/usage?tab=access-logs), the same way Settings deep-links tabs.
 const TAB_USAGE = "usage";
@@ -89,19 +90,18 @@ export default function UsageAndLogsPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/agent-network/providers"}
-            label={"Agent Network"}
+            label={t("agent-network.page:page.label.agentNetwork")}
             icon={<AgentNetworkIcon size={16} />}
           />
           <Breadcrumbs.Item
             href={"/agent-network/usage"}
-            label={"Usage & Logs"}
+            label={t("agent-network.page:page.label.usageLogs")}
             active={true}
           />
         </Breadcrumbs>
-        <h1>Usage & Logs</h1>
+        <h1>{t("agent-network.page:page.label.usageLogs")}</h1>
         <Paragraph>
-          Per-request audit with real caller identity, cost attribution, and
-          budget controls.
+          {t("agent-network.page:page.text.perRequestAuditWithReal")}
         </Paragraph>
       </div>
 
@@ -121,13 +121,13 @@ export default function UsageAndLogsPage() {
                   {canUseUsage && (
                     <TabsTrigger value={TAB_USAGE}>
                       <LayoutDashboard size={16} />
-                      Usage
+                      {t("agent-network.page:page.text.usage")}
                     </TabsTrigger>
                   )}
                   {canUseLogs && (
                     <TabsTrigger value={TAB_ACCESS_LOGS}>
                       <ScrollText size={16} />
-                      Access Logs
+                      {t("agent-network.page:page.text.accessLogs")}
                     </TabsTrigger>
                   )}
                 </TabsList>

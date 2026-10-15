@@ -20,6 +20,7 @@ import {
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useSWRConfig } from "swr";
+import { t } from "@/i18n";
 import {
   REVERSE_PROXY_CLUSTERS_DOCS_LINK,
   ReverseProxyCluster,
@@ -44,7 +45,6 @@ import {
 import { IntentCard } from "@/modules/onboarding/OnboardingIntent";
 import { ClustersModal } from "@/modules/reverse-proxy/clusters/ClustersModal";
 import { useProxyCluster } from "@/modules/reverse-proxy/clusters/useProxyCluster";
-
 type Props = {
   onBack: () => void;
   onNext: () => void;
@@ -67,8 +67,16 @@ type ProvisionFailure = Extract<
 >;
 
 const GATEWAY_ALREADY_SET_UP = {
-  title: "Your proxy is already set up",
-  description: "This account already has an Agent Network endpoint.",
+  get title() {
+    return t(
+      "onboarding.agent-gateway:onboardingAgentGateway.title.yourProxyIsAlreadySet",
+    );
+  },
+  get description() {
+    return t(
+      "onboarding.agent-gateway:onboardingAgentGateway.description.thisAccountAlreadyHasAn",
+    );
+  },
 };
 
 // OnboardingAgentGateway sets up the gateway the account's endpoint is served
@@ -151,9 +159,18 @@ export const OnboardingAgentGateway = ({ onBack, onNext, onSkip }: Props) => {
 
   if (!view) {
     return (
-      <StepLayout title={"Set up your proxy"} onBack={onBack}>
+      <StepLayout
+        title={t(
+          "onboarding.agent-gateway:onboardingAgentGateway.title.setUpYourProxy",
+        )}
+        onBack={onBack}
+      >
         <div className={"mt-4 flex justify-center"}>
-          <StatusLine status={"active"}>Checking your proxy…</StatusLine>
+          <StatusLine status={"active"}>
+            {t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.checkingYourProxy",
+            )}
+          </StatusLine>
         </div>
       </StepLayout>
     );
@@ -232,10 +249,12 @@ const GatewayChoice = ({
 
   return (
     <StepLayout
-      title={"Set up your proxy"}
-      description={
-        "Your agents talk to providers through a private proxy that only your network can access. Use a managed proxy or your own."
-      }
+      title={t(
+        "onboarding.agent-gateway:onboardingAgentGateway.title.setUpYourProxy",
+      )}
+      description={t(
+        "onboarding.agent-gateway:onboardingAgentGateway.description.yourAgentsTalkToProviders",
+      )}
       onBack={onBack}
     >
       <div className={"mt-2 flex flex-col gap-3"}>
@@ -246,10 +265,12 @@ const GatewayChoice = ({
             }
           >
             <IntentCard
-              title={"Managed proxy"}
-              description={
-                "NetBird runs a dedicated, private proxy for your account."
-              }
+              title={t(
+                "onboarding.agent-gateway:onboardingAgentGateway.title.managedProxy",
+              )}
+              description={t(
+                "onboarding.agent-gateway:onboardingAgentGateway.description.netBirdRunsADedicatedPrivate",
+              )}
               icon={<CloudIcon size={18} className={"text-nb-gray-400"} />}
               onClick={onManaged}
               data-testid={"gateway-choice-managed"}
@@ -257,8 +278,9 @@ const GatewayChoice = ({
           </div>
         ) : (
           <Callout variant={"info"} data-testid={"gateway-managed-unavailable"}>
-            Managed proxies aren&apos;t available for this account, so Agent
-            Network runs on a proxy of your own.
+            {t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.managedProxiesArenAposT",
+            )}
           </Callout>
         )}
         {managedAvailable && (
@@ -287,7 +309,9 @@ const GatewayChoice = ({
             ))}
             <OptionRow
               icon={<ServerIcon size={14} />}
-              title={"Deploy a new proxy"}
+              title={t(
+                "onboarding.agent-gateway:onboardingAgentGateway.title.deployANewProxy",
+              )}
               detail={"On your own infrastructure"}
               onClick={onNewProxy}
               data-testid={"gateway-choice-self-deploy"}
@@ -302,10 +326,24 @@ const GatewayChoice = ({
 const OWN_PROXY_OPTIONS_ID = "gateway-own-proxy-options";
 
 const connectedProxies = (count: number) =>
-  `${count} ${count === 1 ? "proxy" : "proxies"} connected`;
+  count === 1
+    ? t(
+        "onboarding.agent-gateway:onboardingAgentGateway.text.proxyConnectedCount",
+        { count },
+      )
+    : t(
+        "onboarding.agent-gateway:onboardingAgentGateway.text.proxiesConnectedCount",
+        { count },
+      );
 
 const privateProxies = (count: number) =>
-  `${count} private ${count === 1 ? "proxy" : "proxies"}`;
+  count === 1
+    ? t("onboarding.agent-gateway:onboardingAgentGateway.text.privateProxy", {
+        count,
+      })
+    : t("onboarding.agent-gateway:onboardingAgentGateway.text.privateProxies", {
+        count,
+      });
 
 const OwnProxyToggle = ({
   open,
@@ -326,7 +364,9 @@ const OwnProxyToggle = ({
       "self-center flex items-center gap-1.5 mt-1 text-sm text-nb-gray-400 hover:text-nb-gray-200 transition-colors"
     }
   >
-    Or use your own proxy instead
+    {t(
+      "onboarding.agent-gateway:onboardingAgentGateway.text.orUseYourOwnProxy",
+    )}
     {privateCount > 0 && !open && (
       <span className={"text-nb-gray-500"}>
         · {privateProxies(privateCount)}
@@ -432,24 +472,38 @@ const ManagedGateway = ({
 
       {!(failure && !proxy) && (
         <ul className={"mt-2 flex flex-col gap-2.5 self-center"}>
-          <StageRow status={stages.reserve}>Reserving your endpoint</StageRow>
-          <StageRow status={stages.deploy}>Deploying your proxy</StageRow>
+          <StageRow status={stages.reserve}>
+            {t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.reservingYourEndpoint",
+            )}
+          </StageRow>
+          <StageRow status={stages.deploy}>
+            {t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.deployingYourProxy",
+            )}
+          </StageRow>
           <StageRow status={stages.connect}>
-            Connecting to your network
+            {t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.connectingToYourNetwork",
+            )}
           </StageRow>
         </ul>
       )}
 
       {provisioning && elapsed >= MANAGED_SLOW_HINT_AFTER_S && (
         <Callout variant={"info"} data-testid={"gateway-slow-hint"}>
-          This is taking longer than usual. We&apos;ll keep checking. You can
-          stay on this page or skip to the dashboard and come back.
+          {t(
+            "onboarding.agent-gateway:onboardingAgentGateway.text.thisIsTakingLongerThan",
+          )}
         </Callout>
       )}
 
       {failed && (
         <Callout variant={"warning"} data-testid={"gateway-failed-message"}>
-          {proxy?.message || "The proxy rollout reported a failure."}
+          {proxy?.message ||
+            t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.theProxyRolloutReportedA",
+            )}
         </Callout>
       )}
 
@@ -470,7 +524,7 @@ const ManagedGateway = ({
               ) : (
                 <RefreshCwIcon size={14} />
               )}
-              Retry
+              {t("onboarding.agent-gateway:onboardingAgentGateway.text.retry")}
             </Button>
           )}
           <InlineButtonLink
@@ -479,7 +533,9 @@ const ManagedGateway = ({
             onClick={onNewProxy}
             data-testid={"gateway-self-deploy-instead"}
           >
-            Deploy my own proxy instead
+            {t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.deployMyOwnProxyInstead",
+            )}
           </InlineButtonLink>
         </div>
       )}
@@ -493,13 +549,23 @@ function managedHeader(
   done: boolean,
 ): { title: string; description?: string; announcement: string } {
   const preparing = {
-    title: "Setting up your managed proxy…",
-    description: "This usually takes under a minute.",
-    announcement: "Setting up your managed proxy",
+    title: t(
+      "onboarding.agent-gateway:onboardingAgentGateway.title.settingUpYourManagedProxy",
+    ),
+    description: t(
+      "onboarding.agent-gateway:onboardingAgentGateway.description.thisUsuallyTakesUnderA",
+    ),
+    announcement: t(
+      "onboarding.agent-gateway:onboardingAgentGateway.text.settingUpYourManagedProxy",
+    ),
   };
   const problem = {
-    title: "Proxy setup ran into a problem",
-    announcement: "Proxy setup ran into a problem",
+    title: t(
+      "onboarding.agent-gateway:onboardingAgentGateway.title.proxySetupRanIntoA",
+    ),
+    announcement: t(
+      "onboarding.agent-gateway:onboardingAgentGateway.title.proxySetupRanIntoA",
+    ),
   };
   if (!proxy) return hasFailure ? problem : preparing;
   switch (proxy.state) {
@@ -509,19 +575,37 @@ function managedHeader(
     case MANAGED_PROXY_STATE.READY:
       return done
         ? {
-            title: "Your managed proxy is ready",
-            description: "Thanks for waiting.",
-            announcement: "Proxy ready",
+            title: t(
+              "onboarding.agent-gateway:onboardingAgentGateway.title.yourManagedProxyIsReady",
+            ),
+            description: t(
+              "onboarding.agent-gateway:onboardingAgentGateway.description.thanksForWaiting",
+            ),
+            announcement: t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.proxyReady",
+            ),
           }
-        : { title: "Finishing up…", announcement: "Finishing up" };
+        : {
+            title: t(
+              "onboarding.agent-gateway:onboardingAgentGateway.title.finishingUp",
+            ),
+            announcement: t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.finishingUp",
+            ),
+          };
     case MANAGED_PROXY_STATE.FAILED:
       return problem;
     default:
       return {
-        title: "Checking proxy status…",
-        description:
-          "The proxy reported a status this page doesn't know yet. We'll keep checking.",
-        announcement: "Checking proxy status",
+        title: t(
+          "onboarding.agent-gateway:onboardingAgentGateway.title.checkingProxyStatus",
+        ),
+        description: t(
+          "onboarding.agent-gateway:onboardingAgentGateway.description.theProxyReportedAStatus",
+        ),
+        announcement: t(
+          "onboarding.agent-gateway:onboardingAgentGateway.text.checkingProxyStatus",
+        ),
       };
   }
 }
@@ -531,14 +615,17 @@ const FailureCallout = ({ failure }: { failure: ProvisionFailure }) => {
     case "unavailable":
       return (
         <Callout variant={"warning"} data-testid={"gateway-unavailable"}>
-          Managed proxies are temporarily unavailable. Try again shortly.
+          {t(
+            "onboarding.agent-gateway:onboardingAgentGateway.text.managedProxiesAreTemporarilyUnavailable",
+          )}
         </Callout>
       );
     case "forbidden":
       return (
         <Callout variant={"error"} data-testid={"gateway-forbidden"}>
-          Setting up a managed proxy needs the Agent Network create permission.
-          Ask an account owner to grant it.
+          {t(
+            "onboarding.agent-gateway:onboardingAgentGateway.text.settingUpAManagedProxy",
+          )}
         </Callout>
       );
     default:
@@ -580,12 +667,24 @@ const NewProxyGateway = ({
 
   return (
     <StepLayout
-      title={done ? "Your proxy is connected" : "Connecting your proxy"}
+      title={
+        done
+          ? t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.yourProxyIsConnected",
+            )
+          : t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.connectingYourProxy",
+            )
+      }
       description={
         <>
-          Agent Network is served from your proxy at{" "}
-          <span className={"font-mono text-nb-gray-100"}>{domain}</span> once it
-          connects to NetBird.
+          {t(
+            "onboarding.agent-gateway:onboardingAgentGateway.text.agentNetworkIsServedFrom",
+          )}{" "}
+          <span className={"font-mono text-nb-gray-100"}>{domain}</span>{" "}
+          {t(
+            "onboarding.agent-gateway:onboardingAgentGateway.text.onceItConnectsToNetBird",
+          )}
         </>
       }
       onBack={onBack}
@@ -623,12 +722,16 @@ const SelfDeployStatus = ({
     <LiveStatus message={selfDeployAnnouncement(phase, bootstrap)} />
     {phase === "waiting" && (
       <StatusLine status={"active"}>
-        Waiting for your proxy to connect to NetBird…
+        {t(
+          "onboarding.agent-gateway:onboardingAgentGateway.text.waitingForYourProxyTo",
+        )}
       </StatusLine>
     )}
     {phase === "found" && (
       <StatusLine status={"active"}>
-        Proxy found, waiting for it to come online…
+        {t(
+          "onboarding.agent-gateway:onboardingAgentGateway.text.proxyFoundWaitingForIt",
+        )}
       </StatusLine>
     )}
     {phase === "not-private" && (
@@ -637,14 +740,26 @@ const SelfDeployStatus = ({
         className={"w-full"}
         data-testid={"gateway-not-private"}
       >
-        This proxy isn&apos;t private-capable. Agent Network needs a private
-        proxy (<span className={"font-mono"}>NB_PROXY_PRIVATE=true</span>).
-        Redeploy it with the flag and this page picks it up.
+        {t(
+          "onboarding.agent-gateway:onboardingAgentGateway.text.thisProxyIsnAposT",
+        )}
+        <span className={"font-mono"}>
+          {t(
+            "onboarding.agent-gateway:onboardingAgentGateway.text.nBPROXYPRIVATETrue",
+          )}
+        </span>
+        {t(
+          "onboarding.agent-gateway:onboardingAgentGateway.text.redeployItWithTheFlag",
+        )}
       </Callout>
     )}
     {phase === "connected" && (
       <>
-        <StatusLine status={"done"}>Proxy connected</StatusLine>
+        <StatusLine status={"done"}>
+          {t(
+            "onboarding.agent-gateway:onboardingAgentGateway.text.proxyConnected",
+          )}
+        </StatusLine>
         {!reservedElsewhere && <GatewayAddressStatus bootstrap={bootstrap} />}
       </>
     )}
@@ -654,14 +769,17 @@ const SelfDeployStatus = ({
         className={"w-full"}
         data-testid={"gateway-slow-hint"}
       >
-        Still waiting. Check that the proxy container is running and can reach
-        the address in{" "}
+        {t(
+          "onboarding.agent-gateway:onboardingAgentGateway.text.stillWaitingCheckThatThe",
+        )}{" "}
         <span className={"font-mono text-white"}>
           NB_PROXY_MANAGEMENT_ADDRESS
         </span>
         .{" "}
         <InlineLink href={REVERSE_PROXY_CLUSTERS_DOCS_LINK} target={"_blank"}>
-          Proxy cluster docs
+          {t(
+            "onboarding.agent-gateway:onboardingAgentGateway.text.proxyClusterDocs",
+          )}
           <ExternalLinkIcon size={12} />
         </InlineLink>
       </Callout>
@@ -674,13 +792,29 @@ function selfDeployAnnouncement(
   bootstrap: GatewayBootstrap,
 ): string {
   if (phase === "connected") {
-    if (bootstrap.status === "ready") return "Proxy ready";
-    if (bootstrap.status === "failed") return "Reserving the endpoint failed";
-    return "Proxy connected, reserving your endpoint";
+    if (bootstrap.status === "ready")
+      return t(
+        "onboarding.agent-gateway:onboardingAgentGateway.text.proxyReady",
+      );
+    if (bootstrap.status === "failed")
+      return t(
+        "onboarding.agent-gateway:onboardingAgentGateway.text.reservingTheEndpointFailed",
+      );
+    return t(
+      "onboarding.agent-gateway:onboardingAgentGateway.text.proxyConnectedReservingYourEndpoint",
+    );
   }
-  if (phase === "not-private") return "This proxy isn't private-capable";
-  if (phase === "found") return "Proxy found, waiting for it to come online";
-  return "Waiting for your proxy to connect";
+  if (phase === "not-private")
+    return t(
+      "onboarding.agent-gateway:onboardingAgentGateway.text.thisProxyIsnTPrivate",
+    );
+  if (phase === "found")
+    return t(
+      "onboarding.agent-gateway:onboardingAgentGateway.text.proxyFoundWaitingForIt2",
+    );
+  return t(
+    "onboarding.agent-gateway:onboardingAgentGateway.text.waitingForYourProxyTo2",
+  );
 }
 
 // PrivateClusterGateway serves the endpoint from a private proxy the account
@@ -697,10 +831,20 @@ const PrivateClusterGateway = ({
 
   return (
     <StepLayout
-      title={done ? "Your proxy is ready" : "Setting up your proxy"}
+      title={
+        done
+          ? t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.yourProxyIsReady",
+            )
+          : t(
+              "onboarding.agent-gateway:onboardingAgentGateway.text.settingUpYourProxy",
+            )
+      }
       description={
         <>
-          Agent Network is served from your private proxy at{" "}
+          {t(
+            "onboarding.agent-gateway:onboardingAgentGateway.text.agentNetworkIsServedFrom2",
+          )}{" "}
           <span className={"font-mono text-nb-gray-100"}>{address}</span>.
         </>
       }
@@ -710,8 +854,12 @@ const PrivateClusterGateway = ({
       <LiveStatus
         message={
           bootstrap.status === "ready"
-            ? "Proxy ready"
-            : "Reserving your endpoint"
+            ? t(
+                "onboarding.agent-gateway:onboardingAgentGateway.text.proxyReady",
+              )
+            : t(
+                "onboarding.agent-gateway:onboardingAgentGateway.text.reservingYourEndpoint",
+              )
         }
       />
       {reservedElsewhere ? (
@@ -736,9 +884,13 @@ const isReservedElsewhere = (bootstrap: GatewayBootstrap, address: string) =>
 
 const ReservedElsewhere = ({ endpoint }: { endpoint?: string }) => (
   <Callout variant={"warning"} data-testid={"gateway-reserved-elsewhere"}>
-    This account&apos;s endpoint is already reserved as{" "}
-    <span className={"font-mono text-white"}>{endpoint}</span>, and this proxy
-    won&apos;t serve it.
+    {t(
+      "onboarding.agent-gateway:onboardingAgentGateway.text.thisAccountAposSEndpoint",
+    )}{" "}
+    <span className={"font-mono text-white"}>{endpoint}</span>
+    {t(
+      "onboarding.agent-gateway:onboardingAgentGateway.text.andThisProxyWonApos",
+    )}
   </Callout>
 );
 
@@ -756,7 +908,9 @@ const GatewayAddressStatus = ({
         className={"w-full"}
         data-testid={"gateway-bootstrap-error"}
       >
-        Reserving your endpoint failed.
+        {t(
+          "onboarding.agent-gateway:onboardingAgentGateway.text.reservingYourEndpointFailed",
+        )}
         <Button
           variant={"secondary"}
           size={"xs"}
@@ -764,15 +918,27 @@ const GatewayAddressStatus = ({
           onClick={bootstrap.retry}
         >
           <RefreshCwIcon size={14} />
-          Retry
+          {t("onboarding.agent-gateway:onboardingAgentGateway.text.retry")}
         </Button>
       </Callout>
     );
   }
   if (bootstrap.status === "ready") {
-    return <StatusLine status={"done"}>Endpoint reserved</StatusLine>;
+    return (
+      <StatusLine status={"done"}>
+        {t(
+          "onboarding.agent-gateway:onboardingAgentGateway.text.endpointReserved",
+        )}
+      </StatusLine>
+    );
   }
-  return <StatusLine status={"active"}>Reserving your endpoint…</StatusLine>;
+  return (
+    <StatusLine status={"active"}>
+      {t(
+        "onboarding.agent-gateway:onboardingAgentGateway.text.reservingYourEndpoint2",
+      )}
+    </StatusLine>
+  );
 };
 
 type GatewayBootstrap = ReturnType<typeof useGatewayBootstrap>;
@@ -909,7 +1075,7 @@ const StepLayout = ({
 
     <div className={"flex items-center justify-center mt-4 gap-3"}>
       <Button variant={"secondary"} onClick={onBack}>
-        Go Back
+        {t("onboarding.agent-network:onboardingAgentConfigure.text.goBack")}
       </Button>
       {onNext && (
         <Button
@@ -917,7 +1083,7 @@ const StepLayout = ({
           onClick={onNext}
           data-testid={"gateway-continue"}
         >
-          Continue
+          {t("common:word.continue")}
           <ArrowRightIcon size={16} />
         </Button>
       )}

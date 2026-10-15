@@ -11,9 +11,9 @@ import { MoreVertical, Power, SquarePenIcon, Trash2 } from "lucide-react";
 import * as React from "react";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
 import { AIProvider } from "@/modules/agent-network/data/mockData";
-
 type Props = {
   provider: AIProvider;
 };
@@ -35,11 +35,14 @@ export default function AgentProviderActionCell({ provider }: Readonly<Props>) {
 
   const handleDelete = async () => {
     const ok = await confirm({
-      title: `Delete '${provider.name}'?`,
-      description:
-        "Are you sure you want to delete this provider? The reverse-proxy service that fronts it will also be removed. This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t("agent-network.table:agentProviderActionCell.title.delete", {
+        name: provider.name,
+      }),
+      description: t(
+        "agent-network.table:agentProviderActionCell.description.areYouSureYouWant",
+      ),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!ok) return;
@@ -73,7 +76,7 @@ export default function AgentProviderActionCell({ provider }: Readonly<Props>) {
             >
               <div className={"flex gap-3 items-center"}>
                 <SquarePenIcon size={14} className={"shrink-0"} />
-                Edit
+                {t("common:word.edit")}
               </div>
             </DropdownMenuItem>
           )}
@@ -82,7 +85,9 @@ export default function AgentProviderActionCell({ provider }: Readonly<Props>) {
             <DropdownMenuItem onClick={() => toggleProvider(provider.id)}>
               <div className={"flex gap-3 items-center"}>
                 <Power size={14} className={"shrink-0"} />
-                {provider.enabled ? "Disable" : "Enable"}
+                {provider.enabled
+                  ? t("common:word.disable")
+                  : t("common:word.enable")}
               </div>
             </DropdownMenuItem>
           )}
@@ -95,11 +100,20 @@ export default function AgentProviderActionCell({ provider }: Readonly<Props>) {
               interactive={false}
               content={
                 <div className={"text-xs max-w-xs"}>
-                  This provider is referenced by{" "}
+                  {t(
+                    "agent-network.table:agentProviderActionCell.text.thisProviderIsReferencedBy",
+                  )}{" "}
                   {referencingPolicies.length === 1
-                    ? "1 policy"
-                    : `${referencingPolicies.length} policies`}{" "}
-                  and cannot be deleted. Detach it from the policy first.
+                    ? t(
+                        "agent-network.table:agentProviderActionCell.text.1Policy",
+                      )
+                    : t(
+                        "agent-network.table:agentProviderActionCell.text.nPolicies",
+                        { count: referencingPolicies.length },
+                      )}{" "}
+                  {t(
+                    "agent-network.table:agentProviderActionCell.text.andCannotBeDeletedDetach",
+                  )}
                 </div>
               }
             >
@@ -116,7 +130,7 @@ export default function AgentProviderActionCell({ provider }: Readonly<Props>) {
               >
                 <div className={"flex gap-3 items-center"}>
                   <Trash2 size={14} className={"shrink-0"} />
-                  Delete
+                  {t("common:word.delete")}
                 </div>
               </DropdownMenuItem>
             </FullTooltip>

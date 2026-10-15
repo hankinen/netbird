@@ -1,5 +1,6 @@
 {
-  "onboarding.description.policyWasSuccessfully": "Policy was successfully {{value}}",
+  "onboarding.description.policyWasSuccessfullyEnabled": "Policy was successfully enabled",
+  "onboarding.description.policyWasSuccessfullyDisabled": "Policy was successfully disabled",
   "onboarding.loadingMessage.updatingPolicy": "Updating policy...",
   "onboarding.text.onboarding": "Onboarding",
   "onboarding.text.alreadyKnowHowNetBirdWorks": "Already know how NetBird works?",
@@ -51,5 +52,7 @@
   "onboardingSurvey.text.gaming": "Gaming",
   "onboardingSurvey.text.otherPleaseSpecify": "Other (Please specify)",
   "onboardingSurvey.text.eGDNSManagementFile": "e.g. DNS Management, File Access",
-  "onboardingSurvey.text.eGDNSManagementIoT": "e.g. DNS Management, IoT"
+  "onboardingSurvey.text.eGDNSManagementIoT": "e.g. DNS Management, IoT",
+  "onboardingEnd.title.congratulationsName": "Congratulations, {{name}}!",
+  "onboardingEnd.title.congratulations": "Congratulations!"
 }

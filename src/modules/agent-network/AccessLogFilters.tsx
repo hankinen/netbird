@@ -32,6 +32,7 @@ import { useGroups } from "@/contexts/GroupsProvider";
 import { useUsers } from "@/contexts/UsersProvider";
 import { useAIProviders } from "@/modules/agent-network/AIProvidersProvider";
 
+import { t } from "@/i18n";
 type FilterRow = Record<string, unknown>;
 
 // formatDateChip renders the active date-range filter as a compact chip body.
@@ -41,8 +42,16 @@ export function formatDateChip(value: DateRange | undefined): string | null {
   if (!value?.from && !value?.to) return null;
   const preset = dateRangePresetLabel(value);
   if (preset) return preset;
-  const from = value?.from ? dayjs(value.from).format("MMM D") : "…";
-  const to = value?.to ? dayjs(value.to).format("MMM D") : "…";
+  const from = value?.from
+    ? dayjs(value.from).format(
+        t("agent-network.aiproviders-provider:accessLogFilters.text.mMMD"),
+      )
+    : "…";
+  const to = value?.to
+    ? dayjs(value.to).format(
+        t("agent-network.aiproviders-provider:accessLogFilters.text.mMMD"),
+      )
+    : "…";
   return `${from} – ${to}`;
 }
 
@@ -135,7 +144,9 @@ export function useAccessLogFilters(options?: {
     () => [
       {
         id: "date",
-        label: "Date",
+        label: t(
+          "agent-network.aiproviders-provider:accessLogFilters.label.date",
+        ),
         renderPicker: (p) => (
           <div className={"p-1"}>
             <DatePickerWithRange
@@ -148,7 +159,7 @@ export function useAccessLogFilters(options?: {
       },
       {
         id: "user",
-        label: "User",
+        label: t("common:word.user"),
         renderPicker: (p) => (
           <UsersPicker
             value={p.value as string | undefined}
@@ -162,7 +173,9 @@ export function useAccessLogFilters(options?: {
       },
       {
         id: "group",
-        label: "Group",
+        label: t(
+          "agent-network.aiproviders-provider:accessLogFilters.label.group",
+        ),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -175,7 +188,9 @@ export function useAccessLogFilters(options?: {
       },
       {
         id: "provider",
-        label: "Provider",
+        label: t(
+          "agent-network.aiproviders-provider:accessLogFilters.label.provider",
+        ),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -193,7 +208,9 @@ export function useAccessLogFilters(options?: {
       },
       {
         id: "model",
-        label: "Model",
+        label: t(
+          "agent-network.aiproviders-provider:accessLogFilters.label.model",
+        ),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}

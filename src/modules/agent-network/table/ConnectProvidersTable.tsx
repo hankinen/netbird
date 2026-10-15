@@ -14,10 +14,10 @@ import React from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { t } from "@/i18n";
 import AIProviderLogo from "@/modules/agent-network/AIProviderLogo";
 import { AIProviderId } from "@/modules/agent-network/data/mockData";
 import { APIMeProvider } from "@/modules/agent-network/useMyAgentNetworkSetup";
-
 function NameCell({ provider }: { provider: APIMeProvider }) {
   return (
     <div className={"flex items-center gap-3 py-2"}>
@@ -63,15 +63,18 @@ function AllModelsTooltip({ models }: { models: string[] }) {
   if (models.length === 0) {
     return (
       <span className={"text-xs"}>
-        No model restriction. This provider doesn&apos;t publish a model list,
-        so use any model id its upstream accepts.
+        {t(
+          "agent-network.table:connectProvidersTable.text.noModelRestrictionThisProvider",
+        )}
       </span>
     );
   }
   return (
     <div className={"flex flex-col gap-2 text-xs"}>
       <span className={"text-nb-gray-300"}>
-        No model restriction. Known models for this provider:
+        {t(
+          "agent-network.table:connectProvidersTable.text.noModelRestrictionKnownModels",
+        )}
       </span>
       <ModelList models={models} />
     </div>
@@ -96,7 +99,9 @@ function ModelsCell({ provider }: { provider: APIMeProvider }) {
         <Badge variant={"gray"} className={"h-[34px]"} useHover={true}>
           <Boxes size={11} />
           <span className={"font-medium text-xs"}>
-            {allModels ? "All Models" : provider.models.length}
+            {allModels
+              ? t("agent-network.table:agentProvidersTable.text.allModels")
+              : provider.models.length}
           </span>
           {allModels && provider.models.length > 0 && (
             <span className={"text-xs text-nb-gray-400"}>
@@ -115,7 +120,9 @@ const columns: ColumnDef<APIMeProvider>[] = [
     accessorKey: "name",
     sortingFn: "text",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Provider</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("agent-network.table:connectProvidersTable.text.provider")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => <NameCell provider={row.original} />,
   },
@@ -125,7 +132,9 @@ const columns: ColumnDef<APIMeProvider>[] = [
     accessorFn: (p) => (p.all_models_allowed ? Infinity : p.models.length),
     sortingFn: "basic",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Models</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("agent-network.table:agentProvidersTable.text.models")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => <ModelsCell provider={row.original} />,
   },
@@ -163,7 +172,7 @@ export default function ConnectProvidersTable({ providers }: Readonly<Props>) {
       inset={false}
       tableClassName={"mt-0"}
       paginationPaddingClassName={"px-0 pt-8"}
-      text={"Providers"}
+      text={t("common:word.providers")}
       sorting={sorting}
       setSorting={setSorting}
       columns={columns}
@@ -176,11 +185,17 @@ export default function ConnectProvidersTable({ providers }: Readonly<Props>) {
         <NoResults
           className={"py-4"}
           icon={<AgentNetworkIcon className={"text-nb-gray-300"} size={20} />}
-          title={"No providers available yet"}
+          title={t(
+            "agent-network.table:connectProvidersTable.title.noProvidersAvailableYet",
+          )}
           description={
             canManagePolicies
-              ? "No access policy covers your user yet. Add one of your groups to a policy to route your agent through NetBird."
-              : "You don’t have access to any providers yet. Ask your administrator to add you to an Agent Network access policy."
+              ? t(
+                  "agent-network.table:connectProvidersTable.text.noAccessPolicyCoversYour",
+                )
+              : t(
+                  "agent-network.table:connectProvidersTable.text.youDonTHaveAccess",
+                )
           }
         >
           {canManagePolicies && (
@@ -190,7 +205,7 @@ export default function ConnectProvidersTable({ providers }: Readonly<Props>) {
               className={"mt-4"}
               onClick={() => router.push("/agent-network/policies")}
             >
-              Go to Policies
+              {t("agent-network.table:connectProvidersTable.text.goToPolicies")}
             </Button>
           )}
         </NoResults>
