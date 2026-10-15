@@ -2,3 +2,5 @@
 # between runs (pixel noise unrelated to the theme). Keep this list short.
 pages-core-controlcenter--   # animated dashed edges (cc-edge-dash), React Flow fitView timing
 pages-network-network-detail--resource-groups-picker-open   # popover position varies by a few px between runs (seen in dark and light)
+pages-platform-cloud-integrations--event-streaming-amazon-s-3-setup-2   # placeholder AWS keys come from a seeded Math.random; the sequence shifts with how often the wizard mounts (chunk/Suspense timing), only the two placeholder strings differ
+pages-platform-cloud-integrations--event-streaming-amazon-data-firehose-setup-2   # same as above
