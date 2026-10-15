@@ -31,7 +31,10 @@ upstream light theme render exactly as upstream.
 Upstream touch points (the only conflict hotspots): one import + `export default
 withAntdTheme(config)` in `tailwind.config.ts`, the first line of
 `src/app/globals.css`, one import + one line each in `src/layouts/AppLayout.tsx`
-and `src/contexts/ThemeProvider.tsx`, two npm scripts in `package.json`.
+and `src/contexts/ThemeProvider.tsx`, two npm scripts and the
+`@rc-component/pagination` dependency in `package.json` (+ lock file), one
+`paths` line in `tsconfig.json`, and 18 keys in `components.table.json`
+(en + zh-CN).
 
 ## Specificity policy
 
