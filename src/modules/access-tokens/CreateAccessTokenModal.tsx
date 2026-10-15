@@ -92,7 +92,10 @@ export default function CreateAccessTokenModal({
           <div className={"px-8 pb-6"}>
             <Code message={t("access-tokens.main:tokenCopied")}>
               <Code.Line>
-                {token || "Setup key could not be created..."}
+                {token ||
+                  t(
+                    "access-tokens.main:createAccessTokenModal.text.couldNotBeCreated",
+                  )}
               </Code.Line>
             </Code>
           </div>

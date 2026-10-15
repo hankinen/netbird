@@ -371,7 +371,7 @@ export const OperatingSystemTab = ({
       ? t(
           "posture-checks.checks:postureCheckOperatingSystem.text.kernelVersion",
         )
-      : "Version";
+      : t("posture-checks.checks:postureCheckOperatingSystem.text.version");
 
   const versionError = useMemo(() => {
     const msg = t(

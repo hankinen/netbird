@@ -29,5 +29,6 @@
   "peerGroupsPanel.description.theGroupAssignmentsYouToggled.applied": "您为“{{value}}”切换的组分配尚未应用。关闭面板将丢失这些更改。",
   "peerGroupsPanel.description.theGroupAssignmentsYouToggled.saved": "您为“{{value}}”切换的组分配尚未保存。关闭面板将丢失这些更改。",
   "destinationGroupPanel.description.theMembersYouToggledFor.applied": "您为“{{value}}”切换的成员尚未应用。关闭面板将丢失这些更改。",
-  "destinationGroupPanel.description.theMembersYouToggledFor.saved": "您为“{{value}}”切换的成员尚未保存。关闭面板将丢失这些更改。"
+  "destinationGroupPanel.description.theMembersYouToggledFor.saved": "您为“{{value}}”切换的成员尚未保存。关闭面板将丢失这些更改。",
+  "assignedCount.text": "已分配 {{selected}} / {{total}}"
 }

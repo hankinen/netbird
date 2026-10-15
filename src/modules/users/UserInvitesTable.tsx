@@ -197,7 +197,9 @@ function InviteGroupCell({ invite }: { invite: UserInvite }) {
 // Status cell for invites - shows Valid/Expired based on expired field
 function InviteStatusCell({ invite }: { invite: UserInvite }) {
   const isExpired = invite.expired;
-  const text = isExpired ? "Expired" : "Valid";
+  const text = isExpired
+    ? t("users.modals:userInvitesTable.status.expired")
+    : t("users.modals:userInvitesTable.status.valid");
   const color = isExpired ? "bg-red-500" : "bg-green-500";
 
   return (
@@ -261,7 +263,10 @@ function InviteActionCell({ invite }: { invite: UserInvite }) {
   };
 
   const deleteInvite = async () => {
-    const name = invite.name || invite.email || "Invite";
+    const name =
+      invite.name ||
+      invite.email ||
+      t("users.modals:userInvitesTable.text.invite");
     notify({
       title: t("users.modals:userInvitesTable.title.deleted", { name }),
       description: t(
@@ -277,7 +282,10 @@ function InviteActionCell({ invite }: { invite: UserInvite }) {
   };
 
   const openDeleteConfirm = async () => {
-    const name = invite.name || invite.email || "Invite";
+    const name =
+      invite.name ||
+      invite.email ||
+      t("users.modals:userInvitesTable.text.invite");
     const choice = await confirm({
       title: t("users.modals:userInvitesTable.title.deleteInviteFor", { name }),
       description: t(

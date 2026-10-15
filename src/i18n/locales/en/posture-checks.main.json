@@ -1,5 +1,7 @@
 {
   "usePostureCheck.title.postureCheck": "Posture Check {{name}}",
-  "usePostureCheck.description.postureCheckWasSuccessfully": "Posture Check was {{value}} successfully.",
-  "usePostureCheck.loadingMessage.yourPostureCheck": "{{value}} your posture check..."
+  "usePostureCheck.description.postureCheckWasSuccessfullyUpdated": "Posture Check was updated successfully.",
+  "usePostureCheck.description.postureCheckWasSuccessfullyCreated": "Posture Check was created successfully.",
+  "usePostureCheck.loadingMessage.yourPostureCheckUpdating": "Updating your posture check...",
+  "usePostureCheck.loadingMessage.yourPostureCheckCreating": "Creating your posture check..."
 }

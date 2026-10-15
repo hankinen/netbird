@@ -66,5 +66,6 @@
   "processTooltip.text.unknownPath": "Unknown path",
   "postureCheckOperatingSystem.label.allVersions": "All versions",
   "postureCheckOperatingSystem.label.equalOrGreaterThan": "Equal or greater than",
-  "postureCheckNetBirdVersion.customPrefix.version": "Version"
+  "postureCheckNetBirdVersion.customPrefix.version": "Version",
+  "postureCheckOperatingSystem.text.version": "Version"
 }

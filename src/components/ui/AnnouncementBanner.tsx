@@ -35,6 +35,36 @@ const variants = cva(
 
 export type AnnouncementVariant = VariantProps<typeof variants>;
 
+/**
+ * Display text for a known announcement string (remote feed, MSP and billing
+ * notices). The announcement itself, and the hash used to remember a closed
+ * banner, keep the English text; unknown strings are shown as they are.
+ */
+const announcementText = (value: string) => {
+  const known: Record<string, string> = {
+    New: t("components.ui:announcementBanner.tag.new"),
+    Notice: t("components.ui:announcementBanner.tag.notice"),
+    Trial: t("components.ui:announcementBanner.tag.trial"),
+    "Learn more": t("common:word.learnMore"),
+    "Roll Out NetBird Across Your Organization with MDM.": t(
+      "components.ui:announcementBanner.text.mdmRollout",
+    ),
+    "Huntress now integrates with NetBird": t(
+      "components.ui:announcementBanner.text.huntress",
+    ),
+    "You've reached your usage limits. For extended features and higher limits, please consider upgrading your plan.":
+      t("components.ui:announcementBanner.text.usageLimit"),
+    "Go to Plans & Billing": t(
+      "components.ui:announcementBanner.link.plansBilling",
+    ),
+    "Your trial is ending soon. Need more time? Contact us to extend your trial.":
+      t("components.ui:announcementBanner.text.trialEnding"),
+  };
+  return Object.prototype.hasOwnProperty.call(known, value)
+    ? known[value]
+    : value;
+};
+
 export const AnnouncementBanner = () => {
   const { closeAnnouncement, announcements, setBannerHeight } =
     useAnnouncement();
@@ -71,11 +101,11 @@ export const AnnouncementBanner = () => {
               variants({ tagBadge: announcement.variant }),
             )}
           >
-            {announcement.tag}
+            {announcementText(announcement.tag)}
           </div>
         )}
         <div>
-          <span className={"mr-2"}>{announcement.text}</span>
+          <span className={"mr-2"}>{announcementText(announcement.text)}</span>
           {announcement.link && (
             <InlineLink
               href={announcement.link || "#"}
@@ -85,7 +115,9 @@ export const AnnouncementBanner = () => {
                 variants({ inlineLink: announcement.variant }),
               )}
             >
-              {announcement.linkText || t("common:word.learnMore")}
+              {announcement.linkText
+                ? announcementText(announcement.linkText)
+                : t("common:word.learnMore")}
               <ArrowRightIcon size={14} />
             </InlineLink>
           )}

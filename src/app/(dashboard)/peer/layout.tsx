@@ -14,6 +14,7 @@ export default function Layout({
     <BlankLayout>
       <NamespaceGate
         modules={[
+          "reverse-proxy",
           "peer",
           "peers",
           "groups",

@@ -31,7 +31,7 @@ export const JobOutputCell = ({ job }: Props) => {
                   {typeof value === "boolean"
                     ? value
                       ? t("jobs.table:jobOutputCell.text.yes")
-                      : "No"
+                      : t("jobs.table:jobOutputCell.text.no")
                     : String(value)}
                 </span>
               </CopyToClipboardText>

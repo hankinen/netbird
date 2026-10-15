@@ -17,5 +17,6 @@
   "page.text.blockUser": "Block User",
   "page.text.lastLogin": "Last login",
   "page.text.dMMMMYYYYAtH": "D MMMM, YYYY [at] h:mm A",
-  "page.text.manageUsersAndTheirPermissions": "Manage users and their permissions. Same-domain email users are added automatically on first sign-in."
+  "page.text.manageUsersAndTheirPermissions": "Manage users and their permissions. Same-domain email users are added automatically on first sign-in.",
+  "page.text.never": "Never"
 }

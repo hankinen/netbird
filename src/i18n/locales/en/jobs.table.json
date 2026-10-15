@@ -13,5 +13,6 @@
   "peerRemoteJobsTable.text.jobs": "Jobs",
   "peerRemoteJobsTable.searchPlaceholder.searchByTypeStatusOr": "Search by type, status, or parameters...",
   "peerRemoteJobsTable.title.thisPeerHasNoRemote": "This peer has no remote jobs",
-  "peerRemoteJobsTable.description.createADebugBundleOr": "Create a debug bundle or trigger other remote jobs to see them listed here."
+  "peerRemoteJobsTable.description.createADebugBundleOr": "Create a debug bundle or trigger other remote jobs to see them listed here.",
+  "jobOutputCell.text.no": "No"
 }

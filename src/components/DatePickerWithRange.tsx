@@ -76,8 +76,10 @@ export function dateRangePresetLabel(
     return t("components.core:datePickerWithRange.text.last2Days");
   if (isEqualDateRange(value, defaultRanges.last7Days))
     return t("components.core:datePickerWithRange.text.last7Days");
-  if (isEqualDateRange(value, defaultRanges.yesterday)) return "Yesterday";
-  if (isEqualDateRange(value, defaultRanges.today)) return "Today";
+  if (isEqualDateRange(value, defaultRanges.yesterday))
+    return t("components.core:datePickerWithRange.label.yesterday");
+  if (isEqualDateRange(value, defaultRanges.today))
+    return t("components.core:datePickerWithRange.label.today");
   return null;
 }
 

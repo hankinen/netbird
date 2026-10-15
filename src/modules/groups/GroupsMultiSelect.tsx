@@ -35,10 +35,14 @@ export const GroupsMultiSelect = ({
         groupCount,
         value: groupCount > 1 ? "groups" : "group",
       }),
-      description: t(
-        "groups.main:groupsMultiSelect.description.areYouSureYouWant",
-        { value: groupCount > 1 ? "these groups" : "this group" },
-      ),
+      description:
+        groupCount > 1
+          ? t(
+              "groups.main:groupsMultiSelect.description.areYouSureYouWantTheseGroups",
+            )
+          : t(
+              "groups.main:groupsMultiSelect.description.areYouSureYouWantThisGroup",
+            ),
       confirmText: t("groups.main:groupsMultiSelect.confirmText.deleteAll"),
       cancelText: t("common:word.cancel"),
       type: "danger",

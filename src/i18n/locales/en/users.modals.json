@@ -100,5 +100,8 @@
   "userResendInviteButton.text.sending": "Sending...",
   "userResendInviteButton.text.resend": "Resend",
   "passwordCopied": "Password was copied to your clipboard!",
-  "inviteLinkCopied": "Invite link was copied to your clipboard!"
+  "inviteLinkCopied": "Invite link was copied to your clipboard!",
+  "userInvitesTable.status.expired": "Expired",
+  "userInvitesTable.status.valid": "Valid",
+  "userInvitesTable.text.invite": "Invite"
 }

@@ -5,6 +5,48 @@ import { LockIcon } from "lucide-react";
 import * as React from "react";
 import Skeleton from "react-loading-skeleton";
 import { t } from "@/i18n";
+
+// Display-time lookup for the English page names callers pass in; unknown
+// names are shown unchanged.
+const PAGE_LABELS: Record<string, () => string> = {
+  "Access Logs": () => t("components.ui:restrictedAccess.page.accessLogs"),
+  "Traffic Events": () =>
+    t("components.ui:restrictedAccess.page.trafficEvents"),
+  "Access Control": () =>
+    t("components.ui:restrictedAccess.page.accessControl"),
+  Activity: () => t("components.ui:restrictedAccess.page.activity"),
+  Clusters: () => t("components.ui:restrictedAccess.page.clusters"),
+  Configuration: () => t("components.ui:restrictedAccess.page.configuration"),
+  "Custom Domains": () =>
+    t("components.ui:restrictedAccess.page.customDomains"),
+  Customers: () => t("components.ui:restrictedAccess.page.customers"),
+  "DNS Settings": () => t("components.ui:restrictedAccess.page.dnsSettings"),
+  "DNS Zones": () => t("components.ui:restrictedAccess.page.dnsZones"),
+  "Group Information": () =>
+    t("components.ui:restrictedAccess.page.groupInformation"),
+  Groups: () => t("components.ui:restrictedAccess.page.groups"),
+  Integrations: () => t("components.ui:restrictedAccess.page.integrations"),
+  Nameservers: () => t("components.ui:restrictedAccess.page.nameservers"),
+  "Peer Information": () =>
+    t("components.ui:restrictedAccess.page.peerInformation"),
+  Peers: () => t("components.ui:restrictedAccess.page.peers"),
+  Policies: () => t("components.ui:restrictedAccess.page.policies"),
+  "Posture Checks": () =>
+    t("components.ui:restrictedAccess.page.postureChecks"),
+  Providers: () => t("components.ui:restrictedAccess.page.providers"),
+  "Service Users": () => t("components.ui:restrictedAccess.page.serviceUsers"),
+  Services: () => t("components.ui:restrictedAccess.page.services"),
+  Settings: () => t("components.ui:restrictedAccess.page.settings"),
+  "Setup Keys": () => t("components.ui:restrictedAccess.page.setupKeys"),
+  Tenants: () => t("components.ui:restrictedAccess.page.tenants"),
+  "Usage & Logs": () => t("components.ui:restrictedAccess.page.usageLogs"),
+  "User Information": () =>
+    t("components.ui:restrictedAccess.page.userInformation"),
+  Users: () => t("components.ui:restrictedAccess.page.users"),
+  "this page": () => t("components.ui:restrictedAccess.page.thisPage"),
+};
+const pageLabel = (page: string) => PAGE_LABELS[page]?.() ?? page;
+
 type Props = {
   children?: React.ReactNode;
   hasAccess?: boolean;
@@ -64,7 +106,7 @@ export const RestrictedAccess = ({
                         {t(
                           "components.ui:restrictedAccess.text.youDonTHaveAccess",
                         )}{" "}
-                        <br /> {page}
+                        <br /> {pageLabel(page)}
                       </h1>
                       <Paragraph className={"justify-center my-3"}>
                         {t(

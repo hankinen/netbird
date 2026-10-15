@@ -1488,10 +1488,19 @@ export const DestinationGroupPanel = ({
         >
           <span className={"text-xs text-nb-gray-400"}>
             {tab === "peers"
-              ? `${selectedPeerIds.size} of ${totalPeers} Assigned`
+              ? t("control-center.panels:assignedCount.text", {
+                  selected: selectedPeerIds.size,
+                  total: totalPeers,
+                })
               : tab === "users"
-              ? `${selectedUserIds.size} of ${totalUsers} Assigned`
-              : `${selectedResourceIds.size} of ${totalResources} Assigned`}
+              ? t("control-center.panels:assignedCount.text", {
+                  selected: selectedUserIds.size,
+                  total: totalUsers,
+                })
+              : t("control-center.panels:assignedCount.text", {
+                  selected: selectedResourceIds.size,
+                  total: totalResources,
+                })}
           </span>
           <div className={"flex items-center gap-3"}>
             <Button

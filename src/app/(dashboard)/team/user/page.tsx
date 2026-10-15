@@ -423,7 +423,7 @@ function UserInformationCard({ user }: Readonly<{ user: User }>) {
               }
               value={
                 neverLoggedIn
-                  ? "Never"
+                  ? t("team.page:page.text.never")
                   : dayjs(user.last_login).format(
                       t("team.page:page.text.dMMMMYYYYAtH"),
                     ) +

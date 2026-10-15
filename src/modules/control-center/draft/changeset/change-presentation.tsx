@@ -18,11 +18,11 @@ import {
   WorkflowIcon,
 } from "lucide-react";
 import React from "react";
+import { t } from "@/i18n";
 import {
   ChangeKind,
   DraftChange,
 } from "@/modules/control-center/draft/DraftChangesetContext";
-
 // Shared presentation for a change in the Review & Deploy list.
 
 // Entity icon; the verb lives in the badge.
@@ -90,23 +90,31 @@ const KIND_BADGES: Record<
   { label: string; icon: React.ReactNode; className: string }
 > = {
   add: {
-    label: "Add",
+    get label() {
+      return t("common:word.add");
+    },
     icon: <SquarePlusIcon size={13} />,
     className: "bg-green-900/30 text-green-400 border border-green-500/20",
   },
   update: {
-    label: "Modify",
+    get label() {
+      return t("control-center.draft:changePresentation.label.modify");
+    },
     icon: <SquareDotIcon size={13} />,
     className: "bg-yellow-900/30 text-yellow-400 border border-yellow-500/20",
   },
   remove: {
-    label: "Delete",
+    get label() {
+      return t("common:word.delete");
+    },
     icon: <SquareMinusIcon size={13} />,
     className: "bg-red-900/30 text-red-400 border border-red-500/20",
   },
   // Not an API call but a step the user performs; deploy leaves these pending.
   install: {
-    label: "Install",
+    get label() {
+      return t("common:word.install");
+    },
     icon: <TriangleAlertIcon size={13} />,
     className: "bg-amber-900/30 text-amber-400 border border-amber-500/20",
   },

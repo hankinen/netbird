@@ -351,50 +351,97 @@ export const getChangeKind = (change: DraftChange): ChangeKind => {
 export const getChangeApiCall = (change: DraftChange): string => {
   switch (change.type) {
     case "create-group":
-      return "POST /groups";
+      return t("control-center.draft:draftChangesetContext.text.pOSTGroups");
     case "update-group":
-      return `PUT /groups/${change.groupId}`;
+      return t("control-center.draft:draftChangesetContext.text.pUTGroups", {
+        groupId: change.groupId,
+      });
     case "delete-group":
-      return `DELETE /groups/${change.groupId}`;
+      return t("control-center.draft:draftChangesetContext.text.dELETEGroups", {
+        groupId: change.groupId,
+      });
     case "create-policy":
-      return "POST /policies";
+      return t("control-center.draft:draftChangesetContext.text.pOSTPolicies");
     case "update-policy":
-      return `PUT /policies/${change.policyId}`;
+      return t("control-center.draft:draftChangesetContext.text.pUTPolicies", {
+        policyId: change.policyId,
+      });
     case "delete-policy":
-      return `DELETE /policies/${change.policyId}`;
+      return t(
+        "control-center.draft:draftChangesetContext.text.dELETEPolicies",
+        { policyId: change.policyId },
+      );
     case "create-network":
-      return "POST /networks";
+      return t("control-center.draft:draftChangesetContext.text.pOSTNetworks");
     case "update-network":
-      return `PUT /networks/${change.networkId}`;
+      return t("control-center.draft:draftChangesetContext.text.pUTNetworks", {
+        networkId: change.networkId,
+      });
     case "create-resource":
-      return `POST /networks/${change.networkId ?? "{network_id}"}/resources`;
+      return t(
+        "control-center.draft:draftChangesetContext.text.pOSTNetworksResources",
+        { value: change.networkId ?? "{network_id}" },
+      );
     case "create-router":
-      return `POST /networks/${change.networkId ?? "{network_id}"}/routers`;
+      return t(
+        "control-center.draft:draftChangesetContext.text.pOSTNetworksRouters",
+        { value: change.networkId ?? "{network_id}" },
+      );
     case "update-router":
-      return `PUT /networks/${change.networkId}/routers/${change.routerId}`;
+      return t(
+        "control-center.draft:draftChangesetContext.text.pUTNetworksRouters",
+        { networkId: change.networkId, routerId: change.routerId },
+      );
     case "update-resource":
-      return `PUT /networks/${change.networkId}/resources/${change.resourceId}`;
+      return t(
+        "control-center.draft:draftChangesetContext.text.pUTNetworksResources",
+        { networkId: change.networkId, resourceId: change.resourceId },
+      );
     case "delete-resource":
-      return `DELETE /networks/${change.networkId}/resources/${change.resourceId}`;
+      return t(
+        "control-center.draft:draftChangesetContext.text.dELETENetworksResources",
+        { networkId: change.networkId, resourceId: change.resourceId },
+      );
     case "delete-network":
-      return `DELETE /networks/${change.networkId}`;
+      return t(
+        "control-center.draft:draftChangesetContext.text.dELETENetworks",
+        { networkId: change.networkId },
+      );
     case "install-peer":
       // Not a deploy call: the setup key is created when the user installs.
-      return "POST /setup-keys";
+      return t("control-center.draft:draftChangesetContext.text.pOSTSetupKeys");
     case "create-provider":
-      return "POST /agent-network/providers";
+      return t(
+        "control-center.draft:draftChangesetContext.text.pOSTAgentNetworkProviders",
+      );
     case "update-provider":
-      return `PUT /agent-network/providers/${change.providerId}`;
+      return t(
+        "control-center.draft:draftChangesetContext.text.pUTAgentNetworkProviders",
+        { providerId: change.providerId },
+      );
     case "delete-provider":
-      return `DELETE /agent-network/providers/${change.providerId}`;
+      return t(
+        "control-center.draft:draftChangesetContext.text.dELETEAgentNetworkProviders",
+        { providerId: change.providerId },
+      );
     case "create-agent-policy":
-      return "POST /agent-network/policies";
+      return t(
+        "control-center.draft:draftChangesetContext.text.pOSTAgentNetworkPolicies",
+      );
     case "update-agent-policy":
-      return `PUT /agent-network/policies/${change.agentPolicyId}`;
+      return t(
+        "control-center.draft:draftChangesetContext.text.pUTAgentNetworkPolicies",
+        { agentPolicyId: change.agentPolicyId },
+      );
     case "delete-agent-policy":
-      return `DELETE /agent-network/policies/${change.agentPolicyId}`;
+      return t(
+        "control-center.draft:draftChangesetContext.text.dELETEAgentNetworkPolicies",
+        { agentPolicyId: change.agentPolicyId },
+      );
     case "update-user-groups":
-      return `PUT /users/${change.userId}`;
+      return t("control-center.draft:draftChangesetContext.text.pUTUsers", {
+        userId: change.userId,
+      });
   }
 };
 

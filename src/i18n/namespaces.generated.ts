@@ -7,10 +7,34 @@ import en_access_control_table from "./locales/en/access-control.table.json";
 import en_access_tokens_main from "./locales/en/access-tokens.main.json";
 import en_activity_description from "./locales/en/activity.description.json";
 import en_activity_table from "./locales/en/activity.table.json";
+import en_agent_network_agent_budget_rule_modal from "./locales/en/agent-network.agent-budget-rule-modal.json";
+import en_agent_network_agent_overview_panel from "./locales/en/agent-network.agent-overview-panel.json";
+import en_agent_network_aiprovider_form from "./locales/en/agent-network.aiprovider-form.json";
+import en_agent_network_aiprovider_modal from "./locales/en/agent-network.aiprovider-modal.json";
+import en_agent_network_aiproviders_provider from "./locales/en/agent-network.aiproviders-provider.json";
+import en_agent_network_data from "./locales/en/agent-network.data.json";
+import en_agent_network_main from "./locales/en/agent-network.main.json";
+import en_agent_network_page from "./locales/en/agent-network.page.json";
+import en_agent_network_table from "./locales/en/agent-network.table.json";
 import en_auth_main from "./locales/en/auth.main.json";
 import en_billing_locked_feature from "./locales/en/billing.locked-feature.json";
+import en_billing_main from "./locales/en/billing.main.json";
 import en_billing_trial from "./locales/en/billing.trial.json";
+import en_cloud_analytics from "./locales/en/cloud.analytics.json";
+import en_cloud_aws from "./locales/en/cloud.aws.json";
+import en_cloud_contexts from "./locales/en/cloud.contexts.json";
+import en_cloud_distributor from "./locales/en/cloud.distributor.json";
+import en_cloud_edr from "./locales/en/cloud.edr.json";
+import en_cloud_invoices from "./locales/en/cloud.invoices.json";
 import en_cloud_main from "./locales/en/cloud.main.json";
+import en_cloud_mfa from "./locales/en/cloud.mfa.json";
+import en_cloud_msp from "./locales/en/cloud.msp.json";
+import en_cloud_notifications from "./locales/en/cloud.notifications.json";
+import en_cloud_reverse_proxy from "./locales/en/cloud.reverse-proxy.json";
+import en_cloud_sign_in_domains from "./locales/en/cloud.sign-in-domains.json";
+import en_cloud_survey from "./locales/en/cloud.survey.json";
+import en_cloud_traffic_events from "./locales/en/cloud.traffic-events.json";
+import en_cloud_webhooks from "./locales/en/cloud.webhooks.json";
 import en_common from "./locales/en/common.json";
 import en_common_table_rows_main from "./locales/en/common-table-rows.main.json";
 import en_components_core from "./locales/en/components.core.json";
@@ -20,6 +44,7 @@ import en_components_table from "./locales/en/components.table.json";
 import en_components_ui from "./locales/en/components.ui.json";
 import en_contexts_main from "./locales/en/contexts.main.json";
 import en_control_center_contexts from "./locales/en/control-center.contexts.json";
+import en_control_center_draft from "./locales/en/control-center.draft.json";
 import en_control_center_draft_control_center_components_panel from "./locales/en/control-center.draft.control-center-components-panel.json";
 import en_control_center_draft_draft_mode_switcher from "./locales/en/control-center.draft.draft-mode-switcher.json";
 import en_control_center_header from "./locales/en/control-center.header.json";
@@ -28,6 +53,7 @@ import en_control_center_menus from "./locales/en/control-center.menus.json";
 import en_control_center_nodes from "./locales/en/control-center.nodes.json";
 import en_control_center_panels from "./locales/en/control-center.panels.json";
 import en_control_center_utils from "./locales/en/control-center.utils.json";
+import en_customers_page from "./locales/en/customers.page.json";
 import en_dns_nameservers from "./locales/en/dns.nameservers.json";
 import en_dns_page from "./locales/en/dns.page.json";
 import en_dns_zones from "./locales/en/dns.zones.json";
@@ -42,13 +68,24 @@ import en_groups_table from "./locales/en/groups.table.json";
 import en_hooks_main from "./locales/en/hooks.main.json";
 import en_instance_setup_main from "./locales/en/instance-setup.main.json";
 import en_integrations_edr from "./locales/en/integrations.edr.json";
+import en_integrations_edr_crowd_strike_configuration from "./locales/en/integrations.edr.crowd-strike-configuration.json";
+import en_integrations_edr_huntress_match_settings from "./locales/en/integrations.edr.huntress-match-settings.json";
+import en_integrations_edr_sentinel_one_configuration from "./locales/en/integrations.edr.sentinel-one-configuration.json";
 import en_integrations_event_streaming from "./locales/en/integrations.event-streaming.json";
 import en_integrations_idp_sync from "./locales/en/integrations.idp-sync.json";
+import en_integrations_idp_sync_embedded_identity_provider_select from "./locales/en/integrations.idp-sync.embedded-identity-provider-select.json";
+import en_integrations_idp_sync_entra_scimsetup from "./locales/en/integrations.idp-sync.entra-scimsetup.json";
+import en_integrations_idp_sync_generic_scimsetup from "./locales/en/integrations.idp-sync.generic-scimsetup.json";
+import en_integrations_idp_sync_jumpcloud_configuration from "./locales/en/integrations.idp-sync.jumpcloud-configuration.json";
+import en_integrations_idp_sync_okta_setup from "./locales/en/integrations.idp-sync.okta-setup.json";
 import en_integrations_main from "./locales/en/integrations.main.json";
 import en_integrations_page from "./locales/en/integrations.page.json";
+import en_integrations_shared from "./locales/en/integrations.shared.json";
+import en_integrations_sso from "./locales/en/integrations.sso.json";
 import en_invite_page from "./locales/en/invite.page.json";
 import en_jobs_main from "./locales/en/jobs.main.json";
 import en_jobs_table from "./locales/en/jobs.table.json";
+import en_msp_page from "./locales/en/msp.page.json";
 import en_nav from "./locales/en/nav.json";
 import en_network_routes_page from "./locales/en/network-routes.page.json";
 import en_network_page from "./locales/en/network.page.json";
@@ -58,6 +95,8 @@ import en_networks_page from "./locales/en/networks.page.json";
 import en_networks_resources from "./locales/en/networks.resources.json";
 import en_networks_routing_peers from "./locales/en/networks.routing-peers.json";
 import en_networks_table from "./locales/en/networks.table.json";
+import en_onboarding_agent_gateway from "./locales/en/onboarding.agent-gateway.json";
+import en_onboarding_agent_network from "./locales/en/onboarding.agent-network.json";
 import en_onboarding_main from "./locales/en/onboarding.main.json";
 import en_onboarding_networks from "./locales/en/onboarding.networks.json";
 import en_onboarding_p2p from "./locales/en/onboarding.p2p.json";
@@ -74,6 +113,15 @@ import en_posture_checks_ui from "./locales/en/posture-checks.ui.json";
 import en_remote_access_main from "./locales/en/remote-access.main.json";
 import en_remote_access_rdp from "./locales/en/remote-access.rdp.json";
 import en_remote_access_ssh from "./locales/en/remote-access.ssh.json";
+import en_reverse_proxy_auth from "./locales/en/reverse-proxy.auth.json";
+import en_reverse_proxy_clusters_cluster_cloud_deploy from "./locales/en/reverse-proxy.clusters.cluster-cloud-deploy.json";
+import en_reverse_proxy_clusters_clusters_table from "./locales/en/reverse-proxy.clusters.clusters-table.json";
+import en_reverse_proxy_domain from "./locales/en/reverse-proxy.domain.json";
+import en_reverse_proxy_events from "./locales/en/reverse-proxy.events.json";
+import en_reverse_proxy_main from "./locales/en/reverse-proxy.main.json";
+import en_reverse_proxy_page from "./locales/en/reverse-proxy.page.json";
+import en_reverse_proxy_table from "./locales/en/reverse-proxy.table.json";
+import en_reverse_proxy_targets from "./locales/en/reverse-proxy.targets.json";
 import en_route_group_main from "./locales/en/route-group.main.json";
 import en_routes_main from "./locales/en/routes.main.json";
 import en_search_main from "./locales/en/search.main.json";
@@ -85,6 +133,7 @@ import en_settings_page from "./locales/en/settings.page.json";
 import en_setup_keys_main from "./locales/en/setup-keys.main.json";
 import en_setup_netbird_modal_main from "./locales/en/setup-netbird-modal.main.json";
 import en_team_page from "./locales/en/team.page.json";
+import en_tenants_page from "./locales/en/tenants.page.json";
 import en_titles from "./locales/en/titles.json";
 import en_users_main from "./locales/en/users.main.json";
 import en_users_modals from "./locales/en/users.modals.json";
@@ -99,10 +148,34 @@ export const namespaces = [
   "access-tokens.main",
   "activity.description",
   "activity.table",
+  "agent-network.agent-budget-rule-modal",
+  "agent-network.agent-overview-panel",
+  "agent-network.aiprovider-form",
+  "agent-network.aiprovider-modal",
+  "agent-network.aiproviders-provider",
+  "agent-network.data",
+  "agent-network.main",
+  "agent-network.page",
+  "agent-network.table",
   "auth.main",
   "billing.locked-feature",
+  "billing.main",
   "billing.trial",
+  "cloud.analytics",
+  "cloud.aws",
+  "cloud.contexts",
+  "cloud.distributor",
+  "cloud.edr",
+  "cloud.invoices",
   "cloud.main",
+  "cloud.mfa",
+  "cloud.msp",
+  "cloud.notifications",
+  "cloud.reverse-proxy",
+  "cloud.sign-in-domains",
+  "cloud.survey",
+  "cloud.traffic-events",
+  "cloud.webhooks",
   "common",
   "common-table-rows.main",
   "components.core",
@@ -112,6 +185,7 @@ export const namespaces = [
   "components.ui",
   "contexts.main",
   "control-center.contexts",
+  "control-center.draft",
   "control-center.draft.control-center-components-panel",
   "control-center.draft.draft-mode-switcher",
   "control-center.header",
@@ -120,6 +194,7 @@ export const namespaces = [
   "control-center.nodes",
   "control-center.panels",
   "control-center.utils",
+  "customers.page",
   "dns.nameservers",
   "dns.page",
   "dns.zones",
@@ -134,13 +209,24 @@ export const namespaces = [
   "hooks.main",
   "instance-setup.main",
   "integrations.edr",
+  "integrations.edr.crowd-strike-configuration",
+  "integrations.edr.huntress-match-settings",
+  "integrations.edr.sentinel-one-configuration",
   "integrations.event-streaming",
   "integrations.idp-sync",
+  "integrations.idp-sync.embedded-identity-provider-select",
+  "integrations.idp-sync.entra-scimsetup",
+  "integrations.idp-sync.generic-scimsetup",
+  "integrations.idp-sync.jumpcloud-configuration",
+  "integrations.idp-sync.okta-setup",
   "integrations.main",
   "integrations.page",
+  "integrations.shared",
+  "integrations.sso",
   "invite.page",
   "jobs.main",
   "jobs.table",
+  "msp.page",
   "nav",
   "network-routes.page",
   "network.page",
@@ -150,6 +236,8 @@ export const namespaces = [
   "networks.resources",
   "networks.routing-peers",
   "networks.table",
+  "onboarding.agent-gateway",
+  "onboarding.agent-network",
   "onboarding.main",
   "onboarding.networks",
   "onboarding.p2p",
@@ -166,6 +254,15 @@ export const namespaces = [
   "remote-access.main",
   "remote-access.rdp",
   "remote-access.ssh",
+  "reverse-proxy.auth",
+  "reverse-proxy.clusters.cluster-cloud-deploy",
+  "reverse-proxy.clusters.clusters-table",
+  "reverse-proxy.domain",
+  "reverse-proxy.events",
+  "reverse-proxy.main",
+  "reverse-proxy.page",
+  "reverse-proxy.table",
+  "reverse-proxy.targets",
   "route-group.main",
   "routes.main",
   "search.main",
@@ -177,11 +274,12 @@ export const namespaces = [
   "setup-keys.main",
   "setup-netbird-modal.main",
   "team.page",
+  "tenants.page",
   "titles",
   "users.main",
   "users.modals",
   "users.table",
-  "users.table-cells",
+  "users.table-cells"
 ] as const;
 export type Namespace = (typeof namespaces)[number];
 
@@ -193,11 +291,35 @@ export const enResources = {
   "access-tokens.main": en_access_tokens_main,
   "activity.description": en_activity_description,
   "activity.table": en_activity_table,
+  "agent-network.agent-budget-rule-modal": en_agent_network_agent_budget_rule_modal,
+  "agent-network.agent-overview-panel": en_agent_network_agent_overview_panel,
+  "agent-network.aiprovider-form": en_agent_network_aiprovider_form,
+  "agent-network.aiprovider-modal": en_agent_network_aiprovider_modal,
+  "agent-network.aiproviders-provider": en_agent_network_aiproviders_provider,
+  "agent-network.data": en_agent_network_data,
+  "agent-network.main": en_agent_network_main,
+  "agent-network.page": en_agent_network_page,
+  "agent-network.table": en_agent_network_table,
   "auth.main": en_auth_main,
   "billing.locked-feature": en_billing_locked_feature,
+  "billing.main": en_billing_main,
   "billing.trial": en_billing_trial,
+  "cloud.analytics": en_cloud_analytics,
+  "cloud.aws": en_cloud_aws,
+  "cloud.contexts": en_cloud_contexts,
+  "cloud.distributor": en_cloud_distributor,
+  "cloud.edr": en_cloud_edr,
+  "cloud.invoices": en_cloud_invoices,
   "cloud.main": en_cloud_main,
-  common: en_common,
+  "cloud.mfa": en_cloud_mfa,
+  "cloud.msp": en_cloud_msp,
+  "cloud.notifications": en_cloud_notifications,
+  "cloud.reverse-proxy": en_cloud_reverse_proxy,
+  "cloud.sign-in-domains": en_cloud_sign_in_domains,
+  "cloud.survey": en_cloud_survey,
+  "cloud.traffic-events": en_cloud_traffic_events,
+  "cloud.webhooks": en_cloud_webhooks,
+  "common": en_common,
   "common-table-rows.main": en_common_table_rows_main,
   "components.core": en_components_core,
   "components.modal": en_components_modal,
@@ -206,16 +328,16 @@ export const enResources = {
   "components.ui": en_components_ui,
   "contexts.main": en_contexts_main,
   "control-center.contexts": en_control_center_contexts,
-  "control-center.draft.control-center-components-panel":
-    en_control_center_draft_control_center_components_panel,
-  "control-center.draft.draft-mode-switcher":
-    en_control_center_draft_draft_mode_switcher,
+  "control-center.draft": en_control_center_draft,
+  "control-center.draft.control-center-components-panel": en_control_center_draft_control_center_components_panel,
+  "control-center.draft.draft-mode-switcher": en_control_center_draft_draft_mode_switcher,
   "control-center.header": en_control_center_header,
   "control-center.hooks": en_control_center_hooks,
   "control-center.menus": en_control_center_menus,
   "control-center.nodes": en_control_center_nodes,
   "control-center.panels": en_control_center_panels,
   "control-center.utils": en_control_center_utils,
+  "customers.page": en_customers_page,
   "dns.nameservers": en_dns_nameservers,
   "dns.page": en_dns_page,
   "dns.zones": en_dns_zones,
@@ -230,14 +352,25 @@ export const enResources = {
   "hooks.main": en_hooks_main,
   "instance-setup.main": en_instance_setup_main,
   "integrations.edr": en_integrations_edr,
+  "integrations.edr.crowd-strike-configuration": en_integrations_edr_crowd_strike_configuration,
+  "integrations.edr.huntress-match-settings": en_integrations_edr_huntress_match_settings,
+  "integrations.edr.sentinel-one-configuration": en_integrations_edr_sentinel_one_configuration,
   "integrations.event-streaming": en_integrations_event_streaming,
   "integrations.idp-sync": en_integrations_idp_sync,
+  "integrations.idp-sync.embedded-identity-provider-select": en_integrations_idp_sync_embedded_identity_provider_select,
+  "integrations.idp-sync.entra-scimsetup": en_integrations_idp_sync_entra_scimsetup,
+  "integrations.idp-sync.generic-scimsetup": en_integrations_idp_sync_generic_scimsetup,
+  "integrations.idp-sync.jumpcloud-configuration": en_integrations_idp_sync_jumpcloud_configuration,
+  "integrations.idp-sync.okta-setup": en_integrations_idp_sync_okta_setup,
   "integrations.main": en_integrations_main,
   "integrations.page": en_integrations_page,
+  "integrations.shared": en_integrations_shared,
+  "integrations.sso": en_integrations_sso,
   "invite.page": en_invite_page,
   "jobs.main": en_jobs_main,
   "jobs.table": en_jobs_table,
-  nav: en_nav,
+  "msp.page": en_msp_page,
+  "nav": en_nav,
   "network-routes.page": en_network_routes_page,
   "network.page": en_network_page,
   "networks.main": en_networks_main,
@@ -246,6 +379,8 @@ export const enResources = {
   "networks.resources": en_networks_resources,
   "networks.routing-peers": en_networks_routing_peers,
   "networks.table": en_networks_table,
+  "onboarding.agent-gateway": en_onboarding_agent_gateway,
+  "onboarding.agent-network": en_onboarding_agent_network,
   "onboarding.main": en_onboarding_main,
   "onboarding.networks": en_onboarding_networks,
   "onboarding.p2p": en_onboarding_p2p,
@@ -262,6 +397,15 @@ export const enResources = {
   "remote-access.main": en_remote_access_main,
   "remote-access.rdp": en_remote_access_rdp,
   "remote-access.ssh": en_remote_access_ssh,
+  "reverse-proxy.auth": en_reverse_proxy_auth,
+  "reverse-proxy.clusters.cluster-cloud-deploy": en_reverse_proxy_clusters_cluster_cloud_deploy,
+  "reverse-proxy.clusters.clusters-table": en_reverse_proxy_clusters_clusters_table,
+  "reverse-proxy.domain": en_reverse_proxy_domain,
+  "reverse-proxy.events": en_reverse_proxy_events,
+  "reverse-proxy.main": en_reverse_proxy_main,
+  "reverse-proxy.page": en_reverse_proxy_page,
+  "reverse-proxy.table": en_reverse_proxy_table,
+  "reverse-proxy.targets": en_reverse_proxy_targets,
   "route-group.main": en_route_group_main,
   "routes.main": en_routes_main,
   "search.main": en_search_main,
@@ -273,65 +417,70 @@ export const enResources = {
   "setup-keys.main": en_setup_keys_main,
   "setup-netbird-modal.main": en_setup_netbird_modal_main,
   "team.page": en_team_page,
-  titles: en_titles,
+  "tenants.page": en_tenants_page,
+  "titles": en_titles,
   "users.main": en_users_main,
   "users.modals": en_users_modals,
   "users.table": en_users_table,
   "users.table-cells": en_users_table_cells,
 };
 
-export const loaders: Record<
-  string,
-  Record<Namespace, () => Promise<{ default: Record<string, string> }>>
-> = {
+export const loaders: Record<string, Record<Namespace, () => Promise<{ default: Record<string, string> }>>> = {
   "zh-CN": {
-    "access-control.main": () =>
-      import("./locales/zh-CN/access-control.main.json"),
-    "access-control.page": () =>
-      import("./locales/zh-CN/access-control.page.json"),
-    "access-control.ssh": () =>
-      import("./locales/zh-CN/access-control.ssh.json"),
-    "access-control.table": () =>
-      import("./locales/zh-CN/access-control.table.json"),
-    "access-tokens.main": () =>
-      import("./locales/zh-CN/access-tokens.main.json"),
-    "activity.description": () =>
-      import("./locales/zh-CN/activity.description.json"),
+    "access-control.main": () => import("./locales/zh-CN/access-control.main.json"),
+    "access-control.page": () => import("./locales/zh-CN/access-control.page.json"),
+    "access-control.ssh": () => import("./locales/zh-CN/access-control.ssh.json"),
+    "access-control.table": () => import("./locales/zh-CN/access-control.table.json"),
+    "access-tokens.main": () => import("./locales/zh-CN/access-tokens.main.json"),
+    "activity.description": () => import("./locales/zh-CN/activity.description.json"),
     "activity.table": () => import("./locales/zh-CN/activity.table.json"),
+    "agent-network.agent-budget-rule-modal": () => import("./locales/zh-CN/agent-network.agent-budget-rule-modal.json"),
+    "agent-network.agent-overview-panel": () => import("./locales/zh-CN/agent-network.agent-overview-panel.json"),
+    "agent-network.aiprovider-form": () => import("./locales/zh-CN/agent-network.aiprovider-form.json"),
+    "agent-network.aiprovider-modal": () => import("./locales/zh-CN/agent-network.aiprovider-modal.json"),
+    "agent-network.aiproviders-provider": () => import("./locales/zh-CN/agent-network.aiproviders-provider.json"),
+    "agent-network.data": () => import("./locales/zh-CN/agent-network.data.json"),
+    "agent-network.main": () => import("./locales/zh-CN/agent-network.main.json"),
+    "agent-network.page": () => import("./locales/zh-CN/agent-network.page.json"),
+    "agent-network.table": () => import("./locales/zh-CN/agent-network.table.json"),
     "auth.main": () => import("./locales/zh-CN/auth.main.json"),
-    "billing.locked-feature": () =>
-      import("./locales/zh-CN/billing.locked-feature.json"),
+    "billing.locked-feature": () => import("./locales/zh-CN/billing.locked-feature.json"),
+    "billing.main": () => import("./locales/zh-CN/billing.main.json"),
     "billing.trial": () => import("./locales/zh-CN/billing.trial.json"),
+    "cloud.analytics": () => import("./locales/zh-CN/cloud.analytics.json"),
+    "cloud.aws": () => import("./locales/zh-CN/cloud.aws.json"),
+    "cloud.contexts": () => import("./locales/zh-CN/cloud.contexts.json"),
+    "cloud.distributor": () => import("./locales/zh-CN/cloud.distributor.json"),
+    "cloud.edr": () => import("./locales/zh-CN/cloud.edr.json"),
+    "cloud.invoices": () => import("./locales/zh-CN/cloud.invoices.json"),
     "cloud.main": () => import("./locales/zh-CN/cloud.main.json"),
-    common: () => import("./locales/zh-CN/common.json"),
-    "common-table-rows.main": () =>
-      import("./locales/zh-CN/common-table-rows.main.json"),
+    "cloud.mfa": () => import("./locales/zh-CN/cloud.mfa.json"),
+    "cloud.msp": () => import("./locales/zh-CN/cloud.msp.json"),
+    "cloud.notifications": () => import("./locales/zh-CN/cloud.notifications.json"),
+    "cloud.reverse-proxy": () => import("./locales/zh-CN/cloud.reverse-proxy.json"),
+    "cloud.sign-in-domains": () => import("./locales/zh-CN/cloud.sign-in-domains.json"),
+    "cloud.survey": () => import("./locales/zh-CN/cloud.survey.json"),
+    "cloud.traffic-events": () => import("./locales/zh-CN/cloud.traffic-events.json"),
+    "cloud.webhooks": () => import("./locales/zh-CN/cloud.webhooks.json"),
+    "common": () => import("./locales/zh-CN/common.json"),
+    "common-table-rows.main": () => import("./locales/zh-CN/common-table-rows.main.json"),
     "components.core": () => import("./locales/zh-CN/components.core.json"),
     "components.modal": () => import("./locales/zh-CN/components.modal.json"),
     "components.select": () => import("./locales/zh-CN/components.select.json"),
     "components.table": () => import("./locales/zh-CN/components.table.json"),
     "components.ui": () => import("./locales/zh-CN/components.ui.json"),
     "contexts.main": () => import("./locales/zh-CN/contexts.main.json"),
-    "control-center.contexts": () =>
-      import("./locales/zh-CN/control-center.contexts.json"),
-    "control-center.draft.control-center-components-panel": () =>
-      import(
-        "./locales/zh-CN/control-center.draft.control-center-components-panel.json"
-      ),
-    "control-center.draft.draft-mode-switcher": () =>
-      import("./locales/zh-CN/control-center.draft.draft-mode-switcher.json"),
-    "control-center.header": () =>
-      import("./locales/zh-CN/control-center.header.json"),
-    "control-center.hooks": () =>
-      import("./locales/zh-CN/control-center.hooks.json"),
-    "control-center.menus": () =>
-      import("./locales/zh-CN/control-center.menus.json"),
-    "control-center.nodes": () =>
-      import("./locales/zh-CN/control-center.nodes.json"),
-    "control-center.panels": () =>
-      import("./locales/zh-CN/control-center.panels.json"),
-    "control-center.utils": () =>
-      import("./locales/zh-CN/control-center.utils.json"),
+    "control-center.contexts": () => import("./locales/zh-CN/control-center.contexts.json"),
+    "control-center.draft": () => import("./locales/zh-CN/control-center.draft.json"),
+    "control-center.draft.control-center-components-panel": () => import("./locales/zh-CN/control-center.draft.control-center-components-panel.json"),
+    "control-center.draft.draft-mode-switcher": () => import("./locales/zh-CN/control-center.draft.draft-mode-switcher.json"),
+    "control-center.header": () => import("./locales/zh-CN/control-center.header.json"),
+    "control-center.hooks": () => import("./locales/zh-CN/control-center.hooks.json"),
+    "control-center.menus": () => import("./locales/zh-CN/control-center.menus.json"),
+    "control-center.nodes": () => import("./locales/zh-CN/control-center.nodes.json"),
+    "control-center.panels": () => import("./locales/zh-CN/control-center.panels.json"),
+    "control-center.utils": () => import("./locales/zh-CN/control-center.utils.json"),
+    "customers.page": () => import("./locales/zh-CN/customers.page.json"),
     "dns.nameservers": () => import("./locales/zh-CN/dns.nameservers.json"),
     "dns.page": () => import("./locales/zh-CN/dns.page.json"),
     "dns.zones": () => import("./locales/zh-CN/dns.zones.json"),
@@ -344,69 +493,75 @@ export const loaders: Record<
     "groups.page": () => import("./locales/zh-CN/groups.page.json"),
     "groups.table": () => import("./locales/zh-CN/groups.table.json"),
     "hooks.main": () => import("./locales/zh-CN/hooks.main.json"),
-    "instance-setup.main": () =>
-      import("./locales/zh-CN/instance-setup.main.json"),
+    "instance-setup.main": () => import("./locales/zh-CN/instance-setup.main.json"),
     "integrations.edr": () => import("./locales/zh-CN/integrations.edr.json"),
-    "integrations.event-streaming": () =>
-      import("./locales/zh-CN/integrations.event-streaming.json"),
-    "integrations.idp-sync": () =>
-      import("./locales/zh-CN/integrations.idp-sync.json"),
+    "integrations.edr.crowd-strike-configuration": () => import("./locales/zh-CN/integrations.edr.crowd-strike-configuration.json"),
+    "integrations.edr.huntress-match-settings": () => import("./locales/zh-CN/integrations.edr.huntress-match-settings.json"),
+    "integrations.edr.sentinel-one-configuration": () => import("./locales/zh-CN/integrations.edr.sentinel-one-configuration.json"),
+    "integrations.event-streaming": () => import("./locales/zh-CN/integrations.event-streaming.json"),
+    "integrations.idp-sync": () => import("./locales/zh-CN/integrations.idp-sync.json"),
+    "integrations.idp-sync.embedded-identity-provider-select": () => import("./locales/zh-CN/integrations.idp-sync.embedded-identity-provider-select.json"),
+    "integrations.idp-sync.entra-scimsetup": () => import("./locales/zh-CN/integrations.idp-sync.entra-scimsetup.json"),
+    "integrations.idp-sync.generic-scimsetup": () => import("./locales/zh-CN/integrations.idp-sync.generic-scimsetup.json"),
+    "integrations.idp-sync.jumpcloud-configuration": () => import("./locales/zh-CN/integrations.idp-sync.jumpcloud-configuration.json"),
+    "integrations.idp-sync.okta-setup": () => import("./locales/zh-CN/integrations.idp-sync.okta-setup.json"),
     "integrations.main": () => import("./locales/zh-CN/integrations.main.json"),
     "integrations.page": () => import("./locales/zh-CN/integrations.page.json"),
+    "integrations.shared": () => import("./locales/zh-CN/integrations.shared.json"),
+    "integrations.sso": () => import("./locales/zh-CN/integrations.sso.json"),
     "invite.page": () => import("./locales/zh-CN/invite.page.json"),
     "jobs.main": () => import("./locales/zh-CN/jobs.main.json"),
     "jobs.table": () => import("./locales/zh-CN/jobs.table.json"),
-    nav: () => import("./locales/zh-CN/nav.json"),
-    "network-routes.page": () =>
-      import("./locales/zh-CN/network-routes.page.json"),
+    "msp.page": () => import("./locales/zh-CN/msp.page.json"),
+    "nav": () => import("./locales/zh-CN/nav.json"),
+    "network-routes.page": () => import("./locales/zh-CN/network-routes.page.json"),
     "network.page": () => import("./locales/zh-CN/network.page.json"),
     "networks.main": () => import("./locales/zh-CN/networks.main.json"),
     "networks.misc": () => import("./locales/zh-CN/networks.misc.json"),
     "networks.page": () => import("./locales/zh-CN/networks.page.json"),
-    "networks.resources": () =>
-      import("./locales/zh-CN/networks.resources.json"),
-    "networks.routing-peers": () =>
-      import("./locales/zh-CN/networks.routing-peers.json"),
+    "networks.resources": () => import("./locales/zh-CN/networks.resources.json"),
+    "networks.routing-peers": () => import("./locales/zh-CN/networks.routing-peers.json"),
     "networks.table": () => import("./locales/zh-CN/networks.table.json"),
+    "onboarding.agent-gateway": () => import("./locales/zh-CN/onboarding.agent-gateway.json"),
+    "onboarding.agent-network": () => import("./locales/zh-CN/onboarding.agent-network.json"),
     "onboarding.main": () => import("./locales/zh-CN/onboarding.main.json"),
-    "onboarding.networks": () =>
-      import("./locales/zh-CN/onboarding.networks.json"),
+    "onboarding.networks": () => import("./locales/zh-CN/onboarding.networks.json"),
     "onboarding.p2p": () => import("./locales/zh-CN/onboarding.p2p.json"),
     "peer.main": () => import("./locales/zh-CN/peer.main.json"),
     "peer.page": () => import("./locales/zh-CN/peer.page.json"),
     "peers.main": () => import("./locales/zh-CN/peers.main.json"),
     "peers.page": () => import("./locales/zh-CN/peers.page.json"),
-    "posture-checks.checks": () =>
-      import("./locales/zh-CN/posture-checks.checks.json"),
-    "posture-checks.main": () =>
-      import("./locales/zh-CN/posture-checks.main.json"),
-    "posture-checks.modal": () =>
-      import("./locales/zh-CN/posture-checks.modal.json"),
-    "posture-checks.page": () =>
-      import("./locales/zh-CN/posture-checks.page.json"),
-    "posture-checks.table": () =>
-      import("./locales/zh-CN/posture-checks.table.json"),
+    "posture-checks.checks": () => import("./locales/zh-CN/posture-checks.checks.json"),
+    "posture-checks.main": () => import("./locales/zh-CN/posture-checks.main.json"),
+    "posture-checks.modal": () => import("./locales/zh-CN/posture-checks.modal.json"),
+    "posture-checks.page": () => import("./locales/zh-CN/posture-checks.page.json"),
+    "posture-checks.table": () => import("./locales/zh-CN/posture-checks.table.json"),
     "posture-checks.ui": () => import("./locales/zh-CN/posture-checks.ui.json"),
-    "remote-access.main": () =>
-      import("./locales/zh-CN/remote-access.main.json"),
+    "remote-access.main": () => import("./locales/zh-CN/remote-access.main.json"),
     "remote-access.rdp": () => import("./locales/zh-CN/remote-access.rdp.json"),
     "remote-access.ssh": () => import("./locales/zh-CN/remote-access.ssh.json"),
+    "reverse-proxy.auth": () => import("./locales/zh-CN/reverse-proxy.auth.json"),
+    "reverse-proxy.clusters.cluster-cloud-deploy": () => import("./locales/zh-CN/reverse-proxy.clusters.cluster-cloud-deploy.json"),
+    "reverse-proxy.clusters.clusters-table": () => import("./locales/zh-CN/reverse-proxy.clusters.clusters-table.json"),
+    "reverse-proxy.domain": () => import("./locales/zh-CN/reverse-proxy.domain.json"),
+    "reverse-proxy.events": () => import("./locales/zh-CN/reverse-proxy.events.json"),
+    "reverse-proxy.main": () => import("./locales/zh-CN/reverse-proxy.main.json"),
+    "reverse-proxy.page": () => import("./locales/zh-CN/reverse-proxy.page.json"),
+    "reverse-proxy.table": () => import("./locales/zh-CN/reverse-proxy.table.json"),
+    "reverse-proxy.targets": () => import("./locales/zh-CN/reverse-proxy.targets.json"),
     "route-group.main": () => import("./locales/zh-CN/route-group.main.json"),
     "routes.main": () => import("./locales/zh-CN/routes.main.json"),
     "search.main": () => import("./locales/zh-CN/search.main.json"),
-    "settings.authentication-tab": () =>
-      import("./locales/zh-CN/settings.authentication-tab.json"),
-    "settings.client-settings-tab": () =>
-      import("./locales/zh-CN/settings.client-settings-tab.json"),
-    "settings.identity-providers-tab": () =>
-      import("./locales/zh-CN/settings.identity-providers-tab.json"),
+    "settings.authentication-tab": () => import("./locales/zh-CN/settings.authentication-tab.json"),
+    "settings.client-settings-tab": () => import("./locales/zh-CN/settings.client-settings-tab.json"),
+    "settings.identity-providers-tab": () => import("./locales/zh-CN/settings.identity-providers-tab.json"),
     "settings.main": () => import("./locales/zh-CN/settings.main.json"),
     "settings.page": () => import("./locales/zh-CN/settings.page.json"),
     "setup-keys.main": () => import("./locales/zh-CN/setup-keys.main.json"),
-    "setup-netbird-modal.main": () =>
-      import("./locales/zh-CN/setup-netbird-modal.main.json"),
+    "setup-netbird-modal.main": () => import("./locales/zh-CN/setup-netbird-modal.main.json"),
     "team.page": () => import("./locales/zh-CN/team.page.json"),
-    titles: () => import("./locales/zh-CN/titles.json"),
+    "tenants.page": () => import("./locales/zh-CN/tenants.page.json"),
+    "titles": () => import("./locales/zh-CN/titles.json"),
     "users.main": () => import("./locales/zh-CN/users.main.json"),
     "users.modals": () => import("./locales/zh-CN/users.modals.json"),
     "users.table": () => import("./locales/zh-CN/users.table.json"),

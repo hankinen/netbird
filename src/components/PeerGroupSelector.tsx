@@ -394,7 +394,7 @@ export function PeerGroupSelector({
       return t("components.core:peerGroupSelector.text.searchPeerByNameOr");
     if (tab === "clusters")
       return t("components.core:peerGroupSelector.text.searchCluster");
-    return "Search...";
+    return t("components.core:peerGroupSelector.text.search");
   }, [tab, placeholderForSearch]);
 
   const filteredClusters = useMemo(() => {

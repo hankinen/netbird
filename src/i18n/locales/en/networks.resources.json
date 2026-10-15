@@ -72,5 +72,6 @@
   "networkResourceModal.content.toGiveAccessToAn": "To give access to an entire subnet, use a CIDR block. For example, 10.0.0.0/24 or 192.168.1.0/24.",
   "networkResourceModal.content.aDNSDomainNameE": "A DNS domain name, e.g., service.internal, example.com or *.example.com to match all subdomains.",
   "resourceActionCell.description.isNow.enabled": "'{{name}}' is now enabled",
-  "resourceActionCell.description.isNow.disabled": "'{{name}}' is now disabled"
+  "resourceActionCell.description.isNow.disabled": "'{{name}}' is now disabled",
+  "resourceAddressCell.message.copied": "{{address}} has been copied to your clipboard"
 }
