@@ -15,6 +15,15 @@ type Row = { id: number };
 const columns: ColumnDef<Row>[] = [{ accessorKey: "id" }];
 const rows = (n: number) => Array.from({ length: n }, (_, id) => ({ id }));
 
+// DataTable augments TanStack's FilterFns/SortingFns, making both required.
+const filterFns = {
+  fuzzy: () => true,
+  dateRange: () => true,
+  exactMatch: () => true,
+  arrIncludesSomeExact: () => true,
+};
+const sortingFns = { checkbox: () => 0, datetime: () => 0 };
+
 let state = { pageIndex: 0, pageSize: 10 };
 function Harness({
   n,
@@ -33,6 +42,8 @@ function Harness({
   const table = useReactTable({
     data: rows(n),
     columns,
+    filterFns,
+    sortingFns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

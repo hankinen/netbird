@@ -14,7 +14,12 @@
 //    - `!important` only where a comment right before the rule (or inside it)
 //      says why (inline style or an upstream `!` utility).
 //
+// 4. Replaced components: every `@replaces <file> <export> sha256:<hash>` in
+//    src/styles/theme-antd/components/*.tsx must still match the upstream
+//    file's exported function and its props interface (whitespace-normalised).
+//
 // Exit code 1 lists what broke. Run: npm run theme:check-selectors
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -168,6 +173,52 @@ for (const file of cssFiles) {
   }
 }
 
+let replaced = 0;
+const componentsDir = path.join(themeDir, "components");
+const signatureOf = (src, name) => {
+  const iface = src.match(
+    new RegExp(`interface ${name}Props<TData> \\{[\\s\\S]*?\\n\\}`),
+  );
+  const fn = src.match(
+    new RegExp(`export function ${name}<TData>\\([\\s\\S]*?\\) \\{`),
+  );
+  if (!fn) return null;
+  return ((iface ? iface[0] + "\n" : "") + fn[0]).replace(/\s+/g, " ");
+};
+if (fs.existsSync(componentsDir))
+  for (const file of fs.readdirSync(componentsDir)) {
+    if (!/\.tsx?$/.test(file)) continue;
+    const text = fs.readFileSync(path.join(componentsDir, file), "utf8");
+    for (const m of text.matchAll(
+      /@replaces\s+(\S+)\s+(\w+)\s+sha256:([0-9a-f]+)/g,
+    )) {
+      replaced++;
+      const [, target, name, want] = m;
+      const abs = path.join(root, target);
+      if (!fs.existsSync(abs)) {
+        errors.push(`components/${file}: replaced file ${target} is gone`);
+        continue;
+      }
+      const sig = signatureOf(fs.readFileSync(abs, "utf8"), name);
+      if (!sig) {
+        errors.push(
+          `components/${file}: ${target} no longer exports function ${name}<TData>`,
+        );
+        continue;
+      }
+      const got = crypto
+        .createHash("sha256")
+        .update(sig)
+        .digest("hex")
+        .slice(0, want.length);
+      if (got !== want)
+        errors.push(
+          `components/${file}: ${target} ${name} props/signature changed ` +
+            `(sha256 ${want} -> ${got}); review the wrapper, then update @replaces`,
+        );
+    }
+  }
+
 if (warnings.length && process.argv.includes("--verbose"))
   console.warn(warnings.join("\n"));
 if (errors.length) {
@@ -178,5 +229,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `theme:check-selectors: ${depends} @depends tokens and ${attrs} attribute selectors OK; ${rules} rules within specificity policy`,
+  `theme:check-selectors: ${depends} @depends tokens and ${attrs} attribute selectors OK; ${rules} rules within specificity policy; ${replaced} replaced component(s) match upstream`,
 );

@@ -12,6 +12,11 @@
  * active (<html class="theme-antd"> without .dark — the same condition every
  * theme CSS rule uses), so the dark and upstream-light themes stay identical.
  * See README.md "Pagination component replacement".
+ *
+ * Contract with upstream, checked by npm run theme:check-selectors (signature
+ * = props interface + export line, whitespace-normalised, sha256/16) and by
+ * tsc (DataTablePagination.contract.ts):
+ * @replaces src/components/table/DataTablePagination.tsx DataTablePagination sha256:0eb1673a035f8e2c
  */
 import { SelectDropdown } from "@components/select/SelectDropdown";
 import type { PaginationLocale } from "@rc-component/pagination";
@@ -97,6 +102,19 @@ function AntdDataTablePagination<TData>({
   totalRecords,
 }: DataTablePaginationProps<TData>) {
   const { pageIndex, pageSize } = table.getState().pagination;
+  const manual = !!table.options.manualPagination;
+
+  // Upstream DataTable drops the first onPaginationChange in manual mode
+  // (isInitialRender), so the first page click on a server-paginated table
+  // does nothing. Spend that first call on a no-op (same page) at mount.
+  // Runs once, as soon as the table is server-paginated (totalRecords known).
+  const consumed = React.useRef(false);
+  const serverPaginated = manual && totalRecords !== undefined;
+  React.useEffect(() => {
+    if (!serverPaginated || consumed.current) return;
+    consumed.current = true;
+    table.setPageIndex((i) => i);
+  }, [serverPaginated, table]);
 
   // manualPagination without totalRecords is how upstream turns pagination
   // off for embedded tables (RouteTable, DNSRecordsTable,

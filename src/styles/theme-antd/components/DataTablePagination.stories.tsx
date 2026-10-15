@@ -109,7 +109,12 @@ export const ManyPagesEllipsis: StoryObj = {
   play: async ({ canvasElement }) => {
     // page 25 of 50: ellipsis on both sides
     const input = pagination(canvasElement)?.querySelector("input");
-    if (input) await userEvent.type(input, "25{enter}");
+    if (input) {
+      await userEvent.type(input, "25");
+      // rc-pagination jumps on Enter (keyCode) or blur; user-event's Enter
+      // carries no keyCode, so blur.
+      input.blur();
+    }
     await settle();
   },
 };
