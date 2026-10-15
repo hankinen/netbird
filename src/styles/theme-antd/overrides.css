@@ -341,3 +341,97 @@
   [class~="border-neutral-900" i][class~="dark:border-neutral-50" i][class~="rounded-full" i] {
   border-color: var(--ant-color-primary);
 }
+
+/* ---- 8. Pagination (AntD v5 Pagination) ------------------------------------
+   Upstream renders  « ‹ [page X of Y] › »  as one bordered ButtonGroup. AntD
+   draws separate 32px items 8px apart: arrows as borderless icon items, the
+   current page outlined in primary. Upstream has no page-number list and no
+   page-size select next to it (rows-per-page sits in the table toolbar), so
+   the "X of Y" segment is styled as the active page item.
+   The ButtonGroup is matched by the chevrons-left icon it contains.
+   @depends src/components/table/DataTablePagination.tsx: <ButtonGroup> | <ChevronsLeft size={16} /> | <ChevronLeft size={18} />
+   @depends src/components/ButtonGroup.tsx: overflow-hidden flex items-center justify-center shrink-0 border-separate | !py-2.5 !px-4 */
+:root.theme-antd:not(.dark)
+  [class~="border-separate" i]:has(> button .lucide-chevrons-left) {
+  gap: 8px;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+/* !important: beats the upstream !py-2.5 !px-4 utilities on ButtonGroup.Button. */
+:root.theme-antd:not(.dark)
+  [class~="border-separate" i]:has(> button .lucide-chevrons-left)
+  > button {
+  height: var(--ant-control-height);
+  min-width: var(--ant-control-height);
+  padding: 0 6px !important;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--ant-border-radius);
+  background: transparent;
+  box-shadow: none;
+  color: var(--ant-color-text);
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+:root.theme-antd:not(.dark)
+  [class~="border-separate" i]:has(> button .lucide-chevrons-left)
+  > button:not(:disabled):hover {
+  border-color: transparent;
+  background: var(--ant-color-bg-text-hover);
+  color: var(--ant-color-text);
+}
+:root.theme-antd:not(.dark)
+  [class~="border-separate" i]:has(> button .lucide-chevrons-left)
+  > button:not(:disabled):active {
+  background: var(--ant-color-bg-text-active);
+}
+:root.theme-antd:not(.dark)
+  [class~="border-separate" i]:has(> button .lucide-chevrons-left)
+  > button:disabled {
+  background: transparent;
+  color: var(--ant-color-text-disabled);
+  opacity: 1;
+  cursor: not-allowed;
+}
+/* Current page: the "X of Y" item (third child, no onClick).
+   !important: upstream !px-4, as above. */
+:root.theme-antd:not(.dark)
+  [class~="border-separate" i]:has(> button .lucide-chevrons-left)
+  > button:nth-child(3):is(*, :hover, :active) {
+  padding: 0 8px !important;
+  border-color: var(--ant-color-primary);
+  background: var(--ant-color-bg-container);
+  color: var(--ant-color-primary);
+  font-weight: 600;
+  cursor: default;
+}
+
+/* Rows-per-page options (AntD Select option): text colour, hover fill,
+   selected = primary-bg + 600. The selected option is the one whose check
+   icon is opacity-100.
+   @depends src/components/table/DataTableRowsPerPage.tsx: flex gap-2 px-2 py-1.5 my-1 mx-1 rounded-md items-center hover:dark:bg-nb-gray-800 text-nb-gray-400 hover:text-white | "opacity-100" */
+:root.theme-antd:not(.dark)
+  [class~="hover:dark:bg-nb-gray-800" i][class~="my-1" i] {
+  color: var(--ant-color-text);
+}
+:root.theme-antd:not(.dark)
+  [class~="hover:dark:bg-nb-gray-800" i][class~="my-1" i]:hover {
+  background: var(--ant-color-bg-text-hover);
+  color: var(--ant-color-text);
+}
+:root.theme-antd:not(.dark)
+  [class~="hover:dark:bg-nb-gray-800" i][class~="my-1" i]:has(
+    > [class~="opacity-100" i]
+  ) {
+  background: var(--ant-color-primary-bg);
+  font-weight: 600;
+}
+:root.theme-antd:not(.dark)
+  [class~="hover:dark:bg-nb-gray-800" i][class~="my-1" i]
+  > svg {
+  color: var(--ant-color-primary);
+}
