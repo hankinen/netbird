@@ -8,6 +8,11 @@
 //    still match a class token under src/ (dead selector = upstream changed
 //    the component). Generic colour-family selectors ([class*=], and [class~=]
 //    not named in @depends) are defensive; misses are reported with --verbose.
+// 3. Specificity policy (see README "Specificity policy"):
+//    - every selector stays at most MAX_DEPTH compound selectors deep after
+//      the `:root.theme-antd:not(.dark)` scope;
+//    - `!important` only where a comment right before the rule (or inside it)
+//      says why (inline style or an upstream `!` utility).
 //
 // Exit code 1 lists what broke. Run: npm run theme:check-selectors
 import fs from "node:fs";
@@ -109,6 +114,60 @@ for (const file of cssFiles) {
   }
 }
 
+const MAX_DEPTH = 3;
+let rules = 0;
+function splitTop(sel, sep) {
+  const out = [];
+  let depth = 0;
+  let cur = "";
+  for (const c of sel) {
+    if (c === "(" || c === "[") depth++;
+    if (c === ")" || c === "]") depth--;
+    if (depth === 0 && sep.test(c)) {
+      out.push(cur);
+      cur = "";
+    } else cur += c;
+  }
+  out.push(cur);
+  return out.map((x) => x.trim()).filter(Boolean);
+}
+for (const file of cssFiles) {
+  const css = fs.readFileSync(path.join(themeDir, file), "utf8");
+  // Rule = optional leading comment, selector, body (no nesting in these files
+  // apart from @media/@supports, whose inner rules are matched too).
+  for (const m of css.matchAll(
+    /(\/\*(?:(?!\*\/)[\s\S])*\*\/\s*)?([^{}/]+?)\s*\{([^{}]*)\}/g,
+  )) {
+    const [, lead = "", rawSelector, body] = m;
+    // drop a trailing `*/` fragment when a comment was not captured as `lead`
+    const selector = rawSelector.replace(/^[\s\S]*\*\//, "").trim();
+    if (!selector || selector.startsWith("@")) continue;
+    rules++;
+    const sel = selector.replace(/\s+/g, " ");
+    for (const part of splitTop(sel, /,/)) {
+      const scoped = part
+        .replace(/^:root\.theme-antd:not\(\.dark\)/, "")
+        .replace(/^html:where\((?:[^()]|\([^()]*\))*\)/, "")
+        .replace(/\s*[>+~]\s*(?![^[]*\])/g, " ");
+      const depth = splitTop(scoped, /\s/).length;
+      if (depth > MAX_DEPTH)
+        errors.push(
+          `${file}: selector deeper than ${MAX_DEPTH}: ${part.slice(0, 100)}`,
+        );
+    }
+    if (
+      /!important/.test(body) &&
+      !/!important/.test(lead + body.replace(/[^;]*!important\s*;?/g, ""))
+    )
+      errors.push(
+        `${file}: !important without a comment saying why: ${sel.slice(
+          0,
+          100,
+        )}`,
+      );
+  }
+}
+
 if (warnings.length && process.argv.includes("--verbose"))
   console.warn(warnings.join("\n"));
 if (errors.length) {
@@ -119,5 +178,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `theme:check-selectors: ${depends} @depends tokens and ${attrs} attribute selectors OK`,
+  `theme:check-selectors: ${depends} @depends tokens and ${attrs} attribute selectors OK; ${rules} rules within specificity policy`,
 );
