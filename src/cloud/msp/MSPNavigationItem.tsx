@@ -6,7 +6,7 @@ import MSPIcon from "@/assets/icons/MSPIcon";
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
-
+import { t } from "@/i18n";
 export const MSPNavigationItem = () => {
   const { isActive, isMSPInMSPContext } = useMSP();
   const { isOwnerOrAdmin } = useLoggedInUser();
@@ -24,7 +24,11 @@ export const MSPNavigationItem = () => {
       <SidebarItem
         icon={<MSPIcon size={17} />}
         visible={permission?.tenants?.read}
-        label={<div className={"flex items-center gap-2"}>Tenants</div>}
+        label={
+          <div className={"flex items-center gap-2"}>
+            {t("common:word.tenants")}
+          </div>
+        }
         href={"/tenants"}
         exactPathMatch={true}
         labelClassName={"-left-[1.5px] relative"}

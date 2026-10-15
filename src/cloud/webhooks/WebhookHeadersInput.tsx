@@ -4,6 +4,7 @@ import { Input } from "@components/Input";
 import { uniqueId } from "lodash";
 import { MinusCircleIcon } from "lucide-react";
 
+import { t } from "@/i18n";
 export interface ConfigHeader {
   key: string;
   value: string;
@@ -76,7 +77,9 @@ export function HeadersInput({
 
     let error = "";
     if (newKey === "" && headerValue !== "") {
-      error = "Header key is required when value is provided";
+      error = t(
+        "cloud.webhooks:webhookHeadersInput.text.headerKeyIsRequiredWhen",
+      );
     }
 
     onChange({ ...value, key: newKey, error });
@@ -89,7 +92,9 @@ export function HeadersInput({
 
     let error = "";
     if (key === "" && newValue !== "") {
-      error = "Header name is required when a value is provided";
+      error = t(
+        "cloud.webhooks:webhookHeadersInput.text.headerNameIsRequiredWhen",
+      );
     }
 
     onChange({ ...value, value: newValue, error });
@@ -99,7 +104,9 @@ export function HeadersInput({
   useEffect(() => {
     let error = "";
     if (key === "" && headerValue !== "") {
-      error = "Header name is required when a value is provided";
+      error = t(
+        "cloud.webhooks:webhookHeadersInput.text.headerNameIsRequiredWhen",
+      );
       onError?.(true);
     } else {
       onError?.(false);
@@ -113,8 +120,10 @@ export function HeadersInput({
       <div className={"flex gap-2 w-full"}>
         <div className={"w-full"}>
           <Input
-            customPrefix={"Name"}
-            placeholder={"e.g., Authorization"}
+            customPrefix={t("common:word.name")}
+            placeholder={t(
+              "cloud.webhooks:webhookHeadersInput.placeholder.eGAuthorization",
+            )}
             maxWidthClass={"w-full"}
             value={key}
             error={value.error}
@@ -127,10 +136,10 @@ export function HeadersInput({
 
         <div className={"w-full"}>
           <Input
-            customPrefix={"Value"}
-            placeholder={
-              "e.g., Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVURWw0SmJieUU4S00zY3NwcmdUSSJ9"
-            }
+            customPrefix={t("common:word.value")}
+            placeholder={t(
+              "cloud.webhooks:webhookHeadersInput.placeholder.eGBearerEyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVURWw0SmJieUU4S00zY3NwcmdUSSJ9",
+            )}
             maxWidthClass={"w-full"}
             value={headerValue}
             onChange={handleValueChange}

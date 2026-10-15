@@ -7,5 +7,18 @@
   "trialOrUpgradeButton.text.noCreditCardRequired": "No credit card required",
   "trialOrUpgradeButton.text.getALicense": "Get a License",
   "trialGradientCard.text.tryAllOfNetBirdS": "Try all of NetBird's features for free",
-  "trialGradientCard.text.activateYour14DayTrial": "Activate your 14-day trial to access NetBird's full set of features & integrations. After the trial, you will return to your {{planName}} plan unless you choose to upgrade."
+  "trialGradientCard.text.activateYour14DayTrial": "Activate your 14-day trial to access NetBird's full set of features & integrations. After the trial, you will return to your {{planName}} plan unless you choose to upgrade.",
+  "trialNavigationInfoCard.text.freeTrial": "Free Trial",
+  "trialNavigationInfoCard.text.trialEndsInDays": "Trial ends in {{trialDaysRemaining}} days",
+  "trialNavigationInfoCard.text.upgradePlan": "Upgrade Plan",
+  "trialSuccessModal.text.your14DayTrialHas": "Your 14-Day Trial has started!",
+  "trialSuccessModal.text.welcomeAboardYouHaveNow": "Welcome aboard! You have now access to NetBird's full set of features & integrations",
+  "trialSuccessModal.text.forTheNextTwoWeeks": "for the next two weeks",
+  "trialSuccessModal.text.whatSNext": "What's next?",
+  "trialSuccessModal.text.exploreTheDashboardOurIntegrations": "Explore the dashboard, our integrations and all the features. Some of the key features you can try:",
+  "trialSuccessModal.text.configureIdPSyncForUser": "Configure IdP sync for user & group provisioning",
+  "trialSuccessModal.text.setUpYourFirstDevice": "Set up your first device posture checks",
+  "trialSuccessModal.text.enableDeviceApprovalsForAdded": "Enable device approvals for added control",
+  "trialSuccessModal.text.exploreNetBird": "Explore NetBird",
+  "trialGradientCard.text.free": "Free"
 }

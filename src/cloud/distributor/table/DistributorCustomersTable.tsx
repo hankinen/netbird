@@ -22,6 +22,7 @@ import { CustomerTenantsCell } from "@/cloud/distributor/table/CustomerTenantsCe
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 
+import { t } from "@/i18n";
 const CustomerPlanCellWithUpgrade = ({
   customer,
 }: {
@@ -41,7 +42,9 @@ const CustomersTableColumns: ColumnDef<DistributorCustomer>[] = [
     id: "name",
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Customer</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("cloud.distributor:distributorCustomersTable.text.customer")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => <CustomerNameCell customer={row.original} />,
   },
@@ -53,11 +56,17 @@ const CustomersTableColumns: ColumnDef<DistributorCustomer>[] = [
     id: "reseller_customer_id",
     accessorKey: "reseller_customer_id",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Customer ID</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("cloud.distributor:distributorCustomersTable.text.customerID")}
+      </DataTableHeader>
     ),
     cell: ({ row }) =>
       row.original.reseller_customer_id ? (
-        <CopyToClipboardText message={`Customer ID copied to clipboard`}>
+        <CopyToClipboardText
+          message={t(
+            "cloud.distributor:distributorCustomersTable.message.customerIDCopiedToClipboard",
+          )}
+        >
           <span className={"text-sm text-nb-gray-300 font-mono"}>
             {row.original.reseller_customer_id}
           </span>
@@ -70,7 +79,9 @@ const CustomersTableColumns: ColumnDef<DistributorCustomer>[] = [
     id: "plan",
     accessorKey: "plan",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Plan</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("cloud.distributor:distributorCustomerModal.text.plan")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => <CustomerPlanCellWithUpgrade customer={row.original} />,
   },
@@ -78,7 +89,9 @@ const CustomersTableColumns: ColumnDef<DistributorCustomer>[] = [
     id: "tenants",
     accessorKey: "tenants",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Tenants</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("common:word.tenants")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => <CustomerTenantsCell customer={row.original} />,
   },
@@ -130,12 +143,14 @@ export default function DistributorCustomersTable({
     <DataTable
       headingTarget={headingTarget}
       useRowId={true}
-      text={"Customers"}
+      text={t("common:word.customers")}
       sorting={sorting}
       setSorting={setSorting}
       columns={CustomersTableColumns}
       data={customers}
-      searchPlaceholder={"Search by name, domain or id..."}
+      searchPlaceholder={t(
+        "cloud.distributor:distributorCustomersTable.searchPlaceholder.searchByNameDomainOr",
+      )}
       columnVisibility={{
         domain: false,
       }}
@@ -149,10 +164,12 @@ export default function DistributorCustomersTable({
               size={"large"}
             />
           }
-          title={"Add New Customer"}
-          description={
-            "It looks like you don't have any customers yet. Add a new customer to get started."
-          }
+          title={t(
+            "cloud.distributor:distributorCustomersTable.title.addNewCustomer",
+          )}
+          description={t(
+            "cloud.distributor:distributorCustomersTable.description.itLooksLikeYouDon",
+          )}
           button={<AddCustomerButton />}
           learnMore={<DistributorDocsLink />}
         />
@@ -166,7 +183,7 @@ export default function DistributorCustomersTable({
                 onClick={() => router.push("/settings?tab=invoices")}
               >
                 <ReceiptTextIcon size={16} />
-                Invoices
+                {t("common:word.invoices")}
               </Button>
               <AddCustomerButton />
             </div>
@@ -197,7 +214,7 @@ const AddCustomerButton = () => {
   return (
     <Button variant={"primary"} size={"sm"} onClick={openCreateCustomerModal}>
       <PlusCircle size={16} />
-      Add Customer
+      {t("cloud.distributor:distributorCustomerModal.text.addCustomer")}
     </Button>
   );
 };

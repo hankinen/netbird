@@ -5,7 +5,7 @@ import { GradientFadedBackground } from "@components/ui/GradientFadedBackground"
 import { GlobeIcon } from "lucide-react";
 import * as React from "react";
 import { DistributorCustomer } from "@/cloud/distributor/interfaces/Distributor";
-
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -42,18 +42,28 @@ export const DistributorAccountExistsModal = ({
             {customer?.domain}
           </div>
           <div className={"text-xl font-medium text-center mb-1"}>
-            This NetBird account already <br />
-            exists in our system
+            {t(
+              "cloud.distributor:distributorAccountExistsModal.text.thisNetBirdAccountAlready",
+            )}{" "}
+            <br />
+            {t(
+              "cloud.distributor:distributorAccountExistsModal.text.existsInOurSystem",
+            )}
           </div>
           <div className={"text-sm text-nb-gray-300 text-center"}>
-            To manage the account{" "}
-            <span className="text-white">{customer?.domain}</span>, you must
-            first request access from the account owner.
+            {t(
+              "cloud.distributor:distributorAccountExistsModal.text.toManageTheAccount",
+            )}{" "}
+            <span className="text-white">{customer?.domain}</span>
+            {t(
+              "cloud.distributor:distributorAccountExistsModal.text.youMustFirstRequestAccess",
+            )}
           </div>
           <div className={"text-sm text-nb-gray-300 text-center"}></div>
           <Callout>
-            The account owner must log in to the dashboard to accept or decline
-            your request. Please inform them after you have requested access.
+            {t(
+              "cloud.distributor:distributorAccountExistsModal.text.theAccountOwnerMustLog",
+            )}
           </Callout>
         </div>
 
@@ -64,7 +74,7 @@ export const DistributorAccountExistsModal = ({
             variant={"secondary"}
             onClick={() => onCancel(customer)}
           >
-            Cancel
+            {t("common:word.cancel")}
           </Button>
           <Button
             autoFocus={true}
@@ -72,7 +82,9 @@ export const DistributorAccountExistsModal = ({
             variant={"primary"}
             onClick={() => onAccept(customer)}
           >
-            Request Access
+            {t(
+              "cloud.distributor:distributorAccountExistsModal.text.requestAccess",
+            )}
           </Button>
         </ModalFooter>
       </ModalContent>

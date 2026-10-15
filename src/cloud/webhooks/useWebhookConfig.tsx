@@ -8,6 +8,7 @@ import {
   httpHeadersReducer,
 } from "@/cloud/webhooks/WebhookHeadersInput";
 
+import { t } from "@/i18n";
 type UseWebhookConfigOptions = {
   initialUrl?: string;
   initialHeaders?: Record<string, string>;
@@ -62,7 +63,7 @@ export function useWebhookConfig({
   const urlError = useMemo(() => {
     if (url === "") return "";
     if (!validator.isValidUrl(url)) {
-      return "Please enter a valid url, e.g., https://api.example.com/webhook";
+      return t("cloud.webhooks:useWebhookConfig.text.pleaseEnterAValidUrl");
     }
     return "";
   }, [url]);

@@ -16,13 +16,13 @@ import {
   AGENT_NETWORK_SIGNUP_SOURCE,
   SIGNUP_SOURCE_LOCAL_STORAGE_KEY,
 } from "@/hooks/useSignupSource";
+import { t } from "@/i18n";
 import type { Account } from "@/interfaces/Account";
 import type { Group } from "@/interfaces/Group";
 import { PlanTier } from "@/interfaces/Subscription";
 import { useAccount } from "@/modules/account/useAccount";
 import { requestAgentNetworkOnboarding } from "@/modules/onboarding/agent-network/existingAccountOnboarding";
 import { OnboardingProvider } from "@/modules/onboarding/OnboardingProvider";
-
 export const NetBirdCloudProvider = () => {
   const { mutate } = useSWRConfig();
   const { subscription } = useBilling();
@@ -89,10 +89,14 @@ export const NetBirdCloudProvider = () => {
         ...(isNewAccount ? { agent_network_only: true } : {}),
       };
       notify({
-        title: "Agent Network",
+        title: t("cloud.contexts:netBirdCloudProvider.title.agentNetwork"),
         description: isNewAccount
-          ? "Agent Network focused view enabled for your account."
-          : "Agent Network enabled for your account.",
+          ? t(
+              "cloud.contexts:netBirdCloudProvider.text.agentNetworkFocusedViewEnabled",
+            )
+          : t(
+              "cloud.contexts:netBirdCloudProvider.text.agentNetworkEnabledForYour",
+            ),
         promise: accountRequest(
           { id: account.id, settings },
           "/" + account.id,
@@ -107,8 +111,10 @@ export const NetBirdCloudProvider = () => {
           localStorage.removeItem(SIGNUP_SOURCE_LOCAL_STORAGE_KEY);
         }),
         loadingMessage: isNewAccount
-          ? "Enabling Agent Network focused view..."
-          : "Enabling Agent Network...",
+          ? t(
+              "cloud.contexts:netBirdCloudProvider.text.enablingAgentNetworkFocusedView",
+            )
+          : t("cloud.contexts:netBirdCloudProvider.text.enablingAgentNetwork"),
       });
     } catch (e) {}
   }, [account]);

@@ -11,8 +11,8 @@ import { useSWRConfig } from "swr";
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { useAccount } from "@/modules/account/useAccount";
-
 export const DistributorTransferAccountModal = () => {
   const { mspInfo } = useMSP();
   const account = useAccount();
@@ -30,18 +30,30 @@ export const DistributorTransferAccountModal = () => {
 
   const grantAccess = async () => {
     const choice = await confirm({
-      title: `Grant access to distributor?`,
-      description: `Are you sure you want to grant access? This action cannot be undone.`,
-      confirmText: "Grant Access",
-      cancelText: "Cancel",
+      title: t(
+        "cloud.distributor:distributorTransferAccountModal.title.grantAccessToDistributor",
+      ),
+      description: t(
+        "cloud.distributor:distributorTransferAccountModal.description.areYouSureYouWant",
+      ),
+      confirmText: t(
+        "cloud.distributor:distributorTransferAccountModal.confirmText.grantAccess",
+      ),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!choice) return;
 
     notify({
-      title: "Granting access to distributor",
-      description: "Access has been successfully granted.",
-      loadingMessage: "Granting access...",
+      title: t(
+        "cloud.distributor:distributorTransferAccountModal.title.grantingAccessToDistributor",
+      ),
+      description: t(
+        "cloud.distributor:distributorTransferAccountModal.description.accessHasBeenSuccessfullyGranted",
+      ),
+      loadingMessage: t(
+        "cloud.distributor:distributorTransferAccountModal.loadingMessage.grantingAccess",
+      ),
       promise: resellerRequest
         .put(
           {
@@ -59,9 +71,15 @@ export const DistributorTransferAccountModal = () => {
 
   const deny = () => {
     notify({
-      title: "Access request denied",
-      description: "You have denied the distributor access request.",
-      loadingMessage: "Declining access...",
+      title: t(
+        "cloud.distributor:distributorTransferAccountModal.title.accessRequestDenied",
+      ),
+      description: t(
+        "cloud.distributor:distributorTransferAccountModal.description.youHaveDeniedTheDistributor",
+      ),
+      loadingMessage: t(
+        "cloud.distributor:distributorTransferAccountModal.loadingMessage.decliningAccess",
+      ),
       promise: resellerRequest
         .put(
           {
@@ -99,24 +117,31 @@ export const DistributorTransferAccountModal = () => {
             <h2
               className={"text-lg my-0 leading-[1.5] text-center text-balance"}
             >
-              A distributor is requesting access to your account
+              {t(
+                "cloud.distributor:distributorTransferAccountModal.text.aDistributorIsRequestingAccess",
+              )}
             </h2>
             <Paragraph
               className={cn("text-sm text-center max-w-[450px] px-4 mt-2")}
             >
-              Granting access allows the distributor to manage billing and
-              subscription for your account.
+              {t(
+                "cloud.distributor:distributorTransferAccountModal.text.grantingAccessAllowsTheDistributor",
+              )}
             </Paragraph>
             <div className={"flex gap-4 items-center mt-6 w-full"}>
               <Button className={"w-full"} variant={"secondary"} onClick={deny}>
-                Deny
+                {t(
+                  "cloud.distributor:distributorTransferAccountModal.text.deny",
+                )}
               </Button>
               <Button
                 className={"w-full"}
                 variant={"danger"}
                 onClick={grantAccess}
               >
-                Grant Access
+                {t(
+                  "cloud.distributor:distributorTransferAccountModal.confirmText.grantAccess",
+                )}
               </Button>
             </div>
           </div>

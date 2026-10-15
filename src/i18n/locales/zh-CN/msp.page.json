@@ -1,0 +1,13 @@
+{
+  "page.text.goToTenants": "前往租户",
+  "page.text.goToPeers": "前往设备",
+  "page.title.netBirdManagedServiceProvider": "NetBird 托管服务提供商",
+  "page.description.successfullyJoinedAsAnManaged": "已成功作为托管服务提供商加入",
+  "page.loadingMessage.processingYourInvitation": "正在处理您的邀请...",
+  "page.text.netBirdInvitesYouToJoin": "NetBird 邀请您以托管服务提供商（MSP）身份加入",
+  "page.text.youWillGetAccessTo": "您将获得 NetBird MSP 门户的访问权限，可在一个地方集中管理多个客户及其网络。",
+  "page.text.onlyTheOwnerOfThe": "只有账户所有者才能接受此邀请。请联系账户所有者接受邀请。",
+  "page.text.theInvitationHasAlreadyBeen": "该邀请已被接受",
+  "page.text.accept": "接受",
+  "page.text.decline": "拒绝"
+}

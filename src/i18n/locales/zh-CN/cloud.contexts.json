@@ -1,0 +1,7 @@
+{
+  "netBirdCloudProvider.title.agentNetwork": "Agent Network",
+  "netBirdCloudProvider.text.agentNetworkFocusedViewEnabled": "已为您的账户启用 Agent Network 专注视图。",
+  "netBirdCloudProvider.text.agentNetworkEnabledForYour": "已为您的账户启用 Agent Network。",
+  "netBirdCloudProvider.text.enablingAgentNetworkFocusedView": "正在启用 Agent Network 专注视图...",
+  "netBirdCloudProvider.text.enablingAgentNetwork": "正在启用 Agent Network..."
+}

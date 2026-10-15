@@ -8,6 +8,7 @@ import { AccountUsageStats } from "@/interfaces/AccountUsageStats";
 import { Plan } from "@/interfaces/Plan";
 import { PlanTier } from "@/interfaces/Subscription";
 
+import { t } from "@/i18n";
 type Props = {
   accountId: string;
   withUsage?: boolean;
@@ -83,9 +84,15 @@ export const useCustomerPlan = ({ accountId, withUsage = false }: Props) => {
         );
 
     notify({
-      title: `Subscription Plan`,
-      description: `Successfully subscribed to the ${plan.name} plan.`,
-      loadingMessage: `Subscribing to ${plan.name}...`,
+      title: t("cloud.distributor:useCustomerPlan.title.subscriptionPlan"),
+      description: t(
+        "cloud.distributor:useCustomerPlan.description.successfullySubscribedToThePlan",
+        { name: plan.name },
+      ),
+      loadingMessage: t(
+        "cloud.distributor:useCustomerPlan.loadingMessage.subscribingTo",
+        { name: plan.name },
+      ),
       promise,
     });
 

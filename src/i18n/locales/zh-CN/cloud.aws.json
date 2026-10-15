@@ -1,0 +1,11 @@
+{
+  "aWSChoosePlan.text.thanksForRegisteringVia": "感谢您通过以下方式注册：",
+  "aWSChoosePlan.text.aWSMarketplace": "AWS Marketplace！",
+  "aWSChoosePlan.text.itSeemsYouAlreadyHave": "您似乎已有一个有效订阅。如需使用 AWS 作为计费提供商，请联系我们的支持团队。",
+  "aWSChoosePlan.text.withOurFlexiblePricingYou": "借助我们灵活的定价，您只需通过 AWS 账户为活跃用户和活跃设备付费。请选择适合您需求的套餐。",
+  "aWSChoosePlan.text.youCanAlwaysChangeYour": "您随时可以更改套餐。",
+  "aWSChoosePlan.text.subscribeTo": "订阅",
+  "aWSChoosePlan.text.getSupport": "获取支持",
+  "aWSChoosePlan.text.continueToDashboard": "继续前往控制台",
+  "aWSChoosePlan.text.logout": "退出登录"
+}

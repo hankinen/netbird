@@ -14,6 +14,7 @@ import {
 } from "@/cloud/webhooks/WebhookHeadersInput";
 import { WebhookConfig } from "@/cloud/webhooks/useWebhookConfig";
 
+import { t } from "@/i18n";
 type Props = {
   value: WebhookConfig;
 };
@@ -21,9 +22,9 @@ type Props = {
 export function WebhookHeadersTabContent({ value }: Readonly<Props>) {
   return (
     <TabsContent value={"headers"} className={"px-8"}>
-      <Label>HTTP Headers (optional)</Label>
+      <Label>{t("cloud.webhooks:webhookHeadersTabContent.text.hTTPHeadersOptional")}</Label>
       <HelpText>
-        If your endpoint requires additional headers, you can add them here.
+        {t("cloud.webhooks:webhookHeadersTabContent.text.ifYourEndpointRequiresAdditional")}
       </HelpText>
       {value.httpHeaders.length > 0 && (
         <div className={"flex gap-3 w-full mb-3"}>
@@ -59,7 +60,7 @@ export function WebhookHeadersTabContent({ value }: Readonly<Props>) {
         data-testid="webhook-add-header"
       >
         <PlusIcon size={14} />
-        Add Header
+        {t("cloud.webhooks:webhookHeadersTabContent.text.addHeader")}
       </Button>
 
       {value.authHeaderConflict && (
@@ -72,15 +73,14 @@ export function WebhookHeadersTabContent({ value }: Readonly<Props>) {
           }
           className={"mt-5"}
         >
-          Warning: You have added an {"'Authorization'"} header. This will
-          override the{" "}
+          {t("cloud.webhooks:webhookHeadersTabContent.text.warningYouHaveAddedAn")}{" "}{t("cloud.webhooks:webhookHeadersTabContent.text.authorization")}{" "}{t("cloud.webhooks:webhookHeadersTabContent.text.headerThisWillOverrideThe")}{" "}
           <span className={"text-nb-gray-100 font-medium"}>
             {value.authenticationType === AuthType.Basic
-              ? "Basic Auth"
-              : "Bearer Token"}
+              ? t("cloud.webhooks:webhookHeadersTabContent.text.basicAuth")
+              : t("cloud.webhooks:webhookHeadersTabContent.text.bearerToken")}
           </span>{" "}
-          authentication from the previous step. Please remove the{" "}
-          {"'Authorization'"} header.
+          {t("cloud.webhooks:webhookHeadersTabContent.text.authenticationFromThePreviousStep")}{" "}
+          {t("cloud.webhooks:webhookHeadersTabContent.text.authorization")}{" "}{t("cloud.webhooks:webhookHeadersTabContent.text.header")}
         </Callout>
       )}
     </TabsContent>

@@ -42,9 +42,9 @@ import {
   MSPTenantPlanTab,
   MSPTenantPlanTabTrigger,
 } from "@/cloud/msp/MSPTenantPlanTab";
+import { t as i18nT } from "@/i18n";
 import { Role } from "@/interfaces/User";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
-
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -102,7 +102,7 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
   const domainInputError = useMemo(() => {
     if (domain === "") return "";
     if (!validator.isValidDomain(domain)) {
-      return "Please enter a valid domain, e.g. netbird.io";
+      return i18nT("cloud.msp:mSPTenantModal.text.pleaseEnterAValidDomain");
     }
     return "";
   }, [domain]);
@@ -120,8 +120,10 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
     });
 
     notify({
-      title: `Add ${domain} account`,
-      description: "The tenant account has been created successfully.",
+      title: i18nT("cloud.msp:mSPTenantModal.title.addAccount", { domain }),
+      description: i18nT(
+        "cloud.msp:mSPTenantModal.description.theTenantAccountHasBeen",
+      ),
       preventSuccessToast: true,
       promise: tenantRequest
         .post({ name, domain, groups: newTenantGroups })
@@ -153,8 +155,12 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
     });
 
     notify({
-      title: `Update ${tenant?.domain} account`,
-      description: "The tenant account has been updated successfully.",
+      title: i18nT("cloud.msp:mSPTenantModal.title.updateAccount", {
+        domain: tenant?.domain,
+      }),
+      description: i18nT(
+        "cloud.msp:mSPTenantModal.description.theTenantAccountHasBeen2",
+      ),
       promise: tenantRequest
         .put({ name, groups: newTenantGroups }, `/${tenant.id}`)
         .then(() => refreshAndClose()),
@@ -176,11 +182,15 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
     <ModalContent maxWidthClass={cn(ModalWidth[tab])}>
       <ModalHeader
         icon={<UserIcon size={18} />}
-        title={tenant ? `Update Tenant` : "Add Tenant"}
+        title={
+          tenant
+            ? i18nT("cloud.msp:mSPTenantModal.text.updateTenant")
+            : i18nT("cloud.msp:mSPTenantModal.text.addTenant")
+        }
         description={
           tenant
             ? `${tenant.name} (${tenant.domain})`
-            : "Add a new tenant account to your organization."
+            : i18nT("cloud.msp:mSPTenantModal.text.addANewTenantAccount")
         }
         color={"netbird"}
       />
@@ -193,7 +203,7 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            General
+            {i18nT("common:word.general")}
           </TabsTrigger>
           <TabsTrigger value={"permissions"} disabled={!canContinue}>
             <LockIcon
@@ -202,16 +212,18 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Permissions
+            {i18nT("cloud.msp:mSPTenantModal.text.permissions")}
           </TabsTrigger>
           {tenant && <MSPTenantPlanTabTrigger tenant={tenant} />}
         </TabsList>
         <TabsContent value={"general"} className={"px-8 pb-8"}>
           <div className={"flex flex-col gap-6"}>
             <div className={""}>
-              <Label>Name</Label>
+              <Label>{i18nT("common:word.name")}</Label>
               <HelpText>
-                Set an easily recognizable name for the tenant.
+                {i18nT(
+                  "cloud.msp:mSPTenantModal.text.setAnEasilyRecognizableName",
+                )}
               </HelpText>
 
               <Input
@@ -220,16 +232,26 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                 value={name}
                 data-testid={"name"}
                 onChange={(e) => setName(e.target.value)}
-                placeholder={"Acme Inc."}
+                placeholder={i18nT(
+                  "cloud.msp:mSPTenantModal.placeholder.acmeInc",
+                )}
                 className={"min-w-[270px]"}
               />
             </div>
             <div className={""}>
-              <Label>Domain</Label>
+              <Label>{i18nT("common:word.domain")}</Label>
               {!tenant ? (
-                <HelpText>Enter the primary domain of the tenant.</HelpText>
+                <HelpText>
+                  {i18nT(
+                    "cloud.msp:mSPTenantModal.text.enterThePrimaryDomainOf",
+                  )}
+                </HelpText>
               ) : (
-                <HelpText>Primary domain of the tenant.</HelpText>
+                <HelpText>
+                  {i18nT(
+                    "cloud.msp:mSPTenantModal.text.primaryDomainOfTheTenant",
+                  )}
+                </HelpText>
               )}
 
               {tenant ? (
@@ -253,7 +275,13 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                           isActive ? "bg-green-400" : "bg-yellow-400",
                         )}
                       ></span>
-                      {isActive ? "Ownership Verified" : "Pending Verification"}
+                      {isActive
+                        ? i18nT(
+                            "cloud.msp:mSPTenantModal.text.ownershipVerified",
+                          )
+                        : i18nT(
+                            "cloud.msp:mSPTenantModal.text.pendingVerification",
+                          )}
                     </span>
                   </div>
                   <div className={"flex gap-2 items-center"}>
@@ -264,7 +292,7 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                         onClick={() => verifyDomain(tenant, true)}
                       >
                         <ShieldCheckIcon size={14} />
-                        Verify Domain
+                        {i18nT("cloud.msp:mSPTenantModal.text.verifyDomain")}
                       </Button>
                     )}
                   </div>
@@ -279,7 +307,9 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                   data-testid={"name"}
                   disabled={tenant}
                   onChange={(e) => setDomain(e.target.value)}
-                  placeholder={"acme.de"}
+                  placeholder={i18nT(
+                    "cloud.msp:mSPTenantModal.placeholder.acmeDe",
+                  )}
                   className={"w-full"}
                 />
               )}
@@ -301,12 +331,12 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
           <Paragraph className={"text-sm mt-auto"}>
             {tab === "plan" ? (
               <>
-                Learn more about
+                {i18nT("common:word.learnMoreAbout")}
                 <InlineLink
                   href={"https://netbird.io/pricing"}
                   target={"_blank"}
                 >
-                  Pricing & Plans
+                  {i18nT("cloud.msp:mSPTenantModal.text.pricingPlans")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
@@ -319,21 +349,23 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
           {tab === "general" && !tenant && (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>
+                  {i18nT("common:word.cancel")}
+                </Button>
               </ModalClose>
               <Button
                 variant={"primary"}
                 disabled={!canContinue}
                 onClick={() => setTab("permissions")}
               >
-                Continue
+                {i18nT("common:word.continue")}
               </Button>
             </>
           )}
           {tab === "permissions" && !tenant && (
             <>
               <Button variant={"secondary"} onClick={() => setTab("general")}>
-                Back
+                {i18nT("common:word.back")}
               </Button>
               <Button
                 variant={"primary"}
@@ -341,14 +373,16 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                 disabled={!canContinue}
               >
                 <PlusCircle size={16} />
-                Add Account
+                {i18nT("cloud.msp:mSPTenantModal.text.addAccount")}
               </Button>
             </>
           )}
           {tenant && (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>
+                  {i18nT("common:word.cancel")}
+                </Button>
               </ModalClose>
               {tab !== "plan" && (
                 <Button
@@ -356,7 +390,7 @@ const MspAccountModalContent = ({ setOpen, tenant, initialTab }: Props) => {
                   disabled={!hasChanges || !canContinue}
                   onClick={updateTenant}
                 >
-                  Save Changes
+                  {i18nT("common:word.saveChanges")}
                 </Button>
               )}
             </>

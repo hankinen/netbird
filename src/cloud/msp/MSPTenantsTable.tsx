@@ -28,12 +28,13 @@ import { LockedFeatureInfoCard } from "@/modules/billing/locked-feature/LockedFe
 import { LockedFeatureOverlay } from "@/modules/billing/locked-feature/LockedFeatureOverlay";
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 
+import { t } from "@/i18n";
 const TenantsTableColumns: ColumnDef<Tenant>[] = [
   {
     id: "name",
     accessorKey: "name",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Tenant</DataTableHeader>
+      <DataTableHeader column={column}>{t("cloud.msp:mSPTenantsTable.text.tenant")}</DataTableHeader>
     ),
     cell: ({ row }) => <TenantNameCell tenant={row.original} />,
   },
@@ -45,7 +46,7 @@ const TenantsTableColumns: ColumnDef<Tenant>[] = [
     id: "plan",
     accessorKey: "plan",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Plan</DataTableHeader>
+      <DataTableHeader column={column}>{t("cloud.msp:mSPTenantPlanTab.text.plan")}</DataTableHeader>
     ),
     cell: ({ row }) => <TenantPlanCell tenant={row.original} />,
   },
@@ -53,7 +54,7 @@ const TenantsTableColumns: ColumnDef<Tenant>[] = [
     id: "users",
     accessorKey: "users",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Users</DataTableHeader>
+      <DataTableHeader column={column}>{t("common:countWord.users")}</DataTableHeader>
     ),
     cell: ({ row }) => <TenantUsersCell tenant={row.original} />,
   },
@@ -61,7 +62,7 @@ const TenantsTableColumns: ColumnDef<Tenant>[] = [
     id: "peers",
     accessorKey: "peers",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Peers</DataTableHeader>
+      <DataTableHeader column={column}>{t("common:countWord.peers")}</DataTableHeader>
     ),
     cell: ({ row }) => <TenantPeersCell tenant={row.original} />,
   },
@@ -70,12 +71,11 @@ const TenantsTableColumns: ColumnDef<Tenant>[] = [
     accessorKey: "id",
     header: ({ column }) => (
       <DataTableHeader column={column}>
-        Est. Cost / Month
+        {t("cloud.msp:mSPTenantsTable.text.estCostMonth")}
         <FullTooltip
           content={
             <div className={"text-xs max-w-xs"}>
-              The estimated price is calculated based on the number of active
-              users and active peers.
+              {t("cloud.msp:mSPTenantsTable.text.theEstimatedPriceIsCalculated")}
             </div>
           }
           interactive={false}
@@ -95,7 +95,7 @@ const TenantsTableColumns: ColumnDef<Tenant>[] = [
     id: "groups",
     accessorKey: "peers",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Permission Groups</DataTableHeader>
+      <DataTableHeader column={column}>{t("cloud.msp:mSPTenantsTable.text.permissionGroups")}</DataTableHeader>
     ),
     cell: ({ row }) => <TenantGroupsCell tenant={row.original} />,
   },
@@ -165,7 +165,7 @@ export default function MSPTenantsTable({
     <>
       <LockedFeatureInfoCard
         className={"px-4 sm:px-6 md:px-8 mt-0 mb-8"}
-        featureText={"Managing Tenants"}
+        featureText={t("cloud.msp:mSPTenantsTable.featureText.managingTenants")}
         feature={"MSP"}
         offerTrial={false}
       />
@@ -177,12 +177,12 @@ export default function MSPTenantsTable({
         <DataTable
           headingTarget={headingTarget}
           useRowId={true}
-          text={"Tenants"}
+          text={t("common:word.tenants")}
           sorting={sorting}
           setSorting={setSorting}
           columns={TenantsTableColumns}
           data={tenants}
-          searchPlaceholder={"Search by name, email or group..."}
+          searchPlaceholder={t("cloud.msp:mSPTenantsTable.searchPlaceholder.searchByNameEmailOr")}
           columnVisibility={{
             created_at: false,
             domain: false,
@@ -197,10 +197,8 @@ export default function MSPTenantsTable({
                   size={"large"}
                 />
               }
-              title={"Add New Tenant"}
-              description={
-                "It looks like you don't have any tenants yet. Add a new tenant to get started."
-              }
+              title={t("cloud.msp:mSPTenantsTable.title.addNewTenant")}
+              description={t("cloud.msp:mSPTenantsTable.description.itLooksLikeYouDon")}
               button={<AddTenantButton />}
               learnMore={<MSPTenantDocsLink />}
             />
@@ -215,7 +213,7 @@ export default function MSPTenantsTable({
                       onClick={() => router.push("/settings?tab=invoices")}
                     >
                       <ReceiptTextIcon size={16} />
-                      Invoices
+                      {t("common:word.invoices")}
                     </Button>
                   )}
 
@@ -258,7 +256,7 @@ const AddTenantButton = () => {
   return (
     <Button variant={"primary"} size={"sm"} onClick={openCreateTenantModal}>
       <PlusCircle size={16} />
-      Add Tenant
+      {t("cloud.msp:mSPTenantModal.text.addTenant")}
     </Button>
   );
 };

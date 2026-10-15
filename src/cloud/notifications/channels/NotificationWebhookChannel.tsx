@@ -32,6 +32,7 @@ import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import NotificationWebhookModal from "@/cloud/notifications/channels/NotificationWebhookModal";
 
+import { t } from "@/i18n";
 type Props = {
   channel: NotificationChannel;
 };
@@ -49,34 +50,34 @@ export const NotificationWebhookChannel = ({ channel }: Props) => {
   const handleSave = (newTarget: WebhookTarget) => {
     const isNew = !isConnected;
     notify({
-      title: "Webhook Notifications",
+      title: t("cloud.notifications:notificationWebhookChannel.title.webhookNotifications"),
       description: isNew
-        ? "Webhook has been successfully connected."
-        : "Webhook configuration has been successfully updated.",
+        ? t("cloud.notifications:notificationWebhookChannel.text.webhookHasBeenSuccessfullyConnected")
+        : t("cloud.notifications:notificationWebhookChannel.text.webhookConfigurationHasBeenSuccessfully"),
       promise: updateChannel({ ...channel, enabled: true, target: newTarget }),
-      loadingMessage: isNew ? "Connecting webhook..." : "Updating webhook...",
+      loadingMessage: isNew ? t("cloud.notifications:notificationWebhookChannel.text.connectingWebhook") : t("cloud.notifications:notificationWebhookChannel.text.updatingWebhook"),
     });
   };
 
   const handleDeleteConnection = async () => {
     const choice = await confirm({
-      title: "Delete Webhook Connection",
+      title: t("cloud.notifications:notificationWebhookChannel.title.deleteWebhookConnection"),
       description:
-        "Are you sure you want to delete this webhook connection? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+        t("cloud.notifications:notificationWebhookChannel.description.areYouSureYouWant"),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!choice) return;
     notify({
-      title: "Webhook Notifications",
-      description: "Webhook connection has been successfully deleted.",
+      title: t("cloud.notifications:notificationWebhookChannel.title.webhookNotifications"),
+      description: t("cloud.notifications:notificationWebhookChannel.description.webhookConnectionHasBeenSuccessfully"),
       promise: updateChannel({
         ...channel,
         enabled: false,
         target: undefined,
       }),
-      loadingMessage: "Deleting webhook...",
+      loadingMessage: t("cloud.notifications:notificationWebhookChannel.loadingMessage.deletingWebhook"),
     });
   };
 
@@ -89,24 +90,24 @@ export const NotificationWebhookChannel = ({ channel }: Props) => {
       <Breadcrumbs>
         <Breadcrumbs.Item
           href={"/settings"}
-          label={"Settings"}
+          label={t("common:word.settings")}
           icon={<SettingsIcon size={13} />}
         />
         <Breadcrumbs.Item
           href={"/settings?tab=notifications"}
-          label={"Notifications"}
+          label={t("cloud.notifications:notificationTab.label.notifications")}
           icon={<MessageSquareDot size={14} />}
         />
         <Breadcrumbs.Item
           href={"/settings?tab=notifications&channel=webhook"}
-          label={"Webhook"}
+          label={t("cloud.notifications:notificationWebhookChannel.label.webhook")}
           icon={<GlobeIcon size={14} />}
           active
         />
       </Breadcrumbs>
       <div className={"flex items-start justify-between"}>
         <div className={"flex gap-3 items-center"}>
-          <h1>Webhook</h1>
+          <h1>{t("cloud.notifications:notificationWebhookChannel.label.webhook")}</h1>
         </div>
       </div>
       <div className={"flex flex-col gap-8 mt-4"}>
@@ -135,7 +136,7 @@ export const NotificationWebhookChannel = ({ channel }: Props) => {
             ></div>
           </div>
           <div className={"flex items-start flex-col flex-1 min-w-0 pr-10"}>
-            <p className={"font-medium text-sm"}>Webhook</p>
+            <p className={"font-medium text-sm"}>{t("cloud.notifications:notificationWebhookChannel.label.webhook")}</p>
             {isConnected ? (
               <TruncatedText
                 text={target?.url}
@@ -144,7 +145,7 @@ export const NotificationWebhookChannel = ({ channel }: Props) => {
               />
             ) : (
               <span className={"text-xs text-nb-gray-300 mt-0.5"}>
-                Not Connected
+                {t("cloud.notifications:notificationSlackChannel.text.notConnected")}
               </span>
             )}
           </div>
@@ -162,7 +163,7 @@ export const NotificationWebhookChannel = ({ channel }: Props) => {
                 <DropdownMenuItem onClick={() => setModalOpen(true)} disabled={!canUpdate} data-testid="webhook-edit">
                   <div className={"flex gap-3 items-center"}>
                     <SquarePen size={14} className={"shrink-0"} />
-                    Edit
+                    {t("common:word.edit")}
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuItem
@@ -173,7 +174,7 @@ export const NotificationWebhookChannel = ({ channel }: Props) => {
                 >
                   <div className={"flex gap-3 items-center"}>
                     <Trash2 size={14} className={"shrink-0"} />
-                    Delete
+                    {t("common:word.delete")}
                   </div>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -188,7 +189,7 @@ export const NotificationWebhookChannel = ({ channel }: Props) => {
               data-testid="webhook-connect"
             >
               <Repeat size={13} />
-              Connect
+              {t("common:word.connect")}
             </Button>
           )}
         </Card>

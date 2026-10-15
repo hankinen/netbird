@@ -1,0 +1,11 @@
+{
+  "aWSChoosePlan.text.thanksForRegisteringVia": "Thanks for registering via",
+  "aWSChoosePlan.text.aWSMarketplace": "AWS Marketplace!",
+  "aWSChoosePlan.text.itSeemsYouAlreadyHave": "It seems you already have an active subscription with us. In order to use AWS as a billing provider, please contact our support team.",
+  "aWSChoosePlan.text.withOurFlexiblePricingYou": "With our flexible pricing, you are only billed for active users and active peers through your AWS account. Please choose the plan that fits your needs.",
+  "aWSChoosePlan.text.youCanAlwaysChangeYour": "You can always change your plan later.",
+  "aWSChoosePlan.text.subscribeTo": "Subscribe to",
+  "aWSChoosePlan.text.getSupport": "Get Support",
+  "aWSChoosePlan.text.continueToDashboard": "Continue to Dashboard",
+  "aWSChoosePlan.text.logout": "Logout"
+}

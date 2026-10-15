@@ -6,7 +6,7 @@ import { cn } from "@utils/helpers";
 import { useSearchParams } from "next/navigation";
 import * as React from "react";
 import { useState } from "react";
-
+import { t } from "@/i18n";
 export const PlanSuccessModal = () => {
   const params = useSearchParams();
   const subscriptionSuccess = params.get("success");
@@ -24,16 +24,18 @@ export const PlanSuccessModal = () => {
           }
         >
           <h2 className={"text-xl my-0 leading-[1.5] mb-2"}>
-            Thank you for subscribing <br />
-            to NetBird! 🎉
+            {t("billing.main:planSuccessModal.text.thankYouForSubscribing")}{" "}
+            <br />
+            {t("billing.main:planSuccessModal.text.toNetBird")}
           </h2>
           <Paragraph className={cn("text-sm text-center max-w-xs")}>
-            Your subscription has been successfully activated. You have now full
-            access to all NetBird features of your selected plan.
+            {t(
+              "billing.main:planSuccessModal.text.yourSubscriptionHasBeenSuccessfully",
+            )}
           </Paragraph>
           <ModalClose asChild={true}>
             <Button variant={"primary"} className={"w-full mt-4"} size={"xs"}>
-              Close
+              {t("common:word.close")}
             </Button>
           </ModalClose>
         </div>

@@ -3,8 +3,8 @@ import { CreditCardIcon } from "lucide-react";
 import * as React from "react";
 import { useTenantPlan } from "@/cloud/msp/hooks/useTenantPlan";
 import { Tenant, TenantStatus } from "@/cloud/msp/interfaces/Tenant";
+import { t } from "@/i18n";
 import { PlanCard, PlanLoadingSkeleton } from "@/modules/billing/PlanCard";
-
 type Props = {
   tenant: Tenant;
 };
@@ -65,7 +65,7 @@ export const MSPTenantPlanTabTrigger = ({ tenant }: Props) => {
           "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
         }
       />
-      Plan
+      {t("cloud.msp:mSPTenantPlanTab.text.plan")}
     </TabsTrigger>
   );
 };

@@ -17,10 +17,10 @@ import {
 } from "@/cloud/msp/interfaces/Tenant";
 import { useGroups } from "@/contexts/GroupsProvider";
 import { useUsers } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { HorizontalUsersStack } from "@/modules/users/HorizontalUsersStack";
 import { UserRoles } from "@/modules/users/UserRoleSelector";
-
 type Props = {
   tenant: Tenant;
 };
@@ -51,7 +51,7 @@ export const TenantGroupsCell = ({ tenant }: Props) => {
         className={"max-h-[38px]"}
       >
         <IconCirclePlus size={14} />
-        Add Groups
+        {t("cloud.msp:tenantGroupsCell.text.addGroups")}
       </Button>
     );
 

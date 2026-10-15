@@ -8,7 +8,8 @@ import { PlanTier } from "@/interfaces/Subscription";
 import { TrialOrUpgradeButton } from "@/modules/billing/trial/TrialOrUpgradeButton";
 export const TrialGradientCard = () => {
   const { currentPlan, canUpgrade, isTrialAvailable } = useBilling();
-  let planName = currentPlan?.name || "Free";
+  let planName =
+    currentPlan?.name || t("billing.trial:trialGradientCard.text.free");
   if (!isTrialAvailable) return null;
 
   return (

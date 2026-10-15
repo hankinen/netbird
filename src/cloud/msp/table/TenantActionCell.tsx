@@ -19,7 +19,7 @@ import {
 import * as React from "react";
 import { useTenants } from "@/cloud/msp/contexts/TenantsProvider";
 import { Tenant, TenantStatus } from "@/cloud/msp/interfaces/Tenant";
-
+import { t } from "@/i18n";
 type Props = {
   tenant: Tenant;
 };
@@ -47,7 +47,7 @@ export const TenantActionCell = ({ tenant }: Props) => {
           onClick={() => verifyDomain(tenant, true)}
         >
           <ShieldCheckIcon size={14} />
-          Verify Domain
+          {t("cloud.msp:mSPTenantModal.text.verifyDomain")}
         </Button>
       )}
 
@@ -59,7 +59,7 @@ export const TenantActionCell = ({ tenant }: Props) => {
           onClick={() => openAccountExistsModal(tenant)}
         >
           <ShieldUserIcon size={16} />
-          Request Access
+          {t("cloud.msp:mSPAccountExistsModal.text.requestAccess")}
         </Button>
       )}
 
@@ -67,13 +67,12 @@ export const TenantActionCell = ({ tenant }: Props) => {
         <FullTooltip
           content={
             <div className={"text-xs max-w-xs"}>
-              The account owner must log in to the dashboard to accept or
-              decline your request.
+              {t("cloud.msp:tenantActionCell.text.theAccountOwnerMustLog")}
             </div>
           }
         >
           <Badge variant={"yellow"} className={"ml-6 cursor-help"}>
-            Pending access request
+            {t("cloud.msp:tenantActionCell.text.pendingAccessRequest")}
             <HelpCircle size={12} />
           </Badge>
         </FullTooltip>
@@ -87,7 +86,7 @@ export const TenantActionCell = ({ tenant }: Props) => {
         onClick={() => openEditTenantModal(tenant)}
       >
         <SquarePenIcon size={14} />
-        Edit
+        {t("common:word.edit")}
       </Button>
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger
@@ -106,7 +105,7 @@ export const TenantActionCell = ({ tenant }: Props) => {
           <DropdownMenuItem onClick={() => openUnlinkTenantModal(tenant)}>
             <div className={"flex gap-3 items-center"}>
               <UnlinkIcon size={14} className={"shrink-0"} />
-              Unlink
+              {t("cloud.msp:mSPUnlinkModal.text.unlink")}
             </div>
           </DropdownMenuItem>
 
@@ -116,7 +115,7 @@ export const TenantActionCell = ({ tenant }: Props) => {
           >
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Delete
+              {t("common:word.delete")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

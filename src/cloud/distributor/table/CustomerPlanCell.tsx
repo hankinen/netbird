@@ -9,9 +9,9 @@ import {
   DistributorCustomer,
   DistributorCustomerStatus,
 } from "@/cloud/distributor/interfaces/Distributor";
+import { t } from "@/i18n";
 import { PlanTier } from "@/interfaces/Subscription";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
-
 type Props = {
   customer: DistributorCustomer;
   onUpgrade?: () => void;
@@ -32,7 +32,7 @@ export const CustomerPlanCell = ({ customer, onUpgrade }: Props) => {
       <div className={"flex gap-3 items-center"}>
         <Badge variant={"yellow"} className={"h-[32px]"}>
           <CircleAlertIcon size={12} />
-          Trial Expired
+          {t("cloud.distributor:customerPlanCell.text.trialExpired")}
         </Badge>
         {onUpgrade && (
           <Button
@@ -42,7 +42,7 @@ export const CustomerPlanCell = ({ customer, onUpgrade }: Props) => {
             onClick={onUpgrade}
           >
             <CreditCardIcon size={12} />
-            Upgrade Plan
+            {t("cloud.distributor:customerPlanCell.text.upgradePlan")}
           </Button>
         )}
       </div>
@@ -89,10 +89,14 @@ const CurrentPlan = ({ plan }: { plan: PlanTier }) => {
           plan == PlanTier.TRIAL && "bg-purple-400",
         )}
       ></span>
-      {plan == PlanTier.BUSINESS && "Business"}
-      {plan == PlanTier.TEAM && "Team"}
-      {plan == PlanTier.FREE && "Free"}
-      {plan == PlanTier.TRIAL && "Free Trial"}
+      {plan == PlanTier.BUSINESS &&
+        t("cloud.distributor:customerPlanCell.text.business")}
+      {plan == PlanTier.TEAM &&
+        t("cloud.distributor:distributorNavigation.label.team")}
+      {plan == PlanTier.FREE &&
+        t("cloud.distributor:customerPlanCell.text.free")}
+      {plan == PlanTier.TRIAL &&
+        t("cloud.distributor:customerPlanCell.text.freeTrial")}
     </>
   );
 };

@@ -13,11 +13,11 @@ import {
 import * as React from "react";
 import { TenantGroup } from "@/cloud/msp/interfaces/Tenant";
 import { useUsers } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { Group } from "@/interfaces/Group";
 import { Role } from "@/interfaces/User";
 import { HorizontalUsersStack } from "@/modules/users/HorizontalUsersStack";
 import { UserRoles, UserRoleSelector } from "@/modules/users/UserRoleSelector";
-
 type Props = {
   groups: Group[];
   onGroupsChange: React.Dispatch<React.SetStateAction<Group[]>>;
@@ -56,9 +56,11 @@ export const MSPTenantPermissionsTab = ({
     <div>
       <div className={"flex gap-4 justify-between w-full items-start"}>
         <div>
-          <Label>Permissions (required)</Label>
+          <Label>
+            {t("cloud.msp:mSPTenantPermissionsTab.text.permissionsRequired")}
+          </Label>
           <HelpText>
-            Add user groups to grant them access to this tenant.
+            {t("cloud.msp:mSPTenantPermissionsTab.text.addUserGroupsToGrant")}
           </HelpText>
         </div>
         <div>
@@ -71,7 +73,7 @@ export const MSPTenantPermissionsTab = ({
                 className={"pl-3"}
               >
                 <PlusIcon size={14} />
-                Add Group
+                {t("cloud.msp:mSPTenantPermissionsTab.text.addGroup")}
               </Button>
             }
             onChange={onGroupsChange}

@@ -15,6 +15,7 @@
   "lockedFeatureContent.text.toUpgradeThePlan": "升级套餐。",
   "lockedFeatureContent.text.onlyTheOwnerOrAn": "只有所有者或管理员可以升级套餐。",
   "lockedFeatureContent.text.upgradeOrStartA14": "升级或开始 14 天免费试用以使用此功能。",
-  "lockedFeatureContent.text.upgradeYourPlanToAccess": "升级您的 {{value}} 套餐以使用此功能。",
+  "lockedFeatureContent.text.upgradeYourPlanToAccessTenants": "升级租户套餐以使用此功能。",
+  "lockedFeatureContent.text.upgradeYourPlanToAccessCurrent": "升级您的当前套餐以使用此功能。",
   "lockedFeatureContent.text.getSupport": "获取支持"
 }

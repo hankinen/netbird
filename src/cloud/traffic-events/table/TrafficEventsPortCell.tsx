@@ -16,7 +16,7 @@ import {
   getICMPv6TypeName,
 } from "@/cloud/traffic-events/interfaces/TrafficEventICMPv6";
 import { parseAddressPort } from "@/cloud/traffic-events/utils/parseAddress";
-
+import { t } from "@/i18n";
 type Props = {
   event: TrafficEvent;
 };
@@ -71,12 +71,16 @@ export const TrafficEventsPortCell = ({ event }: Props) => {
             >
               <ListItem
                 icon={<TagIcon size={14} />}
-                label={`Type ${event.icmp.type}`}
+                label={t("cloud.traffic-events:trafficEventICMPv6.text.type", {
+                  type: event.icmp.type,
+                })}
                 value={ICMPType}
               />
               <ListItem
                 icon={<HashIcon size={14} />}
-                label={`Code ${event.icmp.code}`}
+                label={t("cloud.traffic-events:trafficEventICMPv6.text.code", {
+                  code: event.icmp.code,
+                })}
                 value={ICMPCode}
               />
             </div>

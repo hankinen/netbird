@@ -15,6 +15,7 @@
   "lockedFeatureContent.text.toUpgradeThePlan": "to upgrade the plan.",
   "lockedFeatureContent.text.onlyTheOwnerOrAn": "Only the owner or an admin can upgrade the plan.",
   "lockedFeatureContent.text.upgradeOrStartA14": "Upgrade or start a 14-day free trial to access this feature.",
-  "lockedFeatureContent.text.upgradeYourPlanToAccess": "Upgrade your {{value}} plan to access this feature.",
+  "lockedFeatureContent.text.upgradeYourPlanToAccessTenants": "Upgrade your tenants plan to access this feature.",
+  "lockedFeatureContent.text.upgradeYourPlanToAccessCurrent": "Upgrade your current plan to access this feature.",
   "lockedFeatureContent.text.getSupport": "Get Support"
 }

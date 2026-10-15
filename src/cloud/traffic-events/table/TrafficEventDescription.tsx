@@ -14,7 +14,7 @@ import {
 import { getTrafficEventTypeText } from "@/cloud/traffic-events/TrafficEventsTable";
 import { stripZeroPort } from "@/cloud/traffic-events/utils/parseAddress";
 import { usePeers } from "@/contexts/PeersProvider";
-
+import { t } from "@/i18n";
 type Props = {
   event: TrafficEvent;
   type: TrafficEventType;
@@ -109,7 +109,8 @@ export const TrafficEventDescription = ({
     const joinClauses = (clauses: string[]) =>
       clauses.map((clause, index) => (
         <React.Fragment key={clause}>
-          {index > 0 && (index === clauses.length - 1 ? " and " : ", ")}
+          {index > 0 &&
+            (index === clauses.length - 1 ? t("common:word.and") : ", ")}
           {clause}
         </React.Fragment>
       ));
@@ -125,12 +126,15 @@ export const TrafficEventDescription = ({
       sentences.push(
         info.isInbound ? (
           <>
-            {info.destinationName} {joinClauses(initiated)} from{" "}
+            {info.destinationName} {joinClauses(initiated)}{" "}
+            {t("cloud.traffic-events:trafficEventDescription.text.from")}{" "}
             {info.sourceName}
           </>
         ) : (
           <>
-            {info.sourceName} {joinClauses(initiated)} to {info.destinationName}
+            {info.sourceName} {joinClauses(initiated)}{" "}
+            {t("cloud.traffic-events:trafficEventDescription.text.to")}{" "}
+            {info.destinationName}
           </>
         ),
       );
@@ -138,8 +142,15 @@ export const TrafficEventDescription = ({
     if (drops > 0) {
       sentences.push(
         <>
-          {info.sourceName} got blocked {drops.toLocaleString()}{" "}
-          {drops === 1 ? "time" : "times"} trying to connect to{" "}
+          {info.sourceName}{" "}
+          {t("cloud.traffic-events:trafficEventDescription.text.gotBlocked")}{" "}
+          {drops.toLocaleString()}{" "}
+          {drops === 1
+            ? t("cloud.traffic-events:trafficEventDescription.text.time")
+            : t("cloud.traffic-events:trafficEventDescription.text.times")}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.tryingToConnectTo",
+          )}{" "}
           {info.destinationName}
         </>,
       );
@@ -171,7 +182,11 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          {info.sourceName} requested connection to {info.destinationName}
+          {info.sourceName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.requestedConnectionTo",
+          )}{" "}
+          {info.destinationName}
         </>
       );
     }
@@ -184,7 +199,11 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          {info.sourceName} stopped connection to {info.destinationName}
+          {info.sourceName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.stoppedConnectionTo",
+          )}{" "}
+          {info.destinationName}
         </>
       );
     }
@@ -200,8 +219,14 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          Routing peer {routerName} received connection to{" "}
-          {info.destinationName} from {info.sourceName}
+          {t("cloud.traffic-events:trafficEventDescription.text.routingPeer")}{" "}
+          {routerName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.receivedConnectionTo",
+          )}{" "}
+          {info.destinationName}{" "}
+          {t("cloud.traffic-events:trafficEventDescription.text.from")}{" "}
+          {info.sourceName}
         </>
       );
     }
@@ -214,8 +239,14 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          Routing peer {routerName} started routing to {info.destinationName}{" "}
-          from {info.sourceName}
+          {t("cloud.traffic-events:trafficEventDescription.text.routingPeer")}{" "}
+          {routerName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.startedRoutingTo",
+          )}{" "}
+          {info.destinationName}{" "}
+          {t("cloud.traffic-events:trafficEventDescription.text.from")}{" "}
+          {info.sourceName}
         </>
       );
     }
@@ -228,8 +259,14 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          Routing peer {routerName} stopped routing to {info.destinationName}{" "}
-          from {info.sourceName}
+          {t("cloud.traffic-events:trafficEventDescription.text.routingPeer")}{" "}
+          {routerName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.stoppedRoutingTo",
+          )}{" "}
+          {info.destinationName}{" "}
+          {t("cloud.traffic-events:trafficEventDescription.text.from")}{" "}
+          {info.sourceName}
         </>
       );
     }
@@ -242,8 +279,14 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          Routing peer {routerName} stopped connection to {info.destinationName}{" "}
-          from {info.sourceName}
+          {t("cloud.traffic-events:trafficEventDescription.text.routingPeer")}{" "}
+          {routerName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.stoppedConnectionTo",
+          )}{" "}
+          {info.destinationName}{" "}
+          {t("cloud.traffic-events:trafficEventDescription.text.from")}{" "}
+          {info.sourceName}
         </>
       );
     }
@@ -254,7 +297,13 @@ export const TrafficEventDescription = ({
       info.isBlocked &&
       info.isOutbound
     ) {
-      return <>Connection to {info.destinationName} was blocked</>;
+      return (
+        <>
+          {t("cloud.traffic-events:trafficEventDescription.text.connectionTo")}{" "}
+          {info.destinationName}{" "}
+          {t("cloud.traffic-events:trafficEventDescription.text.wasBlocked")}
+        </>
+      );
     }
 
     if (
@@ -265,7 +314,12 @@ export const TrafficEventDescription = ({
     ) {
       return (
         <>
-          Routing peer {routerName} blocked connection to {info.destinationName}
+          {t("cloud.traffic-events:trafficEventDescription.text.routingPeer")}{" "}
+          {routerName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.blockedConnectionTo",
+          )}{" "}
+          {info.destinationName}
         </>
       );
     }
@@ -276,7 +330,11 @@ export const TrafficEventDescription = ({
     if (info.isP2P && info.isOutbound && info.isStarted) {
       return (
         <>
-          {info.sourceName} requested P2P connection to {info.destinationName}
+          {info.sourceName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.requestedP2PConnectionTo",
+          )}{" "}
+          {info.destinationName}
         </>
       );
     }
@@ -284,7 +342,11 @@ export const TrafficEventDescription = ({
     if (info.isP2P && info.isInbound && info.isStarted) {
       return (
         <>
-          {info.destinationName} received P2P connection from {info.sourceName}
+          {info.destinationName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.receivedP2PConnectionFrom",
+          )}{" "}
+          {info.sourceName}
         </>
       );
     }
@@ -292,7 +354,11 @@ export const TrafficEventDescription = ({
     if (info.isP2P && info.isOutbound && info.isStopped) {
       return (
         <>
-          {info.sourceName} stopped P2P connection to {info.destinationName}
+          {info.sourceName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.stoppedP2PConnectionTo",
+          )}{" "}
+          {info.destinationName}
         </>
       );
     }
@@ -300,7 +366,11 @@ export const TrafficEventDescription = ({
     if (info.isP2P && info.isInbound && info.isStopped) {
       return (
         <>
-          {info.destinationName} stopped P2P connection from {info.sourceName}
+          {info.destinationName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.stoppedP2PConnectionFrom",
+          )}{" "}
+          {info.sourceName}
         </>
       );
     }
@@ -308,7 +378,11 @@ export const TrafficEventDescription = ({
     if (info.isP2P && info.isOutbound && info.isBlocked) {
       return (
         <>
-          {info.sourceName} blocked P2P connection to {info.destinationName}
+          {info.sourceName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.blockedP2PConnectionTo",
+          )}{" "}
+          {info.destinationName}
         </>
       );
     }
@@ -316,7 +390,11 @@ export const TrafficEventDescription = ({
     if (info.isP2P && info.isInbound && info.isBlocked) {
       return (
         <>
-          {info.destinationName} blocked P2P connection from {info.sourceName}
+          {info.destinationName}{" "}
+          {t(
+            "cloud.traffic-events:trafficEventDescription.text.blockedP2PConnectionFrom",
+          )}{" "}
+          {info.sourceName}
         </>
       );
     }
@@ -333,15 +411,23 @@ export const TrafficEventDescription = ({
         <span className={"text-xs text-nb-gray-300 block"}>
           {isAggregated && eventWindow ? (
             <span>
-              {eventWindow.first.format("MMM D, YYYY [at] h:mm A")} &ndash;{" "}
-              {eventWindow.last.format(
-                eventWindow.first.isSame(eventWindow.last, "day")
-                  ? "h:mm A"
-                  : "MMM D, h:mm A",
-              )}
+              {t("cloud.traffic-events:trafficEventDescription.text.ndash", {
+                format: eventWindow.first.format("MMM D, YYYY [at] h:mm A"),
+                format2: eventWindow.last.format(
+                  eventWindow.first.isSame(eventWindow.last, "day")
+                    ? "h:mm A"
+                    : "MMM D, h:mm A",
+                ),
+              })}
             </span>
           ) : (
-            <span>{dayjs(timestamp).format("MMM D, YYYY [at] h:mm:ss A")}</span>
+            <span>
+              {dayjs(timestamp).format(
+                t(
+                  "cloud.traffic-events:trafficEventDescription.text.mMMDYYYYAtH",
+                ),
+              )}
+            </span>
           )}
         </span>
       </div>

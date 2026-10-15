@@ -11,6 +11,7 @@ import { isNetBirdCloud } from "@utils/netbird";
 import { Role } from "@/interfaces/User";
 import PeerIcon from "@/assets/icons/PeerIcon";
 
+import { t } from "@/i18n";
 export const DistributorNavigation = () => {
   const { isActive } = useDistributor();
   const { isOwnerOrAdmin, loggedInUser } = useLoggedInUser();
@@ -46,7 +47,7 @@ export const DistributorNavigation = () => {
           but user role has no other pages to navigate to */}
       <SidebarItem
         icon={<PeerIcon />}
-        label="Peers"
+        label={t("common:countWord.peers")}
         href={"/peers"}
         visible={!isRestricted && loggedInUser?.role === Role.User}
       />
@@ -54,7 +55,7 @@ export const DistributorNavigation = () => {
       <SidebarItem
         icon={<MSPIcon size={17} />}
         visible={isOwnerOrAdmin}
-        label={"Customers"}
+        label={t("common:word.customers")}
         href={"/customers"}
         exactPathMatch={true}
         labelClassName={"-left-[1.5px] relative"}
@@ -63,18 +64,20 @@ export const DistributorNavigation = () => {
       <SidebarItem
         icon={<TeamIcon />}
         visible={permission.users.read}
-        label={"Team"}
+        label={t("cloud.distributor:distributorNavigation.label.team")}
         href={"/team"}
         collapsible
       >
         <SidebarItem
-          label={"Users"}
+          label={t("common:countWord.users")}
           isChild
           href={"/team/users"}
           visible={permission.users.read}
         />
         <SidebarItem
-          label={"Service Users"}
+          label={t(
+            "cloud.distributor:distributorNavigation.label.serviceUsers",
+          )}
           isChild
           href={"/team/service-users"}
           visible={permission.users.read}
@@ -83,7 +86,7 @@ export const DistributorNavigation = () => {
       <SidebarItem
         icon={<ActivityIcon />}
         visible={permission.events.read}
-        label={"Audit Events"}
+        label={t("cloud.distributor:distributorNavigation.label.auditEvents")}
         href={"/events/audit"}
         exactPathMatch={true}
       />

@@ -13,10 +13,10 @@ import Skeleton from "react-loading-skeleton";
 import AWSMarketplaceLogo from "@/assets/integrations/aws-marketplace.svg";
 import { useBilling } from "@/contexts/BillingProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { Currency, Plan } from "@/interfaces/Plan";
 import { PlanTier } from "@/interfaces/Subscription";
 import { PlanCard, PlanLoadingSkeleton } from "@/modules/billing/PlanCard";
-
 type Props = {
   onSuccess?: () => void;
 };
@@ -131,9 +131,9 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                       "text-xl my-0 leading-[1.5] mb-2 text-center w-full"
                     }
                   >
-                    Thanks for registering via{" "}
+                    {t("cloud.aws:aWSChoosePlan.text.thanksForRegisteringVia")}{" "}
                     <br className={cn(!hasActiveStripePlan && "hidden")} />
-                    AWS Marketplace!
+                    {t("cloud.aws:aWSChoosePlan.text.aWSMarketplace")}
                   </h2>
                   <Paragraph
                     className={cn(
@@ -142,16 +142,19 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                   >
                     {hasActiveStripePlan ? (
                       <>
-                        It seems you already have an active subscription with
-                        us. In order to use AWS as a billing provider, please
-                        contact our support team.
+                        {t(
+                          "cloud.aws:aWSChoosePlan.text.itSeemsYouAlreadyHave",
+                        )}
                       </>
                     ) : (
                       <>
-                        With our flexible pricing, you are only billed for
-                        active users and active peers through your AWS account.
-                        Please choose the plan that fits your needs. <br />
-                        You can always change your plan later.
+                        {t(
+                          "cloud.aws:aWSChoosePlan.text.withOurFlexiblePricingYou",
+                        )}{" "}
+                        <br />
+                        {t(
+                          "cloud.aws:aWSChoosePlan.text.youCanAlwaysChangeYour",
+                        )}
                       </>
                     )}
                   </Paragraph>
@@ -174,8 +177,10 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                               currentSubscription={subscription}
                               plan={plan}
                               buttonText={{
-                                upgrade: "Subscribe to",
-                                downgrade: "Downgrade to",
+                                upgrade: t(
+                                  "cloud.aws:aWSChoosePlan.text.subscribeTo",
+                                ),
+                                downgrade: t("common:word.downgradeTo"),
                               }}
                               currency={Currency.USD}
                               isSubscribing={isSubscribing}
@@ -195,7 +200,7 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                       >
                         <Button variant={"primary"} className={"w-full"}>
                           <MailIcon size={15} className={"shrink-0"} />
-                          Get Support
+                          {t("cloud.aws:aWSChoosePlan.text.getSupport")}
                         </Button>
                       </a>
                       <Button
@@ -203,7 +208,7 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                         className={"w-full"}
                         onClick={onSuccess}
                       >
-                        Continue to Dashboard
+                        {t("cloud.aws:aWSChoosePlan.text.continueToDashboard")}
                       </Button>
                     </div>
                   )}
@@ -219,7 +224,7 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                   onClick={logout}
                 >
                   <LogOutIcon size={12} />
-                  Logout
+                  {t("cloud.aws:aWSChoosePlan.text.logout")}
                 </button>
               )}
             </div>

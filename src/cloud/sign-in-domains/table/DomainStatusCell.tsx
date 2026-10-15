@@ -1,14 +1,12 @@
 import FullTooltip from "@components/FullTooltip";
 import { cn } from "@utils/helpers";
 import * as React from "react";
+import { t } from "@/i18n";
 import { DomainValidationStatus, SignInDomain } from "@/interfaces/Account";
 
 type Props = {
   domain: SignInDomain;
 };
-
-const FAILED_HINT =
-  "This domain could not be verified. Check that the TXT record is published, then try again. If it keeps failing, contact support@netbird.io";
 
 export default function DomainStatusCell({ domain }: Readonly<Props>) {
   const status = domain.validation_status;
@@ -18,7 +16,11 @@ export default function DomainStatusCell({ domain }: Readonly<Props>) {
 
   return (
     <FullTooltip
-      content={<div className={"text-xs max-w-xs"}>{FAILED_HINT}</div>}
+      content={
+        <div className={"text-xs max-w-xs"}>
+          {t("cloud.sign-in-domains:domainStatusCell.text.failedHint")}
+        </div>
+      }
       disabled={!isFailed}
       interactive={false}
     >
@@ -40,7 +42,9 @@ export default function DomainStatusCell({ domain }: Readonly<Props>) {
 }
 
 function statusLabel(status: DomainValidationStatus) {
-  if (status === DomainValidationStatus.VERIFIED) return "Verified";
-  if (status === DomainValidationStatus.PENDING) return "Pending";
-  return "Unverified";
+  if (status === DomainValidationStatus.VERIFIED)
+    return t("cloud.sign-in-domains:domainStatusCell.text.verified");
+  if (status === DomainValidationStatus.PENDING)
+    return t("cloud.sign-in-domains:domainStatusCell.text.pending");
+  return t("cloud.sign-in-domains:domainStatusCell.text.unverified");
 }

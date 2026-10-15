@@ -7,7 +7,7 @@ import {
   TrafficEventType,
 } from "@/cloud/traffic-events/interfaces/TrafficEvent";
 import { TrafficEventDescription } from "@/cloud/traffic-events/table/TrafficEventDescription";
-
+import { t } from "@/i18n";
 type Props = {
   event: TrafficEvent;
   className?: string;
@@ -139,7 +139,7 @@ const PolicyListItem = ({
       <span
         className={"whitespace-nowrap leading-none flex items-center gap-2"}
       >
-        Policy
+        {t("common:word.policy")}
         <Link href={`/access-control?id=${policy?.id}`}>
           <span
             className={
@@ -150,7 +150,10 @@ const PolicyListItem = ({
             <ArrowUpRightIcon size={14} />
           </span>
         </Link>
-        {isBlocked ? "blocked" : "allowed"} the connection
+        {isBlocked
+          ? t("cloud.traffic-events:trafficEventsDetailRow.text.blocked")
+          : t("cloud.traffic-events:trafficEventsDetailRow.text.allowed")}{" "}
+        {t("cloud.traffic-events:trafficEventsDetailRow.text.theConnection")}
       </span>
     </ListItem>
   );
