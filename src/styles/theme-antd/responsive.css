@@ -67,8 +67,11 @@
     flex-wrap: wrap;
   }
 
-  /* Long names in page titles wrap instead of widening the page. */
-  :root.theme-antd:not(.dark) [class~="overflow-auto" i][class~="flex-auto" i] :is(h1, h2) {
+  /* Long names in page titles (h1/h2, or a nowrap text-xl title line)
+     wrap instead of widening the page. */
+  :root.theme-antd:not(.dark)
+    [class~="overflow-auto" i][class~="flex-auto" i]
+    :is(h1, h2, [class~="whitespace-nowrap" i][class~="text-xl" i]) {
     min-width: 0;
     overflow-wrap: anywhere;
     white-space: normal;
