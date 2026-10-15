@@ -25,6 +25,7 @@
       }
     ],
     "paths": {
+      "@components/table/DataTablePagination": ["./src/styles/theme-antd/components/DataTablePagination.tsx"],
       "@/*": [
         "./src/*"
       ],
