@@ -435,3 +435,49 @@
   > svg {
   color: var(--ant-color-primary);
 }
+
+/* Full-page loader (5 bars, app start / auth). Upstream animates the bars
+   with SMIL <animate> on height/y. Chromium starts an HTML document's SMIL
+   timeline only at the window load event, and the static export's ~20 async
+   chunks delay that for seconds on a slow link, so the server-rendered
+   loader sat frozen; every later remount (OIDC, config) restarts at t=0 and
+   the outer bars wait for begin=0.25s/0.5s, so it hardly ever moved.
+   Same motion as a CSS animation (runs from first paint): scaleY about the
+   bar centre, keyframes = upstream values 120..40 (80%), 140 (90%), 120.
+   !important pins height/y because SMIL-animated values override normal
+   author CSS; without the pin SMIL would scale the bar twice once it starts.
+   @depends src/components/ui/FullScreenLoading.tsx: fill-netbird
+   @depends src/assets/icons/LoadingIcon.tsx: attributeName="height" | repeatCount="indefinite" */
+:root.theme-antd:not(.dark)
+  svg[class~="fill-netbird" i]:has(> rect > animate)
+  > rect {
+  y: 10px !important;
+  height: 120px !important;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: theme-antd-loader-bar 1s linear infinite;
+}
+/* Upstream begin offsets 0.25s / 0.5s (bars lag the middle one), as a
+   negative delay so the bar is mid-cycle at first paint: -(1 - 0.25), -0.5. */
+:root.theme-antd:not(.dark)
+  svg[class~="fill-netbird" i]:has(> rect > animate)
+  > rect:is(:nth-child(2), :nth-child(4)) {
+  animation-delay: -0.75s;
+}
+:root.theme-antd:not(.dark)
+  svg[class~="fill-netbird" i]:has(> rect > animate)
+  > rect:is(:nth-child(1), :nth-child(5)) {
+  animation-delay: -0.5s;
+}
+@keyframes theme-antd-loader-bar {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  80% {
+    transform: scaleY(0.3333);
+  }
+  90% {
+    transform: scaleY(1.1667);
+  }
+}

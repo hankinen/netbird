@@ -140,6 +140,30 @@ props type changes. Then:
 If upstream renames or moves the file, the alias silently points at nothing
 new: check-selectors reports the replaced file as gone.
 
+## Full-page loader animation
+
+What: the five-bar loader (`FullScreenLoading` → `LoadingIcon`, shown at app
+start, during OIDC sign-in and while config loads) is animated with a CSS
+`@keyframes` (`theme-antd-loader-bar`, end of `overrides.css`) instead of
+relying on upstream's SMIL `<animate>` elements.
+
+Why: Chromium starts an HTML document's SMIL timeline only at the window
+`load` event. The static export loads ~20 async chunks first, so on a slow
+link the server-rendered loader stood frozen for seconds, and each later
+remount restarted at t=0 with the outer bars waiting for `begin=0.25s/0.5s`.
+It looked frozen. The CSS animation runs from first paint. It uses the same
+motion as upstream (`scaleY` about the bar centre, 120 → 40 → 140 → 120 over
+1s, same phase offsets). `height`/`y` are pinned with `!important` so that
+SMIL, once it starts, does not scale the bars a second time. The colour is
+still `fill-netbird` (AntD primary through `tokens.css`). Dark and upstream
+light are untouched.
+
+How to disable: delete the "Full-page loader" block at the end of
+`overrides.css`; the upstream SMIL animation then applies unchanged. If
+upstream rewrites `LoadingIcon` (no `<rect><animate>` children) the `:has()`
+selector stops matching and the upstream loader shows as is; check-selectors
+flags the `@depends` tokens.
+
 ## Checks
 
 - `npm run theme:check-selectors`: every `@depends` token still exists in its
