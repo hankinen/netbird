@@ -104,10 +104,13 @@
   color: var(--ant-color-primary-hover);
 }
 
-/* Disabled prev/next. */
-:root.theme-antd:not(.dark) .rc-pagination-disabled {
-  cursor: not-allowed;
+/* Prev/next: custom lucide icons are rendered straight into the <li> (no
+   .rc-pagination-item-link wrapper), so colour the <li>; the icon uses
+   currentColor. */
+:root.theme-antd:not(.dark) :is(.rc-pagination-prev, .rc-pagination-next) {
+  color: var(--ant-color-text);
 }
+:root.theme-antd:not(.dark) .rc-pagination-disabled,
 :root.theme-antd:not(.dark) .rc-pagination-disabled .rc-pagination-item-link {
   color: var(--ant-color-text-disabled);
   cursor: not-allowed;
