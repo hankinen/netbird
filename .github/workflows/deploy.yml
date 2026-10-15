@@ -1,0 +1,70 @@
+# Deploy the static dashboard build (no Docker image) to the production server.
+# The package is streamed over SSH to the deploy user's forced command
+# (/usr/local/sbin/nb-dashboard-deploy on the server), which extracts it into a
+# versioned release dir, syncs it into the html/ dir mounted into the
+# netbird-dashboard container and restarts the container only if it is running.
+# Secrets: DEPLOY_SSH_KEY, DEPLOY_HOST, DEPLOY_KNOWN_HOSTS.
+name: Deploy to server
+
+on:
+  push:
+    branches: [feature/theme-antd]
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.stories.tsx"
+      - ".storybook/**"
+      - "e2e/**"
+  workflow_dispatch:
+    inputs:
+      action:
+        description: "deploy | rollback | status"
+        default: deploy
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-server
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: SSH setup
+        env:
+          KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/id_deploy && chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "$KNOWN" > ~/.ssh/known_hosts
+
+      - name: Rollback / status
+        if: github.event_name == 'workflow_dispatch' && inputs.action != 'deploy'
+        run: ssh -i ~/.ssh/id_deploy nbdeploy@${{ secrets.DEPLOY_HOST }} "${{ inputs.action }}"
+
+      - uses: actions/checkout@v7
+        if: github.event_name == 'push' || inputs.action == 'deploy'
+
+      - uses: actions/setup-node@v7
+        if: github.event_name == 'push' || inputs.action == 'deploy'
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Build static export
+        if: github.event_name == 'push' || inputs.action == 'deploy'
+        run: |
+          npm ci
+          npm run i18n:check
+          npm run build
+          test -f out/index.html
+          tar -czf dashboard.tgz -C out .
+          ls -lh dashboard.tgz
+
+      - name: Deploy
+        if: github.event_name == 'push' || inputs.action == 'deploy'
+        run: ssh -i ~/.ssh/id_deploy nbdeploy@${{ secrets.DEPLOY_HOST }} deploy < dashboard.tgz
