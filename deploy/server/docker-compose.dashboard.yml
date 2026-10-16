@@ -1,0 +1,31 @@
+# Dashboard service for /opt/netbird/docker-compose.yml after the migration in
+# deploy/server/README.md. Replaces the current service definition; the other
+# services (netbird-server, traefik) are unchanged.
+#
+# Differences from today:
+#   - image: built from this repo's docker/Dockerfile by nb-dashboard-deploy
+#     (tag :current), instead of netbirdio/dashboard + a swapped html/
+#   - no read-write bind mount over /usr/share/nginx/html: the build inside the
+#     image is read-only, deployment config is generated into /run at start
+#   - static-pool/ mounted read-only: hashed assets of recent releases, so
+#     open tabs keep loading lazy chunks after a deploy
+services:
+  dashboard:
+    image: netbird-dashboard-zh:current
+    container_name: netbird-dashboard
+    restart: unless-stopped
+    networks: [netbird]
+    env_file:
+      - ./dashboard.env
+    volumes:
+      - ./dashboard-zh/static-pool:/usr/share/nginx/static-pool:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.netbird-dashboard.rule=PathPrefix(`/`)
+      - traefik.http.routers.netbird-dashboard.entrypoints=web
+      - traefik.http.routers.netbird-dashboard.service=dashboard
+      - traefik.http.routers.netbird-dashboard.priority=1
+      - traefik.http.services.dashboard.loadbalancer.server.port=80
+    logging:
+      driver: "json-file"
+      options: { max-size: "500m", max-file: "2" }
