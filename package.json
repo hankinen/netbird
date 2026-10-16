@@ -6,6 +6,7 @@
     "node": ">=24.0.0"
   },
   "scripts": {
+    "predev": "node scripts/runtime-config/write-dev-config.mjs",
     "dev": "next dev -p 3000",
     "build": "next build",
     "postbuild": "node postbuild.js",
@@ -13,12 +14,13 @@
     "lint": "eslint .",
     "test:setup": "cd ./e2e/environment && sh create-test-env.sh",
     "test:clean": "cd ./e2e/environment && sh clean-test-env.sh",
+    "pretest:dev": "node scripts/runtime-config/write-dev-config.mjs --test",
     "test:dev": "cross-env APP_ENV=test next dev -p 1337",
     "test": "npx playwright test --config=e2e/playwright.config.ts",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "test:ui": "npx playwright test --config=e2e/playwright.config.ts --ui",
-    "test:ci": "cross-env APP_ENV=test next build && npx playwright test --config=e2e/playwright.config.ts",
+    "test:ci": "cross-env APP_ENV=test next build && node scripts/runtime-config/write-dev-config.mjs --test --out out/runtime-config.json && npx playwright test --config=e2e/playwright.config.ts",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "test:visual": ".storybook/visual-regression/run.sh",

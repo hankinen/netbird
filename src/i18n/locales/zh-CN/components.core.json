@@ -79,5 +79,13 @@
   "peerGroupSelector.text.searchPeerByNameOr": "按名称或 IP 搜索设备...",
   "peerGroupSelector.text.searchCluster": "搜索集群...",
   "userSelector.text.selectAUser": "选择用户...",
-  "peerGroupSelector.text.search": "搜索..."
+  "peerGroupSelector.text.search": "搜索...",
+  "runtimeConfigError.title.missing": "未找到控制台配置",
+  "runtimeConfigError.title.invalid": "控制台配置无效",
+  "runtimeConfigError.title.incompatible": "不支持此控制台配置版本",
+  "runtimeConfigError.title.timeout": "加载控制台配置超时",
+  "runtimeConfigError.title.network": "无法加载控制台配置",
+  "runtimeConfigError.text.adminHint": "缺少运行时配置，控制台无法启动。请重试；如果问题仍然存在，请联系管理员检查控制台容器日志。",
+  "runtimeConfigError.text.details": "详情：{{details}}",
+  "runtimeConfigError.button.retry": "重试"
 }

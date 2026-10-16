@@ -13,6 +13,7 @@ import { Toaster } from "sonner";
 import OIDCProvider from "@/auth/OIDCProvider";
 import { useAWSMarketplace } from "@/cloud/aws/useAWSMarketplace";
 import FullScreenLoading from "@/components/ui/FullScreenLoading";
+import { RuntimeConfigProvider } from "@/config/runtime/RuntimeConfigProvider";
 import AnalyticsProvider, {
   GoogleTagManagerHeadScript,
 } from "@/contexts/AnalyticsProvider";
@@ -52,6 +53,7 @@ export default function AppLayout({
       <body className={cn(inter.className)}>
         <Suspense fallback={<FullScreenLoading />}>
           <I18nProvider>
+            <RuntimeConfigProvider>
             <AnalyticsProvider>
               <DialogProvider>
                 <ThemeProvider>
@@ -78,6 +80,7 @@ export default function AppLayout({
               <NavigationEvents />
               <DisableDarkReader />
             </AnalyticsProvider>
+            </RuntimeConfigProvider>
           </I18nProvider>
         </Suspense>
       </body>

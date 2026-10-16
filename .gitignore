@@ -38,6 +38,7 @@ next-env.d.ts
 # config
 .local*config*.json
 .test-config.json
+/public/runtime-config.json
 e2e/playwright.env.json
 e2e/fixtures/auth/*.json
 e2e/test-results/

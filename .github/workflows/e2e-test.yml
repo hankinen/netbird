@@ -136,6 +136,8 @@ jobs:
             kill "$ENV_PID" 2>/dev/null || true
             exit 1
           fi
+          # The test build carries no config; serve it like a container would.
+          node scripts/runtime-config/write-dev-config.mjs --test --out out/runtime-config.json
           if ! wait "$ENV_PID"; then
             echo "::error::Test environment setup failed"
             cat env-setup.log

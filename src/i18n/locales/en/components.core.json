@@ -79,5 +79,13 @@
   "peerGroupSelector.text.searchPeerByNameOr": "Search peer by name or ip...",
   "peerGroupSelector.text.searchCluster": "Search cluster...",
   "userSelector.text.selectAUser": "Select a user...",
-  "peerGroupSelector.text.search": "Search..."
+  "peerGroupSelector.text.search": "Search...",
+  "runtimeConfigError.title.missing": "Dashboard configuration not found",
+  "runtimeConfigError.title.invalid": "Dashboard configuration is invalid",
+  "runtimeConfigError.title.incompatible": "This dashboard configuration version is not supported",
+  "runtimeConfigError.title.timeout": "Loading the dashboard configuration timed out",
+  "runtimeConfigError.title.network": "Could not load the dashboard configuration",
+  "runtimeConfigError.text.adminHint": "The dashboard cannot start without its runtime configuration. Try again; if the problem persists, ask your administrator to check the dashboard container logs.",
+  "runtimeConfigError.text.details": "Details: {{details}}",
+  "runtimeConfigError.button.retry": "Try again"
 }
