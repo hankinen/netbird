@@ -23,8 +23,6 @@ export type ErrorResponse = {
 // server-side request. Absent on older servers.
 const REQUEST_ID_HEADER = "X-Request-Id";
 
-const config = loadConfig();
-
 type RequestOptions = {
   key?: string;
   signal?: AbortSignal;
@@ -45,7 +43,9 @@ async function apiRequest<T>(
   data?: any,
   options?: RequestOptions,
 ) {
-  const origin = options?.origin ? options?.origin : config.apiOrigin + "/api";
+  const origin = options?.origin
+    ? options?.origin
+    : loadConfig().apiOrigin + "/api";
   let newUrl = mergeUrlParams(
     url,
     options?.ignoreGlobalParams ? undefined : options?.globalParams,
@@ -82,7 +82,7 @@ async function apiRequest<T>(
 export function useNetBirdFetch(ignoreError: boolean = false): {
   fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 } {
-  const tokenSource = config.tokenSource || "accessToken";
+  const tokenSource = loadConfig().tokenSource || "accessToken";
   const { idToken } = useOidcIdToken();
   const { accessToken } = useOidcAccessToken();
   const token = tokenSource.toLowerCase() == "idtoken" ? idToken : accessToken;
@@ -241,7 +241,7 @@ export function useApiCallWithStatus(url: string) {
   return {
     post: async (data?: unknown, suffix = ""): Promise<ApiStatusResponse> => {
       const res = await fetch(
-        `${config.apiOrigin}/api${mergeUrlParams(url + suffix, globalApiParams)}`,
+        `${loadConfig().apiOrigin}/api${mergeUrlParams(url + suffix, globalApiParams)}`,
         {
           method: "POST",
           body: data === undefined ? undefined : JSON.stringify(data),

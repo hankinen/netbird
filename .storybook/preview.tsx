@@ -1,5 +1,6 @@
 import "../src/app/globals.css";
 import { setApiOverrides } from "./mocks/api";
+import storybookConfig from "./mocks/config";
 import type { Preview } from "@storybook/nextjs-vite";
 import { TooltipProvider } from "@components/Tooltip";
 import { MotionConfig } from "framer-motion";
@@ -8,10 +9,13 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import localFont from "next/font/local";
 import React from "react";
 import { SWRConfig } from "swr";
+import { setRuntimeConfig } from "@/config/runtime/store";
 import DialogProvider from "@/contexts/DialogProvider";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 
 dayjs.extend(relativeTime);
+// What RuntimeConfigProvider does in the app, before any story renders.
+setRuntimeConfig(storybookConfig);
 
 const inter = localFont({
   src: "../src/assets/fonts/Inter.ttf",

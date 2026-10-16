@@ -1,7 +1,7 @@
 import Code from "@components/Code";
 import Steps from "@components/Steps";
 import TabsContentPadding, { TabsContent } from "@components/Tabs";
-import { GRPC_API_ORIGIN } from "@utils/netbird";
+import { getGrpcApiOrigin } from "@utils/netbird";
 import { ShoppingBagIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -39,7 +39,7 @@ export default function AndroidTab() {
               </Link>
             </div>
           </Steps.Step>
-          {GRPC_API_ORIGIN && (
+          {getGrpcApiOrigin() && (
             <Steps.Step step={2}>
               <p>
                 {t(
@@ -47,12 +47,12 @@ export default function AndroidTab() {
                 )}
               </p>
               <Code>
-                <Code.Line>{GRPC_API_ORIGIN}</Code.Line>
+                <Code.Line>{getGrpcApiOrigin()}</Code.Line>
               </Code>
             </Steps.Step>
           )}
 
-          <Steps.Step step={GRPC_API_ORIGIN ? 3 : 2}>
+          <Steps.Step step={getGrpcApiOrigin() ? 3 : 2}>
             <p>
               {}
               {t(
@@ -60,7 +60,7 @@ export default function AndroidTab() {
               )}
             </p>
           </Steps.Step>
-          <Steps.Step step={GRPC_API_ORIGIN ? 4 : 3} line={false}>
+          <Steps.Step step={getGrpcApiOrigin() ? 4 : 3} line={false}>
             <p>
               {t(
                 "setup-netbird-modal.main:androidTab.text.signUpUsingYourEmail",

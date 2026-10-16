@@ -1,7 +1,6 @@
 import Button from "@components/Button";
 import { Modal, ModalContent, ModalFooter } from "@components/modal/Modal";
 import { GradientFadedBackground } from "@components/ui/GradientFadedBackground";
-import loadConfig from "@utils/config";
 import { ClockAlertIcon, LogOutIcon, MailIcon } from "lucide-react";
 import * as React from "react";
 import { useMemo } from "react";
@@ -11,7 +10,6 @@ import { useBilling } from "@/contexts/BillingProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { t } from "@/i18n";
 import { PlanTier } from "@/interfaces/Subscription";
-const config = loadConfig();
 
 export const MSPTrialExpiredModal = () => {
   const { logout } = useLoggedInUser();

@@ -2,8 +2,6 @@ import loadConfig from "@utils/config";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-const config = loadConfig();
-
 const RETRY_DELAY = 1250;
 const MAX_RETRIES = 10;
 
@@ -14,7 +12,10 @@ export const useRedirect = (
 ) => {
   const router = useRouter();
   const currentPath = usePathname();
-  const callBackUrls = useRef([config.redirectURI, config.silentRedirectURI]);
+  const callBackUrls = useRef([
+    loadConfig().redirectURI,
+    loadConfig().silentRedirectURI,
+  ]);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const retryCountRef = useRef(0);
 

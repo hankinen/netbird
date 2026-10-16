@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
 import { t } from "@/i18n";
 import { PendingApproval } from "@/modules/users/PendingApproval";
-const config = loadConfig();
 
 export default function ErrorPage() {
   const { logout, isAuthenticated } = useOidc();
@@ -39,7 +38,7 @@ export default function ErrorPage() {
 
   const handleLogout = () => {
     // Use the same logout pattern as OIDCError
-    logout("/", { client_id: config.clientId });
+    logout("/", { client_id: loadConfig().clientId });
   };
 
   const handleRetry = () => {

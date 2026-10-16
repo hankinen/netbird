@@ -37,7 +37,6 @@ const AnalyticsContext = React.createContext(
     trackGTMCustomEvent: (name: string) => void;
   },
 );
-const config = loadConfig();
 
 export default function AnalyticsProvider({ children }: Readonly<Props>) {
   const [initialized, setInitialized] = useState(false);
@@ -45,8 +44,8 @@ export default function AnalyticsProvider({ children }: Readonly<Props>) {
 
   useEffect(() => {
     if (initialized || !isProduction()) return;
-    const gaid = config.googleAnalyticsID;
-    const hjid = config.hotjarTrackID;
+    const gaid = loadConfig().googleAnalyticsID;
+    const hjid = loadConfig().hotjarTrackID;
     if (gaid) {
       ReactGA.initialize(gaid, {
         gaOptions: {
@@ -113,6 +112,9 @@ export default function AnalyticsProvider({ children }: Readonly<Props>) {
         trackGTMCustomEvent,
       }}
     >
+      {/* Was rendered in <head> by AppLayout; it needs the runtime config,
+          which exists only once the client has loaded it. */}
+      <GoogleTagManagerHeadScript />
       <GoogleTageManagerBodyScript />
       {children}
     </AnalyticsContext.Provider>
@@ -120,6 +122,7 @@ export default function AnalyticsProvider({ children }: Readonly<Props>) {
 }
 
 export const GoogleTagManagerHeadScript = () => {
+  const config = loadConfig();
   if (!config.googleTagManagerID) return null;
   return (
     isProduction() && (
@@ -135,13 +138,13 @@ export const GoogleTagManagerHeadScript = () => {
 };
 
 const GoogleTageManagerBodyScript = () => {
-  if (!config.googleTagManagerID) return null;
+  if (!loadConfig().googleTagManagerID) return null;
   return (
     isProduction() && (
       <noscript>
         <iframe
           title={t("contexts.main:analyticsProvider.title.googleTagManager")}
-          src={`https://www.googletagmanager.com/ns.html?id=${config.googleTagManagerID}`}
+          src={`https://www.googletagmanager.com/ns.html?id=${loadConfig().googleTagManagerID}`}
           height="0"
           width="0"
           style={{ display: "none", visibility: "hidden" }}

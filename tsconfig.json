@@ -30,15 +30,6 @@
       "@/*": [
         "./src/*"
       ],
-      "@/config/production": [
-        "./config.json"
-      ],
-      "@/config/local": [
-        "./.local-config.json"
-      ],
-      "@/config/test": [
-        "./.test-config.json"
-      ],
       "@components/*": [
         "./src/components/*"
       ],

@@ -1,12 +1,12 @@
 import loadConfig from "@utils/config";
 
-const config = loadConfig();
-export const GRPC_API_ORIGIN = config.grpcApiOrigin;
+export const getGrpcApiOrigin = () => loadConfig().grpcApiOrigin;
 
 export const getNetBirdUpCommand = () => {
   let cmd = "netbird up";
-  if (GRPC_API_ORIGIN) {
-    cmd += " --management-url " + GRPC_API_ORIGIN;
+  const grpcApiOrigin = getGrpcApiOrigin();
+  if (grpcApiOrigin) {
+    cmd += " --management-url " + grpcApiOrigin;
   }
   return cmd;
 };
@@ -68,7 +68,7 @@ export const isNetBirdCloud = () => {
   const override = testEditionOverride();
   if (override) return override === "cloud";
   if (process.env.APP_ENV === "test") return true;
-  if (config.cloud) return true;
+  if (loadConfig().cloud) return true;
   return false;
 };
 
@@ -78,7 +78,7 @@ export const isNetBirdCloud = () => {
 export const hasLicensedFlag = () => {
   const override = testEditionOverride();
   if (override) return override !== "oss";
-  return config.licensed || isNetBirdCloud();
+  return loadConfig().licensed || isNetBirdCloud();
 };
 
 // testAgentNetworkOverride lets e2e tests drive the deployment flags
@@ -110,7 +110,7 @@ export const testAgentNetworkOverride = ():
 export const isAgentNetworkOnly = () => {
   const override = testAgentNetworkOverride();
   if (override) return override === "only";
-  return config.agentNetworkOnly;
+  return loadConfig().agentNetworkOnly;
 };
 
 // pkgsDownloadUrl builds a NetBird client installer download link on
@@ -125,11 +125,11 @@ export const pkgsDownloadUrl = (path: string) =>
 export const isAgentNetworkEnabled = () => {
   const override = testAgentNetworkOverride();
   if (override) return override === "only" || override === "enabled";
-  return config.agentNetworkEnabled || config.agentNetworkOnly;
+  return loadConfig().agentNetworkEnabled || loadConfig().agentNetworkOnly;
 };
 
 export const isAuth0 = () => {
-  return config.auth0Auth;
+  return loadConfig().auth0Auth;
 };
 
 export const isLocalDev = () => {

@@ -9,7 +9,7 @@ import Code from "@components/Code";
 import Separator from "@components/Separator";
 import Steps from "@components/Steps";
 import TabsContentPadding, { TabsContent } from "@components/Tabs";
-import { GRPC_API_ORIGIN, pkgsDownloadUrl } from "@utils/netbird";
+import { getGrpcApiOrigin, pkgsDownloadUrl } from "@utils/netbird";
 import {
   BeerIcon,
   DownloadIcon,
@@ -45,7 +45,7 @@ export default function MacOSTab({
   // the operator generates a key.
   const useCliRun = !!setupKey || !!setupKeyContent;
   const baseMgmtStep = 2;
-  const keyStep = GRPC_API_ORIGIN ? 3 : 2;
+  const keyStep = getGrpcApiOrigin() ? 3 : 2;
   const runStep = keyStep + (setupKeyContent ? 1 : 0);
   const usingSetupKeyParam = !!setupKey || !!setupKeyPlaceholder;
   return (
@@ -74,7 +74,7 @@ export default function MacOSTab({
             </div>
           </Steps.Step>
 
-          {GRPC_API_ORIGIN && (
+          {getGrpcApiOrigin() && (
             <Steps.Step step={baseMgmtStep}>
               <ManagementUrlStep trayName={"menu bar"} />
             </Steps.Step>

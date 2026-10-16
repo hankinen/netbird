@@ -4,8 +4,6 @@ import { useMemo } from "react";
 import { DomainValidationStatus } from "@/interfaces/Account";
 import { EnterpriseConnection } from "@/interfaces/IdentityProvider";
 
-const config = loadConfig();
-
 interface EnterpriseConnectionRequest {
   discovery_url?: string;
   domain?: string;
@@ -28,13 +26,13 @@ export const useEnterpriseConnections = () => {
     "/service/idp",
     true,
     false,
-    !!config.authServiceUrl,
+    !!loadConfig().authServiceUrl,
     {
-      origin: config.authServiceUrl,
+      origin: loadConfig().authServiceUrl,
     },
   );
   const request = useApiCall<EnterpriseConnection[]>("/service/idp", true, {
-    origin: config.authServiceUrl,
+    origin: loadConfig().authServiceUrl,
   });
 
   const oktaConnection = useMemo(

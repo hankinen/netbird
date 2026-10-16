@@ -8,11 +8,9 @@ import { t } from "@/i18n";
 import { IronRDPWASMBridge } from "@/modules/remote-access/rdp/ironrdp-wasm-bridge";
 import { RDPCertificateHandler } from "@/modules/remote-access/rdp/rdp-certificate-handler";
 import { installWebSocketProxy } from "@/modules/remote-access/rdp/websocket-proxy";
-const config = loadConfig();
 
 const WASM_CONFIG = {
   SCRIPT_PATH: "/wasm_exec.js",
-  WASM_PATH: config.wasmPath,
   INIT_TIMEOUT: 10000,
   RETRY_DELAY: 100,
 } as const;
@@ -94,7 +92,7 @@ export const useNetBirdClient = () => {
 
     const go = new (window as any).Go();
     const wasmModule = await WebAssembly.instantiateStreaming(
-      fetch(WASM_CONFIG.WASM_PATH),
+      fetch(loadConfig().wasmPath),
       go.importObject,
     );
     go.run(wasmModule.instance);
@@ -177,7 +175,7 @@ export const useNetBirdClient = () => {
         netBirdClient.current = await (window as any).NetBirdClient({
           privateKey,
           logLevel: "info",
-          managementURL: config.apiOrigin,
+          managementURL: loadConfig().apiOrigin,
         });
 
         await netBirdClient.current.start();

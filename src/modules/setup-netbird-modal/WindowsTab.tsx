@@ -2,7 +2,7 @@ import Button from "@components/Button";
 import { SelectDropdown } from "@components/select/SelectDropdown";
 import Steps from "@components/Steps";
 import TabsContentPadding, { TabsContent } from "@components/Tabs";
-import { GRPC_API_ORIGIN, pkgsDownloadUrl } from "@utils/netbird";
+import { getGrpcApiOrigin, pkgsDownloadUrl } from "@utils/netbird";
 import { DownloadIcon, PackageOpenIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -35,7 +35,7 @@ export default function WindowsTab({
   // setupKey-driven branching.
   const useCliRun = !!setupKey || !!setupKeyContent;
   const baseMgmtStep = 2;
-  const keyStep = GRPC_API_ORIGIN ? 3 : 2;
+  const keyStep = getGrpcApiOrigin() ? 3 : 2;
   const runStep = keyStep + (setupKeyContent ? 1 : 0);
   return (
     <TabsContent value={String(OperatingSystem.WINDOWS)}>
@@ -94,7 +94,7 @@ export default function WindowsTab({
             </div>
           </Steps.Step>
 
-          {GRPC_API_ORIGIN && (
+          {getGrpcApiOrigin() && (
             <Steps.Step step={baseMgmtStep}>
               <ManagementUrlStep trayName={"system tray"} />
             </Steps.Step>

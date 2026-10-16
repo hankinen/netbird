@@ -10,8 +10,6 @@ import { HubspotFormField, useAnalytics } from "@/contexts/AnalyticsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { useAccount } from "@/modules/account/useAccount";
 
-const config = loadConfig();
-
 const detectDeviceType = () => {
   if (typeof navigator === "undefined") {
     return "unknown";
@@ -71,6 +69,8 @@ export const Hubspot = () => {
     }
   }, [account]);
 
+  const signupFormId = loadConfig().hubspotSignupFormId;
+
   return (
     account &&
     loggedInUser &&
@@ -78,10 +78,10 @@ export const Hubspot = () => {
     !submittedSignUpForm &&
     isNewAccount &&
     mounted &&
-    config.hubspotSignupFormId && (
+    signupFormId && (
       <HubspotForm
         onSuccess={() => setSubmittedSignUpForm(true)}
-        id={config.hubspotSignupFormId}
+        id={signupFormId}
         hubspotQueryId={hsId}
         gaId={gaId}
         fields={[
@@ -181,12 +181,12 @@ export const submitHubspotForm = async ({
   portalId,
 }: FormProps) => {
   try {
-    const resolvedPortalId = portalId || config.hubspotPortalId;
+    const resolvedPortalId = portalId || loadConfig().hubspotPortalId;
     if (!resolvedPortalId || !id) return;
 
     // Do not submit forms for excluded accounts, e.g., synthetic test users
     const email = fields?.find((field) => field?.name === "email")?.value;
-    if (email && config.analyticsExcludedEmails?.includes(email)) {
+    if (email && loadConfig().analyticsExcludedEmails?.includes(email)) {
       return;
     }
 

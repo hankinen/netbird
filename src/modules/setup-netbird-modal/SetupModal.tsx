@@ -13,7 +13,7 @@ import { Mark } from "@components/ui/Mark";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { useApiCall } from "@utils/api";
 import { cn } from "@utils/helpers";
-import { getNetBirdUpCommand, GRPC_API_ORIGIN } from "@utils/netbird";
+import { getGrpcApiOrigin,getNetBirdUpCommand } from "@utils/netbird";
 import {
   CopyIcon,
   ExternalLinkIcon,
@@ -452,7 +452,7 @@ export const ManagementUrlStep = ({ trayName }: ManagementUrlStepProps) => {
         <Mark>{t("setup-netbird-modal.main:setupModal.text.managementServerURL")}</Mark>
       </p>
       <Code>
-        <Code.Line>{GRPC_API_ORIGIN}</Code.Line>
+        <Code.Line>{getGrpcApiOrigin()}</Code.Line>
       </Code>
       <p className={"mt-2 text-xs text-nb-gray-300 font-normal"}>
         {t("setup-netbird-modal.main:setupModal.text.alreadyPastThatScreenClick")}{" "}{trayName}{t("setup-netbird-modal.main:setupModal.text.open")}{" "}<Mark>{t("common:word.settings")}</Mark>{" "}{t("setup-netbird-modal.main:setupModal.text.andSet")}{" "}<Mark>{t("setup-netbird-modal.main:setupModal.text.managementServer")}</Mark>{" "}{t("setup-netbird-modal.main:setupModal.text.to")}{" "}

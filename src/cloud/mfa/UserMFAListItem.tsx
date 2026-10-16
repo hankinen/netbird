@@ -23,7 +23,6 @@ import { AccountMFA } from "@/cloud/mfa/AccountMFASettings";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { t } from "@/i18n";
-const config = loadConfig();
 
 type Props = {
   userId: string;
@@ -44,8 +43,8 @@ interface UserAuthMethods {
 const ListItem = ({ userId }: Props) => {
   const { data: userMfa, isLoading: isUserMfaLoading } = useFetchApi<
     UserAuthMethods[]
-  >(`/service/mfa/${userId}`, true, false, !!config.authServiceUrl, {
-    origin: config.authServiceUrl,
+  >(`/service/mfa/${userId}`, true, false, !!loadConfig().authServiceUrl, {
+    origin: loadConfig().authServiceUrl,
   });
 
   const { data: accountMfa, isLoading: isAccountMfaLoading } =
@@ -53,9 +52,9 @@ const ListItem = ({ userId }: Props) => {
       `/service/mfa`,
       true,
       true,
-      !!config.authServiceUrl,
+      !!loadConfig().authServiceUrl,
       {
-        origin: config.authServiceUrl,
+        origin: loadConfig().authServiceUrl,
       },
     );
 
@@ -159,7 +158,7 @@ const MFAStatus = ({
 
 const ResetMFAButton = ({ userId }: Props) => {
   const mfaDeleteRequest = useApiCall(`/service/mfa/${userId}`, true, {
-    origin: config.authServiceUrl,
+    origin: loadConfig().authServiceUrl,
   }).del;
   const { mutate } = useSWRConfig();
   const { confirm } = useDialog();

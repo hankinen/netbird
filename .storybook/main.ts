@@ -7,7 +7,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 /* Mirrors the tsconfig `paths` so stories and components resolve
    `@/…`, `@components/…` etc. the same way Next does. Exact aliases
-   such as `@/config/test` come before their wildcard parents. */
+   come before their wildcard parents. */
 function tsconfigAliases() {
   const tsconfig = JSON.parse(
     fs.readFileSync(path.join(root, "tsconfig.json"), "utf-8"),
@@ -29,24 +29,6 @@ function tsconfigAliases() {
           };
     });
 }
-
-/* src/utils/config.ts loads its config with CommonJS require(), which Vite
-   leaves untouched, so the calls are rewritten to import the mock config. */
-const mockConfigPlugin = {
-  name: "netbird-mock-config",
-  enforce: "pre" as const,
-  transform(code: string, id: string) {
-    if (!id.endsWith("src/utils/config.ts")) return;
-    const mock = JSON.stringify(path.join(root, ".storybook/mocks/config.ts"));
-    return (
-      `import __storybookConfig from ${mock};\n` +
-      code.replace(
-        /require\("@\/config\/(production|local|test)"\)/g,
-        "__storybookConfig",
-      )
-    );
-  },
-};
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.stories.tsx"],
@@ -71,7 +53,6 @@ const config: StorybookConfig = {
             replacement,
           }))),
     ];
-    viteConfig.plugins = [...(viteConfig.plugins ?? []), mockConfigPlugin];
     return viteConfig;
   },
 };

@@ -14,8 +14,6 @@ import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { trialExpiresInfo, usageLimitInfo } from "@/contexts/BillingProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 
-const config = loadConfig();
-
 // @theme: unused while the remote fetch below is disabled.
 const ANNOUNCEMENTS_URL =
   "https://raw.githubusercontent.com/netbirdio/dashboard/main/announcements.json";
@@ -190,7 +188,7 @@ export default function AnnouncementProvider({ children }: Readonly<Props>) {
         // The operator's own announcement for this deployment
         // (NETBIRD_ANNOUNCEMENT) stays up ahead of the remote and MSP ones;
         // only the billing warnings below, when they open, come before it.
-        const deployment = deploymentAnnouncement(config.announcement);
+        const deployment = deploymentAnnouncement(loadConfig().announcement);
         if (deployment) {
           allAnnouncements.unshift({
             ...deployment,

@@ -1,21 +1,23 @@
 import Button from "@components/Button";
 import { Callout } from "@components/Callout";
-import { notify } from "@components/Notification";
 import CardTable from "@components/CardTable";
 import Code from "@components/Code";
 import HelpText from "@components/HelpText";
+import InlineLink from "@components/InlineLink";
 import { Input } from "@components/Input";
 import { Label } from "@components/Label";
-import InlineLink from "@components/InlineLink";
 import {
   Modal,
   ModalClose,
   ModalContent,
   ModalFooter,
 } from "@components/modal/Modal";
-import Paragraph from "@components/Paragraph";
 import ModalHeader from "@components/modal/ModalHeader";
+import { notify } from "@components/Notification";
+import Paragraph from "@components/Paragraph";
+import { SelectDropdown } from "@components/select/SelectDropdown";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/Tabs";
+import { cn, validator } from "@utils/helpers";
 import {
   ExternalLinkIcon,
   GlobeIcon,
@@ -26,10 +28,13 @@ import {
 } from "lucide-react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
-import { useApiCall } from "@/utils/api";
-import { cn, validator } from "@utils/helpers";
-import { GRPC_API_ORIGIN, isNetBirdCloud } from "@/utils/netbird";
-import { SelectDropdown } from "@components/select/SelectDropdown";
+import AWSIcon from "@/assets/icons/AWSIcon";
+import DigitalOceanIcon from "@/assets/icons/DigitalOceanIcon";
+import DockerIcon from "@/assets/icons/DockerIcon";
+import HetznerIcon from "@/assets/icons/HetznerIcon";
+import { IconProps } from "@/assets/icons/IconProperties";
+import KubernetesIcon from "@/assets/icons/KubernetesIcon";
+import { t } from "@/i18n";
 import {
   REVERSE_PROXY_CLUSTERS_DOCS_LINK,
   REVERSE_PROXY_ENV_REFERENCE_DOCS_LINK,
@@ -37,17 +42,11 @@ import {
   ReverseProxyClusterToken,
 } from "@/interfaces/ReverseProxy";
 import {
-  ClusterCloudDeploy,
   CloudProvider,
+  ClusterCloudDeploy,
 } from "@/modules/reverse-proxy/clusters/ClusterCloudDeploy";
-import AWSIcon from "@/assets/icons/AWSIcon";
-import DigitalOceanIcon from "@/assets/icons/DigitalOceanIcon";
-import DockerIcon from "@/assets/icons/DockerIcon";
-import HetznerIcon from "@/assets/icons/HetznerIcon";
-import KubernetesIcon from "@/assets/icons/KubernetesIcon";
-import { IconProps } from "@/assets/icons/IconProperties";
-
-import { t } from "@/i18n";
+import { useApiCall } from "@/utils/api";
+import { getGrpcApiOrigin, isNetBirdCloud } from "@/utils/netbird";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -126,7 +125,7 @@ export const ClustersModal = ({ open, onOpenChange, onFinish }: Props) => {
   // Same convention as the add-peer modals: prefer the configured gRPC
   // endpoint so self-hosted and stage deployments point at their own
   // management service; fall back to the cloud default.
-  const managementUrl = GRPC_API_ORIGIN || "https://api.netbird.io:443";
+  const managementUrl = getGrpcApiOrigin() || "https://api.netbird.io:443";
 
   const tokenValue = token || "<TOKEN>";
 

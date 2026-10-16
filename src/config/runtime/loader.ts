@@ -1,4 +1,4 @@
-import { type ParseResult,parseRuntimeConfig } from "./parse";
+import { type ParseResult, parseRuntimeConfig } from "./parse";
 
 export const RUNTIME_CONFIG_URL = "/runtime-config.json";
 export const RUNTIME_CONFIG_TIMEOUT_MS = 10_000;

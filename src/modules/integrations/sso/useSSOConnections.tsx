@@ -4,17 +4,15 @@ import loadConfig from "@utils/config";
 import { useMemo } from "react";
 import { SSOConnection } from "@/interfaces/IdentityProvider";
 
-const config = loadConfig();
-
 export const useSSOConnections = () => {
   const { oidcUser } = useOidcUser();
   const { data: ssos, isLoading: isSSOLoading } = useFetchApi<SSOConnection[]>(
     "/service/idp/sso",
     true,
     false,
-    !!config.authServiceUrl,
+    !!loadConfig().authServiceUrl,
     {
-      origin: config.authServiceUrl,
+      origin: loadConfig().authServiceUrl,
       shouldRetryOnError: false,
     },
   );

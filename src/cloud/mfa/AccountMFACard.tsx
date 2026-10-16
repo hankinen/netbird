@@ -8,16 +8,15 @@ import * as React from "react";
 import { useMemo } from "react";
 import { AccountMFA } from "@/cloud/mfa/AccountMFASettings";
 import { t } from "@/i18n";
-const config = loadConfig();
 
 export const AccountMfaCard = () => {
   const { data: accountMfa } = useFetchApi<AccountMFA>(
     "/service/mfa",
     true,
     true,
-    !!config.authServiceUrl,
+    !!loadConfig().authServiceUrl,
     {
-      origin: config.authServiceUrl,
+      origin: loadConfig().authServiceUrl,
     },
   );
 

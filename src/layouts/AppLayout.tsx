@@ -14,9 +14,7 @@ import OIDCProvider from "@/auth/OIDCProvider";
 import { useAWSMarketplace } from "@/cloud/aws/useAWSMarketplace";
 import FullScreenLoading from "@/components/ui/FullScreenLoading";
 import { RuntimeConfigProvider } from "@/config/runtime/RuntimeConfigProvider";
-import AnalyticsProvider, {
-  GoogleTagManagerHeadScript,
-} from "@/contexts/AnalyticsProvider";
+import AnalyticsProvider from "@/contexts/AnalyticsProvider";
 import DialogProvider from "@/contexts/DialogProvider";
 import ErrorBoundaryProvider from "@/contexts/ErrorBoundary";
 import InstanceSetupProvider from "@/contexts/InstanceSetupProvider";
@@ -47,9 +45,6 @@ export default function AppLayout({
 
   return (
     <html lang="en" {...HTML_THEME_PROPS}>
-      <head>
-        <GoogleTagManagerHeadScript />
-      </head>
       <body className={cn(inter.className)}>
         <Suspense fallback={<FullScreenLoading />}>
           <I18nProvider>

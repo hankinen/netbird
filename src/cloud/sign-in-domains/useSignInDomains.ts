@@ -3,8 +3,6 @@ import loadConfig from "@utils/config";
 import { useCallback } from "react";
 import { DomainValidationStatus, SignInDomain } from "@/interfaces/Account";
 
-const config = loadConfig();
-
 export const useSignInDomains = (pollWhilePendingMs?: number) => {
   const refreshInterval = useCallback(
     (latest?: SignInDomain[]) =>
@@ -26,16 +24,16 @@ export const useSignInDomains = (pollWhilePendingMs?: number) => {
     "/service/sign-in-domains",
     true,
     true,
-    !!config.authServiceUrl,
+    !!loadConfig().authServiceUrl,
     {
-      origin: config.authServiceUrl,
+      origin: loadConfig().authServiceUrl,
       refreshInterval,
       shouldRetryOnError: false,
     },
   );
 
   const request = useApiCall<SignInDomain>("/service/sign-in-domains", true, {
-    origin: config.authServiceUrl,
+    origin: loadConfig().authServiceUrl,
   });
 
   const addDomain = async (domain: string) => {

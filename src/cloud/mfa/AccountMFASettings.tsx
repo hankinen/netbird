@@ -11,7 +11,6 @@ import { AccountMFAInfoModal } from "@/cloud/mfa/AccountMFAInfoModal";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { t } from "@/i18n";
-const config = loadConfig();
 
 export interface AccountMFA {
   id: string;
@@ -30,13 +29,13 @@ export const AccountMFASettings = () => {
     "/service/mfa",
     true,
     true,
-    !!config.authServiceUrl,
+    !!loadConfig().authServiceUrl,
     {
-      origin: config.authServiceUrl,
+      origin: loadConfig().authServiceUrl,
     },
   );
   const mfaRequest = useApiCall<AccountMFA>("/service/mfa", true, {
-    origin: config.authServiceUrl,
+    origin: loadConfig().authServiceUrl,
   }).post;
 
   const [isLoading, setIsLoading] = useState(false);

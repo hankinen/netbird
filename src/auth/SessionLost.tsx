@@ -8,7 +8,6 @@ import * as React from "react";
 import { useEffect } from "react";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
 import { t } from "@/i18n";
-const config = loadConfig();
 
 export const SessionLost = () => {
   const router = useRouter();
@@ -39,7 +38,7 @@ export const SessionLost = () => {
         variant={"primary"}
         size={"sm"}
         className={"mt-5"}
-        onClick={() => logout("", { client_id: config.clientId })}
+        onClick={() => logout("", { client_id: loadConfig().clientId })}
       >
         {t("auth.main:sessionLost.text.login")}
         <LogIn size={16} />

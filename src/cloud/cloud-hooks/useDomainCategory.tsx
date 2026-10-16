@@ -3,9 +3,8 @@ import loadConfig from "@utils/config";
 import { useMemo } from "react";
 import { decodeToken } from "react-jwt";
 
-const config = loadConfig();
 export const useDomainCategory = () => {
-  const tokenSource = config?.tokenSource || "accessToken";
+  const tokenSource = loadConfig().tokenSource || "accessToken";
   const { idToken } = useOidcIdToken();
   const { accessToken } = useOidcAccessToken();
   const token = tokenSource.toLowerCase() == "idtoken" ? idToken : accessToken;

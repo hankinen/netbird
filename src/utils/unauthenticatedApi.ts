@@ -5,16 +5,14 @@ import {
   SetupRequest,
   SetupResponse,
 } from "@/interfaces/Instance";
-import { UserInviteInfo, UserInviteAcceptResponse } from "@/interfaces/User";
-
-const config = loadConfig();
+import { UserInviteAcceptResponse,UserInviteInfo } from "@/interfaces/User";
 
 async function unauthenticatedRequest<T>(
   method: "GET" | "POST",
   endpoint: string,
   data?: unknown,
 ): Promise<T> {
-  const url = `${config.apiOrigin}/api${endpoint}`;
+  const url = `${loadConfig().apiOrigin}/api${endpoint}`;
 
   const res = await fetch(url, {
     method,

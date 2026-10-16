@@ -9,8 +9,6 @@ import PermissionsProvider from "@/contexts/PermissionsProvider";
 import { Role, User } from "@/interfaces/User";
 import { PendingApproval } from "@/modules/users/PendingApproval";
 
-const config = loadConfig();
-
 type Props = {
   children: React.ReactNode;
 };
@@ -173,7 +171,7 @@ const UserProfileProvider = ({ children }: Props) => {
       <PendingApproval
         error={refusal.error}
         onRefresh={() => router.push("/")}
-        onLogout={() => logout("/", { client_id: config.clientId })}
+        onLogout={() => logout("/", { client_id: loadConfig().clientId })}
       />
     );
   }
@@ -207,7 +205,7 @@ export const useLoggedInUser = () => {
   const isOwnerOrAdmin = isOwner || isAdmin;
 
   const logout = async () => {
-    return oidcLogout("/", { client_id: config.clientId }).then(() => {
+    return oidcLogout("/", { client_id: loadConfig().clientId }).then(() => {
       setGlobalApiParams?.({});
     });
   };

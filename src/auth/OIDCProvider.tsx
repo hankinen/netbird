@@ -6,30 +6,29 @@ import {
   OidcProvider,
 } from "@axa-fr/react-oidc";
 import FullScreenLoading from "@components/ui/FullScreenLoading";
-import loadConfig, { buildExtras } from "@utils/config";
+import { buildExtras } from "@utils/config";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { OIDCError } from "@/auth/OIDCError";
 import { SecureProvider } from "@/auth/SecureProvider";
+import { useRuntimeConfig } from "@/config/runtime/RuntimeConfigProvider";
 
 type Props = {
   children: React.ReactNode;
 };
 
-const config = loadConfig();
-
 /**
  * Unfortunately Auth0 https://<DOMAIN>/.well-known/openid-configuration doesn't contain end_session_endpoint that
  * is required for doing logout. Therefore, we need to hardcode the config for auth
  */
-const auth0AuthorityConfig: AuthorityConfiguration = {
-  authorization_endpoint: new URL("authorize", config.authority).href,
-  token_endpoint: new URL("oauth/token", config.authority).href,
-  revocation_endpoint: new URL("oauth/revoke", config.authority).href,
-  end_session_endpoint: new URL("v2/logout", config.authority).href,
-  userinfo_endpoint: new URL("userinfo", config.authority).href,
-  issuer: new URL("", config.authority).href,
-};
+const auth0AuthorityConfig = (authority: string): AuthorityConfiguration => ({
+  authorization_endpoint: new URL("authorize", authority).href,
+  token_endpoint: new URL("oauth/token", authority).href,
+  revocation_endpoint: new URL("oauth/revoke", authority).href,
+  end_session_endpoint: new URL("v2/logout", authority).href,
+  userinfo_endpoint: new URL("userinfo", authority).href,
+  issuer: new URL("", authority).href,
+});
 
 const onEvent = (configurationName: any, eventName: any, data: any) => {
   if (process.env.NODE_ENV !== "production") {
@@ -38,8 +37,7 @@ const onEvent = (configurationName: any, eventName: any, data: any) => {
 };
 
 export default function OIDCProvider({ children }: Props) {
-  const [providerConfig, setProviderConfig] = useState<OidcConfiguration>();
-  const [mounted, setMounted] = useState(false);
+  const config = useRuntimeConfig();
   const router = useRouter();
   const path = usePathname();
 
@@ -51,8 +49,10 @@ export default function OIDCProvider({ children }: Props) {
     };
   };
 
-  useEffect(() => {
-    setProviderConfig({
+  // Built from the runtime config, which is loaded before this renders; the
+  // static export never renders it (RuntimeConfigProvider shows the loader).
+  const providerConfig = useMemo<OidcConfiguration>(
+    () => ({
       authority: config.authority,
       client_id: config.clientId,
       redirect_uri: window.location.origin + config.redirectURI,
@@ -60,18 +60,14 @@ export default function OIDCProvider({ children }: Props) {
       silent_redirect_uri: window.location.origin + config.silentRedirectURI,
       scope: config.scopesSupported,
       // disabling service worker
-      //service_worker_relative_url: "/OidcServiceWorker.js",
       service_worker_only: false,
       authority_configuration: config.auth0Auth
-        ? auth0AuthorityConfig
+        ? auth0AuthorityConfig(config.authority)
         : undefined,
-      extras: buildExtras(),
-      ...(config.clientSecret
-        ? { token_request_extras: { client_secret: config.clientSecret } }
-        : null),
-    });
-    setMounted(true);
-  }, []);
+      extras: buildExtras(config),
+    }),
+    [config],
+  );
 
   // We bypass authentication for pages that do not require auth.
   // E.g., when we just want to show installation steps for public.
@@ -80,7 +76,7 @@ export default function OIDCProvider({ children }: Props) {
   if (path === "/install" || path === "/setup" || path?.startsWith("/invite"))
     return children;
 
-  return mounted && providerConfig ? (
+  return (
     <OidcProvider
       configuration={providerConfig}
       withCustomHistory={withCustomHistory}
@@ -94,7 +90,5 @@ export default function OIDCProvider({ children }: Props) {
     >
       <SecureProvider>{children}</SecureProvider>
     </OidcProvider>
-  ) : (
-    <FullScreenLoading />
   );
 }

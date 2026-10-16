@@ -8,7 +8,6 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import NetBirdIcon from "@/assets/icons/NetBirdIcon";
 import { t } from "@/i18n";
-const config = loadConfig();
 
 export const OIDCError = () => {
   const { oidcUserLoadingState } = useOidcUser();
@@ -55,7 +54,7 @@ export const OIDCError = () => {
             variant={"primary"}
             size={"sm"}
             className={"mt-5"}
-            onClick={() => logout("/", { client_id: config.clientId })}
+            onClick={() => logout("/", { client_id: loadConfig().clientId })}
           >
             {t("common:word.continue")}
             <ArrowRightIcon size={16} />
@@ -65,7 +64,7 @@ export const OIDCError = () => {
             variant={"default-outline"}
             size={"sm"}
             className={"mt-5"}
-            onClick={() => logout("/", { client_id: config.clientId })}
+            onClick={() => logout("/", { client_id: loadConfig().clientId })}
           >
             {t("auth.main:oIDCError.text.troubleLoggingInTryAgain")}
           </Button>
@@ -85,7 +84,7 @@ export const OIDCError = () => {
             variant={"primary"}
             size={"sm"}
             className={"mt-5"}
-            onClick={() => logout("/", { client_id: config.clientId })}
+            onClick={() => logout("/", { client_id: loadConfig().clientId })}
           >
             {t("auth.main:oIDCError.text.logout")}
           </Button>

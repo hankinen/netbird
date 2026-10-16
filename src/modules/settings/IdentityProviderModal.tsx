@@ -72,9 +72,8 @@ type Props = {
   provider?: SSOIdentityProvider | null;
 };
 
-const config = loadConfig();
-const redirectUrl = `${config.apiOrigin}/oauth2/callback`;
-const logoutUrl = `${config.apiOrigin}/oauth2/logout/callback`;
+const redirectUrl = () => `${loadConfig().apiOrigin}/oauth2/callback`;
+const logoutUrl = () => `${loadConfig().apiOrigin}/oauth2/logout/callback`;
 
 export default function IdentityProviderModal({
   open,
@@ -373,12 +372,12 @@ export default function IdentityProviderModal({
                   )}
                 </Label>
                 <Code
-                  codeToCopy={redirectUrl}
+                  codeToCopy={redirectUrl()}
                   message={t(
                     "settings.identity-providers-tab:redirectUrlCopied",
                   )}
                 >
-                  <Code.Line>{redirectUrl}</Code.Line>
+                  <Code.Line>{redirectUrl()}</Code.Line>
                 </Code>
               </div>
 
@@ -389,10 +388,10 @@ export default function IdentityProviderModal({
                   )}
                 </Label>
                 <Code
-                  codeToCopy={logoutUrl}
+                  codeToCopy={logoutUrl()}
                   message={t("settings.identity-providers-tab:logoutUrlCopied")}
                 >
-                  <Code.Line>{logoutUrl}</Code.Line>
+                  <Code.Line>{logoutUrl()}</Code.Line>
                 </Code>
                 <HelpText margin={false} className={"mt-1.5"}>
                   {t(
