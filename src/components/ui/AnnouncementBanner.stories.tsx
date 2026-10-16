@@ -27,6 +27,21 @@ const withAnnouncement = (announcement: Partial<Announcement>) => ({
 const meta: Meta = {
   title: "Components/AnnouncementBanner",
   parameters: { nextjs: { navigation: { pathname: "/peers" } } },
+  // @theme: the app's remote fetch is disabled (AnnouncementProvider), so the
+  // story's announcement is served through the provider's fresh cache.
+  decorators: [
+    (Story, { parameters }) => {
+      localStorage.setItem(
+        "netbird-announcements",
+        JSON.stringify({
+          timestamp: Date.now(),
+          announcements: parameters.api[ANNOUNCEMENTS_URL],
+          closedAnnouncements: [],
+        }),
+      );
+      return <Story />;
+    },
+  ],
   render: () => (
     <DashboardLayout>
       <PeersPage />

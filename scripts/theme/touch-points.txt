@@ -8,3 +8,4 @@ src/layouts/DashboardLayout.tsx :: @theme: upstream had layout={"position"} here
 src/layouts/DashboardLayout.tsx :: @theme: mobile nav is an "over" drawer :: scale-75|navOpenPageWidth
 src/layouts/DashboardLayout.tsx :: inert={mobileNavOpen}
 src/contexts/AnnouncementProvider.tsx :: @theme: remote announcements from GitHub disabled :: \n\s*const response = await fetch\(ANNOUNCEMENTS_URL\)
+src/components/ui/AnnouncementBanner.stories.tsx :: @theme: the app's remote fetch is disabled
