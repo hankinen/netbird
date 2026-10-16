@@ -52,12 +52,10 @@ Local test without a server (fake docker): `deploy/server/test-deploy-script.sh`
 
 ## Package (CI)
 
-`.github/workflows/deploy.yml` currently has another agent's
-uncommitted change (trigger branch `feature/theme-antd` → `dev`), so it was
-not edited here. The change it needs, together with the server migration and
-**not before** (the old forced command would put a build that needs
-`/runtime-config.json` into the official image, which does not serve it, and
-the dashboard would show the configuration error screen):
+`.github/workflows/deploy.yml` (push to `dev`) packages `out` +
+`docker`. It must only run against a server with the v2 script and the new
+compose service: the v1 script would put a build that needs
+`/runtime-config.json` into the official image, which does not serve it.
 
 ```diff
        - name: Build static export

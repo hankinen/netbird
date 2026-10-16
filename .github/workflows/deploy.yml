@@ -1,14 +1,16 @@
-# Deploy the static dashboard build (no Docker image) to the production server.
-# The package is streamed over SSH to the deploy user's forced command
-# (/usr/local/sbin/nb-dashboard-deploy on the server), which extracts it into a
-# versioned release dir, syncs it into the html/ dir mounted into the
-# netbird-dashboard container and restarts the container only if it is running.
+# Deploy the dashboard to the production server.
+# CI builds the static export (out/, incl. .asset-manifest.json) and streams it
+# together with docker/ over SSH to the deploy user's forced command
+# (/usr/local/sbin/nb-dashboard-deploy, versioned in deploy/server/). The
+# server publishes the hashed assets into its static pool, builds the image
+# from docker/Dockerfile, checks the config with the production env and only
+# then switches the netbird-dashboard container (see deploy/server/README.md).
 # Secrets: DEPLOY_SSH_KEY, DEPLOY_HOST, DEPLOY_KNOWN_HOSTS.
 name: Deploy to server
 
 on:
   push:
-    branches: [feature/theme-antd]
+    branches: [dev]
     paths-ignore:
       - "**/*.md"
       - "**/*.stories.tsx"
@@ -60,9 +62,10 @@ jobs:
         run: |
           npm ci
           npm run i18n:check
-          npm run build
-          test -f out/index.html
-          tar -czf dashboard.tgz -C out .
+          npm run build            # postbuild: precompress + verify-immutable
+          test -f out/index.html -a -f out/.asset-manifest.json
+          bash docker/tests/gen_runtime_config.test.sh
+          tar -czf dashboard.tgz out docker
           ls -lh dashboard.tgz
 
       - name: Deploy
