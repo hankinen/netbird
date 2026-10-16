@@ -6,7 +6,6 @@ import Button from "@components/Button";
 import { UserAvatar } from "@components/ui/UserAvatar";
 import { cn } from "@utils/helpers";
 import { isNetBirdCloud } from "@utils/netbird";
-import { useIsSm, useIsXs } from "@utils/responsive";
 import { AnimatePresence, motion } from "framer-motion";
 import { XIcon } from "lucide-react";
 import React from "react";
@@ -60,38 +59,52 @@ function DashboardPageContent({
 }: Readonly<{ children: React.ReactNode }>) {
   const { oidcUser: user } = useOidcUser();
   const { mobileNavOpen, toggleMobileNav } = useApplicationContext();
-  const isSm = useIsSm();
-  const isXs = useIsXs();
   // The sidebar renders for every role: Peers is visible to all of them, so
   // there is always at least one item, and each remaining item decides for
   // itself in Navigation. Gating the sidebar itself here once emptied it for
   // the limited (user role) view, whose items were the Agent Network ones.
-  const navOpenPageWidth = isSm ? "45%" : isXs ? "60%" : "80%";
   const { bannerHeight } = useAnnouncement();
-  // @theme: the drawer sits in the document flow; if the document is scrolled
-  // (Chrome Android 100vh) its top (avatar, close button) is off screen.
+  // @theme: mobile nav is an "over" drawer (Material sidenav): fixed above a
+  // still page with a backdrop. While open: page scroll locked, Esc closes,
+  // focus moves into the drawer (page is inert) and returns to the opener.
+  const drawerRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
-    if (mobileNavOpen) window.scrollTo(0, 0);
+    if (!mobileNavOpen) return;
+    const opener = document.activeElement as HTMLElement | null;
+    const root = document.documentElement;
+    const overflow = root.style.overflow;
+    root.style.overflow = "hidden";
+    const close = drawerRef.current?.querySelector("button");
+    close?.focus();
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close?.click();
+    window.addEventListener("keydown", onKey);
+    return () => {
+      root.style.overflow = overflow;
+      window.removeEventListener("keydown", onKey);
+      opener?.focus();
+    };
   }, [mobileNavOpen]);
   return (
     <div className={cn("flex flex-col h-screen", mobileNavOpen && "flex")}>
       {mobileNavOpen && (
         <motion.div
-          className={"h-screen bg-nb-gray-950 w-11/12 max-w-[22rem]"}
-          layout={true}
-          transition={{
-            type: "spring",
-            stiffness: 100,
-            bounce: 0.8,
-            damping: 10,
-            mass: 0.4,
-          }}
-          animate={{
-            x: 0,
-          }}
-          initial={{
-            x: -200,
-          }}
+          onClick={toggleMobileNav}
+          className={"fixed inset-0 z-[999] bg-black/40"}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        />
+      )}
+      {mobileNavOpen && (
+        <motion.div
+          ref={drawerRef}
+          role={"dialog"}
+          aria-modal={true}
+          className={
+            "fixed inset-y-0 left-0 z-[1000] h-dvh overflow-y-auto overscroll-contain shadow-xl bg-nb-gray-950 w-11/12 max-w-[22rem]"
+          }
+          transition={{ type: "tween", ease: "easeOut", duration: 0.2 }}
+          animate={{ x: 0 }}
+          initial={{ x: "-100%" }}
         >
           <div
             className={
@@ -128,11 +141,9 @@ function DashboardPageContent({
           // @theme: upstream had layout={"position"} here. With the document
           // scrolled even 1px (Chrome Android: 100vh > visible height), framer
           // drops this box's x/y slide and the page covers the mobile drawer.
-          className={cn(
-            mobileNavOpen
-              ? "border border-nb-gray-900 shadow-inner overflow-hidden rounded-xl fixed scale-75"
-              : "",
-          )}
+          // @theme: the page no longer shrinks/slides when the drawer opens
+          // (upstream scaled it to 75%, rounded, offset, 90vh); it stays still.
+          inert={mobileNavOpen}
           transition={{
             type: "spring",
             stiffness: 500,
@@ -141,29 +152,18 @@ function DashboardPageContent({
             mass: 0.1,
           }}
           animate={{
-            x: mobileNavOpen ? navOpenPageWidth : 0,
+            x: 0,
             width: "100%",
-            height: mobileNavOpen ? "90vh" : "auto",
-            y: mobileNavOpen ? "6.5%" : 0,
+            height: "auto",
+            y: 0,
           }}
         >
-          {mobileNavOpen && (
-            <motion.div
-              onClick={toggleMobileNav}
-              className={
-                "absolute w-full h-full bg-black z-[999] transition-all opacity-0"
-              }
-              animate={{
-                opacity: 0.2,
-              }}
-            ></motion.div>
-          )}
           <motion.div
             layout={"position"}
             className={"relative"}
             animate={{
-              scale: mobileNavOpen ? 0.75 : 1,
-              height: mobileNavOpen ? "90vh" : "auto",
+              scale: 1,
+              height: "auto",
               originX: 0,
               originY: 0,
             }}
