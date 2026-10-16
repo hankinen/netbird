@@ -1,0 +1,8 @@
+# Upstream files the theme edits in place (besides the import/config hotspots
+# listed in src/styles/theme-antd/README.md). check-selectors verifies each
+# line after every upstream sync, so a rebase that silently takes upstream's
+# version (or upstream rewriting the spot) is reported instead of lost.
+#   <file> :: <text that must be present> [:: <regex that must NOT match>]
+# Every non-theme file under src/ with an `@theme` marker must be listed here.
+src/layouts/DashboardLayout.tsx :: @theme: upstream had layout={"position"} here :: <AnimatePresence mode=\{"wait"\}>\s*<motion\.div\s+layout=
+src/contexts/AnnouncementProvider.tsx :: @theme: remote announcements from GitHub disabled :: \n\s*const response = await fetch\(ANNOUNCEMENTS_URL\)

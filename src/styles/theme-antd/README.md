@@ -37,7 +37,11 @@ and `src/contexts/ThemeProvider.tsx`, three npm scripts and the
 `@rc-component/pagination` dependency in `package.json` (+ lock file), two
 `paths` lines in `tsconfig.json` (DataTablePagination, Table), 18 keys in `components.table.json`
 (en + zh-CN), and the commented-out remote fetch in
-`src/contexts/AnnouncementProvider.tsx` (see "公告横幅").
+`src/contexts/AnnouncementProvider.tsx` (see "公告横幅"), and one removed
+`layout` prop in `src/layouts/DashboardLayout.tsx` (see "手机导航抽屉"). The two
+in-place edits carry an `@theme` comment and are listed in
+`scripts/theme/touch-points.txt`, which `npm run theme:check-selectors` (also
+run by `sync-upstream.sh`) checks, so a sync that silently drops them fails.
 
 ## Specificity policy
 
@@ -225,6 +229,25 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 
 **检查。** `npm run theme:mobile-guard`（见下文「Checks」）。
 
+## 手机导航抽屉（`src/layouts/DashboardLayout.tsx`，上游文件里删了一个属性）
+
+**做什么：** 页面外层 `motion.div`（打开菜单时变成 `fixed scale-75 rounded-xl` 并向右滑开的那个）
+删掉了 `layout={"position"}`，原位置留有 `@theme` 注释。只改这一行，其余动画（抽屉滑入、
+页面缩放、遮罩淡入）不变。
+
+**为什么：** 修复手机上"点汉堡菜单后灰色遮罩盖住整页、菜单只露出碎片、点不到关闭按钮"。
+这个元素带 `layout="position"` 时，只要文档被滚动过（哪怕 1px），framer-motion 的布局投影就会把
+它的 x/y 位移整个丢掉，页面保持原大小盖在抽屉上。安卓 Chrome 的 `100vh` 等于"地址栏收起后"的
+高度，`h-screen` 外壳比可见区域高出地址栏那么多，随手一滑文档就会滚动，所以手机上几乎必现；
+桌面和开发者工具模拟里文档不滚动，看不到。这是上游的问题，暗色 / 上游浅色同样存在，所以修在
+布局本身（所有主题一起修好），而不是用主题 CSS 覆盖。这个元素的位置始终是左上角（打开时是
+flex 容器里的 fixed 元素，静态位置不变），所以 `layout` 本来就没有可做的位置动画，删掉不影响
+桌面（侧栏折叠、公告横幅高度变化）。
+
+**怎么撤销：** 把注释换回 `layout={"position"}`，并删掉 `scripts/theme/touch-points.txt` 里对应的一行。
+上游合并了同样的修复（或改写了这段）时，`sync-upstream.sh` 会在这里报冲突或由
+`theme:check-selectors` 报 touch point 失效，届时以上游为准并删掉那一行即可。
+
 ## 公告横幅（不再拉取 NetBird 官方公告）
 
 **做什么：** `src/contexts/AnnouncementProvider.tsx` 里拉取
@@ -244,7 +267,7 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 （也可以手动清除这个键）。
 
 **怎么恢复：** 在 `getRemoteAnnouncements()` 里删掉 `raw = [];`，取消下面 `fetch` 那几行的注释
-（`ANNOUNCEMENTS_URL` 常量一直保留着）。合并上游时如果这里冲突，以上游为准再重新注释即可。
+（`ANNOUNCEMENTS_URL` 常量一直保留着），并删掉 `scripts/theme/touch-points.txt` 里对应的一行。合并上游时如果这里冲突，以上游为准再重新注释即可。
 
 **Storybook：** 上游的 `Components/AnnouncementBanner` 故事是通过模拟这个远程 URL 来显示横幅的，
 关掉 `fetch` 之后这几个故事不再显示横幅（不影响其他故事和页面）。

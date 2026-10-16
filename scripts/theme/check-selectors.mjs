@@ -18,6 +18,10 @@
 //    src/styles/theme-antd/components/*.tsx must still match the upstream
 //    file's exported function and its props interface (whitespace-normalised).
 //
+// 5. Upstream touch points: every line of scripts/theme/touch-points.txt
+//    (file :: required text [:: forbidden regex]) still holds, and every
+//    non-theme file under src/ carrying an `@theme` marker is listed there.
+//
 // Exit code 1 lists what broke. Run: npm run theme:check-selectors
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -219,6 +223,37 @@ if (fs.existsSync(componentsDir))
     }
   }
 
+// 5. Upstream touch points.
+let touchPoints = 0;
+const tpFile = path.join(root, "scripts/theme/touch-points.txt");
+const listed = new Set();
+if (fs.existsSync(tpFile))
+  for (const line of fs.readFileSync(tpFile, "utf8").split("\n")) {
+    if (!line.trim() || line.startsWith("#")) continue;
+    const [file, must, mustNot] = line.split(" :: ").map((x) => x?.trim());
+    listed.add(file);
+    touchPoints++;
+    const abs = path.join(root, file);
+    if (!fs.existsSync(abs)) {
+      errors.push(`touch-points: ${file} is gone`);
+      continue;
+    }
+    const text = fs.readFileSync(abs, "utf8");
+    if (!text.includes(must))
+      errors.push(`touch-points: ${file} lost the theme change ("${must}")`);
+    if (mustNot && new RegExp(mustNot).test(text))
+      errors.push(
+        `touch-points: ${file} has upstream code back (/${mustNot}/)`,
+      );
+  }
+for (const abs of walk(path.join(root, "src"))) {
+  const rel = path.relative(root, abs);
+  if (/@theme\b/.test(fs.readFileSync(abs, "utf8")) && !listed.has(rel))
+    errors.push(
+      `touch-points: ${rel} has an @theme marker but is not in scripts/theme/touch-points.txt`,
+    );
+}
+
 if (warnings.length && process.argv.includes("--verbose"))
   console.warn(warnings.join("\n"));
 if (errors.length) {
@@ -229,5 +264,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `theme:check-selectors: ${depends} @depends tokens and ${attrs} attribute selectors OK; ${rules} rules within specificity policy; ${replaced} replaced component(s) match upstream`,
+  `theme:check-selectors: ${depends} @depends tokens and ${attrs} attribute selectors OK; ${rules} rules within specificity policy; ${replaced} replaced component(s) match upstream; ${touchPoints} upstream touch point(s) intact`,
 );

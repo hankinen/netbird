@@ -120,7 +120,9 @@ function DashboardPageContent({
       )}
       <AnimatePresence mode={"wait"}>
         <motion.div
-          layout={"position"}
+          // @theme: upstream had layout={"position"} here. With the document
+          // scrolled even 1px (Chrome Android: 100vh > visible height), framer
+          // drops this box's x/y slide and the page covers the mobile drawer.
           className={cn(
             mobileNavOpen
               ? "border border-nb-gray-900 shadow-inner overflow-hidden rounded-xl fixed scale-75"
