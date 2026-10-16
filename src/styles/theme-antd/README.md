@@ -244,7 +244,13 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 flex 容器里的 fixed 元素，静态位置不变），所以 `layout` 本来就没有可做的位置动画，删掉不影响
 桌面（侧栏折叠、公告横幅高度变化）。
 
-**怎么撤销：** 把注释换回 `layout={"position"}`，并删掉 `scripts/theme/touch-points.txt` 里对应的一行。
+**第二处（同一文件）：** 打开菜单时 `window.scrollTo(0, 0)`（`useEffect`，带 `@theme` 注释）。
+抽屉本身在文档流里，文档滚动过时它的顶部（头像、关闭按钮）会在屏幕外；打开时回到顶部即可。
+不用主题 CSS（如 `100dvh`）是因为内容区高度是上游写在行内样式里的 `calc(100vh - …)`，
+只改 CSS 去不掉这段滚动，而且只能修 AntD 浅色主题。
+
+**怎么撤销：** 把注释换回 `layout={"position"}`、删掉那个 `useEffect`，并删掉
+`scripts/theme/touch-points.txt` 里对应的两行。
 上游合并了同样的修复（或改写了这段）时，`sync-upstream.sh` 会在这里报冲突或由
 `theme:check-selectors` 报 touch point 失效，届时以上游为准并删掉那一行即可。
 

@@ -5,4 +5,5 @@
 #   <file> :: <text that must be present> [:: <regex that must NOT match>]
 # Every non-theme file under src/ with an `@theme` marker must be listed here.
 src/layouts/DashboardLayout.tsx :: @theme: upstream had layout={"position"} here :: <AnimatePresence mode=\{"wait"\}>\s*<motion\.div\s+layout=
+src/layouts/DashboardLayout.tsx :: if (mobileNavOpen) window.scrollTo(0, 0);
 src/contexts/AnnouncementProvider.tsx :: @theme: remote announcements from GitHub disabled :: \n\s*const response = await fetch\(ANNOUNCEMENTS_URL\)

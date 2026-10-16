@@ -68,6 +68,11 @@ function DashboardPageContent({
   // the limited (user role) view, whose items were the Agent Network ones.
   const navOpenPageWidth = isSm ? "45%" : isXs ? "60%" : "80%";
   const { bannerHeight } = useAnnouncement();
+  // @theme: the drawer sits in the document flow; if the document is scrolled
+  // (Chrome Android 100vh) its top (avatar, close button) is off screen.
+  React.useEffect(() => {
+    if (mobileNavOpen) window.scrollTo(0, 0);
+  }, [mobileNavOpen]);
   return (
     <div className={cn("flex flex-col h-screen", mobileNavOpen && "flex")}>
       {mobileNavOpen && (
