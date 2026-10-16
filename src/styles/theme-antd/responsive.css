@@ -28,6 +28,24 @@
   :root.theme-antd:not(.dark) .table-fixed-scroll > [class~="gap-x-4" i] {
     flex-wrap: wrap;
   }
+
+  /* Page header "title … actions" rows wrap the actions under the title.
+     @depends src/app/(dashboard)/peer/page.tsx: flex justify-between max-w-6xl items-start */
+  :root.theme-antd:not(.dark) [class~="justify-between" i][class~="max-w-6xl" i] {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+
+  /* Truncated text (Tailwind .truncate, e.g. TextWithTooltip) only gets its
+     ellipsis if every flex/grid item around it may shrink; min-width:auto
+     keeps them at the text's full width and the page pans sideways (long
+     peer hostnames, e-mails in headers and detail cards). An explicit
+     min-w-* (e.g. the 15rem sidebar) is kept. */
+  :root.theme-antd:not(.dark)
+    :is([class~="flex" i], [class~="inline-flex" i], [class~="grid" i])
+    > :has([class~="truncate" i]):not([class*="min-w-" i]) {
+    min-width: 0;
+  }
 }
 
 /* ---- R2. Sticky row-action column (768-1279px, scrolling tables) ---------
@@ -53,15 +71,9 @@
 
 @media (max-width: 767.98px) {
   /* ---- R3. Phones: generic overflow guards --------------------------------
-     Toolbar rows wrap less loosely; page header "title … actions" rows wrap
-     the actions under the title; button groups wrap.
-     @depends src/app/(dashboard)/peer/page.tsx: flex justify-between max-w-6xl items-start */
+     Toolbar rows wrap less loosely; button groups wrap. */
   :root.theme-antd:not(.dark) .table-fixed-scroll > [class~="gap-x-4" i] {
     row-gap: 8px;
-  }
-  :root.theme-antd:not(.dark) [class~="justify-between" i][class~="max-w-6xl" i] {
-    flex-wrap: wrap;
-    row-gap: 12px;
   }
   :root.theme-antd:not(.dark) [class~="inline-flex" i][class~="gap-4" i] {
     flex-wrap: wrap;
@@ -108,16 +120,6 @@
   }
   :root.theme-antd:not(.dark) [class~="justify-between" i]:has(> * > .timescape) > span {
     align-self: center;
-  }
-
-  /* Truncated text (Tailwind .truncate, e.g. TextWithTooltip) only gets its
-     ellipsis if every flex/grid item around it may shrink; min-width:auto
-     keeps them at the text's full width and the page pans sideways (long
-     peer hostnames, e-mails in headers and detail cards). */
-  :root.theme-antd:not(.dark)
-    :is([class~="flex" i], [class~="inline-flex" i], [class~="grid" i])
-    > :has([class~="truncate" i]) {
-    min-width: 0;
   }
 
   /* Detail pages: the two side-by-side columns stack.

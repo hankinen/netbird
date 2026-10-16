@@ -37,9 +37,10 @@ and `src/contexts/ThemeProvider.tsx`, three npm scripts and the
 `@rc-component/pagination` dependency in `package.json` (+ lock file), two
 `paths` lines in `tsconfig.json` (DataTablePagination, Table), 18 keys in `components.table.json`
 (en + zh-CN), and the commented-out remote fetch in
-`src/contexts/AnnouncementProvider.tsx` (see "公告横幅"), and one removed
-`layout` prop in `src/layouts/DashboardLayout.tsx` (see "手机导航抽屉"). The two
-in-place edits carry an `@theme` comment and are listed in
+`src/contexts/AnnouncementProvider.tsx` (see "公告横幅"), the mobile nav
+drawer in `src/layouts/DashboardLayout.tsx` (see "手机导航抽屉"), and a story
+decorator in `src/components/ui/AnnouncementBanner.stories.tsx` (see "公告横幅").
+These in-place edits carry an `@theme` comment and are listed in
 `scripts/theme/touch-points.txt`, which `npm run theme:check-selectors` (also
 run by `sync-upstream.sh`) checks, so a sync that silently drops them fails.
 
@@ -187,9 +188,9 @@ flags the `@depends` tokens.
 
 | 编号 | 做什么 | 为什么 | 怎么关 |
 | ---- | ------ | ------ | ------ |
-| R1 `< 1280px` | `.table-fixed-scroll` 改为 `display:block`，表格工具栏（搜索 / 筛选 / 按钮）允许换行 | 上游 `globals.css` 把它设成 `display:table`，外层被表格撑宽，`Table` 自带的 `overflow-x-auto` 永远不滚动，整页横向溢出（上游在 1280 也有这个问题，但 1280 起不改，保证桌面一致） | 删 R1 块 |
+| R1 `< 1280px` | `.table-fixed-scroll` 改为 `display:block`，表格工具栏（搜索 / 筛选 / 按钮）允许换行；页面头部「标题 … 操作」行（`justify-between max-w-6xl`）放不下时把操作按钮换到标题下面；含 `.truncate` 文本（如 `TextWithTooltip`）的 flex / grid 子项 `min-width:0`（带显式 `min-w-*` 的除外，如 15rem 侧栏） | 上游 `globals.css` 把它设成 `display:table`，外层被表格撑宽，`Table` 自带的 `overflow-x-auto` 永远不滚动，整页横向溢出（上游在 1280 也有这个问题，但 1280 起不改，保证桌面一致）；flex 子项默认 `min-width:auto`，外层不能收缩，`truncate` 的省略号永远不出现，超长主机名 / 邮箱把整页撑宽（peer 详情页 375 +157px、768 +245px） | 删 R1 块中对应规则 |
 | R2 `768–1279px` | 行操作列（⋮ 菜单，`data-nb-cell="trail"`）`position:sticky; right:0`，背景跟随行的 hover / 选中色 | 平板上表格在自己的框内横向滚动，操作按钮常在最右侧看不到 | 删 R2 块 |
-| R3 `< 768px` | 通用防溢出：页面头部「标题 … 操作」行（`justify-between max-w-6xl`）和 `inline-flex gap-4` 按钮组换行；页面标题（h1/h2 以及 `whitespace-nowrap text-xl` 标题行）里的长名称可断行；Radix 弹层（菜单、下拉、Popover）最大宽度 `100vw - 16px`；输入框 / 文本域 / select 字号 16px；日期范围选择器固定在屏幕顶部（左右各 8px，可纵向滚动） | 375px 下 336/419 个页面 story 横向溢出；iOS Safari 在字号 < 16px 的输入框聚焦时会自动放大页面；日期选择器默认向右侧弹出、两个月并排，手机上超出屏幕（`!important` 用来覆盖 Radix 的内联 `transform/left/top`） | 删 R3 中对应规则 |
+| R3 `< 768px` | 通用防溢出：`inline-flex gap-4` 按钮组（以及其中嵌套的 `flex gap-4` 按钮组）换行；页面标题（h1/h2 以及 `whitespace-nowrap text-xl` 标题行）里的长名称可断行；Radix 弹层（菜单、下拉、Popover）最大宽度 `100vw - 16px`；输入框 / 文本域 / select 字号 16px；日期范围选择器固定在屏幕顶部（左右各 8px，可纵向滚动），底部「起 - 止」时间输入框上下排列；详情页左右两栏（`flex gap-10 max-w-6xl items-start`，用户详情 / 网络详情 / peer 详情）改为上下排列；「标签 … 输入组」设置行（`justify-between gap-10` 且控件是 `w-full flex gap-3`，如 认证 → 会话过期的「数字 + 小时」）控件放到标签下面；活动日志条目的日期换到「用户 · 邮箱」下面；功能卡片（`FeatureCard`，IdP 同步 / MFA 等，页面会传更大的 `min-w-*`）最大宽度 100%、文字换行 | 375px 下 336/419 个页面 story 横向溢出；iOS Safari 在字号 < 16px 的输入框聚焦时会自动放大页面；日期选择器默认向右侧弹出、两个月并排，手机上超出屏幕（`!important` 用来覆盖 Radix 的内联 `transform/left/top`）；16px 字号下两个时间输入框并排时各自折成两行；其余几项是 `mobile-allow.json` 里剩下的溢出（审计日志 +69px、认证小时行 +32px、用户详情组选择器 +58px、MFA 卡片 +73px、Add Route 按钮组 +27px），都按"通用结构"写规则，每条带 `@depends` 由 `theme:check-selectors` 检查 | 删 R3 中对应规则 |
 | R4 `< 768px` | **表格转卡片**：表头行变成可横向滚动的「全选 + 排序」条；每一行变成一张卡片：第一行是【勾选框】【第一列（名称）】【⋮ 操作】，其余列为「列名 …… 值」；上游已隐藏的列（如 `hidden xl:table-cell`）保持隐藏；选中 / hover 颜色沿用 `overrides.css` | 参考 ThingsBoard / AntD Pro 的手机列表；不维护第二套页面，排序、筛选、勾选、行操作、展开行、分页都是原表格本身，所以全部照常工作 | 删 R4 块（表格回到 R1 的内部横向滚动）；再删 `tsconfig.json` 的 Table 行即可完全去掉包装组件 |
 | R5 `< 768px` | 弹窗（`Modal`）全屏：`min-height:100dvh`、去圆角和边框；底部按钮栏 `position:sticky; bottom:0`（含 iOS 安全区）；弹窗内大间距（`gap-6/8/10`）的横向 flex 改为纵向、`grid-cols-2` 改为单列 | 手机上居中小弹窗内容被挤压，主按钮常在长表单底部看不到；左右两栏（如访问控制的「来源 → 目标」）放不下 | 删 R5 块 |
 | R6 `pointer: coarse` | 勾选框、开关、弹窗关闭按钮、面包屑链接加不可见的 `::after` 热区（向外扩 8–12px） | 触屏点击目标 < 24px；只扩大点击区域，不改外观 | 删 R6 块 |
@@ -214,45 +215,42 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 路由 + 列号，例如 `table[data-nb-route="/peers"] td[data-nb-col="7"] { display: none; }`。
 目前**没有任何条目**：所有列在卡片里都显示（上游在窄屏已隐藏的列除外）。新增时请在这里登记。
 
-**已知仍会横向溢出的页面**（都是单个页面的特殊布局，按「宁可列出、不打脆弱补丁」原则未处理；
-共 47 条，已写入 `scripts/theme/mobile-allow.json`，`npm run theme:mobile-guard` 只防止新增或变严重）：
-
-- peer 详情页：超长主机名（375 +157px，768 +245px）、登录过期提示头部（768 +150px）、
-  768 下标题旁的操作按钮组 `flex gap-4`（+34px）、「Add Exit Node / Add Route」按钮组（375 +27px）；
-- 活动 → 审计日志的行（375 +69px）；
-- 设置 → 认证里的「小时」输入行（375 +32px）；
-- 团队 → 用户（cloud）的 MFA 卡片及其上的邀请弹窗（375 +73px）；
-- 用户详情页的组选择器（375 +58px）；
-- 集成页在 768 下约 3px（在 4px 容差内，不计）。
-
-日期范围选择器在手机上底部的起止时间输入框仍偏挤（不溢出页面，只是排版拥挤）。
+**已知仍会横向溢出的页面：无。** 549 个 story 在 375 / 390 / 768 下都不再横向溢出，
+`scripts/theme/mobile-allow.json` 为空（`{}`）；以后新增的溢出会被 `npm run theme:mobile-guard` 报出来。
+如果某个页面确实只能用脆弱的补丁修，宁可把它写进 `mobile-allow.json`（`--update` 后审查 diff）并在这里列出。
 
 **检查。** `npm run theme:mobile-guard`（见下文「Checks」）。
 
-## 手机导航抽屉（`src/layouts/DashboardLayout.tsx`，上游文件里删了一个属性）
+## 手机导航抽屉（`src/layouts/DashboardLayout.tsx`，上游文件里的改动）
 
-**做什么：** 页面外层 `motion.div`（打开菜单时变成 `fixed scale-75 rounded-xl` 并向右滑开的那个）
-删掉了 `layout={"position"}`，原位置留有 `@theme` 注释。只改这一行，其余动画（抽屉滑入、
-页面缩放、遮罩淡入）不变。
+**做什么：** 手机（`< 768px`，即上游显示汉堡菜单的断点；`≥ 768px` 一直显示侧栏，没有抽屉）
+的导航菜单改成 Angular Material / ThingsBoard 的 sidenav "over" 模式：
 
-**为什么：** 修复手机上"点汉堡菜单后灰色遮罩盖住整页、菜单只露出碎片、点不到关闭按钮"。
-这个元素带 `layout="position"` 时，只要文档被滚动过（哪怕 1px），framer-motion 的布局投影就会把
-它的 x/y 位移整个丢掉，页面保持原大小盖在抽屉上。安卓 Chrome 的 `100vh` 等于"地址栏收起后"的
-高度，`h-screen` 外壳比可见区域高出地址栏那么多，随手一滑文档就会滚动，所以手机上几乎必现；
-桌面和开发者工具模拟里文档不滚动，看不到。这是上游的问题，暗色 / 上游浅色同样存在，所以修在
-布局本身（所有主题一起修好），而不是用主题 CSS 覆盖。这个元素的位置始终是左上角（打开时是
-flex 容器里的 fixed 元素，静态位置不变），所以 `layout` 本来就没有可做的位置动画，删掉不影响
-桌面（侧栏折叠、公告横幅高度变化）。
+- 抽屉 `fixed` 在左侧、全屏高（`h-dvh`），从左滑入（0.2s），盖在页面**上面**，内容超出时自己滚动
+  （`overscroll-contain`），顶部（头像、关闭按钮）始终可见，不管文档有没有被滚动；
+- 页面本身完全不动：不再缩小到 75%、不再加圆角、不再右移下移、不再变成 90vh；
+- 半透明遮罩（`bg-black/40`）盖住页面，点遮罩或 ✕ 关闭，按 Esc 关闭；
+- 打开时锁住页面滚动（`<html>` 的 `overflow:hidden`），页面加 `inert`（读屏和 Tab 都进不去），
+  焦点移到 ✕ 按钮，关闭后回到汉堡按钮；抽屉是 `role="dialog" aria-modal="true"`；
+- 点菜单项后关闭抽屉（上游 `SidebarItem` 原有逻辑，未改）。
 
-**第二处（同一文件）：** 打开菜单时 `window.scrollTo(0, 0)`（`useEffect`，带 `@theme` 注释）。
-抽屉本身在文档流里，文档滚动过时它的顶部（头像、关闭按钮）会在屏幕外；打开时回到顶部即可。
-不用主题 CSS（如 `100dvh`）是因为内容区高度是上游写在行内样式里的 `calc(100vh - …)`，
-只改 CSS 去不掉这段滚动，而且只能修 AntD 浅色主题。
+**为什么：** 店主不喜欢上游"整页缩小后滑到右边"的效果，想要和 ThingsBoard 一样的抽屉。
+上游这个效果在手机上还有两个 bug（文档滚动过 1px 后 framer-motion 丢掉页面的位移，页面盖住
+抽屉；抽屉在文档流里，文档滚动过时顶部在屏幕外）。新写法从结构上避免了这两个问题：
+之前删掉的 `layout={"position"}` 保持删除，之前加的"打开时 `scrollTo(0,0)`"已去掉（不再需要）。
 
-**怎么撤销：** 把注释换回 `layout={"position"}`、删掉那个 `useEffect`，并删掉
-`scripts/theme/touch-points.txt` 里对应的两行。
-上游合并了同样的修复（或改写了这段）时，`sync-upstream.sh` 会在这里报冲突或由
-`theme:check-selectors` 报 touch point 失效，届时以上游为准并删掉那一行即可。
+**为什么改 TSX 而不是只写主题 CSS：** 页面的缩放 / 位移 / 高度是 framer-motion 写在行内
+`style` 里的（`transform`、`height: 90vh`），抽屉在文档流里且没有遮罩层，只用 CSS 需要大量
+`!important` 去压行内样式、还要伪造遮罩，Esc / 滚动锁定 / 焦点管理 CSS 做不到，而且只对 AntD
+浅色主题生效。改 TSX 是一处集中的、所有主题一起生效的小改动（`@theme` 注释 +
+`touch-points.txt` 两行），上游改写这段时会在合并时冲突或被 `theme:check-selectors` 报出来，
+比一组依赖 framer 行内样式的 CSS 更好维护。桌面（`≥ 768px`）汉堡菜单不显示，抽屉不会出现，
+页面外层的动画值与上游关闭状态完全相同，所以 ≥1280 逐像素不变。
+
+**怎么撤销：** `git log -- src/layouts/DashboardLayout.tsx` 找到 "mobile nav as an 'over' drawer"
+那次提交，`git revert` 即回到上一版（上游的缩放滑开效果 + 打开时 `scrollTo(0,0)`），
+`touch-points.txt` 会一起恢复。合并上游时如果这里冲突：先接受上游版本，
+再按上面的列表重新做一遍（或者放弃此定制）。
 
 ## 公告横幅（不再拉取 NetBird 官方公告）
 
@@ -276,7 +274,10 @@ flex 容器里的 fixed 元素，静态位置不变），所以 `layout` 本来�
 （`ANNOUNCEMENTS_URL` 常量一直保留着），并删掉 `scripts/theme/touch-points.txt` 里对应的一行。合并上游时如果这里冲突，以上游为准再重新注释即可。
 
 **Storybook：** 上游的 `Components/AnnouncementBanner` 故事是通过模拟这个远程 URL 来显示横幅的，
-关掉 `fetch` 之后这几个故事不再显示横幅（不影响其他故事和页面）。
+关掉 `fetch` 之后这 5 个故事的 play 步骤找不到横幅而失败。故事文件里加了一个 decorator
+（带 `@theme` 注释，已登记在 `touch-points.txt`）：把故事自己的公告写进 Provider 读取的
+`localStorage` 缓存（`netbird-announcements`，时间戳为当前时间，所以被当作"未过期缓存"直接使用），
+横幅照常显示，play 通过。只影响这 5 个故事，应用行为不变。恢复远程拉取后可以删掉这个 decorator。
 
 ## Checks
 
