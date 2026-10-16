@@ -10,7 +10,8 @@
 //    not named in @depends) are defensive; misses are reported with --verbose.
 // 3. Specificity policy (see README "Specificity policy"):
 //    - every selector stays at most MAX_DEPTH compound selectors deep after
-//      the `:root.theme-antd:not(.dark)` scope;
+//      the `:root.theme-antd:not(.dark)` scope (responsive.css: any colour
+//      mode, `:root.theme-antd:is(.dark, :not(.dark))`, same weight);
 //    - `!important` only where a comment right before the rule (or inside it)
 //      says why (inline style or an upstream `!` utility).
 //
@@ -155,7 +156,7 @@ for (const file of cssFiles) {
     const sel = selector.replace(/\s+/g, " ");
     for (const part of splitTop(sel, /,/)) {
       const scoped = part
-        .replace(/^:root\.theme-antd:not\(\.dark\)/, "")
+        .replace(/^:root\.theme-antd:(?:not\(\.dark\)|is\(\.dark, :not\(\.dark\)\))/, "")
         .replace(/^html:where\((?:[^()]|\([^()]*\))*\)/, "")
         .replace(/\s*[>+~]\s*(?![^[]*\])/g, " ");
       const depth = splitTop(scoped, /\s/).length;

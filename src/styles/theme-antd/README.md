@@ -176,9 +176,17 @@ flags the `@depends` tokens.
 ## 手机端适配（responsive.css + components/Table.tsx）
 
 原则：**桌面优先、单一代码库**。所有规则都在 `max-width: 1279.98px` /
-`767.98px` 媒体查询或 `(pointer: coarse)` 里，并且同样限定在
-`:root.theme-antd:not(.dark)` 下，所以 ≥1280px 的桌面、暗色主题、上游浅色主题都与之前
-逐像素一致。没有改任何页面代码；表格转卡片是**同一个 `<table>`** 用 CSS 重新排版。
+`767.98px` 媒体查询或 `(pointer: coarse)` 里，所以 ≥1280px 的桌面（浅色、暗色）与之前逐像素一致。
+没有改任何页面代码；表格转卡片是**同一个 `<table>`** 用 CSS 重新排版。
+
+**暗色模式也生效。** 和其他主题文件不同，`responsive.css` 的作用域是
+`:root.theme-antd:is(.dark, :not(.dark))`：只要是开启了 AntD 主题的构建（`<html>` 上有
+`theme-antd`），无论用户切到浅色还是暗色都生效。原因：手机切到暗色时原来会回到上游的手机布局
+（用户详情页左右两栏挤在一起、整页横向滚动、表格不转卡片），店主在手机上就遇到了。权重仍是 (0,3,0)，
+照样压过 `dark:` 变体。颜色只有几处（卡片边框 / 背景、字段名、R2 固定列、R5 弹窗底栏），写成
+`var(--ant-…, rgb(var(--nbg-…, 上游值)))`：浅色用 AntD token（和以前完全一样），暗色没有 `--ant-*`，
+取上游 nb-gray 色。`NEXT_PUBLIC_DEFAULT_THEME=light|dark`（不带 `theme-antd`）的构建仍与上游完全一致。
+只想让暗色回到上游手机布局：把 `responsive.css` 里的 `:is(.dark, :not(.dark))` 全部换回 `:not(.dark)`。
 
 断点：`< 768px` 手机；`768–1279px` 平板 / 小笔记本；`≥ 1280px` 不受影响。
 
@@ -219,7 +227,8 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 `scripts/theme/mobile-allow.json` 为空（`{}`）；以后新增的溢出会被 `npm run theme:mobile-guard` 报出来。
 如果某个页面确实只能用脆弱的补丁修，宁可把它写进 `mobile-allow.json`（`--update` 后审查 diff）并在这里列出。
 
-**检查。** `npm run theme:mobile-guard`（见下文「Checks」）。
+**检查。** `npm run theme:mobile-guard`（见下文「Checks」）：除横向溢出外，`< 768px` 时还检查
+「两栏并排」和「表格没有转成卡片」，暗色 390px、详情页 360px（浅色 + 暗色）也在检查范围内。
 
 ## 手机导航抽屉（`src/layouts/DashboardLayout.tsx`，上游文件里的改动）
 
@@ -247,9 +256,12 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 比一组依赖 framer 行内样式的 CSS 更好维护。桌面（`≥ 768px`）汉堡菜单不显示，抽屉不会出现，
 页面外层的动画值与上游关闭状态完全相同，所以 ≥1280 逐像素不变。
 
-**怎么撤销：** `git log -- src/layouts/DashboardLayout.tsx` 找到 "mobile nav as an 'over' drawer"
-那次提交，`git revert` 即回到上一版（上游的缩放滑开效果 + 打开时 `scrollTo(0,0)`），
-`touch-points.txt` 会一起恢复。合并上游时如果这里冲突：先接受上游版本，
+**怎么关掉（回到上游的缩放滑开效果）：** 没有运行时开关（刻意不加，避免在上游文件里再多一处改动）。
+`git log --oneline -- src/layouts/DashboardLayout.tsx` 找到 "mobile nav as an 'over' drawer"
+那次提交，`git revert <提交>` 即可（目前可以无冲突地直接 revert）。结果是上一版：上游的缩放滑开效果，
+加上打开菜单时 `window.scrollTo(0, 0)`——旧效果的抽屉在文档流里，这一行是它需要的修复，所以随 revert 一起回来；
+`touch-points.txt` 也会一起恢复（去掉 "over" drawer、`inert` 两行，恢复 `scrollTo` 那一行）。
+之后跑 `npm run theme:check-selectors` 确认。合并上游时如果这里冲突：先接受上游版本，
 再按上面的列表重新做一遍（或者放弃此定制）。
 
 ## 公告横幅（不再拉取 NetBird 官方公告）
@@ -290,9 +302,13 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 - `npm run theme:visual-guard -- --base <ref> --theme light` — AntD theme vs
   the last approved theme commit; review every change.
 - `npm run theme:mobile-guard` — every page story at 375 / 390 / 768px (AntD
-  light): fails when a page scrolls sideways more than
-  `scripts/theme/mobile-allow.json` allows (> 4px). `--storybook <dir>` reuses
-  a build, `--update` rewrites the allowlist (review its diff).
+  light) and 390px dark, plus the detail-page stories (`*detail*`: user, peer,
+  group, network detail) at 360px light + dark: fails when a page scrolls
+  sideways more than `scripts/theme/mobile-allow.json` allows (> 4px), and
+  below 768px when two tall columns sit side by side or a table with a header
+  is not shown as cards (layout checks are not allowlistable). The user detail
+  stories use the seeded mock users (`Pages/Core/Team/User Detail*`).
+  `--storybook <dir>` reuses a build, `--update` rewrites the allowlist (review its diff).
 - CI: `.github/workflows/theme-antd-guard.yml` runs all four.
 
 ## Merging upstream

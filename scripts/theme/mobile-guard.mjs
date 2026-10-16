@@ -1,12 +1,20 @@
 #!/usr/bin/env node
-// Phone/tablet overflow guard for the AntD light theme.
+// Phone/tablet guard for the AntD theme (light and dark colour mode).
 // Opens every page story at phone and tablet widths and measures how far the
 // page can be scrolled sideways (document + PageContainer scroller). Fails when
 // a story overflows more than scripts/theme/mobile-allow.json allows.
+// Below 768px it also checks the layout (not allowlistable):
+//   - no flex row shows two tall (>= 150px) blocks side by side (detail
+//     pages' info card + groups/role column must stack);
+//   - every visible table with a header row is laid out as cards.
+// Passes: light at --vp (375,390,768), dark at --dark-vp (390), and the
+// detail-page stories (id matches --narrow-filter, "detail") at 360 light+dark.
+// Allowlist keys: <story>@<width> (light), <story>@<width>:dark.
 //
 //   node scripts/theme/mobile-guard.mjs                    # builds Storybook first
 //   node scripts/theme/mobile-guard.mjs --storybook <dir>  # reuse a static build
-//   options: --vp 375,390,768  --filter pages-  --concurrency N  --update  --report <file.json>
+//   options: --vp 375,390,768  --dark-vp 390  --narrow-vp 360  --narrow-filter detail
+//            --filter pages-  --concurrency N  --update  --report <file.json>
 // --update rewrites the allowlist with today's numbers (review the diff!).
 import { execFileSync } from "node:child_process";
 import * as fs from "node:fs";
@@ -23,7 +31,16 @@ const flag = (n, d) => {
   const i = args.indexOf(`--${n}`);
   return i === -1 ? d : args[i + 1];
 };
-const viewports = flag("vp", "375,390,768").split(",").map(Number);
+const list = (v) => (v ? v.split(",").map(Number) : []);
+const narrowRe = new RegExp(flag("narrow-filter", "detail"));
+const passes = [
+  ...list(flag("vp", "375,390,768")).map((vw) => ({ vw, theme: "light" })),
+  ...list(flag("dark-vp", "390")).map((vw) => ({ vw, theme: "dark" })),
+  ...list(flag("narrow-vp", "360")).flatMap((vw) => [
+    { vw, theme: "light", only: narrowRe },
+    { vw, theme: "dark", only: narrowRe },
+  ]),
+];
 const filter = flag("filter", "pages-");
 const concurrency = Number(flag("concurrency", Math.min(6, os.availableParallelism())));
 const update = args.includes("--update");
@@ -49,9 +66,12 @@ const browser = await chromium.launch({
 });
 
 const measured = {};
+const layout = {};
 const errors = [];
-for (const vw of viewports) {
-  const queue = [...stories];
+for (const { vw, theme, only } of passes) {
+  const suffix = theme === "dark" ? ":dark" : "";
+  const passStories = only ? stories.filter((s) => only.test(s.id)) : stories;
+  const queue = [...passStories];
   await Promise.all(
     Array.from({ length: concurrency }, async () => {
       const context = await browser.newContext({
@@ -74,9 +94,12 @@ for (const vw of viewports) {
       let page = await context.newPage();
       for (let s = queue.shift(); s; s = queue.shift()) {
         try {
-          measured[`${s.id}@${vw}`] = await withTimeout(measure(page, s), 45_000);
+          const key = `${s.id}@${vw}${suffix}`;
+          const r = await withTimeout(measure(page, s, theme), 45_000);
+          measured[key] = r.overflow;
+          if (vw < 768 && r.layout.length) layout[key] = r.layout;
         } catch (e) {
-          errors.push(`${s.id}@${vw}: ${String(e.message).split("\n")[0]}`);
+          errors.push(`${s.id}@${vw}${suffix}: ${String(e.message).split("\n")[0]}`);
           // A hung page would block the rest of this worker's queue.
           await page.close().catch(() => {});
           page = await context.newPage();
@@ -85,8 +108,10 @@ for (const vw of viewports) {
       await context.close();
     }),
   );
-  const over = Object.entries(measured).filter(([k, v]) => k.endsWith(`@${vw}`) && v > SLACK).length;
-  console.log(`› ${vw}px: ${stories.length} stories, ${over} overflow sideways`);
+  const mine = (k) => k.endsWith(`@${vw}${suffix}`);
+  const over = Object.entries(measured).filter(([k, v]) => mine(k) && v > SLACK).length;
+  const bad = Object.keys(layout).filter(mine).length;
+  console.log(`› ${vw}px ${theme}: ${passStories.length} stories, ${over} overflow sideways, ${bad} layout problems`);
 }
 await browser.close();
 server.close();
@@ -104,9 +129,10 @@ if (update) {
 const failures = Object.entries(measured).filter(([k, v]) => v > (allow[k] ?? 0) + SLACK);
 const fixed = Object.keys(allow).filter((k) => k in measured && measured[k] <= SLACK);
 for (const [k, v] of failures) console.error(`✗ ${k}: page scrolls sideways by ${v}px (allowed ${allow[k] ?? 0})`);
+for (const [k, v] of Object.entries(layout)) console.error(`✗ ${k}: ${v.join("; ")}`);
 for (const e of errors) console.error(`! ${e}`);
 if (fixed.length) console.log(`fixed, can be removed from mobile-allow.json:\n  ${fixed.join("\n  ")}`);
-if (failures.length) process.exit(1);
+if (failures.length || Object.keys(layout).length) process.exit(1);
 console.log(`✓ theme:mobile-guard: no new sideways overflow (${Object.keys(allow).length} known, listed in mobile-allow.json)`);
 
 function withTimeout(promise, ms) {
@@ -117,9 +143,9 @@ function withTimeout(promise, ms) {
   ]).finally(() => clearTimeout(timer));
 }
 
-async function measure(page, story) {
+async function measure(page, story, theme = "light") {
   const flavor = story.tags?.includes("cloud") ? "cloud" : "selfhosted";
-  await page.goto(`${base}/iframe.html?id=${story.id}&viewMode=story&globals=theme:light;flavor:${flavor}`, {
+  await page.goto(`${base}/iframe.html?id=${story.id}&viewMode=story&globals=theme:${theme};flavor:${flavor}`, {
     waitUntil: "domcontentloaded",
   });
   await page.waitForFunction(
@@ -142,10 +168,44 @@ async function measure(page, story) {
   for (let i = 0; i < 10; i++) {
     await page.waitForTimeout(150);
     const now = await overflow(page);
-    if (now === last) return now;
+    if (now === last) break;
     last = now;
   }
-  return last;
+  return { overflow: last, layout: await page.evaluate(layoutProblems) };
+}
+
+/* Runs in the page. Phone layout problems that do not show up as sideways
+   overflow (upstream's squeezed two-column detail pages, wide tables that
+   scroll inside their box instead of becoming cards). Skipped while a modal
+   is open (the page behind it is not what is being looked at). */
+function layoutProblems() {
+  const problems = [];
+  if (window.innerWidth >= 768 || document.querySelector('[role="dialog"]')) return problems;
+  const main = document.querySelector('[class~="overflow-auto"][class~="flex-auto"]') ?? document.body;
+  const shown = (el) => {
+    const r = el.getBoundingClientRect();
+    return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== "hidden";
+  };
+  const name = (el) => `<${el.tagName.toLowerCase()} class="${String(el.className?.baseVal ?? el.className).slice(0, 60)}">`;
+  for (const el of main.querySelectorAll("*")) {
+    const cs = getComputedStyle(el);
+    if (!cs.display.includes("flex") || !cs.flexDirection.startsWith("row")) continue;
+    const tall = [...el.children].filter(shown).map((k) => k.getBoundingClientRect()).filter((r) => r.height >= 150 && r.width >= 80);
+    for (let i = 1; i < tall.length; i++) {
+      const [a, b] = [tall[i - 1], tall[i]];
+      if (b.left >= a.right - 1 && Math.abs(b.top - a.top) < a.height / 2) {
+        problems.push(`columns side by side (${Math.round(a.width)}px | ${Math.round(b.width)}px) in ${name(el)}`);
+        break;
+      }
+    }
+  }
+  for (const t of main.querySelectorAll("table")) {
+    const row = t.querySelector("tbody > tr");
+    if (!shown(t) || !t.querySelector("thead th") || !row) continue;
+    if (getComputedStyle(row).display === "table-row")
+      problems.push(`table not shown as cards (${Math.round(t.getBoundingClientRect().width)}px${t.hasAttribute("data-nb-cards") ? "" : ", no data-nb-cards"})`);
+  }
+  return problems;
 }
 
 function overflow(page) {

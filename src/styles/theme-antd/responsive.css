@@ -1,6 +1,14 @@
 /*
- * Responsive layer (phones / tablets) for the AntD light theme.
+ * Responsive layer (phones / tablets) for the AntD build, light AND dark.
  * See README.md "手机端适配" for what each block does, why, and how to turn it off.
+ *
+ * Scope: `:root.theme-antd:is(.dark, :not(.dark))` = any colour mode of a
+ * build with the AntD theme on (the toggle can switch to dark; phones in dark
+ * mode got upstream's squeezed columns and wide tables). Same (0,3,0) weight
+ * as the light-only scope used elsewhere, so it still beats `dark:` variants.
+ * Builds without `theme-antd` (NEXT_PUBLIC_DEFAULT_THEME=light|dark) stay
+ * exactly upstream. Colours: `--ant-*` tokens exist only in light; in dark
+ * the fallback is the upstream nb-gray value (`--nbg-*` is unset there).
  *
  * Breakpoints (same as Tailwind / upstream responsive.ts):
  *   < 768px   phones: card tables, full-screen modals, 16px inputs
@@ -22,16 +30,16 @@
    @depends src/app/globals.css: .table-fixed-scroll
    @depends src/components/table/DataTable.tsx: relative table-fixed-scroll | flex gap-x-4 gap-y-6 */
 @media (max-width: 1279.98px) {
-  :root.theme-antd:not(.dark) .table-fixed-scroll {
+  :root.theme-antd:is(.dark, :not(.dark)) .table-fixed-scroll {
     display: block;
   }
-  :root.theme-antd:not(.dark) .table-fixed-scroll > [class~="gap-x-4" i] {
+  :root.theme-antd:is(.dark, :not(.dark)) .table-fixed-scroll > [class~="gap-x-4" i] {
     flex-wrap: wrap;
   }
 
   /* Page header "title … actions" rows wrap the actions under the title.
      @depends src/app/(dashboard)/peer/page.tsx: flex justify-between max-w-6xl items-start */
-  :root.theme-antd:not(.dark) [class~="justify-between" i][class~="max-w-6xl" i] {
+  :root.theme-antd:is(.dark, :not(.dark)) [class~="justify-between" i][class~="max-w-6xl" i] {
     flex-wrap: wrap;
     row-gap: 12px;
   }
@@ -41,7 +49,7 @@
      keeps them at the text's full width and the page pans sideways (long
      peer hostnames, e-mails in headers and detail cards). An explicit
      min-w-* (e.g. the 15rem sidebar) is kept. */
-  :root.theme-antd:not(.dark)
+  :root.theme-antd:is(.dark, :not(.dark))
     :is([class~="flex" i], [class~="inline-flex" i], [class~="grid" i])
     > :has([class~="truncate" i]):not([class*="min-w-" i]) {
     min-width: 0;
@@ -54,34 +62,34 @@
    so the column is drawn like an AntD fixed column: container background
    plus a hairline on the left; hover / selected tints are layered on top. */
 @media (min-width: 768px) and (max-width: 1279.98px) {
-  :root.theme-antd:not(.dark) td[data-nb-cell="trail"] {
+  :root.theme-antd:is(.dark, :not(.dark)) td[data-nb-cell="trail"] {
     position: sticky;
     right: 0;
     z-index: 2;
-    background-color: var(--ant-color-bg-container);
-    box-shadow: inset 1px 0 0 var(--ant-color-border-secondary);
+    background-color: var(--ant-color-bg-container, rgb(var(--nbg-950, 24 26 29)));
+    box-shadow: inset 1px 0 0 var(--ant-color-border-secondary, rgb(var(--nbg-900, 46 50 56)));
   }
-  :root.theme-antd:not(.dark) tr:hover > td[data-nb-cell="trail"] {
-    background-image: linear-gradient(var(--ant-color-fill-alter), var(--ant-color-fill-alter));
+  :root.theme-antd:is(.dark, :not(.dark)) tr:hover > td[data-nb-cell="trail"] {
+    background-image: linear-gradient(var(--ant-color-fill-alter, rgb(var(--nbg-940, 28 30 33))), var(--ant-color-fill-alter, rgb(var(--nbg-940, 28 30 33))));
   }
-  :root.theme-antd:not(.dark) tr[data-state="selected"] > td[data-nb-cell="trail"] {
-    background-image: linear-gradient(var(--ant-color-primary-bg), var(--ant-color-primary-bg));
+  :root.theme-antd:is(.dark, :not(.dark)) tr[data-state="selected"] > td[data-nb-cell="trail"] {
+    background-image: linear-gradient(var(--ant-color-primary-bg, rgb(var(--nbg-930, 37 40 44))), var(--ant-color-primary-bg, rgb(var(--nbg-930, 37 40 44))));
   }
 }
 
 @media (max-width: 767.98px) {
   /* ---- R3. Phones: generic overflow guards --------------------------------
      Toolbar rows wrap less loosely; button groups wrap. */
-  :root.theme-antd:not(.dark) .table-fixed-scroll > [class~="gap-x-4" i] {
+  :root.theme-antd:is(.dark, :not(.dark)) .table-fixed-scroll > [class~="gap-x-4" i] {
     row-gap: 8px;
   }
-  :root.theme-antd:not(.dark) [class~="inline-flex" i][class~="gap-4" i] {
+  :root.theme-antd:is(.dark, :not(.dark)) [class~="inline-flex" i][class~="gap-4" i] {
     flex-wrap: wrap;
   }
 
   /* Long names in page titles (h1/h2, or a nowrap text-xl title line)
      wrap instead of widening the page. */
-  :root.theme-antd:not(.dark)
+  :root.theme-antd:is(.dark, :not(.dark))
     [class~="overflow-auto" i][class~="flex-auto" i]
     :is(h1, h2, [class~="whitespace-nowrap" i][class~="text-xl" i]) {
     min-width: 0;
@@ -90,12 +98,12 @@
   }
 
   /* Menus, popovers and selects never wider than the screen. */
-  :root.theme-antd:not(.dark) [data-radix-popper-content-wrapper] > * {
+  :root.theme-antd:is(.dark, :not(.dark)) [data-radix-popper-content-wrapper] > * {
     max-width: calc(100vw - 16px);
   }
 
   /* iOS Safari zooms the page when an input below 16px gets focus. */
-  :root.theme-antd:not(.dark)
+  :root.theme-antd:is(.dark, :not(.dark))
     :is(input:not([type="checkbox"]):not([type="radio"]), textarea, select) {
     font-size: 16px;
   }
@@ -103,7 +111,7 @@
   /* Date range picker (presets + calendar, opens to the side) as a sheet at
      the top of the screen. Radix positions the wrapper with an inline
      transform. !important: inline style. */
-  :root.theme-antd:not(.dark) [data-radix-popper-content-wrapper]:has(.rdp-root) {
+  :root.theme-antd:is(.dark, :not(.dark)) [data-radix-popper-content-wrapper]:has(.rdp-root) {
     transform: none !important;
     left: 8px !important;
     right: 8px;
@@ -114,36 +122,38 @@
 
   /* Its "from - to" date/time inputs (16px on phones, see above) stack.
      @depends src/components/ui/AbsoluteDateTimeInput.tsx: flex items-center gap-2 w-full justify-between | timescape w-full */
-  :root.theme-antd:not(.dark) [class~="justify-between" i]:has(> * > .timescape) {
+  :root.theme-antd:is(.dark, :not(.dark)) [class~="justify-between" i]:has(> * > .timescape) {
     flex-direction: column;
     align-items: stretch;
   }
-  :root.theme-antd:not(.dark) [class~="justify-between" i]:has(> * > .timescape) > span {
+  :root.theme-antd:is(.dark, :not(.dark)) [class~="justify-between" i]:has(> * > .timescape) > span {
     align-self: center;
   }
 
   /* Detail pages: the two side-by-side columns stack.
      @depends src/app/(dashboard)/team/user/page.tsx: flex gap-10 w-full mt-8 max-w-6xl items-start
      @depends src/app/(dashboard)/network/page.tsx: flex gap-10 w-full mt-8 max-w-6xl items-start */
-  :root.theme-antd:not(.dark) [class~="gap-10" i][class~="max-w-6xl" i][class~="items-start" i] {
+  :root.theme-antd:is(.dark, :not(.dark)) [class~="gap-10" i][class~="max-w-6xl" i][class~="items-start" i] {
     flex-direction: column;
   }
-  :root.theme-antd:not(.dark) [class~="gap-10" i][class~="max-w-6xl" i][class~="items-start" i] > * {
+  :root.theme-antd:is(.dark, :not(.dark)) [class~="gap-10" i][class~="max-w-6xl" i][class~="items-start" i] > * {
     width: 100%;
   }
 
   /* "Label … control" settings rows whose control is an input group
-     (number + unit select) put the control under the label.
-     @depends src/modules/settings/AuthenticationTab.tsx: flex justify-between gap-10 mt-2 | w-full flex gap-3 */
-  :root.theme-antd:not(.dark)
-    [class~="justify-between" i][class~="gap-10" i]:has(> [class~="w-full" i][class~="gap-3" i]) {
+     (number + unit select) or a fixed-width select put the control under
+     the label (otherwise the label + help text is squeezed to ~90px).
+     @depends src/modules/settings/AuthenticationTab.tsx: flex justify-between gap-10 mt-2 | w-full flex gap-3
+     @depends src/modules/agent-network/AgentAccountControlsCard.tsx: flex justify-between gap-10 mt-2 | w-40 shrink-0 */
+  :root.theme-antd:is(.dark, :not(.dark))
+    [class~="justify-between" i][class~="gap-10" i]:has(> [class~="w-full" i][class~="gap-3" i], > [class~="w-40" i][class~="shrink-0" i]) {
     flex-direction: column;
     gap: 8px;
   }
 
   /* Activity feed entries: the date goes under "user · e-mail".
      @depends src/modules/activity/ActivityEntryRow.tsx: flex items-start gap-6 relative max-w-[735px] pb-10 | flex flex-col w-full gap-2 | flex justify-between */
-  :root.theme-antd:not(.dark)
+  :root.theme-antd:is(.dark, :not(.dark))
     [class~="max-w-[735px]" i] > [class~="flex-col" i] > [class~="justify-between" i] {
     flex-wrap: wrap;
     row-gap: 2px;
@@ -152,14 +162,14 @@
   /* Feature cards (IdP sync, MFA …) have a fixed min width (310px, pages
      pass larger ones); on phones they fit the screen and the text wraps.
      @depends src/components/FeatureCard.tsx: py-3 pr-5 rounded-lg transition-all min-w-[310px] max-w-[440px] */
-  :root.theme-antd:not(.dark) [class~="pr-5" i][class~="rounded-lg" i][class~="max-w-[440px]" i] {
+  :root.theme-antd:is(.dark, :not(.dark)) [class~="pr-5" i][class~="rounded-lg" i][class~="max-w-[440px]" i] {
     min-width: 0;
     max-width: 100%;
   }
 
   /* A button group nested in a button group wraps too.
      @depends src/modules/peer/PeerNetworkRoutesSection.tsx: inline-flex gap-4 justify-end | gap-4 flex */
-  :root.theme-antd:not(.dark) [class~="inline-flex" i][class~="gap-4" i] > [class~="flex" i][class~="gap-4" i] {
+  :root.theme-antd:is(.dark, :not(.dark)) [class~="inline-flex" i][class~="gap-4" i] > [class~="flex" i][class~="gap-4" i] {
     flex-wrap: wrap;
   }
 
@@ -169,14 +179,14 @@
        [lead: checkbox] [title: first column]       [trail: ⋮ actions]
        label ........................................................ value
      Cells hidden by upstream (e.g. `hidden xl:table-cell`) stay hidden. */
-  :root.theme-antd:not(.dark) table[data-nb-cards] {
+  :root.theme-antd:is(.dark, :not(.dark)) table[data-nb-cards] {
     display: block;
     border-width: 0;
   }
-  :root.theme-antd:not(.dark) table[data-nb-cards] > :is(thead, tbody) {
+  :root.theme-antd:is(.dark, :not(.dark)) table[data-nb-cards] > :is(thead, tbody) {
     display: block;
   }
-  :root.theme-antd:not(.dark) table[data-nb-cards] > thead > tr {
+  :root.theme-antd:is(.dark, :not(.dark)) table[data-nb-cards] > thead > tr {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -184,7 +194,7 @@
     padding: 0 12px 8px;
     border-width: 0;
   }
-  :root.theme-antd:not(.dark) th[data-nb-cell]:not([class~="hidden" i]) {
+  :root.theme-antd:is(.dark, :not(.dark)) th[data-nb-cell]:not([class~="hidden" i]) {
     display: block;
     flex: none;
     width: auto;
@@ -194,21 +204,21 @@
     background-color: transparent;
     font-size: 12px;
   }
-  :root.theme-antd:not(.dark) th[data-nb-cell="blank"] {
+  :root.theme-antd:is(.dark, :not(.dark)) th[data-nb-cell="blank"] {
     display: none;
   }
-  :root.theme-antd:not(.dark) table[data-nb-cards] > tbody > tr {
+  :root.theme-antd:is(.dark, :not(.dark)) table[data-nb-cards] > tbody > tr {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     row-gap: 8px;
     margin: 0 12px 12px;
     padding: 12px;
-    border: 1px solid var(--ant-color-border-secondary);
-    border-radius: var(--ant-border-radius-lg);
-    background-color: var(--ant-color-bg-container);
+    border: 1px solid var(--ant-color-border-secondary, rgb(var(--nbg-900, 46 50 56)));
+    border-radius: var(--ant-border-radius-lg, 8px);
+    background-color: var(--ant-color-bg-container, rgb(var(--nbg-940, 28 30 33)));
   }
-  :root.theme-antd:not(.dark) td[data-nb-cell]:not([class~="hidden" i]) {
+  :root.theme-antd:is(.dark, :not(.dark)) td[data-nb-cell]:not([class~="hidden" i]) {
     display: block;
     width: auto;
     min-width: 0;
@@ -216,38 +226,38 @@
     padding: 0;
     border-width: 0;
   }
-  :root.theme-antd:not(.dark) td[data-nb-cell="lead"] {
+  :root.theme-antd:is(.dark, :not(.dark)) td[data-nb-cell="lead"] {
     grid-column: 1;
     grid-row: 1;
     margin-right: 12px;
   }
-  :root.theme-antd:not(.dark) td[data-nb-cell="title"] {
+  :root.theme-antd:is(.dark, :not(.dark)) td[data-nb-cell="title"] {
     grid-column: 2;
     grid-row: 1;
   }
-  :root.theme-antd:not(.dark) td[data-nb-cell="trail"] {
+  :root.theme-antd:is(.dark, :not(.dark)) td[data-nb-cell="trail"] {
     grid-column: 3;
     grid-row: 1;
     margin-left: 12px;
   }
-  :root.theme-antd:not(.dark) td:is([data-nb-cell="field"], [data-nb-cell="full"]) {
+  :root.theme-antd:is(.dark, :not(.dark)) td:is([data-nb-cell="field"], [data-nb-cell="full"]) {
     grid-column: 1 / -1;
   }
-  :root.theme-antd:not(.dark) td[data-nb-cell="field"]:not([class~="hidden" i]) {
+  :root.theme-antd:is(.dark, :not(.dark)) td[data-nb-cell="field"]:not([class~="hidden" i]) {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
     overflow: hidden;
   }
-  :root.theme-antd:not(.dark) td[data-nb-cell="field"]::before {
+  :root.theme-antd:is(.dark, :not(.dark)) td[data-nb-cell="field"]::before {
     content: attr(data-label);
     flex: none;
     max-width: 40%;
-    color: var(--ant-color-text-tertiary);
+    color: var(--ant-color-text-tertiary, rgb(var(--nbg-400, 124 137 148)));
     font-size: 12px;
   }
-  :root.theme-antd:not(.dark) td[data-nb-cell="field"] > :last-child {
+  :root.theme-antd:is(.dark, :not(.dark)) td[data-nb-cell="field"] > :last-child {
     min-width: 0;
   }
 
@@ -258,7 +268,7 @@
 
   /* ---- R5. Phones: modals full screen, footer pinned to the bottom --------
      @depends src/components/modal/Modal.tsx: mx-auto relative top-0 z-[52] grid w-full | flex flex-col-reverse sm:flex-row sm:justify-between sm:space-x-2 */
-  :root.theme-antd:not(.dark) [role="dialog"][class~="z-[52]" i][class~="mx-auto" i] {
+  :root.theme-antd:is(.dark, :not(.dark)) [role="dialog"][class~="z-[52]" i][class~="mx-auto" i] {
     min-height: 100dvh;
     max-width: none;
     padding-bottom: 0;
@@ -266,21 +276,21 @@
     border-radius: 0;
     box-shadow: none;
   }
-  :root.theme-antd:not(.dark)
+  :root.theme-antd:is(.dark, :not(.dark))
     [role="dialog"] div:has(> [class~="flex-col-reverse" i][class~="sm:justify-between" i]) {
     position: sticky;
     bottom: 0;
     z-index: 3;
     padding-bottom: env(safe-area-inset-bottom);
-    background-color: var(--ant-color-bg-container);
+    background-color: var(--ant-color-bg-container, rgb(var(--nbg-950, 24 26 29)));
   }
   /* Side-by-side panels inside modals (large gaps = two columns) stack. */
-  :root.theme-antd:not(.dark)
+  :root.theme-antd:is(.dark, :not(.dark))
     [role="dialog"] :is([class~="gap-6" i], [class~="gap-8" i], [class~="gap-10" i])[class~="flex" i]:not([class~="flex-col" i]) {
     flex-direction: column;
     align-items: stretch;
   }
-  :root.theme-antd:not(.dark) [role="dialog"] [class~="grid-cols-2" i] {
+  :root.theme-antd:is(.dark, :not(.dark)) [role="dialog"] [class~="grid-cols-2" i] {
     grid-template-columns: minmax(0, 1fr);
   }
 }
@@ -289,23 +299,23 @@
    An invisible ::after extends the clickable area to >= 32-40px.
    @depends src/components/modal/Modal.tsx: data-testid={"modal-close"} */
 @media (pointer: coarse) {
-  :root.theme-antd:not(.dark) :is(button[role="checkbox"], button[role="switch"]) {
+  :root.theme-antd:is(.dark, :not(.dark)) :is(button[role="checkbox"], button[role="switch"]) {
     position: relative;
   }
-  :root.theme-antd:not(.dark) :is(button[role="checkbox"], button[role="switch"])::after {
+  :root.theme-antd:is(.dark, :not(.dark)) :is(button[role="checkbox"], button[role="switch"])::after {
     content: "";
     position: absolute;
     inset: -8px;
   }
-  :root.theme-antd:not(.dark) [data-testid="modal-close"]::after {
+  :root.theme-antd:is(.dark, :not(.dark)) [data-testid="modal-close"]::after {
     content: "";
     position: absolute;
     inset: -12px;
   }
-  :root.theme-antd:not(.dark) a[data-testid="breadcrumb-item"] {
+  :root.theme-antd:is(.dark, :not(.dark)) a[data-testid="breadcrumb-item"] {
     position: relative;
   }
-  :root.theme-antd:not(.dark) a[data-testid="breadcrumb-item"]::after {
+  :root.theme-antd:is(.dark, :not(.dark)) a[data-testid="breadcrumb-item"]::after {
     content: "";
     position: absolute;
     inset: -8px -4px;
