@@ -238,7 +238,9 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 - 抽屉 `fixed` 在左侧、全屏高（`h-dvh`），从左滑入（0.2s），盖在页面**上面**，内容超出时自己滚动
   （`overscroll-contain`），顶部（头像、关闭按钮）始终可见，不管文档有没有被滚动；
 - 页面本身完全不动：不再缩小到 75%、不再加圆角、不再右移下移、不再变成 90vh；
-- 半透明遮罩（`bg-black/40`）盖住页面，点遮罩或 ✕ 关闭，按 Esc 关闭；
+- 半透明遮罩（`bg-black/40`，`fixed inset-0`）盖住页面，点遮罩或 ✕ 关闭，按 Esc 关闭；遮罩的淡入用 CSS 动画
+  （`animate-in fade-in-0 duration-200`，系统开启「减少动态效果」时不动画），不用 framer-motion：framer 的 opacity
+  动画结束时会有一帧回到初始值 0，抽屉右侧露出的那一条遮罩会闪一下白（店主手机上看到的白条）；
 - 打开时锁住页面滚动（`<html>` 的 `overflow:hidden`），页面加 `inert`（读屏和 Tab 都进不去），
   焦点移到 ✕ 按钮，关闭后回到汉堡按钮；抽屉是 `role="dialog" aria-modal="true"`；
 - 点菜单项后关闭抽屉（上游 `SidebarItem` 原有逻辑，未改）。
@@ -252,15 +254,16 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 `style` 里的（`transform`、`height: 90vh`），抽屉在文档流里且没有遮罩层，只用 CSS 需要大量
 `!important` 去压行内样式、还要伪造遮罩，Esc / 滚动锁定 / 焦点管理 CSS 做不到，而且只对 AntD
 浅色主题生效。改 TSX 是一处集中的、所有主题一起生效的小改动（`@theme` 注释 +
-`touch-points.txt` 两行），上游改写这段时会在合并时冲突或被 `theme:check-selectors` 报出来，
+`touch-points.txt` 三行），上游改写这段时会在合并时冲突或被 `theme:check-selectors` 报出来，
 比一组依赖 framer 行内样式的 CSS 更好维护。桌面（`≥ 768px`）汉堡菜单不显示，抽屉不会出现，
 页面外层的动画值与上游关闭状态完全相同，所以 ≥1280 逐像素不变。
 
 **怎么关掉（回到上游的缩放滑开效果）：** 没有运行时开关（刻意不加，避免在上游文件里再多一处改动）。
-`git log --oneline -- src/layouts/DashboardLayout.tsx` 找到 "mobile nav as an 'over' drawer"
-那次提交，`git revert <提交>` 即可（目前可以无冲突地直接 revert）。结果是上一版：上游的缩放滑开效果，
-加上打开菜单时 `window.scrollTo(0, 0)`——旧效果的抽屉在文档流里，这一行是它需要的修复，所以随 revert 一起回来；
-`touch-points.txt` 也会一起恢复（去掉 "over" drawer、`inert` 两行，恢复 `scrollTo` 那一行）。
+`git log --oneline -- src/layouts/DashboardLayout.tsx` 找到 "drawer backdrop fades in with a CSS animation"
+和 "mobile nav as an 'over' drawer" 两次提交，按从新到旧的顺序 `git revert <新> <旧>` 即可（目前可以无冲突地直接 revert）。
+结果是上一版：上游的缩放滑开效果，加上打开菜单时 `window.scrollTo(0, 0)`——旧效果的抽屉在文档流里，
+这一行是它需要的修复，所以随 revert 一起回来；`touch-points.txt` 也会一起恢复（去掉 "over" drawer、`inert`、
+遮罩三行，恢复 `scrollTo` 那一行）。
 之后跑 `npm run theme:check-selectors` 确认。合并上游时如果这里冲突：先接受上游版本，
 再按上面的列表重新做一遍（或者放弃此定制）。
 

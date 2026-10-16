@@ -87,11 +87,14 @@ function DashboardPageContent({
   return (
     <div className={cn("flex flex-col h-screen", mobileNavOpen && "flex")}>
       {mobileNavOpen && (
-        <motion.div
+        // @theme: backdrop fades in with a CSS animation, not framer: framer's
+        // opacity animation ends with one frame at its initial opacity 0 (the
+        // right-hand strip beside the drawer flashed white on phones).
+        <div
           onClick={toggleMobileNav}
-          className={"fixed inset-0 z-[999] bg-black/40"}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          className={
+            "fixed inset-0 z-[999] bg-black/40 animate-in fade-in-0 duration-200 motion-reduce:animate-none"
+          }
         />
       )}
       {mobileNavOpen && (
