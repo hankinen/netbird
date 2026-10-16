@@ -121,9 +121,10 @@ for (const f of walk(path.join(ROOT, "src"))) {
   }
   for (const m of src.matchAll(/["'`]([\w.-]+):([\w.-]+)["'`]/g))
     used.add(`${m[1]}:${m[2]}`);
-  // <Trans ns={"x"} i18nKey={"y"}> (ns before i18nKey)
+  // <Trans ns={"x"} i18nKey={"y"}> (ns before i18nKey); also typed aliases
+  // such as <LooseTrans> in DataTableRowsPerPage.
   for (const m of src.matchAll(
-    /<Trans\s[^>]*?ns=\{?["'`]([\w.-]+)["'`]\}?\s+i18nKey=\{?["'`]([\w.-]+)["'`]/g,
+    /<\w*Trans\s[^>]*?ns=\{?["'`]([\w.-]+)["'`]\}?\s+i18nKey=\{?["'`]([\w.-]+)["'`]/g,
   )) {
     used.add(`${m[1]}:${m[2]}`);
     if (en[m[1]]?.[m[2]] === undefined)

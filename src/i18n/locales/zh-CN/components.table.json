@@ -32,5 +32,6 @@
   "tableFilters.text.removeFilter": "移除 {{label}} 筛选条件",
   "statusPicker.label.online": "在线",
   "statusPicker.label.offline": "离线",
-  "groupsPicker.text.nGroups": "{{count}} 个组"
+  "groupsPicker.text.nGroups": "{{count}} 个组",
+  "dataTableRowsPerPage.text.rowsPerPageCount": "每页 <n>{{count}}</n> 行"
 }

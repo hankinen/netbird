@@ -32,5 +32,6 @@
   "tableFilters.text.removeFilter": "Remove {{label}} filter",
   "statusPicker.label.online": "Online",
   "statusPicker.label.offline": "Offline",
-  "groupsPicker.text.nGroups": "{{count}} groups"
+  "groupsPicker.text.nGroups": "{{count}} groups",
+  "dataTableRowsPerPage.text.rowsPerPageCount": "<n>{{count}}</n> rows per page"
 }
