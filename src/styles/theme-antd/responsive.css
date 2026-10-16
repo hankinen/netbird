@@ -100,6 +100,67 @@
     overflow-y: auto;
   }
 
+  /* Its "from - to" date/time inputs (16px on phones, see above) stack.
+     @depends src/components/ui/AbsoluteDateTimeInput.tsx: flex items-center gap-2 w-full justify-between | timescape w-full */
+  :root.theme-antd:not(.dark) [class~="justify-between" i]:has(> * > .timescape) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  :root.theme-antd:not(.dark) [class~="justify-between" i]:has(> * > .timescape) > span {
+    align-self: center;
+  }
+
+  /* Truncated text (Tailwind .truncate, e.g. TextWithTooltip) only gets its
+     ellipsis if every flex/grid item around it may shrink; min-width:auto
+     keeps them at the text's full width and the page pans sideways (long
+     peer hostnames, e-mails in headers and detail cards). */
+  :root.theme-antd:not(.dark)
+    :is([class~="flex" i], [class~="inline-flex" i], [class~="grid" i])
+    > :has([class~="truncate" i]) {
+    min-width: 0;
+  }
+
+  /* Detail pages: the two side-by-side columns stack.
+     @depends src/app/(dashboard)/team/user/page.tsx: flex gap-10 w-full mt-8 max-w-6xl items-start
+     @depends src/app/(dashboard)/network/page.tsx: flex gap-10 w-full mt-8 max-w-6xl items-start */
+  :root.theme-antd:not(.dark) [class~="gap-10" i][class~="max-w-6xl" i][class~="items-start" i] {
+    flex-direction: column;
+  }
+  :root.theme-antd:not(.dark) [class~="gap-10" i][class~="max-w-6xl" i][class~="items-start" i] > * {
+    width: 100%;
+  }
+
+  /* "Label … control" settings rows whose control is an input group
+     (number + unit select) put the control under the label.
+     @depends src/modules/settings/AuthenticationTab.tsx: flex justify-between gap-10 mt-2 | w-full flex gap-3 */
+  :root.theme-antd:not(.dark)
+    [class~="justify-between" i][class~="gap-10" i]:has(> [class~="w-full" i][class~="gap-3" i]) {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* Activity feed entries: the date goes under "user · e-mail".
+     @depends src/modules/activity/ActivityEntryRow.tsx: flex items-start gap-6 relative max-w-[735px] pb-10 | flex flex-col w-full gap-2 | flex justify-between */
+  :root.theme-antd:not(.dark)
+    [class~="max-w-[735px]" i] > [class~="flex-col" i] > [class~="justify-between" i] {
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+
+  /* Feature cards (IdP sync, MFA …) have a fixed min width (310px, pages
+     pass larger ones); on phones they fit the screen and the text wraps.
+     @depends src/components/FeatureCard.tsx: py-3 pr-5 rounded-lg transition-all min-w-[310px] max-w-[440px] */
+  :root.theme-antd:not(.dark) [class~="pr-5" i][class~="rounded-lg" i][class~="max-w-[440px]" i] {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* A button group nested in a button group wraps too.
+     @depends src/modules/peer/PeerNetworkRoutesSection.tsx: inline-flex gap-4 justify-end | gap-4 flex */
+  :root.theme-antd:not(.dark) [class~="inline-flex" i][class~="gap-4" i] > [class~="flex" i][class~="gap-4" i] {
+    flex-wrap: wrap;
+  }
+
   /* ---- R4. Phones: tables as cards (same table, CSS re-layout) ------------
      Header row becomes a horizontally scrolling bar (select-all + sort
      buttons keep working). Each body row becomes a card:
