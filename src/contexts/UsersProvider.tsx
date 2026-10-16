@@ -1,9 +1,13 @@
 import { useOidc } from "@axa-fr/react-oidc";
 import FullScreenLoading from "@components/ui/FullScreenLoading";
-import useFetchApi, { type ErrorResponse } from "@utils/api";
+import useFetchApi, {
+  type ErrorResponse,
+  useApiErrorHandling,
+} from "@utils/api";
 import loadConfig from "@utils/config";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo } from "react";
+import { mutate as mutateGlobal } from "swr";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import PermissionsProvider from "@/contexts/PermissionsProvider";
 import { Role, User } from "@/interfaces/User";
@@ -51,6 +55,51 @@ export const resolveRefusedUser = ({
   return currentUserError ?? listUserError;
 };
 
+// Management before /users/current existed answers 404 (or 405 behind some
+// proxies). Only then is the user list's is_current flag the fallback; a 401,
+// a refusal or any other error must not be papered over with the list.
+export const isMissingCurrentUserEndpoint = (error?: ErrorResponse) =>
+  error?.code === 404 || error?.code === 405;
+
+export type LoggedInUserState =
+  | { status: "loading" }
+  | { status: "ready"; user: User }
+  | { status: "refused" }
+  | { status: "error"; error: ErrorResponse };
+
+const isRefusal = (error?: ErrorResponse) =>
+  error?.code === 403 && /pending approval|blocked/i.test(error.message ?? "");
+
+/**
+ * Decides from /users/current (and, only on old management, the user list)
+ * whether the dashboard can render. Refusals are left to resolveRefusedUser.
+ */
+export const resolveLoggedInUser = ({
+  currentUser,
+  currentError,
+  listUsers,
+  listError,
+  isListLoading,
+}: {
+  currentUser?: User;
+  currentError?: ErrorResponse;
+  listUsers?: User[];
+  listError?: ErrorResponse;
+  isListLoading: boolean;
+}): LoggedInUserState => {
+  if (currentUser) return { status: "ready", user: currentUser };
+  if (!currentError) return { status: "loading" };
+  if (isRefusal(currentError)) return { status: "refused" };
+  if (!isMissingCurrentUserEndpoint(currentError)) {
+    return { status: "error", error: currentError };
+  }
+  if (isRefusal(listError)) return { status: "refused" };
+  const fromList = listUsers?.find((u) => u?.is_current);
+  if (fromList) return { status: "ready", user: fromList };
+  if (isListLoading) return { status: "loading" };
+  return { status: "error", error: listError ?? currentError };
+};
+
 const UsersContext = React.createContext(
   {} as {
     users: User[] | undefined;
@@ -59,6 +108,8 @@ const UsersContext = React.createContext(
     // Older management reports a pending user as merely blocked on
     // /users/current; this call still says pending, so it is the fallback.
     usersError?: ErrorResponse;
+    currentUser?: User;
+    currentUserError?: ErrorResponse;
   },
 );
 
@@ -68,7 +119,24 @@ const UserProfileContext = React.createContext(
   },
 );
 
+// The logged-in user is cached under this SWR key, so refreshing it takes
+// mutate(LOGGED_IN_USER_KEY) rather than mutate("/users/current").
+const USER_PROFILE_KEY = "user-profile";
+export const LOGGED_IN_USER_KEY = ["/users/current", USER_PROFILE_KEY];
+
 export default function UsersProvider({ children }: Readonly<Props>) {
+  // /users/current is the first management request of a session: it also
+  // provisions the account on first login, so it goes out alone and retries
+  // transient failures itself; SWR retries would surface them as errors.
+  const { data: currentUser, error: currentUserError } = useFetchApi<User>(
+    "/users/current",
+    true,
+    true,
+    true,
+    { key: USER_PROFILE_KEY, shouldRetryOnError: false, transientRetries: 3 },
+  );
+  const currentSettled = !!currentUser || !!currentUserError;
+
   // Mounted on every dashboard page, above PermissionsProvider — so the
   // caller's grants aren't known here and the request goes out for roles
   // that can't list users (agent_network_admin, usage_viewer). Errors are
@@ -79,12 +147,22 @@ export default function UsersProvider({ children }: Readonly<Props>) {
     mutate,
     isLoading,
     error: usersError,
-  } = useFetchApi<User[]>("/users?service_user=false", true);
+  } = useFetchApi<User[]>(
+    "/users?service_user=false",
+    true,
+    true,
+    currentSettled,
+  );
   const {
     data: serviceUsers,
     mutate: mutateServiceUsers,
     isLoading: isLoadingServiceUsers,
-  } = useFetchApi<User[]>("/users?service_user=true", true);
+  } = useFetchApi<User[]>(
+    "/users?service_user=true",
+    true,
+    true,
+    currentSettled,
+  );
 
   const refresh = () => {
     mutate().then();
@@ -101,7 +179,9 @@ export default function UsersProvider({ children }: Readonly<Props>) {
         users: allUsers,
         usersError,
         refresh,
-        isLoading: isLoading || isLoadingServiceUsers,
+        isLoading: !currentSettled || isLoading || isLoadingServiceUsers,
+        currentUser,
+        currentUserError,
       }}
     >
       <UserProfileProvider>{children}</UserProfileProvider>
@@ -111,31 +191,36 @@ export default function UsersProvider({ children }: Readonly<Props>) {
 
 export const useUsers = () => React.useContext(UsersContext);
 
-// The logged-in user is cached under this SWR key, so refreshing it takes
-// mutate(LOGGED_IN_USER_KEY) rather than mutate("/users/current").
-const USER_PROFILE_KEY = "user-profile";
-export const LOGGED_IN_USER_KEY = ["/users/current", USER_PROFILE_KEY];
-
 const UserProfileProvider = ({ children }: Props) => {
   const { logout } = useOidc();
   const router = useRouter();
-  const { users, usersError, isLoading: isAllUsersLoading } = useUsers();
   const {
-    data: user,
-    error,
-    isLoading,
-  } = useFetchApi<User>("/users/current", true, true, true, {
-    key: USER_PROFILE_KEY,
-  });
+    users,
+    usersError,
+    isLoading: isAllUsersLoading,
+    currentUser,
+    currentUserError: error,
+  } = useUsers();
+  const isLoading = !currentUser && !error;
+  const handleErrors = useApiErrorHandling(false);
 
-  const loggedInUser = useMemo(() => {
-    if (isLoading) return undefined;
-    if (user) return user;
-    if (isAllUsersLoading) return undefined;
-    if (!user || error) {
-      return users?.find((u) => u?.is_current);
-    }
-  }, [user, error, users, isLoading, isAllUsersLoading]);
+  const state = resolveLoggedInUser({
+    currentUser,
+    currentError: error,
+    listUsers: users,
+    listError: usersError,
+    isListLoading: isAllUsersLoading,
+  });
+  const loggedInUser = state.status === "ready" ? state.user : undefined;
+  const failure = state.status === "error" ? state.error : undefined;
+
+  // Not a refusal and no old-management fallback: hand the error to the
+  // shared handler (login on an invalid session, error screen otherwise)
+  // instead of spinning forever.
+  useEffect(() => {
+    if (failure) handleErrors(failure).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [failure]);
 
   const data = useMemo(() => {
     return {
@@ -205,6 +290,9 @@ export const useLoggedInUser = () => {
   const isOwnerOrAdmin = isOwner || isAdmin;
 
   const logout = async () => {
+    // Drop every cached response so nothing of this session is shown again
+    // before the redirect, or to the next user of an SPA session.
+    await mutateGlobal(() => true, undefined, { revalidate: false });
     return oidcLogout("/", { client_id: loadConfig().clientId }).then(() => {
       setGlobalApiParams?.({});
     });

@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import { RefusalKind, resolveRefusedUser } from "@/contexts/UsersProvider";
+import {
+  RefusalKind,
+  resolveLoggedInUser,
+  resolveRefusedUser,
+} from "@/contexts/UsersProvider";
 
 // Importing the provider pulls in the runtime config and, through the pending
 // screen, an SVG import vitest does not transform. Neither reaches the pure
@@ -79,5 +83,87 @@ describe("resolveRefusedUser", () => {
 
   it("leaves an unrefused user alone", () => {
     expect(resolveRefusedUser({ ...settled })).toBeUndefined();
+  });
+});
+
+describe("resolveLoggedInUser", () => {
+  const me = { id: "u1", is_current: true } as never;
+  const other = { id: "u2", is_current: false } as never;
+  const notFound = { code: 404, message: "Not Found" };
+  const notAllowed = { code: 405, message: "Method Not Allowed" };
+  const unauthorized = {
+    code: 401,
+    message: "no valid authentication provided",
+  };
+  const forbidden = { code: 403, message: "permission denied" };
+  const serverError = { code: 500, message: "internal server error" };
+
+  it.each([
+    ["current pending", { currentError: undefined }, "loading"],
+    ["current succeeded", { currentUser: me }, "ready"],
+    [
+      "401 never falls back to the list",
+      { currentError: unauthorized, listUsers: [me] },
+      "error",
+    ],
+    [
+      "403 permission denied never falls back",
+      { currentError: forbidden, listUsers: [me] },
+      "error",
+    ],
+    [
+      "5xx after retries is an error",
+      { currentError: serverError, listUsers: [me] },
+      "error",
+    ],
+    ["blocked is a refusal", { currentError: blocked }, "refused"],
+    ["pending is a refusal", { currentError: currentPendingNamed }, "refused"],
+    [
+      "old management (404) waits for the list",
+      { currentError: notFound, isListLoading: true },
+      "loading",
+    ],
+    [
+      "old management (404) uses is_current",
+      { currentError: notFound, listUsers: [other, me] },
+      "ready",
+    ],
+    [
+      "old management (405) uses is_current",
+      { currentError: notAllowed, listUsers: [me] },
+      "ready",
+    ],
+    [
+      "old management, list refused",
+      { currentError: notFound, listError: listPending },
+      "refused",
+    ],
+    [
+      "old management, list failing is an error, not a spinner",
+      { currentError: notFound, listError: serverError },
+      "error",
+    ],
+    [
+      "old management, no current user in list",
+      { currentError: notFound, listUsers: [other] },
+      "error",
+    ],
+  ])("%s", (_name, input, status) => {
+    const state = resolveLoggedInUser({
+      isListLoading: false,
+      ...(input as Partial<Parameters<typeof resolveLoggedInUser>[0]>),
+    });
+    expect(state.status).toBe(status);
+    if (state.status === "ready") expect(state.user).toBe(me);
+  });
+
+  it("reports the list error when the old-management fallback fails", () => {
+    expect(
+      resolveLoggedInUser({
+        currentError: notFound,
+        listError: serverError,
+        isListLoading: false,
+      }),
+    ).toEqual({ status: "error", error: serverError });
   });
 });

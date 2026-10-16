@@ -32,7 +32,30 @@ type RequestOptions = {
   refreshInterval?: number | ((latestData: any) => number);
   blob?: boolean;
   shouldRetryOnError?: boolean;
+  // GET via useFetchApi only: retry network errors and 5xx this many times
+  // (500 ms linear backoff) inside one SWR fetch, so callers see a settled
+  // result instead of a transient error.
+  transientRetries?: number;
 };
+
+const isTransientError = (err: unknown) =>
+  err instanceof TypeError ||
+  (typeof (err as ErrorResponse)?.code === "number" &&
+    (err as ErrorResponse).code >= 500);
+
+export async function withTransientRetries<T>(
+  request: () => Promise<T>,
+  retries = 0,
+): Promise<T> {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await request();
+    } catch (err) {
+      if (attempt >= retries || !isTransientError(err)) throw err;
+      await sleep(500 * (attempt + 1));
+    }
+  }
+}
 
 export type Params = Record<string, string | number | boolean>;
 
@@ -142,19 +165,18 @@ export default function useFetchApi<T>(
     : options?.key
     ? [url, options?.key]
     : url;
+  const get = (url: string) =>
+    withTransientRetries(
+      () =>
+        apiRequest<T>(fetch, "GET", url, undefined, {
+          ...options,
+          globalParams: globalApiParams,
+        }),
+      options?.transientRetries,
+    ).catch((err) => handleErrors(err as ErrorResponse));
   const fetchFn = options?.key
-    ? async ([url]: [url: string]) => {
-        return apiRequest<T>(fetch, "GET", url, undefined, {
-          ...options,
-          globalParams: globalApiParams,
-        }).catch((err) => handleErrors(err as ErrorResponse));
-      }
-    : async (url: string) => {
-        return apiRequest<T>(fetch, "GET", url, undefined, {
-          ...options,
-          globalParams: globalApiParams,
-        }).catch((err) => handleErrors(err as ErrorResponse));
-      };
+    ? async ([url]: [url: string]) => get(url)
+    : async (url: string) => get(url);
 
   const { data, error, isLoading, isValidating, mutate } = useSWR(
     cacheKey,
