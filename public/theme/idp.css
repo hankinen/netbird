@@ -1,0 +1,121 @@
+/*
+ * NetBird 内置 IdP 登录/退出页（/oauth2）主题覆盖样式表。
+ * 后端配置 server.auth.brandStylesheetURL: "/theme/idp.css" 后，登录页会在内置样式之后加载本文件。
+ *
+ * 规则（见 netbird-server deploy/idp-theme.md）：
+ *   - 只给 --nb-* 变量赋值，不写类名或依赖页面结构的选择器；
+ *   - url() 一律写以 / 开头的根相对路径（当前未引用任何图片，沿用内置 NetBird logo）；
+ *   - 文件取不到时登录页回退到内置默认外观，不会坏。
+ *
+ * 取值来源：
+ *   浅色 = 控制台 Ant Design 主题 src/styles/theme-antd/tokens.css（--ant-*），
+ *          字体 = AppLayout 中的 Inter（next/font）+ 中文回退字体。
+ *   深色 = 控制台上游深色主题（tailwind.config.ts 的 nb-gray / netbird 调色板）。
+ *          控制台的深色模式是用户手动切换或"跟随系统"，登录页只能读到系统偏好，
+ *          所以这里用 prefers-color-scheme: dark。
+ */
+:root {
+  /* 页面 */
+  --nb-color-scheme: light;
+  --nb-font-family: Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Noto Sans SC",sans-serif;
+  --nb-font-size: 14px;                    /* --ant-font-size */
+  --nb-line-height: 1.5715;                /* --ant-line-height */
+  --nb-bg: #f5f5f5;                        /* --ant-color-bg-layout */
+  --nb-bg-image: none;
+
+  /* 文字 */
+  --nb-text: rgba(0,0,0,.88);              /* --ant-color-text */
+  --nb-text-muted: rgba(0,0,0,.45);        /* --ant-color-text-tertiary */
+  --nb-text-placeholder: rgba(0,0,0,.25);  /* --ant-color-text-quaternary */
+
+  /* 主色 / 链接 */
+  --nb-primary: #1677ff;                   /* --ant-color-primary */
+  --nb-primary-hover: #4096ff;             /* --ant-color-primary-hover */
+  --nb-primary-active: #0958d9;            /* --ant-color-primary-active */
+  --nb-primary-contrast: #fff;             /* --ant-color-text-light-solid */
+  --nb-focus-ring: 0 0 0 2px rgba(5,145,255,.1); /* --ant-control-outline（AntD 输入框聚焦） */
+  --nb-link: var(--nb-primary);
+  --nb-link-hover: var(--nb-primary-hover);
+
+  /* 卡片 */
+  --nb-card-bg: #fff;                      /* --ant-color-bg-container */
+  --nb-card-border: #f0f0f0;               /* --ant-color-border-secondary */
+  --nb-card-radius: 8px;                   /* --ant-border-radius-lg */
+  --nb-card-shadow: 0 6px 16px 0 rgba(0,0,0,.08),0 3px 6px -4px rgba(0,0,0,.12),0 9px 28px 8px rgba(0,0,0,.05); /* --ant-box-shadow-secondary */
+  --nb-card-padding: 32px;
+  --nb-card-max-width: 400px;
+
+  /* 标题 */
+  --nb-heading-color: var(--nb-text);
+  --nb-heading-size: 20px;
+  --nb-heading-weight: 600;
+
+  /* 输入框 / 按钮 */
+  --nb-control-height: 40px;               /* --ant-control-height-lg */
+  --nb-radius: 6px;                        /* --ant-border-radius */
+  --nb-border: #d9d9d9;                    /* --ant-color-border */
+  --nb-divider: #f0f0f0;                   /* --ant-color-border-secondary */
+  --nb-input-bg: var(--nb-card-bg);
+  --nb-input-text: var(--nb-text);
+  --nb-btn-shadow: 0 2px 0 rgba(5,145,255,.1);
+  --nb-connector-bg: var(--nb-card-bg);
+  --nb-connector-text: var(--nb-text);
+
+  /* 错误 / 成功 */
+  --nb-error: #ff4d4f;                     /* --ant-color-error */
+  --nb-error-bg: #fff2f0;                  /* --ant-color-error-bg */
+  --nb-error-border: #ffccc7;              /* --ant-color-error-border */
+  --nb-error-text: var(--nb-text);
+  --nb-success: #52c41a;                   /* AntD colorSuccess */
+
+  /* 代码框 */
+  --nb-code-bg: #fafafa;                   /* --ant-color-fill-alter */
+  --nb-code-text: var(--nb-primary);
+
+  /* Logo / 图标（沿用内置 NetBird logo，不引用外部图片） */
+  --nb-logo-url: none;
+  --nb-logo-width: 150px;
+  --nb-logo-height: auto;
+  --nb-logo-svg-display: block;
+  --nb-logo-text: rgba(0,0,0,.88);         /* --ant-color-text */
+  --nb-logo-margin-bottom: 32px;
+  --nb-mono-icon-filter: invert(1);
+}
+
+/* 深色：对应控制台上游深色主题（nb-gray 中性色 + netbird 橙色主色） */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --nb-color-scheme: dark;
+    --nb-bg: #181a1d;                      /* nb-gray（html 背景） */
+
+    --nb-text: #e4e7e9;                    /* nb-gray-100 */
+    --nb-text-muted: #7c8994;              /* nb-gray-400 */
+    --nb-text-placeholder: rgba(163,163,163,.7); /* neutral-400/70（Input 占位） */
+
+    --nb-primary: #f68330;                 /* netbird */
+    --nb-primary-hover: #f46d1b;           /* netbird-500 */
+    --nb-primary-active: #e55311;          /* netbird-600 */
+    --nb-primary-contrast: #fff;
+    --nb-focus-ring: 0 0 0 2px rgba(229,83,17,.5); /* ring-netbird-600/50 */
+    --nb-btn-shadow: none;
+
+    --nb-card-bg: #1c1e21;                 /* nb-gray-940 */
+    --nb-card-border: #2e3238;             /* nb-gray-900（Modal 边框） */
+    --nb-card-shadow: 0 10px 15px -3px rgba(0,0,0,.3),0 4px 6px -4px rgba(0,0,0,.3); /* shadow-lg */
+
+    --nb-border: #474e57;                  /* nb-gray-700（Input 边框） */
+    --nb-divider: #2e3238;                 /* nb-gray-900 */
+    --nb-input-bg: #2e3238;                /* nb-gray-900（Input 背景） */
+    --nb-connector-bg: #25282d;            /* nb-gray-920 */
+
+    --nb-error: #f05252;                   /* red-500 */
+    --nb-error-bg: rgba(240,82,82,.1);
+    --nb-error-border: rgba(240,82,82,.4);
+    --nb-success: #0e9f6e;                 /* green-500 */
+
+    --nb-code-bg: #25282d;                 /* nb-gray-920 */
+
+    --nb-logo-text: #e4e7e9;               /* nb-gray-100：深色背景上的 "netbird" 字样 */
+    --nb-mono-icon-filter: none;           /* 白色 GitHub/Okta/JumpCloud 图标保持白色 */
+  }
+}
