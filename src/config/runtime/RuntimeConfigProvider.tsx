@@ -2,6 +2,7 @@
 
 import FullScreenLoading from "@components/ui/FullScreenLoading";
 import React, { useCallback, useContext, useEffect, useState } from "react";
+import { cleanupStaleAuthContext } from "./authContextCleanup";
 import { ConfigErrorScreen } from "./ConfigErrorScreen";
 import { loadRuntimeConfig } from "./loader";
 import type { RuntimeConfigErrorKind } from "./parse";
@@ -40,6 +41,8 @@ export function RuntimeConfigProvider({ children, onLoaded }: Props) {
     setState({ status: "loading" });
     loadRuntimeConfig().then((result) => {
       if (result.ok) {
+        // Before the OIDC client reads sessionStorage.
+        cleanupStaleAuthContext(result.config);
         setRuntimeConfig(result.config);
         onLoaded?.(result.config);
         setState({ status: "ready", config: result.config });

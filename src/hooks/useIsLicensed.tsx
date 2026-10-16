@@ -2,6 +2,7 @@ import useFetchApi from "@utils/api";
 import loadConfig from "@utils/config";
 import { hasLicensedFlag, testEditionOverride } from "@utils/netbird";
 import { useEffect, useState } from "react";
+import { authContextId } from "@/config/runtime/fingerprint";
 
 /**
  * Endpoint that is only served by licensed management servers.
@@ -23,7 +24,10 @@ const ENDPOINT_EXISTS_ERROR_CODES = [401, 403, 405];
 const LICENSE_CACHE_PREFIX = "netbird-licensed:";
 const LICENSE_CACHE_TTL_MS = 60 * 10 * 1000;
 
-const licenseCacheKey = () => `${LICENSE_CACHE_PREFIX}${loadConfig().apiOrigin}`;
+// Keyed by auth context; entries of other contexts are removed by
+// cleanupStaleAuthContext.
+const licenseCacheKey = () =>
+  `${LICENSE_CACHE_PREFIX}${authContextId(loadConfig())}`;
 
 const readLicenseCache = (): boolean | undefined => {
   if (typeof window === "undefined") return undefined;
