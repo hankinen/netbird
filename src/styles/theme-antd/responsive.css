@@ -222,6 +222,45 @@
   }
 }
 
+/* ---- R7. Mobile navigation drawer (< 768px, where the hamburger shows) ----
+   Upstream DashboardLayout opens the drawer by turning the page wrapper into
+   `fixed scale-75 rounded-xl` and moving it with framer-motion (x 80% / 60% /
+   45%, y 6.5%). That wrapper also has layout="position"; when the document is
+   scrolled even 1px (Chrome Android: 100vh is the large viewport, so the
+   h-screen shell scrolls by the URL-bar height), framer's layout projection
+   drops the x/y transform: the page stays full size on top of the drawer with
+   only the 20% black overlay, and the drawer peeks through. The same open
+   geometry is set here in CSS, so it no longer depends on the scroll offset;
+   the drawer is pinned to the viewport for the same reason (its top, with the
+   close button, would otherwise sit above the screen). Values = upstream's.
+   !important: framer-motion writes transform as an inline style.
+   @depends src/layouts/DashboardLayout.tsx: border border-nb-gray-900 shadow-inner overflow-hidden rounded-xl fixed scale-75 | h-screen bg-nb-gray-950 w-11/12 max-w-[22rem] | isSm ? "45%" : isXs ? "60%" : "80%"
+   @depends src/utils/responsive.ts: (min-width: 490px) | (min-width: 640px) */
+@media (max-width: 767.98px) {
+  /* !important: framer-motion inline transform (see above). */
+  :root.theme-antd:not(.dark) [class~="fixed"][class~="scale-75"][class~="rounded-xl"][class~="shadow-inner"] {
+    transform: translate(80%, 6.5%) !important;
+    transition: transform 0.2s ease-out;
+  }
+  :root.theme-antd:not(.dark) [class~="h-screen"][class~="bg-nb-gray-950"][class~="max-w-[22rem]" i] {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+}
+@media (min-width: 490px) and (max-width: 767.98px) {
+  /* !important: framer-motion inline transform (see above). */
+  :root.theme-antd:not(.dark) [class~="fixed"][class~="scale-75"][class~="rounded-xl"][class~="shadow-inner"] {
+    transform: translate(60%, 6.5%) !important;
+  }
+}
+@media (min-width: 640px) and (max-width: 767.98px) {
+  /* !important: framer-motion inline transform (see above). */
+  :root.theme-antd:not(.dark) [class~="fixed"][class~="scale-75"][class~="rounded-xl"][class~="shadow-inner"] {
+    transform: translate(45%, 6.5%) !important;
+  }
+}
+
 /* ---- R6. Touch screens: larger hit areas, same visuals -------------------
    An invisible ::after extends the clickable area to >= 32-40px.
    @depends src/components/modal/Modal.tsx: data-testid={"modal-close"} */
