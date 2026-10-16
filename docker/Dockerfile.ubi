@@ -15,7 +15,7 @@ LABEL name="netbird-dashboard" \
 # that would clash with out/. Our nginx config lives outside the RPM-owned
 # /etc/nginx/nginx.conf so no packaged file is modified in a later layer.
 RUN microdnf module enable -y nginx:1.26 && \
-    microdnf install -y --nodocs bash gettext nginx-core tzdata && \
+    microdnf install -y --nodocs bash gettext jq nginx-core tzdata && \
     microdnf clean all && \
     mkdir -p /etc/nginx/http.d /tmp/nginx
 

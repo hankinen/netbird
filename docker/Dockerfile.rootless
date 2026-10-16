@@ -1,6 +1,6 @@
 FROM alpine:3.24
 
-RUN apk add --no-cache bash ca-certificates gettext nginx tzdata && \
+RUN apk add --no-cache bash ca-certificates gettext jq nginx tzdata && \
     rm -rf /var/cache/apk/* && \
     mkdir -p /tmp/nginx
 
