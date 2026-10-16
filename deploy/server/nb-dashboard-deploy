@@ -141,7 +141,14 @@ deploy() {
     done
 
     publish_assets "$dir"                                           # a
-    "$DOCKER" build -q -t "$IMAGE:$id" -f "$dir/docker/Dockerfile" "$dir" >/dev/null  # b
+    local build_args=()
+    if [[ -f "$BASE/apk-mirror" ]]; then # optional, e.g. https://mirror.example.com
+        local mirror
+        mirror=$(head -1 "$BASE/apk-mirror")
+        [[ "$mirror" =~ ^https?://[A-Za-z0-9.-]+/?$ ]] || die "invalid $BASE/apk-mirror"
+        build_args=(--build-arg "APK_MIRROR=$mirror")
+    fi
+    "$DOCKER" build -q "${build_args[@]}" -t "$IMAGE:$id" -f "$dir/docker/Dockerfile" "$dir" >/dev/null  # b
     if ! "$DOCKER" run --rm --network none --env-file "$ENV_FILE" "$IMAGE:$id" true; then  # c
         "$DOCKER" image rm "$IMAGE:$id" >/dev/null 2>&1 || true
         rm -rf -- "${dir:?}"

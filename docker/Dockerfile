@@ -1,6 +1,12 @@
 FROM alpine:3.24
 
-RUN apk add --no-cache bash curl less ca-certificates git tzdata zip jq \
+# Optional Alpine package mirror (scheme://host), for hosts where
+# dl-cdn.alpinelinux.org is slow, e.g. --build-arg APK_MIRROR=https://mirror.example.com
+ARG APK_MIRROR=
+RUN if [ -n "$APK_MIRROR" ]; then \
+      sed -i "s#https\?://dl-cdn.alpinelinux.org#${APK_MIRROR%/}#" /etc/apk/repositories; \
+    fi && \
+    apk add --no-cache bash curl less ca-certificates git tzdata zip jq \
     nginx curl supervisor certbot-nginx && \
     rm -rf /var/cache/apk/* && mkdir -p /run/nginx /run/netbird-dashboard
 

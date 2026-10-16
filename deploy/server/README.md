@@ -93,7 +93,10 @@ compose service: the v1 script would put a build that needs
 4. First release: run the workflow (or stream a locally built package) with
    `deploy`. The first `docker build` pulls `alpine:3.24` and its packages
    (dl-cdn answered in 7.5 s from the server, mirror.example.com in 0.2 s);
-   later builds reuse the cached layer. Until step 3 is done `compose up`
+   later builds reuse the cached layer. dl-cdn is far too slow from this
+   host (apk add did not finish in 13 min), so put the mirror into
+   `/opt/netbird/dashboard-zh/apk-mirror` (`https://mirror.example.com`); the
+   script passes it as `--build-arg APK_MIRROR`. Until step 3 is done `compose up`
    would still start the old image, so do 3 before 4.
 5. Verify (from anywhere):
    `curl -sI http://203.0.113.10:8088/runtime-config.json` → `200`, `no-store`;
