@@ -17,7 +17,9 @@ import { RuntimeConfigProvider } from "@/config/runtime/RuntimeConfigProvider";
 import AnalyticsProvider from "@/contexts/AnalyticsProvider";
 import DialogProvider from "@/contexts/DialogProvider";
 import ErrorBoundaryProvider from "@/contexts/ErrorBoundary";
-import InstanceSetupProvider from "@/contexts/InstanceSetupProvider";
+import InstanceSetupProvider, {
+  prefetchInstanceStatus,
+} from "@/contexts/InstanceSetupProvider";
 import { NavigationEvents } from "@/contexts/NavigationEvents";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { useSignupSource } from "@/hooks/useSignupSource";
@@ -48,18 +50,18 @@ export default function AppLayout({
       <body className={cn(inter.className)}>
         <Suspense fallback={<FullScreenLoading />}>
           <I18nProvider>
-            <RuntimeConfigProvider>
+            <RuntimeConfigProvider onLoaded={prefetchInstanceStatus}>
             <AnalyticsProvider>
               <DialogProvider>
                 <ThemeProvider>
                   <ErrorBoundaryProvider>
-                    <InstanceSetupProvider>
-                      <OIDCProvider>
+                    <OIDCProvider>
+                      <InstanceSetupProvider>
                         <TooltipProvider delayDuration={0}>
                           {children}
                         </TooltipProvider>
-                      </OIDCProvider>
-                    </InstanceSetupProvider>
+                      </InstanceSetupProvider>
+                    </OIDCProvider>
                   </ErrorBoundaryProvider>
                 </ThemeProvider>
               </DialogProvider>
