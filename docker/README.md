@@ -68,3 +68,35 @@ published for `linux/amd64` and `linux/arm64` only. License terms are in
   `example@local`.
 
 These certificate variables apply only to the standard image.
+## Runtime configuration and caching
+
+The built files in `/usr/share/nginx/html` are never modified at runtime. At
+start, `entrypoint.sh` runs `gen_runtime_config.sh`, which reads the
+environment (`AUTH_*`, `NETBIRD_*`, `USE_AUTH0`, ...) and writes into
+`/run/netbird-dashboard`:
+
+- `runtime-config.json`, served at `/runtime-config.json` (`no-store`) and
+  fetched by the dashboard before any login or API call;
+- `nginx/csp.conf`, the `Content-Security-Policy` header;
+- `nginx/redirects.conf`, explicit `200` routes for path-style OIDC callback
+  URIs (`AUTH_REDIRECT_URI=/nb-auth`, ...);
+- `robots.txt`, only with `NETBIRD_ALLOW_SEARCH_INDEXING=true`.
+
+It then runs `nginx -t` and only starts nginx when both succeed, so a broken
+environment fails the container instead of serving a half-configured app.
+`gen_runtime_config.sh --check` validates an environment without writing.
+
+`AUTH_CLIENT_SECRET` is ignored (with a warning): the dashboard is a public
+OIDC client and nothing secret is ever served to browsers.
+
+Cache policy: HTML, `*.txt` route payloads and `/runtime-config.json` are
+`no-store`; content-hashed files under `/_next/static/` and
+`/assets/chunk.<hash>.js` are `public, max-age=31536000, immutable` and a
+missing one is a plain-text `404`; other public files are `no-cache` (ETag).
+Hashed files of previous releases can be mounted read-only at
+`/usr/share/nginx/static-pool` so already-open pages keep loading lazy chunks
+after an upgrade.
+
+Tests: `docker/tests/gen_runtime_config.test.sh` (bash + jq),
+`docker/tests/run_local_nginx.sh` (host nginx, no Docker) and
+`docker/tests/smoke.sh <image>` (Docker).

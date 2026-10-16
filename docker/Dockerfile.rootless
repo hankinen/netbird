@@ -1,8 +1,8 @@
 FROM alpine:3.24
 
-RUN apk add --no-cache bash ca-certificates gettext jq nginx tzdata && \
+RUN apk add --no-cache bash ca-certificates jq nginx tzdata && \
     rm -rf /var/cache/apk/* && \
-    mkdir -p /tmp/nginx
+    mkdir -p /tmp/nginx /run/netbird-dashboard
 
 STOPSIGNAL SIGINT
 EXPOSE 8080
@@ -12,7 +12,9 @@ WORKDIR /usr/share/nginx/html
 COPY docker/default.conf /etc/nginx/http.d/default.conf
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/rootless.conf /etc/nginx/http.d/rootless.conf
-COPY docker/init_react_envs.sh /usr/local/init_react_envs.sh
+COPY docker/snippets/ /etc/nginx/snippets/
+COPY docker/gen_runtime_config.sh /usr/local/bin/gen_runtime_config.sh
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY out/ /usr/share/nginx/html/
 
 RUN sed -i \
@@ -20,10 +22,11 @@ RUN sed -i \
       -e 's/listen \[::\]:80 default_server;/listen [::]:8080 default_server;/' \
       /etc/nginx/http.d/default.conf && \
     sed -i '/^user nginx;$/d' /etc/nginx/nginx.conf && \
-    chmod +x /usr/local/init_react_envs.sh && \
-    chgrp -R 0 /etc/nginx/http.d /usr/share/nginx/html /tmp/nginx && \
-    chmod -R g=u /etc/nginx/http.d /usr/share/nginx/html /tmp/nginx
+    chmod +x /usr/local/bin/gen_runtime_config.sh /usr/local/bin/entrypoint.sh && \
+    chmod -R a-w /usr/share/nginx/html && \
+    chgrp -R 0 /tmp/nginx /run/netbird-dashboard && \
+    chmod -R g=u /tmp/nginx /run/netbird-dashboard
 
 USER 10001:0
-ENTRYPOINT ["/usr/local/init_react_envs.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["/usr/sbin/nginx", "-e", "/dev/stderr", "-g", "pid /tmp/nginx.pid;"]

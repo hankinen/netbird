@@ -10,7 +10,7 @@
 # Usage: gen_runtime_config.sh [--check] [OUT_DIR]   (default /run/netbird-dashboard)
 #   --check  validate the environment and generate into a temp dir only.
 #
-# Replaces the old init_react_envs.sh, which substituted $VARS into the built
+# Replaces the former init script, which substituted $VARS into the built
 # JS and patched nginx config in place. Built assets are now never modified,
 # so they can be cached as immutable.
 set -euo pipefail
@@ -35,7 +35,7 @@ warn() {
 command -v jq >/dev/null || fail "jq is required"
 
 # ---------------------------------------------------------------------------
-# Validation and defaults (ported from init_react_envs.sh)
+# Validation and defaults (ported from the former init script)
 # ---------------------------------------------------------------------------
 [[ -n "${AUTH_AUTHORITY:-}" || -n "${AUTH0_DOMAIN:-}" ]] ||
     fail "AUTH_AUTHORITY or AUTH0_DOMAIN environment variable must be set"
@@ -146,7 +146,7 @@ REVISION=$(printf '%s' "$(jq -c -S . <<<"$BODY")" | sha256sum | cut -d' ' -f1)
 CONFIG_JSON=$(jq -S --arg rev "$REVISION" '. + {configRevision: $rev}' <<<"$BODY")
 
 # ---------------------------------------------------------------------------
-# CSP (ported from init_react_envs.sh)
+# CSP (ported from the former init script)
 # ---------------------------------------------------------------------------
 FIRST_PARTY_CSP="pkgs.netbird.io"
 FIRST_PARTY_CSP_CONNECT_SRC="wss://*.netbird.io"

@@ -3,7 +3,8 @@ name: Test cloud deploy config
 on:
   pull_request:
     paths:
-      - "docker/init_react_envs.sh"
+      - "docker/gen_runtime_config.sh"
+      - "docker/tests/**"
       - "templates/reverse-proxy/**"
       - "src/modules/reverse-proxy/clusters/ClusterCloudDeploy.tsx"
       - ".github/workflows/test-cloud-deploy.yml"
@@ -20,19 +21,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install nginx
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y nginx gettext-base
+      - name: Generator tests
+        run: bash docker/tests/gen_runtime_config.test.sh
 
-      - name: Prepare nginx layout expected by the init script
-        run: |
-          sudo mkdir -p /etc/nginx/http.d /usr/share/nginx/html
-          echo 'add_header Content-Security-Policy "placeholder" always;' | sudo tee /etc/nginx/http.d/default.conf
-          sudo touch /usr/share/nginx/html/OidcTrustedDomains.js.tmpl
-          sudo systemctl start nginx
-
-      - name: Run init script with production-like env
+      - name: Run generator with production-like env
         env:
           AUTH_AUTHORITY: https://auth.example.com
           AUTH_CLIENT_ID: test-client
@@ -40,11 +32,11 @@ jobs:
           AUTH_SUPPORTED_SCOPES: openid profile email
           USE_AUTH0: "false"
           NETBIRD_MGMT_API_ENDPOINT: https://api.example.com
-        run: sudo -E bash docker/init_react_envs.sh
+        run: bash docker/gen_runtime_config.sh "$RUNNER_TEMP/nb"
 
       - name: Assert provider APIs are in connect-src
         run: |
-          CSP=$(grep -o 'Content-Security-Policy "[^"]*"' /etc/nginx/http.d/default.conf)
+          CSP=$(grep -o 'Content-Security-Policy "[^"]*"' "$RUNNER_TEMP/nb/nginx/csp.conf")
           echo "Generated CSP: $CSP"
           CONNECT_SRC=$(echo "$CSP" | sed 's/.*connect-src \([^;]*\);.*/\1/')
           echo "connect-src: $CONNECT_SRC"
