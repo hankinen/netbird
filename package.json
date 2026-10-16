@@ -9,7 +9,7 @@
     "predev": "node scripts/runtime-config/write-dev-config.mjs",
     "dev": "next dev -p 3000",
     "build": "next build",
-    "postbuild": "node postbuild.js",
+    "postbuild": "node postbuild.js && node scripts/build/precompress.mjs && node scripts/build/verify-immutable.mjs",
     "start": "next start",
     "lint": "eslint .",
     "test:setup": "cd ./e2e/environment && sh create-test-env.sh",

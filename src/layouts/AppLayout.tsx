@@ -27,7 +27,7 @@ import I18nProvider from "@/i18n/I18nProvider";
 import { HTML_THEME_PROPS } from "@/styles/theme-antd/defaultTheme";
 
 const inter = localFont({
-  src: "../assets/fonts/Inter.ttf",
+  src: "../assets/fonts/Inter.woff2",
   display: "swap",
 });
 

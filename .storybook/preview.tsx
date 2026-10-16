@@ -18,7 +18,7 @@ dayjs.extend(relativeTime);
 setRuntimeConfig(storybookConfig);
 
 const inter = localFont({
-  src: "../src/assets/fonts/Inter.ttf",
+  src: "../src/assets/fonts/Inter.woff2",
   display: "block",
 });
 
