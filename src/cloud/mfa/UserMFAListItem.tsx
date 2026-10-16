@@ -22,7 +22,7 @@ import { useSWRConfig } from "swr";
 import { AccountMFA } from "@/cloud/mfa/AccountMFASettings";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-
+import { t } from "@/i18n";
 const config = loadConfig();
 
 type Props = {
@@ -68,21 +68,21 @@ const ListItem = ({ userId }: Props) => {
       label={
         <>
           <ShieldCheckIcon size={16} />
-          NetBird MFA
+          {t("cloud.mfa:userMFAListItem.text.netBirdMFA")}
           <FullTooltip
             variant={"lighter"}
             content={
               <div className={"text-xs max-w-xs"}>
-                NetBird MFA is primarily intended for users who log in with
-                email and password. You may not need NetBird MFA if your SSO
-                provider (e.g., Google, Microsoft) already has MFA enabled.{" "}
+                {t(
+                  "cloud.mfa:userMFAListItem.text.netBirdMFAIsPrimarilyIntended",
+                )}{" "}
                 <InlineLink
                   href={
                     "https://docs.netbird.io/how-to/multi-factor-authentication"
                   }
                   target={"_blank"}
                 >
-                  Learn more
+                  {t("common:word.learnMore")}
                   <ExternalLinkIcon size={10} />
                 </InlineLink>
               </div>
@@ -136,19 +136,19 @@ const MFAStatus = ({
           {hasAuthMethods ? (
             <>
               <span className={cn("h-2 w-2 rounded-full", "bg-green-500")} />{" "}
-              Active
+              {t("common:word.active")}
             </>
           ) : (
             <>
               <span className={cn("h-2 w-2 rounded-full", "bg-yellow-400")} />{" "}
-              Not Enrolled
+              {t("cloud.mfa:userMFAListItem.text.notEnrolled")}
             </>
           )}
         </div>
       ) : (
         <div className={"h-[30px] flex items-center"}>
           <InlineLink href={"/settings?tab=authentication"}>
-            Activate
+            {t("cloud.mfa:userMFAListItem.text.activate")}
             <ArrowUpRightIcon size={14} />
           </InlineLink>
         </div>
@@ -167,20 +167,25 @@ const ResetMFAButton = ({ userId }: Props) => {
 
   const resetMFA = async () => {
     const choice = await confirm({
-      title: `Reset Multi-factor Authentication?`,
-      description:
-        "Are you sure you want to reset the current MFA methods for this user? The user will be prompted to set up MFA again on their next login.",
-      confirmText: "Confirm",
-      cancelText: "Cancel",
+      title: t(
+        "cloud.mfa:userMFAListItem.title.resetMultiFactorAuthentication",
+      ),
+      description: t("cloud.mfa:userMFAListItem.description.areYouSureYouWant"),
+      confirmText: t("cloud.mfa:userMFAListItem.confirmText.confirm"),
+      cancelText: t("common:word.cancel"),
       type: "warning",
     });
     if (!choice) return;
 
     setIsLoading(true);
     notify({
-      title: "Multi-factor authentication (MFA)",
-      description: "MFA settings have been reset",
-      loadingMessage: "Resetting MFA for user...",
+      title: t("cloud.mfa:userMFAListItem.title.multiFactorAuthenticationMFA"),
+      description: t(
+        "cloud.mfa:userMFAListItem.description.mFASettingsHaveBeenReset",
+      ),
+      loadingMessage: t(
+        "cloud.mfa:userMFAListItem.loadingMessage.resettingMFAForUser",
+      ),
       promise: mfaDeleteRequest({}).finally(() =>
         mutate(`/service/mfa/${userId}`).then(() => setIsLoading(false)),
       ),
@@ -199,7 +204,7 @@ const ResetMFAButton = ({ userId }: Props) => {
       ) : (
         <RotateCcw size={12} />
       )}
-      Reset MFA
+      {t("cloud.mfa:userMFAListItem.text.resetMFA")}
     </Button>
   );
 };

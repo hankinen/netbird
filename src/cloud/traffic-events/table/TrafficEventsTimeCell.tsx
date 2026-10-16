@@ -2,7 +2,7 @@ import { cn } from "@utils/helpers";
 import dayjs from "dayjs";
 import { ClockIcon } from "lucide-react";
 import * as React from "react";
-
+import { t } from "@/i18n";
 type Props = {
   timestamp: string;
   className?: string;
@@ -24,7 +24,9 @@ export const TrafficEventsTimeCell = ({ timestamp, className }: Props) => {
           )}
         >
           <span className={"text-nb-gray-200 flex gap-2 items-center"}>
-            {dayjs(timestamp).format("MMM D, YYYY")}
+            {dayjs(timestamp).format(
+              t("cloud.traffic-events:trafficEventsTimeCell.text.mMMDYYYY"),
+            )}
           </span>
           <span className={"text-nb-gray-400"}>
             {dayjs(timestamp).format("h:mm:ss A")}

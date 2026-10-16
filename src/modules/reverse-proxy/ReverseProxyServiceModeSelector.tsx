@@ -16,6 +16,7 @@ import { HelpTooltip } from "@components/HelpTooltip";
 import { Label } from "@components/Label";
 import HelpText from "@components/HelpText";
 
+import { t } from "@/i18n";
 type Props = {
   value?: ServiceMode;
   onChange: (value: ServiceMode) => void;
@@ -31,27 +32,55 @@ type ServiceModeConfig = {
 
 export const SERVICE_MODES: Record<ServiceMode, ServiceModeConfig> = {
   [ServiceMode.HTTP]: {
-    label: "HTTPS Service",
-    description:
-      "Reverse proxy with path routing and built-in authentication (SSO, PIN, password). Typically used for web applications and APIs.",
+    get label() {
+      return t(
+        "reverse-proxy.main:reverseProxyServiceModeSelector.label.hTTPSService",
+      );
+    },
+    get description() {
+      return t(
+        "reverse-proxy.main:reverseProxyServiceModeSelector.description.reverseProxyWithPathRouting",
+      );
+    },
     icon: <Globe size={14} />,
   },
   [ServiceMode.TLS]: {
-    label: "TLS Passthrough",
-    description:
-      "Passes encrypted TLS traffic straight through to the backend. Typically used for services that manage their own TLS certificates.",
+    get label() {
+      return t(
+        "reverse-proxy.main:reverseProxyServiceModeSelector.label.tLSPassthrough",
+      );
+    },
+    get description() {
+      return t(
+        "reverse-proxy.main:reverseProxyServiceModeSelector.description.passesEncryptedTLSTrafficStraight",
+      );
+    },
     icon: <LockKeyhole size={14} />,
   },
   [ServiceMode.TCP]: {
-    label: "TCP Service",
-    description:
-      "Forwards raw TCP traffic to your backend on a dedicated port. Typically used for databases, custom protocols, or any TCP-based service.",
+    get label() {
+      return t(
+        "reverse-proxy.main:reverseProxyServiceModeSelector.label.tCPService",
+      );
+    },
+    get description() {
+      return t(
+        "reverse-proxy.main:reverseProxyServiceModeSelector.description.forwardsRawTCPTrafficTo",
+      );
+    },
     icon: <ArrowRightFromLine size={14} />,
   },
   [ServiceMode.UDP]: {
-    label: "UDP Service",
-    description:
-      "Forwards raw UDP traffic to your backend on a dedicated port. Typically used for real-time services like voice, video, or streaming.",
+    get label() {
+      return t(
+        "reverse-proxy.main:reverseProxyServiceModeSelector.label.uDPService",
+      );
+    },
+    get description() {
+      return t(
+        "reverse-proxy.main:reverseProxyServiceModeSelector.description.forwardsRawUDPTrafficTo",
+      );
+    },
     icon: <ArrowRightFromLine size={14} />,
   },
 };
@@ -76,10 +105,15 @@ export const ReverseProxyServiceModeSelector = ({
   return (
     <div className="flex justify-between items-center gap-10 mt-2">
       <div>
-        <Label>Service Type</Label>
+        <Label>
+          {t(
+            "reverse-proxy.main:reverseProxyServiceModeSelector.text.serviceType",
+          )}
+        </Label>
         <HelpText>
-          Select a type to define how the proxy handles and forwards traffic to
-          your backend services.
+          {t(
+            "reverse-proxy.main:reverseProxyServiceModeSelector.text.selectATypeToDefine",
+          )}
         </HelpText>
       </div>
       <Select
@@ -93,7 +127,11 @@ export const ReverseProxyServiceModeSelector = ({
             data-testid={"service-mode-select-button"}
           >
             {selectedMode.icon}
-            <SelectValue placeholder="Select type..." />
+            <SelectValue
+              placeholder={t(
+                "reverse-proxy.main:reverseProxyServiceModeSelector.placeholder.selectType",
+              )}
+            />
           </div>
         </SelectTrigger>
         <SelectContent data-testid={"service-mode-selection"}>

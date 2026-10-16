@@ -48,7 +48,9 @@ export const OnboardingAddResource = ({
       await networkRequest
         .post({
           name: "My First Network",
-          description: "Created during onboarding",
+          description: t(
+            "onboarding.networks:onboardingAddResource.description.createdDuringOnboarding",
+          ),
         })
         .then((n) => {
           myNetwork = n;
@@ -73,7 +75,9 @@ export const OnboardingAddResource = ({
         .post(
           {
             name: resourceType === "subnet" ? "My Subnet" : "My Resource",
-            description: "Created during onboarding",
+            description: t(
+              "onboarding.networks:onboardingAddResource.description.createdDuringOnboarding",
+            ),
             address: normalizeHostCIDR(resourceAddress),
             enabled: true,
             groups: [],
@@ -125,16 +129,20 @@ export const OnboardingAddResource = ({
 
     await policyRequest.post({
       name: `Users to ${r.name}`,
-      description: `Allows access to this ${
-        isSubnet ? `subnet ${r.address}` : `resource ${r.address}`
-      }`,
+      description: t(
+        "onboarding.networks:onboardingAddResource.description.allowsAccessToThis",
+        { value: isSubnet ? `subnet ${r.address}` : `resource ${r.address}` },
+      ),
       enabled: true,
       rules: [
         {
           name: `Users to ${r.name}`,
-          description: `Allows access to this ${
-            isSubnet ? `subnet ${r.address}` : `resource ${r.address}`
-          }`,
+          description: t(
+            "onboarding.networks:onboardingAddResource.description.allowsAccessToThis",
+            {
+              value: isSubnet ? `subnet ${r.address}` : `resource ${r.address}`,
+            },
+          ),
           enabled: true,
           action: "accept",
           bidirectional: true,
@@ -160,12 +168,16 @@ export const OnboardingAddResource = ({
     await policyRequest
       .post({
         name: `Users to Routing Peers`,
-        description: "Allows users to access routing peers",
+        description: t(
+          "onboarding.networks:onboardingAddResource.description.allowsUsersToAccessRouting",
+        ),
         enabled: true,
         rules: [
           {
             name: `Users to Routing Peers`,
-            description: "Allows users to access routing peers",
+            description: t(
+              "onboarding.networks:onboardingAddResource.description.allowsUsersToAccessRouting",
+            ),
             enabled: true,
             action: "accept",
             bidirectional: true,

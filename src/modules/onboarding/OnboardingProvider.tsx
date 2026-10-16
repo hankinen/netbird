@@ -16,6 +16,7 @@ import {
   AGENT_NETWORK_SIGNUP_SOURCE,
   SIGNUP_SOURCE_LOCAL_STORAGE_KEY,
 } from "@/hooks/useSignupSource";
+import NamespaceGate from "@/i18n/NamespaceGate";
 import { Account } from "@/interfaces/Account";
 import { Group } from "@/interfaces/Group";
 import { Network } from "@/interfaces/Network";
@@ -385,18 +386,20 @@ export const OnboardingProvider = ({
     // The flow's steps depend on the check, so it waits for it.
     if (checkEmptyAccount) return null;
     return (
-      <AgentNetworkOnboarding
-        initialStep={storedAgentStep(onboarding, !accountExisted)}
-        onStepChange={(step) =>
-          setOnboarding((prev) => ({ ...prev, agent_network_step: step }))
-        }
-        gatewayStep={gatewayStep}
-        existingAccount={existingAccount}
-        signupPending={agentSignupPending}
-        onSignupSubmit={onSubmitAgentSignup}
-        onSkip={onSkipAgentNetwork}
-        onFinish={onFinishAgentNetwork}
-      />
+      <NamespaceGate modules={["onboarding", "agent-network", "reverse-proxy"]}>
+        <AgentNetworkOnboarding
+          initialStep={storedAgentStep(onboarding, !accountExisted)}
+          onStepChange={(step) =>
+            setOnboarding((prev) => ({ ...prev, agent_network_step: step }))
+          }
+          gatewayStep={gatewayStep}
+          existingAccount={existingAccount}
+          signupPending={agentSignupPending}
+          onSignupSubmit={onSubmitAgentSignup}
+          onSkip={onSkipAgentNetwork}
+          onFinish={onFinishAgentNetwork}
+        />
+      </NamespaceGate>
     );
   }
 

@@ -16,11 +16,11 @@ import { cn } from "@utils/helpers";
 import { ExternalLinkIcon, GlobeIcon, Repeat } from "lucide-react";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import React, { useState } from "react";
+import { t } from "@/i18n";
 import { DomainValidationStatus } from "@/interfaces/Account";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
 import { DomainVerificationModal } from "@/modules/integrations/sso/DomainVerificationModal";
 import { useEnterpriseConnections } from "@/modules/integrations/sso/useEnterpriseConnections";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -53,9 +53,13 @@ export default function OidcSetupModal({
 
   const connect = () => {
     notify({
-      title: "Okta SSO Integration",
-      description: "Okta SSO was successfully connected",
-      loadingMessage: "Connecting Okta SSO...",
+      title: t("integrations.sso:oidcSetupModal.title.oktaSSOIntegration"),
+      description: t(
+        "integrations.sso:oidcSetupModal.description.oktaSSOWasSuccessfullyConnected",
+      ),
+      loadingMessage: t(
+        "integrations.sso:oidcSetupModal.loadingMessage.connectingOktaSSO",
+      ),
       promise: createOrUpdateConnection({
         discovery_url: discoveryUrl,
         client_id: clientId,
@@ -71,16 +75,24 @@ export default function OidcSetupModal({
         );
         if (!oktaConnection) {
           notify({
-            title: "Okta SSO Integration",
-            description: "Failed to connect Okta SSO",
+            title: t(
+              "integrations.sso:oidcSetupModal.title.oktaSSOIntegration",
+            ),
+            description: t(
+              "integrations.sso:oidcSetupModal.description.failedToConnectOktaSSO",
+            ),
           });
           return;
         }
         const domain = oktaConnection.domains?.[0] || undefined;
         if (!domain) {
           notify({
-            title: "Okta SSO Integration",
-            description: "Failed to connect Okta SSO",
+            title: t(
+              "integrations.sso:oidcSetupModal.title.oktaSSOIntegration",
+            ),
+            description: t(
+              "integrations.sso:oidcSetupModal.description.failedToConnectOktaSSO",
+            ),
           });
           return;
         }
@@ -118,33 +130,45 @@ export default function OidcSetupModal({
 
           <IntegrationModalHeader
             image={logo}
-            title={`Connect NetBird with ${name}`}
-            description={`Use ${name} as a Single Sign-On provider to authenticate users. Follow the steps below to get started.`}
+            title={t(
+              "integrations.sso:oidcSetupModal.text.connectNetBirdWith",
+              { name },
+            )}
+            description={t(
+              "integrations.sso:oidcSetupModal.text.useAsASingleSign",
+              { name },
+            )}
           />
 
           <div className={"px-8 py-3 flex flex-col gap-0 mt-2"}>
             <Steps>
               <Steps.Step step={1}>
                 <p className={"font-normal"}>
-                  {
-                    "Obtaining the Client ID and Secret differs across providers. Please check your provider's documentation."
-                  }
+                  {t(
+                    "integrations.sso:oidcSetupModal.text.obtainingTheClientIDAnd",
+                  )}
                 </p>
                 <Input
                   customPrefix={
-                    <span className={"min-w-[90px]"}>Client ID</span>
+                    <span className={"min-w-[90px]"}>
+                      {t("integrations.shared:word.clientID")}
+                    </span>
                   }
-                  placeholder={"0obflxtwxoVQcur0z3f3"}
+                  placeholder={t(
+                    "integrations.sso:oidcSetupModal.placeholder.0obflxtwxoVQcur0z3f3",
+                  )}
                   value={clientId}
                   onChange={(e) => setClientId(e.target.value)}
                 />
                 <Input
                   customPrefix={
-                    <span className={"min-w-[90px]"}>Client Secret</span>
+                    <span className={"min-w-[90px]"}>
+                      {t("integrations.shared:word.clientSecret")}
+                    </span>
                   }
-                  placeholder={
-                    "jfgbU1Wu3XWAKhGUF4d-PX54DSm3pAQCyNtpxp7Nu8Ij22stSz8_6KnWbO4nQBIb"
-                  }
+                  placeholder={t(
+                    "integrations.sso:oidcSetupModal.placeholder.jfgbU1Wu3XWAKhGUF4dPX54DSm3pAQCyNtpxp7Nu8Ij22stSz86KnWbO4nQBIb",
+                  )}
                   value={clientSecret}
                   onChange={(e) => setClientSecret(e.target.value)}
                 />
@@ -153,8 +177,11 @@ export default function OidcSetupModal({
               {name.toLowerCase() !== "jumpcloud" && (
                 <Steps.Step step={2}>
                   <p className={"font-normal"}>
-                    Please provide the <Mark>OpenID Connect Discovery</Mark>{" "}
-                    endpoint. It should be publicly accessible and SSL secured.
+                    {t("integrations.sso:oidcSetupModal.text.pleaseProvideThe")}{" "}
+                    <Mark>OpenID Connect Discovery</Mark>{" "}
+                    {t(
+                      "integrations.sso:oidcSetupModal.text.endpointItShouldBePublicly",
+                    )}
                   </p>
                   <Input
                     customPrefix={<GlobeIcon size={16} />}
@@ -173,13 +200,17 @@ export default function OidcSetupModal({
                 line={false}
               >
                 <p className={"font-normal"}>
-                  Enter your
-                  <Mark>Primary E-Mail Domain</Mark> which will later be used to
-                  log in to NetBird.
+                  {t("integrations.sso:oidcSetupModal.text.enterYour")}
+                  <Mark>Primary E-Mail Domain</Mark>{" "}
+                  {t(
+                    "integrations.sso:oidcSetupModal.text.whichWillLaterBeUsed",
+                  )}
                 </p>
                 <Input
                   customPrefix={<GlobeIcon size={16} />}
-                  placeholder={"mycompany.com"}
+                  placeholder={t(
+                    "integrations.sso:oidcSetupModal.placeholder.mycompanyCom",
+                  )}
                   value={primaryEmailDomain}
                   onChange={(e) => setPrimaryEmailDomain(e.target.value)}
                 />
@@ -189,26 +220,26 @@ export default function OidcSetupModal({
           <ModalFooter className={"items-center"}>
             <div className={"w-full"}>
               <Paragraph className={"text-sm mt-auto"}>
-                Learn more about
+                {t("common:word.learnMoreAbout")}
                 <InlineLink
                   href={
                     "https://docs.netbird.io/how-to/register-machines-using-setup-keys"
                   }
                   target={"_blank"}
                 >
-                  {name} Integration
+                  {name} {t("integrations.sso:oidcSetupModal.text.integration")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </Paragraph>
             </div>
             <div className={"flex gap-3 w-full justify-end"}>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
               </ModalClose>
 
               <Button variant={"primary"}>
                 <Repeat size={16} />
-                Connect
+                {t("common:word.connect")}
               </Button>
             </div>
           </ModalFooter>

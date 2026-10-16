@@ -1,3 +1,4 @@
 {
-  "integrationCard.text.connect": "Connect"
+  "integrationCard.text.connect": "Connect",
+  "estimatedSetupTime.text.minutes": "{{minutes}} Minutes"
 }

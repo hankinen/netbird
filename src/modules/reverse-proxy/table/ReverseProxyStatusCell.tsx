@@ -12,6 +12,7 @@ import { CircleAlert, Loader2 } from "lucide-react";
 import * as React from "react";
 import { useRef } from "react";
 
+import { t } from "@/i18n";
 type Props = {
   serviceId: string;
   meta?: ReverseProxyMeta;
@@ -75,14 +76,14 @@ export default function ReverseProxyStatusCell({
           <FullTooltip
             content={
               <div className={"text-xs max-w-xs"}>
-                Something went wrong while setting up this service. See our{" "}
+                {t("reverse-proxy.table:reverseProxyStatusCell.text.somethingWentWrongWhileSetting")}{" "}
                 <InlineLink
                   href={REVERSE_PROXY_TROUBLESHOOTING_DOCS_LINK}
                   target={"_blank"}
                 >
-                  Troubleshooting Docs
+                  {t("reverse-proxy.table:reverseProxyStatusCell.text.troubleshootingDocs")}
                 </InlineLink>{" "}
-                for more details.
+                {t("reverse-proxy.table:reverseProxyStatusCell.text.forMoreDetails")}
               </div>
             }
             align={"center"}
@@ -91,12 +92,12 @@ export default function ReverseProxyStatusCell({
             <div className={"flex"}>
               {compact ? (
                 <span className={"text-red-400 cursor-help truncate"}>
-                  Error
+                  {t("reverse-proxy.table:reverseProxyStatusCell.text.error")}
                 </span>
               ) : (
                 <Badge variant={"red"}>
                   <CircleAlert size={11} />
-                  Error
+                  {t("reverse-proxy.table:reverseProxyStatusCell.text.error")}
                 </Badge>
               )}
             </div>
@@ -110,14 +111,14 @@ export default function ReverseProxyStatusCell({
           <FullTooltip
             content={
               <div className={"text-xs max-w-xs"}>
-                The tunnel to the target peer could not be established. See our{" "}
+                {t("reverse-proxy.table:reverseProxyStatusCell.text.theTunnelToTheTarget")}{" "}
                 <InlineLink
                   href={REVERSE_PROXY_TROUBLESHOOTING_DOCS_LINK}
                   target={"_blank"}
                 >
-                  Troubleshooting Docs
+                  {t("reverse-proxy.table:reverseProxyStatusCell.text.troubleshootingDocs")}
                 </InlineLink>{" "}
-                for more details.
+                {t("reverse-proxy.table:reverseProxyStatusCell.text.forMoreDetails")}
               </div>
             }
             align={"center"}
@@ -126,12 +127,12 @@ export default function ReverseProxyStatusCell({
             <div className={"flex"}>
               {compact ? (
                 <span className={"text-red-400 cursor-help truncate"}>
-                  Tunnel not created
+                  {t("reverse-proxy.table:reverseProxyStatusCell.text.tunnelNotCreated")}
                 </span>
               ) : (
                 <Badge variant={"red"}>
                   <CircleAlert size={11} />
-                  Tunnel not created
+                  {t("reverse-proxy.table:reverseProxyStatusCell.text.tunnelNotCreated")}
                 </Badge>
               )}
             </div>
@@ -155,12 +156,12 @@ export default function ReverseProxyStatusCell({
             className={"inline-flex items-center gap-1.5 text-yellow-400 truncate"}
           >
             <Loader2 size={11} className={"animate-spin shrink-0"} />
-            Issuing certificate...
+            {t("reverse-proxy.table:reverseProxyStatusCell.text.issuingCertificate")}
           </span>
         ) : (
           <Badge variant={"yellow"}>
             <Loader2 size={12} className={"animate-spin"} />
-            Issuing certificate...
+            {t("reverse-proxy.table:reverseProxyStatusCell.text.issuingCertificate")}
           </Badge>
         )}
       </div>
@@ -178,12 +179,12 @@ const SettingUpService = ({ compact }: { compact?: boolean }) => {
           className={"inline-flex items-center gap-1.5 text-yellow-400 truncate"}
         >
           <Loader2 size={11} className={"animate-spin shrink-0"} />
-          Setting up service...
+          {t("reverse-proxy.table:reverseProxyStatusCell.text.settingUpService")}
         </span>
       ) : (
         <Badge variant={"yellow"}>
           <Loader2 size={14} className={"animate-spin"} />
-          Setting up service...
+          {t("reverse-proxy.table:reverseProxyStatusCell.text.settingUpService")}
         </Badge>
       )}
     </div>

@@ -19,7 +19,7 @@ import {
   DistributorCustomer,
   DistributorCustomerStatus,
 } from "@/cloud/distributor/interfaces/Distributor";
-
+import { t } from "@/i18n";
 type Props = {
   customer: DistributorCustomer;
 };
@@ -35,13 +35,14 @@ export const CustomerActionCell = ({ customer }: Props) => {
         <FullTooltip
           content={
             <div className={"text-xs max-w-xs"}>
-              The customer account owner must log in to the dashboard to accept
-              or decline your invitation.
+              {t(
+                "cloud.distributor:customerActionCell.text.theCustomerAccountOwnerMust",
+              )}
             </div>
           }
         >
           <Badge variant={"yellow"} className={"ml-6 cursor-help"}>
-            Pending invitation
+            {t("cloud.distributor:customerActionCell.text.pendingInvitation")}
             <HelpCircle size={12} />
           </Badge>
         </FullTooltip>
@@ -55,7 +56,7 @@ export const CustomerActionCell = ({ customer }: Props) => {
         onClick={() => openEditCustomerModal(customer)}
       >
         <SquarePenIcon size={14} />
-        Edit
+        {t("common:word.edit")}
       </Button>
 
       <DropdownMenu modal={false}>
@@ -77,7 +78,7 @@ export const CustomerActionCell = ({ customer }: Props) => {
           >
             <div className={"flex gap-3 items-center"}>
               <UnlinkIcon size={14} className={"shrink-0"} />
-              Unlink
+              {t("cloud.distributor:customersProvider.confirmText.unlink")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

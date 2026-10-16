@@ -31,6 +31,7 @@ import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import NotificationSlackModal from "@/cloud/notifications/channels/NotificationSlackModal";
 
+import { t } from "@/i18n";
 type Props = {
   channel: NotificationChannel;
 };
@@ -48,34 +49,34 @@ export const NotificationSlackChannel = ({ channel }: Props) => {
   const handleSave = (newTarget: SlackTarget) => {
     const isNew = !isConnected;
     notify({
-      title: "Slack Notifications",
+      title: t("cloud.notifications:notificationSlackChannel.title.slackNotifications"),
       description: isNew
-        ? "Slack has been successfully connected."
-        : "Slack configuration has been successfully updated.",
+        ? t("cloud.notifications:notificationSlackChannel.text.slackHasBeenSuccessfullyConnected")
+        : t("cloud.notifications:notificationSlackChannel.text.slackConfigurationHasBeenSuccessfully"),
       promise: updateChannel({ ...channel, enabled: true, target: newTarget }),
-      loadingMessage: isNew ? "Connecting Slack..." : "Updating Slack...",
+      loadingMessage: isNew ? t("cloud.notifications:notificationSlackChannel.text.connectingSlack") : t("cloud.notifications:notificationSlackChannel.text.updatingSlack"),
     });
   };
 
   const handleDisconnect = async () => {
     const choice = await confirm({
-      title: "Disconnect Slack",
+      title: t("cloud.notifications:notificationSlackChannel.title.disconnectSlack"),
       description:
-        "Are you sure you want to disconnect Slack? You will no longer receive notifications in your Slack channel.",
-      confirmText: "Disconnect",
-      cancelText: "Cancel",
+        t("cloud.notifications:notificationSlackChannel.description.areYouSureYouWant"),
+      confirmText: t("cloud.notifications:notificationSlackChannel.confirmText.disconnect"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!choice) return;
     notify({
-      title: "Slack Notifications",
-      description: "Slack has been successfully disconnected.",
+      title: t("cloud.notifications:notificationSlackChannel.title.slackNotifications"),
+      description: t("cloud.notifications:notificationSlackChannel.description.slackHasBeenSuccessfullyDisconnected"),
       promise: updateChannel({
         ...channel,
         enabled: false,
         target: undefined,
       }),
-      loadingMessage: "Disconnecting Slack...",
+      loadingMessage: t("cloud.notifications:notificationSlackChannel.loadingMessage.disconnectingSlack"),
     });
   };
 
@@ -88,24 +89,24 @@ export const NotificationSlackChannel = ({ channel }: Props) => {
       <Breadcrumbs>
         <Breadcrumbs.Item
           href={"/settings"}
-          label={"Settings"}
+          label={t("common:word.settings")}
           icon={<SettingsIcon size={13} />}
         />
         <Breadcrumbs.Item
           href={"/settings?tab=notifications"}
-          label={"Notifications"}
+          label={t("cloud.notifications:notificationTab.label.notifications")}
           icon={<MessageSquareDot size={14} />}
         />
         <Breadcrumbs.Item
           href={"/settings?tab=notifications&channel=slack"}
-          label={"Slack"}
+          label={t("cloud.notifications:notificationSlackChannel.label.slack")}
           icon={<SlackIcon size={14} />}
           active
         />
       </Breadcrumbs>
       <div className={"flex items-start justify-between"}>
         <div className={"flex gap-3 items-center"}>
-          <h1>Slack</h1>
+          <h1>{t("cloud.notifications:notificationSlackChannel.label.slack")}</h1>
         </div>
       </div>
       <div className={"flex flex-col gap-8 mt-4"}>
@@ -134,7 +135,7 @@ export const NotificationSlackChannel = ({ channel }: Props) => {
             ></div>
           </div>
           <div className={"flex items-start flex-col flex-1 min-w-0 pr-10"}>
-            <p className={"font-medium text-sm"}>Slack</p>
+            <p className={"font-medium text-sm"}>{t("cloud.notifications:notificationSlackChannel.label.slack")}</p>
             {isConnected ? (
               <TruncatedText
                 text={target?.url}
@@ -143,7 +144,7 @@ export const NotificationSlackChannel = ({ channel }: Props) => {
               />
             ) : (
               <span className={"text-xs text-nb-gray-300 mt-0.5"}>
-                Not Connected
+                {t("cloud.notifications:notificationSlackChannel.text.notConnected")}
               </span>
             )}
           </div>
@@ -171,7 +172,7 @@ export const NotificationSlackChannel = ({ channel }: Props) => {
                 >
                   <div className={"flex gap-3 items-center"}>
                     <Link2Off size={14} className={"shrink-0"} />
-                    Disconnect
+                    {t("cloud.notifications:notificationSlackChannel.confirmText.disconnect")}
                   </div>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -186,7 +187,7 @@ export const NotificationSlackChannel = ({ channel }: Props) => {
               data-testid="slack-channel-connect"
             >
               <Repeat size={13} />
-              Connect
+              {t("common:word.connect")}
             </Button>
           )}
         </Card>

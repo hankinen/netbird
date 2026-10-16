@@ -17,7 +17,7 @@ import InvoicesTable from "@/cloud/invoices/table/InvoicesTable";
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { Invoice } from "@/cloud/msp/interfaces/Invoice";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-
+import { t } from "@/i18n";
 export const InvoicesTab = () => {
   const { permission } = usePermissions();
 
@@ -41,7 +41,7 @@ export const InvoicesTabTrigger = () => {
         data-testid="settings-tab-invoices"
       >
         <ReceiptTextIcon size={14} />
-        Invoices
+        {t("common:word.invoices")}
       </VerticalTabs.Trigger>
     )
   );
@@ -72,12 +72,12 @@ const InvoicesTabContent = () => {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("common:word.settings")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings?tab=invoices"}
-            label={"Invoices"}
+            label={t("common:word.invoices")}
             icon={<ReceiptTextIcon size={14} />}
             active
           />
@@ -86,8 +86,10 @@ const InvoicesTabContent = () => {
         <div className={"max-w-3xl mb-4"}>
           <div className={"flex justify-between items-center mb-5"}>
             <div>
-              <h1 ref={headingRef}>Invoices</h1>
-              <Paragraph>View and export all your available invoices</Paragraph>
+              <h1 ref={headingRef}>{t("common:word.invoices")}</h1>
+              <Paragraph>
+                {t("cloud.invoices:invoicesTab.text.viewAndExportAllYour")}
+              </Paragraph>
             </div>
           </div>
           <Suspense

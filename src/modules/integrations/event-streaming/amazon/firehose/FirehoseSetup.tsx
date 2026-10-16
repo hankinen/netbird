@@ -27,6 +27,7 @@ import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import firehoseLogo from "@/assets/integrations/firehose.png";
+import { t } from "@/i18n";
 import { EventStream } from "@/interfaces/EventStream";
 import { AmazonRegions } from "@/modules/integrations/event-streaming/amazon/AmazonRegions";
 import {
@@ -34,7 +35,6 @@ import {
   exampleAwsSecretAccessKey,
 } from "@/modules/integrations/event-streaming/amazon/exampleCredentials";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -109,8 +109,12 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
 
   const connect = async () => {
     notify({
-      title: "Amazon Data Firehose Integration",
-      description: `Amazon Data Firehose was successfully connected to NetBird.`,
+      title: t(
+        "integrations.event-streaming:firehose.title.amazonDataFirehoseIntegration",
+      ),
+      description: t(
+        "integrations.event-streaming:firehoseSetup.description.amazonDataFirehoseWasSuccessfully",
+      ),
       promise: integrationRequest
         .post({
           platform: "firehose",
@@ -126,7 +130,9 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
           mutate("/integrations/event-streaming");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t(
+        "integrations.event-streaming:firehoseSetup.loadingMessage.settingUpIntegration",
+      ),
     });
   };
 
@@ -142,27 +148,35 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
 
       <IntegrationModalHeader
         image={firehoseLogo}
-        title={"Connect NetBird with Amazon Data Firehose"}
-        description={
-          "Start streaming your NetBird audit & traffic events to Amazon Data Firehose. Follow the steps below to get started."
-        }
+        title={t(
+          "integrations.event-streaming:firehoseSetup.title.connectNetBirdWithAmazonData",
+        )}
+        description={t(
+          "integrations.event-streaming:firehoseSetup.description.startStreamingYourNetBirdAudit",
+        )}
       />
 
       {step == 1 && (
         <div className={"px-8 py-3 flex flex-col mt-4 z-0"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <GlobeIcon size={16} />
-            Select your Amazon Data Firehose region
+            {t(
+              "integrations.event-streaming:firehoseSetup.text.selectYourAmazonDataFirehose",
+            )}
           </p>
           <p className={"mb-3 mt-2"}>
-            To identify which region you are on please check out the{" "}
+            {t(
+              "integrations.event-streaming:firehoseSetup.text.toIdentifyWhichRegionYou",
+            )}{" "}
             <InlineLink
               href={firehoseDashboardURL}
               target={"_blank"}
               variant={"default"}
               className={"inline"}
             >
-              Amazon Data Firehose Dashboard.
+              {t(
+                "integrations.event-streaming:firehoseSetup.text.amazonDataFirehoseDashboard",
+              )}
             </InlineLink>
           </p>
           <SelectDropdown
@@ -180,7 +194,9 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                   <Globe size={16} className={"text-nb-gray-300"} />
                 </div>
               }
-              placeholder={"eu-central-1"}
+              placeholder={t(
+                "integrations.event-streaming:firehoseSetup.placeholder.euCentral1",
+              )}
               value={region}
               onChange={(e) => setRegion(e.target.value)}
             />
@@ -193,43 +209,60 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 z-0"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <KeyRound size={16} />
-            Create your Firehose Stream
+            {t(
+              "integrations.event-streaming:firehoseSetup.text.createYourFirehoseStream",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
-              <p>Navigate to the Amazon Data Firehose Stream Dashboard</p>
+              <p>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.navigateToTheAmazonData",
+                )}
+              </p>
               <div className={"flex gap-4"}>
                 <Link href={firehoseDashboardURL} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
                     <ExternalLinkIcon size={14} />
-                    Amazon Data Firehose Stream Dashboard
+                    {t(
+                      "integrations.event-streaming:firehoseSetup.text.amazonDataFirehoseStreamDashboard",
+                    )}
                   </Button>
                 </Link>
               </div>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>Create Firehose stream</Mark> at the top right
-                corner
+                {t("common:word.click")} <Mark>Create Firehose stream</Mark>{" "}
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.atTheTopRightCorner",
+                )}
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                As <Mark>Source</Mark>
-                select <Mark>Direct PUT</Mark>
+                {t("integrations.event-streaming:firehoseSetup.text.asSource")}{" "}
+                <Mark>Source</Mark>
+                {t("integrations.shared:word.select")} <Mark>Direct PUT</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4}>
               <p className={"font-normal"}>
-                As <Mark>Destination</Mark>
-                select the AWS service you want to push the events to
+                {t("integrations.event-streaming:firehoseSetup.text.asSource")}{" "}
+                <Mark>Destination</Mark>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.selectTheAWSServiceYou",
+                )}
               </p>
             </Steps.Step>
             <Steps.Step step={5}>
               <p className={"font-normal"}>
-                Give it a descriptive name like{" "}
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.giveItADescriptiveName",
+                )}{" "}
                 <Mark copy>netbird-activity-events</Mark>
-                and click <Mark>Create Firehose stream</Mark>
+                {t("integrations.shared:word.andClick")}{" "}
+                <Mark>Create Firehose stream</Mark>
                 <Tooltip>
                   <TooltipTrigger>
                     <InfoIcon
@@ -239,14 +272,20 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                   </TooltipTrigger>
                   <TooltipContent>
                     <p className={"max-w-[200px] text-xs"}>
-                      {`You can transform and convert the event messages to fit your needs.`}
+                      {t(
+                        "integrations.event-streaming:firehoseSetup.text.youCanTransformAndConvert",
+                      )}
                     </p>
                   </TooltipContent>
                 </Tooltip>
               </p>
             </Steps.Step>
             <Steps.Step step={6} line={false}>
-              <p className={"font-normal"}>Enter your Firehose stream name</p>
+              <p className={"font-normal"}>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.enterYourFirehoseStreamName",
+                )}
+              </p>
               <div className={"mb-4"}>
                 <Input
                   type={"text"}
@@ -256,7 +295,9 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                       <PencilLine size={16} className={"text-nb-gray-300"} />
                     </div>
                   }
-                  placeholder={"netbird-activity-events"}
+                  placeholder={t(
+                    "integrations.event-streaming:firehoseSetup.text.netbirdActivityEvents",
+                  )}
                   value={streamName}
                   onChange={(e) => setStreamName(e.target.value)}
                 />
@@ -269,25 +310,37 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 z-0"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <KeyRound size={16} />
-            Create IAM credential
+            {t(
+              "integrations.event-streaming:firehoseSetup.text.createIAMCredential",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
-              <p>Navigate to the Amazon IAM Dashboard</p>
+              <p>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.navigateToTheAmazonIAM",
+                )}
+              </p>
               <div className={"flex gap-4"}>
                 <Link href={iamDashboardURL} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
                     <ExternalLinkIcon size={14} />
-                    Amazon IAM Dashboard
+                    {t(
+                      "integrations.event-streaming:firehoseSetup.text.amazonIAMDashboard",
+                    )}
                   </Button>
                 </Link>
               </div>
             </Steps.Step>
             <Steps.Step step={2}>
               <p>
-                Create an IAM User (for details see the{" "}
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.createAnIAMUserFor",
+                )}{" "}
                 <InlineLink href={iamDocsURL} target={"_blank"}>
-                  Amazon Docs
+                  {t(
+                    "integrations.event-streaming:firehoseSetup.text.amazonDocs",
+                  )}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
                 )
@@ -295,19 +348,34 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Create and assign a policy with <Mark>firehose:PutRecord</Mark>
-                and <Mark>firehose:PutRecordBatch</Mark>
-                to the user and scope it to the created stream
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.createAndAssignAPolicy",
+                )}{" "}
+                <Mark>firehose:PutRecord</Mark>
+                {t("common:word.and")} <Mark>firehose:PutRecordBatch</Mark>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.toTheUserAndScope",
+                )}
               </p>
             </Steps.Step>
             <Steps.Step step={4}>
               <p className={"font-normal"}>
-                Select the user and go to the <Mark>Security Credentials</Mark>
-                tab and select <Mark>Create access key</Mark>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.selectTheUserAndGo",
+                )}{" "}
+                <Mark>Security Credentials</Mark>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.tabAndSelect",
+                )}{" "}
+                <Mark>Create access key</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={5}>
-              <p className={"font-normal"}>Enter your Access-Key</p>
+              <p className={"font-normal"}>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.enterYourAccessKey",
+                )}
+              </p>
               <div className={"mb-4"}>
                 <Input
                   type={"text"}
@@ -324,7 +392,11 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               </div>
             </Steps.Step>
             <Steps.Step step={6} line={false}>
-              <p className={"font-normal"}>Enter your Secret-Key</p>
+              <p className={"font-normal"}>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.enterYourSecretKey",
+                )}
+              </p>
               <div className={"mb-4"}>
                 <Input
                   type={"text"}
@@ -352,7 +424,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             disabled={!regionEntered}
             onClick={() => setStep(2)}
           >
-            Continue
+            {t("common:word.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -364,7 +436,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               onClick={() => setStep(1)}
             >
               <IconArrowLeft size={16} />
-              Back
+              {t("common:word.back")}
             </Button>
             <Button
               variant={"primary"}
@@ -372,7 +444,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               disabled={!streamNameEntered}
               onClick={() => setStep(3)}
             >
-              Continue
+              {t("common:word.continue")}
               <IconArrowRight size={16} />
             </Button>
           </>
@@ -385,7 +457,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               onClick={() => setStep(2)}
             >
               <IconArrowLeft size={16} />
-              Back
+              {t("common:word.back")}
             </Button>
             <Button
               variant={"primary"}
@@ -394,7 +466,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               onClick={connect}
             >
               <Repeat size={16} />
-              Connect
+              {t("common:word.connect")}
             </Button>
           </>
         )}

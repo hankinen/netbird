@@ -1,11 +1,11 @@
 import FullTooltip from "@components/FullTooltip";
 import { ServerIcon, UserCog } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import {
   ReverseProxyCluster,
   ReverseProxyClusterType,
 } from "@/interfaces/ReverseProxy";
-
 type Props = {
   cluster: ReverseProxyCluster;
 };
@@ -21,9 +21,8 @@ export const ClusterTypeIndicator = ({ cluster }: Props) => {
       <FullTooltip
         content={
           <div className={"text-xs max-w-xs"}>
-            <span className={"font-medium text-white"}>Account cluster.</span>{" "}
-            Self-hosted on your own infrastructure — you operate the proxy
-            nodes and control where traffic terminates.
+            <span className={"font-medium text-white"}>{t("reverse-proxy.clusters.cluster-cloud-deploy:clusterTypeIndicator.text.accountCluster")}</span>{" "}
+            {t("reverse-proxy.clusters.cluster-cloud-deploy:clusterTypeIndicator.text.selfHostedOnYourOwn")}
           </div>
         }
       >
@@ -35,9 +34,8 @@ export const ClusterTypeIndicator = ({ cluster }: Props) => {
     <FullTooltip
       content={
         <div className={"text-xs max-w-xs"}>
-          <span className={"font-medium text-white"}>Shared cluster.</span>{" "}
-          Deployed at the server level and available to every account on this
-          instance.
+          <span className={"font-medium text-white"}>{t("reverse-proxy.clusters.cluster-cloud-deploy:clusterTypeIndicator.text.sharedCluster")}</span>{" "}
+          {t("reverse-proxy.clusters.cluster-cloud-deploy:clusterTypeIndicator.text.deployedAtTheServerLevel")}
         </div>
       }
     >

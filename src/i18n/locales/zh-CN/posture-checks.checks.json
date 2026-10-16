@@ -66,5 +66,6 @@
   "processTooltip.text.unknownPath": "未知路径",
   "postureCheckOperatingSystem.label.allVersions": "所有版本",
   "postureCheckOperatingSystem.label.equalOrGreaterThan": "大于或等于",
-  "postureCheckNetBirdVersion.customPrefix.version": "版本"
+  "postureCheckNetBirdVersion.customPrefix.version": "版本",
+  "postureCheckOperatingSystem.text.version": "版本"
 }

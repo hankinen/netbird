@@ -35,6 +35,7 @@ import {
 } from "@/cloud/distributor/interfaces/Distributor";
 import { PlanCard, PlanLoadingSkeleton } from "@/modules/billing/PlanCard";
 
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -89,7 +90,7 @@ const CustomerModalContent = ({
   const domainInputError = useMemo(() => {
     if (domain === "") return "";
     if (!validator.isValidDomain(domain)) {
-      return "Please enter a valid domain, e.g. netbird.io";
+      return t("cloud.distributor:distributorCustomerModal.text.pleaseEnterAValidDomain");
     }
     return "";
   }, [domain]);
@@ -108,10 +109,10 @@ const CustomerModalContent = ({
     });
 
     notify({
-      title: `Add ${domain} customer`,
-      description: "The customer account has been created successfully.",
+      title: t("cloud.distributor:distributorCustomerModal.title.addCustomer", { domain }),
+      description: t("cloud.distributor:distributorCustomerModal.description.theCustomerAccountHasBeen"),
       preventSuccessToast: true,
-      loadingMessage: "Creating customer account...",
+      loadingMessage: t("cloud.distributor:distributorCustomerModal.loadingMessage.creatingCustomerAccount"),
       promise,
     });
   };
@@ -126,9 +127,9 @@ const CustomerModalContent = ({
     });
 
     notify({
-      title: `Update ${customer.name}`,
-      description: "The customer has been updated successfully.",
-      loadingMessage: "Updating customer...",
+      title: t("cloud.distributor:distributorCustomerModal.title.update", { name: customer.name }),
+      description: t("cloud.distributor:distributorCustomerModal.description.theCustomerHasBeenUpdated"),
+      loadingMessage: t("cloud.distributor:distributorCustomerModal.loadingMessage.updatingCustomer"),
       promise,
     });
   };
@@ -148,11 +149,11 @@ const CustomerModalContent = ({
     <ModalContent maxWidthClass={cn(ModalWidth[tab] || ModalWidth.general)}>
       <ModalHeader
         icon={<UserIcon size={18} />}
-        title={customer ? "Edit Customer" : "Add Customer"}
+        title={customer ? t("cloud.distributor:distributorCustomerModal.text.editCustomer") : t("cloud.distributor:distributorCustomerModal.text.addCustomer")}
         description={
           customer
             ? `${customer.name} (${customer.domain})`
-            : "Add a new customer account to your distributor organization."
+            : t("cloud.distributor:distributorCustomerModal.text.addANewCustomerAccount")
         }
         color={"netbird"}
       />
@@ -166,7 +167,7 @@ const CustomerModalContent = ({
                   "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                 }
               />
-              General
+              {t("common:word.general")}
             </TabsTrigger>
             {isActive && (
               <TabsTrigger value={"plan"}>
@@ -176,30 +177,30 @@ const CustomerModalContent = ({
                     "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
                   }
                 />
-                Plan
+                {t("cloud.distributor:distributorCustomerModal.text.plan")}
               </TabsTrigger>
             )}
           </TabsList>
           <TabsContent value={"general"} className={"px-8 pb-10"}>
             <div className={"flex flex-col gap-6"}>
               <div>
-                <Label>Company</Label>
+                <Label>{t("cloud.distributor:distributorCustomerModal.text.company")}</Label>
                 <HelpText>
-                  Enter the name of your customers company.
+                  {t("cloud.distributor:distributorCustomerModal.text.enterTheNameOfYour")}
                 </HelpText>
                 <Input
                   autoFocus={true}
                   tabIndex={0}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder={"Acme Inc."}
+                  placeholder={t("cloud.distributor:distributorCustomerModal.placeholder.acmeInc")}
                   className={"min-w-[270px]"}
                 />
               </div>
               <div>
-                <Label>Domain</Label>
+                <Label>{t("common:word.domain")}</Label>
                 <HelpText>
-                  The domain associated with this customer account.
+                  {t("cloud.distributor:distributorCustomerModal.text.theDomainAssociatedWithThis")}
                 </HelpText>
                 <Input
                   customPrefix={<GlobeIcon size={16} />}
@@ -207,16 +208,16 @@ const CustomerModalContent = ({
                   value={domain}
                   error={domainInputError}
                   disabled={true}
-                  placeholder={"acme-inc.com"}
+                  placeholder={t("cloud.distributor:distributorCustomerModal.placeholder.acmeIncCom")}
                   className={"w-full"}
                 />
               </div>
 
               <div>
-                <Label>Customer ID (optional)</Label>
+                <Label>{t("cloud.distributor:distributorCustomerModal.text.customerIDOptional")}</Label>
                 <HelpText>
-                  An optional identifier to easier map customers to your{" "}
-                  <b className="text-white">internal systems</b>.
+                  {t("cloud.distributor:distributorCustomerModal.text.anOptionalIdentifierToEasier")}{" "}
+                  <b className="text-white">{t("cloud.distributor:distributorCustomerModal.text.internalSystems")}</b>.
                 </HelpText>
                 <Input
                   tabIndex={0}
@@ -240,23 +241,23 @@ const CustomerModalContent = ({
           <div className={"px-8 py-6 pb-8"}>
             <div className={"flex flex-col gap-6"}>
               <div>
-                <Label>Company</Label>
+                <Label>{t("cloud.distributor:distributorCustomerModal.text.company")}</Label>
                 <HelpText>
-                  Enter the name of your customers company.
+                  {t("cloud.distributor:distributorCustomerModal.text.enterTheNameOfYour")}
                 </HelpText>
                 <Input
                   autoFocus={true}
                   tabIndex={0}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder={"Acme Inc."}
+                  placeholder={t("cloud.distributor:distributorCustomerModal.placeholder.acmeInc")}
                   className={"min-w-[270px]"}
                 />
               </div>
               <div>
-                <Label>Domain</Label>
+                <Label>{t("common:word.domain")}</Label>
                 <HelpText>
-                  The domain associated with this customer account.
+                  {t("cloud.distributor:distributorCustomerModal.text.theDomainAssociatedWithThis")}
                 </HelpText>
                 <Input
                   customPrefix={<GlobeIcon size={16} />}
@@ -264,15 +265,15 @@ const CustomerModalContent = ({
                   value={domain}
                   error={domainInputError}
                   onChange={(e) => setDomain(e.target.value)}
-                  placeholder={"acme-inc.com"}
+                  placeholder={t("cloud.distributor:distributorCustomerModal.placeholder.acmeIncCom")}
                   className={"w-full"}
                 />
               </div>
               <div>
-                <Label>Customer ID (optional)</Label>
+                <Label>{t("cloud.distributor:distributorCustomerModal.text.customerIDOptional")}</Label>
                 <HelpText>
-                  An optional identifier to easier map customers to your{" "}
-                  <b className="text-white">internal systems</b>.
+                  {t("cloud.distributor:distributorCustomerModal.text.anOptionalIdentifierToEasier")}{" "}
+                  <b className="text-white">{t("cloud.distributor:distributorCustomerModal.text.internalSystems")}</b>.
                 </HelpText>
                 <Input
                   tabIndex={0}
@@ -291,12 +292,12 @@ const CustomerModalContent = ({
           <Paragraph className={"text-sm mt-auto"}>
             {tab === "plan" ? (
               <>
-                Learn more about
+                {t("common:word.learnMoreAbout")}
                 <InlineLink
                   href={"https://netbird.io/pricing"}
                   target={"_blank"}
                 >
-                  Pricing & Plans
+                  {t("cloud.distributor:distributorCustomerModal.text.pricingPlans")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </>
@@ -309,7 +310,7 @@ const CustomerModalContent = ({
           {!customer && (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
@@ -317,21 +318,21 @@ const CustomerModalContent = ({
                 disabled={!canCreate}
               >
                 <PlusCircle size={16} />
-                Add Customer
+                {t("cloud.distributor:distributorCustomerModal.text.addCustomer")}
               </Button>
             </>
           )}
           {customer && (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
                 onClick={saveCustomer}
                 disabled={!hasChanges || name === ""}
               >
-                Save
+                {t("common:word.save")}
               </Button>
             </>
           )}

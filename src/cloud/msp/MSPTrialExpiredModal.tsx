@@ -9,8 +9,8 @@ import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { TenantListItem } from "@/cloud/msp/interfaces/Tenant";
 import { useBilling } from "@/contexts/BillingProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { PlanTier } from "@/interfaces/Subscription";
-
 const config = loadConfig();
 
 export const MSPTrialExpiredModal = () => {
@@ -62,24 +62,29 @@ export const MSPTrialExpiredModal = () => {
           <ClockAlertIcon size={24} className={"text-yellow-400"} />
           <div className={"text-xl font-medium"}>
             {isMSPInTenantContext
-              ? "The 14-Day Trial has expired!"
-              : "Your 14-Day Trial has expired!"}
+              ? t("cloud.msp:mSPTrialExpiredModal.text.the14DayTrialHas")
+              : t("cloud.msp:mSPTrialExpiredModal.text.your14DayTrialHas")}
           </div>
           {isMSPInTenantContext ? (
             <div className={"text-sm text-nb-gray-300 text-center"}>
               <TenantName currentAccount={currentAccount} />
-              has reached the end of the free trial period. To continue using
-              NetBird, please upgrade the plan for this tenant.
+              {t("cloud.msp:mSPTrialExpiredModal.text.hasReachedTheEndOf")}
             </div>
           ) : mspInfo?.reseller_status === "active" ? (
             <div className={"text-sm text-nb-gray-300 text-center"}>
-              Your account has reached the end of the free trial period. <br />{" "}
-              To continue using NetBird, please contact your distributor.
+              {t(
+                "cloud.msp:mSPTrialExpiredModal.text.yourAccountHasReachedThe",
+              )}{" "}
+              <br />{" "}
+              {t(
+                "cloud.msp:mSPTrialExpiredModal.text.toContinueUsingNetBirdPlease",
+              )}
             </div>
           ) : (
             <div className={"text-sm text-nb-gray-300 text-center"}>
-              Your account has reached the end of the free trial period. To
-              continue using NetBird, please contact your account administrator{" "}
+              {t(
+                "cloud.msp:mSPTrialExpiredModal.text.yourAccountHasReachedThe2",
+              )}{" "}
               <MSPName />.
             </div>
           )}
@@ -93,7 +98,9 @@ export const MSPTrialExpiredModal = () => {
               variant={"secondary"}
               onClick={() => loginAs(undefined)}
             >
-              Switch to {mspAccount?.name + "'s"} Account
+              {t("cloud.msp:mSPTrialExpiredModal.text.switchTo")}{" "}
+              {mspAccount?.name + "'s"}{" "}
+              {t("cloud.msp:mSPTrialExpiredModal.text.account")}
             </Button>
           </ModalFooter>
         ) : (
@@ -105,7 +112,7 @@ export const MSPTrialExpiredModal = () => {
               onClick={logout}
             >
               <LogOutIcon size={15} className={"shrink-0"} />
-              Logout
+              {t("cloud.msp:mSPTrialExpiredModal.text.logout")}
             </Button>
             <a
               href={`mailto:${mailToEmail}?subject=Request%20for%20Assistance%3A%20Trial%20Expired`}
@@ -113,7 +120,7 @@ export const MSPTrialExpiredModal = () => {
             >
               <Button className={"w-full"} variant={"primary"}>
                 <MailIcon size={15} className={"shrink-0"} />
-                Get Support
+                {t("cloud.msp:mSPTrialExpiredModal.text.getSupport")}
               </Button>
             </a>
           </ModalFooter>
@@ -134,7 +141,8 @@ const TenantName = ({
 }: {
   currentAccount?: TenantListItem;
 }) => {
-  if (!currentAccount) return "This tenant ";
+  if (!currentAccount)
+    return t("cloud.msp:mSPTrialExpiredModal.text.thisTenant");
   return (
     <span className={"text-nb-gray-100"}>
       {currentAccount?.name} ({currentAccount?.domain}){" "}

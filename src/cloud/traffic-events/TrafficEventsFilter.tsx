@@ -18,7 +18,7 @@ import {
 } from "@/cloud/traffic-events/interfaces/TrafficEvent";
 import { TrafficEventProtocol } from "@/cloud/traffic-events/interfaces/TrafficEventProtocol";
 import { getTrafficEventTypeText } from "@/cloud/traffic-events/TrafficEventsTable";
-
+import { t as i18nT } from "@/i18n";
 interface Props {
   table: Table<TrafficEvent>;
   disabled?: boolean;
@@ -244,7 +244,9 @@ export function TrafficEventsFilter({
             <span className={"text-white"}>
               {activeFilterIds.length > 0 && activeFilterIds.length}
             </span>
-            {activeFilterIds.length > 0 ? ` Filter(s)` : "Filter"}
+            {activeFilterIds.length > 0
+              ? ` Filter(s)`
+              : i18nT("cloud.traffic-events:trafficEventsFilter.text.filter")}
           </span>
         </Button>
       </PopoverTrigger>
@@ -273,13 +275,17 @@ export function TrafficEventsFilter({
             ref={searchRef}
             value={search}
             onChange={setSearch}
-            placeholder={"Search filters..."}
+            placeholder={i18nT(
+              "cloud.traffic-events:trafficEventsFilter.placeholder.searchFilters",
+            )}
             hideEnterIcon={true}
           />
 
           {filteredItems.length == 0 && search != "" && (
             <DropdownInfoText className={"mb-4"}>
-              There are no filters matching your search.
+              {i18nT(
+                "cloud.traffic-events:trafficEventsFilter.text.thereAreNoFiltersMatching",
+              )}
             </DropdownInfoText>
           )}
 
@@ -341,7 +347,10 @@ const getFixedTypeFilters = () => {
       const directionText =
         d === TrafficEventDirection.INGRESS ? "(inbound)" : "(outbound)";
 
-      const displayText = `Connection ${eventTypeText} ${directionText}`;
+      const displayText = i18nT(
+        "cloud.traffic-events:trafficEventsFilter.text.connection",
+        { eventTypeText, directionText },
+      );
 
       const combinedFilter: CombinedFilter = {
         id: getCombinedFilterId(t, d),

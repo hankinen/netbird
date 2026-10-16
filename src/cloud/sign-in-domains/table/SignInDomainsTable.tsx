@@ -8,8 +8,8 @@ import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import DomainActionCell from "@/cloud/sign-in-domains/table/DomainActionCell";
 import DomainStatusCell from "@/cloud/sign-in-domains/table/DomainStatusCell";
+import { t } from "@/i18n";
 import { DomainValidationStatus, SignInDomain } from "@/interfaces/Account";
-
 type Props = {
   domains?: SignInDomain[];
   isLoading?: boolean;
@@ -31,7 +31,11 @@ const isPlaceholder = (domain: SignInDomain) => domain.id === PLACEHOLDER_ID;
 const SignInDomainsColumns: ColumnDef<SignInDomain>[] = [
   {
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Domain</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.domain")}
+        </DataTableHeader>
+      );
     },
     accessorKey: "name",
     sortingFn: "text",
@@ -44,7 +48,11 @@ const SignInDomainsColumns: ColumnDef<SignInDomain>[] = [
   },
   {
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.status")}
+        </DataTableHeader>
+      );
     },
     accessorKey: "validation_status",
     sortingFn: "text",
@@ -90,7 +98,7 @@ export default function SignInDomainsTable({
       showSearchAndFilters={false}
       inset={false}
       tableClassName={"mt-0"}
-      text={"Domains"}
+      text={t("cloud.sign-in-domains:signInDomainsTable.text.domains")}
       columns={SignInDomainsColumns}
       keepStateInLocalStorage={false}
       data={isLoading ? [placeholderRow] : domains}
@@ -98,10 +106,12 @@ export default function SignInDomainsTable({
         <NoResults
           className={"py-4"}
           hideIcon
-          title={"No sign-in domains yet"}
-          description={
-            "Add a domain, then verify ownership with a DNS record to start matching users to this account."
-          }
+          title={t(
+            "cloud.sign-in-domains:signInDomainsTable.title.noSignInDomainsYet",
+          )}
+          description={t(
+            "cloud.sign-in-domains:signInDomainsTable.description.addADomainThenVerify",
+          )}
         />
       }
       paginationPaddingClassName={"px-0 pt-8"}

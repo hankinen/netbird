@@ -17,9 +17,9 @@ import { MSPTenantDocsLink } from "@/cloud/msp/MSPTenantDocsLink";
 import MSPTenantsTable from "@/cloud/msp/MSPTenantsTable";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import { User } from "@/interfaces/User";
 import PageContainer from "@/layouts/PageContainer";
-
 export default function TenantsPage() {
   const { isActive, isMSPInMSPContext, isMspInfoLoading } = useMSP();
   const { isOwnerOrAdmin } = useLoggedInUser();
@@ -55,18 +55,15 @@ const TenantsPageContent = () => {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/tenants"}
-            label={"Tenants"}
+            label={t("common:word.tenants")}
             icon={<MSPIcon size={15} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Tenants</h1>
-        <Paragraph>
-          A list of all tenants and their subscription details. Use this view to
-          manage accounts, plans and permissions.
-        </Paragraph>
+        <h1 ref={headingRef}>{t("common:word.tenants")}</h1>
+        <Paragraph>{t("tenants.page:page.text.aListOfAllTenants")}</Paragraph>
         <Paragraph>
           <MSPTenantDocsLink />
-          in our documentation.
+          {t("tenants.page:page.text.inOurDocumentation")}
         </Paragraph>
       </div>
       <RestrictedAccess page={"Tenants"} hasAccess={permission.tenants.read}>

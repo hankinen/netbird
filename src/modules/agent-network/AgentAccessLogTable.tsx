@@ -85,6 +85,7 @@ import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 import TextWithTooltip from "@components/ui/TextWithTooltip";
 import { generateColorFromUser } from "@utils/helpers";
 
+import { t } from "@/i18n";
 type Props = {
   headingTarget?: HTMLHeadingElement | null;
   // When true the table renders provider sessions (grouped) instead of flat
@@ -217,7 +218,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => row.timestamp,
         header: ({ column }) => (
           <DataTableHeader column={column} name="timestamp">
-            Time
+            {t("agent-network.aiproviders-provider:agentAccessLogTable.text.time")}
           </DataTableHeader>
         ),
         cell: ({ row }) => <TimeCell timestamp={row.original.timestamp} />,
@@ -230,7 +231,7 @@ export default function AgentAccessLogTable({
           `${row.user} ${principalSearchById.get(row.userId) ?? ""}`.trim(),
         header: ({ column }) => (
           <DataTableHeader column={column} name="user">
-            User / Agent
+            {t("agent-network.aiproviders-provider:agentAccessLogTable.text.userAgent")}
           </DataTableHeader>
         ),
         cell: ({ row }) => <UserCell entry={row.original} />,
@@ -240,7 +241,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => (row.userGroups ?? []).join(" "),
         header: ({ column }) => (
           <DataTableHeader column={column} name="group">
-            Auth Group
+            {t("agent-network.aiproviders-provider:agentAccessLogTable.text.authGroup")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -258,7 +259,7 @@ export default function AgentAccessLogTable({
           }`.trim(),
         header: ({ column }) => (
           <DataTableHeader column={column} name="provider" sorting={false}>
-            Provider
+            {t("agent-network.aiproviders-provider:accessLogFilters.label.provider")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -273,7 +274,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => row.inputTokens + row.outputTokens,
         header: ({ column }) => (
           <DataTableHeader column={column} sorting={false}>
-            Tokens
+            {t("agent-network.aiproviders-provider:agentAccessLogTable.text.tokens")}
           </DataTableHeader>
         ),
         cell: ({ row }) => <TokensCell entry={row.original} />,
@@ -283,7 +284,7 @@ export default function AgentAccessLogTable({
         accessorKey: "costUsd",
         header: ({ column }) => (
           <DataTableHeader column={column} name="cost">
-            Cost
+            {t("agent-network.aiproviders-provider:agentAccessLogTable.text.cost")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -302,7 +303,7 @@ export default function AgentAccessLogTable({
         accessorKey: "status",
         header: ({ column }) => (
           <DataTableHeader column={column} name="status">
-            Status
+            {t("common:word.status")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -321,7 +322,7 @@ export default function AgentAccessLogTable({
         accessorKey: "denyReason",
         header: ({ column }) => (
           <DataTableHeader column={column} name="reason">
-            Reason
+            {t("agent-network.aiproviders-provider:agentAccessLogExpandedRow.heading.reason")}
           </DataTableHeader>
         ),
         cell: ({ row }) => <ReasonCell entry={row.original} />,
@@ -355,7 +356,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => row.endedAt,
         header: ({ column }) => (
           <DataTableHeader column={column} name="timestamp">
-            Activity
+            {t("agent-network.aiproviders-provider:agentAccessLogTable.text.activity")}
           </DataTableHeader>
         ),
         cell: ({ row }) => <SessionActivityCell session={row.original} />,
@@ -367,7 +368,7 @@ export default function AgentAccessLogTable({
           `${row.user} ${principalSearchById.get(row.userId) ?? ""}`.trim(),
         header: ({ column }) => (
           <DataTableHeader column={column} name="user_id">
-            User / Agent
+            {t("agent-network.aiproviders-provider:agentAccessLogTable.text.userAgent")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -386,7 +387,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => (row.userGroups ?? []).join(" "),
         header: ({ column }) => (
           <DataTableHeader column={column} name="group" sorting={false}>
-            Auth Group
+            {t("agent-network.aiproviders-provider:agentAccessLogTable.text.authGroup")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -402,7 +403,7 @@ export default function AgentAccessLogTable({
           ].join(" "),
         header: ({ column }) => (
           <DataTableHeader column={column} sorting={false}>
-            Provider
+            {t("agent-network.aiproviders-provider:accessLogFilters.label.provider")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -417,7 +418,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => row.requestCount,
         header: ({ column }) => (
           <DataTableHeader column={column} name="request_count">
-            Requests
+            {t("agent-network.aiproviders-provider:agentAccessLogTable.text.requests")}
           </DataTableHeader>
         ),
         cell: ({ row }) => <SessionRequestsCell session={row.original} />,
@@ -427,7 +428,7 @@ export default function AgentAccessLogTable({
         accessorFn: (row) => row.totalTokens,
         header: ({ column }) => (
           <DataTableHeader column={column} name="total_tokens">
-            Tokens
+            {t("agent-network.aiproviders-provider:agentAccessLogTable.text.tokens")}
           </DataTableHeader>
         ),
         // Reuse the flat per-request Tokens cell (input/output arrows) so the
@@ -450,7 +451,7 @@ export default function AgentAccessLogTable({
         accessorKey: "costUsd",
         header: ({ column }) => (
           <DataTableHeader column={column} name="cost_usd">
-            Cost
+            {t("agent-network.aiproviders-provider:agentAccessLogTable.text.cost")}
           </DataTableHeader>
         ),
         cell: ({ row }) => (
@@ -469,7 +470,7 @@ export default function AgentAccessLogTable({
         accessorKey: "decision",
         header: ({ column }) => (
           <DataTableHeader column={column} name="decision">
-            Reason
+            {t("agent-network.aiproviders-provider:agentAccessLogExpandedRow.heading.reason")}
           </DataTableHeader>
         ),
         // Same Reason cell as the flat view (deny reason, or the authorising
@@ -543,7 +544,7 @@ export default function AgentAccessLogTable({
         // Backed by the real "timestamp" column so the shared filter adapter can
         // read/write its value; maps to the start_date/end_date query params.
         id: "timestamp",
-        label: "Date",
+        label: t("agent-network.aiproviders-provider:accessLogFilters.label.date"),
         renderPicker: (p) => (
           <div className={"p-1"}>
             <DatePickerWithRange
@@ -570,7 +571,7 @@ export default function AgentAccessLogTable({
       },
       {
         id: "user",
-        label: "User",
+        label: t("common:word.user"),
         renderPicker: (p) => (
           <UsersPicker
             value={p.value as string | undefined}
@@ -592,7 +593,7 @@ export default function AgentAccessLogTable({
       },
       {
         id: "group",
-        label: "Group",
+        label: t("agent-network.aiproviders-provider:accessLogFilters.label.group"),
         renderPicker: (p) => (
           <GroupsPicker
             value={p.value as string[] | undefined}
@@ -611,7 +612,7 @@ export default function AgentAccessLogTable({
       },
       {
         id: "provider",
-        label: "Provider",
+        label: t("agent-network.aiproviders-provider:accessLogFilters.label.provider"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -632,7 +633,7 @@ export default function AgentAccessLogTable({
       },
       {
         id: "model",
-        label: "Model",
+        label: t("agent-network.aiproviders-provider:accessLogFilters.label.model"),
         renderPicker: (p) => (
           <CheckboxListPicker
             value={p.value as string[] | undefined}
@@ -649,7 +650,7 @@ export default function AgentAccessLogTable({
       },
       {
         id: "path",
-        label: "Path",
+        label: t("agent-network.aiproviders-provider:agentAccessLogTable.label.path"),
         renderPicker: (p) => (
           <TextInputPicker
             value={p.value as string | undefined}
@@ -659,7 +660,7 @@ export default function AgentAccessLogTable({
               setFilter("path", trimmed ? trimmed : undefined);
             }}
             close={p.close}
-            placeholder={"e.g. /v1/chat/completions"}
+            placeholder={t("agent-network.aiproviders-provider:agentAccessLogTable.placeholder.eGV1ChatCompletions")}
           />
         ),
         formatChip: (v) => formatTextChip(v as string | undefined),
@@ -751,8 +752,8 @@ export default function AgentAccessLogTable({
           <AgentAccessLogExpandedRow entry={row as AIAccessLogEntry} />
         )
       }
-      searchPlaceholder={"Search by user, agent, model, prompt…"}
-      text={grouped ? "Sessions" : "Requests"}
+      searchPlaceholder={t("agent-network.aiproviders-provider:agentAccessLogTable.searchPlaceholder.searchByUserAgentModel")}
+      text={grouped ? t("agent-network.aiproviders-provider:agentAccessLogTable.text.sessions") : t("agent-network.aiproviders-provider:agentAccessLogTable.text.requests")}
       uniqueKey={
         grouped
           ? "agent-network-access-log-sessions"
@@ -769,18 +770,16 @@ export default function AgentAccessLogTable({
               size={"large"}
             />
           }
-          title={"No Access Log Entries Yet"}
-          description={
-            "No agent network requests yet. Check that providers are connected, policies allow traffic, and log collection is on."
-          }
+          title={t("agent-network.aiproviders-provider:agentAccessLogTable.title.noAccessLogEntriesYet")}
+          description={t("agent-network.aiproviders-provider:agentAccessLogTable.description.noAgentNetworkRequestsYet")}
           learnMore={
             <>
-              Learn more about
+              {t("common:word.learnMoreAbout")}
               <InlineLink
                 href={"https://docs.netbird.io/agent-network"}
                 target={"_blank"}
               >
-                Agent Network
+                {t("agent-network.aiproviders-provider:agentAccessLogTable.text.agentNetwork")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>
@@ -801,7 +800,7 @@ export default function AgentAccessLogTable({
               variant={grouped ? "secondary" : "tertiary"}
               onClick={() => onGroupedChange?.(false)}
             >
-              Requests
+              {t("agent-network.aiproviders-provider:agentAccessLogTable.text.requests")}
             </ButtonGroup.Button>
             <ButtonGroup.Button
               // Drop the left border so it doesn't stack with the first
@@ -810,7 +809,7 @@ export default function AgentAccessLogTable({
               variant={grouped ? "tertiary" : "secondary"}
               onClick={() => onGroupedChange?.(true)}
             >
-              Sessions
+              {t("agent-network.aiproviders-provider:agentAccessLogTable.text.sessions")}
             </ButtonGroup.Button>
           </ButtonGroup>
           <DataTableRefreshButton
@@ -833,7 +832,7 @@ function TimeCell({ timestamp }: { timestamp: string }) {
         )}
       >
         <span className={"text-nb-gray-200 flex gap-2 items-center"}>
-          {dayjs(timestamp).format("MMM D, YYYY")}
+          {dayjs(timestamp).format(t("agent-network.aiproviders-provider:agentAccessLogTable.text.mMMDYYYY"))}
         </span>
         <span className={"text-nb-gray-400"}>
           {dayjs(timestamp).format("h:mm:ss A")}
@@ -871,7 +870,7 @@ function ReasonCell({ entry }: { entry: AIAccessLogEntry }) {
 
   return (
     <div className={"px-3 py-2"}>
-      <FullTooltip content={"This policy allowed the request"}>
+      <FullTooltip content={t("agent-network.aiproviders-provider:agentAccessLogTable.content.thisPolicyAllowedTheRequest")}>
         <Link
           href={`/agent-network/policies?search=${encodeURIComponent(
             policy.name,
@@ -917,8 +916,8 @@ function GroupCell({ groupNames }: { groupNames: string[] }) {
     <div className={"px-2 py-1.5"}>
       <MultipleGroups
         groups={groups}
-        label={"User Groups"}
-        description={"Groups the user belonged to at the time of the request."}
+        label={t("agent-network.aiproviders-provider:agentAccessLogTable.label.userGroups")}
+        description={t("agent-network.aiproviders-provider:agentAccessLogTable.description.groupsTheUserBelongedTo")}
         countOnly
       />
     </div>
@@ -1057,7 +1056,7 @@ function resolveProviderDisplay(
       key: "unknown",
       name: "Unknown",
       resolved: false,
-      hint: "Not attributed to a provider. The request was rejected before NetBird recognised it as an LLM call.",
+      hint: t("agent-network.aiproviders-provider:agentAccessLogTable.text.notAttributedToAProvider"),
     };
   }
 
@@ -1076,7 +1075,7 @@ function resolveProviderDisplay(
       ? entry.providerVendor
       : (catalogNameById.get(entry.providerId) ?? entry.providerVendor),
     resolved: false,
-    hint: "Not attributed to a configured provider. This is the API shape the client called. Requests denied before routing never reach a provider.",
+    hint: t("agent-network.aiproviders-provider:agentAccessLogTable.text.notAttributedToAConfigured"),
   };
 }
 
@@ -1132,21 +1131,21 @@ function TokenBreakdown({ entry }: { entry: AIAccessLogEntry }) {
         <span className={"font-medium"}>
           {(entry.inputTokens ?? 0).toLocaleString()}
         </span>
-        <span className={"text-nb-gray-400"}>input</span>
+        <span className={"text-nb-gray-400"}>{t("agent-network.aiproviders-provider:agentAccessLogTable.text.input")}</span>
       </div>
       <div className={"flex items-center gap-2 whitespace-nowrap"}>
         <span className={"font-medium"}>
           {(entry.outputTokens ?? 0).toLocaleString()}
         </span>
-        <span className={"text-nb-gray-400"}>output</span>
+        <span className={"text-nb-gray-400"}>{t("agent-network.aiproviders-provider:agentAccessLogTable.text.output")}</span>
       </div>
       <div className={"flex items-center gap-2 whitespace-nowrap"}>
         <span className={"font-medium"}>{cacheRead.toLocaleString()}</span>
-        <span className={"text-nb-gray-400"}>cache read</span>
+        <span className={"text-nb-gray-400"}>{t("agent-network.aiproviders-provider:agentAccessLogTable.text.cacheRead")}</span>
       </div>
       <div className={"flex items-center gap-2 whitespace-nowrap"}>
         <span className={"font-medium"}>{cacheWrite.toLocaleString()}</span>
-        <span className={"text-nb-gray-400"}>cache write</span>
+        <span className={"text-nb-gray-400"}>{t("agent-network.aiproviders-provider:agentAccessLogTable.text.cacheWrite")}</span>
       </div>
       <div
         className={
@@ -1156,7 +1155,7 @@ function TokenBreakdown({ entry }: { entry: AIAccessLogEntry }) {
         <span className={"font-medium text-nb-gray-200"}>
           {total.toLocaleString()}
         </span>
-        <span>total</span>
+        <span>{t("agent-network.aiproviders-provider:agentAccessLogTable.text.total")}</span>
       </div>
     </div>
   );
@@ -1180,12 +1179,12 @@ function TokensCell({ entry }: { entry: AIAccessLogEntry }) {
       >
         <div className={"flex gap-2 items-center whitespace-nowrap"}>
           <ArrowUpIcon size={15} className={"text-sky-400"} />
-          <span className={"sr-only"}>Input:</span>
+          <span className={"sr-only"}>{t("agent-network.aiproviders-provider:agentAccessLogTable.text.input2")}</span>
           {(entry.inputTokens ?? 0).toLocaleString()}
         </div>
         <div className={"flex gap-2 items-center whitespace-nowrap"}>
           <ArrowDownIcon size={15} className={"text-netbird"} />
-          <span className={"sr-only"}>Output:</span>
+          <span className={"sr-only"}>{t("agent-network.aiproviders-provider:agentAccessLogTable.text.output2")}</span>
           {(entry.outputTokens ?? 0).toLocaleString()}
         </div>
       </div>
@@ -1250,15 +1249,15 @@ function CostBreakdown({
           {/* All four buckets, including zeros: a zero cache-read line is
               information (the request missed the cache), and a fixed set of
               rows keeps the hover comparable between requests. */}
-          <CostRow amount={inputCostUsd ?? 0} label={"input"} />
-          <CostRow amount={outputCostUsd ?? 0} label={"output"} />
-          <CostRow amount={cacheRead} label={"cache read"} />
-          <CostRow amount={cacheWrite} label={"cache write"} />
+          <CostRow amount={inputCostUsd ?? 0} label={t("agent-network.aiproviders-provider:agentAccessLogTable.text.input")} />
+          <CostRow amount={outputCostUsd ?? 0} label={t("agent-network.aiproviders-provider:agentAccessLogTable.text.output")} />
+          <CostRow amount={cacheRead} label={t("agent-network.aiproviders-provider:agentAccessLogTable.text.cacheRead")} />
+          <CostRow amount={cacheWrite} label={t("agent-network.aiproviders-provider:agentAccessLogTable.text.cacheWrite")} />
         </>
       ) : (
         <>
-          <CostRow amount={costUsd - cache} label={"input + output"} />
-          <CostRow amount={cache} label={"cache"} />
+          <CostRow amount={costUsd - cache} label={t("agent-network.aiproviders-provider:agentAccessLogTable.label.inputOutput")} />
+          <CostRow amount={cache} label={t("agent-network.aiproviders-provider:agentAccessLogTable.label.cache")} />
         </>
       )}
       <div
@@ -1269,7 +1268,7 @@ function CostBreakdown({
         <span className={"font-medium text-nb-gray-200"}>
           ${costUsd.toFixed(4)}
         </span>
-        <span className={"font-sans"}>total</span>
+        <span className={"font-sans"}>{t("agent-network.aiproviders-provider:agentAccessLogTable.text.total")}</span>
       </div>
     </div>
   );
@@ -1334,7 +1333,7 @@ function SessionActivityCell({ session }: { session: AIAccessLogSession }) {
         "w-full flex flex-col gap-1 min-w-[150px] max-w-[170px] py-2 px-3"
       }
     >
-      <span className={"text-nb-gray-200"}>{end.format("MMM D, YYYY")}</span>
+      <span className={"text-nb-gray-200"}>{end.format(t("agent-network.aiproviders-provider:agentAccessLogTable.text.mMMDYYYY"))}</span>
       <span className={"text-nb-gray-400 text-xs whitespace-nowrap"}>
         {start.format("h:mm A")} → {end.format("h:mm A")}
       </span>
@@ -1459,7 +1458,7 @@ function SessionRequestsCell({ session }: { session: AIAccessLogSession }) {
         {session.requestCount.toLocaleString()}
       </span>
       {span && (
-        <span className={"text-nb-gray-500 text-[11px]"}>over {span}</span>
+        <span className={"text-nb-gray-500 text-[11px]"}>{t("agent-network.aiproviders-provider:agentAccessLogTable.text.over", { span })}</span>
       )}
     </div>
   );
@@ -1484,8 +1483,7 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
           "text-[11px] font-medium uppercase tracking-wide text-nb-gray-400 mb-1.5"
         }
       >
-        {session.requestCount} request{session.requestCount === 1 ? "" : "s"} in
-        this session
+        {session.requestCount}{" "}{t("agent-network.aiproviders-provider:agentAccessLogTable.text.request")}{session.requestCount === 1 ? "" : "s"}{" "}{t("agent-network.aiproviders-provider:agentAccessLogTable.text.inThisSession")}
       </div>
       <div
         className={
@@ -1562,7 +1560,7 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
                       "text-[11px] text-red-300 truncate max-w-[180px] shrink-0"
                     }
                   >
-                    {formatDenyReason(entry.denyReason) || "Failed"}
+                    {formatDenyReason(entry.denyReason) || t("agent-network.aiproviders-provider:agentAccessLogTable.text.failed")}
                   </span>
                 )}
                 <div className={"flex-1"} />
@@ -1582,7 +1580,7 @@ function SessionEntriesRow({ session }: { session: AIAccessLogSession }) {
                       "text-xs text-nb-gray-400 font-mono whitespace-nowrap tabular-nums w-[110px] text-right shrink-0"
                     }
                   >
-                    {total.toLocaleString()} tokens
+                    {t("agent-network.aiproviders-provider:agentAccessLogTable.text.tokens2", { toLocaleString: total.toLocaleString() })}
                   </span>
                 </FullTooltip>
                 <FullTooltip

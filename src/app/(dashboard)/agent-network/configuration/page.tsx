@@ -21,6 +21,7 @@ import AgentAccountControlsCard from "@/modules/agent-network/AgentAccountContro
 import AgentBudgetRulesTable from "@/modules/agent-network/AgentBudgetRulesTable";
 import AIProvidersProvider from "@/modules/agent-network/AIProvidersProvider";
 
+import { t } from "@/i18n";
 const ClustersTable = lazy(
   () => import("@/modules/reverse-proxy/clusters/ClustersTable"),
 );
@@ -67,16 +68,16 @@ export default function AgentNetworkConfigurationPage() {
         <VerticalTabs.List>
           <VerticalTabs.Trigger value={TAB_BUDGET_SETTINGS}>
             <Gauge size={14} />
-            Global Limits
+            {t("agent-network.page:page.text.globalLimits")}
           </VerticalTabs.Trigger>
           <VerticalTabs.Trigger value={TAB_LOG_SETTINGS}>
             <ScrollText size={14} />
-            Log Collection
+            {t("agent-network.page:page.text.logCollection")}
           </VerticalTabs.Trigger>
           {canReadClusters && (
             <VerticalTabs.Trigger value={TAB_CLUSTERS}>
               <ServerIcon size={14} />
-              Clusters
+              {t("agent-network.page:page.text.clusters")}
             </VerticalTabs.Trigger>
           )}
         </VerticalTabs.List>
@@ -93,12 +94,10 @@ export default function AgentNetworkConfigurationPage() {
                     className={"w-full"}
                   >
                     <ConfigTabHeader
-                      label={"Global Limits"}
+                      label={t("agent-network.page:page.text.globalLimits")}
                       href={"/agent-network/configuration?tab=budget-settings"}
                     >
-                      Account-wide caps on token usage and spend, applied across
-                      every policy. Scope a limit to specific groups or users,
-                      or leave it account-wide.
+                      {t("agent-network.page:page.text.accountWideCapsOnToken")}
                     </ConfigTabHeader>
                     {/* DataTable applies its own p-default, so it is rendered
                         directly (no extra wrapper) to align with the header. */}
@@ -118,17 +117,21 @@ export default function AgentNetworkConfigurationPage() {
                   {canReadClusters && (
                     <Tabs.Content value={TAB_CLUSTERS} className={"w-full"}>
                       <ConfigTabHeader
-                        label={"Clusters"}
+                        label={t("agent-network.page:page.text.clusters")}
                         href={"/agent-network/configuration?tab=clusters"}
                       >
                         {agentNetworkOnly
-                          ? "Proxy clusters route your agents' traffic to AI providers and run on your own infrastructure. Add multiple clusters to scale your environment."
-                          : "Proxy clusters route inbound traffic to your services. Shared clusters are run by the platform; account clusters (self-hosted) run on your own infrastructure."}{" "}
+                          ? t(
+                              "agent-network.page:page.text.proxyClustersRouteYourAgents",
+                            )
+                          : t(
+                              "agent-network.page:page.text.proxyClustersRouteInboundTraffic",
+                            )}{" "}
                         <InlineLink
                           href={REVERSE_PROXY_CLUSTERS_DOCS_LINK}
                           target={"_blank"}
                         >
-                          Learn more
+                          {t("common:word.learnMore")}
                           <ExternalLinkIcon size={12} />
                         </InlineLink>
                       </ConfigTabHeader>
@@ -163,7 +166,7 @@ function ConfigTabHeader({
       <Breadcrumbs>
         <Breadcrumbs.Item
           href={"/agent-network/providers"}
-          label={"Agent Network"}
+          label={t("agent-network.page:page.label.agentNetwork")}
           icon={<AgentNetworkIcon size={16} />}
         />
         <Breadcrumbs.Item href={href} label={label} active />

@@ -1,0 +1,22 @@
+{
+  "page.text.globalLimits": "Global Limits",
+  "page.text.logCollection": "Log Collection",
+  "page.text.clusters": "Clusters",
+  "page.text.accountWideCapsOnToken": "Account-wide caps on token usage and spend, applied across every policy. Scope a limit to specific groups or users, or leave it account-wide.",
+  "page.text.proxyClustersRouteYourAgents": "Proxy clusters route your agents' traffic to AI providers and run on your own infrastructure. Add multiple clusters to scale your environment.",
+  "page.text.proxyClustersRouteInboundTraffic": "Proxy clusters route inbound traffic to your services. Shared clusters are run by the platform; account clusters (self-hosted) run on your own infrastructure.",
+  "page.label.agentNetwork": "Agent Network",
+  "page.label.connectAgent": "Connect Agent",
+  "page.text.connectYourAgent": "Connect Your Agent",
+  "page.text.pointYourAgentAtThe": "Point your agent at the NetBird endpoint as its base URL. No provider API key is required on the client.",
+  "page.text.netBirdAuthenticatesYouThroughYour": "NetBird authenticates you through your identity provider and authorizes each request against your access policies.",
+  "page.text.yourProvidersAmpModels": "Your Providers & Models",
+  "page.text.bindIdPGroupsToProviders": "Bind IdP groups to providers: Engineering gets Claude, Finance doesn't. Enforce token limits, budgets, and guardrails.",
+  "page.text.aPIBaseURL": "API Base URL",
+  "page.description.connectYourFirstProviderTo": "Connect your first provider to set up your agent network endpoint.",
+  "page.text.connectAIProvidersAndGateways": "Connect AI providers and gateways like LiteLLM, OpenAI, and Anthropic through one keyless endpoint, accessible only via NetBird’s tunnel.",
+  "page.label.usageLogs": "Usage & Logs",
+  "page.text.perRequestAuditWithReal": "Per-request audit with real caller identity, cost attribution, and budget controls.",
+  "page.text.usage": "Usage",
+  "page.text.accessLogs": "Access Logs"
+}

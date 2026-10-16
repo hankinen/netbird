@@ -1,5 +1,7 @@
 {
   "usePostureCheck.title.postureCheck": "设备合规检查 {{name}}",
-  "usePostureCheck.description.postureCheckWasSuccessfully": "设备合规检查已成功{{value}}。",
-  "usePostureCheck.loadingMessage.yourPostureCheck": "正在{{value}}设备合规检查..."
+  "usePostureCheck.description.postureCheckWasSuccessfullyUpdated": "设备合规检查已成功更新。",
+  "usePostureCheck.description.postureCheckWasSuccessfullyCreated": "设备合规检查已成功创建。",
+  "usePostureCheck.loadingMessage.yourPostureCheckUpdating": "正在更新设备合规检查...",
+  "usePostureCheck.loadingMessage.yourPostureCheckCreating": "正在创建设备合规检查..."
 }

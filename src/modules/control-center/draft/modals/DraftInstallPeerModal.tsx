@@ -305,7 +305,10 @@ export const DraftInstallPeerModal = () => {
             title={t(
               "control-center.draft.draft-mode-switcher:draftInstallPeerModal.title.peerInstalled",
             )}
-            description={`“${installedChange.name}” registered and took the placeholder's place in your draft.`}
+            description={t(
+              "control-center.draft:draftInstallPeerModal.description.peerRegistered",
+              { name: installedChange.name },
+            )}
           />
           <ModalFooter>
             <ModalClose asChild={true}>
@@ -324,7 +327,13 @@ export const DraftInstallPeerModal = () => {
           hostname={hostname}
           autoGroups={autoGroups}
           resolveAutoGroups={resolveAutoGroups}
-          keyName={placeholderName ? `Draft ${placeholderName}` : undefined}
+          keyName={
+            placeholderName
+              ? t("control-center.draft:draftInstallPeerModal.text.draft", {
+                  placeholderName,
+                })
+              : undefined
+          }
           onSetupKeyGenerated={(key) => {
             const nodeId = installModal.nodeId;
             if (!nodeId || !key?.key) return;

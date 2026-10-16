@@ -13,5 +13,6 @@
   "peerRemoteJobsTable.text.jobs": "任务",
   "peerRemoteJobsTable.searchPlaceholder.searchByTypeStatusOr": "按类型、状态或参数搜索...",
   "peerRemoteJobsTable.title.thisPeerHasNoRemote": "此设备没有远程任务",
-  "peerRemoteJobsTable.description.createADebugBundleOr": "创建调试包或触发其他远程任务后，会在此处列出。"
+  "peerRemoteJobsTable.description.createADebugBundleOr": "创建调试包或触发其他远程任务后，会在此处列出。",
+  "jobOutputCell.text.no": "否"
 }

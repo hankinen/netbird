@@ -53,5 +53,6 @@
   "setupKeysTable.title.thisGroupIsNotUsed": "此组尚未在任何安装密钥中使用",
   "setupKeysTable.description.assignThisGroupWhenCreating": "创建新安装密钥时分配此组，会在此处列出。",
   "setupKeysTable.text.createKey": "创建密钥",
-  "setupKeysTable.description.addASetupKeyTo": "添加安装密钥以在网络中注册新机器。该密钥会在初始设置时将机器关联到您的账户。"
+  "setupKeysTable.description.addASetupKeyTo": "添加安装密钥以在网络中注册新机器。该密钥会在初始设置时将机器关联到您的账户。",
+  "setupKeyModal.text.couldNotBeCreated": "无法创建安装密钥..."
 }

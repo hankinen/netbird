@@ -18,7 +18,7 @@ import { useTenantSubscription } from "@/cloud/msp/hooks/useTenantSubscription";
 import { TenantListItem } from "@/cloud/msp/interfaces/Tenant";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import { useBilling } from "@/contexts/BillingProvider";
-
+import { t } from "@/i18n";
 export const MSPTenantsSwitcher = () => {
   const { isTrial, isFreePlan } = useBilling();
 
@@ -144,14 +144,16 @@ const TenantDropdown = ({ tenants, currentAccount, mspAccount }: Props) => {
           <DropdownInput
             value={search}
             onChange={setSearch}
-            placeholder={"Search by name or domain..."}
+            placeholder={t(
+              "cloud.msp:mSPTenantsSwitcher.placeholder.searchByNameOrDomain",
+            )}
             hideEnterIcon={true}
           />
 
           {tenantListItems.length == 0 && search == "" && (
             <div className={"max-w-xs mx-auto px-4"}>
               <DropdownInfoText>
-                {"Seems like you don't have any customers."}
+                {t("cloud.msp:mSPTenantsSwitcher.text.seemsLikeYouDonT")}
               </DropdownInfoText>
             </div>
           )}
@@ -159,8 +161,9 @@ const TenantDropdown = ({ tenants, currentAccount, mspAccount }: Props) => {
           {tenantListItems.length == 0 && search != "" && (
             <div className={"max-w-xs mx-auto px-4"}>
               <DropdownInfoText>
-                There are no customers matching your search. Try another search
-                term.
+                {t(
+                  "cloud.msp:mSPTenantsSwitcher.text.thereAreNoCustomersMatching",
+                )}
               </DropdownInfoText>
             </div>
           )}
@@ -302,11 +305,10 @@ const TenantItem = ({
           <FullTooltip
             content={
               <div className={"max-w-xs text-xs"}>
-                Trial for this tenant has expired. Please upgrade the plan to
-                continue using the tenant.{" "}
+                {t("cloud.msp:mSPTenantsSwitcher.text.trialForThisTenantHas")}{" "}
                 {!isInTenantContext && (
                   <InlineLink href={"/tenants"}>
-                    Go to Tenants
+                    {t("cloud.msp:mSPTenantsSwitcher.text.goToTenants")}
                     <ArrowUpRightIcon size={14} />
                   </InlineLink>
                 )}
@@ -318,7 +320,7 @@ const TenantItem = ({
               className={"h-[25px] px-2 text-[0.7rem] !border-yellow-600"}
             >
               <CircleHelp size={12} />
-              Trial Expired
+              {t("cloud.msp:mSPTenantsSwitcher.text.trialExpired")}
             </Badge>
           </FullTooltip>
         </div>

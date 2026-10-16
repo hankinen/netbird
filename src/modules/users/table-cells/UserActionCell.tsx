@@ -32,7 +32,7 @@ export default function UserActionCell({
   const { mutate } = useSWRConfig();
 
   const deleteUser = async () => {
-    const name = user.name || "User";
+    const name = user.name || t("common:word.user");
     notify({
       title: t("users.table-cells:userActionCell.title.deleted", { name }),
       description: t(
@@ -48,7 +48,7 @@ export default function UserActionCell({
   };
 
   const approveUser = async () => {
-    const name = user.name || "User";
+    const name = user.name || t("common:word.user");
     notify({
       title: t("users.table-cells:userActionCell.title.approved", { name }),
       description: t(
@@ -64,7 +64,7 @@ export default function UserActionCell({
   };
 
   const rejectUser = async () => {
-    const name = user.name || "User";
+    const name = user.name || t("common:word.user");
     const choice = await confirm({
       title: t("users.table-cells:userActionCell.title.reject", { name }),
       description: t(
@@ -93,7 +93,7 @@ export default function UserActionCell({
   };
 
   const openDeleteConfirm = async () => {
-    const name = user.name || "User";
+    const name = user.name || t("common:word.user");
     const choice = await confirm({
       title: t("users.table-cells:userActionCell.title.delete", { name }),
       description: t(
@@ -109,7 +109,7 @@ export default function UserActionCell({
   };
 
   const toggleBlocked = async () => {
-    const name = user.name || "User";
+    const name = user.name || t("common:word.user");
     const blocked = !user.is_blocked;
 
     if (blocked) {

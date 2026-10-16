@@ -5,34 +5,46 @@ import { ColumnDef, SortingState } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import * as React from "react";
 import { useState } from "react";
+import { t } from "@/i18n";
 import { EnterpriseConnectionDomain } from "@/interfaces/IdentityProvider";
 import LastTimeRow from "@/modules/common-table-rows/LastTimeRow";
-
 export const DomainTableColumns: ColumnDef<EnterpriseConnectionDomain>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Domain</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.domain")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
   },
   {
     accessorKey: "validation_status",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Status</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.status")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
   },
   {
     accessorKey: "validation_last_updated",
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Last Check</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("integrations.sso:domainVerificationTable.text.lastCheck")}
+        </DataTableHeader>
+      );
     },
     sortingFn: "text",
     cell: ({ row }) => (
       <LastTimeRow
         date={dayjs(row.original.validation_last_updated).toDate()}
-        text={"Last checked on"}
+        text={t("integrations.sso:domainVerificationTable.text.lastCheckedOn")}
       />
     ),
   },
@@ -60,7 +72,7 @@ export const DomainVerificationTable = ({ domains }: Props) => {
         tableClassName={"w-full mt-0"}
         minimal={true}
         showSearchAndFilters={false}
-        text={"Domains"}
+        text={t("integrations.sso:domainVerificationTable.text.domains")}
         sorting={sorting}
         setSorting={setSorting}
         columns={DomainTableColumns}

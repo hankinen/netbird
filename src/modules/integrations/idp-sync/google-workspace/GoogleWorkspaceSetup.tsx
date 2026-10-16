@@ -41,6 +41,7 @@ import { GroupPrefixHelpText } from "@/modules/integrations/idp-sync/GroupPrefix
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
 import { GroupPrefixInput } from "../GroupPrefixInput";
 
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -102,8 +103,12 @@ export function SetupContent({ onSuccess }: ModalProps) {
 
   const connect = async () => {
     notify({
-      title: "Google Workspace Integration",
-      description: `Google Workspace was successfully connected to NetBird.`,
+      title: t(
+        "integrations.idp-sync.generic-scimsetup:googleWorkspaceConfiguration.title.googleWorkspaceIntegration",
+      ),
+      description: t(
+        "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.description.googleWorkspaceWasSuccessfullyConnected",
+      ),
       promise: googleRequest
         .post({
           service_account_key: btoa(serviceAccountKey), // Encode client secret to base64
@@ -120,7 +125,9 @@ export function SetupContent({ onSuccess }: ModalProps) {
           mutate("/integrations/google-idp");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t(
+        "integrations.idp-sync.generic-scimsetup:genericSCIMSetup.loadingMessage.settingUpIntegration",
+      ),
     });
   };
 
@@ -155,10 +162,12 @@ export function SetupContent({ onSuccess }: ModalProps) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Connect NetBird with Google Workspace"}
-        description={
-          "Start syncing your users and groups from Google Workspace to NetBird. Follow the steps below to get started."
-        }
+        title={t(
+          "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.title.connectNetBirdWithGoogleWorkspace",
+        )}
+        description={t(
+          "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.description.startSyncingYourUsersAnd",
+        )}
       />
 
       {step === -1 && (
@@ -182,21 +191,25 @@ export function SetupContent({ onSuccess }: ModalProps) {
             }
           >
             <Shield size={16} />
-            Required Permissions
+            {t("integrations.shared:word.requiredPermissions")}
           </div>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Ensure that you have an{" "}
+            {t(
+              "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.ensureThatYouHaveAn",
+            )}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              Google Workspace user account
+              {t(
+                "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.googleWorkspaceUserAccount",
+              )}
             </span>{" "}
-            with the following{" "}
+            {t("integrations.shared:word.withTheFollowing")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              permissions
+              {t("integrations.shared:word.permissions")}
             </span>
             .{" "}
-            {
-              "If you don't have the required permissions, ask your workspace administrator to grant them to you."
-            }
+            {t(
+              "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.ifYouDonTHave",
+            )}
           </p>
           <div
             className={
@@ -209,7 +222,9 @@ export function SetupContent({ onSuccess }: ModalProps) {
               }
             >
               <PlusCircle size={14} className={"text-sky-500"} />
-              Create Google Workspace applications
+              {t(
+                "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.createGoogleWorkspaceApplications",
+              )}
             </div>
             <div
               className={
@@ -217,7 +232,9 @@ export function SetupContent({ onSuccess }: ModalProps) {
               }
             >
               <Settings2 size={14} className={"text-sky-500"} />
-              Manage Google Workspace applications
+              {t(
+                "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.manageGoogleWorkspaceApplications",
+              )}
             </div>
           </div>
         </div>
@@ -227,24 +244,36 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Folder size={20} />
-            Create NetBird project
+            {t(
+              "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.createNetBirdProject",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Create a new <Mark copy>NetBird</Mark> project in the{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.createANew",
+                )}{" "}
+                <Mark copy>NetBird</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.projectInThe",
+                )}{" "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
                   href={"https://console.cloud.google.com/"}
                 >
-                  Google Cloud Console
+                  {t(
+                    "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.googleCloudConsole",
+                  )}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                Enable the{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.enableThe",
+                )}{" "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
@@ -252,10 +281,17 @@ export function SetupContent({ onSuccess }: ModalProps) {
                     "https://console.cloud.google.com/apis/library/admin.googleapis.com"
                   }
                 >
-                  Admin SDK API
+                  {t(
+                    "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.adminSDKAPI",
+                  )}
                 </InlineLink>{" "}
-                for the
-                <Mark>NetBird</Mark> project
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.forThe",
+                )}
+                <Mark>NetBird</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.project",
+                )}
               </p>
             </Steps.Step>
           </Steps>
@@ -266,30 +302,40 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <UserCircle size={20} />
-            Create a service account
+            {t(
+              "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.createAServiceAccount",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to{"  "}
+                {t("integrations.shared:word.navigateTo")}
+                {"  "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
                   href={"https://console.cloud.google.com/apis/credentials"}
                 >
-                  API Credentials
+                  {t(
+                    "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.aPICredentials",
+                  )}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>CREATE CREDENTIALS</Mark> at the top and select{" "}
+                {t("common:word.click")} <Mark>CREATE CREDENTIALS</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.atTheTopAndSelect",
+                )}{" "}
                 <Mark>Service account</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Fill in the form with the following values and click{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.fillInTheFormWith",
+                )}{" "}
                 <Mark>DONE</Mark>
               </p>
             </Steps.Step>
@@ -298,11 +344,15 @@ export function SetupContent({ onSuccess }: ModalProps) {
           <MinimalList
             data={[
               {
-                label: "Service account name",
+                label: t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.label.serviceAccountName",
+                ),
                 value: "NetBird",
               },
               {
-                label: "Service account ID",
+                label: t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.label.serviceAccountID",
+                ),
                 value: "netbird",
               },
             ]}
@@ -314,12 +364,15 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Mail size={20} />
-            Get your service account email
+            {t(
+              "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.getYourServiceAccountEmail",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to{"  "}
+                {t("integrations.shared:word.navigateTo")}
+                {"  "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
@@ -327,20 +380,26 @@ export function SetupContent({ onSuccess }: ModalProps) {
                     "https://console.cloud.google.com/iam-admin/serviceaccounts"
                   }
                 >
-                  Service Accounts
+                  {t(
+                    "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.serviceAccounts",
+                  )}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Click <Mark>NetBird</Mark> to edit the service account. Copy the
-                service account email address.
+                {t("common:word.click")} <Mark>NetBird</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.toEditTheServiceAccount",
+                )}
               </p>
               <Lightbox image={googleEditServiceAccount} />
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                Enter your service account email address
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.enterYourServiceAccountEmail",
+                )}
               </p>
             </Steps.Step>
           </Steps>
@@ -353,7 +412,9 @@ export function SetupContent({ onSuccess }: ModalProps) {
                   <Mail size={16} className={"text-nb-gray-300"} />
                 </div>
               }
-              placeholder={"netbird@loadtests-347817.iam.gserviceaccount.com"}
+              placeholder={t(
+                "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.placeholder.netbirdLoadtests347817IamGserviceaccount",
+              )}
               value={serviceAccountMail}
               onChange={(e) => setServiceAccountMail(e.target.value)}
             />
@@ -365,34 +426,53 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <KeyRound size={20} />
-            Create service account key
+            {t(
+              "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.createServiceAccountKey",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                On the same page, now click the <Mark>Keys</Mark> tab, open the{" "}
-                <Mark>Add key</Mark> dropdown and select{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.onTheSamePageNow",
+                )}{" "}
+                <Mark>Keys</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.tabOpenThe",
+                )}{" "}
+                <Mark>Add key</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.dropdownAndSelect",
+                )}{" "}
                 <Mark>Create new key</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Select <Mark>JSON</Mark> as the key type and click{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.select",
+                )}{" "}
+                <Mark>JSON</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.asTheKeyTypeAnd",
+                )}{" "}
                 <Mark>Create</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                Most browsers immediately download the new key and save it in a
-                download folder on your computer. Read how to manage and secure
-                your service keys{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.mostBrowsersImmediatelyDownloadThe",
+                )}{" "}
                 <InlineLink
                   href={
                     "https://cloud.google.com/iam/docs/best-practices-for-managing-service-account-keys#temp-locations"
                   }
                   target={"_blank"}
                 >
-                  here
+                  {t(
+                    "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.here",
+                  )}
                 </InlineLink>
                 .
               </p>
@@ -413,7 +493,9 @@ export function SetupContent({ onSuccess }: ModalProps) {
                       <KeyRound size={16} className={"text-nb-gray-300"} />
                     </div>
                   }
-                  placeholder={"YdV7Q~JJ62Xl.LvYoBanxZR2sJA2va_3UbqvncY8"}
+                  placeholder={t(
+                    "integrations.idp-sync.generic-scimsetup:googleWorkspaceConfiguration.placeholder.ydV7QJJ62XlLvYoBanxZR2sJA2va3UbqvncY8",
+                  )}
                   value={btoa(serviceAccountKey)}
                   readOnly={true}
                 />
@@ -427,42 +509,57 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <FolderCog2 size={20} />
-            Create admin role
+            {t(
+              "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.createAdminRole",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to{"  "}
+                {t("integrations.shared:word.navigateTo")}
+                {"  "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
                   href={"https://admin.google.com/ac/home"}
                 >
-                  Admin Console
+                  {t(
+                    "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.adminConsole",
+                  )}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Select <Mark>Account</Mark> on the left menu and then click{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.select",
+                )}{" "}
+                <Mark>Account</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.onTheLeftMenuAnd",
+                )}{" "}
                 <Mark>Admin Roles</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Create new role</Mark> and fill in the form with the
-                following values
+                {t("common:word.click")} <Mark>Create new role</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.andFillInTheForm",
+                )}
               </p>
             </Steps.Step>
           </Steps>
           <MinimalList
             data={[
               {
-                label: "Name",
+                label: t("common:word.name"),
                 value: "User and Group Management ReadOnly",
               },
               {
-                label: "Description",
+                label: t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.label.description",
+                ),
                 value: "User and Group Management ReadOnly",
               },
             ]}
@@ -474,23 +571,30 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Shield size={20} />
-            Add role privileges
+            {t(
+              "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.addRolePrivileges",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Scroll down to <Mark>Admin API privileges</Mark> and add the
-                following privileges to the role
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.scrollDownTo",
+                )}{" "}
+                <Mark>Admin API privileges</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.andAddTheFollowingPrivileges",
+                )}
               </p>
               <MinimalList
                 className={"mt-2 mb-0"}
                 data={[
                   {
-                    label: "Users",
+                    label: t("common:countWord.users"),
                     value: "Read",
                   },
                   {
-                    label: "Groups",
+                    label: t("common:word.groups"),
                     value: "Read",
                   },
                 ]}
@@ -498,8 +602,9 @@ export function SetupContent({ onSuccess }: ModalProps) {
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                Verify preview of assigned Admin API privileges to ensure that
-                everything is properly configured, and then click{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.verifyPreviewOfAssignedAdmin",
+                )}{" "}
                 <Mark>CREATE ROLE</Mark>
               </p>
               <Lightbox image={googlePrivilegesReview} />
@@ -512,23 +617,34 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <MailPlus size={20} />
-            Assign service account
+            {t(
+              "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.assignServiceAccount",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Click <Mark>Assign service accounts</Mark>
+                {t("common:word.click")} <Mark>Assign service accounts</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Enter your <Mark>E-Mail</Mark> and then click <Mark>ADD</Mark>
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.enterYour",
+                )}{" "}
+                <Mark>E-Mail</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.andThenClick",
+                )}{" "}
+                <Mark>ADD</Mark>
               </p>
               <MinimalList
                 className={"mt-2 mb-0"}
                 data={[
                   {
-                    label: "E-Mail",
+                    label: t(
+                      "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.eMail",
+                    ),
                     value: serviceAccountMail,
                   },
                 ]}
@@ -536,7 +652,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>ASSIGN ROLE</Mark>
+                {t("common:word.click")} <Mark>ASSIGN ROLE</Mark>
               </p>
               <Lightbox image={googleAssignServiceAccount} />
             </Steps.Step>
@@ -548,12 +664,14 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Box size={20} />
-            Enter Customer ID
+            {t(
+              "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.enterCustomerID",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Navigate to{" "}
+                {t("integrations.shared:word.navigateTo")}{" "}
                 <InlineLink
                   target={"_blank"}
                   className={"inline"}
@@ -561,13 +679,21 @@ export function SetupContent({ onSuccess }: ModalProps) {
                     "https://admin.google.com/ac/accountsettings/profile?hl=en_US"
                   }
                 >
-                  Account Settings
+                  {t(
+                    "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.accountSettings",
+                  )}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                Take note of the <Mark>Customer ID</Mark> and enter it below
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.takeNoteOfThe",
+                )}{" "}
+                <Mark>Customer ID</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.andEnterItBelow",
+                )}
               </p>
             </Steps.Step>
           </Steps>
@@ -578,10 +704,14 @@ export function SetupContent({ onSuccess }: ModalProps) {
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <Box size={16} />
-                  Customer ID
+                  {t(
+                    "integrations.idp-sync.generic-scimsetup:googleWorkspaceConfiguration.text.customerID",
+                  )}
                 </div>
               }
-              placeholder={"C03f4c3po"}
+              placeholder={t(
+                "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.placeholder.c03f4c3po",
+              )}
               value={customerID}
               onChange={(e) => setCustomerID(e.target.value)}
             />
@@ -593,7 +723,9 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <FolderGit2 size={20} />
-            Groups to be synchronized
+            {t(
+              "integrations.idp-sync.generic-scimsetup:genericSCIMSetup.text.groupsToBeSynchronized",
+            )}
           </p>
 
           <div className={"mb-4 flex flex-col gap-1"}>
@@ -612,7 +744,9 @@ export function SetupContent({ onSuccess }: ModalProps) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <UserCircle size={18} />
-            Users to be synchronized
+            {t(
+              "integrations.idp-sync.generic-scimsetup:genericSCIMSetup.text.usersToBeSynchronized",
+            )}
           </p>
 
           <div className={"mb-4 flex flex-col gap-1"}>
@@ -622,7 +756,9 @@ export function SetupContent({ onSuccess }: ModalProps) {
 
             <GroupPrefixInput
               addText={"Add user group filter"}
-              text={"User group starts with..."}
+              text={t(
+                "integrations.idp-sync.generic-scimsetup:genericSCIMSetup.text.userGroupStartsWith",
+              )}
               value={userGroupPrefixes}
               onChange={setUserGroupPrefixes}
             />
@@ -638,7 +774,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             onClick={() => setStep(step + 1)}
             disabled={!connectorId || connectorId === ""}
           >
-            Continue
+            {t("common:word.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -649,7 +785,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             onClick={() => setStep(step - 1)}
           >
             <IconArrowLeft size={16} />
-            Back
+            {t("common:word.back")}
           </Button>
         )}
         {step >= 0 && step < maxSteps && (
@@ -659,7 +795,9 @@ export function SetupContent({ onSuccess }: ModalProps) {
             disabled={isDisabled}
             onClick={() => setStep(step + 1)}
           >
-            {step == 0 ? "Get Started" : "Continue"}
+            {step == 0
+              ? t("integrations.shared:word.getStarted")
+              : t("common:word.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -671,7 +809,7 @@ export function SetupContent({ onSuccess }: ModalProps) {
             onClick={connect}
           >
             <Repeat size={16} />
-            Connect
+            {t("common:word.connect")}
           </Button>
         )}
       </ModalFooter>
@@ -683,8 +821,13 @@ export function SetupContent({ onSuccess }: ModalProps) {
         >
           <Clock4 size={12} />
           <div>
-            Estimated setup time:
-            <span className={"font-medium"}> 10-20 Minutes</span>
+            {t("integrations.shared:word.estimatedSetupTime")}
+            <span className={"font-medium"}>
+              {" "}
+              {t(
+                "integrations.idp-sync.generic-scimsetup:googleWorkspaceSetup.text.1020Minutes",
+              )}
+            </span>
           </div>
         </div>
       )}

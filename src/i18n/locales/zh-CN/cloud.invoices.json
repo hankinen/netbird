@@ -1,0 +1,16 @@
+{
+  "invoicesTab.text.viewAndExportAllYour": "查看并导出所有可用发票",
+  "invoicesActionCell.title.downloadInvoiceCSV": "下载发票（CSV）",
+  "invoicesActionCell.description.downloadingCsv": "正在下载 {{id}}.csv...",
+  "invoicesActionCell.loadingMessage.gettingInvoiceForThisBilling": "正在获取此账单周期的发票...",
+  "invoicesActionCell.title.downloadInvoicePDF": "下载发票（PDF）",
+  "invoicesActionCell.description.redirectingToStripeToDownload": "正在跳转到 Stripe 下载发票...",
+  "invoicesActionCell.text.downloadAsPDF": "下载为 PDF",
+  "invoicesActionCell.text.downloadAsCSV": "下载为 CSV",
+  "invoicesPeriodCell.text.mMMDDYYYY": "YYYY年M月D日",
+  "invoicesTable.text.date": "日期",
+  "invoicesTable.searchPlaceholder.searchByInvoiceNumberOr": "按发票编号或日期搜索...",
+  "invoicesTable.title.youDonTHaveAny": "您还没有任何发票",
+  "invoicesTable.description.invoicesAreCreatedAtThe": "发票会在每个账单周期结束时生成。生成后您将在此处看到它们。",
+  "invoicesTypeCell.text.account": "账户"
+}

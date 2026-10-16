@@ -31,6 +31,7 @@ import ReverseProxyNameCell from "@/modules/reverse-proxy/table/ReverseProxyName
 import ReverseProxyFlatTargetActionCell from "@/modules/reverse-proxy/targets/flat/ReverseProxyFlatTargetActionCell";
 import { ReverseProxyTargetDevice } from "@/modules/reverse-proxy/targets/ReverseProxyTargetDevice";
 
+import { t } from "@/i18n";
 const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
   {
     id: "target_id",
@@ -78,7 +79,9 @@ const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
   {
     accessorKey: "host",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Destination</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("reverse-proxy.targets:reverseProxyTargetsTable.text.destination")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => (
       <div data-proxy-id={row.original.proxy.id}>
@@ -93,7 +96,9 @@ const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
   {
     accessorKey: "target_type",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Resource</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t("reverse-proxy.targets:reverseProxyTargetSelector.text.resource2")}
+      </DataTableHeader>
     ),
     cell: ({ row }) => (
       <div data-proxy-id={row.original.proxy.id}>
@@ -108,7 +113,11 @@ const FlatTargetsTableColumns: ColumnDef<ReverseProxyFlatTarget>[] = [
   {
     id: "auth_and_access",
     header: ({ column }) => (
-      <DataTableHeader column={column}>Auth &amp; Access</DataTableHeader>
+      <DataTableHeader column={column}>
+        {t(
+          "reverse-proxy.targets:reverseProxyFlatTargetsTable.text.authAmpAccess",
+        )}
+      </DataTableHeader>
     ),
     cell: ({ row }) => (
       <div
@@ -174,9 +183,17 @@ export const ReverseProxyFlatTargetsTable = ({
 
   const statusOptions = useMemo<RadioOption<boolean | undefined>[]>(
     () => [
-      { value: undefined, label: "All", dotClass: "bg-nb-gray-500" },
-      { value: true, label: "Active", dotClass: "bg-green-500" },
-      { value: false, label: "Inactive", dotClass: "bg-nb-gray-700" },
+      {
+        value: undefined,
+        label: t("common:word.all"),
+        dotClass: "bg-nb-gray-500",
+      },
+      { value: true, label: t("common:word.active"), dotClass: "bg-green-500" },
+      {
+        value: false,
+        label: t("common:word.inactive"),
+        dotClass: "bg-nb-gray-700",
+      },
     ],
     [],
   );
@@ -185,7 +202,7 @@ export const ReverseProxyFlatTargetsTable = ({
     () => [
       {
         id: "enabled",
-        label: "Status",
+        label: t("common:word.status"),
         renderPicker: (p) => (
           <RadioPicker
             value={p.value as boolean | undefined}
@@ -210,7 +227,9 @@ export const ReverseProxyFlatTargetsTable = ({
       minimal={true}
       showSearchAndFilters={true}
       tableClassName="mt-0"
-      text="Service"
+      text={t(
+        "reverse-proxy.targets:reverseProxyFlatTargetsTable.text.service",
+      )}
       sorting={sorting}
       setSorting={setSorting}
       columns={FlatTargetsTableColumns}
@@ -218,7 +237,9 @@ export const ReverseProxyFlatTargetsTable = ({
       keepStateInLocalStorage={false}
       initialPageSize={25}
       showResetFilterButton={false}
-      searchPlaceholder="Search by URL, destination, or target..."
+      searchPlaceholder={t(
+        "reverse-proxy.targets:reverseProxyFlatTargetsTable.searchPlaceholder.searchByURLDestinationOr",
+      )}
       initialFilters={
         resourceId ? [{ id: "target_id", value: resourceId }] : undefined
       }
@@ -251,7 +272,7 @@ export const ReverseProxyFlatTargetsTable = ({
           disabled={!permission?.services?.create}
         >
           <PlusCircle size={16} />
-          Add
+          {t("common:word.add")}
         </Button>
       )}
     >

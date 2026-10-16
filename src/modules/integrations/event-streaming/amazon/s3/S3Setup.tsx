@@ -25,6 +25,7 @@ import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import { useSWRConfig } from "swr";
 import s3Logo from "@/assets/integrations/s3.svg";
+import { t } from "@/i18n";
 import { EventStream } from "@/interfaces/EventStream";
 import { AmazonRegions } from "@/modules/integrations/event-streaming/amazon/AmazonRegions";
 import {
@@ -32,7 +33,6 @@ import {
   exampleAwsSecretAccessKey,
 } from "@/modules/integrations/event-streaming/amazon/exampleCredentials";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -105,8 +105,12 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
 
   const connect = async () => {
     notify({
-      title: "Amazon S3 Integration",
-      description: `Amazon S3 was successfully connected to NetBird.`,
+      title: t(
+        "integrations.event-streaming:s3Setup.title.amazonS3Integration",
+      ),
+      description: t(
+        "integrations.event-streaming:s3Setup.description.amazonS3WasSuccessfullyConnected",
+      ),
       promise: integrationRequest
         .post({
           platform: "s3",
@@ -122,7 +126,9 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
           mutate("/integrations/event-streaming");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t(
+        "integrations.event-streaming:firehoseSetup.loadingMessage.settingUpIntegration",
+      ),
     });
   };
 
@@ -138,27 +144,33 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
 
       <IntegrationModalHeader
         image={s3Logo}
-        title={"Connect NetBird with Amazon S3"}
-        description={
-          "Start streaming your NetBird audit & traffic events to Amazon S3. Follow the steps below to get started."
-        }
+        title={t(
+          "integrations.event-streaming:s3Setup.title.connectNetBirdWithAmazonS3",
+        )}
+        description={t(
+          "integrations.event-streaming:s3Setup.description.startStreamingYourNetBirdAudit",
+        )}
       />
 
       {step == 1 && (
         <div className={"px-8 py-3 flex flex-col mt-4 z-0"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <GlobeIcon size={16} />
-            Select your Amazon S3 region
+            {t(
+              "integrations.event-streaming:s3Setup.text.selectYourAmazonS3Region",
+            )}
           </p>
           <p className={"mb-3 mt-2"}>
-            To identify which region you are on please check out the{" "}
+            {t(
+              "integrations.event-streaming:firehoseSetup.text.toIdentifyWhichRegionYou",
+            )}{" "}
             <InlineLink
               href={s3DashboardURL}
               target={"_blank"}
               variant={"default"}
               className={"inline"}
             >
-              Amazon S3 Dashboard.
+              {t("integrations.event-streaming:s3Setup.text.amazonS3Dashboard")}
             </InlineLink>
           </p>
           <SelectDropdown
@@ -176,7 +188,9 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                   <Globe size={16} className={"text-nb-gray-300"} />
                 </div>
               }
-              placeholder={"eu-central-1"}
+              placeholder={t(
+                "integrations.event-streaming:firehoseSetup.placeholder.euCentral1",
+              )}
               value={region}
               onChange={(e) => setRegion(e.target.value)}
             />
@@ -189,34 +203,50 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 z-0"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <KeyRound size={16} />
-            Create your S3 Bucket
+            {t("integrations.event-streaming:s3Setup.text.createYourS3Bucket")}
           </p>
           <Steps>
             <Steps.Step step={1}>
-              <p>Navigate to the Amazon S3 Dashboard</p>
+              <p>
+                {t(
+                  "integrations.event-streaming:s3Setup.text.navigateToTheAmazonS3",
+                )}
+              </p>
               <div className={"flex gap-4"}>
                 <Link href={s3DashboardURL} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
                     <ExternalLinkIcon size={14} />
-                    Amazon S3 Dashboard
+                    {t(
+                      "integrations.event-streaming:s3Setup.text.amazonS3Dashboard2",
+                    )}
                   </Button>
                 </Link>
               </div>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>Create bucket</Mark> at the top right corner
+                {t("common:word.click")} <Mark>Create bucket</Mark>{" "}
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.atTheTopRightCorner",
+                )}
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Give it a descriptive name like{" "}
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.giveItADescriptiveName",
+                )}{" "}
                 <Mark copy>netbird-activity-events</Mark>
-                and click <Mark>Create bucket</Mark>
+                {t("integrations.shared:word.andClick")}{" "}
+                <Mark>Create bucket</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
-              <p className={"font-normal"}>Enter your S3 Bucket name</p>
+              <p className={"font-normal"}>
+                {t(
+                  "integrations.event-streaming:s3Setup.text.enterYourS3BucketName",
+                )}
+              </p>
               <div className={"mb-4"}>
                 <Input
                   type={"text"}
@@ -226,7 +256,9 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
                       <PencilLine size={16} className={"text-nb-gray-300"} />
                     </div>
                   }
-                  placeholder={"netbird-activity-events"}
+                  placeholder={t(
+                    "integrations.event-streaming:firehoseSetup.text.netbirdActivityEvents",
+                  )}
                   value={bucketName}
                   onChange={(e) => setBucketName(e.target.value)}
                 />
@@ -239,25 +271,37 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 z-0"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <KeyRound size={16} />
-            Create IAM credential
+            {t(
+              "integrations.event-streaming:firehoseSetup.text.createIAMCredential",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
-              <p>Navigate to the Amazon IAM Dashboard</p>
+              <p>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.navigateToTheAmazonIAM",
+                )}
+              </p>
               <div className={"flex gap-4"}>
                 <Link href={iamDashboardURL} passHref target={"_blank"}>
                   <Button variant={"primary"} size={"xs"}>
                     <ExternalLinkIcon size={14} />
-                    Amazon IAM Dashboard
+                    {t(
+                      "integrations.event-streaming:firehoseSetup.text.amazonIAMDashboard",
+                    )}
                   </Button>
                 </Link>
               </div>
             </Steps.Step>
             <Steps.Step step={2}>
               <p>
-                Create an IAM User (for details see the{" "}
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.createAnIAMUserFor",
+                )}{" "}
                 <InlineLink href={iamDocsURL} target={"_blank"}>
-                  Amazon Docs
+                  {t(
+                    "integrations.event-streaming:firehoseSetup.text.amazonDocs",
+                  )}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
                 )
@@ -265,19 +309,34 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Create and assign a policy with <Mark>s3:PutObject</Mark> and{" "}
-                <Mark>s3:PutObjectAcl</Mark> to the user and scope it to the
-                created bucket
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.createAndAssignAPolicy",
+                )}{" "}
+                <Mark>s3:PutObject</Mark> {t("common:word.and")}{" "}
+                <Mark>s3:PutObjectAcl</Mark>{" "}
+                {t(
+                  "integrations.event-streaming:s3Setup.text.toTheUserAndScope",
+                )}
               </p>
             </Steps.Step>
             <Steps.Step step={4}>
               <p className={"font-normal"}>
-                Select the user and go to the <Mark>Security Credentials</Mark>
-                tab and select <Mark>Create access key</Mark>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.selectTheUserAndGo",
+                )}{" "}
+                <Mark>Security Credentials</Mark>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.tabAndSelect",
+                )}{" "}
+                <Mark>Create access key</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={5}>
-              <p className={"font-normal"}>Enter your Access-Key</p>
+              <p className={"font-normal"}>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.enterYourAccessKey",
+                )}
+              </p>
               <div className={"mb-4"}>
                 <Input
                   type={"text"}
@@ -294,7 +353,11 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               </div>
             </Steps.Step>
             <Steps.Step step={6} line={false}>
-              <p className={"font-normal"}>Enter your Secret-Key</p>
+              <p className={"font-normal"}>
+                {t(
+                  "integrations.event-streaming:firehoseSetup.text.enterYourSecretKey",
+                )}
+              </p>
               <div className={"mb-4"}>
                 <Input
                   type={"text"}
@@ -322,7 +385,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
             disabled={!regionEntered}
             onClick={() => setStep(2)}
           >
-            Continue
+            {t("common:word.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -334,7 +397,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               onClick={() => setStep(1)}
             >
               <IconArrowLeft size={16} />
-              Back
+              {t("common:word.back")}
             </Button>
             <Button
               variant={"primary"}
@@ -342,7 +405,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               disabled={!bucketNameEntered}
               onClick={() => setStep(3)}
             >
-              Continue
+              {t("common:word.continue")}
               <IconArrowRight size={16} />
             </Button>
           </>
@@ -355,7 +418,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               onClick={() => setStep(2)}
             >
               <IconArrowLeft size={16} />
-              Back
+              {t("common:word.back")}
             </Button>
             <Button
               variant={"primary"}
@@ -364,7 +427,7 @@ export function SetupContent({ onSuccess }: Readonly<ModalProps>) {
               onClick={connect}
             >
               <Repeat size={16} />
-              Connect
+              {t("common:word.connect")}
             </Button>
           </>
         )}

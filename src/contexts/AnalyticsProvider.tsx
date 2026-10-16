@@ -5,7 +5,7 @@ import Script from "next/script";
 import React, { useEffect, useState } from "react";
 import ReactGA from "react-ga4";
 import { hotjar } from "react-hotjar";
-
+import { t } from "@/i18n";
 type Props = {
   children: React.ReactNode;
 };
@@ -140,7 +140,7 @@ const GoogleTageManagerBodyScript = () => {
     isProduction() && (
       <noscript>
         <iframe
-          title={"Google Tag Manager"}
+          title={t("contexts.main:analyticsProvider.title.googleTagManager")}
           src={`https://www.googletagmanager.com/ns.html?id=${config.googleTagManagerID}`}
           height="0"
           width="0"

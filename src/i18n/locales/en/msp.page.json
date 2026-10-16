@@ -1,0 +1,13 @@
+{
+  "page.text.goToTenants": "Go to Tenants",
+  "page.text.goToPeers": "Go to Peers",
+  "page.title.netBirdManagedServiceProvider": "NetBird Managed Service Provider",
+  "page.description.successfullyJoinedAsAnManaged": "Successfully joined as an Managed Service Provider",
+  "page.loadingMessage.processingYourInvitation": "Processing your invitation...",
+  "page.text.netBirdInvitesYouToJoin": "NetBird invites you to join as an Managed Service Provider (MSP)",
+  "page.text.youWillGetAccessTo": "You will get access to the NetBird MSP portal where you can manage multiple customers and their networks from a single place.",
+  "page.text.onlyTheOwnerOfThe": "Only the owner of the account can accept this invitation. Please contact the owner of the account to accept the invitation.",
+  "page.text.theInvitationHasAlreadyBeen": "The invitation has already been accepted",
+  "page.text.accept": "Accept",
+  "page.text.decline": "Decline"
+}

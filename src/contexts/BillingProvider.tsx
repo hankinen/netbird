@@ -12,6 +12,7 @@ import { useAnalytics } from "@/contexts/AnalyticsProvider";
 import { Announcement, useAnnouncement } from "@/contexts/AnnouncementProvider";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { AccountUsageStats } from "@/interfaces/AccountUsageStats";
 import type { Group } from "@/interfaces/Group";
 import { Currency, Plan, Price } from "@/interfaces/Plan";
@@ -23,7 +24,6 @@ import {
 } from "@/interfaces/Subscription";
 import { LimitsReachedModal } from "@/modules/billing/LimitsReachedModal";
 import { TrialSuccessModal } from "@/modules/billing/trial/TrialSuccessModal";
-
 type Props = {
   children: React.ReactNode;
 };
@@ -251,9 +251,14 @@ function BillingContextProvider({ children }: Readonly<Props>) {
           mutate("/integrations/billing/subscription");
         });
         notify({
-          title: "NetBird Subscription",
-          description: `Successfully subscribed to the ${plan.name} plan`,
-          loadingMessage: "Subscribing to NetBird via AWS Marketplace...",
+          title: t("contexts.main:billingProvider.title.netBirdSubscription"),
+          description: t(
+            "contexts.main:billingProvider.description.successfullySubscribedToThePlan",
+            { name: plan.name },
+          ),
+          loadingMessage: t(
+            "contexts.main:billingProvider.loadingMessage.subscribingToNetBirdViaAWS",
+          ),
           promise: promise,
         });
         return promise;
@@ -280,17 +285,24 @@ function BillingContextProvider({ children }: Readonly<Props>) {
     if (!priceID) return Promise.reject();
     const downgrade = isDowngrade(plan);
     const choice = await confirm({
-      title: `${downgrade ? "Downgrade" : "Upgrade"} to ${plan.name}?`,
+      title: downgrade
+        ? t("contexts.main:billingProvider.title.toDowngrade", {
+            name: plan.name,
+          })
+        : t("contexts.main:billingProvider.title.toUpgrade", {
+            name: plan.name,
+          }),
       description: (
         <div className={"flex flex-col gap-2 text-sm text-nb-gray-300 mt-1"}>
           <div>
-            The transition to your new plan will take effect immediately.
-            Charges for the new plan will be incurred from this point forward.
+            {t("contexts.main:billingProvider.text.theTransitionToYourNew")}
           </div>
         </div>
       ),
-      confirmText: downgrade ? "Downgrade" : "Upgrade",
-      cancelText: "Cancel",
+      confirmText: downgrade
+        ? t("contexts.main:billingProvider.text.downgrade")
+        : t("contexts.main:billingProvider.text.upgrade"),
+      cancelText: t("common:word.cancel"),
       type: "default",
     });
     if (!choice) return;
@@ -312,10 +324,14 @@ function BillingContextProvider({ children }: Readonly<Props>) {
     });
 
     notify({
-      title: "Update Subscription",
-      description: "Your subscription has been successfully updated.",
+      title: t("contexts.main:billingProvider.title.updateSubscription"),
+      description: t(
+        "contexts.main:billingProvider.description.yourSubscriptionHasBeenSuccessfully",
+      ),
       promise: promise,
-      loadingMessage: "Updating your subscription...",
+      loadingMessage: t(
+        "contexts.main:billingProvider.loadingMessage.updatingYourSubscription",
+      ),
     });
 
     return promise;
@@ -394,7 +410,10 @@ function BillingContextProvider({ children }: Readonly<Props>) {
   ) => {
     const priceID = plan.prices.find((price) => price.currency === currency)
       ?.price_id;
-    if (!priceID) return Promise.reject("Invalid plan");
+    if (!priceID)
+      return Promise.reject(
+        t("contexts.main:billingProvider.text.invalidPlan"),
+      );
     return checkout({
       baseURL: redirectUrl,
       priceID,

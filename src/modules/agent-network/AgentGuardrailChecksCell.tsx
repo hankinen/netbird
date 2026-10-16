@@ -4,8 +4,8 @@ import FullTooltip from "@components/FullTooltip";
 import { cn } from "@utils/helpers";
 import { Boxes, ShieldCheckIcon } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { AgentGuardrail } from "@/modules/agent-network/data/mockData";
-
 type Props = {
   guardrail: AgentGuardrail;
   disableHover?: boolean;
@@ -32,7 +32,10 @@ export default function AgentGuardrailChecksCell({
             <FullTooltip
               content={
                 <div className={"text-xs"}>
-                  Model allowlist · {c.model_allowlist.models.length} model(s)
+                  {t(
+                    "agent-network.agent-budget-rule-modal:agentGuardrailChecksCell.text.modelAllowlistModelS",
+                    { length: c.model_allowlist.models.length },
+                  )}
                 </div>
               }
             >
@@ -49,7 +52,11 @@ export default function AgentGuardrailChecksCell({
           {c.prompt_capture.enabled && (
             <FullTooltip
               content={
-                <div className={"text-xs"}>Prompt capture · PII redaction</div>
+                <div className={"text-xs"}>
+                  {t(
+                    "agent-network.agent-budget-rule-modal:agentGuardrailChecksCell.text.promptCapturePIIRedaction",
+                  )}
+                </div>
               }
             >
               <div

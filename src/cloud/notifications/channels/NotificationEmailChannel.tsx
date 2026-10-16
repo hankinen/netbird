@@ -28,6 +28,7 @@ import { useNotifications } from "@/cloud/notifications/NotificationProvider";
 import { useUsers } from "@/contexts/UsersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 
+import { t } from "@/i18n";
 type Props = {
   channel: NotificationChannel;
 };
@@ -53,14 +54,14 @@ export const NotificationEmailChannel = ({ channel }: Props) => {
     const trimmed = emailInput.trim();
     if (!trimmed || emails.includes(trimmed)) return;
     notify({
-      title: "Email Notifications",
-      description: `${trimmed} has been successfully added`,
+      title: t("cloud.notifications:notificationEmailChannel.title.emailNotifications"),
+      description: t("cloud.notifications:notificationEmailChannel.description.hasBeenSuccessfullyAdded", { trimmed }),
       promise: updateChannel({
         ...channel,
         target: { emails: [...emails, trimmed] },
       }),
-      loadingTitle: "Email Notifications",
-      loadingMessage: `Adding ${trimmed}...`,
+      loadingTitle: t("cloud.notifications:notificationEmailChannel.title.emailNotifications"),
+      loadingMessage: t("cloud.notifications:notificationEmailChannel.loadingMessage.adding", { trimmed }),
     });
     setEmailInput("");
   };
@@ -68,14 +69,14 @@ export const NotificationEmailChannel = ({ channel }: Props) => {
   const handleRemoveEmail = (email: string) => {
     const remaining = emails.filter((e) => e !== email);
     notify({
-      title: "Email Notifications",
-      description: `${email} has been successfully removed`,
+      title: t("cloud.notifications:notificationEmailChannel.title.emailNotifications"),
+      description: t("cloud.notifications:notificationEmailChannel.description.hasBeenSuccessfullyRemoved", { email }),
       promise: updateChannel({
         ...channel,
         target: remaining.length > 0 ? { emails: remaining } : undefined,
       }),
-      loadingTitle: "Email Notifications",
-      loadingMessage: `Removing ${email}...`,
+      loadingTitle: t("cloud.notifications:notificationEmailChannel.title.emailNotifications"),
+      loadingMessage: t("cloud.notifications:notificationEmailChannel.loadingMessage.removing", { email }),
     });
   };
 
@@ -88,24 +89,24 @@ export const NotificationEmailChannel = ({ channel }: Props) => {
       <Breadcrumbs>
         <Breadcrumbs.Item
           href={"/settings"}
-          label={"Settings"}
+          label={t("common:word.settings")}
           icon={<SettingsIcon size={13} />}
         />
         <Breadcrumbs.Item
           href={"/settings?tab=notifications"}
-          label={"Notifications"}
+          label={t("cloud.notifications:notificationTab.label.notifications")}
           icon={<MessageSquareDot size={14} />}
         />
         <Breadcrumbs.Item
           href={"/settings?tab=notifications&channel=email"}
-          label={"Email"}
+          label={t("cloud.notifications:notificationEmailChannel.label.email")}
           icon={<MailIcon size={14} />}
           active
         />
       </Breadcrumbs>
       <div className={"flex items-start justify-between"}>
         <div className={"flex gap-3 items-center"}>
-          <h1>Email</h1>
+          <h1>{t("cloud.notifications:notificationEmailChannel.label.email")}</h1>
         </div>
       </div>
       <div className={"flex flex-col gap-8 mt-4"}>
@@ -117,25 +118,23 @@ export const NotificationEmailChannel = ({ channel }: Props) => {
           label={
             <>
               <Power size={15} />
-              Enable Email Channel
+              {t("cloud.notifications:notificationEmailChannel.text.enableEmailChannel")}
             </>
           }
-          helpText={
-            "Enable or disable all email notifications for your account"
-          }
+          helpText={t("cloud.notifications:notificationEmailChannel.helpText.enableOrDisableAllEmail")}
         />
         <div className={"flex flex-col relative w-full"}>
           <Label>
             <MailIcon size={14} />
-            Email Addresses
+            {t("cloud.notifications:notificationEmailChannel.text.emailAddresses")}
           </Label>
           <HelpText>
-            Add one or more email addresses that should receive notifications
+            {t("cloud.notifications:notificationEmailChannel.text.addOneOrMoreEmail")}
           </HelpText>
           <div className={"flex gap-3"}>
             <Input
               ref={emailInputRef}
-              placeholder={"e.g. hello@company.com"}
+              placeholder={t("cloud.notifications:notificationEmailChannel.placeholder.eGHelloCompanyCom")}
               maxWidthClass={"w-full"}
               disabled={!canUpdate}
               value={emailInput}
@@ -155,7 +154,7 @@ export const NotificationEmailChannel = ({ channel }: Props) => {
               data-testid="notification-email-add"
             >
               <PlusCircle size={14} />
-              Add
+              {t("common:word.add")}
             </Button>
           </div>
 

@@ -1,5 +1,6 @@
 {
-  "onboarding.description.policyWasSuccessfully": "策略已成功{{value}}",
+  "onboarding.description.policyWasSuccessfullyEnabled": "策略已成功启用",
+  "onboarding.description.policyWasSuccessfullyDisabled": "策略已成功禁用",
   "onboarding.loadingMessage.updatingPolicy": "正在更新策略...",
   "onboarding.text.onboarding": "新手引导",
   "onboarding.text.alreadyKnowHowNetBirdWorks": "已经了解 NetBird 的工作原理？",
@@ -51,5 +52,7 @@
   "onboardingSurvey.text.gaming": "游戏",
   "onboardingSurvey.text.otherPleaseSpecify": "其他（请注明）",
   "onboardingSurvey.text.eGDNSManagementFile": "例如：DNS 管理、文件访问",
-  "onboardingSurvey.text.eGDNSManagementIoT": "例如：DNS 管理、物联网"
+  "onboardingSurvey.text.eGDNSManagementIoT": "例如：DNS 管理、物联网",
+  "onboardingEnd.title.congratulationsName": "恭喜，{{name}}！",
+  "onboardingEnd.title.congratulations": "恭喜！"
 }

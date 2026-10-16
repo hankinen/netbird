@@ -1,0 +1,16 @@
+{
+  "invoicesTab.text.viewAndExportAllYour": "View and export all your available invoices",
+  "invoicesActionCell.title.downloadInvoiceCSV": "Download Invoice (CSV)",
+  "invoicesActionCell.description.downloadingCsv": "Downloading {{id}}.csv...",
+  "invoicesActionCell.loadingMessage.gettingInvoiceForThisBilling": "Getting invoice for this billing period...",
+  "invoicesActionCell.title.downloadInvoicePDF": "Download Invoice (PDF)",
+  "invoicesActionCell.description.redirectingToStripeToDownload": "Redirecting to Stripe to download the invoice...",
+  "invoicesActionCell.text.downloadAsPDF": "Download as PDF",
+  "invoicesActionCell.text.downloadAsCSV": "Download as CSV",
+  "invoicesPeriodCell.text.mMMDDYYYY": "MMM DD, YYYY",
+  "invoicesTable.text.date": "Date",
+  "invoicesTable.searchPlaceholder.searchByInvoiceNumberOr": "Search by invoice number or date...",
+  "invoicesTable.title.youDonTHaveAny": "You don't have any invoices",
+  "invoicesTable.description.invoicesAreCreatedAtThe": "Invoices are created at the end of each billing period. You will see them here once they are available.",
+  "invoicesTypeCell.text.account": "Account"
+}

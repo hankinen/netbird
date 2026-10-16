@@ -100,5 +100,8 @@
   "userResendInviteButton.text.sending": "正在发送...",
   "userResendInviteButton.text.resend": "重新发送",
   "passwordCopied": "密码已复制到剪贴板！",
-  "inviteLinkCopied": "邀请链接已复制到剪贴板！"
+  "inviteLinkCopied": "邀请链接已复制到剪贴板！",
+  "userInvitesTable.status.expired": "已过期",
+  "userInvitesTable.status.valid": "有效",
+  "userInvitesTable.text.invite": "邀请"
 }

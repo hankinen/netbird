@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 export type ICMPType = keyof typeof ICMPTypes;
 export type ICMPCode<T extends ICMPType = ICMPType> =
   keyof (typeof ICMPTypes)[T]["codes"];
@@ -327,7 +328,7 @@ export function getICMPTypeName(type: ICMPType): string {
   try {
     return ICMPTypes[type].name;
   } catch (e) {
-    return "Unknown Type";
+    return t("cloud.traffic-events:trafficEventICMP.text.unknownType");
   }
 }
 
@@ -336,9 +337,9 @@ export function getICMPCodeDescription(type: ICMPType, code: number): string {
     return (
       ICMPTypes[type].codes[
         code as keyof (typeof ICMPTypes)[typeof type]["codes"]
-      ] || "Unknown Code"
+      ] || t("cloud.traffic-events:trafficEventICMP.text.unknownCode")
     );
   } catch (e) {
-    return "Unknown Code";
+    return t("cloud.traffic-events:trafficEventICMP.text.unknownCode");
   }
 }

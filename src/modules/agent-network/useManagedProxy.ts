@@ -1,12 +1,12 @@
 import useFetchApi, { useApiCallWithStatus } from "@utils/api";
 import { useEffect } from "react";
+import { t } from "@/i18n";
 import type { AgentNetworkManagedProxy } from "@/modules/agent-network/AIProvidersProvider";
 import {
   managedProxyPollInterval,
   ProvisionOutcome,
   provisionOutcome,
 } from "@/modules/agent-network/managedProxyState";
-
 const MANAGED_PROXY_PATH = "/integrations/agent-network/managed-proxy";
 
 // useManagedProxy reads the account's NetBird-managed gateway and starts one.
@@ -48,7 +48,14 @@ export function useManagedProxy(enabled: boolean) {
       outcome = provisionOutcome(await request.post());
     } catch (err) {
       const message = (err as { message?: string } | undefined)?.message;
-      return { kind: "error", message: message || "Request failed" };
+      return {
+        kind: "error",
+        message:
+          message ||
+          t(
+            "agent-network.agent-overview-panel:useManagedProxy.text.requestFailed",
+          ),
+      };
     }
     if (outcome.kind === "deployment") {
       await mutate(outcome.proxy, { revalidate: false });

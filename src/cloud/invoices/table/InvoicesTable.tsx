@@ -14,7 +14,7 @@ import InvoicesActionCell from "@/cloud/invoices/table/InvoicesActionCell";
 import InvoicesPeriodCell from "@/cloud/invoices/table/InvoicesPeriodCell";
 import InvoicesTypeCell from "@/cloud/invoices/table/InvoicesTypeCell";
 import { Invoice } from "@/cloud/msp/interfaces/Invoice";
-
+import { t } from "@/i18n";
 type Props = {
   invoices?: Invoice[];
   isLoading: boolean;
@@ -24,7 +24,11 @@ type Props = {
 const InvoicesColumns: ColumnDef<Invoice>[] = [
   {
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Date</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("cloud.invoices:invoicesTable.text.date")}
+        </DataTableHeader>
+      );
     },
     accessorKey: "period_start",
     cell: ({ row }) => <InvoicesPeriodCell invoice={row.original} />,
@@ -34,7 +38,11 @@ const InvoicesColumns: ColumnDef<Invoice>[] = [
   },
   {
     header: ({ column }) => {
-      return <DataTableHeader column={column}>Type</DataTableHeader>;
+      return (
+        <DataTableHeader column={column}>
+          {t("common:word.type")}
+        </DataTableHeader>
+      );
     },
     accessorKey: "type",
     cell: ({ row }) => <InvoicesTypeCell invoice={row.original} />,
@@ -79,19 +87,21 @@ export default function InvoicesTable({
       tableClassName={"mt-0"}
       tableCellClassName={""}
       rowClassName={"last:mb-5"}
-      text={"Invoices"}
+      text={t("common:word.invoices")}
       columns={InvoicesColumns}
       keepStateInLocalStorage={false}
       data={invoices}
-      searchPlaceholder={"Search by invoice number or date..."}
+      searchPlaceholder={t(
+        "cloud.invoices:invoicesTable.searchPlaceholder.searchByInvoiceNumberOr",
+      )}
       isLoading={isLoading}
       getStartedCard={
         <NoResults
           className={"py-4"}
-          title={"You don't have any invoices"}
-          description={
-            "Invoices are created at the end of each billing period. You will see them here once they are available."
-          }
+          title={t("cloud.invoices:invoicesTable.title.youDonTHaveAny")}
+          description={t(
+            "cloud.invoices:invoicesTable.description.invoicesAreCreatedAtThe",
+          )}
           icon={<ReceiptTextIcon size={20} className={"text-nb-gray-300"} />}
         />
       }

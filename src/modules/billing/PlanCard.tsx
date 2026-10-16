@@ -11,10 +11,10 @@ import {
 import * as React from "react";
 import { useMemo } from "react";
 import Skeleton from "react-loading-skeleton";
+import { t } from "@/i18n";
 import { Currency, Plan } from "@/interfaces/Plan";
 import { PlanTier, Subscription } from "@/interfaces/Subscription";
 import { PlanIcon } from "@/modules/billing/PlanIcon";
-
 type Props = {
   currentPlan?: Plan;
   currentSubscription?: Subscription;
@@ -42,8 +42,8 @@ export const PlanCard = ({
   },
   onClick,
   buttonText = {
-    upgrade: "Upgrade to",
-    downgrade: "Downgrade to",
+    upgrade: t("billing.main:planCard.text.upgradeTo"),
+    downgrade: t("common:word.downgradeTo"),
   },
 }: Props) => {
   // Price of the plan in the selected currency
@@ -87,7 +87,8 @@ export const PlanCard = ({
   };
 
   const planButtonText = (plan: Plan) => {
-    if (plan.name === currentPlan?.name) return "Current Plan";
+    if (plan.name === currentPlan?.name)
+      return t("billing.main:planCard.text.currentPlan");
     if (isDowngrade) return `${buttonText?.downgrade} ${plan.name}`;
     return `${buttonText?.upgrade} ${plan.name}`;
   };
@@ -148,7 +149,7 @@ export const PlanCard = ({
             {currency == Currency.EUR && "€"}
           </p>
           <div className="flex flex-col text-sm font-normal ml-2 relative top-0.5 text-nb-gray-300">
-            <span>per user / month</span>
+            <span>{t("billing.main:planCard.text.perUserMonth")}</span>
           </div>
         </div>
 
@@ -156,13 +157,16 @@ export const PlanCard = ({
         <div className={"mt-4 text-sm flex-col gap-1 flex"}>
           <div className={"flex gap-2 items-center text-netbird"}>
             <UsersIcon size={16} />
-            <span className={"text-nb-gray-200"}> Unlimited Users</span>
+            <span className={"text-nb-gray-200"}>
+              {" "}
+              {t("billing.main:planCard.text.unlimitedUsers")}
+            </span>
           </div>
           <div className={"flex gap-2 items-center text-netbird"}>
             <MonitorSmartphoneIcon size={16} />
             <span className={"text-nb-gray-200"}>
               {" "}
-              100 machines + 10 per user
+              {t("billing.main:planCard.text.100Machines10PerUser")}
             </span>
           </div>
         </div>
@@ -186,8 +190,7 @@ export const PlanCard = ({
       <FullTooltip
         content={
           <div className={"text-xs max-w-sm"}>
-            Your plan was recently updated. Please wait for 48 hours from the
-            last update to change your plan again.
+            {t("billing.main:planCard.text.yourPlanWasRecentlyUpdated")}
           </div>
         }
         disabled={canUpgrade || plan.name === currentPlan?.name}

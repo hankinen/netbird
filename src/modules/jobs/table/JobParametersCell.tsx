@@ -34,8 +34,8 @@ export const JobParametersCell = ({ parameters }: { parameters: any }) => {
               value={
                 typeof value === "boolean"
                   ? value
-                    ? "Yes"
-                    : "No"
+                    ? t("jobs.table:jobOutputCell.text.yes")
+                    : t("jobs.table:jobOutputCell.text.no")
                   : String(value)
               }
               key={key}

@@ -2,7 +2,7 @@
 
 import { type ErrorResponse, useApiCall } from "@utils/api";
 import { useCallback, useRef, useState } from "react";
-
+import { t } from "@/i18n";
 // DiscoveredModel is one model the vendor says this credential can reach.
 export type DiscoveredModel = {
   // The id to register, in the form the vendor issues it. For Bedrock that is
@@ -112,7 +112,10 @@ export function useDiscoveredModels() {
           error:
             status === 422
               ? undefined
-              : failure?.message ?? "Could not reach the provider",
+              : failure?.message ??
+                t(
+                  "agent-network.agent-overview-panel:useDiscoveredModels.text.couldNotReachTheProvider",
+                ),
         });
         return [];
       }

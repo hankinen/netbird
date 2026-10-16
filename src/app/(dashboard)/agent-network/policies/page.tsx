@@ -10,10 +10,10 @@ import { ExternalLinkIcon } from "lucide-react";
 import React, { Suspense } from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import PageContainer from "@/layouts/PageContainer";
 import AgentPoliciesTable from "@/modules/agent-network/AgentPoliciesTable";
 import AIProvidersProvider from "@/modules/agent-network/AIProvidersProvider";
-
 export default function AgentNetworkPoliciesPage() {
   const { permission } = usePermissions();
   const { ref: headingRef, portalTarget } =
@@ -25,19 +25,18 @@ export default function AgentNetworkPoliciesPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/agent-network/providers"}
-            label={"Agent Network"}
+            label={t("agent-network.page:page.label.agentNetwork")}
             icon={<AgentNetworkIcon size={16} />}
           />
           <Breadcrumbs.Item
             href={"/agent-network/policies"}
-            label={"Policies"}
+            label={t("common:countWord.policies")}
             active={true}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Policies</h1>
+        <h1 ref={headingRef}>{t("common:countWord.policies")}</h1>
         <Paragraph>
-          Bind IdP groups to providers: Engineering gets Claude, Finance
-          doesn&apos;t. Enforce token limits, budgets, and guardrails.
+          {t("agent-network.page:page.text.bindIdPGroupsToProviders")}
         </Paragraph>
       </div>
 

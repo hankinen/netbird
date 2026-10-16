@@ -8,9 +8,9 @@ import { useState } from "react";
 import { useSignInDomains } from "@/cloud/sign-in-domains/useSignInDomains";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { DomainValidationStatus, SignInDomain } from "@/interfaces/Account";
 import { DomainVerificationModal } from "@/modules/integrations/sso/DomainVerificationModal";
-
 type Props = {
   domain: SignInDomain;
 };
@@ -27,37 +27,49 @@ export default function DomainActionCell({ domain }: Readonly<Props>) {
 
   const removeBlockedReason: React.ReactNode = domain.is_primary ? (
     <>
-      This is the primary domain of your account
+      {t("cloud.sign-in-domains:domainActionCell.text.thisIsThePrimaryDomain")}
       <br />
-      and cannot be removed.
+      {t("cloud.sign-in-domains:domainActionCell.text.andCannotBeRemoved")}
     </>
   ) : connections.length > 0 ? (
     <>
-      This domain is used by an SSO integration.
+      {t("cloud.sign-in-domains:domainActionCell.text.thisDomainIsUsedBy")}
       <br />
-      Remove it there before deleting it.
+      {t(
+        "cloud.sign-in-domains:domainActionCell.text.removeItThereBeforeDeleting",
+      )}
     </>
   ) : undefined;
 
   const deleteDomainHandler = async () => {
     const choice = await confirm({
-      title: `Remove ${domain.name}?`,
-      description:
-        "Users with an email address on this domain will no longer be matched to your account.",
-      confirmText: "Remove",
-      cancelText: "Cancel",
+      title: t("cloud.sign-in-domains:domainActionCell.title.remove", {
+        name: domain.name,
+      }),
+      description: t(
+        "cloud.sign-in-domains:domainActionCell.description.usersWithAnEmailAddress",
+      ),
+      confirmText: t("common:word.remove"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
       maxWidthClass: "max-w-md",
     });
     if (!choice) return;
     notify({
-      title: "Sign-in Domains",
-      description: `${domain.name} has been removed`,
+      title: t(
+        "cloud.sign-in-domains:addSignInDomainModal.title.signInDomains",
+      ),
+      description: t(
+        "cloud.sign-in-domains:domainActionCell.description.hasBeenRemoved",
+        { name: domain.name },
+      ),
       promise: deleteDomain(domain.id).then((res) => {
         mutate().catch(() => {});
         return res;
       }),
-      loadingMessage: "Removing domain...",
+      loadingMessage: t(
+        "cloud.sign-in-domains:domainActionCell.loadingMessage.removingDomain",
+      ),
     });
   };
 
@@ -89,14 +101,15 @@ export default function DomainActionCell({ domain }: Readonly<Props>) {
           onClick={() => setModal(true)}
           data-testid={"verify-domain"}
         >
-          Verify
+          {t("cloud.sign-in-domains:domainActionCell.text.verify")}
         </Button>
       )}
 
       <FullTooltip
         content={
           <div className={"text-xs max-w-xs"}>
-            {removeBlockedReason ?? "Remove domain"}
+            {removeBlockedReason ??
+              t("cloud.sign-in-domains:domainActionCell.text.removeDomain")}
           </div>
         }
         interactive={false}
@@ -110,7 +123,9 @@ export default function DomainActionCell({ domain }: Readonly<Props>) {
           )}
           disabled={!!removeBlockedReason || !permission.settings.update}
           onClick={deleteDomainHandler}
-          aria-label={"Remove domain"}
+          aria-label={t(
+            "cloud.sign-in-domains:domainActionCell.text.removeDomain",
+          )}
           data-testid={"remove-domain"}
         >
           <TrashIcon size={14} />

@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { AccountMFAInfoModal } from "@/cloud/mfa/AccountMFAInfoModal";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
-
+import { t } from "@/i18n";
 const config = loadConfig();
 
 export interface AccountMFA {
@@ -74,16 +74,20 @@ export const AccountMFASettings = () => {
 
     const timer = setTimeout(() => setIsLoading(true), 800);
 
-    const rememberBrowserDescription = `Option to remember browser is now ${
-      rememberBrowser ? "enabled" : "disabled"
-    }`;
+    const rememberBrowserDescription = rememberBrowser
+      ? t("cloud.mfa:accountMFASettings.text.optionToRememberBrowserIsEnabled")
+      : t(
+          "cloud.mfa:accountMFASettings.text.optionToRememberBrowserIsDisabled",
+        );
 
-    const mfaDescription = `MFA is now ${
-      enable ? "enabled" : "disabled"
-    } for your account`;
+    const mfaDescription = enable
+      ? t("cloud.mfa:accountMFASettings.text.mFAIsNowForYourEnabled")
+      : t("cloud.mfa:accountMFASettings.text.mFAIsNowForYourDisabled");
 
     notify({
-      title: "Multi-Factor Authentication (MFA)",
+      title: t(
+        "cloud.mfa:accountMFACard.ariaLabel.multiFactorAuthenticationMFA",
+      ),
       description:
         rememberBrowser != undefined
           ? rememberBrowserDescription
@@ -109,7 +113,9 @@ export const AccountMFASettings = () => {
           setIsLoading(false);
           clearTimeout(timer);
         }),
-      loadingMessage: "Updating MFA settings...",
+      loadingMessage: t(
+        "cloud.mfa:accountMFASettings.loadingMessage.updatingMFASettings",
+      ),
     });
   };
   const handleModalConfirm = () => {
@@ -149,7 +155,9 @@ export const AccountMFASettings = () => {
         >
           <div className={"flex gap-2 items-center justify-center"}>
             <Loader2Icon size={15} className={"animate-spin"} />
-            Updating MFA settings...
+            {t(
+              "cloud.mfa:accountMFASettings.loadingMessage.updatingMFASettings",
+            )}
           </div>
         </div>
         <FancyToggleSwitch
@@ -161,13 +169,16 @@ export const AccountMFASettings = () => {
           label={
             <>
               <ShieldCheckIcon size={15} />
-              Multi-Factor Authentication (MFA)
+              {t(
+                "cloud.mfa:accountMFACard.ariaLabel.multiFactorAuthenticationMFA",
+              )}
             </>
           }
           helpText={
             <>
-              Enable NetBird MFA if not configured in your IdP. <br />
-              This setting is global and applies to all users.
+              {t("cloud.mfa:accountMFASettings.text.enableNetBirdMFAIfNot")}{" "}
+              <br />
+              {t("cloud.mfa:accountMFASettings.text.thisSettingIsGlobalAnd")}
             </>
           }
         />
@@ -192,13 +203,12 @@ export const AccountMFASettings = () => {
           />
           <div>
             <div className={"font-medium text-sm text-nb-gray-200"}>
-              Remember Browser for MFA
+              {t("cloud.mfa:accountMFASettings.text.rememberBrowserForMFA")}
             </div>
             <div className={"text-xs"}>
-              When enabled, users will have the option to remember their browser
-              for 30 days.
-              <br className={"hidden lg:block"} /> MFA will not be required for
-              that browser during this period.
+              {t("cloud.mfa:accountMFASettings.text.whenEnabledUsersWillHave")}
+              <br className={"hidden lg:block"} />{" "}
+              {t("cloud.mfa:accountMFASettings.text.mFAWillNotBeRequired")}
             </div>
           </div>
         </label>

@@ -20,8 +20,8 @@ import { useMemo } from "react";
 import { useCountries } from "@/contexts/CountryProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
+import { t } from "@/i18n";
 import { CrowdSecMode, ReverseProxy } from "@/interfaces/ReverseProxy";
-
 type RuleEntry = {
   key: string;
   label: string;
@@ -88,7 +88,7 @@ export default function ReverseProxyAccessControlCell({
     if (restrictions?.allowed_countries?.length) {
       entries.push({
         key: "allowed-countries",
-        label: "Allowed Countries",
+        label: t("reverse-proxy.table:reverseProxyAccessControlCell.label.allowedCountries"),
         Icon: FlagIcon,
         value: restrictions.allowed_countries.map(getCountryName).join(", "),
       });
@@ -97,7 +97,7 @@ export default function ReverseProxyAccessControlCell({
     if (restrictions?.blocked_countries?.length) {
       entries.push({
         key: "blocked-countries",
-        label: "Blocked Countries",
+        label: t("reverse-proxy.table:reverseProxyAccessControlCell.label.blockedCountries"),
         Icon: FlagIcon,
         value: restrictions.blocked_countries.map(getCountryName).join(", "),
         blocked: true,
@@ -116,7 +116,7 @@ export default function ReverseProxyAccessControlCell({
     if (allowedIps.length) {
       entries.push({
         key: "allowed-ips",
-        label: allowedIps.length === 1 ? "Allowed IP" : "Allowed IPs",
+        label: allowedIps.length === 1 ? t("reverse-proxy.table:reverseProxyAccessControlCell.text.allowedIP") : t("reverse-proxy.table:reverseProxyAccessControlCell.text.allowedIPs"),
         Icon: WorkflowIcon,
         value: allowedIps.map((c) => c.replace(/\/32$/, "")).join(", "),
       });
@@ -125,7 +125,7 @@ export default function ReverseProxyAccessControlCell({
     if (allowedCidrs.length) {
       entries.push({
         key: "allowed-cidrs",
-        label: allowedCidrs.length === 1 ? "Allowed CIDR" : "Allowed CIDRs",
+        label: allowedCidrs.length === 1 ? t("reverse-proxy.table:reverseProxyAccessControlCell.text.allowedCIDR") : t("reverse-proxy.table:reverseProxyAccessControlCell.text.allowedCIDRs"),
         Icon: NetworkIcon,
         value: allowedCidrs.join(", "),
       });
@@ -134,7 +134,7 @@ export default function ReverseProxyAccessControlCell({
     if (blockedIps.length) {
       entries.push({
         key: "blocked-ips",
-        label: blockedIps.length === 1 ? "Blocked IP" : "Blocked IPs",
+        label: blockedIps.length === 1 ? t("reverse-proxy.table:reverseProxyAccessControlCell.text.blockedIP") : t("reverse-proxy.table:reverseProxyAccessControlCell.text.blockedIPs"),
         Icon: WorkflowIcon,
         value: blockedIps.map((c) => c.replace(/\/32$/, "")).join(", "),
         blocked: true,
@@ -144,7 +144,7 @@ export default function ReverseProxyAccessControlCell({
     if (blockedCidrs.length) {
       entries.push({
         key: "blocked-cidrs",
-        label: blockedCidrs.length === 1 ? "Blocked CIDR" : "Blocked CIDRs",
+        label: blockedCidrs.length === 1 ? t("reverse-proxy.table:reverseProxyAccessControlCell.text.blockedCIDR") : t("reverse-proxy.table:reverseProxyAccessControlCell.text.blockedCIDRs"),
         Icon: NetworkIcon,
         value: blockedCidrs.join(", "),
         blocked: true,
@@ -154,7 +154,7 @@ export default function ReverseProxyAccessControlCell({
     if (hasCrowdSec) {
       entries.push({
         key: "crowdsec",
-        label: "CrowdSec",
+        label: t("reverse-proxy.table:reverseProxyAccessControlCell.label.crowdSec"),
         Icon: ShieldAlert,
         value:
           restrictions?.crowdsec_mode === CrowdSecMode.ENFORCE
@@ -229,7 +229,7 @@ export default function ReverseProxyAccessControlCell({
             openModal({ proxy: reverseProxy, initialTab: "access-control" });
           }}
           disabled={!permission?.services?.update}
-          aria-label="Configure access control"
+          aria-label={t("reverse-proxy.table:reverseProxyAccessControlCell.ariaLabel.configureAccessControl")}
         >
           <Settings size={12} />
         </Button>

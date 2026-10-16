@@ -1,6 +1,6 @@
 import ButtonGroup from "@components/ButtonGroup";
 import * as React from "react";
-
+import { t } from "@/i18n";
 type Props = {
   value?: string;
   onChange?: (value: string) => void;
@@ -16,7 +16,7 @@ export const TrafficEventsConnectionTypeFilter = ({
         onClick={() => onChange?.("")}
         variant={value == undefined || value == "" ? "tertiary" : "secondary"}
       >
-        All
+        {t("common:word.all")}
       </ButtonGroup.Button>
       <ButtonGroup.Button
         onClick={() => onChange?.("P2P")}
@@ -28,7 +28,9 @@ export const TrafficEventsConnectionTypeFilter = ({
         onClick={() => onChange?.("ROUTED")}
         variant={value === "ROUTED" ? "tertiary" : "secondary"}
       >
-        Routed
+        {t(
+          "cloud.traffic-events:trafficEventsConnectionTypeFilter.text.routed",
+        )}
       </ButtonGroup.Button>
     </ButtonGroup>
   );

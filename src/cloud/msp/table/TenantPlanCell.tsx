@@ -7,9 +7,9 @@ import Skeleton from "react-loading-skeleton";
 import { useTenants } from "@/cloud/msp/contexts/TenantsProvider";
 import { useTenantPlan } from "@/cloud/msp/hooks/useTenantPlan";
 import { Tenant, TenantStatus } from "@/cloud/msp/interfaces/Tenant";
+import { t } from "@/i18n";
 import { PlanTier } from "@/interfaces/Subscription";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
-
 type Props = {
   tenant: Tenant;
 };
@@ -35,7 +35,7 @@ export const TenantPlanCell = ({ tenant }: Props) => {
       <div className={"flex gap-3 items-center"}>
         <Badge variant={"yellow"} className={"h-[32px]"}>
           <CircleAlertIcon size={12} />
-          Trial Expired
+          {t("cloud.msp:mSPTenantsSwitcher.text.trialExpired")}
         </Badge>
         <Button
           size={"xs"}
@@ -44,7 +44,7 @@ export const TenantPlanCell = ({ tenant }: Props) => {
           onClick={() => openEditTenantModal(tenant, "plan")}
         >
           <CreditCardIcon size={12} />
-          Upgrade Plan
+          {t("cloud.msp:tenantPlanCell.text.upgradePlan")}
         </Button>
       </div>
     );
@@ -90,10 +90,10 @@ const CurrentPlan = ({ plan }: { plan: PlanTier }) => {
           plan == PlanTier.TRIAL && "bg-purple-400",
         )}
       ></span>
-      {plan == PlanTier.BUSINESS && "Business"}
-      {plan == PlanTier.TEAM && "Team"}
-      {plan == PlanTier.FREE && "Free"}
-      {plan == PlanTier.TRIAL && "Free Trial"}
+      {plan == PlanTier.BUSINESS && t("cloud.msp:tenantPlanCell.text.business")}
+      {plan == PlanTier.TEAM && t("cloud.msp:tenantPlanCell.text.team")}
+      {plan == PlanTier.FREE && t("cloud.msp:tenantPlanCell.text.free")}
+      {plan == PlanTier.TRIAL && t("cloud.msp:tenantPlanCell.text.freeTrial")}
     </>
   );
 };

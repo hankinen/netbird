@@ -17,9 +17,9 @@ import {
   RocketIcon,
 } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
+import { t as i18nT } from "@/i18n";
 import { isClusterConnected } from "@/interfaces/ReverseProxy";
 import { useProxyCluster } from "@/modules/reverse-proxy/clusters/useProxyCluster";
-
 // Synced from templates/reverse-proxy/netbird-proxy-cfn.yaml by the
 // sync-deploy-templates workflow.
 const CFN_TEMPLATE_URL =
@@ -169,19 +169,19 @@ const fetchHetznerCatalog = async (token: string): Promise<HetznerCatalog> => {
   if (!typesRes.ok) {
     throw new Error(
       typesBody?.error?.message ??
-        `Hetzner API error (HTTP ${typesRes.status})`,
+        i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.hetznerAPIErrorHTTP", { status: typesRes.status }),
     );
   }
   const dcsBody = await dcsRes.json().catch(() => null);
   if (!dcsRes.ok) {
     throw new Error(
-      dcsBody?.error?.message ?? `Hetzner API error (HTTP ${dcsRes.status})`,
+      dcsBody?.error?.message ?? i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.hetznerAPIErrorHTTP", { status: dcsRes.status }),
     );
   }
   const keysBody = await keysRes.json().catch(() => null);
   if (!keysRes.ok) {
     throw new Error(
-      keysBody?.error?.message ?? `Hetzner API error (HTTP ${keysRes.status})`,
+      keysBody?.error?.message ?? i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.hetznerAPIErrorHTTP", { status: keysRes.status }),
     );
   }
 
@@ -257,14 +257,14 @@ const RegistrationCheck = ({
         <>
           <CheckCircle2 size={16} className={"text-green-500 shrink-0"} />
           <span className={"text-nb-gray-100"}>
-            Proxy registered with NetBird and connected.
+            {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.proxyRegisteredWithNetBirdAnd")}
           </span>
         </>
       ) : (
         <>
           <Loader2 size={16} className={"animate-spin shrink-0"} />
           <span className={"text-nb-gray-300"}>
-            Waiting for the proxy to register with NetBird...
+            {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.waitingForTheProxyTo")}
           </span>
         </>
       )}
@@ -289,13 +289,12 @@ const DeploySuccess = ({
     <div className={"flex flex-col gap-4"}>
       <Callout variant={"info"}>
         {resourceLabel} <span className={"text-white font-medium"}>{name}</span>{" "}
-        was created
+        {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.wasCreated")}
         {ip ? (
           <>
             {" "}
-            with {isStaticIP ? "static IP" : "IP"}{" "}
-            <span className={"text-netbird font-medium"}>{ip}</span> and is still
-            bootstrapping. Meanwhile, add the DNS records below.
+            {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.with")}{" "}{isStaticIP ? i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.staticIP") : "IP"}{" "}
+            <span className={"text-netbird font-medium"}>{ip}</span>{" "}{i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.andIsStillBootstrappingMeanwhile")}
           </>
         ) : (
           <> {ipPendingNote}</>
@@ -303,16 +302,15 @@ const DeploySuccess = ({
       </Callout>
       {ip && (
         <div>
-          <Label>Create DNS Records</Label>
+          <Label>{i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.createDNSRecords")}</Label>
           <HelpText>
-            Point these records at the new {resourceLabel.toLowerCase()}. The
-            proxy gets its certificate once they resolve.
+            {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.pointTheseRecordsAtThe", { resource: resourceLabel.toLowerCase() })}
           </HelpText>
           <CardTable>
             <CardTable.Header>
-              <CardTable.HeaderCell width={100}>Type</CardTable.HeaderCell>
-              <CardTable.HeaderCell>Name</CardTable.HeaderCell>
-              <CardTable.HeaderCell>Content</CardTable.HeaderCell>
+              <CardTable.HeaderCell width={100}>{i18nT("common:word.type")}</CardTable.HeaderCell>
+              <CardTable.HeaderCell>{i18nT("common:word.name")}</CardTable.HeaderCell>
+              <CardTable.HeaderCell>{i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.content")}</CardTable.HeaderCell>
             </CardTable.Header>
             <CardTable.Body>
               <CardTable.Row>
@@ -456,7 +454,7 @@ const HetznerDeploy = ({
         const body = await res.json().catch(() => null);
         if (!res.ok) {
           throw new Error(
-            body?.error?.message ?? `Hetzner API error (HTTP ${res.status})`,
+            body?.error?.message ?? i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.hetznerAPIErrorHTTP", { status: res.status }),
           );
         }
         setServerIP(body?.server?.public_net?.ipv4?.ip ?? "");
@@ -477,7 +475,7 @@ const HetznerDeploy = ({
             const ipBody = await ipRes.json().catch(() => null);
             throw new Error(
               `server created, but keeping its IP static failed: ${
-                ipBody?.error?.message ?? `HTTP ${ipRes.status}`
+                ipBody?.error?.message ?? i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.hTTP", { status: ipRes.status })
               }`,
             );
           }
@@ -486,10 +484,10 @@ const HetznerDeploy = ({
       .finally(() => setIsDeploying(false));
 
     notify({
-      title: "Hetzner Deployment",
-      description: "Failed to create the Hetzner server",
+      title: i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.title.hetznerDeployment"),
+      description: i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.description.failedToCreateTheHetzner"),
       promise,
-      loadingMessage: "Creating Hetzner server...",
+      loadingMessage: i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.loadingMessage.creatingHetznerServer"),
       showOnlyError: true,
       preventSuccessToast: true,
     });
@@ -498,7 +496,7 @@ const HetznerDeploy = ({
   if (serverIP) {
     return (
       <DeploySuccess
-        resourceLabel={"Server"}
+        resourceLabel={i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.server")}
         name={serverName}
         ip={serverIP}
         isStaticIP={staticIP}
@@ -512,32 +510,30 @@ const HetznerDeploy = ({
     <div className={"flex flex-col gap-4"}>
       <div>
         <Label>
-          Hetzner API Token
+          {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.hetznerAPIToken")}
           <HelpTooltip
             interactive={true}
             content={
               <>
-                The token goes straight from your browser to Hetzner and never
-                touches NetBird&apos;s servers, and you can delete it once setup
-                succeeds.{" "}
+                {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.theTokenGoesStraightFrom")}{" "}
                 <InlineLink
                   href={
                     "https://docs.hetzner.com/cloud/api/getting-started/generating-api-token/"
                   }
                   target={"_blank"}
                 >
-                  How to create a token
+                  {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.howToCreateAToken")}
                 </InlineLink>
               </>
             }
           />
         </Label>
         <HelpText>
-          Create a read &amp; write API token. It is never stored by NetBird.
+          {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.createAReadAmpWrite")}
         </HelpText>
         <Input
           type={"password"}
-          placeholder={"Paste your Hetzner Cloud API token here"}
+          placeholder={i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.placeholder.pasteYourHetznerCloudAPI")}
           value={hetznerToken}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setHetznerToken(e.target.value)
@@ -546,14 +542,14 @@ const HetznerDeploy = ({
       </div>
       {catalogError && (
         <Callout variant={"warning"}>
-          Could not load Hetzner options: {catalogError}
+          {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.couldNotLoadHetznerOptions", { catalogError })}
         </Callout>
       )}
       {catalog ? (
         <>
           <div className={"flex gap-4"}>
             <div className={"w-1/2"}>
-              <Label>Location</Label>
+              <Label>{i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.location")}</Label>
               <SelectDropdown
                 value={location}
                 onChange={(v) => setLocation(v as string)}
@@ -561,7 +557,7 @@ const HetznerDeploy = ({
               />
             </div>
             <div className={"w-1/2"}>
-              <Label>Server Type</Label>
+              <Label>{i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.serverType")}</Label>
               <SelectDropdown
                 value={serverType}
                 onChange={(v) => setServerType(v as string)}
@@ -570,7 +566,7 @@ const HetznerDeploy = ({
             </div>
           </div>
           <div>
-            <Label>SSH Key</Label>
+            <Label>{i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.sSHKey")}</Label>
             {catalog.sshKeys.length > 0 ? (
               <SelectDropdown
                 value={sshKeyId}
@@ -582,25 +578,22 @@ const HetznerDeploy = ({
               />
             ) : (
               <HelpText className={"mb-0"}>
-                No SSH keys found in this Hetzner project. Add one in the
-                Hetzner Console first if you need SSH access to the server.
+                {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.noSSHKeysFoundIn")}
               </HelpText>
             )}
           </div>
           <FancyToggleSwitch
             value={staticIP}
             onChange={setStaticIP}
-            label={"Static IP"}
-            helpText={
-              "Keep the server's IP when the server is deleted or rebuilt, so the DNS records stay valid. Hetzner bills unassigned IPs."
-            }
+            label={i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.label.staticIP")}
+            helpText={i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.helpText.keepTheServerSIP")}
           />
         </>
       ) : (
         <HelpText className={"mb-0"}>
           {isLoadingCatalog
-            ? "Loading available locations and server types..."
-            : "Enter your API token to load the available locations and server types."}
+            ? i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.loadingAvailableLocationsAndServer")
+            : i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.enterYourAPITokenTo")}
         </HelpText>
       )}
       <Button
@@ -620,7 +613,7 @@ const HetznerDeploy = ({
         ) : (
           <RocketIcon size={16} />
         )}
-        {isGeneratingToken ? "Preparing proxy token..." : "Deploy Server"}
+        {isGeneratingToken ? i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.preparingProxyToken") : i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.deployServer")}
       </Button>
     </div>
   );
@@ -695,7 +688,7 @@ const DigitalOceanDeploy = ({
         const body = await res.json().catch(() => null);
         if (!res.ok) {
           throw new Error(
-            body?.message ?? `DigitalOcean API error (HTTP ${res.status})`,
+            body?.message ?? i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.digitalOceanAPIErrorHTTP", { status: res.status }),
           );
         }
         setIsCreated(true);
@@ -718,7 +711,7 @@ const DigitalOceanDeploy = ({
           if (!ipRes.ok) {
             throw new Error(
               `droplet created, but reserving a static IP failed: ${
-                ipBody?.message ?? `HTTP ${ipRes.status}`
+                ipBody?.message ?? i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.hTTP", { status: ipRes.status })
               }`,
             );
           }
@@ -728,10 +721,10 @@ const DigitalOceanDeploy = ({
       .finally(() => setIsDeploying(false));
 
     notify({
-      title: "DigitalOcean Deployment",
-      description: "Failed to create the DigitalOcean droplet",
+      title: i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.title.digitalOceanDeployment"),
+      description: i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.description.failedToCreateTheDigitalOcean"),
       promise,
-      loadingMessage: "Creating DigitalOcean droplet...",
+      loadingMessage: i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.loadingMessage.creatingDigitalOceanDroplet"),
       showOnlyError: true,
       preventSuccessToast: true,
     });
@@ -753,10 +746,9 @@ const DigitalOceanDeploy = ({
         }
       >
         <div>
-          <Label>Droplet Root Password</Label>
+          <Label>{i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.dropletRootPassword")}</Label>
           <HelpText>
-            Use it with the Droplet Web Console. Copy it now - it is not stored
-            anywhere.
+            {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.useItWithTheDroplet")}
           </HelpText>
           <Code codeToCopy={rootPassword}>
             <Code.Line>{rootPassword}</Code.Line>
@@ -770,36 +762,34 @@ const DigitalOceanDeploy = ({
     <div className={"flex flex-col gap-4"}>
       <div>
         <Label>
-          DigitalOcean API Token
+          {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.digitalOceanAPIToken")}
           <HelpTooltip
             interactive={true}
             content={
               <>
-                For the tightest scope, grant full access to{" "}
-                <span className={"font-mono text-netbird"}>tag</span>,{" "}
-                <span className={"font-mono text-netbird"}>droplet</span>, and{" "}
-                <span className={"font-mono text-netbird"}>reserved_ip</span>{" "}
-                only. The token goes straight from your browser to DigitalOcean
-                and never touches NetBird&apos;s servers, and you can delete it
-                once setup succeeds.{" "}
+                {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.forTheTightestScopeGrant")}{" "}
+                <span className={"font-mono text-netbird"}>{"tag"}</span>,{" "}
+                <span className={"font-mono text-netbird"}>{"droplet"}</span>{i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.and")}{" "}
+                <span className={"font-mono text-netbird"}>{"reserved_ip"}</span>{" "}
+                {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.onlyTheTokenGoesStraight")}{" "}
                 <InlineLink
                   href={
                     "https://docs.digitalocean.com/reference/api/create-personal-access-token/"
                   }
                   target={"_blank"}
                 >
-                  How to create a token
+                  {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.howToCreateAToken")}
                 </InlineLink>
               </>
             }
           />
         </Label>
         <HelpText>
-          Create a token with write access. It is never stored by NetBird.
+          {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.createATokenWithWrite")}
         </HelpText>
         <Input
           type={"password"}
-          placeholder={"Paste your DigitalOcean API token here"}
+          placeholder={i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.placeholder.pasteYourDigitalOceanAPIToken")}
           value={doToken}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setDoToken(e.target.value)
@@ -808,7 +798,7 @@ const DigitalOceanDeploy = ({
       </div>
       <div className={"flex gap-4"}>
         <div className={"w-1/2"}>
-          <Label>Region</Label>
+          <Label>{i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.region")}</Label>
           <SelectDropdown
             value={region}
             onChange={(v) => setRegion(v as string)}
@@ -816,7 +806,7 @@ const DigitalOceanDeploy = ({
           />
         </div>
         <div className={"w-1/2"}>
-          <Label>Droplet Size</Label>
+          <Label>{i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.dropletSize")}</Label>
           <SelectDropdown
             value={size}
             onChange={(v) => setSize(v as string)}
@@ -827,10 +817,8 @@ const DigitalOceanDeploy = ({
       <FancyToggleSwitch
         value={staticIP}
         onChange={setStaticIP}
-        label={"Static IP"}
-        helpText={
-          "Reserve a static IP so DNS records remain valid after rebuilds. Free of charge while assigned to a Droplet."
-        }
+        label={i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.label.staticIP")}
+        helpText={i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.helpText.reserveAStaticIPSo")}
       />
       <Button
         variant={"primary"}
@@ -842,7 +830,7 @@ const DigitalOceanDeploy = ({
         ) : (
           <RocketIcon size={16} />
         )}
-        {isGeneratingToken ? "Preparing proxy token..." : "Deploy Droplet"}
+        {isGeneratingToken ? i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.preparingProxyToken") : i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.deployDroplet")}
       </Button>
     </div>
   );
@@ -871,19 +859,20 @@ const AWSDeploy = ({
   return (
     <div className={"flex flex-col gap-4"}>
       <div>
-        <Label>Proxy Access Token</Label>
+        <Label>{i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.proxyAccessToken")}</Label>
         <HelpText>
-          Copy this token for AWS stack creation. It is excluded from outputs and
-          logs.
+          {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.copyThisTokenForAWS")}
         </HelpText>
         <Code codeToCopy={token} showCopyIcon={!isGeneratingToken}>
           <Code.Line>
-            {isGeneratingToken ? "Generating proxy token..." : token}
+            {isGeneratingToken
+              ? i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.generatingProxyToken")
+              : token}
           </Code.Line>
         </Code>
       </div>
       <div>
-        <Label>Region</Label>
+        <Label>{i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.region")}</Label>
         <SelectDropdown
           value={region}
           onChange={(v) => setRegion(v as string)}
@@ -899,12 +888,11 @@ const AWSDeploy = ({
         }}
       >
         <RocketIcon size={16} />
-        Launch Stack in AWS Console
+        {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.launchStackInAWSConsole")}
         <ExternalLinkIcon size={14} />
       </Button>
       <HelpText className={"mb-0"}>
-        The AWS Console opens with a prefilled form. Paste the token, create the
-        stack, then point your DNS records to the PublicIP output.
+        {i18nT("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.theAWSConsoleOpensWith")}
       </HelpText>
       {launched && (
         <RegistrationCheck domain={domain} onRegistered={onRegistered} />

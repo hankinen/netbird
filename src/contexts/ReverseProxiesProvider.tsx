@@ -14,6 +14,7 @@ import { useSWRConfig } from "swr";
 import { TerminatedProxiesProvider } from "@/cloud/reverse-proxy/TerminatedProxiesProvider";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t as i18nT } from "@/i18n";
 import { Network, NetworkResource } from "@/interfaces/Network";
 import { Peer } from "@/interfaces/Peer";
 import {
@@ -28,7 +29,6 @@ import {
 } from "@/interfaces/ReverseProxy";
 import ReverseProxyModal from "@/modules/reverse-proxy/ReverseProxyModal";
 import ReverseProxyTargetModal from "@/modules/reverse-proxy/targets/ReverseProxyTargetModal";
-
 type ReverseProxiesContextValue = {
   reverseProxies: ReverseProxy[] | undefined;
   resources: NetworkResource[] | undefined;
@@ -237,8 +237,12 @@ export default function ReverseProxiesProvider({
       notify({
         title: targetModalProxy.domain,
         description: isEditing
-          ? "Target updated successfully"
-          : "Target added successfully",
+          ? i18nT(
+              "contexts.main:reverseProxiesProvider.text.targetUpdatedSuccessfully",
+            )
+          : i18nT(
+              "contexts.main:reverseProxiesProvider.text.targetAddedSuccessfully",
+            ),
         promise: request
           .put(
             { ...targetModalProxy, targets: sanitizeTargets(updatedTargets) },
@@ -259,7 +263,9 @@ export default function ReverseProxiesProvider({
               }, 200);
             }
           }),
-        loadingMessage: isEditing ? "Updating target..." : "Adding target...",
+        loadingMessage: isEditing
+          ? i18nT("contexts.main:reverseProxiesProvider.text.updatingTarget")
+          : i18nT("contexts.main:reverseProxiesProvider.text.addingTarget"),
       });
       closeTargetModal();
     },
@@ -280,8 +286,12 @@ export default function ReverseProxiesProvider({
       notify({
         title: data.domain || "",
         description: isCreating
-          ? "Service was successfully created"
-          : "Service was successfully updated",
+          ? i18nT(
+              "contexts.main:reverseProxiesProvider.text.serviceWasSuccessfullyCreated",
+            )
+          : i18nT(
+              "contexts.main:reverseProxiesProvider.text.serviceWasSuccessfullyUpdated",
+            ),
         promise: promise.then((result) => {
           mutate("/reverse-proxies/services");
           onSuccess?.();
@@ -298,8 +308,8 @@ export default function ReverseProxiesProvider({
           }
         }),
         loadingMessage: isCreating
-          ? "Creating service..."
-          : "Updating service...",
+          ? i18nT("contexts.main:reverseProxiesProvider.text.creatingService")
+          : i18nT("contexts.main:reverseProxiesProvider.text.updatingService"),
       });
     },
     [request, mutate],
@@ -310,7 +320,13 @@ export default function ReverseProxiesProvider({
       const newEnabled = !proxy.enabled;
       notify({
         title: proxy.domain,
-        description: `Reverse proxy ${newEnabled ? "enabled" : "disabled"}`,
+        description: newEnabled
+          ? i18nT(
+              "contexts.main:reverseProxiesProvider.description.reverseProxyEnabled",
+            )
+          : i18nT(
+              "contexts.main:reverseProxiesProvider.description.reverseProxyDisabled",
+            ),
         promise: request
           .put(
             {
@@ -323,9 +339,13 @@ export default function ReverseProxiesProvider({
           .then(() => {
             mutate("/reverse-proxies/services");
           }),
-        loadingMessage: `${
-          newEnabled ? "Enabling" : "Disabling"
-        } reverse proxy...`,
+        loadingMessage: newEnabled
+          ? i18nT(
+              "contexts.main:reverseProxiesProvider.loadingMessage.reverseProxyEnabling",
+            )
+          : i18nT(
+              "contexts.main:reverseProxiesProvider.loadingMessage.reverseProxyDisabling",
+            ),
       });
     },
     [mutate, request],
@@ -351,7 +371,13 @@ export default function ReverseProxiesProvider({
       });
       notify({
         title: proxy.domain,
-        description: `Target ${newEnabled ? "enabled" : "disabled"}`,
+        description: newEnabled
+          ? i18nT(
+              "contexts.main:reverseProxiesProvider.description.targetEnabled",
+            )
+          : i18nT(
+              "contexts.main:reverseProxiesProvider.description.targetDisabled",
+            ),
         promise: request
           .put(
             { ...proxy, targets: sanitizeTargets(updatedTargets) },
@@ -360,7 +386,13 @@ export default function ReverseProxiesProvider({
           .then(() => {
             mutate("/reverse-proxies/services");
           }),
-        loadingMessage: `${newEnabled ? "Enabling" : "Disabling"} target...`,
+        loadingMessage: newEnabled
+          ? i18nT(
+              "contexts.main:reverseProxiesProvider.loadingMessage.targetEnabling",
+            )
+          : i18nT(
+              "contexts.main:reverseProxiesProvider.loadingMessage.targetDisabling",
+            ),
       });
     },
     [mutate, request],
@@ -369,22 +401,29 @@ export default function ReverseProxiesProvider({
   const handleDelete = useCallback(
     async (proxy: ReverseProxy) => {
       const choice = await confirm({
-        title: `Delete '${proxy.domain}'?`,
-        description:
-          "Are you sure you want to delete this reverse proxy? This action cannot be undone.",
-        confirmText: "Delete",
-        cancelText: "Cancel",
+        title: i18nT("contexts.main:reverseProxiesProvider.title.delete", {
+          domain: proxy.domain,
+        }),
+        description: i18nT(
+          "contexts.main:reverseProxiesProvider.description.areYouSureYouWant",
+        ),
+        confirmText: i18nT("common:word.delete"),
+        cancelText: i18nT("common:word.cancel"),
         type: "danger",
       });
       if (!choice) return;
 
       notify({
         title: proxy.domain,
-        description: "Reverse proxy was successfully deleted",
+        description: i18nT(
+          "contexts.main:reverseProxiesProvider.description.reverseProxyWasSuccessfullyDeleted",
+        ),
         promise: request.del({}, `/${proxy.id}`).then(() => {
           mutate("/reverse-proxies/services");
         }),
-        loadingMessage: "Deleting reverse proxy...",
+        loadingMessage: i18nT(
+          "contexts.main:reverseProxiesProvider.loadingMessage.deletingReverseProxy",
+        ),
       });
     },
     [confirm, request, mutate],
@@ -395,12 +434,20 @@ export default function ReverseProxiesProvider({
       const isOnlyTarget = proxy.targets.length <= 1;
 
       const choice = await confirm({
-        title: isOnlyTarget ? `Delete '${proxy.domain}'?` : `Delete target?`,
+        title: isOnlyTarget
+          ? i18nT("contexts.main:reverseProxiesProvider.title.delete", {
+              domain: proxy.domain,
+            })
+          : i18nT("contexts.main:reverseProxiesProvider.text.deleteTarget"),
         description: isOnlyTarget
-          ? "This is the only target for this service. Deleting it will remove the entire service. This action cannot be undone."
-          : "Are you sure you want to delete this target? This action cannot be undone.",
-        confirmText: "Delete",
-        cancelText: "Cancel",
+          ? i18nT(
+              "contexts.main:reverseProxiesProvider.text.thisIsTheOnlyTarget",
+            )
+          : i18nT(
+              "contexts.main:reverseProxiesProvider.text.areYouSureYouWant",
+            ),
+        confirmText: i18nT("common:word.delete"),
+        cancelText: i18nT("common:word.cancel"),
         type: "danger",
       });
       if (!choice) return;
@@ -408,11 +455,15 @@ export default function ReverseProxiesProvider({
       if (isOnlyTarget) {
         notify({
           title: proxy.domain,
-          description: "Service was successfully deleted",
+          description: i18nT(
+            "contexts.main:reverseProxiesProvider.description.serviceWasSuccessfullyDeleted",
+          ),
           promise: request.del({}, `/${proxy.id}`).then(() => {
             mutate("/reverse-proxies/services");
           }),
-          loadingMessage: "Deleting service...",
+          loadingMessage: i18nT(
+            "contexts.main:reverseProxiesProvider.loadingMessage.deletingService",
+          ),
         });
       } else {
         let targetIndex = proxy.targets.indexOf(target);
@@ -433,7 +484,9 @@ export default function ReverseProxiesProvider({
 
         notify({
           title: proxy.domain,
-          description: "Target was successfully deleted",
+          description: i18nT(
+            "contexts.main:reverseProxiesProvider.description.targetWasSuccessfullyDeleted",
+          ),
           promise: request
             .put(
               { ...proxy, targets: sanitizeTargets(updatedTargets) },
@@ -442,7 +495,9 @@ export default function ReverseProxiesProvider({
             .then(() => {
               mutate("/reverse-proxies/services");
             }),
-          loadingMessage: "Deleting target...",
+          loadingMessage: i18nT(
+            "contexts.main:reverseProxiesProvider.loadingMessage.deletingTarget",
+          ),
         });
       }
     },
@@ -464,10 +519,16 @@ export default function ReverseProxiesProvider({
           return d;
         });
       notify({
-        title: "Add Custom Domain",
-        description: "Domain successfully added",
+        title: i18nT(
+          "contexts.main:reverseProxiesProvider.title.addCustomDomain",
+        ),
+        description: i18nT(
+          "contexts.main:reverseProxiesProvider.description.domainSuccessfullyAdded",
+        ),
         promise,
-        loadingMessage: "Adding domain...",
+        loadingMessage: i18nT(
+          "contexts.main:reverseProxiesProvider.loadingMessage.addingDomain",
+        ),
       });
       return promise;
     },
@@ -479,14 +540,20 @@ export default function ReverseProxiesProvider({
       // Delay refetch to allow the server to propagate the validation result
       const DOMAIN_VALIDATION_REFETCH_DELAY_MS = 2000;
       notify({
-        title: "Domain Validation",
-        description: "Domain validation started",
+        title: i18nT(
+          "contexts.main:reverseProxiesProvider.title.domainValidation",
+        ),
+        description: i18nT(
+          "contexts.main:reverseProxiesProvider.description.domainValidationStarted",
+        ),
         promise: domainRequest.get(`/${domainId}/validate`).then(() => {
           setTimeout(() => {
             mutate("/reverse-proxies/domains");
           }, DOMAIN_VALIDATION_REFETCH_DELAY_MS);
         }),
-        loadingMessage: "Validating domain...",
+        loadingMessage: i18nT(
+          "contexts.main:reverseProxiesProvider.loadingMessage.validatingDomain",
+        ),
       });
     },
     [domainRequest, mutate],
@@ -495,22 +562,29 @@ export default function ReverseProxiesProvider({
   const deleteDomain = useCallback(
     async (domain: ReverseProxyDomain) => {
       const choice = await confirm({
-        title: `Delete '${domain.domain}'?`,
-        description:
-          "Are you sure you want to delete this domain? This action cannot be undone.",
-        confirmText: "Delete",
-        cancelText: "Cancel",
+        title: i18nT("contexts.main:reverseProxiesProvider.title.delete", {
+          domain: domain.domain,
+        }),
+        description: i18nT(
+          "contexts.main:reverseProxiesProvider.description.areYouSureYouWant2",
+        ),
+        confirmText: i18nT("common:word.delete"),
+        cancelText: i18nT("common:word.cancel"),
         type: "danger",
       });
       if (!choice) return;
 
       notify({
         title: domain.domain,
-        description: "Domain was successfully deleted",
+        description: i18nT(
+          "contexts.main:reverseProxiesProvider.description.domainWasSuccessfullyDeleted",
+        ),
         promise: domainRequest.del({}, `/${domain.id}`).then(() => {
           mutate("/reverse-proxies/domains");
         }),
-        loadingMessage: "Deleting domain...",
+        loadingMessage: i18nT(
+          "contexts.main:reverseProxiesProvider.loadingMessage.deletingDomain",
+        ),
       });
     },
     [confirm, domainRequest, mutate],

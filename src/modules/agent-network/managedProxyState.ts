@@ -1,6 +1,6 @@
 import type { ApiStatusResponse } from "@utils/api";
+import { t } from "@/i18n";
 import type { AgentNetworkManagedProxy } from "@/modules/agent-network/AIProvidersProvider";
-
 // The states the API documents today. state stays an open string on the wire,
 // so any other value is handled as unknown, never as an error.
 export const MANAGED_PROXY_STATE = {
@@ -60,7 +60,12 @@ export function provisionOutcome(res: ApiStatusResponse): ProvisionOutcome {
   if (code === 403) return { kind: "forbidden" };
   return {
     kind: "error",
-    message: errorMessage(body) ?? `Request failed with status code ${code}`,
+    message:
+      errorMessage(body) ??
+      t(
+        "agent-network.agent-overview-panel:managedProxyState.text.requestFailedWithStatusCode",
+        { code },
+      ),
   };
 }
 

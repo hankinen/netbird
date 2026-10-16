@@ -29,5 +29,6 @@
   "peerGroupsPanel.description.theGroupAssignmentsYouToggled.applied": "The group assignments you toggled for “{{value}}” haven't been applied yet. Closing the panel will lose them.",
   "peerGroupsPanel.description.theGroupAssignmentsYouToggled.saved": "The group assignments you toggled for “{{value}}” haven't been saved yet. Closing the panel will lose them.",
   "destinationGroupPanel.description.theMembersYouToggledFor.applied": "The members you toggled for “{{value}}” haven't been applied yet. Closing the panel will lose them.",
-  "destinationGroupPanel.description.theMembersYouToggledFor.saved": "The members you toggled for “{{value}}” haven't been saved yet. Closing the panel will lose them."
+  "destinationGroupPanel.description.theMembersYouToggledFor.saved": "The members you toggled for “{{value}}” haven't been saved yet. Closing the panel will lose them.",
+  "assignedCount.text": "{{selected}} of {{total}} Assigned"
 }

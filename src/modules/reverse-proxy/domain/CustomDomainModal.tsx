@@ -29,6 +29,7 @@ import {
   SelectOption,
 } from "@components/select/SelectDropdown";
 
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -64,7 +65,9 @@ export const CustomDomainModal = ({
       preventLeadingAndTrailingDots: true,
     });
     if (!isValid) {
-      return "Please enter a valid TLD domain, e.g., company.com";
+      return t(
+        "reverse-proxy.domain:customDomainModal.text.pleaseEnterAValidTLD",
+      );
     }
     return "";
   }, [domain]);
@@ -91,8 +94,12 @@ export const CustomDomainModal = ({
       <ModalContent maxWidthClass={"relative max-w-lg"} showClose={true}>
         <ModalHeader
           icon={<GlobeIcon size={20} />}
-          title={"Add Custom Domain"}
-          description={"You will need to verify the domain with DNS records"}
+          title={t(
+            "reverse-proxy.domain:customDomainModal.title.addCustomDomain",
+          )}
+          description={t(
+            "reverse-proxy.domain:customDomainModal.description.youWillNeedToVerify",
+          )}
           color={"netbird"}
         />
 
@@ -102,29 +109,38 @@ export const CustomDomainModal = ({
           {availableClusters.length === 0 ? (
             isNetBirdCloud() ? (
               <Callout variant={"warning"}>
-                No proxy clusters are currently connected. Please try again in a
-                few minutes. If the issue persists, check{" "}
+                {t(
+                  "reverse-proxy.domain:customDomainModal.text.noProxyClustersAreCurrently",
+                )}{" "}
                 <InlineLink
                   href={"https://status.netbird.io/"}
                   target={"_blank"}
                 >
-                  NetBird Status
+                  {t(
+                    "reverse-proxy.domain:customDomainModal.text.netBirdStatus",
+                  )}
                 </InlineLink>{" "}
-                or reach out to{"  "}
+                {t("reverse-proxy.domain:customDomainModal.text.orReachOutTo")}
+                {"  "}
                 <InlineLink href={"mailto:support@netbird.io"}>
-                  support@netbird.io
+                  {t(
+                    "reverse-proxy.domain:customDomainModal.text.supportNetbirdIo",
+                  )}
                 </InlineLink>
               </Callout>
             ) : (
               <Callout variant="warning">
-                No proxy clusters are currently connected. Please ensure at
-                least one proxy is running before adding a domain. <br /> Learn
-                more about{" "}
+                {t(
+                  "reverse-proxy.domain:customDomainModal.text.noProxyClustersAreCurrently2",
+                )}{" "}
+                <br /> {t("common:word.learnMoreAbout")}{" "}
                 <InlineLink
                   href={REVERSE_PROXY_CLUSTERS_DOCS_LINK}
                   target={"_blank"}
                 >
-                  Proxy Clusters
+                  {t(
+                    "reverse-proxy.domain:customDomainModal.text.proxyClusters",
+                  )}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </Callout>
@@ -132,7 +148,7 @@ export const CustomDomainModal = ({
           ) : (
             <>
               <div>
-                <Label>Domain</Label>
+                <Label>{t("common:word.domain")}</Label>
                 <Input
                   autoFocus
                   value={domain}
@@ -142,23 +158,33 @@ export const CustomDomainModal = ({
                       addDomain();
                     }
                   }}
-                  placeholder="e.g., company.com"
+                  placeholder={t(
+                    "reverse-proxy.domain:customDomainModal.placeholder.eGCompanyCom",
+                  )}
                   error={error || undefined}
                   data-testid={"custom-domain-input"}
                 />
               </div>
 
               <div data-testid={"custom-domain-cluster-selector"}>
-                <Label>Target Proxy Cluster</Label>
+                <Label>
+                  {t(
+                    "reverse-proxy.domain:customDomainModal.text.targetProxyCluster",
+                  )}
+                </Label>
                 <HelpText>
-                  Select the cluster your CNAME record should point to
+                  {t(
+                    "reverse-proxy.domain:customDomainModal.text.selectTheClusterYourCNAME",
+                  )}
                 </HelpText>
                 <SelectDropdown
                   showSearch={false}
                   value={selectedCluster}
                   onChange={setSelectedCluster}
                   options={availableClusterOptions}
-                  placeholder={"Select a proxy cluster..."}
+                  placeholder={t(
+                    "reverse-proxy.domain:customDomainModal.placeholder.selectAProxyCluster",
+                  )}
                 />
               </div>
             </>
@@ -167,19 +193,19 @@ export const CustomDomainModal = ({
         <ModalFooter className={"items-center"}>
           <div className={"w-full"}>
             <Paragraph className={"text-sm mt-auto"}>
-              Learn more about
+              {t("common:word.learnMoreAbout")}
               <InlineLink
                 href={REVERSE_PROXY_CUSTOM_DOMAINS_DOCS_LINK}
                 target={"_blank"}
               >
-                Custom Domains
+                {t("reverse-proxy.domain:customDomainModal.text.customDomains")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>
           </div>
           <div className={"flex gap-3 w-full justify-end"}>
             <ModalClose asChild={true}>
-              <Button variant={"secondary"}>Cancel</Button>
+              <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
             </ModalClose>
 
             <Button
@@ -188,7 +214,7 @@ export const CustomDomainModal = ({
               disabled={!canSubmit}
               data-testid={"submit-custom-domain"}
             >
-              Add Domain
+              {t("reverse-proxy.domain:customDomainModal.text.addDomain")}
             </Button>
           </div>
         </ModalFooter>

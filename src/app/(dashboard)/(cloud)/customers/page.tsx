@@ -17,6 +17,7 @@ import PageContainer from "@/layouts/PageContainer";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 
+import { t } from "@/i18n";
 export default function CustomersPage() {
   const { isDistributorInfoLoading } = useDistributor();
   if (isDistributorInfoLoading) return <FullScreenLoading fullScreen={false} />;
@@ -37,17 +38,17 @@ const CustomersPageContent = () => {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/customers"}
-            label={"Customers"}
+            label={t("common:word.customers")}
             icon={<MSPIcon size={15} />}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Customers</h1>
+        <h1 ref={headingRef}>{t("common:word.customers")}</h1>
         <Paragraph>
-          Use this view to manage customer accounts and their plans.
+          {t("customers.page:page.text.useThisViewToManage")}
         </Paragraph>
         <Paragraph>
           <DistributorDocsLink />
-          in our documentation.
+          {t("customers.page:page.text.inOurDocumentation")}
         </Paragraph>
       </div>
       <RestrictedAccess

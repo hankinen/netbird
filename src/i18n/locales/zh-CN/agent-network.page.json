@@ -1,0 +1,22 @@
+{
+  "page.text.globalLimits": "全局限制",
+  "page.text.logCollection": "日志收集",
+  "page.text.clusters": "集群",
+  "page.text.accountWideCapsOnToken": "对 Token 用量和花费的全账户上限，适用于所有策略。可将限制范围设定到特定组或用户，或保持全账户范围。",
+  "page.text.proxyClustersRouteYourAgents": "代理集群将您 Agent 的流量路由到 AI 提供商，并运行在您自己的基础设施上。添加多个集群即可扩展您的环境。",
+  "page.text.proxyClustersRouteInboundTraffic": "代理集群将入站流量路由到您的服务。共享集群由平台运行；账户集群（自托管）运行在您自己的基础设施上。",
+  "page.label.agentNetwork": "Agent Network",
+  "page.label.connectAgent": "连接 Agent",
+  "page.text.connectYourAgent": "连接您的 Agent",
+  "page.text.pointYourAgentAtThe": "将您 Agent 的 Base URL 指向 NetBird 端点。客户端无需提供商 API 密钥。",
+  "page.text.netBirdAuthenticatesYouThroughYour": "NetBird 通过您的身份提供商对您进行认证，并根据您的访问策略对每个请求进行授权。",
+  "page.text.yourProvidersAmpModels": "您的提供商与模型",
+  "page.text.bindIdPGroupsToProviders": "将 IdP 组绑定到提供商：Engineering 可以使用 Claude，Finance 不行。强制执行 Token 限制、预算和防护规则。",
+  "page.text.aPIBaseURL": "API 基础 URL",
+  "page.description.connectYourFirstProviderTo": "连接您的第一个提供商以设置 Agent Network 端点。",
+  "page.text.connectAIProvidersAndGateways": "通过一个免密钥端点连接 LiteLLM、OpenAI、Anthropic 等 AI 提供商和网关，该端点只能通过 NetBird 隧道访问。",
+  "page.label.usageLogs": "用量与日志",
+  "page.text.perRequestAuditWithReal": "按请求审计，包含真实调用方身份、费用归属和预算控制。",
+  "page.text.usage": "用量",
+  "page.text.accessLogs": "访问日志"
+}

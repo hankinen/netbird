@@ -40,6 +40,7 @@ import entraEditExternalId from "@/modules/integrations/idp-sync/entra-scim/imag
 import entraGroupMapping from "@/modules/integrations/idp-sync/entra-scim/images/entra-group-attribute-mapping.png";
 import { Lightbox } from "@components/ui/Lightbox";
 
+import { t } from "@/i18n";
 interface Props extends GenericSCIMProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -119,8 +120,14 @@ export function SetupContent({
       return;
     }
     notify({
-      title: `${name} Integration`,
-      description: `${name} was successfully set up`,
+      title: t(
+        "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.title.integration",
+        { name },
+      ),
+      description: t(
+        "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.description.wasSuccessfullySetUp",
+        { name },
+      ),
       promise: integrationRequest
         .put(
           {
@@ -138,7 +145,9 @@ export function SetupContent({
           mutate("/integrations/scim-idp");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t(
+        "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.loadingMessage.settingUpIntegration",
+      ),
     });
   };
 
@@ -222,8 +231,14 @@ export function SetupContent({
 
       <IntegrationModalHeader
         image={image || integrationImage}
-        title={`Connect NetBird with ${name}`}
-        description={`Start syncing your users and groups from ${name} to NetBird. Follow the steps below to get started.`}
+        title={t(
+          "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.connectNetBirdWith",
+          { name },
+        )}
+        description={t(
+          "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.startSyncingYourUsersAnd",
+          { name },
+        )}
       />
 
       {step === -1 && (
@@ -247,21 +262,25 @@ export function SetupContent({
             }
           >
             <Shield size={16} />
-            Required Permissions
+            {t("integrations.shared:word.requiredPermissions")}
           </div>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Ensure that you have an{" "}
+            {t(
+              "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.ensureThatYouHaveAn",
+            )}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              Azure AD user account
+              {t(
+                "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.azureADUserAccount",
+              )}
             </span>{" "}
-            with the following{" "}
+            {t("integrations.shared:word.withTheFollowing")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              permissions
+              {t("integrations.shared:word.permissions")}
             </span>
             .{" "}
-            {
-              "If you don't have the required permissions, ask your Azure AD administrator to grant them to you."
-            }
+            {t(
+              "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.ifYouDonTHave",
+            )}
           </p>
           <div
             className={
@@ -274,7 +293,9 @@ export function SetupContent({
               }
             >
               <PlusCircle size={14} className={"text-sky-500"} />
-              Create Azure AD applications
+              {t(
+                "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.createAzureADApplications",
+              )}
             </div>
             <div
               className={
@@ -282,17 +303,26 @@ export function SetupContent({
               }
             >
               <Settings2 size={14} className={"text-sky-500"} />
-              Manage Azure AD applications
+              {t(
+                "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.manageAzureADApplications",
+              )}
             </div>
           </div>
 
           {!entraConnection && !isSSOLoading && isAuth0() && (
             <Callout className={"max-w-xl mt-5 text-left"} variant={"warning"}>
               <span>
-                It seems your account is currently not logged in via Entra ID.
-                Please logout and simply sign in with the{" "}
-                <span className={"font-medium"}>Continue with Entra ID </span>{" "}
-                button on the login page.
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.itSeemsYourAccountIs",
+                )}{" "}
+                <span className={"font-medium"}>
+                  {t(
+                    "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.continueWithEntraID",
+                  )}{" "}
+                </span>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.buttonOnTheLoginPage",
+                )}
               </span>
             </Callout>
           )}
@@ -303,39 +333,57 @@ export function SetupContent({
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <BoxIcon size={20} />
-            Configure SCIM in Microsoft Entra ID
+            {t(
+              "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.configureSCIMInMicrosoftEntra",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to{"  "}
+                {t("integrations.shared:word.navigateTo")}
+                {"  "}
                 <InlineLink
                   className={"inline"}
                   target={"_blank"}
                   href={"https://portal.azure.com/"}
                 >
-                  Azure Portal
+                  {t(
+                    "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.azurePortal",
+                  )}
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Go to <Mark>Azure Active Directory</Mark> then{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.goTo",
+                )}{" "}
+                <Mark>Azure Active Directory</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.then",
+                )}{" "}
                 <Mark>Enterprise applications</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Click
-                <Mark>+ New application</Mark> to create a new enterprise
-                application and then click{" "}
+                {t("common:word.click")}
+                <Mark>+ New application</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.toCreateANewEnterprise",
+                )}{" "}
                 <Mark>+ Create your own application</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4}>
               <p className={"font-normal"}>
-                Enter <Mark copy={true}>NetBird SCIM</Mark> as the name and
-                select
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.enter",
+                )}{" "}
+                <Mark copy={true}>NetBird SCIM</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.asTheNameAndSelect",
+                )}
                 <Mark>
                   Integrate any other application you don&apos;t find in the
                   gallery (Non-gallery)
@@ -344,7 +392,7 @@ export function SetupContent({
             </Steps.Step>
             <Steps.Step step={5} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Create</Mark>
+                {t("common:word.click")} <Mark>Create</Mark>
               </p>
             </Steps.Step>
           </Steps>
@@ -355,35 +403,54 @@ export function SetupContent({
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <BoxIcon size={20} />
-            Enable Provisioning
+            {t(
+              "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.enableProvisioning",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Once the application is created, click <Mark>Manage</Mark>, then
-                click <Mark>Provisioning</Mark>. Under the Create configuration
-                section, click <Mark>Connect your application</Mark>
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.onceTheApplicationIsCreated",
+                )}{" "}
+                <Mark>Manage</Mark>
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.thenClick",
+                )}{" "}
+                <Mark>Provisioning</Mark>
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.underTheCreateConfigurationSection",
+                )}{" "}
+                <Mark>Connect your application</Mark>
               </p>
               <Lightbox image={entraGetStarted} />
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Fill in the form with the following details
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.fillInTheFormWith",
+                )}
               </p>
               <MinimalList
                 data={[
                   {
-                    label: "Authentication Method",
+                    label: t(
+                      "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.label.authenticationMethod",
+                    ),
                     value: "Bearer authentication",
                     noCopy: true,
                   },
                   {
-                    label: "Tenant URL",
+                    label: t(
+                      "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.label.tenantURL",
+                    ),
                     value:
                       "https://api.netbird.io/api/scim/v2?aadOptscim062020",
                   },
                   {
-                    label: "Secret token",
+                    label: t(
+                      "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.label.secretToken",
+                    ),
                     value:
                       authToken === "" ? (
                         <Skeleton height={17} width={200} />
@@ -395,25 +462,41 @@ export function SetupContent({
                 ]}
               />
               <Callout variant={"warning"}>
-                The <span className={"font-medium"}>'?aadOptscim062020'</span>{" "}
-                flag appended to the Tenant URL is required to ensure Microsoft
-                Entra ID sends SCIM 2.0 compliant requests.{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.the",
+                )}{" "}
+                <span className={"font-medium"}>
+                  {t(
+                    "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.aadOptscim062020",
+                  )}
+                </span>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.flagAppendedToTheTenant",
+                )}{" "}
                 <InlineLink
                   target={"_blank"}
                   href={
                     "https://learn.microsoft.com/en-us/entra/identity/app-provisioning/application-provisioning-config-problem-scim-compatibility#flags-to-alter-the-scim-behavior"
                   }
                 >
-                  Learn more
+                  {t("common:word.learnMore")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </Callout>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                After that click <Mark>Test Connection</Mark> to verify the SCIM
-                connection. If the connection is successful click{" "}
-                <Mark>Create</Mark> to save the configuration.
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.afterThatClick",
+                )}{" "}
+                <Mark>Test Connection</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.toVerifyTheSCIMConnection",
+                )}{" "}
+                <Mark>Create</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.toSaveTheConfiguration",
+                )}
               </p>
             </Steps.Step>
           </Steps>
@@ -424,27 +507,46 @@ export function SetupContent({
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <BoxIcon size={20} />
-            Group Attribute Mapping
+            {t(
+              "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.groupAttributeMapping",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to the <Mark>Attribute mapping</Mark> section and
-                select the <Mark>Groups</Mark> tab
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.navigateToThe",
+                )}{" "}
+                <Mark>Attribute mapping</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.sectionAndSelectThe",
+                )}{" "}
+                <Mark>Groups</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.tab",
+                )}
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                In the attribute mappings list, locate the{" "}
-                <Mark>externalId</Mark> row <br />
-                and click <Mark>Delete</Mark>
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.inTheAttributeMappingsList",
+                )}{" "}
+                <Mark>externalId</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.row",
+                )}{" "}
+                <br />
+                {t("integrations.shared:word.andClick")} <Mark>Delete</Mark>
               </p>
               <Lightbox image={entraGroupMapping} />
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Save</Mark> to apply the updated group attribute
-                mapping configuration
+                {t("common:word.click")} <Mark>Save</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.toApplyTheUpdatedGroup",
+                )}
               </p>
             </Steps.Step>
           </Steps>
@@ -455,19 +557,31 @@ export function SetupContent({
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <BoxIcon size={20} />
-            User Attribute Mapping
+            {t(
+              "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.userAttributeMapping",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to the <Mark>Attribute mapping</Mark> section and
-                select the <Mark>Users</Mark> tab
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.navigateToThe",
+                )}{" "}
+                <Mark>Attribute mapping</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.sectionAndSelectThe",
+                )}{" "}
+                <Mark>Users</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.tab",
+                )}
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                In the attribute mappings list, remove all attribute mappings
-                except for the following:
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.inTheAttributeMappingsList2",
+                )}
               </p>
               <div>
                 <Mark>userName</Mark>
@@ -481,19 +595,40 @@ export function SetupContent({
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                In the attribute mappings list, locate the{" "}
-                <Mark>externalId</Mark> row <br />
-                and click <Mark>Edit</Mark>. Change the{" "}
-                <Mark>Source attribute</Mark> from <Mark>mailNickname</Mark> to{" "}
-                <Mark>objectId</Mark> and click <Mark>Ok</Mark> to save the
-                change
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.inTheAttributeMappingsList",
+                )}{" "}
+                <Mark>externalId</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.row",
+                )}{" "}
+                <br />
+                {t("integrations.shared:word.andClick")} <Mark>Edit</Mark>
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.changeThe",
+                )}{" "}
+                <Mark>Source attribute</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.from",
+                )}{" "}
+                <Mark>mailNickname</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.to",
+                )}{" "}
+                <Mark>objectId</Mark> {t("integrations.shared:word.andClick")}{" "}
+                <Mark>Ok</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.toSaveTheChange",
+                )}
               </p>
               <Lightbox image={entraEditExternalId} />
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Save</Mark> to apply the final attribute mapping
-                configuration
+                {t("common:word.click")} <Mark>Save</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.toApplyTheFinalAttribute",
+                )}
               </p>
             </Steps.Step>
           </Steps>
@@ -504,25 +639,37 @@ export function SetupContent({
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <BoxIcon size={20} />
-            Assign Users and Groups
+            {t(
+              "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.assignUsersAndGroups",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                Navigate to your NetBird enterprise application and click on{" "}
-                <Mark>Users and groups</Mark> in the left menu
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.navigateToYourNetBirdEnterprise",
+                )}{" "}
+                <Mark>Users and groups</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.inTheLeftMenu",
+                )}
               </p>
               <Lightbox image={entraAssignUsers} />
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Click <Mark>+ Add user/group</Mark> and select the users and
-                groups you want to synchronize to NetBird
+                {t("common:word.click")} <Mark>+ Add user/group</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.andSelectTheUsersAnd",
+                )}
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Click <Mark>Assign</Mark> to save the assignments
+                {t("common:word.click")} <Mark>Assign</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.toSaveTheAssignments",
+                )}
               </p>
             </Steps.Step>
           </Steps>
@@ -533,23 +680,37 @@ export function SetupContent({
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <BoxIcon size={20} />
-            Start provisioning
+            {t(
+              "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.startProvisioning",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p>
-                After assigning users and groups, navigate back to the
-                provisioning configuration, click <Mark>Overview</Mark>, then
-                click the <Mark>Start provisioning</Mark> button to enable
-                automatic synchronization
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.afterAssigningUsersAndGroups",
+                )}{" "}
+                <Mark>Overview</Mark>
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.thenClickThe",
+                )}{" "}
+                <Mark>Start provisioning</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.buttonToEnableAutomaticSynchronization",
+                )}
               </p>
               <Lightbox image={entraStartProvisioning} />
             </Steps.Step>
             <Steps.Step step={2} line={false}>
               <p className={"font-normal"}>
-                The first sync will begin shortly after provisioning is started.{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.theFirstSyncWillBegin",
+                )}{" "}
                 <br />
-                Click <Mark>Finish Setup</Mark> below to finalize this setup.
+                {t("common:word.click")} <Mark>Finish Setup</Mark>{" "}
+                {t(
+                  "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.belowToFinalizeThisSetup",
+                )}
               </p>
             </Steps.Step>
           </Steps>
@@ -564,7 +725,7 @@ export function SetupContent({
             onClick={() => setStep(step + 1)}
             disabled={!connectorId || connectorId === ""}
           >
-            Continue
+            {t("common:word.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -575,7 +736,7 @@ export function SetupContent({
             onClick={() => setStep(step - 1)}
           >
             <IconArrowLeft size={16} />
-            Back
+            {t("common:word.back")}
           </Button>
         )}
         {step >= 0 && step < maxSteps && (
@@ -585,7 +746,9 @@ export function SetupContent({
             disabled={!entraConnection && isAuth0()}
             onClick={() => setStep(step + 1)}
           >
-            {step == 0 ? "Get Started" : "Continue"}
+            {step == 0
+              ? t("integrations.shared:word.getStarted")
+              : t("common:word.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -596,7 +759,9 @@ export function SetupContent({
             onClick={finishSetup}
             disabled={integrationId === "" || authToken === ""}
           >
-            Finish Setup
+            {t(
+              "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.finishSetup",
+            )}
           </Button>
         )}
       </ModalFooter>
@@ -608,8 +773,13 @@ export function SetupContent({
         >
           <Clock4 size={12} />
           <div>
-            Estimated setup time:
-            <span className={"font-medium"}> 10-20 Minutes</span>
+            {t("integrations.shared:word.estimatedSetupTime")}
+            <span className={"font-medium"}>
+              {" "}
+              {t(
+                "integrations.idp-sync.entra-scimsetup:entraSCIMSetup.text.1020Minutes",
+              )}
+            </span>
           </div>
         </div>
       )}

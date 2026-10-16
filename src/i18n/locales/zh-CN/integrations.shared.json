@@ -1,0 +1,16 @@
+{
+  "word.estimatedSetupTime": "预计设置时间：",
+  "word.deletingIntegration": "正在删除集成...",
+  "word.updatingIntegration": "正在更新集成...",
+  "word.dangerZone": "危险区域",
+  "word.clientID": "客户端 ID",
+  "word.deleteIntegration": "删除集成",
+  "word.getStarted": "开始",
+  "word.requiredPermissions": "所需权限",
+  "word.withTheFollowing": "，使用以下内容",
+  "word.permissions": "权限",
+  "word.clientSecret": "客户端密钥",
+  "word.navigateTo": "导航到",
+  "word.select": "选择",
+  "word.andClick": "并点击"
+}

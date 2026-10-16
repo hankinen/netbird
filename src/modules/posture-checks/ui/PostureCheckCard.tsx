@@ -107,7 +107,9 @@ export const PostureCheckCard = ({
               }}
             >
               <IconCircleFilled size={7} className={"mt-[0.1px]"} />
-              {active ? "On" : t("posture-checks.ui:postureCheckCard.text.off")}
+              {active
+                ? t("posture-checks.ui:postureCheckCard.text.on")
+                : t("posture-checks.ui:postureCheckCard.text.off")}
             </span>
           </div>
         </div>

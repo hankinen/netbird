@@ -16,7 +16,9 @@ export const OnboardingEnd = ({ onFinish }: Props) => {
   const { oidcUser: user } = useOidcUser();
   const name = user?.given_name || user?.name || user?.preferred_username;
 
-  const title = name ? `Congratulations, ${name}!` : "Congratulations!";
+  const title = name
+    ? t("onboarding.main:onboardingEnd.title.congratulationsName", { name })
+    : t("onboarding.main:onboardingEnd.title.congratulations");
 
   return (
     <div className={"relative flex flex-col h-full justify-between"}>

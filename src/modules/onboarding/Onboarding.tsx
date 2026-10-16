@@ -213,10 +213,13 @@ export const Onboarding = ({
     } else {
       notify({
         title: p.name + " Policy",
-        description: t(
-          "onboarding.main:onboarding.description.policyWasSuccessfully",
-          { value: !enabled ? "enabled" : "disabled" },
-        ),
+        description: !enabled
+          ? t(
+              "onboarding.main:onboarding.description.policyWasSuccessfullyEnabled",
+            )
+          : t(
+              "onboarding.main:onboarding.description.policyWasSuccessfullyDisabled",
+            ),
         loadingMessage: t(
           "onboarding.main:onboarding.loadingMessage.updatingPolicy",
         ),

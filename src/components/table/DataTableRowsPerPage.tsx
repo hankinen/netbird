@@ -14,6 +14,15 @@ interface DataTablePaginationProps<TData> {
 
 const rowsSelection = [10, 25, 50, 100, 1000];
 
+// Trans' generic key inference over every namespace exceeds the compiler's
+// instantiation depth; the key below is checked by i18n:check instead.
+const LooseTrans = Trans as unknown as React.ComponentType<{
+  ns: string;
+  i18nKey: string;
+  values: Record<string, unknown>;
+  components: Record<string, React.ReactElement>;
+}>;
+
 export function DataTableRowsPerPage<TData>({
   table,
   disabled,
@@ -34,7 +43,7 @@ export function DataTableRowsPerPage<TData>({
           >
             <RowsIcon size={15} className={"text-nb-gray-300 shrink-0"} />
             <div className={"text-nb-gray-300"}>
-              <Trans
+              <LooseTrans
                 ns={"components.table"}
                 i18nKey={"dataTableRowsPerPage.text.rowsPerPageCount"}
                 values={{ count: table.getState().pagination.pageSize }}

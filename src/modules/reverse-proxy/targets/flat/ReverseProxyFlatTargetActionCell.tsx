@@ -17,8 +17,8 @@ import * as React from "react";
 import { useState } from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
+import { t } from "@/i18n";
 import { isL4Mode, ReverseProxyFlatTarget } from "@/interfaces/ReverseProxy";
-
 type Props = {
   target: ReverseProxyFlatTarget;
 };
@@ -64,7 +64,7 @@ export default function ReverseProxyFlatTargetActionCell({
           >
             <div className={"flex gap-3 items-center pr-8"}>
               <SquarePenIcon size={14} className={"shrink-0"} />
-              Edit Target
+              {t("reverse-proxy.targets:reverseProxyTargetModal.text.editTarget")}
             </div>
           </DropdownMenuItem>
 
@@ -78,7 +78,7 @@ export default function ReverseProxyFlatTargetActionCell({
           >
             <div className={"flex gap-3 items-center"}>
               <PowerIcon size={14} className={"shrink-0"} />
-              {target.enabled ? "Disable" : "Enable"}
+              {target.enabled ? t("common:word.disable") : t("common:word.enable")}
             </div>
           </DropdownMenuItem>
 
@@ -92,7 +92,7 @@ export default function ReverseProxyFlatTargetActionCell({
           >
             <div className={"flex gap-3 items-center pr-6"}>
               <Settings size={14} className={"shrink-0"} />
-              Advanced Settings
+              {t("reverse-proxy.targets:reverseProxyFlatTargetActionCell.text.advancedSettings")}
             </div>
           </DropdownMenuItem>
 
@@ -108,7 +108,7 @@ export default function ReverseProxyFlatTargetActionCell({
           >
             <div className={"flex gap-3 items-center"}>
               <Trash2 size={14} className={"shrink-0"} />
-              Delete
+              {t("common:word.delete")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

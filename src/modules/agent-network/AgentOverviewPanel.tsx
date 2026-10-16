@@ -36,6 +36,7 @@ import {
 } from "@/modules/agent-network/agentAccessLogApi";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 
+import { t } from "@/i18n";
 // Register the chart.js building blocks we use. Idempotent, so it's safe
 // even when another agent-network chart already registered them.
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
@@ -151,12 +152,25 @@ function OverviewContent({
           <div className={"flex items-start justify-between gap-3"}>
             <div>
               <h3 className={"text-sm font-medium text-nb-gray-100"}>
-                {metric === "tokens" ? "Token usage" : "Cost"} by day
+                {metric === "tokens"
+                  ? t(
+                      "agent-network.agent-overview-panel:agentOverviewPanel.text.tokenUsage",
+                    )
+                  : t(
+                      "agent-network.agent-overview-panel:agentOverviewPanel.text.cost",
+                    )}{" "}
+                {t(
+                  "agent-network.agent-overview-panel:agentOverviewPanel.text.byDay",
+                )}
               </h3>
               <p className={"text-xs text-nb-gray-400 leading-snug mt-0.5"}>
                 {metric === "tokens"
-                  ? "Input and output tokens per day."
-                  : "Estimated spend per day."}
+                  ? t(
+                      "agent-network.agent-overview-panel:agentOverviewPanel.text.inputAndOutputTokensPer",
+                    )
+                  : t(
+                      "agent-network.agent-overview-panel:agentOverviewPanel.text.estimatedSpendPerDay",
+                    )}
               </p>
             </div>
             <ButtonGroup>
@@ -165,14 +179,18 @@ function OverviewContent({
                 onClick={() => setMetric("tokens")}
                 className={"!h-[30px] !px-3 !py-0 text-xs"}
               >
-                Tokens
+                {t(
+                  "agent-network.agent-overview-panel:agentOverviewPanel.text.tokens",
+                )}
               </ButtonGroup.Button>
               <ButtonGroup.Button
                 variant={metric === "cost" ? "tertiary" : "secondary"}
                 onClick={() => setMetric("cost")}
                 className={"!h-[30px] !px-3 !py-0 text-xs"}
               >
-                Cost
+                {t(
+                  "agent-network.agent-overview-panel:agentOverviewPanel.text.cost",
+                )}
               </ButtonGroup.Button>
             </ButtonGroup>
           </div>
@@ -211,11 +229,19 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         id: "date",
         accessorKey: "key",
         header: ({ column }) => (
-          <DataTableHeader column={column}>Date</DataTableHeader>
+          <DataTableHeader column={column}>
+            {t(
+              "agent-network.agent-overview-panel:agentOverviewPanel.text.date",
+            )}
+          </DataTableHeader>
         ),
         cell: ({ row }) => (
           <span className={"text-nb-gray-200 px-3 py-2 whitespace-nowrap"}>
-            {dayjs(row.original.key).format("MMM D, YYYY")}
+            {dayjs(row.original.key).format(
+              t(
+                "agent-network.agent-overview-panel:agentOverviewPanel.text.mMMDYYYY",
+              ),
+            )}
           </span>
         ),
       },
@@ -223,7 +249,11 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         id: "input",
         accessorKey: "input",
         header: ({ column }) => (
-          <DataTableHeader column={column}>Input Tokens</DataTableHeader>
+          <DataTableHeader column={column}>
+            {t(
+              "agent-network.agent-overview-panel:agentOverviewPanel.text.inputTokens",
+            )}
+          </DataTableHeader>
         ),
         cell: ({ row }) => <NumberCell value={row.original.input} />,
       },
@@ -231,7 +261,11 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         id: "output",
         accessorKey: "output",
         header: ({ column }) => (
-          <DataTableHeader column={column}>Output Tokens</DataTableHeader>
+          <DataTableHeader column={column}>
+            {t(
+              "agent-network.agent-overview-panel:agentOverviewPanel.text.outputTokens",
+            )}
+          </DataTableHeader>
         ),
         cell: ({ row }) => <NumberCell value={row.original.output} />,
       },
@@ -240,7 +274,11 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         accessorFn: (row) =>
           row.input + row.output + row.cacheRead + row.cacheWrite,
         header: ({ column }) => (
-          <DataTableHeader column={column}>Total Tokens</DataTableHeader>
+          <DataTableHeader column={column}>
+            {t(
+              "agent-network.agent-overview-panel:agentOverviewPanel.text.totalTokens",
+            )}
+          </DataTableHeader>
         ),
         // Total includes the additive prompt-cache buckets; hover breaks them out.
         cell: ({ row }) => {
@@ -252,19 +290,27 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
                 <div className={"text-xs flex flex-col gap-1"}>
                   <BreakdownRow
                     value={d.input.toLocaleString()}
-                    label={"input"}
+                    label={t(
+                      "agent-network.agent-overview-panel:agentOverviewPanel.label.input",
+                    )}
                   />
                   <BreakdownRow
                     value={d.output.toLocaleString()}
-                    label={"output"}
+                    label={t(
+                      "agent-network.agent-overview-panel:agentOverviewPanel.label.output",
+                    )}
                   />
                   <BreakdownRow
                     value={d.cacheRead.toLocaleString()}
-                    label={"cache read"}
+                    label={t(
+                      "agent-network.agent-overview-panel:agentOverviewPanel.label.cacheRead",
+                    )}
                   />
                   <BreakdownRow
                     value={d.cacheWrite.toLocaleString()}
-                    label={"cache write"}
+                    label={t(
+                      "agent-network.agent-overview-panel:agentOverviewPanel.label.cacheWrite",
+                    )}
                   />
                   <BreakdownTotal value={total.toLocaleString()} />
                 </div>
@@ -279,7 +325,11 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
         id: "cost",
         accessorKey: "cost",
         header: ({ column }) => (
-          <DataTableHeader column={column}>Cost</DataTableHeader>
+          <DataTableHeader column={column}>
+            {t(
+              "agent-network.agent-overview-panel:agentOverviewPanel.text.cost",
+            )}
+          </DataTableHeader>
         ),
         // Mirrors the access log's Cost hover: one row per bucket the provider
         // bills separately when the server sends the split, otherwise the coarse
@@ -309,22 +359,30 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
                       <BreakdownRow
                         mono={true}
                         value={usd(d.inputCost ?? 0)}
-                        label={"input"}
+                        label={t(
+                          "agent-network.agent-overview-panel:agentOverviewPanel.label.input",
+                        )}
                       />
                       <BreakdownRow
                         mono={true}
                         value={usd(d.outputCost ?? 0)}
-                        label={"output"}
+                        label={t(
+                          "agent-network.agent-overview-panel:agentOverviewPanel.label.output",
+                        )}
                       />
                       <BreakdownRow
                         mono={true}
                         value={usd(d.cacheReadCost ?? 0)}
-                        label={"cache read"}
+                        label={t(
+                          "agent-network.agent-overview-panel:agentOverviewPanel.label.cacheRead",
+                        )}
                       />
                       <BreakdownRow
                         mono={true}
                         value={usd(d.cacheWriteCost ?? 0)}
-                        label={"cache write"}
+                        label={t(
+                          "agent-network.agent-overview-panel:agentOverviewPanel.label.cacheWrite",
+                        )}
                       />
                     </>
                   ) : (
@@ -332,12 +390,16 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
                       <BreakdownRow
                         mono={true}
                         value={usd(d.cost - d.cacheCost)}
-                        label={"input + output"}
+                        label={t(
+                          "agent-network.agent-overview-panel:agentOverviewPanel.label.inputOutput",
+                        )}
                       />
                       <BreakdownRow
                         mono={true}
                         value={usd(d.cacheCost)}
-                        label={"cache"}
+                        label={t(
+                          "agent-network.agent-overview-panel:agentOverviewPanel.label.cache",
+                        )}
                       />
                     </>
                   )}
@@ -356,7 +418,9 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
 
   return (
     <DataTable
-      text={"Days"}
+      text={t(
+        "agent-network.agent-overview-panel:agentOverviewPanel.text.days",
+      )}
       columns={columns}
       data={rows}
       sorting={sorting}
@@ -375,18 +439,22 @@ function DailyBreakdownTable({ daily }: { daily: DayBucket[] }) {
               size={"large"}
             />
           }
-          title={"No usage recorded yet"}
-          description={
-            "Daily token and cost totals appear here as agents send requests through the providers you've connected."
-          }
+          title={t(
+            "agent-network.agent-overview-panel:agentOverviewPanel.title.noUsageRecordedYet",
+          )}
+          description={t(
+            "agent-network.agent-overview-panel:agentOverviewPanel.description.dailyTokenAndCostTotals",
+          )}
           learnMore={
             <>
-              Learn more about
+              {t("common:word.learnMoreAbout")}
               <InlineLink
                 href={"https://docs.netbird.io/agent-network"}
                 target={"_blank"}
               >
-                Agent Network
+                {t(
+                  "agent-network.agent-overview-panel:agentOverviewPanel.text.agentNetwork",
+                )}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </>
@@ -453,7 +521,9 @@ function BreakdownTotal({
       }
     >
       <span className={"font-medium text-nb-gray-200"}>{value}</span>
-      <span className={cn(mono && "font-sans")}>total</span>
+      <span className={cn(mono && "font-sans")}>
+        {t("agent-network.agent-overview-panel:agentOverviewPanel.text.total")}
+      </span>
     </div>
   );
 }
@@ -465,7 +535,11 @@ function ConsumptionByDayChart({
   daily: DayBucket[];
   metric: Metric;
 }) {
-  const labels = daily.map((d) => dayjs(d.key).format("MMM D"));
+  const labels = daily.map((d) =>
+    dayjs(d.key).format(
+      t("agent-network.agent-overview-panel:agentOverviewPanel.text.mMMD"),
+    ),
+  );
 
   const data =
     metric === "tokens"
@@ -473,13 +547,17 @@ function ConsumptionByDayChart({
           labels,
           datasets: [
             {
-              label: "Input tokens",
+              label: t(
+                "agent-network.agent-overview-panel:agentOverviewPanel.label.inputTokens",
+              ),
               data: daily.map((d) => d.input),
               backgroundColor: "rgba(99, 102, 241, 0.6)", // indigo-500
               stack: "tokens",
             },
             {
-              label: "Output tokens",
+              label: t(
+                "agent-network.agent-overview-panel:agentOverviewPanel.label.outputTokens",
+              ),
               data: daily.map((d) => d.output),
               backgroundColor: "rgba(34, 197, 94, 0.6)", // green-500
               stack: "tokens",
@@ -490,7 +568,9 @@ function ConsumptionByDayChart({
           labels,
           datasets: [
             {
-              label: "Cost (USD)",
+              label: t(
+                "agent-network.agent-overview-panel:agentOverviewPanel.label.costUSD",
+              ),
               data: daily.map((d) => d.cost),
               backgroundColor: "rgba(246, 131, 48, 0.65)", // netbird orange
             },
@@ -532,8 +612,14 @@ function ConsumptionByDayChart({
                 }
                 return d.cacheRead + d.cacheWrite > 0
                   ? [
-                      `Cache read: ${d.cacheRead.toLocaleString()}`,
-                      `Cache write: ${d.cacheWrite.toLocaleString()}`,
+                      t(
+                        "agent-network.agent-overview-panel:agentOverviewPanel.text.cacheRead",
+                        { toLocaleString: d.cacheRead.toLocaleString() },
+                      ),
+                      t(
+                        "agent-network.agent-overview-panel:agentOverviewPanel.text.cacheWrite",
+                        { toLocaleString: d.cacheWrite.toLocaleString() },
+                      ),
                     ]
                   : [];
               },
@@ -572,7 +658,11 @@ function ChartEmptyState() {
       }
     >
       <ActivityIcon size={20} />
-      <span>No usage in the selected range</span>
+      <span>
+        {t(
+          "agent-network.agent-overview-panel:agentOverviewPanel.text.noUsageInTheSelected",
+        )}
+      </span>
     </div>
   );
 }

@@ -137,14 +137,20 @@ export const usePostureCheck = ({ postureCheck, onSuccess }: Props = {}) => {
       title: t("posture-checks.main:usePostureCheck.title.postureCheck", {
         name: state.name,
       }),
-      description: t(
-        "posture-checks.main:usePostureCheck.description.postureCheckWasSuccessfully",
-        { value: postureCheck ? "updated" : "created" },
-      ),
-      loadingMessage: t(
-        "posture-checks.main:usePostureCheck.loadingMessage.yourPostureCheck",
-        { value: postureCheck ? "Updating" : "Creating" },
-      ),
+      description: postureCheck
+        ? t(
+            "posture-checks.main:usePostureCheck.description.postureCheckWasSuccessfullyUpdated",
+          )
+        : t(
+            "posture-checks.main:usePostureCheck.description.postureCheckWasSuccessfullyCreated",
+          ),
+      loadingMessage: postureCheck
+        ? t(
+            "posture-checks.main:usePostureCheck.loadingMessage.yourPostureCheckUpdating",
+          )
+        : t(
+            "posture-checks.main:usePostureCheck.loadingMessage.yourPostureCheckCreating",
+          ),
       promise,
     });
     return promise;

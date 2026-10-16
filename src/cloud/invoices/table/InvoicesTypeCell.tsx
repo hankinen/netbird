@@ -2,7 +2,7 @@ import { UserIcon, UsersIcon } from "lucide-react";
 import React from "react";
 import { useDistributor } from "@/cloud/distributor/contexts/DistributorProvider";
 import { Invoice } from "@/cloud/msp/interfaces/Invoice";
-
+import { t } from "@/i18n";
 type Props = {
   invoice: Invoice;
 };
@@ -15,12 +15,14 @@ export default function InvoicesTypeCell({ invoice }: Readonly<Props>) {
       {type == "account" ? (
         <>
           <UserIcon size={14} />
-          Account
+          {t("cloud.invoices:invoicesTypeCell.text.account")}
         </>
       ) : (
         <>
           <UsersIcon size={14} />
-          {isDistributor ? "Customers" : "Tenants"}
+          {isDistributor
+            ? t("common:word.customers")
+            : t("common:word.tenants")}
         </>
       )}
     </div>

@@ -15,6 +15,7 @@ import { CrowdSecMode } from "@/interfaces/ReverseProxy";
 import Image from "next/image";
 import CrowdSecIconImage from "@/assets/integrations/crowdsec.png";
 
+import { t } from "@/i18n";
 type Props = {
   value: CrowdSecMode;
   onChange: (value: CrowdSecMode) => void;
@@ -28,19 +29,27 @@ type CrowdSecOption = {
 
 const CROWDSEC_OPTIONS: Record<CrowdSecMode, CrowdSecOption> = {
   [CrowdSecMode.OFF]: {
-    label: "Disabled",
+    get label() {
+    return t("common:word.disabled");
+  },
     icon: <PowerOffIcon size={14} />,
   },
   [CrowdSecMode.ENFORCE]: {
-    label: "Enforce",
-    description:
-      "Blocked IPs are denied immediately. If the bouncer is not yet synced, connections are denied (fail-closed).",
+    get label() {
+    return t("reverse-proxy.main:reverseProxyCrowdSecIPReputation.text.enforce");
+  },
+    get description() {
+    return t("reverse-proxy.main:reverseProxyCrowdSecIPReputation.description.blockedIPsAreDeniedImmediately");
+  },
     icon: <ShieldCheckIcon size={14} />,
   },
   [CrowdSecMode.OBSERVE]: {
-    label: "Observe",
-    description:
-      "Blocked IPs are logged but not denied. Use this to evaluate CrowdSec before enforcing.",
+    get label() {
+    return t("reverse-proxy.main:reverseProxyCrowdSecIPReputation.text.observe");
+  },
+    get description() {
+    return t("reverse-proxy.main:reverseProxyCrowdSecIPReputation.description.blockedIPsAreLoggedBut");
+  },
     icon: <EyeIcon size={14} />,
   },
 };
@@ -66,12 +75,11 @@ export const ReverseProxyCrowdSecIPReputation = ({
           />
         </div>
         <div>
-          <Label>CrowdSec IP Reputation</Label>
+          <Label>{t("reverse-proxy.main:reverseProxyCrowdSecIPReputation.text.crowdSecIPReputation")}</Label>
           <HelpText>
-            Detect malicious IPs with CrowdSec.{" "}
-            <b className={"text-white"}>Enforce</b> to block them or{" "}
-            <b className={"text-white"}>Observe</b> to only log without
-            blocking.
+            {t("reverse-proxy.main:reverseProxyCrowdSecIPReputation.text.detectMaliciousIPsWithCrowdSec")}{" "}
+            <b className={"text-white"}>{t("reverse-proxy.main:reverseProxyCrowdSecIPReputation.text.enforce")}</b>{" "}{t("reverse-proxy.main:reverseProxyCrowdSecIPReputation.text.toBlockThemOr")}{" "}
+            <b className={"text-white"}>{t("reverse-proxy.main:reverseProxyCrowdSecIPReputation.text.observe")}</b>{" "}{t("reverse-proxy.main:reverseProxyCrowdSecIPReputation.text.toOnlyLogWithoutBlocking")}
           </HelpText>
         </div>
       </div>

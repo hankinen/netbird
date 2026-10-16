@@ -12,9 +12,9 @@ import { PlusCircle, Server } from "lucide-react";
 import * as React from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { useReverseProxies } from "@/contexts/ReverseProxiesProvider";
+import { t } from "@/i18n";
 import { isL4Mode, ReverseProxy } from "@/interfaces/ReverseProxy";
 import { ReverseProxyTargetDevice } from "@/modules/reverse-proxy/targets/ReverseProxyTargetDevice";
-
 type Props = {
   reverseProxy: ReverseProxy;
 };
@@ -41,7 +41,7 @@ export default function ReverseProxyTargetsCell({
       disabled={isL4 || !permission?.services?.create}
     >
       <PlusCircle size={12} />
-      Add
+      {t("common:word.add")}
     </Button>
   );
 
@@ -90,7 +90,7 @@ export default function ReverseProxyTargetsCell({
           interactive={false}
           content={
             <span className={"text-xs text-nb-gray-100 max-w-[200px]"}>
-              L4 services (TCP / UDP / TLS) only support a single target.
+              {t("reverse-proxy.table:reverseProxyTargetsCell.text.l4ServicesTCPUDPTLS")}
             </span>
           }
         >

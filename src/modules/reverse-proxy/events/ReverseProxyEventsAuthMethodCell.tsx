@@ -13,8 +13,8 @@ import {
   Users,
 } from "lucide-react";
 import * as React from "react";
+import { t } from "@/i18n";
 import { ReverseProxyEvent } from "@/interfaces/ReverseProxy";
-
 type Props = {
   event: ReverseProxyEvent;
   compact?: boolean;
@@ -51,7 +51,7 @@ export const ReverseProxyEventsAuthMethodCell = ({
               PWD
             </span>
           ),
-          label: "Password",
+          label: t("common:word.password"),
         };
       case "pin":
         return {
@@ -64,64 +64,84 @@ export const ReverseProxyEventsAuthMethodCell = ({
               PIN
             </span>
           ),
-          label: "PIN Code",
+          label: t("common:word.pINCode"),
         };
       case "header":
         return {
           icon: <Braces size={12} />,
-          label: "HTTP Headers",
+          label: t("common:word.hTTPHeaders"),
         };
       case "link":
       case "magic_link":
       case "magic-link":
         return {
           icon: <Link2 size={12} />,
-          label: "Magic Link",
+          label: t(
+            "reverse-proxy.events:reverseProxyEventsAuthMethodCell.label.magicLink",
+          ),
         };
       case "ip_restricted":
         return {
           icon: <Network size={12} />,
-          label: "IP Restricted",
+          label: t(
+            "reverse-proxy.events:reverseProxyEventsAuthMethodCell.label.iPRestricted",
+          ),
         };
       case "country_restricted":
         return {
           icon: <Flag size={12} />,
-          label: "Country Restricted",
+          label: t(
+            "reverse-proxy.events:reverseProxyEventsAuthMethodCell.label.countryRestricted",
+          ),
         };
       case "geo_unavailable":
         return {
           icon: <GlobeOff size={12} />,
-          label: "Geo Unavailable",
+          label: t(
+            "reverse-proxy.events:reverseProxyEventsAuthMethodCell.label.geoUnavailable",
+          ),
         };
       case "path_bypass":
         return {
           icon: <LockOpen size={12} />,
-          label: "Auth Bypassed",
+          label: t(
+            "reverse-proxy.events:reverseProxyEventsAuthMethodCell.label.authBypassed",
+          ),
         };
       case "path_block":
         return {
           icon: <ShieldX size={12} />,
-          label: "Path Blocked",
+          label: t(
+            "reverse-proxy.events:reverseProxyEventsAuthMethodCell.label.pathBlocked",
+          ),
         };
       case "crowdsec_ban":
         return {
           icon: <ShieldAlert size={12} />,
-          label: "CrowdSec Ban",
+          label: t(
+            "reverse-proxy.events:reverseProxyEventsAuthMethodCell.label.crowdSecBan",
+          ),
         };
       case "crowdsec_captcha":
         return {
           icon: <ShieldAlert size={12} />,
-          label: "CrowdSec Captcha",
+          label: t(
+            "reverse-proxy.events:reverseProxyEventsAuthMethodCell.label.crowdSecCaptcha",
+          ),
         };
       case "crowdsec_throttle":
         return {
           icon: <ShieldAlert size={12} />,
-          label: "CrowdSec Throttle",
+          label: t(
+            "reverse-proxy.events:reverseProxyEventsAuthMethodCell.label.crowdSecThrottle",
+          ),
         };
       case "crowdsec_unavailable":
         return {
           icon: <ShieldOff size={12} />,
-          label: "CrowdSec Unavailable",
+          label: t(
+            "reverse-proxy.events:reverseProxyEventsAuthMethodCell.label.crowdSecUnavailable",
+          ),
         };
       default:
         return {
@@ -139,7 +159,11 @@ export const ReverseProxyEventsAuthMethodCell = ({
         interactive={false}
         content={
           <span className={"text-xs"}>
-            <span className={"text-nb-gray-400"}>Auth: </span>
+            <span className={"text-nb-gray-400"}>
+              {t(
+                "reverse-proxy.events:reverseProxyEventsAuthMethodCell.text.auth",
+              )}{" "}
+            </span>
             <span className={"text-nb-gray-100"}>{label}</span>
           </span>
         }

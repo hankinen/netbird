@@ -5,7 +5,7 @@ import { GradientFadedBackground } from "@components/ui/GradientFadedBackground"
 import { GlobeIcon } from "lucide-react";
 import * as React from "react";
 import { Tenant } from "@/cloud/msp/interfaces/Tenant";
-
+import { t as i18nT } from "@/i18n";
 type Props = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -42,18 +42,24 @@ export const MSPAccountExistsModal = ({
             {tenant?.domain}
           </div>
           <div className={"text-xl font-medium text-center mb-1"}>
-            This NetBird account already <br />
-            exists in our system
+            {i18nT(
+              "cloud.msp:mSPAccountExistsModal.text.thisNetBirdAccountAlready",
+            )}{" "}
+            <br />
+            {i18nT("cloud.msp:mSPAccountExistsModal.text.existsInOurSystem")}
           </div>
           <div className={"text-sm text-nb-gray-300 text-center"}>
-            To manage the account{" "}
-            <span className="text-white">{tenant?.domain}</span>, you must first
-            request access from the account owner.
+            {i18nT("cloud.msp:mSPAccountExistsModal.text.toManageTheAccount")}{" "}
+            <span className="text-white">{tenant?.domain}</span>
+            {i18nT(
+              "cloud.msp:mSPAccountExistsModal.text.youMustFirstRequestAccess",
+            )}
           </div>
           <div className={"text-sm text-nb-gray-300 text-center"}></div>
           <Callout>
-            The account owner must log in to the dashboard to accept or decline
-            your request. Please inform them after you have requested access.
+            {i18nT(
+              "cloud.msp:mSPAccountExistsModal.text.theAccountOwnerMustLog",
+            )}
           </Callout>
         </div>
 
@@ -64,7 +70,7 @@ export const MSPAccountExistsModal = ({
             variant={"secondary"}
             onClick={() => onCancel(tenant)}
           >
-            Cancel
+            {i18nT("common:word.cancel")}
           </Button>
           <Button
             autoFocus={true}
@@ -72,7 +78,7 @@ export const MSPAccountExistsModal = ({
             variant={"primary"}
             onClick={() => onAccept(tenant)}
           >
-            Request Access
+            {i18nT("cloud.msp:mSPAccountExistsModal.text.requestAccess")}
           </Button>
         </ModalFooter>
       </ModalContent>

@@ -2,8 +2,8 @@
 
 import Code from "@components/Code";
 import * as React from "react";
+import { t } from "@/i18n";
 import { ReverseProxyEvent } from "@/interfaces/ReverseProxy";
-
 type Props = {
   event: ReverseProxyEvent;
 };
@@ -49,7 +49,7 @@ function GroupBlock({ group }: { group: Group }) {
     2,
   );
   const heading =
-    group.label === "other" ? "Other metadata" : group.label;
+    group.label === "other" ? t("reverse-proxy.events:reverseProxyEventExpandedRow.text.otherMetadata") : group.label;
 
   return (
     <div className={"space-y-1.5"}>
@@ -80,7 +80,7 @@ export default function ReverseProxyEventExpandedRow({ event }: Props) {
           "px-4 py-4 text-sm text-nb-gray-400 italic border-t border-nb-gray-900"
         }
       >
-        No metadata recorded for this request.
+        {t("reverse-proxy.events:reverseProxyEventExpandedRow.text.noMetadataRecordedForThis")}
       </div>
     );
   }

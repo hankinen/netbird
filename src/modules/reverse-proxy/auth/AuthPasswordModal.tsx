@@ -5,6 +5,7 @@ import ModalHeader from "@components/modal/ModalHeader";
 import React, { useState } from "react";
 import { GradientFadedBackground } from "@components/ui/GradientFadedBackground";
 
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -43,8 +44,8 @@ export default function AuthPasswordModal({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass="max-w-md">
         <ModalHeader
-          title="Password"
-          description="Require a password to access this service."
+          title={t("common:word.password")}
+          description={t("reverse-proxy.auth:authPasswordModal.description.requireAPasswordToAccess")}
         />
 
         <GradientFadedBackground />
@@ -64,7 +65,7 @@ export default function AuthPasswordModal({
                 setPassword(e.target.value);
               }
             }}
-            placeholder="Enter password..."
+            placeholder={t("reverse-proxy.auth:authPasswordModal.placeholder.enterPassword")}
             autoComplete="off"
             data-1p-ignore
             data-lpignore="true"
@@ -79,18 +80,18 @@ export default function AuthPasswordModal({
             {isEditing ? (
               <>
                 <Button variant="danger-text" data-testid="remove-password" onClick={handleRemove}>
-                  Remove
+                  {t("common:word.remove")}
                 </Button>
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common:word.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"
                     onClick={handleSave}
                     disabled={!password.trim()}
                   >
-                    Save
+                    {t("common:word.save")}
                   </Button>
                 </div>
               </>
@@ -99,7 +100,7 @@ export default function AuthPasswordModal({
                 <div />
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common:word.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"
@@ -107,7 +108,7 @@ export default function AuthPasswordModal({
                     disabled={!password.trim()}
                     data-testid="submit-password"
                   >
-                    Add Password
+                    {t("reverse-proxy.auth:authPasswordModal.text.addPassword")}
                   </Button>
                 </div>
               </>

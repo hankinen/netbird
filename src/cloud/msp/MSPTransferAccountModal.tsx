@@ -20,7 +20,7 @@ import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { TenantDNSResponse, TenantStatus } from "@/cloud/msp/interfaces/Tenant";
 import { useDialog } from "@/contexts/DialogProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
-
+import { t } from "@/i18n";
 export const MSPTransferAccountModal = () => {
   const { mspInfo } = useMSP();
   const { confirm } = useDialog();
@@ -41,18 +41,30 @@ export const MSPTransferAccountModal = () => {
 
   const grantAccess = async () => {
     const choice = await confirm({
-      title: `Granting access to ${mspInfo?.parent_domain}?`,
-      description: `Are you sure you want to grant access? This action cannot be undone.`,
-      confirmText: "Grant Access",
-      cancelText: "Cancel",
+      title: t("cloud.msp:mSPTransferAccountModal.title.grantingAccessTo", {
+        parent_domain: mspInfo?.parent_domain,
+      }),
+      description: t(
+        "cloud.msp:mSPTransferAccountModal.description.areYouSureYouWant",
+      ),
+      confirmText: t(
+        "cloud.msp:mSPTransferAccountModal.confirmText.grantAccess",
+      ),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
     if (!choice) return;
 
     notify({
-      title: `Granting access to ${mspInfo?.parent_domain}`,
-      description: "Access has been successfully granted.",
-      loadingMessage: "Granting access...",
+      title: t("cloud.msp:mSPTransferAccountModal.title.grantingAccessTo2", {
+        parent_domain: mspInfo?.parent_domain,
+      }),
+      description: t(
+        "cloud.msp:mSPTransferAccountModal.description.accessHasBeenSuccessfullyGranted",
+      ),
+      loadingMessage: t(
+        "cloud.msp:mSPTransferAccountModal.loadingMessage.grantingAccess",
+      ),
       promise: tenantRequest
         .put(
           {
@@ -69,9 +81,13 @@ export const MSPTransferAccountModal = () => {
 
   const deny = () => {
     notify({
-      title: "Access request denied",
-      description: "You have denied the access request.",
-      loadingMessage: "Declining access...",
+      title: t("cloud.msp:mSPTransferAccountModal.title.accessRequestDenied"),
+      description: t(
+        "cloud.msp:mSPTransferAccountModal.description.youHaveDeniedTheAccess",
+      ),
+      loadingMessage: t(
+        "cloud.msp:mSPTransferAccountModal.loadingMessage.decliningAccess",
+      ),
       promise: tenantRequest
         .put(
           {
@@ -142,47 +158,57 @@ export const MSPTransferAccountModal = () => {
               {mspInfo?.parent_owner_name
                 ? mspInfo?.parent_owner_name + " from "
                 : ""}
-              <span>{mspInfo?.parent_name || mspInfo?.name}</span> is requesting
-              access to your account
+              <span>{mspInfo?.parent_name || mspInfo?.name}</span>{" "}
+              {t(
+                "cloud.msp:mSPTransferAccountModal.text.isRequestingAccessToYour",
+              )}
             </h2>
             <Paragraph
               className={cn("text-sm text-center max-w-[450px] px-4 mt-2")}
             >
-              A Managed Service Provider (MSP) is requesting access to manage
-              your account and all of its associated resources.
+              {t(
+                "cloud.msp:mSPTransferAccountModal.text.aManagedServiceProviderMSP",
+              )}
             </Paragraph>
             <div
               className={"bg-nb-gray-920 px-5 py-4 rounded-lg mt-4 text-left"}
             >
               <div className={"text-sm text-nb-gray-200 mb-2 text-left"}>
-                Please review the request carefully before proceeding. Granting
-                them access will allow them to:
+                {t(
+                  "cloud.msp:mSPTransferAccountModal.text.pleaseReviewTheRequestCarefully",
+                )}
               </div>
               <ul className="flex flex-col gap-1.5 mt-4 mb-1">
                 <li className="flex items-center gap-2 text-sm text-nb-gray-200">
                   <SettingsIcon size={16} className={"text-netbird"} />
-                  Manage your account, settings and configurations
+                  {t(
+                    "cloud.msp:mSPTransferAccountModal.text.manageYourAccountSettingsAnd",
+                  )}
                 </li>
                 <li className="flex items-center gap-2 text-sm text-nb-gray-200">
                   <MonitorSmartphoneIcon size={16} className={"text-netbird"} />
-                  Manage all devices and associated resources
+                  {t(
+                    "cloud.msp:mSPTransferAccountModal.text.manageAllDevicesAndAssociated",
+                  )}
                 </li>
                 <li className="flex items-center gap-2 text-sm text-nb-gray-200">
                   <UserIcon size={16} className={"text-netbird"} />
-                  Manage all users, groups and permissions
+                  {t(
+                    "cloud.msp:mSPTransferAccountModal.text.manageAllUsersGroupsAnd",
+                  )}
                 </li>
               </ul>
             </div>
             <div className={"flex gap-4 items-center mt-6 w-full"}>
               <Button className={"w-full"} variant={"secondary"} onClick={deny}>
-                Deny
+                {t("cloud.msp:mSPTransferAccountModal.text.deny")}
               </Button>
               <Button
                 className={"w-full"}
                 variant={"danger"}
                 onClick={grantAccess}
               >
-                Grant Access
+                {t("cloud.msp:mSPTransferAccountModal.confirmText.grantAccess")}
               </Button>
             </div>
           </div>

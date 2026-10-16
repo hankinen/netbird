@@ -17,5 +17,6 @@
   "page.text.blockUser": "禁用用户",
   "page.text.lastLogin": "最后登录",
   "page.text.dMMMMYYYYAtH": "YYYY年M月D日 HH:mm",
-  "page.text.manageUsersAndTheirPermissions": "管理用户及其权限。同域名邮箱的用户在首次登录时会被自动添加。"
+  "page.text.manageUsersAndTheirPermissions": "管理用户及其权限。同域名邮箱的用户在首次登录时会被自动添加。",
+  "page.text.never": "从不"
 }

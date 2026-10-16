@@ -6,11 +6,11 @@ import * as React from "react";
 import { useSWRConfig } from "swr";
 import { useDialog } from "@/contexts/DialogProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import {
   ReverseProxyCluster,
   ReverseProxyClusterType,
 } from "@/interfaces/ReverseProxy";
-
 type Props = {
   cluster: ReverseProxyCluster;
 };
@@ -32,11 +32,15 @@ export default function ClustersActionCell({ cluster }: Readonly<Props>) {
 
   const handleDelete = async () => {
     const choice = await confirm({
-      title: `Delete '${cluster.address}'?`,
-      description:
-        "Are you sure you want to delete this proxy cluster? This action cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t(
+        "reverse-proxy.clusters.cluster-cloud-deploy:clustersActionCell.title.delete",
+        { address: cluster.address },
+      ),
+      description: t(
+        "reverse-proxy.clusters.cluster-cloud-deploy:clustersActionCell.description.areYouSureYouWant",
+      ),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
       maxWidthClass: "max-w-md",
     });
@@ -44,13 +48,17 @@ export default function ClustersActionCell({ cluster }: Readonly<Props>) {
 
     notify({
       title: cluster.address,
-      description: "Proxy cluster was successfully deleted",
+      description: t(
+        "reverse-proxy.clusters.cluster-cloud-deploy:clustersActionCell.description.proxyClusterWasSuccessfullyDeleted",
+      ),
       promise: request
         .del({}, `/${encodeURIComponent(cluster.address)}`)
         .then(() => {
           mutate("/reverse-proxies/clusters");
         }),
-      loadingMessage: "Deleting the proxy cluster...",
+      loadingMessage: t(
+        "reverse-proxy.clusters.cluster-cloud-deploy:clustersActionCell.loadingMessage.deletingTheProxyCluster",
+      ),
     });
   };
 
@@ -63,7 +71,7 @@ export default function ClustersActionCell({ cluster }: Readonly<Props>) {
         disabled={!permission?.services?.delete}
       >
         <Trash2 size={16} />
-        Delete
+        {t("common:word.delete")}
       </Button>
     </div>
   );

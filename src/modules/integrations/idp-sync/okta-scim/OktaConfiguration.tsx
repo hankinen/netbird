@@ -27,13 +27,13 @@ import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/okta.png";
 import { useDialog } from "@/contexts/DialogProvider";
+import { t } from "@/i18n";
 import { OktaIntegration } from "@/interfaces/IdentityProvider";
 import { EmbeddedIdentityProviderSelect } from "@/modules/integrations/idp-sync/EmbeddedIdentityProviderSelect";
 import { GroupPrefixHelpText } from "@/modules/integrations/idp-sync/GroupPrefixHelpText";
 import { GroupPrefixInput } from "@/modules/integrations/idp-sync/GroupPrefixInput";
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -101,54 +101,77 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
 
   const regenerateAuthToken = async () => {
     const choice = await confirm({
-      title: `Regenerate Auth Token?`,
-      description:
-        "Are you sure you want to regenerate the auth token? You will need to update the token in your Okta configuration.",
-      confirmText: "Regenerate",
-      cancelText: "Cancel",
+      title: t(
+        "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.title.regenerateAuthToken",
+      ),
+      description: t(
+        "integrations.idp-sync.jumpcloud-configuration:oktaConfiguration.description.areYouSureYouWant",
+      ),
+      confirmText: t(
+        "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.confirmText.regenerate",
+      ),
+      cancelText: t("common:word.cancel"),
       type: "default",
     });
 
     if (!choice) return;
 
     notify({
-      title: "Okta Integration",
-      description: `Auth token for Okta was successfully regenerated`,
+      title: t(
+        "integrations.idp-sync.jumpcloud-configuration:oktaConfiguration.title.oktaIntegration",
+      ),
+      description: t(
+        "integrations.idp-sync.jumpcloud-configuration:oktaConfiguration.description.authTokenForOktaWas",
+      ),
       promise: oktaRequest.post({}, `/${config.id}/token`).then((r) => {
         mutate("/integrations/okta-scim-idp");
         setAuthToken(r.auth_token);
         updateRef([r.auth_token, groupPrefixes, userGroupPrefixes]);
       }),
-      loadingMessage: "Updating your auth token...",
+      loadingMessage: t(
+        "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.loadingMessage.updatingYourAuthToken",
+      ),
     });
   };
 
   const deleteIntegration = async () => {
     const choice = await confirm({
-      title: `Delete integration?`,
-      description: "Are you sure you want to delete this integration?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t(
+        "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.title.deleteIntegration",
+      ),
+      description: t(
+        "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.description.areYouSureYouWant2",
+      ),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "Okta Integration",
-      description: `Okta was successfully deleted`,
+      title: t(
+        "integrations.idp-sync.jumpcloud-configuration:oktaConfiguration.title.oktaIntegration",
+      ),
+      description: t(
+        "integrations.idp-sync.jumpcloud-configuration:oktaConfiguration.description.oktaWasSuccessfullyDeleted",
+      ),
       promise: oktaRequest.del({}, `/${config.id}`).then(() => {
         mutate("/integrations/okta-scim-idp");
         onSuccess();
       }),
-      loadingMessage: "Deleting integration...",
+      loadingMessage: t("integrations.shared:word.deletingIntegration"),
     });
   };
 
   const updateIntegration = async () => {
     notify({
-      title: "Okta Integration",
-      description: `Okta was successfully updated`,
+      title: t(
+        "integrations.idp-sync.jumpcloud-configuration:oktaConfiguration.title.oktaIntegration",
+      ),
+      description: t(
+        "integrations.idp-sync.jumpcloud-configuration:oktaConfiguration.description.oktaWasSuccessfullyUpdated",
+      ),
       promise: oktaRequest
         .put(
           {
@@ -166,7 +189,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
           mutate("/integrations/okta-scim-idp");
           onSuccess();
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("integrations.shared:word.updatingIntegration"),
     });
   };
 
@@ -181,8 +204,12 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Okta Configuration"}
-        description={"Sync your users and groups from Okta to NetBird."}
+        title={t(
+          "integrations.idp-sync.jumpcloud-configuration:oktaConfiguration.title.oktaConfiguration",
+        )}
+        description={t(
+          "integrations.idp-sync.jumpcloud-configuration:oktaConfiguration.description.syncYourUsersAndGroups",
+        )}
       />
 
       <Tabs
@@ -198,7 +225,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Settings
+            {t("common:word.settings")}
           </TabsTrigger>
           <TabsTrigger value={"group-sync"}>
             <FolderGit2
@@ -207,7 +234,9 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Group Sync
+            {t(
+              "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.text.groupSync",
+            )}
           </TabsTrigger>
           <TabsTrigger value={"user-sync"}>
             <UserCircle
@@ -216,7 +245,9 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            User Sync
+            {t(
+              "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.text.userSync",
+            )}
           </TabsTrigger>
           <TabsTrigger value={"danger"}>
             <AlertOctagon
@@ -225,7 +256,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Danger Zone
+            {t("integrations.shared:word.dangerZone")}
           </TabsTrigger>
         </TabsList>
         <TabsContent value={"settings"} className={"px-8 text-sm"}>
@@ -234,11 +265,15 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
               <Card.List>
                 <Card.ListItem
                   copy={!authToken.includes("*")}
-                  copyText={"Auth token"}
+                  copyText={t(
+                    "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.copyText.authToken",
+                  )}
                   label={
                     <>
                       <KeyRound size={16} />
-                      Auth Token
+                      {t(
+                        "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.text.authToken",
+                      )}
                     </>
                   }
                   value={authToken}
@@ -247,7 +282,9 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             </Card>
             <Button variant={"secondary"} onClick={regenerateAuthToken}>
               <RefreshCcw size={16} />
-              Regenerate Auth Token
+              {t(
+                "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.text.regenerateAuthToken",
+              )}
             </Button>
             <EmbeddedIdentityProviderSelect
               value={connectorId}
@@ -262,7 +299,9 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <FolderGit2 size={16} />
-                Synchronize Groups
+                {t(
+                  "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.text.synchronizeGroups",
+                )}
               </div>
             </Label>
             <GroupPrefixHelpText />
@@ -275,14 +314,18 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <UserCircle size={16} />
-                Synchronize Users
+                {t(
+                  "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.text.synchronizeUsers",
+                )}
               </div>
             </Label>
             <GroupPrefixHelpText type={"user-groups"} />
           </div>
           <GroupPrefixInput
             addText={"Add user group filter"}
-            text={"User group starts with..."}
+            text={t(
+              "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.text.userGroupStartsWith",
+            )}
             value={userGroupPrefixes}
             onChange={setUserGroupPrefixes}
           />
@@ -293,14 +336,13 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <AlertOctagon size={16} />
-                Delete Integration
+                {t("integrations.shared:word.deleteIntegration")}
               </div>
             </Label>
             <HelpText className={"max-w-lg mt-2"}>
-              Deleting this integration will remove the ability to sync users
-              and groups from your IdP to NetBird. If you delete the integration
-              you will need to reconfigure it again to enable the
-              synchronization.
+              {t(
+                "integrations.idp-sync.jumpcloud-configuration:jumpcloudConfiguration.text.deletingThisIntegrationWillRemove",
+              )}
             </HelpText>
           </div>
           <Button
@@ -309,7 +351,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             className={"mt-3"}
             onClick={deleteIntegration}
           >
-            Delete Integration
+            {t("integrations.shared:word.deleteIntegration")}
           </Button>
         </TabsContent>
       </Tabs>
@@ -318,7 +360,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
       <ModalFooter className={"items-center gap-4"}>
         <ModalClose asChild={true}>
           <Button variant={"secondary"} className={"w-full"}>
-            Cancel
+            {t("common:word.cancel")}
           </Button>
         </ModalClose>
 
@@ -328,7 +370,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
           disabled={!hasChanges}
           onClick={updateIntegration}
         >
-          Save
+          {t("common:word.save")}
         </Button>
       </ModalFooter>
     </ModalContent>

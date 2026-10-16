@@ -17,5 +17,6 @@
   "usersDropdownSelector.placeholder.searchUser": "Search user...",
   "usersDropdownSelector.text.noUsersAvailableToSelect": "No users available to select.",
   "usersDropdownSelector.text.thereAreNoUsersMatching": "There are no users matching your search.",
-  "usersDropdownSelector.text.netBird": "NetBird"
+  "usersDropdownSelector.text.netBird": "NetBird",
+  "activityTypePicker.text.nTypes": "{{count}} types"
 }

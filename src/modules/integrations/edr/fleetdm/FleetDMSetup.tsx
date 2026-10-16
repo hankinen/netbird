@@ -33,6 +33,7 @@ import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/fleetdm.png";
 import HelpText from "@/components/HelpText";
 import { PeerGroupSelector } from "@/components/PeerGroupSelector";
+import { t } from "@/i18n";
 import { Account } from "@/interfaces/Account";
 import {
   DEFAULT_FLEETDM_MATCH_ATTRIBUTES,
@@ -42,7 +43,6 @@ import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { matchAttributesReducer } from "@/modules/integrations/edr/fleetdm/FleetDM";
 import { FleetDMMatchSettings } from "@/modules/integrations/edr/fleetdm/FleetDMMatchSettings";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -101,7 +101,9 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
   const urlError = useMemo(() => {
     if (apiUrl === "") return "";
     if (!validator.isValidUrl(apiUrl)) {
-      return "Please enter a valid url, e.g., https://fleet.example.com";
+      return t(
+        "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.pleaseEnterAValidUrl",
+      );
     }
     return "";
   }, [apiUrl]);
@@ -133,8 +135,12 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
     const savedGroups = await saveGroups();
 
     notify({
-      title: "FleetDM Integration",
-      description: `FleetDM was successfully connected to NetBird.`,
+      title: t(
+        "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.title.fleetDMIntegration",
+      ),
+      description: t(
+        "integrations.edr.crowd-strike-configuration:fleetDMSetup.description.fleetDMWasSuccessfullyConnectedTo",
+      ),
       promise: fleetDMRequest
         .post({
           api_token: apiToken,
@@ -148,7 +154,9 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
           mutate("/integrations/edr/fleetdm");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t(
+        "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.loadingMessage.settingUpIntegration",
+      ),
     });
   };
 
@@ -191,10 +199,12 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Connect NetBird with FleetDM"}
-        description={
-          "Restrict network access to devices managed by FleetDM based on their compliance policies."
-        }
+        title={t(
+          "integrations.edr.crowd-strike-configuration:fleetDMSetup.title.connectNetBirdWithFleetDM",
+        )}
+        description={t(
+          "integrations.edr.crowd-strike-configuration:fleetDMSetup.description.restrictNetworkAccessToDevices",
+        )}
       />
 
       {step == 0 && (
@@ -209,21 +219,25 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             }
           >
             <Shield size={16} />
-            Required Permissions
+            {t("integrations.shared:word.requiredPermissions")}
           </div>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Ensure that you have a{" "}
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.ensureThatYouHaveA",
+            )}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              FleetDM account
+              {t(
+                "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.fleetDMAccount",
+              )}
             </span>{" "}
-            with the following{" "}
+            {t("integrations.shared:word.withTheFollowing")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              permissions
+              {t("integrations.shared:word.permissions")}
             </span>
             .{" "}
-            {
-              "If you don't have the required permissions, ask your administrator to grant them to you."
-            }
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.ifYouDonTHave",
+            )}
           </p>
           <div
             className={
@@ -236,7 +250,9 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               }
             >
               <PlusCircle size={14} className={"text-sky-500"} />
-              API-only User or Admin Access
+              {t(
+                "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.aPIOnlyUserOrAdmin",
+              )}
             </div>
             <div
               className={
@@ -244,7 +260,9 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               }
             >
               <Settings2 size={14} className={"text-sky-500"} />
-              Read Access to Hosts and Policies
+              {t(
+                "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.readAccessToHostsAnd",
+              )}
             </div>
           </div>
         </div>
@@ -254,18 +272,25 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <GlobeIcon size={18} />
-            Enter your FleetDM Server URL
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.enterYourFleetDMServerURL",
+            )}
           </p>
 
           <Steps>
             <Steps.Step step={1}>
-              <p>Navigate to your FleetDM Management Console.</p>
+              <p>
+                {t(
+                  "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.navigateToYourFleetDMManagement",
+                )}
+              </p>
             </Steps.Step>
 
             <Steps.Step step={2} line={false}>
               <p>
-                Copy your FleetDM server URL from the browser&apos;s address bar
-                and enter it here.
+                {t(
+                  "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.copyYourFleetDMServerURL",
+                )}
               </p>
             </Steps.Step>
           </Steps>
@@ -280,7 +305,9 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
                   <GlobeIcon size={14} />
                 </div>
               }
-              placeholder={"https://fleet.example.com"}
+              placeholder={t(
+                "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.placeholder.httpsFleetExampleCom",
+              )}
               value={apiUrl}
               error={urlError}
               onChange={(e) => setApiUrl(e.target.value)}
@@ -293,38 +320,50 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Box size={20} />
-            Create a FleetDM API Token
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.createAFleetDMAPIToken",
+            )}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Log in as an admin to your Fleet instance using{" "}
+                {t(
+                  "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.logInAsAnAdmin",
+                )}{" "}
                 <InlineLink
                   href={"https://fleetdm.com/guides/fleetctl"}
                   target={"_blank"}
                 >
-                  fleetctl
+                  {t(
+                    "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.fleetctl",
+                  )}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={2}>
               <p className={"font-normal"}>
-                Create an{" "}
+                {t(
+                  "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.createAn",
+                )}{" "}
                 <InlineLink
                   href={
                     "https://fleetdm.com/guides/fleetctl#create-api-only-user"
                   }
                   target={"_blank"}
                 >
-                  API-only user
+                  {t(
+                    "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.aPIOnlyUser",
+                  )}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </p>
             </Steps.Step>
             <Steps.Step step={3} line={false}>
               <p className={"font-normal"}>
-                Once created, paste the received API token below.
+                {t(
+                  "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.onceCreatedPasteTheReceived",
+                )}
               </p>
             </Steps.Step>
           </Steps>
@@ -338,9 +377,9 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
                   <KeyRound size={16} className={"text-nb-gray-300"} />
                 </div>
               }
-              placeholder={
-                "8DD1svziNt4yFFvQ4E0ONIw8YBQ8JdHjS/lEoYgQ2aYYXGMuRrqkYKTYA+N0WEPYTQaqTcawT3OoFzcUqS5rFw=="
-              }
+              placeholder={t(
+                "integrations.edr.crowd-strike-configuration:fleetDMSetup.placeholder.8DD1svziNt4yFFvQ4E0ONIw8YBQ8JdHjSLEoYgQ2aYYXGMuRrqkYKTYAN0WEPYTQaqTcawT3OoFzcUqS5rFw",
+              )}
               value={apiToken}
               onChange={(e) => setApiToken(e.target.value)}
             />
@@ -352,11 +391,15 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <FolderGit2 size={16} />
-            Peer Approval
+            {t(
+              "integrations.edr.crowd-strike-configuration:crowdStrikeConfiguration.text.peerApproval",
+            )}
           </p>
 
           <HelpText className={"max-w-lg mt-2"}>
-            Select groups you want to apply the FleetDM integration to
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.selectGroupsYouWantTo",
+            )}
           </HelpText>
 
           <PeerGroupSelector
@@ -371,11 +414,14 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <ShieldCheckIcon size={16} />
-            Compliance Requirements
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.complianceRequirements",
+            )}
           </p>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Set the specific requirements that devices must meet to be
-            considered compliant.
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.setTheSpecificRequirementsThat",
+            )}
           </p>
 
           <FleetDMMatchSettings
@@ -389,23 +435,25 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <RefreshCcw size={16} />
-            FleetDM Sync Window
+            {t(
+              "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.fleetDMSyncWindow",
+            )}
           </p>
           <div className={"mt-2 flex flex-row gap-3"}>
             <FullTooltip
               interactive={false}
               content={
                 <div className={"max-w-xs text-xs"}>
-                  Example: This property is set to 24 hours. Jane&apos;s laptop
-                  hasn&apos;t synced with FleetDM for 27 hours. Even though
-                  it&apos;s marked as Compliant in FleetDM, it will still be
-                  blocked from network access.
+                  {t(
+                    "integrations.edr.crowd-strike-configuration:fleetDMSetup.text.exampleThisPropertyIsSet",
+                  )}
                 </div>
               }
             >
               <HelpText className={"max-w-lg"}>
-                Devices not synced with FleetDM in this time won&apos;t have
-                network access.
+                {t(
+                  "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.text.devicesNotSyncedWithFleetDM",
+                )}
                 <IconInfoCircle
                   size={14}
                   className={"relative inline ml-1 -top-[1px]"}
@@ -420,7 +468,9 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               value={lastSyncedInterval}
               type={"number"}
               onChange={(e) => setLastSyncedInterval(e.target.value)}
-              customSuffix={"Hours"}
+              customSuffix={t(
+                "integrations.edr.crowd-strike-configuration:fleetDMConfiguration.customSuffix.hours",
+              )}
             />
           </div>
         </div>
@@ -434,7 +484,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             onClick={() => setStep(step - 1)}
           >
             <IconArrowLeft size={16} />
-            Back
+            {t("common:word.back")}
           </Button>
         )}
         {step >= 0 && step < maxSteps && (
@@ -444,7 +494,9 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             disabled={isDisabled}
             onClick={() => setStep(step + 1)}
           >
-            {step == 0 ? "Get Started" : "Continue"}
+            {step == 0
+              ? t("integrations.shared:word.getStarted")
+              : t("common:word.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -456,7 +508,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             onClick={connect}
           >
             <Repeat size={16} />
-            Connect
+            {t("common:word.connect")}
           </Button>
         )}
       </ModalFooter>
@@ -468,8 +520,13 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         >
           <Clock4 size={12} />
           <div>
-            Estimated setup time:
-            <span className={"font-medium"}> 5-10 Minutes</span>
+            {t("integrations.shared:word.estimatedSetupTime")}
+            <span className={"font-medium"}>
+              {" "}
+              {t(
+                "integrations.edr.crowd-strike-configuration:crowdStrikeSetup.text.510Minutes",
+              )}
+            </span>
           </div>
         </div>
       )}

@@ -14,9 +14,9 @@ import { MSPSubscriptionModal } from "@/cloud/msp/MSPSubscriptionModal";
 import { MSPTenantModal } from "@/cloud/msp/MSPTenantModal";
 import { MSPUnlinkModal } from "@/cloud/msp/MSPUnlinkModal";
 import { useDialog } from "@/contexts/DialogProvider";
+import { t as i18nT } from "@/i18n";
 import { Currency, Plan } from "@/interfaces/Plan";
 import { User } from "@/interfaces/User";
-
 type Props = {
   children: React.ReactNode;
 };
@@ -67,11 +67,14 @@ export const TenantsProvider = ({ children }: Props) => {
 
   const deleteTenant = async (tenant: Tenant) => {
     const choice = await confirm({
-      title: `Delete '${tenant.name}'?`,
-      description:
-        "Deleting this tenant will permanently remove all of its associated data, including its peers, users, groups and everything else. Please be aware that this action is irreversible and cannot be undone.",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: i18nT("cloud.msp:tenantsProvider.title.delete", {
+        name: tenant.name,
+      }),
+      description: i18nT(
+        "cloud.msp:tenantsProvider.description.deletingThisTenantWillPermanently",
+      ),
+      confirmText: i18nT("common:word.delete"),
+      cancelText: i18nT("common:word.cancel"),
       type: "danger",
       maxWidthClass: "max-w-[480px]",
     });
@@ -82,9 +85,17 @@ export const TenantsProvider = ({ children }: Props) => {
     });
 
     notify({
-      title: `Deleting ${tenant.name}`,
-      description: `Successfully deleted ${tenant.name} (${tenant.domain})`,
-      loadingMessage: `Deleting ${tenant.name}...`,
+      title: i18nT("cloud.msp:tenantsProvider.title.deleting", {
+        name: tenant.name,
+      }),
+      description: i18nT(
+        "cloud.msp:tenantsProvider.description.successfullyDeleted",
+        { name: tenant.name, domain: tenant.domain },
+      ),
+      loadingMessage: i18nT(
+        "cloud.msp:tenantsProvider.loadingMessage.deleting",
+        { name: tenant.name },
+      ),
       promise,
     });
 
@@ -106,9 +117,17 @@ export const TenantsProvider = ({ children }: Props) => {
       });
 
     notify({
-      title: `Unlinking ${tenant.name}`,
-      description: `Successfully unlinked ${tenant.name} (${tenant.domain})`,
-      loadingMessage: `Unlinking ${tenant.name}...`,
+      title: i18nT("cloud.msp:tenantsProvider.title.unlinking", {
+        name: tenant.name,
+      }),
+      description: i18nT(
+        "cloud.msp:tenantsProvider.description.successfullyUnlinked",
+        { name: tenant.name, domain: tenant.domain },
+      ),
+      loadingMessage: i18nT(
+        "cloud.msp:tenantsProvider.loadingMessage.unlinking",
+        { name: tenant.name },
+      ),
       promise,
     });
     return promise;
@@ -138,9 +157,17 @@ export const TenantsProvider = ({ children }: Props) => {
         );
 
     notify({
-      title: `Subscription for ${tenant.name}`,
-      description: `Successfully subscribed to the ${plan.name} plan.`,
-      loadingMessage: `Subscribing to ${plan.name}...`,
+      title: i18nT("cloud.msp:tenantsProvider.title.subscriptionFor", {
+        name: tenant.name,
+      }),
+      description: i18nT(
+        "cloud.msp:tenantsProvider.description.successfullySubscribedToThePlan",
+        { name: plan.name },
+      ),
+      loadingMessage: i18nT(
+        "cloud.msp:tenantsProvider.loadingMessage.subscribingTo",
+        { name: plan.name },
+      ),
       promise,
     });
     return promise;
@@ -165,15 +192,26 @@ export const TenantsProvider = ({ children }: Props) => {
       });
 
     notify({
-      title: `Verification of ${domain}`,
-      description: "The domain ownership has been verified successfully.",
-      loadingTitle: `Verifying ownership of ${domain}`,
-      loadingMessage: "Please wait while we verify the domain ownership...",
+      title: i18nT("cloud.msp:tenantsProvider.title.verificationOf", {
+        domain,
+      }),
+      description: i18nT(
+        "cloud.msp:tenantsProvider.description.theDomainOwnershipHasBeen",
+      ),
+      loadingTitle: i18nT(
+        "cloud.msp:tenantsProvider.text.verifyingOwnershipOf",
+        { domain },
+      ),
+      loadingMessage: i18nT(
+        "cloud.msp:tenantsProvider.loadingMessage.pleaseWaitWhileWeVerify",
+      ),
       promise: dnsPromise,
       errorMessages: [
         {
           code: 501,
-          message: "DNS record not found. Please try again...",
+          message: i18nT(
+            "cloud.msp:tenantsProvider.message.dNSRecordNotFoundPlease",
+          ),
         },
       ],
     });
@@ -200,9 +238,13 @@ export const TenantsProvider = ({ children }: Props) => {
       });
 
     notify({
-      title: `Request Account Access`,
-      description: "Request has been sent successfully.",
-      loadingMessage: "Sending request...",
+      title: i18nT("cloud.msp:tenantsProvider.title.requestAccountAccess"),
+      description: i18nT(
+        "cloud.msp:tenantsProvider.description.requestHasBeenSentSuccessfully",
+      ),
+      loadingMessage: i18nT(
+        "cloud.msp:tenantsProvider.loadingMessage.sendingRequest",
+      ),
       promise: request,
     });
 

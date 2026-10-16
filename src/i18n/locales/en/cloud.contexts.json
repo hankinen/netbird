@@ -1,0 +1,7 @@
+{
+  "netBirdCloudProvider.title.agentNetwork": "Agent Network",
+  "netBirdCloudProvider.text.agentNetworkFocusedViewEnabled": "Agent Network focused view enabled for your account.",
+  "netBirdCloudProvider.text.agentNetworkEnabledForYour": "Agent Network enabled for your account.",
+  "netBirdCloudProvider.text.enablingAgentNetworkFocusedView": "Enabling Agent Network focused view...",
+  "netBirdCloudProvider.text.enablingAgentNetwork": "Enabling Agent Network..."
+}

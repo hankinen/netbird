@@ -15,6 +15,8 @@ export default function Layout({
       <NamespaceGate
         modules={[
           "control-center",
+          "agent-network",
+          "reverse-proxy",
           "access-control",
           "networks",
           "groups",

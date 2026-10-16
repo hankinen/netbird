@@ -26,6 +26,7 @@ import { useWebhookConfig } from "@/cloud/webhooks/useWebhookConfig";
 import { WebhookGeneralTabContent } from "@/cloud/webhooks/WebhookGeneralTabContent";
 import { WebhookHeadersTabContent } from "@/cloud/webhooks/WebhookHeadersTabContent";
 
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -87,11 +88,23 @@ function NotificationWebhookModalContent({
     <ModalContent maxWidthClass={modalWidth}>
       <ModalHeader
         icon={<GlobeIcon size={16} />}
-        title={config.isEditing ? "Webhook Configuration" : "Connect Webhook"}
+        title={
+          config.isEditing
+            ? t(
+                "cloud.notifications:notificationWebhookModal.text.webhookConfiguration",
+              )
+            : t(
+                "cloud.notifications:notificationWebhookModal.text.connectWebhook",
+              )
+        }
         description={
           config.isEditing
-            ? "Update your webhook endpoint and authentication settings."
-            : "Configure a webhook endpoint to receive notification events."
+            ? t(
+                "cloud.notifications:notificationWebhookModal.text.updateYourWebhookEndpointAnd",
+              )
+            : t(
+                "cloud.notifications:notificationWebhookModal.text.configureAWebhookEndpointTo",
+              )
         }
       />
 
@@ -104,7 +117,7 @@ function NotificationWebhookModalContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            General
+            {t("common:word.general")}
           </TabsTrigger>
           <TabsTrigger
             value={"headers"}
@@ -117,7 +130,7 @@ function NotificationWebhookModalContent({
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Headers
+            {t("cloud.notifications:notificationWebhookModal.text.headers")}
           </TabsTrigger>
         </TabsList>
 
@@ -133,12 +146,14 @@ function NotificationWebhookModalContent({
       <ModalFooter className={"items-center"}>
         <div className={"w-full"}>
           <Paragraph className={"text-sm mt-auto"}>
-            Learn more about
+            {t("common:word.learnMoreAbout")}
             <InlineLink
               href={NOTIFICATION_CHANNELS_WEBHOOK_DOCS_LINK}
               target={"_blank"}
             >
-              Webhook Notifications
+              {t(
+                "cloud.notifications:notificationWebhookChannel.title.webhookNotifications",
+              )}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </Paragraph>
@@ -147,7 +162,7 @@ function NotificationWebhookModalContent({
           {config.isEditing ? (
             <>
               <ModalClose asChild={true}>
-                <Button variant={"secondary"}>Cancel</Button>
+                <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
               </ModalClose>
               <Button
                 variant={"primary"}
@@ -155,7 +170,7 @@ function NotificationWebhookModalContent({
                 disabled={!config.canSave}
                 data-testid="webhook-save"
               >
-                Save Changes
+                {t("common:word.saveChanges")}
               </Button>
             </>
           ) : (
@@ -163,7 +178,9 @@ function NotificationWebhookModalContent({
               {tab === "general" && (
                 <>
                   <ModalClose asChild={true}>
-                    <Button variant={"secondary"}>Cancel</Button>
+                    <Button variant={"secondary"}>
+                      {t("common:word.cancel")}
+                    </Button>
                   </ModalClose>
                   <Button
                     variant={"primary"}
@@ -171,7 +188,7 @@ function NotificationWebhookModalContent({
                     onClick={() => setTab("headers")}
                     data-testid="webhook-continue"
                   >
-                    Continue
+                    {t("common:word.continue")}
                   </Button>
                 </>
               )}
@@ -181,7 +198,7 @@ function NotificationWebhookModalContent({
                     variant={"secondary"}
                     onClick={() => setTab("general")}
                   >
-                    Back
+                    {t("common:word.back")}
                   </Button>
                   <Button
                     variant={"primary"}
@@ -190,7 +207,7 @@ function NotificationWebhookModalContent({
                     data-testid="webhook-save"
                   >
                     <Repeat size={16} />
-                    Connect
+                    {t("common:word.connect")}
                   </Button>
                 </>
               )}

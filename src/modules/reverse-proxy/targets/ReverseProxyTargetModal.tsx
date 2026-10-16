@@ -33,6 +33,7 @@ import {
   defaultPortForProtocol,
   isResourceTargetType,
 } from "@/contexts/ReverseProxiesProvider";
+import { t as i18nT } from "@/i18n";
 import { Network, NetworkResource } from "@/interfaces/Network";
 import { Peer } from "@/interfaces/Peer";
 import {
@@ -56,7 +57,6 @@ import ReverseProxyTargetSelector, {
   Target,
 } from "@/modules/reverse-proxy/targets/ReverseProxyTargetSelector";
 import { useReverseProxyTargetOptions } from "@/modules/reverse-proxy/targets/useReverseProxyTargetOptions";
-
 /** Get initial host value based on target, resource, or peer */
 function getInitialHost(
   currentTarget: ReverseProxyTarget | null | undefined,
@@ -272,8 +272,8 @@ export default function ReverseProxyTargetModal({
         <ModalContent maxWidthClass="max-w-2xl">
           <ModalHeader
             icon={<Server className="text-netbird" size={16} />}
-            title={currentTarget ? "Edit Target" : "Add Target"}
-            description="Configure the target for your reverse proxy."
+            title={currentTarget ? i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.editTarget") : i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.addTarget")}
+            description={i18nT("reverse-proxy.targets:reverseProxyTargetModal.description.configureTheTargetForYour")}
             color="netbird"
           />
 
@@ -296,10 +296,9 @@ export default function ReverseProxyTargetModal({
             )}
 
             <div>
-              <Label>Location (Optional)</Label>
+              <Label>{i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.locationOptional")}</Label>
               <HelpText>
-                Specify an optional path from where requests are routed to your
-                service.
+                {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.specifyAnOptionalPathFrom")}
               </HelpText>
               <div className="flex w-full">
                 <div
@@ -307,7 +306,7 @@ export default function ReverseProxyTargetModal({
                     !hasTarget ? "opacity-50" : "opacity-80"
                   }`}
                 >
-                  {domain || "domain.example.com"}
+                  {domain || i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.domainExampleCom")}
                 </div>
                 <Input
                   placeholder="/"
@@ -339,8 +338,7 @@ export default function ReverseProxyTargetModal({
                     />
                   }
                 >
-                  This location is already used by another target and cannot be
-                  added. <br /> Please use a different location.
+                  {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.thisLocationIsAlreadyUsed")}{" "}<br />{" "}{i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.pleaseUseADifferentLocation")}
                 </Callout>
               )}
               {targetPath &&
@@ -360,29 +358,29 @@ export default function ReverseProxyTargetModal({
                     className={"mt-3.5"}
                     label={
                       <>
-                        Preserve Full Path
+                        {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.preserveFullPath")}
                         <HelpTooltip
                           content={
                             <div className="text-xs max-w-xs flex flex-col gap-2">
                               <div>
-                                When disabled, a request to e.g.,{" "}
+                                {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.whenDisabledARequestTo")}{" "}
                                 <span className="font-mono text-white">
-                                  {targetPath}/users
+                                  {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.users", { targetPath })}
                                 </span>{" "}
-                                is forwarded as{" "}
+                                {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.isForwardedAs")}{" "}
                                 <span className="font-mono text-white">
-                                  /users
+                                  {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.users2")}
                                 </span>
                                 .
                               </div>
                               <div>
-                                When enabled, a request to e.g.,{" "}
+                                {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.whenEnabledARequestTo")}{" "}
                                 <span className="font-mono text-white">
-                                  {targetPath}/users
+                                  {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.users", { targetPath })}
                                 </span>{" "}
-                                is forwarded as{" "}
+                                {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.isForwardedAs")}{" "}
                                 <span className="font-mono text-white">
-                                  {targetPath}/users
+                                  {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.users", { targetPath })}
                                 </span>
                                 .
                               </div>
@@ -393,9 +391,9 @@ export default function ReverseProxyTargetModal({
                     }
                     helpText={
                       <div>
-                        Keep the original full request path when forwarding.{" "}
+                        {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.keepTheOriginalFullRequest")}{" "}
                         <br />
-                        When disabled the matched prefix path is stripped.
+                        {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.whenDisabledTheMatchedPrefix")}
                       </div>
                     }
                   />
@@ -406,7 +404,7 @@ export default function ReverseProxyTargetModal({
               <div className="flex mt-1">
                 <div className="flex-1">
                   <Label>
-                    Protocol & Host / IP
+                    {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.protocolHostIP")}
                     <CidrHelpText target={target} />
                   </Label>
                   <div className="flex items-center mt-2">
@@ -423,11 +421,11 @@ export default function ReverseProxyTargetModal({
                         options={[
                           {
                             value: ReverseProxyTargetProtocol.HTTP,
-                            label: "http://",
+                            label: i18nT("reverse-proxy.targets:reverseProxyTargetModal.label.http"),
                           },
                           {
                             value: ReverseProxyTargetProtocol.HTTPS,
-                            label: "https://",
+                            label: i18nT("reverse-proxy.targets:reverseProxyTargetModal.label.https"),
                           },
                         ]}
                         className="!rounded-r-none !border-r-0"
@@ -447,11 +445,9 @@ export default function ReverseProxyTargetModal({
                 </div>
                 <div className="w-[150px]">
                   <Label>
-                    Port
+                    {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.port")}
                     <HelpTooltip
-                      content={
-                        "Enter the port where your service (e.g., webserver, app, API) is currently listening. If left empty, defaults to port 80 for HTTP or 443 for HTTPS."
-                      }
+                      content={i18nT("reverse-proxy.targets:reverseProxyTargetModal.content.enterThePortWhereYour")}
                     />
                   </Label>
                   <div className="mt-2">
@@ -486,10 +482,10 @@ export default function ReverseProxyTargetModal({
                     label={
                       <>
                         <ShieldXIcon size={15} />
-                        Skip TLS Verification
+                        {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.skipTLSVerification")}
                       </>
                     }
-                    helpText="Skip certificate verification when connecting to this target. Useful if your service already uses a self-signed certificate."
+                    helpText={i18nT("reverse-proxy.targets:reverseProxyTargetModal.helpText.skipCertificateVerificationWhenConnecting")}
                   />
                 )}
             </div>
@@ -506,7 +502,7 @@ export default function ReverseProxyTargetModal({
                   data-testid={"target-optional-settings"}
                 >
                   <span className={"relative top-[1px]"}>
-                    Optional Settings
+                    {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.optionalSettings")}
                   </span>
                 </AccordionTrigger>
                 <AccordionContent>
@@ -521,11 +517,9 @@ export default function ReverseProxyTargetModal({
 
                     <div className={"flex items-center justify-between"}>
                       <div>
-                        <Label>Request Timeout</Label>
+                        <Label>{i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.requestTimeout")}</Label>
                         <HelpText className={"mb-0"}>
-                          Max time to wait for a response as duration string
-                          (e.g. 30s, 2m). <br /> Leave this field empty for no
-                          timeout.
+                          {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.maxTimeToWaitFor")}{" "}<br />{" "}{i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.leaveThisFieldEmptyFor")}
                         </HelpText>
                       </div>
                       <Input
@@ -548,10 +542,9 @@ export default function ReverseProxyTargetModal({
                     {reverseProxy.mode === ServiceMode.UDP && (
                       <div className={"flex items-center justify-between"}>
                         <div>
-                          <Label>Session Idle Timeout</Label>
+                          <Label>{i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.sessionIdleTimeout")}</Label>
                           <HelpText className={"mb-0"}>
-                            How long a UDP session stays alive without traffic
-                            (e.g., 30s, 2m). <br /> Defaults to 30s when empty.
+                            {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.howLongAUDPSession")}{" "}<br />{" "}{i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.defaultsTo30sWhenEmpty")}
                           </HelpText>
                         </div>
                         <Input
@@ -581,19 +574,19 @@ export default function ReverseProxyTargetModal({
           <ModalFooter className={"items-center"}>
             <div className={"w-full"}>
               <Paragraph className={"text-sm mt-auto"}>
-                Learn more about
+                {i18nT("common:word.learnMoreAbout")}
                 <InlineLink
                   href={REVERSE_PROXY_TARGETS_DOCS_LINK}
                   target={"_blank"}
                 >
-                  Targets
+                  {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.targets")}
                   <ExternalLinkIcon size={12} />
                 </InlineLink>
               </Paragraph>
             </div>
             <div className="flex gap-3 w-full justify-end">
               <Button variant="secondary" onClick={() => onOpenChange(false)}>
-                Cancel
+                {i18nT("common:word.cancel")}
               </Button>
               <Button
                 variant="primary"
@@ -602,11 +595,11 @@ export default function ReverseProxyTargetModal({
                 disabled={!canAddTarget || errors.options}
               >
                 {currentTarget ? (
-                  "Save Changes"
+                  i18nT("common:word.saveChanges")
                 ) : (
                   <>
                     <PlusCircle size={16} />
-                    Add Target
+                    {i18nT("reverse-proxy.targets:reverseProxyTargetModal.text.addTarget")}
                   </>
                 )}
               </Button>

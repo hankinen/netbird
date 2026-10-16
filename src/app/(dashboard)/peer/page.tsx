@@ -630,7 +630,7 @@ function PeerInformationCard({ peer }: Readonly<{ peer: Peer }>) {
             tooltip={false}
             value={
               isEmpty(peer.country_code) ? (
-                "Unknown"
+                t("common:word.unknownRegion")
               ) : (
                 <>
                   {isLoading ? (

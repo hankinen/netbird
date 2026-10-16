@@ -11,6 +11,7 @@ import React, {
   useState,
 } from "react";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import {
   AgentBudgetRule,
   AgentGuardrail,
@@ -25,7 +26,6 @@ import {
 } from "@/modules/agent-network/data/mockData";
 import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 import { useMyAgentNetworkSetup } from "@/modules/agent-network/useMyAgentNetworkSetup";
-
 export type APIProviderModel = {
   id: string;
   input_per_1k: number;
@@ -815,8 +815,13 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
       // second provider.
       await mutate().catch(() => undefined);
       notify({
-        title: "AI provider connected",
-        description: `${created.name} is now available on your agent network endpoint.`,
+        title: t(
+          "agent-network.aiproviders-provider:aIProvidersProvider.title.aIProviderConnected",
+        ),
+        description: t(
+          "agent-network.aiproviders-provider:aIProvidersProvider.description.isNowAvailableOnYour",
+          { name: created.name },
+        ),
       });
       return fromAPI(created);
     },
@@ -831,8 +836,12 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         // provider deleted elsewhere leaves nothing to merge onto. Silence
         // here read as a save that did nothing.
         notifyFailure({
-          title: "Provider not updated",
-          description: "This provider is no longer available. Reload the page.",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.providerNotUpdated",
+          ),
+          description: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.description.thisProviderIsNoLonger",
+          ),
         });
         return false;
       }
@@ -870,8 +879,12 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
       // write, and must not send the operator back to resubmit one.
       await mutate().catch(() => undefined);
       notify({
-        title: "Provider updated",
-        description: "Settings saved.",
+        title: t(
+          "agent-network.aiproviders-provider:aIProvidersProvider.title.providerUpdated",
+        ),
+        description: t(
+          "agent-network.aiproviders-provider:aIProvidersProvider.description.settingsSaved",
+        ),
       });
       return true;
     },
@@ -893,13 +906,19 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         await providersApi.del("", `/${id}`);
         await mutate();
         notify({
-          title: "Provider removed",
-          description: "Endpoint will be torn down on next mapping update.",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.providerRemoved",
+          ),
+          description: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.description.endpointWillBeTornDown",
+          ),
         });
         return true;
       } catch (err) {
         notifyFailure({
-          title: "Failed to remove provider",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToRemoveProvider",
+          ),
           description: err instanceof Error ? err.message : String(err),
         });
         return false;
@@ -915,14 +934,21 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         await mutatePolicies();
         if (!options?.quiet) {
           notify({
-            title: "Policy created",
-            description: `${created.name} is now active.`,
+            title: t(
+              "agent-network.aiproviders-provider:aIProvidersProvider.title.policyCreated",
+            ),
+            description: t(
+              "agent-network.aiproviders-provider:aIProvidersProvider.description.isNowActive",
+              { name: created.name },
+            ),
           });
         }
         return policyFromAPI(created);
       } catch (err) {
         notifyFailure({
-          title: "Failed to create policy",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToCreatePolicy",
+          ),
           description: err instanceof Error ? err.message : String(err),
         });
         return undefined;
@@ -953,13 +979,19 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         await policiesApi.put(merged, `/${id}`);
         await mutatePolicies();
         notify({
-          title: "Policy updated",
-          description: "Settings saved.",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.policyUpdated",
+          ),
+          description: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.description.settingsSaved",
+          ),
         });
         return true;
       } catch (err) {
         notifyFailure({
-          title: "Failed to update policy",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToUpdatePolicy",
+          ),
           description: err instanceof Error ? err.message : String(err),
         });
         return false;
@@ -983,13 +1015,19 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         await policiesApi.del("", `/${id}`);
         await mutatePolicies();
         notify({
-          title: "Policy removed",
-          description: "Policy deleted.",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.policyRemoved",
+          ),
+          description: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.description.policyDeleted",
+          ),
         });
         return true;
       } catch (err) {
         notifyFailure({
-          title: "Failed to remove policy",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToRemovePolicy",
+          ),
           description: err instanceof Error ? err.message : String(err),
         });
         return false;
@@ -1004,13 +1042,20 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         const created = await guardrailsApi.post(guardrailToRequest(guardrail));
         await mutateGuardrails();
         notify({
-          title: "Guardrail created",
-          description: `${created.name} can now be attached to policies.`,
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.guardrailCreated",
+          ),
+          description: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.description.canNowBeAttachedTo",
+            { name: created.name },
+          ),
         });
         return guardrailFromAPI(created);
       } catch (err) {
         notifyFailure({
-          title: "Failed to create guardrail",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToCreateGuardrail",
+          ),
           description: err instanceof Error ? err.message : String(err),
         });
         return undefined;
@@ -1034,12 +1079,18 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         await guardrailsApi.put(merged, `/${id}`);
         await mutateGuardrails();
         notify({
-          title: "Guardrail updated",
-          description: "Settings saved.",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.guardrailUpdated",
+          ),
+          description: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.description.settingsSaved",
+          ),
         });
       } catch (err) {
         notifyFailure({
-          title: "Failed to update guardrail",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToUpdateGuardrail",
+          ),
           description: err instanceof Error ? err.message : String(err),
         });
       }
@@ -1053,13 +1104,18 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         await guardrailsApi.del("", `/${id}`);
         await mutateGuardrails();
         notify({
-          title: "Guardrail removed",
-          description:
-            "Existing policies still reference this guardrail until you detach it.",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.guardrailRemoved",
+          ),
+          description: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.description.existingPoliciesStillReferenceThis",
+          ),
         });
       } catch (err) {
         notifyFailure({
-          title: "Failed to remove guardrail",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToRemoveGuardrail",
+          ),
           description: err instanceof Error ? err.message : String(err),
         });
       }
@@ -1073,13 +1129,20 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         const created = await budgetRulesApi.post(budgetRuleToRequest(rule));
         await mutateBudgetRules();
         notify({
-          title: "Global limit created",
-          description: `${created.name} is now active.`,
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.globalLimitCreated",
+          ),
+          description: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.description.isNowActive",
+            { name: created.name },
+          ),
         });
         return budgetRuleFromAPI(created);
       } catch (err) {
         notifyFailure({
-          title: "Failed to create global limit",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToCreateGlobalLimit",
+          ),
           description: err instanceof Error ? err.message : String(err),
         });
         return undefined;
@@ -1108,12 +1171,18 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         await budgetRulesApi.put(merged, `/${id}`);
         await mutateBudgetRules();
         notify({
-          title: "Global limit updated",
-          description: "Settings saved.",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.globalLimitUpdated",
+          ),
+          description: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.description.settingsSaved",
+          ),
         });
       } catch (err) {
         notifyFailure({
-          title: "Failed to update global limit",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToUpdateGlobalLimit",
+          ),
           description: err instanceof Error ? err.message : String(err),
         });
       }
@@ -1136,12 +1205,18 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         await budgetRulesApi.del("", `/${id}`);
         await mutateBudgetRules();
         notify({
-          title: "Global limit removed",
-          description: "Global limit deleted.",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.globalLimitRemoved",
+          ),
+          description: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.description.globalLimitDeleted",
+          ),
         });
       } catch (err) {
         notifyFailure({
-          title: "Failed to remove global limit",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToRemoveGlobalLimit",
+          ),
           description: err instanceof Error ? err.message : String(err),
         });
       }
@@ -1160,7 +1235,9 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         const code = (err as { code?: number })?.code;
         if (code !== 409) {
           notifyFailure({
-            title: "Failed to set up the agent network endpoint",
+            title: t(
+              "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToSetUpThe",
+            ),
             description: err instanceof Error ? err.message : String(err),
           });
           return false;
@@ -1182,8 +1259,12 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
       // would 404 the PUT anyway.
       if (!settings) {
         notifyFailure({
-          title: "Failed to update account controls",
-          description: "Agent Network has not been set up yet.",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToUpdateAccountControls",
+          ),
+          description: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.description.agentNetworkHasNotBeen",
+          ),
         });
         return false;
       }
@@ -1191,13 +1272,19 @@ export default function AIProvidersProvider({ children }: Readonly<Props>) {
         await settingsApi.put(settingsToRequest(updates, settings));
         await mutateSettings();
         notify({
-          title: "Account controls updated",
-          description: "Settings saved.",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.accountControlsUpdated",
+          ),
+          description: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.description.settingsSaved",
+          ),
         });
         return true;
       } catch (err) {
         notifyFailure({
-          title: "Failed to update account controls",
+          title: t(
+            "agent-network.aiproviders-provider:aIProvidersProvider.title.failedToUpdateAccountControls",
+          ),
           description: err instanceof Error ? err.message : String(err),
         });
         return false;

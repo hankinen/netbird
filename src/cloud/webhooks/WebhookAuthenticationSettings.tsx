@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { WebhookConfig } from "@/cloud/webhooks/useWebhookConfig";
 
+import { t } from "@/i18n";
 export enum AuthType {
   None = "none",
   Basic = "basic",
@@ -26,22 +27,34 @@ export enum AuthType {
 export const authenticationOptions = [
   {
     value: AuthType.None,
-    label: "No Authentication",
+    get label() {
+      return t(
+        "cloud.webhooks:webhookAuthenticationSettings.label.noAuthentication",
+      );
+    },
     icon: () => <CircleOffIcon size={14} />,
   },
   {
     value: AuthType.Basic,
-    label: "Basic Auth",
+    get label() {
+      return t("cloud.webhooks:webhookHeadersTabContent.text.basicAuth");
+    },
     icon: () => <CircleUserIcon size={14} />,
   },
   {
     value: AuthType.Bearer,
-    label: "Bearer Token",
+    get label() {
+      return t("cloud.webhooks:webhookHeadersTabContent.text.bearerToken");
+    },
     icon: () => <KeyRoundIcon size={14} />,
   },
   {
     value: AuthType.Custom,
-    label: "Custom Authentication",
+    get label() {
+      return t(
+        "cloud.webhooks:webhookAuthenticationSettings.label.customAuthentication",
+      );
+    },
     icon: () => <BracesIcon size={14} />,
   },
 ] as SelectOption[];
@@ -66,14 +79,16 @@ export const AuthenticationSettings = ({
       <div className={"flex flex-col gap-2 mt-3"}>
         <Input
           customPrefix={<UserIcon size={16} />}
-          placeholder="Username"
+          placeholder={t(
+            "cloud.webhooks:webhookAuthenticationSettings.placeholder.username",
+          )}
           value={value.username}
           onChange={(e) => value.setUsername(e.target.value)}
           data-testid="webhook-basic-username"
         />
         <Input
           customPrefix={<KeyRoundIcon size={16} />}
-          placeholder="Password"
+          placeholder={t("common:word.password")}
           value={value.password}
           onChange={(e) => value.setPassword(e.target.value)}
           type={mask ? "password" : "text"}
@@ -85,8 +100,12 @@ export const AuthenticationSettings = ({
     {value.authenticationType === AuthType.Bearer && (
       <div className={"flex flex-col gap-2 mt-3"}>
         <Input
-          customPrefix={"Bearer"}
-          placeholder="e.g. eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVURWw0SmJieUU4S00zY3NwcmdUSSJ9.eyJodHRwOi8vbG9jYWxob3N0OjMwMDA"
+          customPrefix={t(
+            "cloud.webhooks:webhookAuthenticationSettings.customPrefix.bearer",
+          )}
+          placeholder={t(
+            "cloud.webhooks:webhookAuthenticationSettings.placeholder.eGEyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVURWw0SmJieUU4S00zY3NwcmdUSSJ9EyJodHRwOi8vbG9jYWxob3N0OjMwMDA",
+          )}
           value={value.bearerToken}
           onChange={(e) => value.setBearerToken(e.target.value)}
           type={mask ? "password" : "text"}
@@ -99,22 +118,32 @@ export const AuthenticationSettings = ({
       <div className={"flex flex-col gap-6 mt-6"}>
         <div>
           <div>
-            <Label>HTTP Header Name & Value</Label>
+            <Label>
+              {t(
+                "cloud.webhooks:webhookAuthenticationSettings.text.hTTPHeaderNameValue",
+              )}
+            </Label>
             <HelpText>
-              Specify the header name and value for your custom authentication
+              {t(
+                "cloud.webhooks:webhookAuthenticationSettings.text.specifyTheHeaderNameAnd",
+              )}
             </HelpText>
           </div>
           <div className={"flex flex-col gap-2"}>
             <Input
               customPrefix={<TagIcon size={16} />}
-              placeholder="e.g. X-API-Key"
+              placeholder={t(
+                "cloud.webhooks:webhookAuthenticationSettings.placeholder.eGXAPIKey",
+              )}
               value={value.customAuthName}
               onChange={(e) => value.setCustomAuthName(e.target.value)}
               data-testid="webhook-custom-auth-name"
             />
             <Input
               customPrefix={<KeyRoundIcon size={16} />}
-              placeholder="e.g. AIiaSyDaGmWKa4JsXZ-HjGw7ISLn_3namBGewQe"
+              placeholder={t(
+                "cloud.webhooks:webhookAuthenticationSettings.placeholder.eGAIiaSyDaGmWKa4JsXZHjGw7ISLn3namBGewQe",
+              )}
               type={mask ? "password" : "text"}
               value={value.customAuthValue}
               onChange={(e) => value.setCustomAuthValue(e.target.value)}

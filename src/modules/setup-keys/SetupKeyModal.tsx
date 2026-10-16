@@ -128,7 +128,8 @@ export default function SetupKeyModal({
           >
             <Code message={copyMessage}>
               <Code.Line>
-                {setupKey?.key || "Setup key could not be created..."}
+                {setupKey?.key ||
+                  t("setup-keys.main:setupKeyModal.text.couldNotBeCreated")}
               </Code.Line>
             </Code>
           </div>
@@ -187,7 +188,9 @@ export function SetupKeyModalContent({
     });
 
   const usageLimitPlaceholder = useMemo(() => {
-    return reusable ? "Unlimited" : "1";
+    return reusable
+      ? t("setup-keys.main:setupKeyModal.placeholder.unlimited")
+      : "1";
   }, [reusable]);
 
   const isDisabled = useMemo(() => {

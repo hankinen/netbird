@@ -11,6 +11,7 @@ import { useEffect, useReducer } from "react";
 import { useSWRConfig } from "swr";
 import { HubspotFormField } from "@/contexts/AnalyticsProvider";
 import { useLoggedInUser } from "@/contexts/UsersProvider";
+import { t } from "@/i18n";
 import type { Peer } from "@/interfaces/Peer";
 import AIProvidersProvider from "@/modules/agent-network/AIProvidersProvider";
 import { AgentNetworkSignupForm } from "@/modules/onboarding/agent-network/AgentNetworkSignupForm";
@@ -29,7 +30,6 @@ import { OnboardingAgentGateway } from "@/modules/onboarding/agent-network/Onboa
 import { OnboardingAgentPolicy } from "@/modules/onboarding/agent-network/OnboardingAgentPolicy";
 import { OnboardingAgentProvider } from "@/modules/onboarding/agent-network/OnboardingAgentProvider";
 import { useAgentNetworkFirstRunSetup } from "@/modules/onboarding/agent-network/useAgentNetworkFirstRunSetup";
-
 // The flow is a flat sequence (no intent branching like the regular
 // onboarding) that mirrors the agent-network quickstart guide.
 type Nav = {
@@ -136,7 +136,11 @@ export const AgentNetworkOnboarding = ({
         >
           <div data-testid={"agent-network-onboarding"}>
             <VisuallyHidden asChild>
-              <DialogTitle>Agent Network Onboarding</DialogTitle>
+              <DialogTitle>
+                {t(
+                  "onboarding.agent-network:agentNetworkOnboarding.text.agentNetworkOnboarding",
+                )}
+              </DialogTitle>
             </VisuallyHidden>
             <div
               className={
@@ -215,13 +219,17 @@ export const AgentNetworkOnboarding = ({
                       "text-sm text-nb-gray-400 font-light pt-10 text-center px-4"
                     }
                   >
-                    Already know how Agent Network works?
+                    {t(
+                      "onboarding.agent-network:agentNetworkOnboarding.text.alreadyKnowHowAgentNetwork",
+                    )}
                     <InlineLink
                       href={"#"}
                       className={"!text-nb-gray-200 ml-1"}
                       onClick={() => onSkip(position + 1)}
                     >
-                      Skip to Dashboard
+                      {t(
+                        "onboarding.agent-network:agentNetworkOnboarding.text.skipToDashboard",
+                      )}
                     </InlineLink>
                   </span>
                 )}

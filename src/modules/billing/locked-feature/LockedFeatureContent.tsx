@@ -164,10 +164,13 @@ const UpgradeOrTrialText = ({
       "billing.locked-feature:lockedFeatureContent.text.upgradeOrStartA14",
     );
 
-  return t(
-    "billing.locked-feature:lockedFeatureContent.text.upgradeYourPlanToAccess",
-    { value: isMSPInTenantContext ? "tenants" : "current" },
-  );
+  return isMSPInTenantContext
+    ? t(
+        "billing.locked-feature:lockedFeatureContent.text.upgradeYourPlanToAccessTenants",
+      )
+    : t(
+        "billing.locked-feature:lockedFeatureContent.text.upgradeYourPlanToAccessCurrent",
+      );
 };
 
 const GetMSPSupportButton = () => {

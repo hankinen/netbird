@@ -13,13 +13,13 @@ import SettingsIcon from "@/assets/icons/SettingsIcon";
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { useBilling } from "@/contexts/BillingProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { Plan } from "@/interfaces/Plan";
 import { PlanTier } from "@/interfaces/Subscription";
 import { PlanCard, PlanLoadingSkeleton } from "@/modules/billing/PlanCard";
 import { PlanCurrentPlan } from "@/modules/billing/PlanCurrentPlan";
 import { PlanSuccessModal } from "@/modules/billing/PlanSuccessModal";
 import { TrialGradientCard } from "@/modules/billing/trial/TrialGradientCard";
-
 export const PlansAndBillingTab = () => {
   const { permission } = usePermissions();
 
@@ -47,7 +47,7 @@ export const PlansAndBillingTabTrigger = () => {
       data-testid="settings-tab-plans-and-billing"
     >
       <CreditCardIcon size={14} />
-      Plans & Billing
+      {t("billing.main:navigationUsageInfo.text.plansBilling")}
     </VerticalTabs.Trigger>
   );
 };
@@ -148,12 +148,12 @@ const PlansAndBillingTabContent = () => {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/settings"}
-            label={"Settings"}
+            label={t("common:word.settings")}
             icon={<SettingsIcon size={13} />}
           />
           <Breadcrumbs.Item
             href={"/settings?tab=plans-and-billing"}
-            label={"Plans & Billing"}
+            label={t("billing.main:navigationUsageInfo.text.plansBilling")}
             icon={<CreditCardIcon size={14} />}
             active
           />
@@ -162,7 +162,7 @@ const PlansAndBillingTabContent = () => {
         <div
           className={"flex items-start justify-between -mt-1 max-w-4xl mb-4"}
         >
-          <h1>Plans & Billing</h1>
+          <h1>{t("billing.main:navigationUsageInfo.text.plansBilling")}</h1>
         </div>
 
         {isTrialAvailable && (
@@ -207,24 +207,27 @@ const PlansAndBillingTabContent = () => {
         <div className={"max-w-3xl"}>
           <h2>
             {subscription?.active
-              ? "Update your NetBird Plan"
-              : "Upgrade your NetBird Plan"}
+              ? t("billing.main:plansAndBillingTab.text.updateYourNetBirdPlan")
+              : t(
+                  "billing.main:plansAndBillingTab.text.upgradeYourNetBirdPlan",
+                )}
           </h2>
 
           <Paragraph>
-            Increase your user and peer limit by upgrading your plan.
+            {t("billing.main:plansAndBillingTab.text.increaseYourUserAndPeer")}
           </Paragraph>
           <Paragraph>
-            With our flexible pricing, you are only billed for active users and
-            active peers.
+            {t(
+              "billing.main:plansAndBillingTab.text.withOurFlexiblePricingYou",
+            )}
           </Paragraph>
           <Paragraph>
-            Find out which{" "}
+            {t("billing.main:plansAndBillingTab.text.findOutWhich")}{" "}
             <InlineLink href={"https://netbird.io/pricing"} target={"_blank"}>
-              Pricing Plan
+              {t("billing.main:plansAndBillingTab.text.pricingPlan")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
-            suits you the best by visiting our website.
+            {t("billing.main:plansAndBillingTab.text.suitsYouTheBestBy")}
           </Paragraph>
 
           <div

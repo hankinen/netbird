@@ -35,6 +35,7 @@ import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/sentinelone.png";
 import HelpText from "@/components/HelpText";
 import { PeerGroupSelector } from "@/components/PeerGroupSelector";
+import { t } from "@/i18n";
 import { Account } from "@/interfaces/Account";
 import { DEFAULT_SENTINELONE_MATCH_ATTRIBUTES, SentinelOneIntegration } from "@/interfaces/EDR";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
@@ -42,7 +43,6 @@ import { isValidSentinelOneApiUrl, matchAttributesReducer } from "@/modules/inte
 import { SentinelOneMatchSettings } from "@/modules/integrations/edr/sentinel-one/SentinelOneMatchSettings";
 import SentinelOneUrlInput from "@/modules/integrations/edr/sentinel-one/SentinelOneUrlInput";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -129,8 +129,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
     const savedGroups = await saveGroups();
 
     notify({
-      title: "SentinelOne Integration",
-      description: `SentinelOne was successfully connected to NetBird.`,
+      title: t("integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.title.sentinelOneIntegration"),
+      description: t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.description.sentinelOneWasSuccessfullyConnectedTo"),
       promise: sentinelOneRequest
         .post({
           api_token: apiToken,
@@ -144,7 +144,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
           mutate("/integrations/edr/sentinelone");
           onSuccess();
         }),
-      loadingMessage: "Setting up integration...",
+      loadingMessage: t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.loadingMessage.settingUpIntegration"),
     });
   };
 
@@ -204,10 +204,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Connect NetBird with SentinelOne"}
-        description={
-          "Restrict network access to devices managed by SentinelOne based on their security posture."
-        }
+        title={t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.title.connectNetBirdWithSentinelOne")}
+        description={t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.description.restrictNetworkAccessToDevices")}
       />
 
       {step == 0 && (
@@ -222,20 +220,20 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             }
           >
             <Shield size={16} />
-            Required Permissions
+            {t("integrations.shared:word.requiredPermissions")}
           </div>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Ensure that you have an{" "}
+            {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.ensureThatYouHaveAn")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              SentinelOne account
+              {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.sentinelOneAccount")}
             </span>{" "}
-            with the following{" "}
+            {t("integrations.shared:word.withTheFollowing")}{" "}
             <span className={"text-nb-gray-100 font-semibold"}>
-              permissions
+              {t("integrations.shared:word.permissions")}
             </span>
             .{" "}
             {
-              "If you don't have the required permissions, ask your administrator to grant them to you."
+              t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.ifYouDonTHave")
             }
           </p>
           <div
@@ -249,7 +247,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               }
             >
               <PlusCircle size={14} className={"text-sky-500"} />
-              Create API Tokens
+              {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.createAPITokens")}
             </div>
             <div
               className={
@@ -257,7 +255,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               }
             >
               <Settings2 size={14} className={"text-sky-500"} />
-              Manage API Tokens
+              {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.manageAPITokens")}
             </div>
           </div>
         </div>
@@ -267,18 +265,17 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <GlobeIcon size={18} />
-            Get your SentinelOne Console URL
+            {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.getYourSentinelOneConsoleURL")}
           </p>
 
           <Steps>
             <Steps.Step step={1}>
-              <p>Navigate to your SentinelOne Management Console.</p>
+              <p>{t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.navigateToYourSentinelOneManagement")}</p>
             </Steps.Step>
 
             <Steps.Step step={2} line={false}>
               <p>
-                Copy your SentinelOne console URL from the browser&apos;s
-                address bar and enter it here.
+                {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.copyYourSentinelOneConsoleURL")}
               </p>
             </Steps.Step>
           </Steps>
@@ -293,18 +290,18 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <Box size={20} />
-            Create a SentinelOne API Token
+            {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.createASentinelOneAPIToken")}
           </p>
           <Steps>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Navigate to{" "}
+                {t("integrations.shared:word.navigateTo")}{" "}
                 {sentinelOneServiceUsersUrl ? (
                   <InlineLink
                     href={sentinelOneServiceUsersUrl}
                     target={"_blank"}
                   >
-                    Settings » Users » Service Users
+                    {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.settingsUsersServiceUsers")}
                     <ExternalLinkIcon size={14} className={"ml-1"} />
                   </InlineLink>
                 ) : (
@@ -314,21 +311,18 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             </Steps.Step>
             <Steps.Step step={1}>
               <p className={"font-normal"}>
-                Click <Mark>Create Service User</Mark>
+                {t("common:word.click")}{" "}<Mark>Create Service User</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={3}>
               <p className={"font-normal"}>
-                Enter <Mark copy>NetBird Integration</Mark> as the name, a
-                optional description and select your preferred expiration date.
-                Click <Mark>Next</Mark>
+                {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.enter")}{" "}<Mark copy>NetBird Integration</Mark>{" "}{t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.asTheNameAOptional")}{" "}<Mark>Next</Mark>
               </p>
             </Steps.Step>
             <Steps.Step step={4} line={false}>
               <p className={"font-normal"}>
-                Select your Site and set the Scope to <Mark>Viewer</Mark>
-                <br /> Click <Mark>Create User</Mark>, copy your API Token and
-                enter it below.
+                {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.selectYourSiteAndSet")}{" "}<Mark>Viewer</Mark>
+                <br />{" "}{t("common:word.click")}{" "}<Mark>Create User</Mark>{t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.copyYourAPITokenAnd")}
               </p>
             </Steps.Step>
           </Steps>
@@ -342,9 +336,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
                   <KeyRound size={16} className={"text-nb-gray-300"} />
                 </div>
               }
-              placeholder={
-                "eyJraWQiOiJ1cy1lYXN0LTEtcHJvZC0wIiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiJzZXJ2aWNldXNlci1lYjFiNmNhNy00Y2IxLTRjNjQtYWUyZS0wMTQwMDk2YjczYTVAbWdtdC"
-              }
+              placeholder={t("integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.placeholder.eyJraWQiOiJ1cy1lYXN0LTEtcHJvZC0wIiwiYWxnIjoiRVMyNTYifQEyJzdWIiOiJzZXJ2aWNldXNlci1lYjFiNmNhNy00Y2IxLTRjNjQtYWUyZS0wMTQwMDk2YjczYTVAbWdtdC")}
               value={apiToken}
               onChange={(e) => setApiToken(e.target.value)}
             />
@@ -356,11 +348,11 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <FolderGit2 size={16} />
-            Peer Approval
+            {t("integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.peerApproval")}
           </p>
 
           <HelpText className={"max-w-lg mt-2"}>
-            Select groups you want to apply the SentinelOne integration to
+            {t("integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.selectGroupsYouWantTo")}
           </HelpText>
 
           <PeerGroupSelector values={groups} onChange={setGroups} />
@@ -371,11 +363,10 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <ShieldCheckIcon size={16} />
-            Compliance Requirements
+            {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.complianceRequirements")}
           </p>
           <p className={"mt-2 !text-nb-gray-300 !leading-[1.5]"}>
-            Set the specific requirements that devices must meet to be
-            considered compliant.
+            {t("integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.setTheSpecificRequirementsThat")}
           </p>
 
           <SentinelOneMatchSettings
@@ -389,23 +380,19 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         <div className={"px-8 py-3 flex flex-col gap-0 mt-4 mb-3"}>
           <p className={"font-medium flex gap-3 items-center text-base"}>
             <RefreshCcw size={16} />
-            SentinelOne Sync Window
+            {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.sentinelOneSyncWindow")}
           </p>
           <div className={"mt-2 flex flex-row gap-3"}>
             <FullTooltip
               interactive={false}
               content={
                 <div className={"max-w-xs text-xs"}>
-                  Example: This property is set to 24 hours. Jane&apos;s laptop
-                  hasn&apos;t synced with SentinelOne for 27 hours. Even though
-                  it&apos;s marked as Compliant in SentinelOne, it will still be
-                  blocked from network access.
+                  {t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.exampleThisPropertyIsSet")}
                 </div>
               }
             >
               <HelpText className={"max-w-lg"}>
-                Devices not synced with SentinelOne in this time won&apos;t have
-                network access.
+                {t("integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.text.devicesNotSyncedWithSentinelOne")}
                 <IconInfoCircle
                   size={14}
                   className={"relative inline ml-1 -top-[1px]"}
@@ -420,7 +407,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
               value={lastSyncedInterval}
               type={"number"}
               onChange={(e) => setLastSyncedInterval(e.target.value)}
-              customSuffix={"Hours"}
+              customSuffix={t("integrations.edr.sentinel-one-configuration:sentinelOneConfiguration.customSuffix.hours")}
             />
           </div>
         </div>
@@ -434,7 +421,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             onClick={() => setStep(step - 1)}
           >
             <IconArrowLeft size={16} />
-            Back
+            {t("common:word.back")}
           </Button>
         )}
         {step >= 0 && step < maxSteps && (
@@ -444,7 +431,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             disabled={isDisabled}
             onClick={() => setStep(step + 1)}
           >
-            {step == 0 ? "Get Started" : "Continue"}
+            {step == 0 ? t("integrations.shared:word.getStarted") : t("common:word.continue")}
             <IconArrowRight size={16} />
           </Button>
         )}
@@ -456,7 +443,7 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
             onClick={connect}
           >
             <Repeat size={16} />
-            Connect
+            {t("common:word.connect")}
           </Button>
         )}
       </ModalFooter>
@@ -468,8 +455,8 @@ export function SetupContent({ onSuccess, account }: Readonly<ModalProps>) {
         >
           <Clock4 size={12} />
           <div>
-            Estimated setup time:
-            <span className={"font-medium"}> 10-20 Minutes</span>
+            {t("integrations.shared:word.estimatedSetupTime")}
+            <span className={"font-medium"}>{" "}{t("integrations.edr.sentinel-one-configuration:sentinelOneSetup.text.1020Minutes")}</span>
           </div>
         </div>
       )}

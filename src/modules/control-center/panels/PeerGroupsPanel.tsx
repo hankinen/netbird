@@ -449,7 +449,10 @@ export const PeerGroupsPanel = ({ peerId, onClose }: PeerGroupsPanelProps) => {
           }
         >
           <span className={"text-xs text-nb-gray-400"}>
-            {`${selectedRefs.size} of ${allGroups.length} Assigned`}
+            {t("control-center.panels:assignedCount.text", {
+              selected: selectedRefs.size,
+              total: allGroups.length,
+            })}
           </span>
           <div className={"flex items-center gap-3"}>
             <Button

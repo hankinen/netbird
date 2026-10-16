@@ -1,0 +1,9 @@
+{
+  "mockData.text.account": "账户{{toLowerCase}}",
+  "mockData.modelNotRoutable.modelNotAvailable": "模型不可用",
+  "mockData.noAuthorisedProvider.noAuthorizedProvider": "无已授权的提供商",
+  "mockData.modelBlocked.modelNotAllowed": "模型不被允许",
+  "mockData.capExceeded.limitExceeded": "超出限制",
+  "mockData.tokenCapExceeded.tokenLimitExceeded": "超出 Token 限制",
+  "mockData.budgetCapExceeded.budgetLimitExceeded": "超出预算限制"
+}

@@ -3,11 +3,11 @@
 import Code from "@components/Code";
 import { HelpTooltip } from "@components/HelpTooltip";
 import * as React from "react";
+import { t } from "@/i18n";
 import {
   AIAccessLogEntry,
   formatDenyReason,
 } from "@/modules/agent-network/data/mockData";
-
 type Props = {
   entry: AIAccessLogEntry;
 };
@@ -72,7 +72,11 @@ export default function AgentAccessLogExpandedRow({ entry }: Readonly<Props>) {
   return (
     <div className={"px-4 py-4 space-y-3 bg-nb-gray-940/30"}>
       {requestLine && (
-        <Section heading={"Request"}>
+        <Section
+          heading={t(
+            "agent-network.aiproviders-provider:agentAccessLogExpandedRow.heading.request",
+          )}
+        >
           <Code dark small codeToCopy={requestLine}>
             <Code.Line>{requestLine}</Code.Line>
           </Code>
@@ -81,12 +85,12 @@ export default function AgentAccessLogExpandedRow({ entry }: Readonly<Props>) {
 
       {hasSession && (
         <Section
-          heading={"Session ID"}
-          tooltip={
-            "The provider-side session this request belongs to. A single user " +
-            "can make several separate calls that the provider groups under the " +
-            "same session id."
-          }
+          heading={t(
+            "agent-network.aiproviders-provider:agentAccessLogExpandedRow.heading.sessionID",
+          )}
+          tooltip={t(
+            "agent-network.aiproviders-provider:agentAccessLogExpandedRow.text.theProviderSideSessionThis",
+          )}
         >
           <Code dark small codeToCopy={entry.sessionId}>
             <Code.Line>{entry.sessionId}</Code.Line>
@@ -95,21 +99,34 @@ export default function AgentAccessLogExpandedRow({ entry }: Readonly<Props>) {
       )}
 
       {isDeny && (
-        <Section heading={"Reason"}>
+        <Section
+          heading={t(
+            "agent-network.aiproviders-provider:agentAccessLogExpandedRow.heading.reason",
+          )}
+        >
           <div
             className={
               "rounded-md border border-red-500/20 bg-red-500/5 p-3 text-xs text-red-300"
             }
           >
             {denyReason
-              ? `Request denied: ${denyReason}`
-              : "Request denied by policy."}
+              ? t(
+                  "agent-network.aiproviders-provider:agentAccessLogExpandedRow.text.requestDenied",
+                  { denyReason },
+                )
+              : t(
+                  "agent-network.aiproviders-provider:agentAccessLogExpandedRow.text.requestDeniedByPolicy",
+                )}
           </div>
         </Section>
       )}
 
       {hasPrompt && (
-        <Section heading={"Prompt"}>
+        <Section
+          heading={t(
+            "agent-network.aiproviders-provider:agentAccessLogExpandedRow.heading.prompt",
+          )}
+        >
           <Code dark small codeToCopy={entry.prompt}>
             <pre className={"whitespace-pre-wrap text-xs"}>{entry.prompt}</pre>
           </Code>
@@ -117,7 +134,11 @@ export default function AgentAccessLogExpandedRow({ entry }: Readonly<Props>) {
       )}
 
       {!isDeny && hasBody && (
-        <Section heading={"Completion"}>
+        <Section
+          heading={t(
+            "agent-network.aiproviders-provider:agentAccessLogExpandedRow.heading.completion",
+          )}
+        >
           {hasCompletion ? (
             <Code dark small codeToCopy={entry.completion}>
               <pre className={"whitespace-pre-wrap text-xs"}>
@@ -125,22 +146,34 @@ export default function AgentAccessLogExpandedRow({ entry }: Readonly<Props>) {
               </pre>
             </Code>
           ) : (
-            <Muted>No response captured.</Muted>
+            <Muted>
+              {t(
+                "agent-network.aiproviders-provider:agentAccessLogExpandedRow.text.noResponseCaptured",
+              )}
+            </Muted>
           )}
         </Section>
       )}
 
       {!isDeny && !hasBody && (
-        <Section heading={"Prompt & Response"}>
+        <Section
+          heading={t(
+            "agent-network.aiproviders-provider:agentAccessLogExpandedRow.heading.promptResponse",
+          )}
+        >
           <Muted>
-            No prompt or response captured for this request — only metadata is
-            recorded for non-completion calls (e.g. listing models) or when
-            prompt collection is off.
+            {t(
+              "agent-network.aiproviders-provider:agentAccessLogExpandedRow.text.noPromptOrResponseCaptured",
+            )}
           </Muted>
         </Section>
       )}
 
-      <Section heading={"Metadata"}>
+      <Section
+        heading={t(
+          "agent-network.aiproviders-provider:agentAccessLogExpandedRow.heading.metadata",
+        )}
+      >
         <Code dark small codeToCopy={metadataJSON}>
           <Code.Line>{metadataJSON}</Code.Line>
         </Code>

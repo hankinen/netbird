@@ -4,6 +4,7 @@ import { isL4Event, ReverseProxyEvent } from "@/interfaces/ReverseProxy";
 import Badge from "@components/Badge";
 import EmptyRow from "@/modules/common-table-rows/EmptyRow";
 
+import { t } from "@/i18n";
 type Props = {
   event: ReverseProxyEvent;
 };
@@ -26,7 +27,9 @@ export const ReverseProxyEventsStatusCell = ({ event }: Props) => {
       interactive={false}
       content={
         <div className={"max-w-xs text-xs break-words whitespace-normal"}>
-          <span className={"text-nb-gray-400"}>Reason: </span>
+          <span className={"text-nb-gray-400"}>
+            {t("reverse-proxy.events:reverseProxyEventsStatusCell.text.reason")}{" "}
+          </span>
           <span className={"text-nb-gray-100"}>{reason}</span>
         </div>
       }

@@ -4,7 +4,7 @@ import {
   TrafficEvent,
   TrafficEventDirection,
 } from "@/cloud/traffic-events/interfaces/TrafficEvent";
-
+import { t } from "@/i18n";
 type Props = {
   event: TrafficEvent;
 };
@@ -15,11 +15,17 @@ export const TrafficEventsDirectionCell = ({ event }: Props) => {
 
   return direction === TrafficEventDirection.UNKNOWN ? (
     <Badge variant={"gray"} className={"py-1 w-[80px]"}>
-      Unknown
+      {t("common:word.unknownRegion")}
     </Badge>
   ) : (
     <Badge variant={"gray"} className={"py-1 w-[80px]"}>
-      {isInbound ? "Inbound" : "Outbound"}
+      {isInbound
+        ? t(
+            "cloud.traffic-events:trafficEventsInboundOutboundFilter.text.inbound",
+          )
+        : t(
+            "cloud.traffic-events:trafficEventsInboundOutboundFilter.text.outbound",
+          )}
     </Badge>
   );
 };

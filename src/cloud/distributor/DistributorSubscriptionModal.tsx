@@ -5,8 +5,8 @@ import Paragraph from "@components/Paragraph";
 import { CreditCardIcon } from "lucide-react";
 import * as React from "react";
 import { useCustomerPlan } from "@/cloud/distributor/hooks/useCustomerPlan";
+import { t } from "@/i18n";
 import { PlanCard, PlanLoadingSkeleton } from "@/modules/billing/PlanCard";
-
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -62,8 +62,8 @@ const DistributorSubscriptionModalContent = ({
     >
       <ModalHeader
         icon={<CreditCardIcon size={18} />}
-        title={`NetBird Plan for ${name}`}
-        description={`Select the plan that best fits your customer's needs.`}
+        title={t("cloud.distributor:distributorSubscriptionModal.text.netBirdPlanFor", { name })}
+        description={t("cloud.distributor:distributorSubscriptionModal.description.selectThePlanThatBest")}
         color={"netbird"}
       />
       <div className={"px-8 pb-1"}>
@@ -87,18 +87,18 @@ const DistributorSubscriptionModalContent = ({
                 onClick={() => subscribe(plan).finally(() => setOpen(false))}
                 key={plan.name}
                 buttonText={{
-                  upgrade: "Continue with",
-                  downgrade: "Downgrade to",
+                  upgrade: t("cloud.distributor:distributorSubscriptionModal.text.continueWith"),
+                  downgrade: t("common:word.downgradeTo"),
                 }}
               />
             ))}
         </div>
         <div className={"pt-6 flex items-center justify-center"}>
           <Paragraph className={"inline text-sm"}>
-            Haven&apos;t decided for a plan yet?{" "}
+            {t("cloud.distributor:distributorSubscriptionModal.text.havenAposTDecidedFor")}{" "}
             <ModalClose asChild={true}>
               <InlineButtonLink variant={"white"}>
-                Continue with Trial
+                {t("cloud.distributor:distributorSubscriptionModal.text.continueWithTrial")}
               </InlineButtonLink>
             </ModalClose>
           </Paragraph>

@@ -18,8 +18,8 @@ import {
 } from "lucide-react";
 import React, { useMemo, useReducer, useRef } from "react";
 import { useHasChanges } from "@/hooks/useHasChanges";
+import { t } from "@/i18n";
 import type { HeaderAuthConfig } from "@/interfaces/ReverseProxy";
-
 type HeaderType = "basic" | "bearer" | "custom";
 
 interface HeaderAuthItem {
@@ -35,17 +35,23 @@ interface HeaderAuthItem {
 const HEADER_TYPE_OPTIONS: SelectOption[] = [
   {
     value: "basic" satisfies HeaderType,
-    label: "Basic Auth",
+    get label() {
+    return t("reverse-proxy.auth:authHeaderModal.label.basicAuth");
+  },
     icon: () => <CircleUserIcon size={14} />,
   },
   {
     value: "bearer" satisfies HeaderType,
-    label: "Bearer Token",
+    get label() {
+    return t("reverse-proxy.auth:authHeaderModal.label.bearerToken");
+  },
     icon: () => <KeyRoundIcon size={14} />,
   },
   {
     value: "custom" satisfies HeaderType,
-    label: "Custom Header",
+    get label() {
+    return t("reverse-proxy.auth:authHeaderModal.label.customHeader");
+  },
     icon: () => <BracesIcon size={14} />,
   },
 ];
@@ -55,8 +61,12 @@ const MASKED_VALUE = "••••••••";
 const INPUT_PROPS = {
   autoComplete: "off",
   "data-1p-ignore": true,
-  "data-lpignore": "true",
-  "data-form-type": "other",
+  get "data-lpignore"() {
+    return t("reverse-proxy.auth:authHeaderModal.dataLpignore.true");
+  },
+  get "data-form-type"() {
+    return t("reverse-proxy.auth:authHeaderModal.dataFormType.other");
+  },
 } as const;
 
 function createHeaderEntry(
@@ -234,8 +244,8 @@ export default function AuthHeaderModal({
         }}
       >
         <ModalHeader
-          title="HTTP Headers"
-          description="Require specific HTTP headers to access this service."
+          title={t("common:word.hTTPHeaders")}
+          description={t("reverse-proxy.auth:authHeaderModal.description.requireSpecificHTTPHeadersTo")}
         />
 
         <div className="px-8">
@@ -261,14 +271,14 @@ export default function AuthHeaderModal({
             onClick={() => dispatch({ type: "add" })}
           >
             <PlusIcon size={14} />
-            Add Header
+            {t("reverse-proxy.auth:authHeaderModal.text.addHeader")}
           </Button>
 
           {items.length > 1 && (
             <Callout className="mt-4" variant="info">
-              Any request matching one of these headers will grant access.
+              {t("reverse-proxy.auth:authHeaderModal.text.anyRequestMatchingOneOf")}
               <br />
-              Matched headers are stripped before reaching your backend.
+              {t("reverse-proxy.auth:authHeaderModal.text.matchedHeadersAreStrippedBefore")}
             </Callout>
           )}
 
@@ -276,18 +286,18 @@ export default function AuthHeaderModal({
             {isEditing ? (
               <>
                 <Button variant="danger-text" data-testid="remove-headers" onClick={handleRemoveAll}>
-                  Remove All
+                  {t("reverse-proxy.auth:authHeaderModal.text.removeAll")}
                 </Button>
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common:word.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"
                     onClick={handleSave}
                     disabled={!canSave || !hasChanges}
                   >
-                    Save
+                    {t("common:word.save")}
                   </Button>
                 </div>
               </>
@@ -296,7 +306,7 @@ export default function AuthHeaderModal({
                 <div />
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common:word.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"
@@ -304,7 +314,7 @@ export default function AuthHeaderModal({
                     disabled={!canSave}
                     data-testid="submit-headers"
                   >
-                    Add Headers
+                    {t("reverse-proxy.auth:authHeaderModal.text.addHeaders")}
                   </Button>
                 </div>
               </>
@@ -351,24 +361,24 @@ function HeaderItemRow({
           <span className="text-xs font-normal text-nb-gray-200 flex items-center gap-2">
             <FileCode2Icon size={14} />
             {item.existingSecret
-              ? `Header ${index + 1} - ${item.header}`
-              : `Header ${index + 1}`}
+              ? t("reverse-proxy.auth:authHeaderModal.text.header", { value: index + 1, header: item.header })
+              : t("reverse-proxy.auth:authHeaderModal.text.header2", { value: index + 1 })}
           </span>
           {showRemove && (
             <Button variant="danger-text" size="xs" onClick={onRemove}>
               <MinusCircleIcon size={12} />
-              Remove
+              {t("common:word.remove")}
             </Button>
           )}
         </div>
         {item.existingSecret ? (
           <div>
             <Input
-              customPrefix={<span className="min-w-[38px]">Value</span>}
+              customPrefix={<span className="min-w-[38px]">{t("reverse-proxy.auth:authHeaderModal.text.value")}</span>}
               type="password"
               showPasswordToggle={!isMaskedRef.current}
               value={isMaskedRef.current ? MASKED_VALUE : item.value}
-              placeholder="e.g., AIiaSyDaGmWKa4JsXZ-HjGw7ISLn_3namBGewQe"
+              placeholder={t("reverse-proxy.auth:authHeaderModal.placeholder.eGAIiaSyDaGmWKa4JsXZHjGw7ISLn3namBGewQe")}
               {...INPUT_PROPS}
               onChange={(e) => {
                 if (isMaskedRef.current) {
@@ -395,7 +405,7 @@ function HeaderItemRow({
               <div className="flex flex-col gap-2">
                 <Input
                   customPrefix={<UserIcon size={16} />}
-                  placeholder="Username"
+                  placeholder={t("reverse-proxy.auth:authHeaderModal.placeholder.username")}
                   maxWidthClass="w-full"
                   value={item.username}
                   onChange={(e) => onChange({ username: e.target.value })}
@@ -404,7 +414,7 @@ function HeaderItemRow({
                 />
                 <Input
                   customPrefix={<KeyRoundIcon size={16} />}
-                  placeholder="Password"
+                  placeholder={t("common:word.password")}
                   maxWidthClass="w-full"
                   value={item.password}
                   onChange={(e) => onChange({ password: e.target.value })}
@@ -418,8 +428,8 @@ function HeaderItemRow({
 
             {item.type === "bearer" && (
               <Input
-                customPrefix={"Bearer"}
-                placeholder="e.g. eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+                customPrefix={t("reverse-proxy.auth:authHeaderModal.customPrefix.bearer")}
+                placeholder={t("reverse-proxy.auth:authHeaderModal.placeholder.eGEyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9")}
                 maxWidthClass="w-full"
                 value={item.value}
                 onChange={(e) => onChange({ value: e.target.value })}
@@ -432,16 +442,16 @@ function HeaderItemRow({
             {item.type === "custom" && (
               <div className="flex flex-col gap-2">
                 <Input
-                  customPrefix={<span className="min-w-[38px]">Name</span>}
-                  placeholder="e.g., X-API-Key"
+                  customPrefix={<span className="min-w-[38px]">{t("common:word.name")}</span>}
+                  placeholder={t("reverse-proxy.auth:authHeaderModal.placeholder.eGXAPIKey")}
                   maxWidthClass="w-full"
                   value={item.header}
                   onChange={(e) => onChange({ header: e.target.value })}
                   {...INPUT_PROPS}
                 />
                 <Input
-                  customPrefix={<span className="min-w-[38px]">Value</span>}
-                  placeholder="e.g., AIiaSyDaGmWKa4JsXZ-HjGw7ISLn_3namBGewQe"
+                  customPrefix={<span className="min-w-[38px]">{t("reverse-proxy.auth:authHeaderModal.text.value")}</span>}
+                  placeholder={t("reverse-proxy.auth:authHeaderModal.placeholder.eGAIiaSyDaGmWKa4JsXZHjGw7ISLn3namBGewQe")}
                   maxWidthClass="w-full"
                   value={item.value}
                   onChange={(e) => onChange({ value: e.target.value })}

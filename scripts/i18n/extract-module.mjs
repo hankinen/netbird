@@ -81,6 +81,8 @@ export function baseNamespace(file) {
   if (rel[0] === "layouts") return "nav";
   if (rel[0] === "components")
     return "components." + (rel.length > 2 ? rel[1] : "core");
+  if (rel[0] === "cloud")
+    return "cloud." + (rel.length > 2 ? rel[1] : "main");
   if (rel[0] === "modules")
     return rel[1] + "." + (rel.length > 3 ? rel[2] : "main");
   if (rel[0] === "app") {

@@ -17,5 +17,6 @@
   "usersDropdownSelector.placeholder.searchUser": "搜索用户...",
   "usersDropdownSelector.text.noUsersAvailableToSelect": "没有可选择的用户。",
   "usersDropdownSelector.text.thereAreNoUsersMatching": "没有与搜索匹配的用户。",
-  "usersDropdownSelector.text.netBird": "NetBird"
+  "usersDropdownSelector.text.netBird": "NetBird",
+  "activityTypePicker.text.nTypes": "{{count}} 种类型"
 }

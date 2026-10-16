@@ -12,7 +12,7 @@ import { AddSignInDomainModal } from "@/cloud/sign-in-domains/AddSignInDomainMod
 import SignInDomainsTable from "@/cloud/sign-in-domains/table/SignInDomainsTable";
 import { useSignInDomains } from "@/cloud/sign-in-domains/useSignInDomains";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-
+import { t } from "@/i18n";
 const POLL_INTERVAL_MS = 15_000;
 
 const SIGN_IN_DOMAINS_DOCS_LINK =
@@ -42,11 +42,17 @@ export const SignInDomainsSettings = () => {
     >
       <div className={"flex items-end justify-between gap-4 mb-4"}>
         <div className={"min-w-0"}>
-          <Label>Sign-in Domains</Label>
+          <Label>
+            {t(
+              "cloud.sign-in-domains:addSignInDomainModal.title.signInDomains",
+            )}
+          </Label>
           <HelpText className={"!mb-0"}>
-            Users from these domains can join your account.{" "}
+            {t(
+              "cloud.sign-in-domains:signInDomainsSettings.text.usersFromTheseDomainsCan",
+            )}{" "}
             <InlineLink href={SIGN_IN_DOMAINS_DOCS_LINK} target={"_blank"}>
-              Learn more
+              {t("common:word.learnMore")}
               <ExternalLinkIcon size={12} />
             </InlineLink>
           </HelpText>
@@ -60,7 +66,7 @@ export const SignInDomainsSettings = () => {
           data-testid={"add-domain"}
         >
           <PlusCircle size={16} />
-          Add
+          {t("common:word.add")}
         </Button>
       </div>
 

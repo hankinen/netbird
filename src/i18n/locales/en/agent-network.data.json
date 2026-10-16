@@ -1,0 +1,9 @@
+{
+  "mockData.text.account": "Account {{toLowerCase}}",
+  "mockData.modelNotRoutable.modelNotAvailable": "Model not available",
+  "mockData.noAuthorisedProvider.noAuthorizedProvider": "No authorized provider",
+  "mockData.modelBlocked.modelNotAllowed": "Model not allowed",
+  "mockData.capExceeded.limitExceeded": "Limit exceeded",
+  "mockData.tokenCapExceeded.tokenLimitExceeded": "Token limit exceeded",
+  "mockData.budgetCapExceeded.budgetLimitExceeded": "Budget limit exceeded"
+}

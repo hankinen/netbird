@@ -11,7 +11,7 @@ import { DownloadIcon, MoreVertical } from "lucide-react";
 import React from "react";
 import { useDistributor } from "@/cloud/distributor/contexts/DistributorProvider";
 import { Invoice, InvoicePDF } from "@/cloud/msp/interfaces/Invoice";
-
+import { t } from "@/i18n";
 type Props = {
   invoice: Invoice;
 };
@@ -49,9 +49,14 @@ export default function InvoicesActionCell({ invoice }: Readonly<Props>) {
       });
 
     notify({
-      title: `Download Invoice (CSV)`,
-      description: `Downloading ${invoice.id}.csv...`,
-      loadingMessage: `Getting invoice for this billing period...`,
+      title: t("cloud.invoices:invoicesActionCell.title.downloadInvoiceCSV"),
+      description: t(
+        "cloud.invoices:invoicesActionCell.description.downloadingCsv",
+        { id: invoice.id },
+      ),
+      loadingMessage: t(
+        "cloud.invoices:invoicesActionCell.loadingMessage.gettingInvoiceForThisBilling",
+      ),
       promise,
     });
     return promise;
@@ -60,9 +65,13 @@ export default function InvoicesActionCell({ invoice }: Readonly<Props>) {
   const redirectToStripe = async () => {
     let promise = pdfInvoiceRequest.get(`/${invoice?.id}/pdf`);
     notify({
-      title: `Download Invoice (PDF)`,
-      description: `Redirecting to Stripe to download the invoice...`,
-      loadingMessage: `Getting invoice for this billing period...`,
+      title: t("cloud.invoices:invoicesActionCell.title.downloadInvoicePDF"),
+      description: t(
+        "cloud.invoices:invoicesActionCell.description.redirectingToStripeToDownload",
+      ),
+      loadingMessage: t(
+        "cloud.invoices:invoicesActionCell.loadingMessage.gettingInvoiceForThisBilling",
+      ),
       promise,
     });
     return promise;
@@ -92,14 +101,14 @@ export default function InvoicesActionCell({ invoice }: Readonly<Props>) {
           >
             <div className={"flex gap-3 items-center justify-center pr-3"}>
               <DownloadIcon size={12} />
-              Download as PDF
+              {t("cloud.invoices:invoicesActionCell.text.downloadAsPDF")}
             </div>
           </DropdownMenuItem>
 
           <DropdownMenuItem onClick={downloadCSV}>
             <div className={"flex gap-3 items-center justify-center pr-3"}>
               <DownloadIcon size={12} />
-              Download as CSV
+              {t("cloud.invoices:invoicesActionCell.text.downloadAsCSV")}
             </div>
           </DropdownMenuItem>
         </DropdownMenuContent>

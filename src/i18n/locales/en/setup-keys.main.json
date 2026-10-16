@@ -53,5 +53,6 @@
   "setupKeysTable.title.thisGroupIsNotUsed": "This group is not used within any setup keys yet",
   "setupKeysTable.description.assignThisGroupWhenCreating": "Assign this group when creating a new setup key to see them listed here.",
   "setupKeysTable.text.createKey": "Create Key",
-  "setupKeysTable.description.addASetupKeyTo": "Add a setup key to register new machines in your network. The key links machines to your account during initial setup."
+  "setupKeysTable.description.addASetupKeyTo": "Add a setup key to register new machines in your network. The key links machines to your account during initial setup.",
+  "setupKeyModal.text.couldNotBeCreated": "Setup key could not be created..."
 }

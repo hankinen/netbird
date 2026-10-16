@@ -13,9 +13,9 @@ import { PlusCircle } from "lucide-react";
 import * as React from "react";
 import { useMemo, useState } from "react";
 import { useSignInDomains } from "@/cloud/sign-in-domains/useSignInDomains";
+import { t } from "@/i18n";
 import { DomainValidationStatus, SignInDomain } from "@/interfaces/Account";
 import { DomainVerificationModal } from "@/modules/integrations/sso/DomainVerificationModal";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -35,7 +35,10 @@ export const AddSignInDomainModal = ({ open, onOpenChange }: Props) => {
       allowOnlyTld: false,
       preventLeadingAndTrailingDots: true,
     });
-    if (!valid) return "Please enter a valid domain, e.g. company.com";
+    if (!valid)
+      return t(
+        "cloud.sign-in-domains:addSignInDomainModal.text.pleaseEnterAValidDomain",
+      );
     return "";
   }, [name]);
 
@@ -51,8 +54,13 @@ export const AddSignInDomainModal = ({ open, onOpenChange }: Props) => {
     setOpen(false);
 
     notify({
-      title: "Sign-in Domains",
-      description: `${domain} has been added`,
+      title: t(
+        "cloud.sign-in-domains:addSignInDomainModal.title.signInDomains",
+      ),
+      description: t(
+        "cloud.sign-in-domains:addSignInDomainModal.description.hasBeenAdded",
+        { domain },
+      ),
       promise: addDomain(domain).then((added) => {
         if (
           added &&
@@ -64,7 +72,9 @@ export const AddSignInDomainModal = ({ open, onOpenChange }: Props) => {
         mutate().catch(() => {});
         return added;
       }),
-      loadingMessage: "Adding domain...",
+      loadingMessage: t(
+        "cloud.sign-in-domains:addSignInDomainModal.loadingMessage.addingDomain",
+      ),
     });
   };
 
@@ -89,8 +99,12 @@ export const AddSignInDomainModal = ({ open, onOpenChange }: Props) => {
         <ModalContent maxWidthClass={"max-w-md"}>
           <ModalHeader
             className={"pb-4 px-8"}
-            title={"Add Sign-in Domain"}
-            description={"Users on this domain are matched to your account."}
+            title={t(
+              "cloud.sign-in-domains:addSignInDomainModal.title.addSignInDomain",
+            )}
+            description={t(
+              "cloud.sign-in-domains:addSignInDomainModal.description.usersOnThisDomainAre",
+            )}
           />
 
           <form
@@ -104,7 +118,9 @@ export const AddSignInDomainModal = ({ open, onOpenChange }: Props) => {
                 <Input
                   autoFocus
                   data-testid={"add-domain-input"}
-                  placeholder={"e.g. company.com"}
+                  placeholder={t(
+                    "cloud.sign-in-domains:addSignInDomainModal.placeholder.eGCompanyCom",
+                  )}
                   value={name}
                   error={validationError}
                   onChange={(event) => setName(event.target.value)}
@@ -116,7 +132,7 @@ export const AddSignInDomainModal = ({ open, onOpenChange }: Props) => {
               <div className={"flex gap-3 w-full justify-end"}>
                 <ModalClose asChild={true}>
                   <Button variant={"secondary"} className={"w-full"}>
-                    Cancel
+                    {t("common:word.cancel")}
                   </Button>
                 </ModalClose>
 
@@ -128,7 +144,7 @@ export const AddSignInDomainModal = ({ open, onOpenChange }: Props) => {
                   data-testid={"add-domain-submit"}
                 >
                   <PlusCircle size={16} />
-                  Add
+                  {t("common:word.add")}
                 </Button>
               </div>
             </ModalFooter>

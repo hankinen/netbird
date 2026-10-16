@@ -7,5 +7,18 @@
   "trialOrUpgradeButton.text.noCreditCardRequired": "无需信用卡",
   "trialOrUpgradeButton.text.getALicense": "获取许可证",
   "trialGradientCard.text.tryAllOfNetBirdS": "免费试用 NetBird 的全部功能",
-  "trialGradientCard.text.activateYour14DayTrial": "激活 14 天试用，即可使用 NetBird 的全部功能和集成。试用结束后，除非您选择升级，否则将恢复为 {{planName}} 套餐。"
+  "trialGradientCard.text.activateYour14DayTrial": "激活 14 天试用，即可使用 NetBird 的全部功能和集成。试用结束后，除非您选择升级，否则将恢复为 {{planName}} 套餐。",
+  "trialNavigationInfoCard.text.freeTrial": "免费试用",
+  "trialNavigationInfoCard.text.trialEndsInDays": "试用将在 {{trialDaysRemaining}} 天后结束",
+  "trialNavigationInfoCard.text.upgradePlan": "升级套餐",
+  "trialSuccessModal.text.your14DayTrialHas": "您的 14 天试用已开始！",
+  "trialSuccessModal.text.welcomeAboardYouHaveNow": "欢迎加入！您现在可以使用 NetBird 的全部功能和集成",
+  "trialSuccessModal.text.forTheNextTwoWeeks": "，有效期为接下来的两周",
+  "trialSuccessModal.text.whatSNext": "接下来做什么？",
+  "trialSuccessModal.text.exploreTheDashboardOurIntegrations": "探索控制台、我们的集成和所有功能。您可以试用的部分关键功能：",
+  "trialSuccessModal.text.configureIdPSyncForUser": "配置 IdP 同步以预配用户和组",
+  "trialSuccessModal.text.setUpYourFirstDevice": "设置您的首个设备合规检查",
+  "trialSuccessModal.text.enableDeviceApprovalsForAdded": "启用设备审批以加强控制",
+  "trialSuccessModal.text.exploreNetBird": "探索 NetBird",
+  "trialGradientCard.text.free": "免费版"
 }

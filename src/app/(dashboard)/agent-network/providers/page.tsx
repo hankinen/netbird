@@ -12,6 +12,7 @@ import { ExternalLinkIcon } from "lucide-react";
 import React, { Suspense } from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import PageContainer from "@/layouts/PageContainer";
 import AIProviderModal from "@/modules/agent-network/AIProviderModal";
 import AIProvidersProvider, {
@@ -21,7 +22,6 @@ import EndpointBadge, {
   ENDPOINT_HELP_TEXT,
 } from "@/modules/agent-network/EndpointBadge";
 import AgentProvidersTable from "@/modules/agent-network/table/AgentProvidersTable";
-
 function EndpointHeader() {
   const { settings, settingsLoading, openWizard } = useAIProviders();
   const { permission } = usePermissions();
@@ -40,15 +40,15 @@ function EndpointHeader() {
         }
         title={
           <>
-            API Base URL
+            {t("agent-network.page:page.text.aPIBaseURL")}
             <span onClick={(e) => e.stopPropagation()}>
               <HelpTooltip iconSize={11} content={ENDPOINT_HELP_TEXT} />
             </span>
           </>
         }
-        description={
-          "Connect your first provider to set up your agent network endpoint."
-        }
+        description={t(
+          "agent-network.page:page.description.connectYourFirstProviderTo",
+        )}
       />
     );
   }
@@ -91,25 +91,23 @@ export default function AgentNetworkProvidersPage() {
             <Breadcrumbs>
               <Breadcrumbs.Item
                 href={"/agent-network/providers"}
-                label={"Agent Network"}
+                label={t("agent-network.page:page.label.agentNetwork")}
                 icon={<AgentNetworkIcon size={16} />}
               />
               <Breadcrumbs.Item
                 href={"/agent-network/providers"}
-                label={"Providers"}
+                label={t("common:word.providers")}
                 active={true}
               />
             </Breadcrumbs>
-            <h1 ref={headingRef}>Providers</h1>
+            <h1 ref={headingRef}>{t("common:word.providers")}</h1>
             <Paragraph>
-              Connect AI providers and gateways like LiteLLM, OpenAI, and
-              Anthropic through one keyless endpoint, accessible only via
-              NetBird’s tunnel.
+              {t("agent-network.page:page.text.connectAIProvidersAndGateways")}
               <InlineLink
                 href={"https://docs.netbird.io/agent-network/providers"}
                 target={"_blank"}
               >
-                Learn more
+                {t("common:word.learnMore")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>

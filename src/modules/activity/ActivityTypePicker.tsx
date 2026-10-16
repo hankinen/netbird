@@ -155,5 +155,7 @@ export function formatActivityTypeChip(
 ): string | null {
   if (!value || value.length === 0) return null;
   if (value.length === 1) return value[0];
-  return `${value.length} types`;
+  return t("activity.table:activityTypePicker.text.nTypes", {
+    count: value.length,
+  });
 }

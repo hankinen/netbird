@@ -78,5 +78,6 @@
   "peerGroupSelector.text.searchResource": "搜索资源...",
   "peerGroupSelector.text.searchPeerByNameOr": "按名称或 IP 搜索设备...",
   "peerGroupSelector.text.searchCluster": "搜索集群...",
-  "userSelector.text.selectAUser": "选择用户..."
+  "userSelector.text.selectAUser": "选择用户...",
+  "peerGroupSelector.text.search": "搜索..."
 }

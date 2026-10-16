@@ -47,6 +47,7 @@ import HetznerIcon from "@/assets/icons/HetznerIcon";
 import KubernetesIcon from "@/assets/icons/KubernetesIcon";
 import { IconProps } from "@/assets/icons/IconProperties";
 
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -117,7 +118,7 @@ export const ClustersModal = ({ open, onOpenChange, onFinish }: Props) => {
       preventLeadingAndTrailingDots: true,
     });
     if (!isValid) {
-      return "Please enter a valid TLD domain, e.g., company.com";
+      return t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.pleaseEnterAValidTLD");
     }
     return "";
   }, [domain]);
@@ -231,33 +232,33 @@ spec:
 
   const deployment = {
     docker: {
-      label: "Docker",
-      title: "Run with Docker",
+      label: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.docker"),
+      title: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.title.runWithDocker"),
       command: dockerCommand,
     },
     compose: {
-      label: "Docker Compose",
-      title: "Run with Docker Compose",
+      label: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.dockerCompose"),
+      title: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.title.runWithDockerCompose"),
       command: composeCommand,
     },
     kubernetes: {
-      label: "Kubernetes",
-      title: "Deploy on Kubernetes",
+      label: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.kubernetes"),
+      title: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.title.deployOnKubernetes"),
       command: kubernetesCommand,
     },
     hetzner: {
-      label: "Hetzner Cloud",
-      title: "Deploy on Hetzner Cloud",
+      label: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.hetznerCloud"),
+      title: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.title.deployOnHetznerCloud"),
       command: "",
     },
     digitalocean: {
-      label: "DigitalOcean",
-      title: "Deploy on DigitalOcean",
+      label: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.digitalOcean"),
+      title: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.title.deployOnDigitalOcean"),
       command: "",
     },
     aws: {
-      label: "AWS CloudFormation",
-      title: "Deploy on AWS",
+      label: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.aWSCloudFormation"),
+      title: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.title.deployOnAWS"),
       command: "",
     },
   }[deployMethod];
@@ -281,14 +282,14 @@ spec:
 
   const deployDescription =
     deployMethod === "digitalocean"
-      ? "Launch a droplet to run the proxy."
+      ? t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.launchADropletToRun")
       : deployMethod === "aws"
-      ? "Launch a dedicated AWS server to run the proxy."
+      ? t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.launchADedicatedAWSServer")
       : isCloudDeploy
-      ? "Launch a cloud server to run the proxy."
+      ? t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.launchACloudServerTo")
       : deployMethod === "kubernetes"
-      ? "Apply this manifest to start the proxy."
-      : "Run on your machine to start the proxy.";
+      ? t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.applyThisManifestToStart")
+      : t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.runOnYourMachineTo");
 
   const generateToken = useCallback(async () => {
     setIsGeneratingToken(true);
@@ -305,10 +306,10 @@ spec:
       });
 
     notify({
-      title: "Proxy Token",
-      description: "Failed to generate proxy token",
+      title: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.title.proxyToken"),
+      description: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.description.failedToGenerateProxyToken"),
       promise,
-      loadingMessage: "Generating proxy token...",
+      loadingMessage: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.loadingMessage.generatingProxyToken"),
       showOnlyError: true,
       preventSuccessToast: true,
     });
@@ -331,8 +332,8 @@ spec:
       <ModalContent maxWidthClass={"relative max-w-[600px]"} showClose={true}>
         <ModalHeader
           icon={<ServerIcon size={16} />}
-          title={"Setup Cluster"}
-          description={"Setup a proxy cluster on infra you own"}
+          title={t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.title.setupCluster")}
+          description={t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.description.setupAProxyClusterOn")}
           color={"netbird"}
         />
 
@@ -343,7 +344,7 @@ spec:
           <TabsList justify={"start"} className={"px-8"}>
             <TabsTrigger value={"domain"}>
               <GlobeIcon size={14} />
-              Domain
+              {t("common:word.domain")}
             </TabsTrigger>
             {!isCloudDeploy && (
               <TabsTrigger
@@ -351,7 +352,7 @@ spec:
                 disabled={!domain.trim() || !!domainError}
               >
                 <ListIcon size={14} />
-                DNS Records
+                {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.dNSRecords")}
               </TabsTrigger>
             )}
             <TabsTrigger
@@ -359,20 +360,20 @@ spec:
               disabled={!domain.trim() || !!domainError}
             >
               <SquareTerminalIcon size={14} />
-              {isCloudDeploy ? "Deploy" : "Run the Proxy"}
+              {isCloudDeploy ? t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.deploy") : t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.runTheProxy")}
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value={"domain"} className={"pb-8"}>
             <div className={"px-8 flex flex-col gap-6"}>
               <div>
-                <Label>Domain</Label>
+                <Label>{t("common:word.domain")}</Label>
                 <HelpText>
-                  Enter a domain name that will be used for your cluster.
+                  {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.enterADomainNameThat")}
                 </HelpText>
                 <Input
                   autoFocus={true}
-                  placeholder={"e.g., proxy.company.com"}
+                  placeholder={t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.placeholder.eGProxyCompanyCom")}
                   value={domain}
                   error={domainError}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -381,36 +382,36 @@ spec:
                 />
               </div>
               <div>
-                <Label>Deployment Method</Label>
+                <Label>{t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.deploymentMethod")}</Label>
                 <HelpText>{deployDescription}</HelpText>
                 <SelectDropdown
                   value={deployMethod}
                   onChange={(v) => setDeployMethod(v as DeployMethod)}
                   options={[
-                    { value: "docker", label: "Docker", icon: DockerBrandIcon },
+                    { value: "docker", label: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.docker"), icon: DockerBrandIcon },
                     {
                       value: "compose",
-                      label: "Docker Compose",
+                      label: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.dockerCompose"),
                       icon: DockerBrandIcon,
                     },
                     {
                       value: "kubernetes",
-                      label: "Kubernetes",
+                      label: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.kubernetes"),
                       icon: KubernetesIcon,
                     },
                     {
                       value: "hetzner",
-                      label: "Hetzner Cloud",
+                      label: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.hetznerCloud"),
                       icon: HetznerIcon,
                     },
                     {
                       value: "digitalocean",
-                      label: "DigitalOcean",
+                      label: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.digitalOcean"),
                       icon: DigitalOceanIcon,
                     },
                     {
                       value: "aws",
-                      label: "AWS CloudFormation",
+                      label: t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.aWSCloudFormation"),
                       icon: AWSIcon,
                     },
                   ]}
@@ -418,23 +419,22 @@ spec:
               </div>
               {!isCloudDeploy && (
                 <Callout variant={"info"}>
-                  In order to run the proxy, please make sure your machine meets
-                  the following requirements:
+                  {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.inOrderToRunThe")}
                   <ul className={"list-disc pl-4 mt-2 flex flex-col gap-1"}>
                     <li>
                       <span className={"text-white font-medium"}>
-                        Publicly accessible IP address
+                        {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.publiclyAccessibleIPAddress")}
                       </span>
                     </li>
                     <li>
-                      <span className={"text-white font-medium"}>Docker</span>{" "}
-                      installed and running
+                      <span className={"text-white font-medium"}>{t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.label.docker")}</span>{" "}
+                      {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.installedAndRunning")}
                     </li>
                     <li>
                       <span className={"text-white font-medium"}>
-                        Port 80 and 443
+                        {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.port80And443")}
                       </span>{" "}
-                      open and not in use
+                      {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.openAndNotInUse")}
                     </li>
                   </ul>
                 </Callout>
@@ -445,17 +445,16 @@ spec:
           <TabsContent value={"dns"} className={"pb-8"}>
             <div className={"px-8 flex flex-col"}>
               <div>
-                <Label>Configure DNS</Label>
+                <Label>{t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.configureDNS")}</Label>
                 <HelpText>
-                  Add the following DNS records pointing to your machine&apos;s
-                  public IP address.
+                  {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.addTheFollowingDNSRecords")}
                 </HelpText>
               </div>
               <CardTable>
                 <CardTable.Header>
-                  <CardTable.HeaderCell width={100}>Type</CardTable.HeaderCell>
-                  <CardTable.HeaderCell>Name</CardTable.HeaderCell>
-                  <CardTable.HeaderCell>Content</CardTable.HeaderCell>
+                  <CardTable.HeaderCell width={100}>{t("common:word.type")}</CardTable.HeaderCell>
+                  <CardTable.HeaderCell>{t("common:word.name")}</CardTable.HeaderCell>
+                  <CardTable.HeaderCell>{t("reverse-proxy.clusters.cluster-cloud-deploy:clusterCloudDeploy.text.content")}</CardTable.HeaderCell>
                 </CardTable.Header>
                 <CardTable.Body>
                   <CardTable.Row>
@@ -464,7 +463,7 @@ spec:
                       {domain}
                     </CardTable.Cell>
                     <CardTable.Cell className={"italic"}>
-                      Your machine&apos;s IP
+                      {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.yourMachineAposSIP")}
                     </CardTable.Cell>
                   </CardTable.Row>
                   <CardTable.Row>
@@ -490,15 +489,13 @@ spec:
 
               {!isNetBirdCloud() && (
                 <Callout variant={"warning"}>
-                  For self-hosted deployments, make sure the proxy service
-                  routes are configured on your NetBird management server before
-                  starting the proxy.&nbsp;
+                  {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.forSelfHostedDeploymentsMake")}
                   <InlineLink
                     href={REVERSE_PROXY_SELFHOSTED_ROUTING_DOCS_LINK}
                     target={"_blank"}
                     className={"block mt-1"}
                   >
-                    Required routing endpoints
+                    {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.requiredRoutingEndpoints")}
                     <ExternalLinkIcon size={12} />
                   </InlineLink>
                 </Callout>
@@ -539,12 +536,12 @@ spec:
                   </Code>
 
                   <HelpText className={"mb-0"}>
-                    Need to fine-tune the proxy? See all available&nbsp;
+                    {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.needToFineTuneThe")}
                     <InlineLink
                       href={REVERSE_PROXY_ENV_REFERENCE_DOCS_LINK}
                       target={"_blank"}
                     >
-                      environment variables
+                      {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.environmentVariables")}
                       <ExternalLinkIcon size={12} />
                     </InlineLink>
                   </HelpText>
@@ -557,12 +554,12 @@ spec:
         <ModalFooter className={"items-center"}>
           <div className={"w-full"}>
             <Paragraph className={"text-sm mt-auto"}>
-              Learn more about
+              {t("common:word.learnMoreAbout")}
               <InlineLink
                 href={REVERSE_PROXY_CLUSTERS_DOCS_LINK}
                 target={"_blank"}
               >
-                Proxy Cluster
+                {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersFeaturesCell.text.proxyCluster")}
                 <ExternalLinkIcon size={12} />
               </InlineLink>
             </Paragraph>
@@ -571,24 +568,24 @@ spec:
             {tab === "domain" && (
               <>
                 <ModalClose asChild={true}>
-                  <Button variant={"secondary"}>Cancel</Button>
+                  <Button variant={"secondary"}>{t("common:word.cancel")}</Button>
                 </ModalClose>
                 <Button
                   variant={"primary"}
                   onClick={() => (isCloudDeploy ? goToInstall() : setTab("dns"))}
                   disabled={!domain.trim() || !!domainError}
                 >
-                  Continue
+                  {t("common:word.continue")}
                 </Button>
               </>
             )}
             {tab === "dns" && (
               <>
                 <Button variant={"secondary"} onClick={() => setTab("domain")}>
-                  Back
+                  {t("common:word.back")}
                 </Button>
                 <Button variant={"primary"} onClick={goToInstall}>
-                  Continue
+                  {t("common:word.continue")}
                 </Button>
               </>
             )}
@@ -598,14 +595,14 @@ spec:
                   variant={"secondary"}
                   onClick={() => setTab(isCloudDeploy ? "domain" : "dns")}
                 >
-                  Back
+                  {t("common:word.back")}
                 </Button>
                 <Button
                   variant={"primary"}
                   onClick={finishSetup}
                   disabled={isCloudDeploy && !proxyRegistered}
                 >
-                  Finish Setup
+                  {t("reverse-proxy.clusters.cluster-cloud-deploy:clustersModal.text.finishSetup")}
                 </Button>
               </>
             )}

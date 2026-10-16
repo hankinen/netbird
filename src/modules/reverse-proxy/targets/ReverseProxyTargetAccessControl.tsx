@@ -5,11 +5,11 @@ import {
   SelectOption,
 } from "@components/select/SelectDropdown";
 import { LockKeyhole, LockOpen, ShieldX } from "lucide-react";
+import { t } from "@/i18n";
 import {
   TargetAccessAction,
   type TargetAccessAction as TargetAccessActionValue,
 } from "@/interfaces/ReverseProxy";
-
 type Props = {
   value?: string;
   onChange: (value: TargetAccessActionValue) => void;
@@ -29,18 +29,24 @@ export default function ReverseProxyTargetAccessControl({
 
   const options: SelectOption[] = [
     {
-      label: "Use service authentication",
+      label: t(
+        "reverse-proxy.targets:reverseProxyTargetAccessControl.label.useServiceAuthentication",
+      ),
       value: TargetAccessAction.INHERIT,
       icon: LockKeyhole,
     },
     {
-      label: "Bypass authentication",
+      label: t(
+        "reverse-proxy.targets:reverseProxyTargetAccessActionBadge.text.bypassAuthentication",
+      ),
       value: TargetAccessAction.BYPASS,
       icon: LockOpen,
       disabled: privateService,
     },
     {
-      label: "Block access",
+      label: t(
+        "reverse-proxy.targets:reverseProxyTargetAccessActionBadge.text.blockAccess",
+      ),
       value: TargetAccessAction.BLOCK,
       icon: ShieldX,
     },
@@ -48,7 +54,10 @@ export default function ReverseProxyTargetAccessControl({
 
   if (hasUnsupportedValue) {
     options.push({
-      label: `Unsupported setting (${selectedValue})`,
+      label: t(
+        "reverse-proxy.targets:reverseProxyTargetAccessControl.label.unsupportedSetting",
+        { selectedValue },
+      ),
       value: selectedValue,
       disabled: true,
     });
@@ -60,23 +69,31 @@ export default function ReverseProxyTargetAccessControl({
       data-testid={"target-access-control-setting"}
     >
       <div>
-        <Label>Access</Label>
+        <Label>
+          {t(
+            "reverse-proxy.targets:reverseProxyTargetAccessControl.text.access",
+          )}
+        </Label>
         <HelpText className={"mb-0 max-w-sm"}>
-          Use the service authentication settings, make this location public, or
-          deny requests before they reach the target.
+          {t(
+            "reverse-proxy.targets:reverseProxyTargetAccessControl.text.useTheServiceAuthenticationSettings",
+          )}
         </HelpText>
         {privateService && (
           <div data-testid={"target-access-control-private-service"}>
             <HelpText className={"mb-0 mt-1 !text-yellow-400"}>
-              NetBird-only services cannot bypass authentication.
+              {t(
+                "reverse-proxy.targets:reverseProxyTargetAccessControl.text.netBirdOnlyServicesCannotBypass",
+              )}
             </HelpText>
           </div>
         )}
         {hasUnsupportedValue && (
           <div data-testid={"target-access-action-unsupported"}>
             <HelpText className={"mb-0 mt-1 !text-yellow-400"}>
-              This value is not supported by this dashboard. It will be
-              preserved unless you select a supported option.
+              {t(
+                "reverse-proxy.targets:reverseProxyTargetAccessControl.text.thisValueIsNotSupported",
+              )}
             </HelpText>
           </div>
         )}

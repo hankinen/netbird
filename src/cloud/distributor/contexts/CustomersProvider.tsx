@@ -11,7 +11,7 @@ import {
   DistributorCustomerStatus,
 } from "@/cloud/distributor/interfaces/Distributor";
 import { useDialog } from "@/contexts/DialogProvider";
-
+import { t } from "@/i18n";
 type Props = {
   children: React.ReactNode;
 };
@@ -45,11 +45,11 @@ export const CustomersProvider = ({ children }: Props) => {
 
   const unlinkCustomer = async (customer: DistributorCustomer) => {
     const choice = await confirm({
-      title: `Unlink '${customer.name}'?`,
+      title: t("cloud.distributor:customersProvider.title.unlink", { name: customer.name }),
       description:
-        "Unlinking this customer will remove it from your distributor account. The account will continue to exist independently.",
-      confirmText: "Unlink",
-      cancelText: "Cancel",
+        t("cloud.distributor:customersProvider.description.unlinkingThisCustomerWillRemove"),
+      confirmText: t("cloud.distributor:customersProvider.confirmText.unlink"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
       maxWidthClass: "max-w-[480px]",
     });
@@ -60,9 +60,9 @@ export const CustomersProvider = ({ children }: Props) => {
     });
 
     notify({
-      title: `Unlinking ${customer.name}`,
-      description: `Successfully unlinked ${customer.name} (${customer.domain})`,
-      loadingMessage: `Unlinking ${customer.name}...`,
+      title: t("cloud.distributor:customersProvider.title.unlinking", { name: customer.name }),
+      description: t("cloud.distributor:customersProvider.description.successfullyUnlinked", { name: customer.name, domain: customer.domain }),
+      loadingMessage: t("cloud.distributor:customersProvider.loadingMessage.unlinking", { name: customer.name }),
       promise,
     });
 
@@ -86,9 +86,9 @@ export const CustomersProvider = ({ children }: Props) => {
       });
 
     notify({
-      title: `Request Account Access`,
-      description: "Request has been sent successfully.",
-      loadingMessage: "Sending request...",
+      title: t("cloud.distributor:customersProvider.title.requestAccountAccess"),
+      description: t("cloud.distributor:customersProvider.description.requestHasBeenSentSuccessfully"),
+      loadingMessage: t("cloud.distributor:customersProvider.loadingMessage.sendingRequest"),
       promise: request,
     });
 

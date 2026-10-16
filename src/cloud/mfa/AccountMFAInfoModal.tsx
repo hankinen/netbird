@@ -2,7 +2,7 @@ import Button from "@components/Button";
 import { Modal, ModalContent } from "@components/modal/Modal";
 import { GradientFadedBackground } from "@components/ui/GradientFadedBackground";
 import * as React from "react";
-
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,15 +22,15 @@ export const AccountMFAInfoModal = ({
         <GradientFadedBackground />
         <div className={"flex items-center justify-center flex-col gap-3 px-6"}>
           <div className={"text-xl font-medium text-center"}>
-            You may not need NetBird MFA
+            {t("cloud.mfa:accountMFAInfoModal.text.youMayNotNeedNetBird")}
           </div>
           <div className={"text-sm text-nb-gray-300 text-center mb-2"}>
-            {`Your`}
+            {t("cloud.mfa:accountMFAInfoModal.text.your")}
             <strong className={"text-nb-gray-200 font-medium"}>
               {" "}
-              SSO Provider
+              {t("cloud.mfa:accountMFAInfoModal.text.sSOProvider")}
             </strong>
-            {` may already have MFA enabled. Enabling this setting could result in duplicated MFA checks.`}
+            {t("cloud.mfa:accountMFAInfoModal.text.mayAlreadyHaveMFA")}
           </div>
           <div className={"flex gap-4 w-full"}>
             <Button
@@ -38,14 +38,14 @@ export const AccountMFAInfoModal = ({
               variant={"secondary"}
               onClick={onCancel}
             >
-              Cancel
+              {t("common:word.cancel")}
             </Button>
             <Button
               className={"w-full"}
               variant={"primary"}
               onClick={onConfirm}
             >
-              Enable MFA
+              {t("cloud.mfa:accountMFAInfoModal.text.enableMFA")}
             </Button>
           </div>
         </div>

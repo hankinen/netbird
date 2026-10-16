@@ -7,6 +7,7 @@ import { GlobeIcon } from "lucide-react";
 import { AuthenticationSettings } from "@/cloud/webhooks/WebhookAuthenticationSettings";
 import { WebhookConfig } from "@/cloud/webhooks/useWebhookConfig";
 
+import { t } from "@/i18n";
 type Props = {
   value: WebhookConfig;
   urlHelpText?: string;
@@ -15,19 +16,27 @@ type Props = {
 
 export function WebhookGeneralTabContent({
   value,
-  urlHelpText = "Full HTTP(S) URL where events will be sent via a POST request.",
+  urlHelpText = t(
+    "cloud.webhooks:webhookGeneralTabContent.text.fullHTTPSURLWhere",
+  ),
   mask,
 }: Readonly<Props>) {
   return (
     <TabsContent value={"general"} className={"px-8 text-sm"}>
       <div className={"mb-6"}>
         <Label>
-          {value.isEditing ? "Endpoint URL" : "Enter your Endpoint URL"}
+          {value.isEditing
+            ? t("cloud.webhooks:webhookGeneralTabContent.text.endpointURL")
+            : t(
+                "cloud.webhooks:webhookGeneralTabContent.text.enterYourEndpointURL",
+              )}
         </Label>
         <HelpText>{urlHelpText}</HelpText>
         <Input
           customPrefix={<GlobeIcon size={16} />}
-          placeholder="https://api.example.com/webhook"
+          placeholder={t(
+            "cloud.webhooks:webhookGeneralTabContent.placeholder.httpsApiExampleComWebhook",
+          )}
           maxWidthClass="w-full"
           value={value.url}
           error={value.urlError}
@@ -36,9 +45,13 @@ export function WebhookGeneralTabContent({
         />
       </div>
 
-      <Label>Authentication</Label>
+      <Label>
+        {t("cloud.webhooks:webhookGeneralTabContent.text.authentication")}
+      </Label>
       <HelpText>
-        Select your preferred authentication method for the endpoint.
+        {t(
+          "cloud.webhooks:webhookGeneralTabContent.text.selectYourPreferredAuthenticationMethod",
+        )}
       </HelpText>
       <AuthenticationSettings value={value} mask={mask} />
     </TabsContent>

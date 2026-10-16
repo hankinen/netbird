@@ -10,6 +10,7 @@ import {
 import { useNotifications } from "@/cloud/notifications/NotificationProvider";
 import SlackIcon from "@/assets/icons/SlackIcon";
 
+import { t } from "@/i18n";
 type NotificationChannelListItemProps = {
   type: NotificationChannelType;
   channel?: NotificationChannel;
@@ -30,23 +31,21 @@ const getChannelDescription = (
   type: NotificationChannelType,
   channel?: NotificationChannel,
 ) => {
-  if (!channel) return "Disabled";
-  if (!channel.enabled) return "Disabled";
+  if (!channel) return t("common:word.disabled");
+  if (!channel.enabled) return t("common:word.disabled");
 
   const totalTypes = ALL_NOTIFICATION_EVENT_TYPES.length;
   const activeTypes = channel.event_types.length;
   const notificationLabel =
     activeTypes === totalTypes
-      ? "All Notifications"
-      : `${activeTypes} of ${totalTypes} Notifications`;
+      ? t("cloud.notifications:notificationChannelListItem.text.allNotifications")
+      : t("cloud.notifications:notificationChannelListItem.text.someNotifications", { activeTypes, totalTypes });
 
   if (type === NotificationChannelType.Email) {
     const emails = (channel.target as NotificationEmailChannel)?.emails ?? [];
-    return `Enabled · ${notificationLabel} · ${emails.length} Recipient${
-      emails.length !== 1 ? "s" : ""
-    }`;
+    return t("cloud.notifications:notificationChannelListItem.text.enabledRecipient", { notificationLabel, length: emails.length, enPlural: emails.length !== 1 ? "s" : "" });
   }
-  return `Enabled · ${notificationLabel}`;
+  return t("cloud.notifications:notificationChannelListItem.text.enabled", { notificationLabel });
 };
 
 export const NotificationChannelListItem = ({

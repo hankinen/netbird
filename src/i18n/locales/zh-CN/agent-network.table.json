@@ -1,0 +1,21 @@
+{
+  "agentProviderActionCell.title.delete": "删除“{{name}}”？",
+  "agentProviderActionCell.description.areYouSureYouWant": "确定要删除此提供商吗？其前端的反向代理服务也将被移除。此操作无法撤销。",
+  "agentProviderActionCell.text.thisProviderIsReferencedBy": "此提供商被以下内容引用：",
+  "agentProviderActionCell.text.1Policy": "1 条策略",
+  "agentProviderActionCell.text.andCannotBeDeletedDetach": "，因此无法删除。请先将其从策略中分离。",
+  "agentProvidersTable.text.allModels": "所有模型",
+  "agentProvidersTable.text.models": "模型",
+  "agentProvidersTable.searchPlaceholder.searchByName": "按名称搜索...",
+  "agentProvidersTable.title.connectAProvider": "连接提供商",
+  "agentProvidersTable.description.routeOpenAIAnthropicAndOther": "通过 NetBird 路由 OpenAI、Anthropic 和其他 LLM API，以实施访问控制、跟踪 Token 花费并捕获提示词。",
+  "agentProvidersTable.text.agentNetworkProviders": "Agent Network 提供商",
+  "connectProvidersTable.text.noModelRestrictionThisProvider": "无模型限制。此提供商未公布模型列表，因此可使用其上游接受的任意模型 ID。",
+  "connectProvidersTable.text.noModelRestrictionKnownModels": "无模型限制。此提供商的已知模型：",
+  "connectProvidersTable.text.provider": "提供商",
+  "connectProvidersTable.title.noProvidersAvailableYet": "暂无可用提供商",
+  "connectProvidersTable.text.noAccessPolicyCoversYour": "目前还没有覆盖您用户的访问策略。将您的某个组添加到策略中，即可通过 NetBird 路由您的 Agent。",
+  "connectProvidersTable.text.youDonTHaveAccess": "您目前还无权访问任何提供商。请让管理员将您添加到 Agent Network 访问策略中。",
+  "connectProvidersTable.text.goToPolicies": "前往策略",
+  "agentProviderActionCell.text.nPolicies": "{{count}} 条策略"
+}

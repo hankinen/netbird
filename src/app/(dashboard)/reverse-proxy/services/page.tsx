@@ -16,6 +16,7 @@ import PageContainer from "@/layouts/PageContainer";
 import { Callout } from "@components/Callout";
 import { isNetBirdCloud } from "@utils/netbird";
 
+import { t } from "@/i18n";
 const ReverseProxyTable = lazy(
   () => import("@/modules/reverse-proxy/table/ReverseProxyTable"),
 );
@@ -32,34 +33,36 @@ export default function ReverseProxyServicesPage() {
         <Breadcrumbs>
           <Breadcrumbs.Item
             href={"/reverse-proxy/services"}
-            label={"Reverse Proxy"}
+            label={t("reverse-proxy.page:page.label.reverseProxy")}
             icon={<ReverseProxyIcon size={16} />}
           />
           <Breadcrumbs.Item
             href={"/reverse-proxy/services"}
-            label={"Services"}
+            label={t("common:countWord.services")}
             active={true}
           />
         </Breadcrumbs>
-        <h1 ref={headingRef}>Services</h1>
+        <h1 ref={headingRef}>{t("common:countWord.services")}</h1>
         <Paragraph>
-          Expose services securely through NetBird&apos;s reverse proxy.{" "}
+          {t(
+            "reverse-proxy.page:page.text.exposeServicesSecurelyThroughNetBird",
+          )}{" "}
           <InlineLink href={REVERSE_PROXY_DOCS_LINK} target={"_blank"}>
-            Learn more
+            {t("common:word.learnMore")}
             <ExternalLinkIcon size={12} />
           </InlineLink>
         </Paragraph>
 
         {isNetBirdCloud() ? (
           <Callout className={"max-w-xl mt-5"} variant={"info"}>
-            NetBird&apos;s Reverse Proxy is currently in beta and available at
-            no cost during this period. Features, functionality, and pricing are
-            subject to change upon release.
+            {t("reverse-proxy.page:page.text.netBirdAposSReverseProxy")}
           </Callout>
         ) : (
           <Callout className={"max-w-xl mt-5"} variant={"info"}>
-            NetBird&apos;s Reverse Proxy is currently in beta. <br /> Features
-            and functionality are subject to change upon release.
+            {t("reverse-proxy.page:page.text.netBirdAposSReverseProxy2")} <br />{" "}
+            {t(
+              "reverse-proxy.page:page.text.featuresAndFunctionalityAreSubject",
+            )}
           </Callout>
         )}
       </div>

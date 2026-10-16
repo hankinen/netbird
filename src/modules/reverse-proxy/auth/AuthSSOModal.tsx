@@ -9,6 +9,7 @@ import { useUsers } from "@/contexts/UsersProvider";
 import Badge from "@components/Badge";
 import { CircleUser } from "lucide-react";
 
+import { t } from "@/i18n";
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -45,8 +46,8 @@ export default function AuthSSOModal({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalContent maxWidthClass="max-w-xl">
         <ModalHeader
-          title="SSO (Single Sign-On)"
-          description="Require users to authenticate via SSO to access this service."
+          title={t("reverse-proxy.auth:authSSOModal.title.sSOSingleSignOn")}
+          description={t("reverse-proxy.auth:authSSOModal.description.requireUsersToAuthenticateVia")}
         />
 
         <GradientFadedBackground />
@@ -59,9 +60,9 @@ export default function AuthSSOModal({
               <div className={"flex items-center gap-2"}>
                 <Badge className={"py-[3px]"} variant={"gray-ghost"}>
                   <CircleUser size={12} />
-                  All Users
+                  {t("reverse-proxy.auth:authSSOModal.text.allUsers")}
                 </Badge>
-                Select user groups...
+                {t("reverse-proxy.auth:authSSOModal.text.selectUserGroups")}
               </div>
             }
             users={users}
@@ -71,14 +72,14 @@ export default function AuthSSOModal({
             {isEditing ? (
               <>
                 <Button variant="danger-text" data-testid="remove-sso" onClick={handleRemove}>
-                  Remove
+                  {t("common:word.remove")}
                 </Button>
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common:word.cancel")}</Button>
                   </ModalClose>
                   <Button variant="primary" onClick={handleSave}>
-                    Save
+                    {t("common:word.save")}
                   </Button>
                 </div>
               </>
@@ -87,14 +88,14 @@ export default function AuthSSOModal({
                 <div />
                 <div className="flex gap-3">
                   <ModalClose asChild>
-                    <Button variant="secondary">Cancel</Button>
+                    <Button variant="secondary">{t("common:word.cancel")}</Button>
                   </ModalClose>
                   <Button
                     variant="primary"
                     onClick={handleSave}
                     data-testid="submit-sso"
                   >
-                    Add SSO
+                    {t("reverse-proxy.auth:authSSOModal.text.addSSO")}
                   </Button>
                 </div>
               </>

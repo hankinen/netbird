@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 export type ICMPv6Type = keyof typeof ICMPv6Types;
 
 export const ICMPv6Types = {
@@ -82,14 +83,18 @@ export const ICMPv6Types = {
 
 export function getICMPv6TypeName(type: number): string {
   const entry = ICMPv6Types[type as ICMPv6Type];
-  if (!entry) return `Type ${type}`;
+  if (!entry)
+    return t("cloud.traffic-events:trafficEventICMPv6.text.type", { type });
   return entry.name;
 }
 
 export function getICMPv6CodeDescription(type: number, code: number): string {
   const entry = ICMPv6Types[type as ICMPv6Type];
-  if (!entry) return `Code ${code}`;
+  if (!entry)
+    return t("cloud.traffic-events:trafficEventICMPv6.text.code", { code });
   const codeName =
     entry.codes[code as keyof (typeof ICMPv6Types)[ICMPv6Type]["codes"]];
-  return codeName || `Code ${code}`;
+  return (
+    codeName || t("cloud.traffic-events:trafficEventICMPv6.text.code", { code })
+  );
 }

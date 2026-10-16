@@ -88,14 +88,30 @@ type PeerTemplate = {
 const PEER_TEMPLATES: PeerTemplate[] = [
   {
     key: "server",
-    label: "Server",
-    description: "Install on a server or VM",
+    get label() {
+      return i18nT(
+        "control-center.draft:controlCenterComponentsPanel.label.server",
+      );
+    },
+    get description() {
+      return i18nT(
+        "control-center.draft:controlCenterComponentsPanel.description.installOnAServerOr",
+      );
+    },
     icon: ServerIcon,
   },
   {
     key: "agent",
-    label: "Agent",
-    description: "Add an automated or headless peer",
+    get label() {
+      return i18nT(
+        "control-center.draft:controlCenterComponentsPanel.label.agent",
+      );
+    },
+    get description() {
+      return i18nT(
+        "control-center.draft:controlCenterComponentsPanel.description.addAnAutomatedOrHeadless",
+      );
+    },
     icon: BotIcon,
   },
 ];
@@ -108,20 +124,44 @@ const BLANK_TEMPLATES: {
 }[] = [
   {
     kind: "group",
-    label: "Group",
-    description: "Group peers and resources together",
+    get label() {
+      return i18nT(
+        "control-center.draft:controlCenterComponentsPanel.label.group",
+      );
+    },
+    get description() {
+      return i18nT(
+        "control-center.draft:controlCenterComponentsPanel.description.groupPeersAndResourcesTogether",
+      );
+    },
     icon: FolderGit2,
   },
   {
     kind: "network",
-    label: "Network",
-    description: "Give access to a private network",
+    get label() {
+      return i18nT(
+        "control-center.draft:controlCenterComponentsPanel.label.network",
+      );
+    },
+    get description() {
+      return i18nT(
+        "control-center.draft:controlCenterComponentsPanel.description.giveAccessToAPrivate",
+      );
+    },
     icon: NetworkIcon,
   },
   {
     kind: "resource",
-    label: "Resource",
-    description: "A host subnet or domain in a network",
+    get label() {
+      return i18nT(
+        "control-center.draft:controlCenterComponentsPanel.label.resource",
+      );
+    },
+    get description() {
+      return i18nT(
+        "control-center.draft:controlCenterComponentsPanel.description.aHostSubnetOrDomain",
+      );
+    },
     icon: WorkflowIcon,
   },
 ];
@@ -157,11 +197,45 @@ const CATEGORIES: {
   label: string;
   icon: React.ComponentType<{ size?: number; className?: string }>;
 }[] = [
-  { id: "peers", label: "Peers", icon: MonitorSmartphoneIcon },
-  { id: "policies", label: "Policies", icon: ShieldIcon },
-  { id: "groups", label: "Groups", icon: FolderGit2 },
-  { id: "resources", label: "Networks & Resources", icon: NetworkIcon },
-  { id: "agent-network", label: "Agent Network", icon: AgentNetworkIcon },
+  {
+    id: "peers",
+    get label() {
+      return i18nT("common:countWord.peers");
+    },
+    icon: MonitorSmartphoneIcon,
+  },
+  {
+    id: "policies",
+    get label() {
+      return i18nT("common:countWord.policies");
+    },
+    icon: ShieldIcon,
+  },
+  {
+    id: "groups",
+    get label() {
+      return i18nT("common:word.groups");
+    },
+    icon: FolderGit2,
+  },
+  {
+    id: "resources",
+    get label() {
+      return i18nT(
+        "control-center.draft:controlCenterComponentsPanel.label.networksResources",
+      );
+    },
+    icon: NetworkIcon,
+  },
+  {
+    id: "agent-network",
+    get label() {
+      return i18nT(
+        "control-center.draft:controlCenterComponentsPanel.label.agentNetwork",
+      );
+    },
+    icon: AgentNetworkIcon,
+  },
 ];
 
 export const ControlCenterComponentsPanel = () => {
@@ -1721,7 +1795,7 @@ const DeletedBadge = () => (
       "text-[0.55rem] leading-none px-1 py-[0.3rem] rounded-[3px] bg-red-900/40 border border-red-500/20 text-red-400"
     }
   >
-    DELETED
+    {i18nT("control-center.draft:controlCenterComponentsPanel.badge.deleted")}
   </span>
 );
 
@@ -1812,7 +1886,9 @@ const PanelListItem = React.memo(
               "shrink-0 ml-auto mr-3 text-[0.50rem] leading-none px-1 py-[0.3rem] rounded-[3px] bg-nb-gray-910 border border-nb-gray-800/30 text-nb-gray-350 opacity-70"
             }
           >
-            ON CANVAS
+            {i18nT(
+              "control-center.draft:controlCenterComponentsPanel.badge.onCanvas",
+            )}
           </span>
         ) : (
           !disabled && (

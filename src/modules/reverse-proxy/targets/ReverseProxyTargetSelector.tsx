@@ -18,6 +18,7 @@ import { HelpTooltip } from "@components/HelpTooltip";
 import InlineLink, { InlineButtonLink } from "@components/InlineLink";
 import SetupModal from "@/modules/setup-netbird-modal/SetupModal";
 
+import { t, isEnglish } from "@/i18n";
 export type Target = {
   type: ReverseProxyTargetType;
   peerId?: string;
@@ -83,21 +84,19 @@ export default function ReverseProxyTargetSelector({
     <div>
       <Label className={"gap-0 inline"}>
         {initialNetwork ? (
-          "Select Resource"
+          t("reverse-proxy.targets:reverseProxyTargetSelector.text.selectResource")
         ) : (
           <>
-            Select{" "}
+            {t("reverse-proxy.targets:reverseProxyTargetSelector.text.select")}{" "}
             <HelpTooltip
               className={"max-w-sm"}
               content={
                 <>
-                  A <span className={"text-white font-medium"}>peer</span> is a
-                  machine (e.g., laptop, server, container) running NetBird.
-                  Select a peer if your service runs directly on it.
+                  {isEnglish() && "A "}<span className={"text-white font-medium"}>{t("reverse-proxy.targets:reverseProxyTargetSelector.text.peer")}</span>{" "}{t("reverse-proxy.targets:reverseProxyTargetSelector.text.isAMachineEG")}
                   <span className={"mt-1 block"}>
-                    If you don&apos;t have a peer yet, you can{" "}
+                    {t("reverse-proxy.targets:reverseProxyTargetSelector.text.ifYouDonAposT")}{" "}
                     <InlineButtonLink onClick={() => setInstallModal(true)}>
-                      Install NetBird
+                      {t("common:word.installNetBird")}
                     </InlineButtonLink>
                     .
                   </span>
@@ -105,46 +104,41 @@ export default function ReverseProxyTargetSelector({
               }
               interactive={true}
             >
-              Peer
+              {t("reverse-proxy.targets:reverseProxyTargetSelector.text.peer2")}
             </HelpTooltip>
             ,{" "}
             <HelpTooltip
               className={"max-w-sm"}
               content={
                 <>
-                  A <span className={"text-white font-medium"}>resource</span>{" "}
-                  is a destination (IP, subnet, or domain) that can&apos;t run
-                  NetBird directly. Resources are part of a network and are
-                  reached through a routing peer that forwards traffic to them.
+                  {isEnglish() && "A "}<span className={"text-white font-medium"}>{t("reverse-proxy.targets:reverseProxyTargetSelector.text.resource")}</span>{" "}
+                  {t("reverse-proxy.targets:reverseProxyTargetSelector.text.isADestinationIPSubnet")}
                   <span className={"mt-1 block"}>
-                    If you don&apos;t have resources yet, go to{" "}
-                    <InlineLink href={"/networks"}>Networks</InlineLink> to
-                    create some.
+                    {t("reverse-proxy.targets:reverseProxyTargetSelector.text.ifYouDonAposT2")}{" "}
+                    <InlineLink href={"/networks"}>{t("common:word.networks")}</InlineLink>{" "}{t("reverse-proxy.targets:reverseProxyTargetSelector.text.toCreateSome")}
                   </span>
                 </>
               }
               interactive={true}
             >
-              Resource
+              {t("reverse-proxy.targets:reverseProxyTargetSelector.text.resource2")}
             </HelpTooltip>
             {showClusters && (
               <>
-                {" "}or{" "}
+                {" "}{t("reverse-proxy.targets:reverseProxyTargetSelector.text.or")}{" "}
                 <HelpTooltip
                   className={"max-w-sm"}
                   content={
                     <>
-                      A <span className={"text-white font-medium"}>
-                        proxy cluster
+                      {isEnglish() && "A "}<span className={"text-white font-medium"}>
+                        {t("reverse-proxy.targets:reverseProxyTargetSelector.text.proxyCluster")}
                       </span>{" "}
-                      forwards inbound traffic to an upstream the proxy reaches
-                        without WireGuard. Useful for external APIs and services
-                        co-located with the proxy.
+                      {t("reverse-proxy.targets:reverseProxyTargetSelector.text.forwardsInboundTrafficToAn")}
                     </>
                   }
                   interactive={true}
                 >
-                  Proxy Cluster
+                  {t("reverse-proxy.targets:reverseProxyTargetSelector.text.proxyCluster2")}
                 </HelpTooltip>
               </>
             )}
@@ -153,18 +147,18 @@ export default function ReverseProxyTargetSelector({
       </Label>
       <HelpText>
         {initialNetwork
-          ? "Select the resource from your network you want to expose."
-          : "Choose where the proxy should forward incoming requests."}
+          ? t("reverse-proxy.targets:reverseProxyTargetSelector.text.selectTheResourceFromYour")
+          : t("reverse-proxy.targets:reverseProxyTargetSelector.text.chooseWhereTheProxyShould")}
       </HelpText>
       <PeerGroupSelector
         values={[]}
         onChange={() => {}}
         placeholder={
           initialNetwork
-            ? "Select a resource..."
+            ? t("reverse-proxy.targets:reverseProxyTargetSelector.text.selectAResource")
             : showClusters
-            ? "Select a peer, resource, or proxy cluster..."
-            : "Select a peer or resource..."
+            ? t("reverse-proxy.targets:reverseProxyTargetSelector.text.selectAPeerResourceOr")
+            : t("reverse-proxy.targets:reverseProxyTargetSelector.text.selectAPeerOrResource")
         }
         showPeers={!initialNetwork}
         showResources={true}

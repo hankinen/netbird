@@ -29,13 +29,13 @@ import React, { useState } from "react";
 import { useSWRConfig } from "swr";
 import integrationImage from "@/assets/integrations/entra-id.png";
 import { useDialog } from "@/contexts/DialogProvider";
+import { t } from "@/i18n";
 import { AzureADIntegration } from "@/interfaces/IdentityProvider";
 import { EmbeddedIdentityProviderSelect } from "@/modules/integrations/idp-sync/EmbeddedIdentityProviderSelect";
 import { GroupPrefixHelpText } from "@/modules/integrations/idp-sync/GroupPrefixHelpText";
 import { GroupPrefixInput } from "@/modules/integrations/idp-sync/GroupPrefixInput";
 import { useIntegrations } from "@/modules/integrations/idp-sync/useIntegrations";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -98,30 +98,42 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
 
   const deleteIntegration = async () => {
     const choice = await confirm({
-      title: `Delete integration?`,
-      description: "Are you sure you want to delete this integration?",
-      confirmText: "Delete",
-      cancelText: "Cancel",
+      title: t(
+        "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.title.deleteIntegration",
+      ),
+      description: t(
+        "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.description.areYouSureYouWant",
+      ),
+      confirmText: t("common:word.delete"),
+      cancelText: t("common:word.cancel"),
       type: "danger",
     });
 
     if (!choice) return;
 
     notify({
-      title: "Entra ID (API) Integration",
-      description: `Entra ID (API) was successfully deleted`,
+      title: t(
+        "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.title.entraIDAPIIntegration",
+      ),
+      description: t(
+        "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.description.entraIDAPIWasSuccessfully",
+      ),
       promise: azureRequest.del({}, `/${config.id}`).then(() => {
         mutate("/integrations/azure-idp");
         onSuccess();
       }),
-      loadingMessage: "Deleting integration...",
+      loadingMessage: t("integrations.shared:word.deletingIntegration"),
     });
   };
 
   const updateIntegration = async () => {
     notify({
-      title: "Entra ID (API) Integration",
-      description: `Entra ID (API) was successfully updated`,
+      title: t(
+        "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.title.entraIDAPIIntegration",
+      ),
+      description: t(
+        "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.description.entraIDAPIWasSuccessfully2",
+      ),
       promise: azureRequest
         .put(
           {
@@ -146,7 +158,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
           mutate("/integrations/azure-idp");
           onSuccess();
         }),
-      loadingMessage: "Updating integration...",
+      loadingMessage: t("integrations.shared:word.updatingIntegration"),
     });
   };
 
@@ -171,8 +183,12 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
 
       <IntegrationModalHeader
         image={integrationImage}
-        title={"Entra ID (API) Configuration"}
-        description={"Sync your users and groups from Entra ID to NetBird."}
+        title={t(
+          "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.title.entraIDAPIConfiguration",
+        )}
+        description={t(
+          "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.description.syncYourUsersAndGroups",
+        )}
       />
 
       <Tabs
@@ -188,7 +204,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Settings
+            {t("common:word.settings")}
           </TabsTrigger>
           <TabsTrigger value={"group-sync"}>
             <FolderGit2
@@ -197,7 +213,9 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Group Sync
+            {t(
+              "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.text.groupSync",
+            )}
           </TabsTrigger>
           <TabsTrigger value={"user-sync"}>
             <UserCircle
@@ -206,7 +224,9 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            User Sync
+            {t(
+              "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.text.userSync",
+            )}
           </TabsTrigger>
           <TabsTrigger value={"danger"}>
             <AlertOctagon
@@ -215,7 +235,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 "text-nb-gray-500 group-data-[state=active]/trigger:text-netbird transition-all"
               }
             />
-            Danger Zone
+            {t("integrations.shared:word.dangerZone")}
           </TabsTrigger>
         </TabsList>
         <TabsContent value={"settings"} className={"px-8 text-sm"}>
@@ -228,7 +248,9 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <Box size={16} />
-                  Application (client) ID
+                  {t(
+                    "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.text.applicationClientID",
+                  )}
                 </div>
               }
               placeholder={"62d3a656-c87d-4f30-a242-5b6347e29e9f"}
@@ -243,10 +265,14 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <Folder size={16} />
-                  Directory (tenant) ID
+                  {t(
+                    "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.text.directoryTenantID",
+                  )}
                 </div>
               }
-              placeholder={"5d60468a-65b7-45eb-a61a-53ecfbcd1ea3"}
+              placeholder={t(
+                "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.placeholder.5d60468a65b745ebA61a53ecfbcd1ea3",
+              )}
               value={tenantId}
               onChange={(e) => setTenantId(e.target.value)}
             />
@@ -258,20 +284,27 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
               customPrefix={
                 <div className={"min-w-[165px] flex gap-2 items-center"}>
                   <KeyRound size={16} />
-                  Client Secret
+                  {t("integrations.shared:word.clientSecret")}
                 </div>
               }
-              placeholder={"YdV7Q~JJ62Xl.LvYoBanxZR2sJA2va_3UbqvncY8"}
+              placeholder={t(
+                "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.placeholder.ydV7QJJ62XlLvYoBanxZR2sJA2va3UbqvncY8",
+              )}
               value={clientSecret}
               onChange={(e) => setClientSecret(e.target.value)}
             />
 
             <div className={"flex justify-between mt-4"}>
               <div>
-                <Label>Sync Interval</Label>
+                <Label>
+                  {t(
+                    "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.text.syncInterval",
+                  )}
+                </Label>
                 <HelpText className={"max-w-[300px]"}>
-                  The interval in seconds when the synchronization should
-                  happen.
+                  {t(
+                    "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.text.theIntervalInSecondsWhen",
+                  )}
                 </HelpText>
               </div>
               <Input
@@ -285,7 +318,9 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
                 customPrefix={
                   <RefreshCw size={16} className={"text-nb-gray-300"} />
                 }
-                customSuffix={"Seconds"}
+                customSuffix={t(
+                  "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.customSuffix.seconds",
+                )}
               />
             </div>
             <EmbeddedIdentityProviderSelect
@@ -301,7 +336,9 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <FolderGit2 size={16} />
-                Synchronize Groups
+                {t(
+                  "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.text.synchronizeGroups",
+                )}
               </div>
             </Label>
             <GroupPrefixHelpText />
@@ -314,14 +351,18 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <UserCircle size={16} />
-                Synchronize Users
+                {t(
+                  "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.text.synchronizeUsers",
+                )}
               </div>
             </Label>
             <GroupPrefixHelpText type={"user-groups"} />
           </div>
           <GroupPrefixInput
             addText={"Add user group filter"}
-            text={"User group starts with..."}
+            text={t(
+              "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.text.userGroupStartsWith",
+            )}
             value={userGroupPrefixes}
             onChange={setUserGroupPrefixes}
           />
@@ -332,14 +373,13 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             <Label>
               <div className={"flex gap-2 items-center"}>
                 <AlertOctagon size={16} />
-                Delete Integration
+                {t("integrations.shared:word.deleteIntegration")}
               </div>
             </Label>
             <HelpText className={"max-w-lg mt-2"}>
-              Deleting this integration will remove the ability to sync users
-              and groups from your IdP to NetBird. If you delete the integration
-              you will need to reconfigure it again to enable the
-              synchronization.
+              {t(
+                "integrations.idp-sync.embedded-identity-provider-select:azureADConfiguration.text.deletingThisIntegrationWillRemove",
+              )}
             </HelpText>
           </div>
           <Button
@@ -348,7 +388,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
             className={"mt-3"}
             onClick={deleteIntegration}
           >
-            Delete Integration
+            {t("integrations.shared:word.deleteIntegration")}
           </Button>
         </TabsContent>
       </Tabs>
@@ -357,7 +397,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
       <ModalFooter className={"items-center gap-4"}>
         <ModalClose asChild={true}>
           <Button variant={"secondary"} className={"w-full"}>
-            Cancel
+            {t("common:word.cancel")}
           </Button>
         </ModalClose>
 
@@ -367,7 +407,7 @@ export function ConfigurationContent({ onSuccess, config }: ModalProps) {
           disabled={!hasChanges}
           onClick={updateIntegration}
         >
-          Save
+          {t("common:word.save")}
         </Button>
       </ModalFooter>
     </ModalContent>

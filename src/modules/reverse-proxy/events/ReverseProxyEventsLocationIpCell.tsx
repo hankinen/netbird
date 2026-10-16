@@ -11,6 +11,7 @@ import { ReverseProxyEvent } from "@/interfaces/ReverseProxy";
 import Skeleton from "react-loading-skeleton";
 import { ListItem } from "@components/ListItem";
 
+import { t } from "@/i18n";
 type Props = {
   event: ReverseProxyEvent;
 };
@@ -49,14 +50,18 @@ export const ReverseProxyEventsLocationIpCell = ({ event }: Props) => {
         >
           <ListItem
             icon={<FlagIcon size={14} />}
-            label={"Region"}
+            label={t(
+              "reverse-proxy.events:reverseProxyEventsLocationIpCell.label.region",
+            )}
             value={
               isLoading && !region ? (
                 <Skeleton width={100} />
               ) : (
                 <CopyToClipboardText
                   iconAlignment={"right"}
-                  message={"Region has been copied to your clipboard"}
+                  message={t(
+                    "reverse-proxy.events:reverseProxyEventsLocationIpCell.message.regionHasBeenCopiedTo",
+                  )}
                   alwaysShowIcon={true}
                 >
                   {region}
@@ -84,7 +89,9 @@ export const ReverseProxyEventsLocationIpCell = ({ event }: Props) => {
           )}
         </div>
         <CopyToClipboardText
-          message={"IP address has been copied to your clipboard"}
+          message={t(
+            "reverse-proxy.events:reverseProxyEventsLocationIpCell.message.iPAddressHasBeenCopied",
+          )}
         >
           <span className={"text-nb-gray-200 font-mono text-[0.82rem]"}>
             {event.source_ip}

@@ -78,5 +78,6 @@
   "peerGroupSelector.text.searchResource": "Search resource...",
   "peerGroupSelector.text.searchPeerByNameOr": "Search peer by name or ip...",
   "peerGroupSelector.text.searchCluster": "Search cluster...",
-  "userSelector.text.selectAUser": "Select a user..."
+  "userSelector.text.selectAUser": "Select a user...",
+  "peerGroupSelector.text.search": "Search..."
 }

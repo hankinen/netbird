@@ -12,12 +12,12 @@ import ClaudeIcon from "@/assets/icons/ClaudeIcon";
 import KimiIcon from "@/assets/icons/KimiIcon";
 import OpenAIIcon from "@/assets/icons/OpenAIIcon";
 import ShellIcon from "@/assets/icons/ShellIcon";
+import { t } from "@/i18n";
 import AIProviderLogo from "@/modules/agent-network/AIProviderLogo";
 import {
   AIProvider,
   AIProviderId,
 } from "@/modules/agent-network/data/mockData";
-
 // Same gray-to-netbird treatment the install-peer modal gives its OS tabs.
 const TAB_ICON =
   "fill-nb-gray-500 group-data-[state=active]/trigger:fill-netbird transition-all";
@@ -48,7 +48,12 @@ function ModeSwitch({
 }) {
   const options: { value: ClaudeMode; label: string }[] = [
     { value: "config", label: "JSON" },
-    { value: "shell", label: "Shell" },
+    {
+      value: "shell",
+      label: t(
+        "agent-network.agent-budget-rule-modal:agentConnectTabs.label.shell",
+      ),
+    },
   ];
 
   return (
@@ -100,7 +105,9 @@ function Snippet({
   const code = (
     <Code
       codeToCopy={copyText ?? lines.join("\n")}
-      message={"Copied to clipboard"}
+      message={t(
+        "agent-network.agent-budget-rule-modal:agentConnectTabs.message.copiedToClipboard",
+      )}
       showCopyIcon={!title}
       className={title ? "rounded-none border-0" : undefined}
     >
@@ -130,8 +137,16 @@ function Snippet({
           {action}
           <button
             type={"button"}
-            onClick={() => copy("Copied to clipboard")}
-            aria-label={"Copy snippet"}
+            onClick={() =>
+              copy(
+                t(
+                  "agent-network.agent-budget-rule-modal:agentConnectTabs.message.copiedToClipboard",
+                ),
+              )
+            }
+            aria-label={t(
+              "agent-network.agent-budget-rule-modal:agentConnectTabs.ariaLabel.copySnippet",
+            )}
             className={
               "self-center text-nb-gray-400 hover:text-nb-gray-100 transition-colors cursor-pointer"
             }
@@ -308,28 +323,38 @@ export function AgentConnectTabs({
       <TabsList justify={"start"} className={listClassName}>
         <TabsTrigger value={"claude-code"}>
           <ClaudeIcon className={TAB_ICON} size={14} />
-          Claude Code
+          {t(
+            "agent-network.agent-budget-rule-modal:agentConnectTabs.text.claudeCode",
+          )}
         </TabsTrigger>
         <TabsTrigger value={"codex"}>
           <OpenAIIcon className={TAB_ICON} size={14} />
-          Codex
+          {t(
+            "agent-network.agent-budget-rule-modal:agentConnectTabs.text.codex",
+          )}
         </TabsTrigger>
         {hasKimi && (
           <TabsTrigger value={"kimi-cli"}>
             <KimiIcon className={TAB_ICON} size={14} />
-            Kimi CLI
+            {t(
+              "agent-network.agent-budget-rule-modal:agentConnectTabs.text.kimiCLI",
+            )}
           </TabsTrigger>
         )}
         <TabsTrigger value={"sdk"}>
           {example.api === "anthropic" ? (
             <>
               <ClaudeIcon className={TAB_ICON} size={14} />
-              Anthropic SDK
+              {t(
+                "agent-network.agent-budget-rule-modal:agentConnectTabs.text.anthropicSDK",
+              )}
             </>
           ) : (
             <>
               <OpenAIIcon className={TAB_ICON} size={14} />
-              OpenAI SDK
+              {t(
+                "agent-network.agent-budget-rule-modal:agentConnectTabs.text.openAISDK",
+              )}
             </>
           )}
         </TabsTrigger>
@@ -351,24 +376,32 @@ export function AgentConnectTabs({
               }
               options={[
                 {
-                  label: "Anthropic API",
+                  label: t(
+                    "agent-network.agent-budget-rule-modal:agentConnectTabs.label.anthropicAPI",
+                  ),
                   value: "anthropic",
                   icon: providerIcon("anthropic_api"),
                 },
                 {
-                  label: "Vertex AI",
+                  label: t(
+                    "agent-network.agent-budget-rule-modal:agentConnectTabs.label.vertexAI",
+                  ),
                   value: "vertex",
                   icon: providerIcon("vertex_ai_api"),
                 },
                 {
-                  label: "Bedrock",
+                  label: t(
+                    "agent-network.agent-budget-rule-modal:agentConnectTabs.label.bedrock",
+                  ),
                   value: "bedrock",
                   icon: providerIcon("bedrock_api"),
                 },
                 ...(hasKimi
                   ? [
                       {
-                        label: "Kimi (Moonshot AI)",
+                        label: t(
+                          "agent-network.agent-budget-rule-modal:agentConnectTabs.label.kimiMoonshotAI",
+                        ),
                         value: "kimi",
                         icon: providerIcon("kimi_api"),
                       },
@@ -386,10 +419,15 @@ export function AgentConnectTabs({
                 title={
                   claudeMode === "config" ? (
                     <>
-                      Add to <ConfigPath path={"~/.claude/settings.json"} />
+                      {t(
+                        "agent-network.agent-budget-rule-modal:agentConnectTabs.text.addTo",
+                      )}{" "}
+                      <ConfigPath path={"~/.claude/settings.json"} />
                     </>
                   ) : (
-                    "Run in your shell"
+                    t(
+                      "agent-network.agent-budget-rule-modal:agentConnectTabs.text.runInYourShell",
+                    )
                   )
                 }
                 action={
@@ -419,7 +457,10 @@ export function AgentConnectTabs({
             <Snippet
               title={
                 <>
-                  Add to <ConfigPath path={"~/.claude/settings.json"} />
+                  {t(
+                    "agent-network.agent-budget-rule-modal:agentConnectTabs.text.addTo",
+                  )}{" "}
+                  <ConfigPath path={"~/.claude/settings.json"} />
                 </>
               }
               lines={[
@@ -440,7 +481,10 @@ export function AgentConnectTabs({
             <Snippet
               title={
                 <>
-                  Add to <ConfigPath path={"~/.claude/settings.json"} />
+                  {t(
+                    "agent-network.agent-budget-rule-modal:agentConnectTabs.text.addTo",
+                  )}{" "}
+                  <ConfigPath path={"~/.claude/settings.json"} />
                 </>
               }
               lines={[
@@ -461,10 +505,15 @@ export function AgentConnectTabs({
                 title={
                   claudeMode === "config" ? (
                     <>
-                      Add to <ConfigPath path={"~/.claude/settings.json"} />
+                      {t(
+                        "agent-network.agent-budget-rule-modal:agentConnectTabs.text.addTo",
+                      )}{" "}
+                      <ConfigPath path={"~/.claude/settings.json"} />
                     </>
                   ) : (
-                    "Run in your shell"
+                    t(
+                      "agent-network.agent-budget-rule-modal:agentConnectTabs.text.runInYourShell",
+                    )
                   )
                 }
                 action={
@@ -510,11 +559,17 @@ export function AgentConnectTabs({
                 }
               />
               <SmallParagraph className={"mt-3"}>
-                Pairs with a Kimi provider keeping the default upstream URL{" "}
-                <code className={"font-mono"}>https://api.moonshot.ai</code>.
-                The <code className={"font-mono"}>/anthropic</code> suffix in
-                the base URL rides through the endpoint to Moonshot, which
-                serves the Anthropic Messages API under that path.
+                {t(
+                  "agent-network.agent-budget-rule-modal:agentConnectTabs.text.pairsWithAKimiProvider",
+                )}{" "}
+                <code className={"font-mono"}>https://api.moonshot.ai</code>
+                {t(
+                  "agent-network.agent-budget-rule-modal:agentConnectTabs.text.the",
+                )}{" "}
+                <code className={"font-mono"}>/anthropic</code>{" "}
+                {t(
+                  "agent-network.agent-budget-rule-modal:agentConnectTabs.text.suffixInTheBaseURL",
+                )}
               </SmallParagraph>
             </>
           )}
@@ -526,7 +581,10 @@ export function AgentConnectTabs({
           <Snippet
             title={
               <>
-                Add to <ConfigPath path={"~/.codex/config.toml"} />
+                {t(
+                  "agent-network.agent-budget-rule-modal:agentConnectTabs.text.addTo",
+                )}{" "}
+                <ConfigPath path={"~/.codex/config.toml"} />
               </>
             }
             lines={[
@@ -550,7 +608,10 @@ export function AgentConnectTabs({
             // placeholder since NetBird injects the real key server-side.
             title={
               <>
-                Add to <ConfigPath path={"~/.kimi/config.toml"} />
+                {t(
+                  "agent-network.agent-budget-rule-modal:agentConnectTabs.text.addTo",
+                )}{" "}
+                <ConfigPath path={"~/.kimi/config.toml"} />
               </>
             }
             lines={[
@@ -568,13 +629,19 @@ export function AgentConnectTabs({
             ]}
           />
           <SmallParagraph className={"mt-3"}>
-            Pairs with a Kimi provider keeping the default upstream URL{" "}
-            <code className={"font-mono"}>https://api.moonshot.ai</code>. For
-            the OpenAI shape instead, use{" "}
+            {t(
+              "agent-network.agent-budget-rule-modal:agentConnectTabs.text.pairsWithAKimiProvider",
+            )}{" "}
+            <code className={"font-mono"}>https://api.moonshot.ai</code>
+            {t(
+              "agent-network.agent-budget-rule-modal:agentConnectTabs.text.forTheOpenAIShapeInstead",
+            )}{" "}
             <code className={"font-mono"}>
               type = &quot;openai_legacy&quot;
             </code>{" "}
-            with{" "}
+            {t(
+              "agent-network.agent-budget-rule-modal:agentConnectTabs.text.with",
+            )}{" "}
             <code className={"font-mono"}>
               base_url = &quot;{openaiBase}&quot;
             </code>

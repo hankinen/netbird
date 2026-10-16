@@ -1,0 +1,14 @@
+{
+  "clustersTable.text.connectedProxies": "Connected Proxies",
+  "clustersTable.text.features": "Features",
+  "clustersTable.label.online": "Online",
+  "clustersTable.label.offline": "Offline",
+  "clustersTable.label.shared": "Shared",
+  "clustersTable.label.selfHosted": "Self-Hosted",
+  "clustersTable.text.clusters": "Clusters",
+  "clustersTable.searchPlaceholder.searchByClusterDomain": "Search by cluster domain...",
+  "clustersTable.title.noClustersAvailable": "No clusters available",
+  "clustersTable.description.setUpAClusterTo": "Set up a cluster to route traffic through your own infrastructure.",
+  "clustersTable.text.setupSelfHostedCluster": "Setup Self-Hosted Cluster",
+  "clustersNameCell.message.copied": "{{address}} has been copied to clipboard"
+}

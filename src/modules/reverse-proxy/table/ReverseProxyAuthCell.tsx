@@ -29,6 +29,7 @@ import { Group } from "@/interfaces/Group";
 import { isL4Mode, ReverseProxy } from "@/interfaces/ReverseProxy";
 import FullTooltip from "@components/FullTooltip";
 
+import { t } from "@/i18n";
 const AUTH_METHODS: {
   key: "password_auth" | "pin_auth" | "bearer_auth";
   label: string;
@@ -37,28 +38,46 @@ const AUTH_METHODS: {
 }[] = [
   {
     key: "password_auth",
-    label: "Password",
-    hoverLabel: "Password",
+    get label() {
+    return t("common:word.password");
+  },
+    get hoverLabel() {
+    return t("common:word.password");
+  },
     Icon: RectangleEllipsis,
   },
-  { key: "pin_auth", label: "PIN Code", hoverLabel: "PIN Code", Icon: Binary },
+  { key: "pin_auth", get label() {
+    return t("common:word.pINCode");
+  }, get hoverLabel() {
+    return t("common:word.pINCode");
+  }, Icon: Binary },
   {
     key: "bearer_auth",
     label: "SSO",
-    hoverLabel: "SSO (Single Sign On)",
+    get hoverLabel() {
+    return t("reverse-proxy.table:reverseProxyAuthCell.hoverLabel.sSOSingleSignOn");
+  },
     Icon: Users,
   },
 ];
 
 const HEADER_AUTH_METHOD = {
-  label: "HTTP Headers",
-  hoverLabel: "HTTP Headers",
+  get label() {
+    return t("common:word.hTTPHeaders");
+  },
+  get hoverLabel() {
+    return t("common:word.hTTPHeaders");
+  },
   Icon: FileCode2Icon,
 };
 
 const NETBIRD_ONLY_METHOD = {
-  label: "NetBird Only",
-  hoverLabel: "NetBird-Only Access",
+  get label() {
+    return t("reverse-proxy.table:reverseProxyAuthCell.label.netBirdOnly");
+  },
+  get hoverLabel() {
+    return t("common:word.netBirdOnlyAccess");
+  },
   Icon: CircleUser,
 };
 
@@ -79,8 +98,7 @@ export default function ReverseProxyAuthCell({
         <FullTooltip
           content={
             <div className={"flex text-xs max-w-[340px]"}>
-              Auth methods are not supported for TCP/UDP and TLS passthrough
-              services as they operate at the network layer.
+              {t("reverse-proxy.table:reverseProxyAuthCell.text.authMethodsAreNotSupported")}
             </div>
           }
         >
@@ -161,8 +179,8 @@ export default function ReverseProxyAuthCell({
                       value={
                         <div className={"text-green-500"}>
                           {key === "bearer_auth" && ssoGroups.length === 0
-                            ? "All Users"
-                            : "Enabled"}
+                            ? t("reverse-proxy.table:reverseProxyAuthCell.text.allUsers")
+                            : t("reverse-proxy.table:reverseProxyAuthCell.text.enabled")}
                         </div>
                       }
                     >
@@ -191,7 +209,7 @@ export default function ReverseProxyAuthCell({
                       label={HEADER_AUTH_METHOD.hoverLabel}
                       value={
                         <div className={"text-green-500"}>
-                          {(auth?.header_auths ?? []).filter((h) => h.enabled).length} Header{(auth?.header_auths ?? []).filter((h) => h.enabled).length !== 1 ? "s" : ""}
+                          {(auth?.header_auths ?? []).filter((h) => h.enabled).length}{" "}{t("reverse-proxy.table:reverseProxyAuthCell.text.header")}{(auth?.header_auths ?? []).filter((h) => h.enabled).length !== 1 ? "s" : ""}
                         </div>
                       }
                     />
@@ -204,9 +222,9 @@ export default function ReverseProxyAuthCell({
                       value={
                         <div className={"text-green-500"}>
                           {accessGroups.length === 0
-                            ? "No groups"
+                            ? t("reverse-proxy.table:reverseProxyAuthCell.text.noGroups")
                             : accessGroups.length === 1
-                              ? "1 Group"
+                              ? t("reverse-proxy.table:reverseProxyAuthCell.text.1Group")
                               : `${accessGroups.length} Groups`}
                         </div>
                       }
@@ -242,7 +260,7 @@ export default function ReverseProxyAuthCell({
             openModal({ proxy: reverseProxy, initialTab: "auth" });
           }}
           disabled={!permission?.services?.update}
-          aria-label="Configure authentication"
+          aria-label={t("reverse-proxy.table:reverseProxyAuthCell.ariaLabel.configureAuthentication")}
         >
           <Settings size={12} />
         </Button>

@@ -39,5 +39,8 @@
   "onboardingTestResource.text.toPingYourResource": "to ping your resource.",
   "onboardingTestResource.text.everythingWorkingGreatYouCan": "Everything working? Great! You can now continue with the onboarding. If something isn’t right, please check our",
   "onboardingTestResource.text.troubleshootingGuide": "troubleshooting guide",
-  "onboardingTestResource.text.itWorksContinue": "It works! - Continue"
+  "onboardingTestResource.text.itWorksContinue": "It works! - Continue",
+  "onboardingAddResource.description.createdDuringOnboarding": "Created during onboarding",
+  "onboardingAddResource.description.allowsAccessToThis": "Allows access to this {{value}}",
+  "onboardingAddResource.description.allowsUsersToAccessRouting": "Allows users to access routing peers"
 }

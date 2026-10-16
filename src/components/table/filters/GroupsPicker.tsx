@@ -126,5 +126,5 @@ export function GroupsPicker({ value, onChange, groups }: Props) {
 export function formatGroupsChip(value: string[] | undefined): string | null {
   if (!value || value.length === 0) return null;
   if (value.length === 1) return value[0];
-  return `${value.length} groups`;
+  return t("components.table:groupsPicker.text.nGroups", { count: value.length });
 }
