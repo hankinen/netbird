@@ -1,10 +1,9 @@
 # Runtime config: acceptance (Task 12)
 
-Status 2026-10-16 18:50 CST: migrated and live (approved by ethan). Manual
-first release `20261016-182944` (package from a clean checkout of 82eff251),
-then GitHub Actions run 38888191932 (push of `dev` @ 82eff251) deployed
-`20261016-183645` - success. Backups: `/opt/netbird/docker-compose.yml.bak-20261016-181357`,
-`/usr/local/sbin/nb-dashboard-deploy.bak-20261016-181357`.
+Status 2026-10-16: migrated and live (approved by ethan). Manual first
+release (package from a clean checkout of 82eff251), then the GitHub Actions
+deploy workflow (push of `dev` @ 82eff251) deployed the next release -
+success. Compose file and v1 forced command were backed up on the server first.
 
 ## Live results
 

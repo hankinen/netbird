@@ -1,5 +1,5 @@
-# Dashboard service for /opt/netbird/docker-compose.yml after the migration in
-# deploy/server/README.md. Replaces the current service definition; the other
+# Dashboard service for the server's netbird docker-compose.yml after the
+# migration in deploy/server/README.md. Replaces the current service definition; the other
 # services (netbird-server, traefik) are unchanged.
 #
 # Differences from today:
