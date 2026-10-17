@@ -1,4 +1,4 @@
-# Ant Design theme (feature/theme-antd)
+# Ant Design theme (dev branch)
 
 An Ant Design style light theme layered on top of the upstream dashboard
 without editing components, so upstream merges stay conflict free.
@@ -301,7 +301,9 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
   The specificity policy holds. Replaced components still match the upstream
   signature (`@replaces`).
 - `npm run theme:visual-guard -- --base <ref> --theme dark` — all stories,
-  dark, must be pixel-identical to the upstream base.
+  dark, must be pixel-identical to the base (CI: PR base / previous dev
+  commit, which keeps the parity with upstream; only an upstream sync may
+  change dark, and only where upstream itself changed).
 - `npm run theme:visual-guard -- --base <ref> --theme light` — AntD theme vs
   the last approved theme commit; review every change.
 - `npm run theme:mobile-guard` — every page story at 375 / 390 / 768px (AntD
@@ -316,18 +318,22 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 
 ## Merging upstream
 
+Branch model: upstream `origin/main` (netbirdio/dashboard) → `dev`. `dev` is
+the single main branch: the zh-CN translations and this theme live there
+together (the old `i18n-zh-cn` / `feature/theme-antd` branches are gone).
+分支模型：上游 `origin/main` → `dev`；`dev` 是唯一的主开发分支（中文翻译与本主题都在其上）。
+
 `scripts/theme/sync-upstream.sh` does it in a throw-away worktree first:
 
 ```sh
-scripts/theme/sync-upstream.sh            # dry run: fetch origin/main, replay i18n-zh-cn
-                                          # and feature/theme-antd, check-selectors,
-                                          # build, dark visual guard, phone overflow
+scripts/theme/sync-upstream.sh            # dry run: fetch origin/main, replay dev onto it,
+                                          # check-selectors, build, dark visual guard
+                                          # (vs pre-sync dev), phone overflow
                                           # guard. No branch moves.
 scripts/theme/sync-upstream.sh --quick    # dry run, rebase + check-selectors only
-scripts/theme/sync-upstream.sh --apply    # rebase feature/theme-antd onto i18n-zh-cn
-scripts/theme/sync-upstream.sh --apply --rebase-i18n   # also rebase i18n-zh-cn onto upstream
+scripts/theme/sync-upstream.sh --apply    # rebase dev onto origin/main
 ```
 
-It never pushes and touches `i18n-zh-cn` only with `--rebase-i18n`. After
+It never pushes. After
 `--apply`, review the AntD theme itself:
 `npm run theme:visual-guard -- --base ORIG_HEAD --theme light`.

@@ -2,17 +2,26 @@ name: Theme AntD guard
 
 # Guards the Ant Design theme layer (src/styles/theme-antd, withAntdTheme):
 #   selectors : class-name selectors still match upstream components
-#   dark      : dark theme pixel-identical to the upstream base (parity)
-#   light     : AntD theme vs the PR target (only intended changes)
+#   dark      : dark theme unchanged vs the PR target / previous commit
+#   light     : AntD theme vs the PR target / previous commit (only intended changes)
 #   mobile    : no new sideways page overflow at 375/390/768 (AntD light)
 #
-# Repository variable THEME_UPSTREAM_BRANCH names the branch the theme sits on
-# (default: i18n-zh-cn, the branch feature/theme-antd was cut from).
+# Branch model: upstream netbirdio/dashboard main -> dev (our single main
+# branch, zh-CN translations + this theme together).
+#
+# Dark baseline: the same ref as light (PR base, else the commit before the
+# push, else HEAD~1). There is no separate "upstream + translations" branch
+# any more, and pure upstream cannot be the baseline: the guard builds the
+# baseline with the current stories and .storybook config, which import
+# @/i18n, so an upstream checkout does not build. Dark was pixel-identical to
+# upstream when the branches were merged, so "no dark change in this PR/push"
+# keeps that parity going. An upstream sync is the one PR where dark may
+# change; review the uploaded shots (only upstream's own changes expected).
 on:
   pull_request:
-    branches: [feature/theme-antd]
+    branches: [dev]
   push:
-    branches: [feature/theme-antd]
+    branches: [dev]
   workflow_dispatch:
 
 permissions:
@@ -56,26 +65,21 @@ jobs:
       - run: npx playwright install --with-deps --only-shell chromium
       - name: Resolve baseline
         env:
-          UPSTREAM: ${{ vars.THEME_UPSTREAM_BRANCH || 'i18n-zh-cn' }}
           PR_BASE: ${{ github.event.pull_request.base.sha }}
           BEFORE: ${{ github.event.before }}
         run: |
-          if [ "${{ matrix.theme }}" = dark ]; then
-            # Dark must equal upstream: compare with the upstream branch tip
-            # this branch is based on.
-            BASE=$(git merge-base "origin/$UPSTREAM" HEAD)
-          else
-            # Light (AntD) compares with the previous approved theme state.
-            BASE="${PR_BASE:-$BEFORE}"
-            if [ -z "$BASE" ] || [ "$BASE" = 0000000000000000000000000000000000000000 ]; then BASE=HEAD~1; fi
-          fi
+          # Both themes compare with the previous approved state (see header):
+          # dark must not change at all, light only where intended.
+          BASE="${PR_BASE:-$BEFORE}"
+          if [ -z "$BASE" ] || [ "$BASE" = 0000000000000000000000000000000000000000 ] ||
+             ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then BASE=HEAD~1; fi
           echo "BASE=$BASE" >> "$GITHUB_ENV"
           echo "Baseline: $(git log --oneline -1 "$BASE")"
       - name: Visual guard (${{ matrix.theme }})
         env:
           OUT: ${{ github.workspace }}/.theme-guard/${{ matrix.theme }}
           THEME_GUARD_CACHE: ${{ runner.temp }}/theme-guard
-        # dark: zero changed stories is a hard requirement.
+        # dark: zero changed stories is a hard requirement (except upstream syncs, reviewed).
         # light: changes are expected when the theme is being edited; the job
         # fails so a reviewer looks at the uploaded shots and approves.
         run: scripts/theme/visual-guard.sh --base "$BASE" --theme ${{ matrix.theme }}

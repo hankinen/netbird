@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Card-view helper for src/components/table/Table.tsx (feature/theme-antd).
+ * Card-view helper for src/components/table/Table.tsx (dev branch).
  *
  * Swapped in by one exact tsconfig `paths` entry
  *   "@components/table/Table": [this file]

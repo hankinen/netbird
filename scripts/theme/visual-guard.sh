@@ -2,11 +2,12 @@
 # Theme visual guard: screenshots every Storybook story at a baseline ref and at
 # the working tree, then compares them pixel by pixel.
 #
-#   scripts/theme/visual-guard.sh --base <ref> --theme dark   # must be identical (upstream parity)
+#   scripts/theme/visual-guard.sh --base <ref> --theme dark   # must be identical (keeps upstream parity)
 #   scripts/theme/visual-guard.sh --base <ref> --theme light  # AntD theme vs its own baseline
 #
-# Typical refs: dark -> the upstream branch this theme sits on (i18n-zh-cn /
-# origin/main merge-base); light -> the last approved theme commit.
+# Typical refs (branch model: upstream origin/main -> dev): dark and light ->
+# the last approved dev commit / PR base. Pure upstream does not work as a
+# baseline: the current stories and .storybook config import @/i18n.
 # Options: --tolerance N (default 8), --max-ratio R (default 0), --concurrency N
 # Output: $OUT (default .theme-guard/<theme>) with baseline/, current/, report.json
 set -euo pipefail

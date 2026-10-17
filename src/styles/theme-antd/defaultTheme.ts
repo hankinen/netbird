@@ -1,5 +1,5 @@
 /**
- * Default theme selection for the Ant Design theme (feature/theme-antd).
+ * Default theme selection for the Ant Design theme (dev branch).
  *
  * NEXT_PUBLIC_DEFAULT_THEME (build time, like NEXT_PUBLIC_DEFAULT_LANG):
  *   "antd"  (default) light theme with the Ant Design look  -> <html class="light theme-antd">
