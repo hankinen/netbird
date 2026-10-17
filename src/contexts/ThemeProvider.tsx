@@ -3,7 +3,7 @@
 import "react-loading-skeleton/dist/skeleton.css";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { SkeletonTheme } from "react-loading-skeleton";
-import { DEFAULT_RESOLVED_THEME } from "@/styles/theme-antd/defaultTheme";
+import { DEFAULT_RESOLVED_THEME } from "@/theme/defaultTheme";
 
 export type Theme = "dark" | "light" | "system";
 export type ResolvedTheme = Exclude<Theme, "system">;

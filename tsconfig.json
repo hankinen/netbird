@@ -25,8 +25,8 @@
       }
     ],
     "paths": {
-      "@components/table/DataTablePagination": ["./src/styles/theme-antd/components/DataTablePagination.tsx"],
-      "@components/table/Table": ["./src/styles/theme-antd/components/Table.tsx"],
+      "@components/table/DataTablePagination": ["./src/theme/adapters/DataTablePagination.tsx"],
+      "@components/table/Table": ["./src/theme/adapters/Table.tsx"],
       "@/*": [
         "./src/*"
       ],

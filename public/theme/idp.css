@@ -8,7 +8,7 @@
  *   - 文件取不到时登录页回退到内置默认外观，不会坏。
  *
  * 取值来源：
- *   浅色 = 控制台 Ant Design 主题 src/styles/theme-antd/tokens.css（--ant-*），
+ *   浅色 = 控制台 Ant Design 主题 src/theme/tokens/tokens.light.css（--ant-*），
  *          字体 = AppLayout 中的 Inter（next/font）+ 中文回退字体。
  *   深色 = 控制台上游深色主题（tailwind.config.ts 的 nb-gray / netbird 调色板）。
  *          控制台的深色模式是用户手动切换或"跟随系统"，登录页只能读到系统偏好，

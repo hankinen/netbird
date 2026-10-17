@@ -90,7 +90,7 @@ the list) and the quick jumper (前往 X 页). Upstream only has
 the only upstream file touched besides `package.json` and the lock file):
 
 ```json
-"@components/table/DataTablePagination": ["./src/styles/theme-antd/components/DataTablePagination.tsx"],
+"@components/table/DataTablePagination": ["./src/theme/components/DataTablePagination.tsx"],
 ```
 
 An exact key wins over `@components/*` in tsc, Next (Turbopack), Storybook
@@ -143,7 +143,7 @@ props type changes. Then:
    the AntD branch? (The upstream branch forwards all props anyway.)
 2. Update the wrapper, the expected type in the contract file and the hash
    (the check-selectors error prints the new one).
-3. Run `npx vitest run src/styles/theme-antd/components`, and look at the
+3. Run `npx vitest run src/theme/components`, and look at the
    stories under "Theme AntD/DataTablePagination" in both themes.
 
 If upstream renames or moves the file, the alias silently points at nothing
@@ -206,7 +206,7 @@ flags the `@depends` tokens.
 
 **表格包装组件（`components/Table.tsx`）。** 与分页组件相同的方式替换：
 `tsconfig.json` 里加一行精确别名
-`"@components/table/Table": ["./src/styles/theme-antd/components/Table.tsx"]`
+`"@components/table/Table": ["./src/theme/components/Table.tsx"]`
 （唯一的引用方是 `DataTable.tsx`），包装组件通过 `@/components/table/Table` 引入原组件并
 `export *` 其余导出。它只读 DOM、只写属性，不改任何行为：
 

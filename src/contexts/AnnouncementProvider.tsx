@@ -89,7 +89,7 @@ const getRemoteAnnouncements = async (): Promise<{
     if (stored && now - stored.timestamp < CACHE_DURATION_MS) {
       raw = stored.announcements;
     } else {
-      // @theme: remote announcements from GitHub disabled (theme-antd README
+      // @theme: remote announcements from GitHub disabled (src/theme/README.md
       // "公告横幅"). To restore, delete `raw = [];` and uncomment the fetch.
       raw = [];
       // const response = await fetch(ANNOUNCEMENTS_URL);

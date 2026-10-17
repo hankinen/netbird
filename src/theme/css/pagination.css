@@ -3,7 +3,7 @@
    rc markup never exists otherwise; the scope is kept for consistency).
    Class names are rc-pagination's own (prefixCls "rc-pagination") plus the
    nb-pagination-jump* spans from the wrapper.
-   @depends src/styles/theme-antd/components/DataTablePagination.tsx: nb-pagination-jump-icon | nb-pagination-jump-ellipsis | antd-page-size */
+   @depends src/theme/adapters/DataTablePagination.tsx: nb-pagination-jump-icon | nb-pagination-jump-ellipsis | antd-page-size */
 
 :root.theme-antd:not(.dark) .rc-pagination {
   display: flex;

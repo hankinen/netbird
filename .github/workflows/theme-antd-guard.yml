@@ -1,6 +1,6 @@
 name: Theme AntD guard
 
-# Guards the Ant Design theme layer (src/styles/theme-antd, withAntdTheme):
+# Guards the Ant Design theme layer (src/theme, withAntdTheme):
 #   selectors : class-name selectors still match upstream components
 #   dark      : dark theme unchanged vs the PR target / previous commit
 #   light     : AntD theme vs the PR target / previous commit (only intended changes)

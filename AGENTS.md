@@ -10,7 +10,7 @@ On top of upstream it carries four layers of our own:
 | Layer | What it adds | Lives in |
 | --- | --- | --- |
 | Translations | zh-CN as a first-class language next to en | `src/i18n/`, `scripts/i18n/` |
-| Ant Design theme | AntD-style light theme, phone and tablet layout, AntD pagination, tables as cards | `src/styles/theme-antd/`, `scripts/theme/` |
+| Ant Design theme | AntD-style light theme, phone and tablet layout, AntD pagination, tables as cards | `src/theme/`, `scripts/theme/` |
 | Runtime config | deployment values served from `/runtime-config.json` instead of baked into the build; immutable, precompressed assets | `src/config/runtime/`, `scripts/runtime-config/`, `scripts/build/` |
 | Container and release | nginx cache and CSP policy, config generated at container start, SSH release flow with rollback | `docker/`, `deploy/server/`, `.github/workflows/deploy.yml` |
 
@@ -28,7 +28,7 @@ take precedence there.
 | Guide | Read it before |
 | --- | --- |
 | `src/i18n/I18N.md` | adding or changing any user-visible text |
-| `src/styles/theme-antd/README.md` | touching styles, the phone layout, pagination or tables; syncing upstream |
+| `src/theme/README.md` | touching styles, the phone layout, pagination or tables; syncing upstream |
 | `src/modules/control-center/CLAUDE.md` | working in the Control Center canvas |
 | `e2e/CLAUDE.md` | writing or running Playwright specs |
 | `.storybook/visual-regression/CLAUDE.md` | judging and fixing visual differences |
@@ -69,9 +69,9 @@ take precedence there.
 
 Pick the first option that works, in this order:
 
-1. **A new file in a fork layer** (`src/i18n/`, `src/styles/theme-antd/`,
+1. **A new file in a fork layer** (`src/i18n/`, `src/theme/`,
    `src/config/runtime/`, `scripts/`, `docker/`, `deploy/`).
-2. **Theme CSS** in `src/styles/theme-antd/`, scoped to
+2. **Theme CSS** in `src/theme/`, scoped to
    `:root.theme-antd:not(.dark)`, keyed on one component's class names with an
    `@depends` annotation, within the specificity policy the theme README
    sets. `npm run theme:check-selectors` fails when upstream renames the class.
@@ -157,7 +157,7 @@ UI code:
 5. **Don't restyle shared components at the call site.** Colour, border or
    background classes passed through `className` create a one-off the next
    design change misses. A different look is a variant; an AntD-only look is
-   a rule in `src/styles/theme-antd/`.
+   a rule in `src/theme/`.
 6. **Keep logic out of components.** Data shaping, validation and permission
    rules go in plain functions or hooks next to the module, where unit tests
    can reach them.

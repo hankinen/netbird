@@ -24,7 +24,7 @@ import { NavigationEvents } from "@/contexts/NavigationEvents";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { useSignupSource } from "@/hooks/useSignupSource";
 import I18nProvider from "@/i18n/I18nProvider";
-import { HTML_THEME_PROPS } from "@/styles/theme-antd/defaultTheme";
+import { HTML_THEME_PROPS } from "@/theme/defaultTheme";
 
 const inter = localFont({
   src: "../assets/fonts/Inter.woff2",

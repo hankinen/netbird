@@ -85,7 +85,7 @@ if [ "$APPLY" = 0 ]; then
     tail -n 5 "$TMP/rebase.log" | sed 's/^/  /'
     git -C "$WT" diff --name-only --diff-filter=U | sed 's/^/  conflict: /'
     git -C "$WT" rebase --abort || true
-    die "$BRANCH does not rebase cleanly onto $UP (expected hotspots: see src/styles/theme-antd/README.md)"
+    die "$BRANCH does not rebase cleanly onto $UP (expected hotspots: see src/theme/README.md)"
   fi
   log "$BRANCH replayed onto $UP -> $(git -C "$WT" rev-parse --short HEAD)"
   [ -d "$ROOT/node_modules" ] && [ "$QUICK" = 0 ] && ln -s "$ROOT/node_modules" "$WT/node_modules"

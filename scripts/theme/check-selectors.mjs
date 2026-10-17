@@ -2,7 +2,7 @@
 // Guards the AntD theme's class-name based selectors against upstream renames.
 //
 // 1. Every `@depends <file>: <token> | <token>` annotation in
-//    src/styles/theme-antd/*.css must point at an existing file that still
+//    src/theme/**/*.css must point at an existing file that still
 //    contains each token verbatim.
 // 2. Every `[class~="x"]` selector whose token is named in an @depends must
 //    still match a class token under src/ (dead selector = upstream changed
@@ -16,7 +16,7 @@
 //      says why (inline style or an upstream `!` utility).
 //
 // 4. Replaced components: every `@replaces <file> <export> sha256:<hash>` in
-//    src/styles/theme-antd/components/*.tsx must still match the upstream
+//    src/theme/adapters/*.tsx must still match the upstream
 //    file's exported function and its props interface (whitespace-normalised).
 //
 // 5. Upstream touch points: every line of scripts/theme/touch-points.txt
@@ -32,8 +32,17 @@ const root = path.resolve(
   path.dirname(new URL(import.meta.url).pathname),
   "../..",
 );
-const themeDir = path.join(root, "src/styles/theme-antd");
-const cssFiles = fs.readdirSync(themeDir).filter((f) => f.endsWith(".css"));
+const themeDir = path.join(root, "src/theme");
+// Every stylesheet of the theme (css/, tokens/, ...), as paths relative to themeDir.
+function walkCss(dir, out = []) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) walkCss(p, out);
+    else if (e.name.endsWith(".css")) out.push(path.relative(themeDir, p));
+  }
+  return out.sort();
+}
+const cssFiles = walkCss(themeDir);
 
 function walk(dir, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -179,7 +188,7 @@ for (const file of cssFiles) {
 }
 
 let replaced = 0;
-const componentsDir = path.join(themeDir, "components");
+const componentsDir = path.join(themeDir, "adapters");
 const signatureOf = (src, name) => {
   const iface = src.match(
     new RegExp(`interface ${name}Props<TData> \\{[\\s\\S]*?\\n\\}`),
@@ -201,13 +210,13 @@ if (fs.existsSync(componentsDir))
       const [, target, name, want] = m;
       const abs = path.join(root, target);
       if (!fs.existsSync(abs)) {
-        errors.push(`components/${file}: replaced file ${target} is gone`);
+        errors.push(`adapters/${file}: replaced file ${target} is gone`);
         continue;
       }
       const sig = signatureOf(fs.readFileSync(abs, "utf8"), name);
       if (!sig) {
         errors.push(
-          `components/${file}: ${target} no longer exports function ${name}<TData>`,
+          `adapters/${file}: ${target} no longer exports function ${name}<TData>`,
         );
         continue;
       }
@@ -218,7 +227,7 @@ if (fs.existsSync(componentsDir))
         .slice(0, want.length);
       if (got !== want)
         errors.push(
-          `components/${file}: ${target} ${name} props/signature changed ` +
+          `adapters/${file}: ${target} ${name} props/signature changed ` +
             `(sha256 ${want} -> ${got}); review the wrapper, then update @replaces`,
         );
     }

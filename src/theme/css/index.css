@@ -15,7 +15,7 @@
  *   responsive.css phones / tablets below 1280px: table cards, full-screen
  *                  modals (components/Table.tsx adds the data-label hooks)
  */
-@import "./tokens.css";
+@import "../tokens/tokens.light.css";
 @import "./base.css";
 @import "./overrides.css";
 @import "./vendors.css";

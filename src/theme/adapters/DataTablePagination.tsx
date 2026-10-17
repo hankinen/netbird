@@ -32,7 +32,7 @@ import * as React from "react";
 // Non-aliased path to the upstream file (the alias would point back here).
 import { DataTablePagination as UpstreamDataTablePagination } from "@/components/table/DataTablePagination";
 import { t } from "@/i18n";
-import { ANTD_THEME_ENABLED } from "@/styles/theme-antd/defaultTheme";
+import { ANTD_THEME_ENABLED } from "@/theme/defaultTheme";
 
 export type DataTablePaginationProps<TData> = Parameters<
   typeof UpstreamDataTablePagination<TData>
