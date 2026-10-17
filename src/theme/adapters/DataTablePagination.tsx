@@ -33,6 +33,7 @@ import * as React from "react";
 import { DataTablePagination as UpstreamDataTablePagination } from "@/components/table/DataTablePagination";
 import { t } from "@/i18n";
 import { ANTD_THEME_ENABLED } from "@/theme/defaultTheme";
+import { useIsPhone } from "@/theme/hooks/useLayoutMode";
 
 export type DataTablePaginationProps<TData> = Parameters<
   typeof UpstreamDataTablePagination<TData>
@@ -62,27 +63,6 @@ export function useAntdLight() {
     subscribe,
     antdLightSnapshot,
     antdLightServerSnapshot,
-  );
-}
-
-const PHONE_QUERY = "(max-width: 767.98px)";
-// matchMedia is missing in some environments (jsdom): treat as not a phone.
-const phoneQuery = () =>
-  typeof window.matchMedia === "function"
-    ? window.matchMedia(PHONE_QUERY)
-    : null;
-function subscribePhone(onChange: () => void) {
-  const mql = phoneQuery();
-  if (!mql) return () => {};
-  mql.addEventListener("change", onChange);
-  return () => mql.removeEventListener("change", onChange);
-}
-/** True below 768px (phones): compact pagination, see README "手机端适配". */
-export function useIsPhone() {
-  return React.useSyncExternalStore(
-    subscribePhone,
-    () => phoneQuery()?.matches ?? false,
-    () => false,
   );
 }
 

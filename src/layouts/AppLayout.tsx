@@ -25,6 +25,7 @@ import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { useSignupSource } from "@/hooks/useSignupSource";
 import I18nProvider from "@/i18n/I18nProvider";
 import { HTML_THEME_PROPS } from "@/theme/defaultTheme";
+import { LayoutModeSync } from "@/theme/hooks/useLayoutMode";
 
 const inter = localFont({
   src: "../assets/fonts/Inter.woff2",
@@ -76,6 +77,8 @@ export default function AppLayout({
               />
               <NavigationEvents />
               <DisableDarkReader />
+              {/* @theme: layout mode (phone / compact / full) mirrored to <html data-layout-mode>, see src/theme/hooks/useLayoutMode.tsx */}
+              <LayoutModeSync />
             </AnalyticsProvider>
             </RuntimeConfigProvider>
           </I18nProvider>

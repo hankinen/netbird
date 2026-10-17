@@ -12,6 +12,7 @@ import { SWRConfig } from "swr";
 import { setRuntimeConfig } from "@/config/runtime/store";
 import DialogProvider from "@/contexts/DialogProvider";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
+import { LayoutModeSync } from "@/theme/hooks/useLayoutMode";
 
 dayjs.extend(relativeTime);
 // What RuntimeConfigProvider does in the app, before any story renders.
@@ -56,6 +57,7 @@ const withTheme = (
         <DialogProvider>
           <ThemeProvider>
             <TooltipProvider delayDuration={0}>
+              <LayoutModeSync />
               <div className={"bg-nb-gray min-h-screen text-nb-gray-100"}>
                 <Story />
               </div>
