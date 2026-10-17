@@ -40,6 +40,24 @@
 :root.theme-antd:is(.dark, :not(.dark)) .table-fixed-scroll > [class~="gap-x-4" i] {
   flex-wrap: wrap;
 }
+/* Flex row items must be allowed to shrink. A flex item defaults to
+   min-width:auto, i.e. its content's minimum width: with a table inside that
+   is the table's min-content width, so the item grows past the row and the
+   page pans sideways instead of the table scrolling in its wrapper. The
+   vertical-tabs pages (settings, agent network configuration, cloud
+   integrations: a `block lg:flex` row of tab list + `w-full` content pane)
+   overflowed by 40-220px at 1280 (setup keys, agent limits, cloud billing
+   with its nowrap plan buttons).
+   @depends src/components/VerticalTabs.tsx: block lg:flex
+   @depends src/app/(dashboard)/settings/page.tsx: border-l border-nb-gray-930 w-full */
+:root.theme-antd:is(.dark, :not(.dark))
+  [class~="flex" i]:not([class~="flex-col" i])
+  > :has(.table-fixed-scroll),
+:root.theme-antd:is(.dark, :not(.dark))
+  [class~="lg:flex" i]
+  > :is(:has(.table-fixed-scroll), [class~="w-full" i]) {
+  min-width: 0;
+}
 
 @media (max-width: 1279.98px) {
   /* Page header "title … actions" rows wrap the actions under the title.
