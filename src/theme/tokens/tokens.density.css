@@ -1,0 +1,62 @@
+/*
+ * Density tokens that switch with the layout mode
+ * (src/theme/tokens/breakpoints.ts: phone < 768, compact < 1280, full).
+ *
+ * The idea: a control never knows which device it is on. It reads
+ * `var(--ctl-h)` and gets 32px on a desktop and 40px on a phone because this
+ * file changed the variable, not because the control branched. The widths
+ * below must be the contract's (breakpoints.test.ts checks).
+ *
+ * Consumers today: the shell, templates and adapters under src/theme. The
+ * light theme's `--ant-control-height` and table paddings in tokens.light.css
+ * are rebased onto these in P1, when the Button / Input / Table adapters take
+ * over from the class-name overrides in css/density.css.
+ */
+:root.theme-antd {
+  /* controls */
+  --ctl-h-sm: 24px;
+  --ctl-h: 32px;
+  --ctl-h-lg: 40px;
+  --ctl-font: 14px;
+  --ctl-px: 11px;
+  --ctl-gap: 8px;
+  /* tables */
+  --row-h: 48px;
+  --row-h-lg: 56px;
+  --cell-py: 12px;
+  --cell-px: 16px;
+  /* page */
+  --page-px: 24px;
+  --page-py: 16px;
+  --section-gap: 16px;
+  --toolbar-gap: 12px;
+  /* shell */
+  --header-h: 48px;
+  --sider-w: 240px;
+  --sider-w-collapsed: 56px;
+  --bottombar-h: 56px;
+  --touch-target: 32px;
+}
+
+/* compact: tablets and small laptops */
+@media (max-width: 1279.98px) {
+  :root.theme-antd {
+    --page-px: 16px;
+  }
+}
+
+/* phone */
+@media (max-width: 767.98px) {
+  :root.theme-antd {
+    --ctl-h: 40px;
+    --ctl-h-lg: 44px;
+    --ctl-font: 16px; /* below 16px iOS Safari zooms the page on focus */
+    --cell-py: 10px;
+    --cell-px: 12px;
+    --page-px: 12px;
+    --page-py: 12px;
+    --section-gap: 12px;
+    --toolbar-gap: 8px;
+    --touch-target: 40px;
+  }
+}

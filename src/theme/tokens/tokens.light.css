@@ -50,6 +50,56 @@
 
   --ant-control-outline: rgba(5, 145, 255, 0.1);
   --ant-focus-ring: 0 0 0 2px rgba(22, 119, 255, 0.2);
+
+  /* ---- semantic colours completing the AntD v5 map (P0 additions) ---- */
+  --ant-color-info: #1677ff;
+  --ant-color-info-bg: #e6f4ff;
+  --ant-color-info-border: #91caff;
+  --ant-color-info-text: #0958d9;
+  --ant-color-success: #52c41a;
+  --ant-color-warning: #faad14;
+  --ant-color-link: #1677ff;
+  --ant-color-link-hover: #69b1ff;
+  --ant-color-link-active: #0958d9;
+  --ant-color-fill-tertiary: rgba(0, 0, 0, 0.04);
+  --ant-color-fill-quaternary: rgba(0, 0, 0, 0.02);
+  --ant-color-bg-elevated: #fff;
+  --ant-color-bg-spotlight: rgba(0, 0, 0, 0.85);
+  --ant-color-bg-mask: rgba(0, 0, 0, 0.45);
+  --ant-color-split: rgba(5, 5, 5, 0.06);
+  --ant-color-icon: rgba(0, 0, 0, 0.45);
+  --ant-color-icon-hover: rgba(0, 0, 0, 0.88);
+  --ant-color-text-heading: rgba(0, 0, 0, 0.88);
+  --ant-color-text-label: rgba(0, 0, 0, 0.65);
+  --ant-color-text-description: rgba(0, 0, 0, 0.45);
+  --ant-color-text-placeholder: rgba(0, 0, 0, 0.25);
+
+  /* ---- component tokens (decisions 1 and 6: dark sider, AntD blue) ---- */
+  --sider-bg: #001529;
+  --sider-fg: rgba(255, 255, 255, 0.65);
+  --sider-fg-active: #fff;
+  --sider-group-fg: rgba(255, 255, 255, 0.45);
+  --sider-hover-bg: rgba(255, 255, 255, 0.08);
+  --sider-active-bg: var(--ant-color-primary);
+  --sider-border: transparent;
+  --sider-logo-fg: #fff;
+  --header-bg: var(--ant-color-bg-container);
+  --header-border: var(--ant-color-border-secondary);
+  --header-fg: var(--ant-color-text);
+  --appbar-bg: var(--ant-color-bg-container);
+  --bottombar-bg: var(--ant-color-bg-container);
+  --bottombar-border: var(--ant-color-border-secondary);
+  --page-bg: var(--ant-color-bg-layout);
+  --surface-bg: var(--ant-color-bg-container);
+  --surface-border: var(--ant-color-border-secondary);
+  --table-header-bg: var(--ant-color-fill-alter);
+  --table-header-fg: var(--ant-color-text);
+  --table-row-border: var(--ant-color-border-secondary);
+  --table-row-hover-bg: var(--ant-color-fill-alter);
+  --table-row-selected-bg: var(--ant-color-primary-bg);
+  --tag-default-bg: var(--ant-color-fill-alter);
+  --tag-default-border: var(--ant-color-border);
+  --tag-default-fg: var(--ant-color-text);
   /* density (AntD middle) */
   --ant-control-height: 32px;
   --ant-control-height-lg: 40px;

@@ -3,7 +3,9 @@
  * Active only on <html class="theme-antd"> while not in dark mode, so the dark
  * theme and the upstream light theme are untouched. See README.md.
  *
- *   tokens.css     design tokens (AntD names) + Tailwind palette variables
+ *   tokens/tokens.base.css     typography, spacing, motion, z-index (any colour mode)
+ *   tokens/tokens.density.css  control / table / page density per layout mode
+ *   tokens/tokens.light.css    colours (AntD v5 names), component tokens, Tailwind palette variables
  *   base.css       element defaults, zero/low specificity (utilities win)
  *   overrides.css  component fixes keyed on upstream class names (fragile,
  *                  every rule annotated with @depends, checked by
@@ -11,10 +13,12 @@
  *   vendors.css    third-party libraries (React Flow / control centre)
  *   density.css    control heights, table cell padding (AntD middle)
  *   pagination.css @rc-component/pagination styled as AntD v5 Pagination
- *                  (components/DataTablePagination.tsx)
+ *                  (../adapters/DataTablePagination.tsx)
  *   responsive.css phones / tablets below 1280px: table cards, full-screen
- *                  modals (components/Table.tsx adds the data-label hooks)
+ *                  modals (../adapters/Table.tsx adds the data-label hooks)
  */
+@import "../tokens/tokens.base.css";
+@import "../tokens/tokens.density.css";
 @import "../tokens/tokens.light.css";
 @import "./base.css";
 @import "./overrides.css";

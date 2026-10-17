@@ -24,7 +24,10 @@ function currentMode(): LayoutMode {
 function subscribe(onChange: () => void) {
   if (typeof window === "undefined" || typeof window.matchMedia !== "function")
     return () => {};
-  const queries = [window.matchMedia(MEDIA.phone), window.matchMedia(MEDIA.full)];
+  const queries = [
+    window.matchMedia(MEDIA.phone),
+    window.matchMedia(MEDIA.full),
+  ];
   for (const q of queries) q.addEventListener?.("change", onChange);
   return () => {
     for (const q of queries) q.removeEventListener?.("change", onChange);

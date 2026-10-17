@@ -57,3 +57,8 @@ html:where(.theme-antd:not(.dark))
   outline: none;
   box-shadow: var(--ant-focus-ring);
 }
+
+/* Numbers in tables line up (IPs, versions, counts, dates). */
+html:where(.theme-antd:not(.dark)) table {
+  font-variant-numeric: tabular-nums;
+}

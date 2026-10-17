@@ -1,0 +1,65 @@
+/*
+ * Mode-independent tokens: typography, spacing, motion and layering.
+ * Scope `:root.theme-antd` = any colour mode of a build with the AntD theme
+ * on. Colours live in tokens.light.css (and tokens.dark.css once P5 adds
+ * it); density values that change with the layout mode live in
+ * tokens.density.css. Nothing in here is consumed by upstream code: the
+ * shell, templates and adapters (src/theme) read these variables.
+ */
+:root.theme-antd {
+  /* ---- typography ---- */
+  /* Latin comes from the Inter font that AppLayout loads with next/font; its
+     fallback list carries the CJK stack (see src/layouts/AppLayout.tsx), so
+     `inherit` is the right family for anything inside <body>. The explicit
+     stacks are for text rendered outside it (portals before hydration,
+     canvases, the IdP login page). */
+  --font-family: inherit;
+  --font-family-cjk: "Inter", -apple-system, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", sans-serif;
+  --font-family-mono: ui-monospace, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", "Noto Sans Mono CJK SC", monospace;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 24px;
+  --line-height: 1.5715;
+  --line-height-tight: 1.3;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-strong: 600;
+
+  /* ---- spacing (8pt grid, 4px half step) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* ---- motion ---- */
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 300ms;
+  --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  /* ---- layering ---- */
+  --z-header: 100;
+  --z-sider: 110;
+  --z-bottombar: 120;
+  --z-drawer: 1000;
+  --z-modal: 1100;
+  --z-popover: 1150;
+  --z-toast: 1200;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root.theme-antd {
+    --motion-fast: 0ms;
+    --motion-base: 0ms;
+    --motion-slow: 0ms;
+  }
+}

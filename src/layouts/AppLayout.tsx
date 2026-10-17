@@ -30,6 +30,16 @@ import { LayoutModeSync } from "@/theme/hooks/useLayoutMode";
 const inter = localFont({
   src: "../assets/fonts/Inter.woff2",
   display: "swap",
+  // @theme: CJK fallback so zh-CN text renders in the platform's Chinese
+  // font (per-glyph fallback: Inter still draws every Latin character).
+  fallback: [
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    "Noto Sans SC",
+    "sans-serif",
+  ],
 });
 
 // Extend dayjs with relativeTime plugin
@@ -77,7 +87,8 @@ export default function AppLayout({
               />
               <NavigationEvents />
               <DisableDarkReader />
-              {/* @theme: layout mode (phone / compact / full) mirrored to <html data-layout-mode>, see src/theme/hooks/useLayoutMode.tsx */}
+              {/* @theme: layout mode (phone / compact / full) mirrored to
+                  <html data-layout-mode>, see src/theme/hooks/useLayoutMode.tsx */}
               <LayoutModeSync />
             </AnalyticsProvider>
             </RuntimeConfigProvider>

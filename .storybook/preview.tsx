@@ -1,11 +1,9 @@
 import "../src/app/globals.css";
-import { setApiOverrides } from "./mocks/api";
-import storybookConfig from "./mocks/config";
-import type { Preview } from "@storybook/nextjs-vite";
 import { TooltipProvider } from "@components/Tooltip";
-import { MotionConfig } from "framer-motion";
+import type { Preview } from "@storybook/nextjs-vite";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { MotionConfig } from "framer-motion";
 import localFont from "next/font/local";
 import React from "react";
 import { SWRConfig } from "swr";
@@ -13,6 +11,8 @@ import { setRuntimeConfig } from "@/config/runtime/store";
 import DialogProvider from "@/contexts/DialogProvider";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { LayoutModeSync } from "@/theme/hooks/useLayoutMode";
+import { setApiOverrides } from "./mocks/api";
+import storybookConfig from "./mocks/config";
 
 dayjs.extend(relativeTime);
 // What RuntimeConfigProvider does in the app, before any story renders.
@@ -21,6 +21,15 @@ setRuntimeConfig(storybookConfig);
 const inter = localFont({
   src: "../src/assets/fonts/Inter.woff2",
   display: "block",
+  // Same CJK fallback as AppLayout, so stories render zh-CN like the app.
+  fallback: [
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    "Noto Sans SC",
+    "sans-serif",
+  ],
 });
 
 /* ThemeProvider reads the theme from localStorage, the same as the app,
