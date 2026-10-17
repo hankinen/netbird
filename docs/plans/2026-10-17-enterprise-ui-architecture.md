@@ -506,6 +506,30 @@ P0 的"快速修复问题 #1"单独成一个小 PR 先上线，不等整体。
 
 ---
 
+## 12. 执行记录
+
+### P0（2026-10-17）
+
+| 项 | 状态 | 提交 / 证据 |
+| --- | --- | --- |
+| 决策定稿 | 完成 | `docs(plans): record the nine UI architecture decisions` |
+| 目录迁移 `src/styles/theme-antd` → `src/theme/{tokens,css,adapters,hooks}` | 完成 | `refactor(theme): move src/styles/theme-antd to src/theme`；check-selectors 改为遍历 `src/theme` 下全部样式、读 `adapters/` 的 `@replaces` |
+| 布局模式契约 | 完成 | `feat(theme): layout-mode contract`：`tokens/breakpoints.ts`、`hooks/useLayoutMode.tsx`（`useLayoutMode` / `useIsPhone` / `LayoutModeSync`）、断点一致性测试；`AppLayout` 挂载（touch point）；分页 adapter 改用共享 hook |
+| token 扩展 | 完成 | `feat(theme): token expansion`：`tokens.base.css`（字体 / CJK 栈 / 字号 / 间距 / 动效 / z-index）、`tokens.density.css`（随模式切换的控件 / 表格 / 页面密度）、`tokens.light.css` 补齐语义色与外壳组件 token（深色侧栏）；Inter 字体加 CJK fallback；表格 tabular-nums。消费方在 P1 的 adapters 中切换 |
+| 问题 #1：1440 横向溢出 | 完成 | `fix(theme): tables scroll in their own box and toolbars wrap at every width`；验证：`evidence/2026-10-17-ui-audit/peers-1440-after-p0.png`（页面横向溢出 0px，Add Peer 可见，工具栏换行，表格在自己的框内横滚） |
+| 桌面溢出守卫 | 完成 | `mobile-guard.mjs` 新增 `--desktop-vp 1280,1440` 轮次（默认开启，CI 自动覆盖）；`THEME_GUARD_CHROMIUM` 允许使用预装浏览器 |
+| 规则与文档 | 完成 | 暗色不再要求与上游像素一致（两种主题都对上一个已批准提交做视觉审阅）：`src/theme/README.md`、`AGENTS.md`、`theme-antd-guard.yml` 已更新 |
+
+P0 验收：`check-selectors`、`tsc`、`vitest`（含新测试）、changed-files eslint（无新增告警）通过；
+`mobile-guard`（375 / 390 / 768 / 360 / 1280 / 1440）全量运行的结果在本节下方补记。
+
+**P0 留下的已知事项**
+- `--ant-control-height` 等旧 token 仍是独立数值，P1 在 Button / Input / Table adapters 落地时改为引用 `--ctl-h` 等密度 token。
+- 1440 下 Peers 工具栏换行后第二行只有「刷新」和「Add Peer」，视觉上偏松；P1 的 `Toolbar`（container query 收纳次要项）解决。
+- 上游 `README.md` 的本地开发说明与 `.storybook/visual-regression/README.md` 的 `config.json` 描述已过期（运行时配置改造遗留），与本计划无关，另行处理。
+
+---
+
 ## 附录 A：Peers 列表在三种模式下的目标线框
 
 ```

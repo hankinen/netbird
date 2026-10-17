@@ -1,20 +1,26 @@
 #!/usr/bin/env node
-// Phone/tablet guard for the AntD theme (light and dark colour mode).
-// Opens every page story at phone and tablet widths and measures how far the
-// page can be scrolled sideways (document + PageContainer scroller). Fails when
-// a story overflows more than scripts/theme/mobile-allow.json allows.
+// Overflow guard for the AntD theme (light and dark colour mode), phones,
+// tablets AND desktops. Opens every page story at each width and measures how
+// far the page can be scrolled sideways (document + PageContainer scroller).
+// Fails when a story overflows more than scripts/theme/mobile-allow.json
+// allows. Desktop widths (--desktop-vp, default 1280,1440: the layout-mode
+// boundary and the common laptop width with the sider open) catch toolbars
+// and tables that push the primary action off screen; only the overflow
+// check runs there.
 // Below 768px it also checks the layout (not allowlistable):
 //   - no flex row shows two tall (>= 150px) blocks side by side (detail
 //     pages' info card + groups/role column must stack);
 //   - every visible table with a header row is laid out as cards.
-// Passes: light at --vp (375,390,768), dark at --dark-vp (390), and the
-// detail-page stories (id matches --narrow-filter, "detail") at 360 light+dark.
+// Passes: light at --vp (375,390,768), dark at --dark-vp (390), the
+// detail-page stories (id matches --narrow-filter, "detail") at 360 light+dark,
+// and light at --desktop-vp (1280,1440).
 // Allowlist keys: <story>@<width> (light), <story>@<width>:dark.
 //
 //   node scripts/theme/mobile-guard.mjs                    # builds Storybook first
 //   node scripts/theme/mobile-guard.mjs --storybook <dir>  # reuse a static build
 //   options: --vp 375,390,768  --dark-vp 390  --narrow-vp 360  --narrow-filter detail
-//            --filter pages-  --concurrency N  --update  --report <file.json>
+//            --desktop-vp 1280,1440  --filter pages-  --concurrency N  --update
+//            --report <file.json>
 // --update rewrites the allowlist with today's numbers (review the diff!).
 import { execFileSync } from "node:child_process";
 import * as fs from "node:fs";
@@ -40,6 +46,7 @@ const passes = [
     { vw, theme: "light", only: narrowRe },
     { vw, theme: "dark", only: narrowRe },
   ]),
+  ...list(flag("desktop-vp", "1280,1440")).map((vw) => ({ vw, theme: "light" })),
 ];
 const filter = flag("filter", "pages-");
 const concurrency = Number(flag("concurrency", Math.min(6, os.availableParallelism())));
@@ -62,6 +69,9 @@ const allow = fs.existsSync(ALLOW) ? JSON.parse(fs.readFileSync(ALLOW, "utf8")) 
 const server = await serve(dir);
 const base = `http://127.0.0.1:${server.address().port}`;
 const browser = await chromium.launch({
+  // Escape hatch for machines that cannot download the pinned browser
+  // (offline runners, sandboxes with a preinstalled Chromium).
+  executablePath: process.env.THEME_GUARD_CHROMIUM || undefined,
   args: ["--hide-scrollbars", "--disable-background-timer-throttling", "--disable-renderer-backgrounding", "--disable-backgrounding-occluded-windows"],
 });
 
@@ -75,9 +85,9 @@ for (const { vw, theme, only } of passes) {
   await Promise.all(
     Array.from({ length: concurrency }, async () => {
       const context = await browser.newContext({
-        viewport: { width: vw, height: vw < 700 ? 812 : 1024 },
+        viewport: { width: vw, height: vw < 700 ? 812 : vw < 1280 ? 1024 : 900 },
         isMobile: vw < 700,
-        hasTouch: true,
+        hasTouch: vw < 1280,
         reducedMotion: "reduce",
         timezoneId: "UTC",
         locale: "en-US",
@@ -133,7 +143,7 @@ for (const [k, v] of Object.entries(layout)) console.error(`✗ ${k}: ${v.join("
 for (const e of errors) console.error(`! ${e}`);
 if (fixed.length) console.log(`fixed, can be removed from mobile-allow.json:\n  ${fixed.join("\n  ")}`);
 if (failures.length || Object.keys(layout).length) process.exit(1);
-console.log(`✓ theme:mobile-guard: no new sideways overflow (${Object.keys(allow).length} known, listed in mobile-allow.json)`);
+console.log(`✓ theme:mobile-guard: no new sideways overflow on phones, tablets or desktops (${Object.keys(allow).length} known, listed in mobile-allow.json)`);
 
 function withTimeout(promise, ms) {
   let timer;

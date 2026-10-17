@@ -10,7 +10,7 @@ On top of upstream it carries four layers of our own:
 | Layer | What it adds | Lives in |
 | --- | --- | --- |
 | Translations | zh-CN as a first-class language next to en | `src/i18n/`, `scripts/i18n/` |
-| Ant Design theme | AntD-style light theme, phone and tablet layout, AntD pagination, tables as cards | `src/theme/`, `scripts/theme/` |
+| Ant Design theme | AntD-style light theme, the layout-mode contract (phone / compact / full), phone and tablet layout, AntD pagination, tables as cards | `src/theme/`, `scripts/theme/` |
 | Runtime config | deployment values served from `/runtime-config.json` instead of baked into the build; immutable, precompressed assets | `src/config/runtime/`, `scripts/runtime-config/`, `scripts/build/` |
 | Container and release | nginx cache and CSP policy, config generated at container start, SSH release flow with rollback | `docker/`, `deploy/server/`, `.github/workflows/deploy.yml` |
 
@@ -28,7 +28,8 @@ take precedence there.
 | Guide | Read it before |
 | --- | --- |
 | `src/i18n/I18N.md` | adding or changing any user-visible text |
-| `src/theme/README.md` | touching styles, the phone layout, pagination or tables; syncing upstream |
+| `docs/plans/2026-10-17-enterprise-ui-architecture.md` | any work on the shell, page templates, adapters or responsive behaviour: it holds the decisions and the roadmap |
+| `src/theme/README.md` | touching styles, the layout modes, the phone layout, pagination or tables; syncing upstream |
 | `src/modules/control-center/CLAUDE.md` | working in the Control Center canvas |
 | `e2e/CLAUDE.md` | writing or running Playwright specs |
 | `.storybook/visual-regression/CLAUDE.md` | judging and fixing visual differences |
@@ -86,13 +87,18 @@ Pick the first option that works, in this order:
 
 Whatever the option:
 
-- The dark theme and `NEXT_PUBLIC_DEFAULT_THEME=light|dark` builds stay
-  pixel-identical to upstream. The dark guard in CI fails on a single changed
-  story; only an upstream sync may change dark, and only where upstream did.
+- Builds without the AntD theme (`NEXT_PUBLIC_DEFAULT_THEME=light|dark`)
+  stay pixel-identical to upstream. The dark theme of the AntD build is no
+  longer held to upstream pixel parity (architecture decision 4): the visual
+  guard compares both themes with the previous approved commit and every
+  change, dark or light, is reviewed from the screenshots.
 - Do not reformat, reorder or "tidy" upstream code you don't need to touch.
-- Below 1280px the responsive layer owns layout; above it desktop must not
-  move. New UI has to work in AntD light, upstream light and dark, and on a
-  phone (the mobile guard checks every page story at 375, 390 and 768px).
+- Layout follows the three modes in `src/theme/tokens/breakpoints.ts`:
+  phone below 768, compact below 1280, full above. Styling differences are
+  media queries with those widths (the breakpoint test rejects any other);
+  behaviour differences use `useLayoutMode()`. New UI has to work in all three
+  modes and both colour modes; the overflow guard checks every page story at
+  375, 390, 768, 1280 and 1440px.
 - Generated files are regenerated, never edited:
   `src/i18n/*.generated.*` by `npm run i18n:types`.
 
@@ -171,7 +177,7 @@ ones still pass. Update the suites as part of the same change.
 | --- | --- | --- | --- |
 | Unit (Vitest) | `*.test.ts(x)` next to the code | Pure logic, hooks, small components, the runtime-config contract | `npm run test:unit` |
 | Stories + visual regression | `*.stories.tsx` next to the component or page | How every component and page looks, including open menus and modals | `npm run test:visual` |
-| Theme guards | `scripts/theme/` | Selectors and touch points still match upstream; dark unchanged; light changes reviewed; no phone overflow | `npm run theme:check-selectors`, `theme:visual-guard`, `theme:mobile-guard` |
+| Theme guards | `scripts/theme/`, `src/theme/**/*.test.ts(x)` | Selectors and touch points still match upstream; visual changes in both themes reviewed; no sideways overflow on phones, tablets or desktops; breakpoint contract | `npm run theme:check-selectors`, `theme:visual-guard`, `theme:mobile-guard`, `npx vitest run src/theme` |
 | i18n checks | `scripts/i18n/` | Key parity, size caps, interpolation, untranslated values | `npm run i18n:check` |
 | Container and release | `docker/tests/`, `deploy/server/test-deploy-script.sh` | Config generator, nginx header policy, image smoke test, release script against a fake docker | `bash docker/tests/gen_runtime_config.test.sh`, see `docker/README.md` |
 | End-to-end (Playwright) | `e2e/tests/*.spec.ts` | User flows against a real backend | `npm run test`, see `e2e/CLAUDE.md` |
@@ -189,9 +195,9 @@ When you:
 - **change anything visible**: run `npm run test:visual` and follow
   `.storybook/visual-regression/CLAUDE.md`; every remaining difference must
   be intended;
-- **touch the theme or anything under 1280px**: run the three theme guards;
-  a light-theme change is reviewed from the screenshots, a dark change is a
-  bug;
+- **touch the theme, the shell or layout at any width**: run the three theme
+  guards and `npx vitest run src/theme`; every visual change, dark or light,
+  is reviewed from the screenshots;
 - **add or change text**: `npm run i18n:types` when keys changed, then
   `npm run i18n:check`;
 - **change the config contract, the image or the release script**: run the
@@ -219,8 +225,8 @@ Node 24 and `npm ci` first (older Node warns but runs). Then:
 - `npm run i18n:check` whenever text changed; `npm run i18n:types` first if
   keys were added or removed.
 - `npm run theme:check-selectors` whenever styles, `tsconfig.json` paths or a
-  file with an `@theme` marker changed; the visual and mobile guards for
-  anything under 1280px or in the theme.
+  file with an `@theme` marker changed; the visual and overflow guards for
+  anything in the theme or that changes layout at any width.
 - `npm run test:visual` for UI changes, with every difference intended.
 - E2E specs for the flows you touched, or say plainly that you couldn't run
   them (they need the Docker environment from `npm run test:setup`).

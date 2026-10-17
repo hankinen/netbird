@@ -1,4 +1,4 @@
-# Ant Design theme (dev branch)
+# Theme (`src/theme`): Ant Design look, layout modes, adapters
 
 An Ant Design style light theme layered on top of the upstream dashboard
 without editing components, so upstream merges stay conflict free.
@@ -13,22 +13,64 @@ without editing components, so upstream merges stay conflict free.
 | `light`          | `light`            | upstream light theme                    |
 | `dark`           | `dark`             | upstream default                        |
 
-Every rule is scoped to `:root.theme-antd:not(.dark)`, so the dark theme and the
-upstream light theme render exactly as upstream.
+Colour rules are scoped to `:root.theme-antd:not(.dark)`; the responsive layer,
+the layout-mode tokens and the shell / adapters (P1 on) apply to both colour
+modes of an AntD build. Builds without `theme-antd` render exactly as upstream.
+Since P0 of the UI architecture (`docs/plans/2026-10-17-enterprise-ui-architecture.md`)
+the dark theme is **no longer** promised to be pixel-identical to upstream; see
+"Merging upstream".
 
 ## Files
 
-| file               | role                                                                                                    |
-| ------------------ | ------------------------------------------------------------------------------------------------------- |
-| `tokens.css`       | AntD v5 tokens (`--ant-*`), the only place with literal colours                                         |
-| `withAntdTheme.ts` | wraps `tailwind.config.ts`: `netbird` / `nb-gray` / radius / shadow become `var(--x, <upstream value>)` |
-| `base.css`         | element defaults, specificity below any utility                                                         |
-| `overrides.css`    | component fixes keyed on upstream class names, each with `@depends`                                     |
-| `vendors.css`      | third-party widgets: React Flow, sonner, Radix portals, timescape, xterm                                |
-| `density.css`      | AntD "middle" density: 32px controls, 12px/16px table cells                                             |
-| `responsive.css`   | phones / tablets (< 1280px only), see "手机端适配" below                                                 |
-| `components/`      | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`                        |
-| `defaultTheme.ts`  | env switch, `<html>` props, ThemeProvider default                                                       |
+```
+src/theme/
+  tokens/   breakpoints.ts, tokens.base.css, tokens.density.css, tokens.light.css
+  css/      index.css, base.css, overrides.css, vendors.css, density.css, pagination.css, responsive.css
+  adapters/ components swapped in through tsconfig `paths`: DataTablePagination, Table (+ .contract.ts, stories, tests)
+  hooks/    useLayoutMode.tsx (useLayoutMode, useIsPhone, LayoutModeSync)
+  shell/    app shell (P1)        templates/ page templates (P1+)
+  defaultTheme.ts, withAntdTheme.ts, README.md
+```
+
+| file                        | role                                                                                                    |
+| --------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `tokens/breakpoints.ts`     | the layout-mode contract: `BREAKPOINTS` (768, 1280), `MEDIA` queries, `layoutModeFor()`; its test fails on any other width in the theme CSS |
+| `tokens/tokens.base.css`    | any colour mode: font stacks (CJK, mono), size scale, spacing, motion, z-index                          |
+| `tokens/tokens.density.css` | control / table / page density per layout mode (`--ctl-h` 32px desktop, 40px phone, …)                  |
+| `tokens/tokens.light.css`   | AntD v5 colour tokens (`--ant-*`), component tokens (sider, header, table, tag), Tailwind palette variables; the only place with literal colours |
+| `withAntdTheme.ts`          | wraps `tailwind.config.ts`: `netbird` / `nb-gray` / radius / shadow become `var(--x, <upstream value>)` |
+| `css/base.css`              | element defaults, specificity below any utility; tabular numerals in tables                             |
+| `css/overrides.css`         | component fixes keyed on upstream class names, each with `@depends` (shrinks as adapters take over)     |
+| `css/vendors.css`           | third-party widgets: React Flow, sonner, Radix portals, timescape, xterm                                |
+| `css/density.css`           | AntD "middle" density keyed on upstream classes: 32px controls, 12px/16px table cells (P1: adapters)    |
+| `css/responsive.css`        | phones / tablets (and R1 at every width), see "手机端适配" below                                        |
+| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`                        |
+| `hooks/useLayoutMode.tsx`   | `useLayoutMode()` → `phone` / `compact` / `full`, `useIsPhone()`, `LayoutModeSync` (`<html data-layout-mode>`) |
+| `defaultTheme.ts`           | env switch, `<html>` props, ThemeProvider default                                                       |
+
+## Layout modes
+
+One DOM, three layout modes (architecture section 5):
+
+| mode      | width          | what changes                                                        |
+| --------- | -------------- | ------------------------------------------------------------------- |
+| `phone`   | < 768px        | AppBar + drawer, tables as cards, full-screen sheets, 40px controls |
+| `compact` | 768 – 1279px   | collapsed sider, tables scroll in their box, 16px page padding      |
+| `full`    | ≥ 1280px       | full sider, desktop layout                                          |
+
+- **CSS first.** Pure styling differences use media queries with the contract's
+  widths (`767.98px`, `1279.98px`, `768px`, `1280px`); `breakpoints.test.ts`
+  rejects any other `(min|max)-width` under `src/theme`. The first paint of
+  the static export is therefore right before any JavaScript runs.
+- **JS for behaviour.** `useLayoutMode()` (matchMedia, server snapshot `full`)
+  is for what CSS cannot express: Modal vs Sheet, where the page header
+  renders, a Select that opens as a bottom panel. `LayoutModeSync`, mounted
+  in `AppLayout` and the Storybook preview, mirrors the mode to
+  `<html data-layout-mode>`; CSS may key on it only for JS-dependent states,
+  never for the first paint.
+- **Density by variable.** A control reads `var(--ctl-h)` and gets 32px on a
+  desktop and 40px on a phone because `tokens.density.css` switched the
+  variable, not because the control branched.
 
 Upstream touch points (the only conflict hotspots): one import + `export default
 withAntdTheme(config)` in `tailwind.config.ts`, the first line of
@@ -78,7 +120,7 @@ last two points.
 
 ## Pagination component replacement
 
-**What.** `components/DataTablePagination.tsx` replaces
+**What.** `adapters/DataTablePagination.tsx` replaces
 `src/components/table/DataTablePagination.tsx` (rendered once, by
 `DataTable.tsx`, so every table). It shows the full AntD pagination: total
 count (共 N 条), page list with ••• jumpers (« / » on hover), prev/next, page
@@ -90,7 +132,7 @@ the list) and the quick jumper (前往 X 页). Upstream only has
 the only upstream file touched besides `package.json` and the lock file):
 
 ```json
-"@components/table/DataTablePagination": ["./src/theme/components/DataTablePagination.tsx"],
+"@components/table/DataTablePagination": ["./src/theme/adapters/DataTablePagination.tsx"],
 ```
 
 An exact key wins over `@components/*` in tsc, Next (Turbopack), Storybook
@@ -136,7 +178,7 @@ everywhere. The CSS rule hiding the toolbar button must go too (last rule in
 **When upstream changes `DataTablePagination`.**
 `npm run theme:check-selectors` fails when the upstream props interface or
 export line changes. The wrapper's `@replaces … sha256:` comment holds the
-hash. `tsc` fails via `components/DataTablePagination.contract.ts` when the
+hash. `tsc` fails via `adapters/DataTablePagination.contract.ts` when the
 props type changes. Then:
 
 1. Read the upstream diff. Does a new prop or behaviour need a counterpart in
@@ -173,10 +215,10 @@ upstream rewrites `LoadingIcon` (no `<rect><animate>` children) the `:has()`
 selector stops matching and the upstream loader shows as is; check-selectors
 flags the `@depends` tokens.
 
-## 手机端适配（responsive.css + components/Table.tsx）
+## 手机端适配（responsive.css + adapters/Table.tsx）
 
 原则：**桌面优先、单一代码库**。所有规则都在 `max-width: 1279.98px` /
-`767.98px` 媒体查询或 `(pointer: coarse)` 里，所以 ≥1280px 的桌面（浅色、暗色）与之前逐像素一致。
+`767.98px` 媒体查询或 `(pointer: coarse)` 里，所以除 R1 外 ≥1280px 的桌面（浅色、暗色）与之前逐像素一致（R1 自 P0 起在所有宽度生效，见下表）。
 没有改任何页面代码；表格转卡片是**同一个 `<table>`** 用 CSS 重新排版。
 
 **暗色模式也生效。** 和其他主题文件不同，`responsive.css` 的作用域是
@@ -196,17 +238,17 @@ flags the `@depends` tokens.
 
 | 编号 | 做什么 | 为什么 | 怎么关 |
 | ---- | ------ | ------ | ------ |
-| R1 `< 1280px` | `.table-fixed-scroll` 改为 `display:block`，表格工具栏（搜索 / 筛选 / 按钮）允许换行；页面头部「标题 … 操作」行（`justify-between max-w-6xl`）放不下时把操作按钮换到标题下面；含 `.truncate` 文本（如 `TextWithTooltip`）的 flex / grid 子项 `min-width:0`（带显式 `min-w-*` 的除外，如 15rem 侧栏） | 上游 `globals.css` 把它设成 `display:table`，外层被表格撑宽，`Table` 自带的 `overflow-x-auto` 永远不滚动，整页横向溢出（上游在 1280 也有这个问题，但 1280 起不改，保证桌面一致）；flex 子项默认 `min-width:auto`，外层不能收缩，`truncate` 的省略号永远不出现，超长主机名 / 邮箱把整页撑宽（peer 详情页 375 +157px、768 +245px） | 删 R1 块中对应规则 |
+| R1 所有宽度（其余子项 `< 1280px`） | `.table-fixed-scroll` 改为 `display:block`，表格工具栏（搜索 / 筛选 / 按钮）允许换行（这两条在所有宽度生效）；页面头部「标题 … 操作」行（`justify-between max-w-6xl`）放不下时把操作按钮换到标题下面；含 `.truncate` 文本（如 `TextWithTooltip`）的 flex / grid 子项 `min-width:0`（带显式 `min-w-*` 的除外，如 15rem 侧栏） | 上游 `globals.css` 把它设成 `display:table`，外层被表格撑宽，`Table` 自带的 `overflow-x-auto` 永远不滚动，整页横向溢出（1440 宽、侧栏展开时 Peers 的工具栏和表格也溢出，Add Peer 被挤出屏幕，见 `docs/plans/evidence/2026-10-17-ui-audit/peers-1440.png`，所以 P0 起这两条在所有宽度生效）；flex 子项默认 `min-width:auto`，外层不能收缩，`truncate` 的省略号永远不出现，超长主机名 / 邮箱把整页撑宽（peer 详情页 375 +157px、768 +245px） | 删 R1 块中对应规则 |
 | R2 `768–1279px` | 行操作列（⋮ 菜单，`data-nb-cell="trail"`）`position:sticky; right:0`，背景跟随行的 hover / 选中色 | 平板上表格在自己的框内横向滚动，操作按钮常在最右侧看不到 | 删 R2 块 |
 | R3 `< 768px` | 通用防溢出：`inline-flex gap-4` 按钮组（以及其中嵌套的 `flex gap-4` 按钮组）换行；页面标题（h1/h2 以及 `whitespace-nowrap text-xl` 标题行）里的长名称可断行；Radix 弹层（菜单、下拉、Popover）最大宽度 `100vw - 16px`；输入框 / 文本域 / select 字号 16px；日期范围选择器固定在屏幕顶部（左右各 8px，可纵向滚动），底部「起 - 止」时间输入框上下排列；详情页左右两栏（`flex gap-10 max-w-6xl items-start`，用户详情 / 网络详情 / peer 详情）改为上下排列；「标签 … 输入组」设置行（`justify-between gap-10` 且控件是 `w-full flex gap-3`，如 认证 → 会话过期的「数字 + 小时」）控件放到标签下面；活动日志条目的日期换到「用户 · 邮箱」下面；功能卡片（`FeatureCard`，IdP 同步 / MFA 等，页面会传更大的 `min-w-*`）最大宽度 100%、文字换行 | 375px 下 336/419 个页面 story 横向溢出；iOS Safari 在字号 < 16px 的输入框聚焦时会自动放大页面；日期选择器默认向右侧弹出、两个月并排，手机上超出屏幕（`!important` 用来覆盖 Radix 的内联 `transform/left/top`）；16px 字号下两个时间输入框并排时各自折成两行；其余几项是 `mobile-allow.json` 里剩下的溢出（审计日志 +69px、认证小时行 +32px、用户详情组选择器 +58px、MFA 卡片 +73px、Add Route 按钮组 +27px），都按"通用结构"写规则，每条带 `@depends` 由 `theme:check-selectors` 检查 | 删 R3 中对应规则 |
 | R4 `< 768px` | **表格转卡片**：表头行变成可横向滚动的「全选 + 排序」条；每一行变成一张卡片：第一行是【勾选框】【第一列（名称）】【⋮ 操作】，其余列为「列名 …… 值」；上游已隐藏的列（如 `hidden xl:table-cell`）保持隐藏；选中 / hover 颜色沿用 `overrides.css` | 参考 ThingsBoard / AntD Pro 的手机列表；不维护第二套页面，排序、筛选、勾选、行操作、展开行、分页都是原表格本身，所以全部照常工作 | 删 R4 块（表格回到 R1 的内部横向滚动）；再删 `tsconfig.json` 的 Table 行即可完全去掉包装组件 |
 | R5 `< 768px` | 弹窗（`Modal`）全屏：`min-height:100dvh`、去圆角和边框；底部按钮栏 `position:sticky; bottom:0`（含 iOS 安全区）；弹窗内大间距（`gap-6/8/10`）的横向 flex 改为纵向、`grid-cols-2` 改为单列 | 手机上居中小弹窗内容被挤压，主按钮常在长表单底部看不到；左右两栏（如访问控制的「来源 → 目标」）放不下 | 删 R5 块 |
 | R6 `pointer: coarse` | 勾选框、开关、弹窗关闭按钮、面包屑链接加不可见的 `::after` 热区（向外扩 8–12px） | 触屏点击目标 < 24px；只扩大点击区域，不改外观 | 删 R6 块 |
-| 分页 | `components/DataTablePagination.tsx`：`< 768px` 时 `showLessItems`、不显示快速跳转（`useIsPhone()`，`matchMedia`；没有 `matchMedia` 的环境如 jsdom 按非手机处理） | 完整分页在 375px 放不下 | 删掉 `showQuickJumper` / `showLessItems` 两个 `phone` 相关的 prop（整体关闭 `responsive.css` 时这一项不会自动关闭） |
+| 分页 | `adapters/DataTablePagination.tsx`：`< 768px` 时 `showLessItems`、不显示快速跳转（`useIsPhone()`，`matchMedia`；没有 `matchMedia` 的环境如 jsdom 按非手机处理） | 完整分页在 375px 放不下 | 删掉 `showQuickJumper` / `showLessItems` 两个 `phone` 相关的 prop（整体关闭 `responsive.css` 时这一项不会自动关闭） |
 
-**表格包装组件（`components/Table.tsx`）。** 与分页组件相同的方式替换：
+**表格包装组件（`adapters/Table.tsx`）。** 与分页组件相同的方式替换：
 `tsconfig.json` 里加一行精确别名
-`"@components/table/Table": ["./src/theme/components/Table.tsx"]`
+`"@components/table/Table": ["./src/theme/adapters/Table.tsx"]`
 （唯一的引用方是 `DataTable.tsx`），包装组件通过 `@/components/table/Table` 引入原组件并
 `export *` 其余导出。它只读 DOM、只写属性，不改任何行为：
 
@@ -217,7 +259,7 @@ flags the `@depends` tokens.
 - `MutationObserver`（只观察子节点和文本，不观察属性，所以不会自我触发）在行变化时重新标记。
 
 CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格样式不会让卡片布局失效。
-`components/Table.contract.ts` 在上游改了 `Table` 的 props 时让 `tsc` 报错。
+`adapters/Table.contract.ts` 在上游改了 `Table` 的 props 时让 `tsc` 报错。
 
 **每表配置（按需隐藏卡片里的列）。** 在 R4 末尾的「Per-table card config」处写，键是
 路由 + 列号，例如 `table[data-nb-route="/peers"] td[data-nb-col="7"] { display: none; }`。
@@ -299,22 +341,25 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 - `npm run theme:check-selectors`: every `@depends` token still exists in its
   file and every `[class~=…]` selector still matches a class under `src/`.
   The specificity policy holds. Replaced components still match the upstream
-  signature (`@replaces`).
-- `npm run theme:visual-guard -- --base <ref> --theme dark` — all stories,
-  dark, must be pixel-identical to the base (CI: PR base / previous dev
-  commit, which keeps the parity with upstream; only an upstream sync may
-  change dark, and only where upstream itself changed).
-- `npm run theme:visual-guard -- --base <ref> --theme light` — AntD theme vs
-  the last approved theme commit; review every change.
+  signature (`@replaces`). Every `@theme` touch point is still in place.
+- `npx vitest run src/theme`: the breakpoint contract (and that the theme CSS
+  uses no other widths), `useLayoutMode`, the pagination adapter.
+- `npm run theme:visual-guard -- --base <ref> --theme dark|light` — every
+  story against the last approved `dev` commit (CI: the PR base, else the
+  commit before the push). Both themes fail on any change so a reviewer
+  looks at the uploaded shots; a dark change is reviewed like a light one
+  (see "Merging upstream").
 - `npm run theme:mobile-guard` — every page story at 375 / 390 / 768px (AntD
-  light) and 390px dark, plus the detail-page stories (`*detail*`: user, peer,
-  group, network detail) at 360px light + dark: fails when a page scrolls
+  light), 390px dark, the detail-page stories (`*detail*`) at 360px light +
+  dark, **and 1280 / 1440px light (desktops)**: fails when a page scrolls
   sideways more than `scripts/theme/mobile-allow.json` allows (> 4px), and
   below 768px when two tall columns sit side by side or a table with a header
-  is not shown as cards (layout checks are not allowlistable). The user detail
-  stories use the seeded mock users (`Pages/Core/Team/User Detail*`).
-  `--storybook <dir>` reuses a build, `--update` rewrites the allowlist (review its diff).
-- CI: `.github/workflows/theme-antd-guard.yml` runs all four.
+  is not shown as cards (layout checks are not allowlistable). The desktop
+  widths are the layout-mode boundary and the common laptop width with the
+  sider open. `--storybook <dir>` reuses a build, `--update` rewrites the
+  allowlist (review its diff), `THEME_GUARD_CHROMIUM=<path>` uses a
+  preinstalled browser.
+- CI: `.github/workflows/theme-antd-guard.yml` runs all of them.
 
 ## Merging upstream
 
@@ -335,5 +380,12 @@ scripts/theme/sync-upstream.sh --apply    # rebase dev onto origin/main
 ```
 
 It never pushes. After
-`--apply`, review the AntD theme itself:
-`npm run theme:visual-guard -- --base ORIG_HEAD --theme light`.
+`--apply`, review both themes against the pre-sync `dev`:
+`npm run theme:visual-guard -- --base ORIG_HEAD --theme light` and `--theme dark`.
+
+**Dark theme policy (since P0 of the UI architecture, decision 4).** The dark
+theme is no longer kept pixel-identical to upstream: the shell, templates and
+adapters render in both colour modes from our tokens, and until P5 switches
+dark to AntD dark tokens it takes its colours from upstream's values. The
+guard therefore compares dark with the previous approved commit like light,
+and every dark change is reviewed from the shots rather than forbidden.
