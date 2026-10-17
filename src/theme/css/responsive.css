@@ -13,7 +13,7 @@
  * Breakpoints (same as Tailwind / upstream responsive.ts):
  *   < 768px   phones: card tables, full-screen modals, 16px inputs
  *   < 1280px  tablets + small laptops: tables scroll inside their own box
- *   >= 1280px nothing here applies (desktop stays pixel-identical)
+ *   >= 1280px only R1 (tables scroll in their box, toolbars wrap) applies
  *   (pointer: coarse) touch screens of any width: invisible larger hit areas
  *
  * Own attributes (data-nb-cards, data-nb-cell, data-label, data-nb-col,
@@ -21,22 +21,27 @@
  * not depend on upstream class names.
  */
 
-/* ---- R1. Tables scroll inside their own box (< 1280px) --------------------
+/* ---- R1. Tables scroll inside their own box (every width) -----------------
    Upstream .table-fixed-scroll is display:table, which grows to the table's
    min-content width, so Table.tsx's overflow-x-auto wrapper never scrolls and
    the whole page pans sideways. As a block it keeps the page width and the
    table scrolls inside its wrapper; the toolbar (search, filters, buttons)
-   then has to wrap.
+   then wraps instead of pushing the primary button off screen.
+   P0 of the UI architecture lifted these two rules out of the < 1280px media
+   query: with the sider open a 1440px window has ~1150px of content, which
+   the Peers toolbar and table already exceed (docs/plans/evidence/
+   2026-10-17-ui-audit/peers-1440.png). The desktop pass of
+   scripts/theme/mobile-guard.mjs (1280 / 1440) keeps it that way.
    @depends src/app/globals.css: .table-fixed-scroll
    @depends src/components/table/DataTable.tsx: relative table-fixed-scroll | flex gap-x-4 gap-y-6 */
-@media (max-width: 1279.98px) {
-  :root.theme-antd:is(.dark, :not(.dark)) .table-fixed-scroll {
-    display: block;
-  }
-  :root.theme-antd:is(.dark, :not(.dark)) .table-fixed-scroll > [class~="gap-x-4" i] {
-    flex-wrap: wrap;
-  }
+:root.theme-antd:is(.dark, :not(.dark)) .table-fixed-scroll {
+  display: block;
+}
+:root.theme-antd:is(.dark, :not(.dark)) .table-fixed-scroll > [class~="gap-x-4" i] {
+  flex-wrap: wrap;
+}
 
+@media (max-width: 1279.98px) {
   /* Page header "title … actions" rows wrap the actions under the title.
      @depends src/app/(dashboard)/peer/page.tsx: flex justify-between max-w-6xl items-start */
   :root.theme-antd:is(.dark, :not(.dark)) [class~="justify-between" i][class~="max-w-6xl" i] {
