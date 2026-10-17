@@ -520,8 +520,20 @@ P0 的"快速修复问题 #1"单独成一个小 PR 先上线，不等整体。
 | 桌面溢出守卫 | 完成 | `mobile-guard.mjs` 新增 `--desktop-vp 1280,1440` 轮次（默认开启，CI 自动覆盖）；`THEME_GUARD_CHROMIUM` 允许使用预装浏览器 |
 | 规则与文档 | 完成 | 暗色不再要求与上游像素一致（两种主题都对上一个已批准提交做视觉审阅）：`src/theme/README.md`、`AGENTS.md`、`theme-antd-guard.yml` 已更新 |
 
-P0 验收：`check-selectors`、`tsc`、`vitest`（含新测试）、changed-files eslint（无新增告警）通过；
-`mobile-guard`（375 / 390 / 768 / 360 / 1280 / 1440）全量运行的结果在本节下方补记。
+P0 验收（2026-10-17，本机全量运行）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `node scripts/theme/check-selectors.mjs` | 106 个 `@depends` token、137 个属性选择器、158 条规则、1 个替换组件、8 个 touch point 全部通过 |
+| `npx tsc --noEmit` | 0 错误 |
+| `npx vitest run` | 87 个文件 / 993 个测试通过（含断点契约 13 个、`useLayoutMode` 4 个） |
+| changed-files `eslint` | 无新增错误或告警（`mobile-guard.mjs` 的两条告警早于 P0 存在） |
+| `npm run build` | 通过；postbuild：742 个 .gz、IMMUTABLE OK（1942 个文件） |
+| `mobile-guard`（375 / 390 / 768 浅色，390 暗色，360 详情页浅 + 暗，**1280 / 1440 浅色**） | 549 个 page story × 8 轮：横向溢出 0，布局问题 0，`mobile-allow.json` 仍为空 |
+
+桌面轮次第一次运行抓到 3 处 1280 宽度的溢出（设置 → 安装密钥 207px、Agent Network 配置 220px、
+云计费 40px），根因都是垂直 tab 布局里内容项 `min-width: auto` 被表格或不换行按钮撑开；
+`fix(theme): let flex row items with tables shrink` 一条规则修复后复跑归零。
 
 **P0 留下的已知事项**
 - `--ant-control-height` 等旧 token 仍是独立数值，P1 在 Button / Input / Table adapters 落地时改为引用 `--ctl-h` 等密度 token。
