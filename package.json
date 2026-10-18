@@ -29,6 +29,7 @@
     "theme:check-selectors": "node scripts/theme/check-selectors.mjs",
     "theme:visual-guard": "scripts/theme/visual-guard.sh",
     "theme:mobile-guard": "node scripts/theme/mobile-guard.mjs",
+    "theme:graph-legibility": "node scripts/theme/graph-legibility.mjs",
     "i18n:extract": "node scripts/i18n/extract-module.mjs"
   },
   "dependencies": {

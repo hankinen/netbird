@@ -6,6 +6,9 @@ name: Theme AntD guard
 #   light     : AntD theme vs the PR target / previous commit (changes reviewed)
 #   mobile    : no new sideways page overflow at 375/390/768 (phones, tablets)
 #               and 1280/1440 (desktops with the sider open), AntD light
+#   legibility: the Control Center canvas keeps its text readable at the
+#               default fit (>= 12px on screen, no node under the chrome) at
+#               1280/1440 in both colour modes, same Storybook build
 #
 # Branch model: upstream netbirdio/dashboard main -> dev (our single main
 # branch, zh-CN translations + this theme together).
@@ -117,3 +120,8 @@ jobs:
       # Fails when a page story scrolls sideways more than mobile-allow.json
       # allows, at phone, tablet and desktop widths.
       - run: node scripts/theme/mobile-guard.mjs
+      # Reuses the build above: the canvas' smallest on-screen text at the
+      # default fit must stay >= 12px (graph-legibility-allow.json lists the
+      # views still below it, which may only improve) and no node may sit
+      # under the chrome row or the dock.
+      - run: node scripts/theme/graph-legibility.mjs --storybook .theme-guard/mobile/storybook
