@@ -573,11 +573,35 @@ P1a 验收（2026-10-18，本机全量运行）：
 | 列表页迁移 | 完成 | 23 个列表页（策略、组、合规检查、网络、路由、DNS ×3、审计 / 流量事件、用户、服务用户、反向代理 ×4、Agent Network ×5、云端客户 / 租户）用 codemod 去掉页内「面包屑 + h1 + 营销段落」，改为 `usePageHeader`；11 个页面带 `count`；均登记为 `@theme: page-template` touch point |
 | 未迁移 | 按计划 | 详情页（peer / group / network / user）与设置 tab 的标题行留到 P3（DetailPage / SettingsPage 模板） |
 
-**P1a / P1b 留下的事项（进 P1b 后半 / P2）**
+### P1b-2 原语 adapter：Button（2026-10-18）
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| Button adapter | 完成 | `@components/Button` 走 `adapters/Button.tsx`：渲染上游按钮不变，只写 `data-nb-btn`（14 个上游 variant → primary / default / active / text / danger / danger-outline / danger-text 七种角色）、`data-nb-size`（sm / md / lg）、`data-nb-grouped`（ButtonGroup 段）。角色表是 `Record<上游 variant, 角色>`，上游增删 variant 时 `tsc` 报错；`Button.contract.ts` 列出期望并集，`@replaces-file` 锁整文件 |
+| `css/button.css` | 完成 | 按角色写 AntD 样式（高度 / 圆角 / 字号 / 颜色 / hover / active / disabled / focus-visible），不含任何上游类名；`overrides.css` 的三条按钮规则和 `density.css` 的按钮高度、分段组高度规则删除（`@depends` −7；同步加入的工具栏密度规则 +4，合计 117 → 114） |
+| 控件高度跟随布局模式 | 完成 | `--ant-control-height` 改为 `var(--ctl-h)`：输入框 / 选择器 / 按钮一起 32px（桌面、平板）/ 40px（手机），不再各自硬编码 |
+| 工具栏密度 | 完成 | 表格工具栏列间距 16 → 8px、行间距 24 → 12px，搜索框最小宽 300 → 240px 且可伸缩（`flex: 1 1 240px`）。目标：1440 宽、侧栏展开时 Peers 工具栏（搜索 / 筛选 / 类型切换 / 合规 / 旁路 / 浏览器 peer / 刷新 / Add Peer）不换行 |
+| 折叠侧栏 Tooltip | 完成 | 折叠态菜单项的原生 `title` 换成 `components/Tooltip`（右侧弹出，300ms 延迟）；可折叠分组的 Tooltip trigger 套在 Popover trigger 外，两个 Slot 都把 props 转给按钮 |
+| 手机顶栏计数 | 完成 | 顶栏标题旁显示 `count`（`.nb-topbar__count`，仅手机；桌面由页头栏显示） |
+
+P1b / P1b-2 验收（2026-10-18，本机全量运行，Storybook 含 Button adapter）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `npx tsc --noEmit` | 0 错误 |
+| `npm run theme:check-selectors` | 114 个 `@depends` token、144 个属性选择器、263 条规则在策略内；1 个组件替换 + 7 个整文件替换与上游一致；34 个 touch point 完好 |
+| 溢出守卫 375 / 390 / 768 浅色、390 深色、1280 / 1440 浅色 | 549 个页面 story × 6 轮，0 横向溢出、0 布局问题 |
+| 溢出守卫 360 详情页（浅 + 深） | 39 × 2：首轮浅色 2 个溢出（Groups 详情 peers tab 的「Install NetBird + Assign Peers」行，按钮字号随 `--ctl-font` 到 16px 后宽了 16px）；按钮字号固定 14px、工具栏末尾操作组在手机上可换行后复跑 0 |
+| 守卫脚本 | 加载失败的 story 换新页面重试一次，仍失败则整轮判失败（之前只打印 `!` 并放行；上一轮并行跑构建时静态服务因句柄耗尽返回 404，有 19 个 story 被静默跳过） |
+| `npx vitest run` | 92 个文件 / 1020 个测试通过（含 Button adapter 5 个、Breadcrumbs adapter 3 个） |
+| 深色对照 | `Components/Button` 全部 variant 在 1200px 深色下与上一版像素零差异（adapter 只加属性）；Peers 1440 深色只有工具栏间距变化 |
+| 截图 | Peers 1440：常规状态一行放下，带「Non-Compliant + Bypassed + 浏览器 peer」的满配状态 Add Peer 仍换到第二行右侧（根治在 P2 把主操作上提到页头）；Access Control 1440 一行；Peers 1024 两行右对齐；Peers 390 顶栏「Peers 14」、控件 40px；折叠侧栏悬停出现 Tooltip、`title` 属性为 0 |
+
+**P1b 留下的事项（进 P1b-3 / P2）**
 - 顶栏全局搜索入口。
-- Button / Input / Select / Tag / Tabs adapters；工具栏 container query 收纳（1440 下 Peers 工具栏仍换行）。
-- 手机端 AppBar 不显示数量；DataTable 的「N of M」过滤计数随表格 adapter 进槽位。
-- 折叠态的标签提示用的是原生 `title`，P1b 换成 Tooltip。
+- Input / Select / Tag / Tabs adapters（同 Button 的 data 属性模式）。
+- 工具栏的「收进 ⋯」和主操作上提到页头：随 P2 的 `Toolbar` / DataTable adapter 一起做；P1b-2 只收紧了间距。
+- DataTable 的「N of M」过滤计数随表格 adapter 进槽位。
 
 **P0 留下的已知事项**
 - `--ant-control-height` 等旧 token 仍是独立数值，P1 在 Button / Input / Table adapters 落地时改为引用 `--ctl-h` 等密度 token。

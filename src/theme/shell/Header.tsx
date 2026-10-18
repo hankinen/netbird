@@ -54,7 +54,12 @@ export default function Header() {
         ) : (
           <span className={"nb-topbar__crumbs nb-topbar__where"}>{title}</span>
         )}
-        <span className={"nb-topbar__title"}>{title}</span>
+        <span className={"nb-topbar__title"}>
+          {title}
+          {spec?.count !== undefined && (
+            <span className={"nb-topbar__count"}>{spec.count}</span>
+          )}
+        </span>
       </div>
       <div className={"nb-topbar__actions"}>
         <MSPTransferAccountModal />

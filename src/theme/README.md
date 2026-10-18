@@ -25,8 +25,9 @@ the dark theme is **no longer** promised to be pixel-identical to upstream; see
 ```
 src/theme/
   tokens/   breakpoints.ts, tokens.base.css, tokens.density.css, tokens.light.css
-  css/      index.css, base.css, overrides.css, vendors.css, density.css, pagination.css, responsive.css
-  adapters/ components swapped in through tsconfig `paths`: DataTablePagination, Table (+ .contract.ts, stories, tests)
+  css/      index.css, base.css, overrides.css, vendors.css, density.css, button.css, pagination.css, responsive.css, shell.css
+  adapters/ components swapped in through tsconfig `paths`: DataTablePagination, Table, SidebarItem,
+            Breadcrumbs, Button (+ .contract.ts, stories, tests)
   hooks/    useLayoutMode.tsx (useLayoutMode, useIsPhone, LayoutModeSync)
   shell/    AppShell, DashboardLayout, Header, PageContainer, Sider, NavDrawer,
             PageHeaderBar, BottomBar, pageHeader (the slot), siderContext
@@ -44,9 +45,10 @@ src/theme/
 | `css/base.css`              | element defaults, specificity below any utility; tabular numerals in tables                             |
 | `css/overrides.css`         | component fixes keyed on upstream class names, each with `@depends` (shrinks as adapters take over)     |
 | `css/vendors.css`           | third-party widgets: React Flow, sonner, Radix portals, timescape, xterm                                |
-| `css/density.css`           | AntD "middle" density keyed on upstream classes: 32px controls, 12px/16px table cells (P1: adapters)    |
+| `css/density.css`           | AntD "middle" density keyed on upstream classes: inputs / selects, table cells (shrinks as adapters take over) |
+| `css/button.css`            | buttons by role, keyed on the `data-nb-*` attributes `adapters/Button.tsx` writes (no upstream class names) |
 | `css/responsive.css`        | phones / tablets (and R1 at every width), see "手机端适配" below                                        |
-| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`, `SidebarItem`         |
+| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`, `SidebarItem`, `Breadcrumbs`, `Button` (section "Primitive adapters") |
 | `shell/`                    | the app shell (section below): replaces `DashboardLayout`, `Header` and `PageContainer` via paths       |
 | `hooks/useLayoutMode.tsx`   | `useLayoutMode()` → `phone` / `compact` / `full`, `useIsPhone()`, `LayoutModeSync` (`<html data-layout-mode>`) |
 | `defaultTheme.ts`           | env switch, `<html>` props, ThemeProvider default                                                       |
@@ -198,6 +200,37 @@ last two points.
   (tokens, base, overrides, vendors, density, pagination, responsive); later
   files win
   equal-specificity ties.
+
+## Primitive adapters (P1b)
+
+Upstream's primitives keep their files. An exact alias swaps in a wrapper
+that renders the upstream component unchanged and adds `data-nb-*`
+attributes; the light theme styles against those. So the dark theme and the
+themeless builds render exactly as upstream, and a Tailwind class renamed
+upstream no longer breaks the light theme: the CSS keys on our attributes,
+the wrapper's maps are typed against upstream's variant unions (`tsc` fails
+when upstream adds, renames or removes one) and `@replaces-file` pins the
+upstream file.
+
+| alias | wrapper | attributes | CSS |
+| --- | --- | --- | --- |
+| `@components/Button`, `@/components/Button` | `adapters/Button.tsx` (+ `.contract.ts`, `.stories.tsx`, `.test.tsx`) | `data-nb-btn` role: `primary`, `default`, `active` (upstream `tertiary`: the selected toggle), `text` (`default-outline`), `danger`, `danger-outline`, `danger-text`; `data-nb-size`: `sm` / `md` / `lg` (upstream `xs`, `xs2` / `sm`, `md` / `lg`); `data-nb-grouped` on `ButtonGroup.Button` | `css/button.css` |
+
+Rules for a wrapper:
+
+- forward every prop and the ref; never change markup, classes or behaviour;
+- map, don't branch: the role map is a `Record<UpstreamVariant, Role>`, so
+  an unmapped variant is a compile error rather than a silent fallback;
+- colours and heights come from the tokens (`--ant-*`, `--ctl-*`); horizontal
+  padding stays upstream's utilities, so no width moves;
+- delete the class-keyed rules the wrapper makes redundant in
+  `overrides.css` / `density.css` in the same change. The `@depends` count
+  is the metric (Button took 7 out; the toolbar density rules landed in the
+  same step added 4: 117 → 114).
+
+Heights: since P1b `--ant-control-height` is `var(--ctl-h)`, so inputs,
+selects and buttons follow the layout mode together (32px on desktops and
+tablets, 40px on phones).
 
 ## Pagination component replacement
 
@@ -437,9 +470,11 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
   below 768px when two tall columns sit side by side or a table with a header
   is not shown as cards (layout checks are not allowlistable). The desktop
   widths are the layout-mode boundary and the common laptop width with the
-  sider open. `--storybook <dir>` reuses a build, `--update` rewrites the
-  allowlist (review its diff), `THEME_GUARD_CHROMIUM=<path>` uses a
-  preinstalled browser.
+  sider open. A story that fails to load or render is retried once on a
+  fresh page and then fails the run (an unmeasured screen is not green; the
+  `!` lines name them). `--storybook <dir>` reuses a build, `--update`
+  rewrites the allowlist (review its diff), `THEME_GUARD_CHROMIUM=<path>`
+  uses a preinstalled browser.
 - CI: `.github/workflows/theme-antd-guard.yml` runs all of them.
 
 ## Merging upstream

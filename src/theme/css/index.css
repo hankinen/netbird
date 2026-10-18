@@ -13,6 +13,7 @@
  *                  scripts/theme/check-selectors.mjs)
  *   vendors.css    third-party libraries (React Flow / control centre)
  *   density.css    control heights, table cell padding (AntD middle)
+ *   button.css     buttons by role, keyed on the attributes adapters/Button.tsx adds
  *   pagination.css @rc-component/pagination styled as AntD v5 Pagination
  *                  (../adapters/DataTablePagination.tsx)
  *   responsive.css phones / tablets below 1280px: table cards, full-screen
@@ -28,6 +29,7 @@
 @import "./overrides.css";
 @import "./vendors.css";
 @import "./density.css";
+@import "./button.css";
 @import "./pagination.css";
 @import "./responsive.css";
 @import "./shell.css";

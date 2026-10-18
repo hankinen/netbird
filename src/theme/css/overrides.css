@@ -219,39 +219,8 @@
 }
 
 /* ---- 3. Buttons ------------------------------------------------------------ */
-/* Danger buttons have no light styles upstream ("TODO - add danger button styles for light mode").
-   @depends src/components/Button.tsx: dark:bg-red-600 | dark:text-red-500 */
-:root.theme-antd:not(.dark) button[class~="dark:bg-red-600" i] {
-  background-color: var(--ant-color-error);
-  color: var(--ant-color-text-light-solid);
-  border-color: var(--ant-color-error);
-}
-:root.theme-antd:not(.dark)
-  button[class~="dark:bg-red-600" i]:hover:not(:disabled) {
-  background-color: var(--ant-color-error-hover);
-  border-color: var(--ant-color-error-hover);
-}
-:root.theme-antd:not(.dark) button[class~="dark:text-red-500" i] {
-  color: var(--ant-color-error);
-}
-
-/* AntD default button: neutral border, primary colour on hover.
-   @depends src/components/Button.tsx: hover:bg-gray-100 */
-:root.theme-antd:not(.dark)
-  button[class~="hover:bg-gray-100" i]:not([class~="dark:bg-red-600" i]) {
-  border-width: 1px;
-  border-color: var(--ant-color-border);
-  background-color: var(--ant-color-bg-container);
-  color: var(--ant-color-text);
-}
-:root.theme-antd:not(.dark)
-  button[class~="hover:bg-gray-100" i]:not(
-    [class~="dark:bg-red-600" i]
-  ):hover:not(:disabled) {
-  border-color: var(--ant-color-primary-hover);
-  color: var(--ant-color-primary-hover);
-  background-color: var(--ant-color-bg-container);
-}
+/* Moved to button.css: adapters/Button.tsx writes the role of every button as
+   data-nb-btn, so the light theme no longer keys on upstream button classes. */
 
 /* ---- 4. Switch / checkbox -------------------------------------------------- */
 /* @depends src/components/ToggleSwitch.tsx: data-[state=checked]:bg-neutral-900 | data-[state=unchecked]:bg-neutral-200 */

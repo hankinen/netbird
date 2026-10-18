@@ -79,8 +79,10 @@ Pick the first option that works, in this order:
 3. **A component replacement** through an exact `paths` alias in
    `tsconfig.json`, with a `.contract.ts` and an `@replaces … sha256:` hash
    (or `@replaces-file` for a whole file), the way `DataTablePagination`,
-   `Table`, `SidebarItem` and the shell (`@/layouts/DashboardLayout`,
-   `Header`, `PageContainer`) are done. A wrapper keeps upstream's props;
+   `Table`, `SidebarItem`, `Button` and the shell (`@/layouts/DashboardLayout`,
+   `Header`, `PageContainer`) are done. A primitive wrapper (`Button`) renders
+   upstream unchanged and only adds `data-nb-*` attributes for the theme CSS
+   to key on (`src/theme/README.md`, "Primitive adapters"). A wrapper keeps upstream's props;
    whether it renders upstream's component outside the AntD theme is the
    README's call per replacement (the shell renders in both colour modes).
 4. **An in-place edit of an upstream file**: the smallest possible diff, an

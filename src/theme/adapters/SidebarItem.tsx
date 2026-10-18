@@ -1,5 +1,11 @@
 "use client";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@components/Tooltip";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import * as Popover from "@radix-ui/react-popover";
 import { cn } from "@utils/helpers";
@@ -23,15 +29,10 @@ import type { SidebarItemProps } from "../../components/SidebarItem";
  *
  * Visuals come from shell.css (nb-nav-item*): dark-menu colours inside the
  * sider and the drawer, light-menu colours anywhere else. While the host is
- * collapsed an item shows its icon only (label as the title), and a
- * collapsible group opens its children in a popover to the right.
+ * collapsed an item shows its icon only (the label in a tooltip to the
+ * right), and a collapsible group opens its children in a popover there.
  */
 export type { SidebarItemProps };
-
-const textOf = (node: React.ReactNode): string | undefined =>
-  typeof node === "string" || typeof node === "number"
-    ? String(node)
-    : undefined;
 
 export default function SidebarItem({
   icon,
@@ -107,7 +108,6 @@ export default function SidebarItem({
       className={cn("nb-nav-item__button", className)}
       onClick={handleClick}
       data-testid={"left-navigation-item"}
-      title={collapsed ? textOf(label) : undefined}
       aria-expanded={collapsible ? open : undefined}
     >
       <span className={"peer/icon"} data-active={isActive} />
@@ -125,6 +125,26 @@ export default function SidebarItem({
     </button>
   );
 
+  // Collapsed host: the label moves into a tooltip. Its trigger sits inside
+  // the popover trigger below so both Slots forward their props to the button.
+  const withLabel = (trigger: React.ReactElement) =>
+    collapsed ? (
+      <TooltipProvider delayDuration={300} skipDelayDuration={100}>
+        <Tooltip>
+          <TooltipTrigger asChild>{trigger}</TooltipTrigger>
+          <TooltipContent
+            side={"right"}
+            sideOffset={10}
+            className={"nb-nav-tooltip"}
+          >
+            {label}
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    ) : (
+      trigger
+    );
+
   const itemProps = {
     className: "nb-nav-item",
     "data-nav-item": href || undefined,
@@ -134,7 +154,7 @@ export default function SidebarItem({
     "data-open": (collapsible && open) || undefined,
   } as const;
 
-  if (!collapsible) return <li {...itemProps}>{button}</li>;
+  if (!collapsible) return <li {...itemProps}>{withLabel(button)}</li>;
 
   // Collapsed host: the group's children open in a popover to the right,
   // rendered as a normal (expanded) list.
@@ -142,7 +162,7 @@ export default function SidebarItem({
     return (
       <li {...itemProps}>
         <Popover.Root>
-          <Popover.Trigger asChild>{button}</Popover.Trigger>
+          {withLabel(<Popover.Trigger asChild>{button}</Popover.Trigger>)}
           <Popover.Portal>
             <Popover.Content
               side={"right"}
