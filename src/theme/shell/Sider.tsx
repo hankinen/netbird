@@ -19,7 +19,7 @@ import { SiderContext } from "./siderContext";
  * (src/layouts/Navigation.tsx: items, groups, permissions, usage and
  * version blocks) unchanged; shell.css neutralises that tree's own container
  * styling (@depends) and the SidebarItem adapter draws the items.
- * @replaces-file src/layouts/Navigation.tsx sha256:3dc44d1c15843879
+ * @replaces-file src/layouts/Navigation.tsx sha256:861f70446f3492d8
  *
  * Collapsed to a 56px icon rail: on desktops by the persisted preference
  * (ApplicationProvider), on tablets by default for the session. Groups open

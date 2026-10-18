@@ -1,7 +1,8 @@
 import { useOidcUser } from "@axa-fr/react-oidc";
 import { Params } from "@utils/api";
 import { useIsMd } from "@utils/responsive";
-import { getLatestNetbirdRelease } from "@utils/version";
+// @theme: GitHub release check disabled, see the effect below.
+// import { getLatestNetbirdRelease } from "@utils/version";
 import React, {
   useCallback,
   useContext,
@@ -31,9 +32,12 @@ const ApplicationContext = React.createContext(
 );
 
 export default function ApplicationProvider({ children }: Props) {
-  const [latestRelease, setLatestRelease] = useLocalStorage<
-    NetbirdRelease | undefined
-  >("netbird-latest-release", undefined);
+  // @theme: no latest release without the GitHub check below; an old copy
+  // in localStorage would never refresh, so it is not read either.
+  const latestRelease = undefined as NetbirdRelease | undefined;
+  // const [latestRelease, setLatestRelease] = useLocalStorage<
+  //   NetbirdRelease | undefined
+  // >("netbird-latest-release", undefined);
   const { oidcUser: user } = useOidcUser();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const isMd = useIsMd();
@@ -57,19 +61,25 @@ export default function ApplicationProvider({ children }: Props) {
     }
   }, [isMd]);
 
-  useEffect(() => {
-    async function fetchLatestRelease() {
-      const release = await getLatestNetbirdRelease(latestRelease);
-      setLatestRelease(release);
-    }
-    fetchLatestRelease().then();
-    const interval = setInterval(
-      fetchLatestRelease,
-      1000 * 60 * 30, // Run every 30 minutes
-    );
-    return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // @theme: GitHub release check disabled (src/theme/README.md "版本信息卡片").
+  // Upstream asked api.github.com for the latest NetBird release on load and
+  // every 30 minutes. Its only consumer is latestVersion / latestUrl, so the
+  // Peers table's "update available" arrow (PeerVersionCell) is gone too.
+  // To restore, uncomment this effect, the getLatestNetbirdRelease import and
+  // the useLocalStorage line above, and drop `const latestRelease = undefined`.
+  // useEffect(() => {
+  //   async function fetchLatestRelease() {
+  //     const release = await getLatestNetbirdRelease(latestRelease);
+  //     setLatestRelease(release);
+  //   }
+  //   fetchLatestRelease().then();
+  //   const interval = setInterval(
+  //     fetchLatestRelease,
+  //     1000 * 60 * 30, // Run every 30 minutes
+  //   );
+  //   return () => clearInterval(interval);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const latestVersion = useMemo(
     () => latestRelease?.latest_version,

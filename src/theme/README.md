@@ -154,8 +154,11 @@ and `src/contexts/ThemeProvider.tsx`, three npm scripts and the
 `paths` lines in `tsconfig.json` (DataTablePagination, Table), 18 keys in `components.table.json`
 (en + zh-CN), and the commented-out remote fetch in
 `src/contexts/AnnouncementProvider.tsx` (see "公告横幅"), the mobile nav
-drawer in `src/layouts/DashboardLayout.tsx` (see "手机导航抽屉"), and a story
-decorator in `src/components/ui/AnnouncementBanner.stories.tsx` (see "公告横幅").
+drawer in `src/layouts/DashboardLayout.tsx` (see "手机导航抽屉"), a story
+decorator in `src/components/ui/AnnouncementBanner.stories.tsx` (see "公告横幅"),
+and the hidden version card in `src/layouts/Navigation.tsx` plus the
+commented-out GitHub release check in `src/contexts/ApplicationProvider.tsx`
+(see "版本信息卡片").
 These in-place edits carry an `@theme` comment and are listed in
 `scripts/theme/touch-points.txt`, which `npm run theme:check-selectors` (also
 run by `sync-upstream.sh`) checks, so a sync that silently drops them fails.
@@ -409,6 +412,35 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
 （带 `@theme` 注释，已登记在 `touch-points.txt`）：把故事自己的公告写进 Provider 读取的
 `localStorage` 缓存（`netbird-announcements`，时间戳为当前时间，所以被当作"未过期缓存"直接使用），
 横幅照常显示，play 通过。只影响这 5 个故事，应用行为不变。恢复远程拉取后可以删掉这个 decorator。
+
+## 版本信息卡片（侧边栏不再显示版本，不再访问 GitHub）
+
+**做什么：** 两处上游代码被注释掉（原代码原样保留在注释里，都登记在 `scripts/theme/touch-points.txt`）：
+
+- `src/layouts/Navigation.tsx`：侧边栏底部的 `<NavigationVersionInfo />`（“管理服务 v… / 控制台 … / 有可用更新”
+  卡片，组件在 `src/components/VersionInfo.tsx`，未改动）和它的 import。卡片不渲染后，它请求的
+  `/instance/version` 也不再发出（全项目只有这张卡片用它）。
+- `src/contexts/ApplicationProvider.tsx`：页面加载时以及之后每 30 分钟请求
+  `https://api.github.com/repos/netbirdio/netbird/releases/latest` 的 `useEffect`（带 `@theme` 注释），
+  以及只为它服务的 `getLatestNetbirdRelease` import；`latestRelease` 固定为 `undefined`，
+  不再读取 `localStorage` 里的旧缓存 `netbird-latest-release`（没有检查就永远不会刷新，留着只会显示过期结果）。
+
+**为什么：** 自建部署的升级由运维按自己的节奏做，侧边栏的版本号和“有可用更新”按钮对普通用户没有意义；
+同时浏览器不再访问 GitHub（内网或被墙的环境里这个请求只会失败）。
+
+**副作用：** Peers 列表 “版本” 列里客户端版本旁的蓝色 “有可用更新” 箭头（`src/modules/peers/PeerVersionCell.tsx`，
+数据来自 Context 的 `latestVersion`，也就是这个 GitHub 检查）不再出现。
+
+**没有动的：** `VersionInfo.tsx`、`PeerVersionCell.tsx`、`src/utils/version.ts`（`getLatestNetbirdRelease`、版本比较）、
+Context 的 `latestVersion` / `latestUrl` 字段（现在恒为 `undefined`）。未登录页面用的 `/instance`（初始化状态）与此无关，照常请求。
+
+**`@replaces-file`：** `src/theme/shell/Sider.tsx` 记录了 `Navigation.tsx` 的哈希，注释掉卡片后已更新为新哈希；
+以后再改 `Navigation.tsx` 时同样需要更新，否则 `theme:check-selectors`（CI 的 selectors 任务）会失败。
+
+**怎么恢复：** `Navigation.tsx` 里取消 `NavigationVersionInfo` 的 import 和 `{/* <NavigationVersionInfo /> */}`
+的注释；`ApplicationProvider.tsx` 里取消 `useEffect`、`getLatestNetbirdRelease` import 和 `useLocalStorage`
+那一行的注释，删掉 `const latestRelease = undefined`；删掉 `touch-points.txt` 里对应的两行，更新 `Sider.tsx` 的 `@replaces-file` 哈希，再跑
+`npm run theme:check-selectors`。合并上游时如果这里冲突，以上游为准再重新注释即可。
 
 ## Checks
 
