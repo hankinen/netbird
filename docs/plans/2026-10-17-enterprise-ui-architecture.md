@@ -546,6 +546,7 @@ P0 验收（2026-10-17，本机全量运行）：
 | 首个迁移页 | 完成 | Peers：去掉页内头部块（面包屑 / h1 / 营销段落），注册 title / count / breadcrumb / help；主操作（Add Peer）仍在工具栏，随 P2 的 Toolbar 一起上提 |
 | Stories 与截图工具 | 完成 | `Theme/Shell` 9 个 story（1440 / 1024 / 390，折叠、弹出层、抽屉、带操作）；`capture.mjs` 支持 `vp-<width>` 标签按宽度截图 |
 | i18n | 完成 | `nav` 命名空间新增 `shell.label.*` 六个键（en + zh-CN） |
+| 证据截图 | 完成 | `evidence/2026-10-18-shell/`：1440 浅 / 暗、折叠 + 分组弹出层、1024 平板、390 手机、抽屉、底部操作栏 |
 
 验收数字见本节下方补记。
 
