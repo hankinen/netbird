@@ -1,6 +1,6 @@
 # Control Center：企业级画布 UI 与可复用 Graph 组件架构
 
-日期 2026-10-18。基线提交 `6caacab`（外壳 P1a 之后；这 14 个提交当时还在 `claude/dreamy-goldberg-e181eu` 上，未合入 `dev`），工作分支 `feature/ui-optimization`。
+日期 2026-10-18。基线提交 `6caacab`（外壳 P1a 之后；这 14 个提交当时还在 `claude/dreamy-goldberg-e181eu` 上，未合入 `dev`），工作分支 `ui-optimization`。
 证据截图与数字在 `docs/plans/evidence/2026-10-18-control-center-audit/`。
 状态：**审查完成，方案待店主决策（第 8 节）**，未动代码。
 
@@ -343,7 +343,7 @@ Peer 详情的"连接关系"、Networks 页的拓扑预览都从这里起步（�
 ## 6. 分阶段路线图
 
 每个阶段独立可合并（PR → CI → merge），视觉守卫基线前移。工作分支
-`feature/ui-optimization`，按阶段拆 PR 到 `dev`。
+`ui-optimization`，按阶段拆 PR 到 `dev`。
 
 | 阶段 | 内容 | 验收 | 预估 |
 | --- | --- | --- | --- |
