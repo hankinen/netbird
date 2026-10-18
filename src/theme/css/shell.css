@@ -433,6 +433,18 @@
   font-weight: 600;
   line-height: 28px;
 }
+:root.theme-antd .nb-pageheader__subtitle {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ant-color-text-secondary);
+  font-size: var(--font-size-sm, 14px);
+}
+/* A rich title (PageHeaderTitle) keeps its own inline layout. */
+:root.theme-antd .nb-pageheader__title > * {
+  vertical-align: middle;
+}
 :root.theme-antd .nb-pageheader__count {
   display: inline-flex;
   align-items: center;
@@ -478,6 +490,13 @@
   height: var(--ctl-h-lg);
   margin: 0;
   justify-content: center;
+}
+/* An icon-only button (upstream's !px-3 convention: the ⋮ menu of a detail
+   page) stays square, at the end of the bar.
+   @depends src/app/(dashboard)/network/page.tsx: !px-3 */
+:root.theme-antd .nb-bottombar [data-nb-btn][class~="!px-3" i] {
+  flex: 0 0 var(--ctl-h-lg);
+  margin-left: auto;
 }
 
 /* ---- drawer (phones) ------------------------------------------------------- */

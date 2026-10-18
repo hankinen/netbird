@@ -46,6 +46,11 @@ import UserBlockCell from "@/modules/users/table-cells/UserBlockCell";
 import UserStatusCell from "@/modules/users/table-cells/UserStatusCell";
 import { UserPeersSection } from "@/modules/users/UserPeersSection";
 import { UserRoleSelector } from "@/modules/users/UserRoleSelector";
+import { usePageHeader } from "@/theme/shell/pageHeader";
+import {
+  PageHeaderActions,
+  PageHeaderTitle,
+} from "@/theme/shell/PageHeaderActions";
 export default function UserPage() {
   const queryParameter = useSearchParams();
   const userId = queryParameter.get("id");
@@ -148,6 +153,12 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
   const showSeparator = !showTabs;
 
   const [tab, setTab] = useState(isServiceUser ? "access-tokens" : "peers");
+  const userTitle = user.name || user.id;
+  usePageHeader({
+    title: userTitle,
+    titleText: userTitle,
+    backHref: isServiceUser ? "/team/service-users" : "/team/users",
+  });
 
   return (
     <PageContainer>
@@ -178,68 +189,65 @@ function UserOverview({ user, initialGroups }: Readonly<Props>) {
           <Breadcrumbs.Item label={user.name || user.id} active />
         </Breadcrumbs>
 
-        <div className={"flex justify-between max-w-6xl"}>
-          <div>
-            <div className={"flex items-center gap-3"}>
-              <div
-                className={
-                  "w-10 h-10 rounded-full relative flex items-center justify-center text-white uppercase text-md font-medium bg-nb-gray-900"
-                }
-                style={
-                  isServiceUser
-                    ? {
-                        color: "white",
-                      }
-                    : {
-                        color: user?.name
-                          ? generateColorFromString(
-                              user?.name ||
-                                user?.id ||
-                                t("common:word.systemUser"),
-                            )
-                          : "#808080",
-                      }
-                }
-              >
-                {isServiceUser ? (
-                  <IconSettings2 size={16} />
-                ) : (
-                  user?.name?.charAt(0) || user?.id?.charAt(0)
-                )}
-              </div>
-              <h1 className={"flex items-center gap-3"} title={user?.id}>
-                {user.name || user.id}
-              </h1>
-            </div>
-          </div>
-          {!isUser && (
-            <div className={"flex gap-4"}>
-              <Button
-                variant={"default"}
-                className={"w-full"}
-                onClick={() => {
-                  isServiceUser
-                    ? router.push("/team/service-users")
-                    : router.push("/team/users");
-                }}
-              >
-                {t("common:word.cancel")}
-              </Button>
+        {/* @theme: page-template. Breadcrumb to the top bar (Breadcrumbs
+            adapter), avatar + name to the page header bar, Save / Cancel to
+            its actions row (bottom bar on phones); see src/theme/README.md. */}
+        <PageHeaderTitle>
+          <span className={"inline-flex items-center gap-3"} title={user?.id}>
+            <span
+              className={
+                "w-7 h-7 rounded-full relative inline-flex items-center justify-center text-white uppercase text-xs font-medium bg-nb-gray-900"
+              }
+              style={
+                isServiceUser
+                  ? {
+                      color: "white",
+                    }
+                  : {
+                      color: user?.name
+                        ? generateColorFromString(
+                            user?.name ||
+                              user?.id ||
+                              t("common:word.systemUser"),
+                          )
+                        : "#808080",
+                    }
+              }
+            >
+              {isServiceUser ? (
+                <IconSettings2 size={14} />
+              ) : (
+                user?.name?.charAt(0) || user?.id?.charAt(0)
+              )}
+            </span>
+            {user.name || user.id}
+          </span>
+        </PageHeaderTitle>
+        {!isUser && (
+          <PageHeaderActions>
+            <Button
+              variant={"default"}
+              onClick={() => {
+                isServiceUser
+                  ? router.push("/team/service-users")
+                  : router.push("/team/users");
+              }}
+            >
+              {t("common:word.cancel")}
+            </Button>
 
-              <Button
-                variant={"primary"}
-                className={"w-full"}
-                disabled={!hasChanges || !permission.users.update}
-                onClick={save}
-                data-testid={"save-changes"}
-              >
-                {t("common:word.saveChanges")}
-              </Button>
-            </div>
-          )}
-        </div>
+            <Button
+              variant={"primary"}
+              disabled={!hasChanges || !permission.users.update}
+              onClick={save}
+              data-testid={"save-changes"}
+            >
+              {t("common:word.saveChanges")}
+            </Button>
+          </PageHeaderActions>
+        )}
 
-        <div className={"flex gap-10 w-full mt-8 max-w-6xl items-start"}>
+        <div className={"flex gap-10 w-full max-w-6xl items-start"}>
           <UserInformationCard user={user} />
           <div className={"flex flex-col gap-8 w-1/2 "}>
             {!isServiceUser && isOwnerOrAdmin && (

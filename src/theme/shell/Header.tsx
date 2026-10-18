@@ -2,7 +2,7 @@
 
 import HelpAndSupportButton from "@components/ui/HelpAndSupportButton";
 import UserDropdown from "@components/ui/UserDropdown";
-import { ChevronRightIcon, MenuIcon } from "lucide-react";
+import { ArrowLeftIcon, ChevronRightIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { DistributorTransferAccountModal } from "@/cloud/distributor/DistributorTransferAccountModal";
@@ -35,10 +35,23 @@ export default function Header() {
   const { isRestricted } = usePermissions();
   const lastCrumb = crumbs?.length ? crumbs[crumbs.length - 1].label : null;
   const title = spec?.title ?? lastCrumb ?? pageName;
+  // Phones: the plain text of a rich title; a detail page gets a back arrow
+  // where the menu button sits (the drawer is still one swipe / tap away
+  // from the list page).
+  const phoneTitle = spec?.titleText ?? title;
 
   return (
     <header className={"nb-topbar"} data-testid={"app-topbar"}>
-      {!isRestricted && (
+      {!isRestricted && spec?.backHref && (
+        <Link
+          href={spec.backHref}
+          className={"nb-topbar__menu nb-topbar__back"}
+          aria-label={t("common:word.back")}
+        >
+          <ArrowLeftIcon size={20} />
+        </Link>
+      )}
+      {!isRestricted && !spec?.backHref && (
         <button
           type={"button"}
           className={"nb-topbar__menu"}
@@ -55,7 +68,7 @@ export default function Header() {
           <span className={"nb-topbar__crumbs nb-topbar__where"}>{title}</span>
         )}
         <span className={"nb-topbar__title"}>
-          {title}
+          {phoneTitle}
           {spec?.count !== undefined && (
             <span className={"nb-topbar__count"}>{spec.count}</span>
           )}

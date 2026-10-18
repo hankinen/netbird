@@ -164,6 +164,35 @@ that means not using `DataTable` for it; a `teleportActions={false}` prop is
 a one-line addition to the adapter if a page ever needs its action in the
 toolbar.
 
+### Detail pages: rich titles and the page's own actions (P3)
+
+A detail page (peer, group, network, user) has a title that needs the
+page's context (a status dot, a rename button that opens a modal, badges)
+and actions of its own (Save / Cancel, a ⋮ menu). Two portal components in
+`shell/PageHeaderActions.tsx` keep that code where the page has it and move
+only the DOM:
+
+```tsx
+usePageHeader({
+  title: peer.name,          // fallback for the bar, used by the top bar on phones
+  titleText: peer.name,      // plain text: phone top bar, the h1's title attribute
+  subtitle: <Link …>owner@example.com</Link>,   // muted, after the title; hidden on phones
+  backHref: "/peers",        // back arrow in the bar; on phones it replaces the menu button
+});
+<PageHeaderTitle>           // into the bar's <h1>; the bar then leaves spec.title out
+  <span className="inline-flex items-center gap-3"><CircleIcon … />{name}<RenameButton /></span>
+</PageHeaderTitle>
+<PageHeaderActions>         // into the actions row, bottom bar on phones; takes the slot
+  <Button>Cancel</Button><Button variant="primary">Save changes</Button>   // over from tables
+</PageHeaderActions>
+```
+
+The in-page breadcrumb stays (the adapter moves it to the top bar); the old
+title row is removed and the page is listed in `touch-points.txt` with the
+`@theme: page-template` marker. Keep the title node one line high
+(28px: a `inline-flex items-center` span with small icons and an `h-8`
+button at most).
+
 ## Layout modes
 
 One DOM, three layout modes (architecture section 5):
@@ -494,7 +523,8 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
   The specificity policy holds. Replaced components still match the upstream
   signature (`@replaces`). Every `@theme` touch point is still in place.
 - `npx vitest run src/theme`: the breakpoint contract (and that the theme CSS
-  uses no other widths), `useLayoutMode`, the pagination adapter.
+  uses no other widths), `useLayoutMode`, the adapters, the page-header store
+  and its slots (actions, title, bottom bar).
 - `npm run theme:visual-guard -- --base <ref> --theme dark|light` — every
   story against the last approved `dev` commit (CI: the PR base, else the
   commit before the push). Both themes fail on any change so a reviewer

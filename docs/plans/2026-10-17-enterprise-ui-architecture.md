@@ -641,6 +641,24 @@ P2-1 验收（2026-10-18，本机）：
 | 截图 | Peers 1440：Add Peer 在页头右侧，满配工具栏（搜索 / 筛选 / 类型 / 合规 / 旁路 / 浏览器 / 刷新）一行放下；Peers 390：底栏整宽 Add Peer，下拉向上展开；Groups / Access Control 1440 同样；Peers 空态页头无按钮（`rightSide` 条件为假）、Get Started 卡片保留自己的按钮；Groups 详情「Assign Peers」弹窗内的表格按钮原地不动 |
 | 全量溢出守卫 | 对 P2-1 构建（含 P1b-3）的 8 轮运行中，结果随后补记 |
 
+### P3-1 详情页页头（2026-10-18）
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| 槽位扩展 | 完成 | `titleText`（手机顶栏 / 无障碍用的纯文本）、`subtitle`（标题后的次要信息，手机隐藏）、`backHref` 在手机顶栏把菜单按钮换成返回箭头；`<PageHeaderTitle>` 把带上下文的富标题（状态点 / 改名按钮 / 徽标）portal 进页头的 `h1`，`<PageHeaderActions>` 把页面自己的操作 portal 进操作行（手机进底栏），并以强认领接管表格的弱认领 |
+| 迁移 | 完成 | peer（状态点 + 名称 + 改名弹窗 + 登录过期徽标；副标题为归属用户链接；概览 tab 下 Cancel / Save）、group（图标 + 名称 + 改名）、network（状态点 + 名称；副标题为描述；⋮ 菜单）、user（头像 + 名称；Cancel / Save）。页内只删标题行，面包屑保留（adapter 送到顶栏），登记为 `@theme: page-template` |
+| 未迁 | 按计划 | 设置页各 tab、云端 msp / plans、Control Center（另一会话负责）|
+
+P3-1 验收（2026-10-18，本机）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `npx tsc --noEmit` | 0 错误 |
+| `npx vitest run` | 94 个文件 / 1032 个测试通过（PageHeaderActions / PageHeaderTitle / 强弱认领 6 个新测试） |
+| `npm run theme:check-selectors` | 107 个 `@depends` token、291 条规则在策略内、38 个 touch point 完好；`responsive.css` 里键在旧标题行类名上的一条平板规则随之退役 |
+| 溢出守卫（定向：peer / groups / network-detail / team 全部 story × 8 轮） | 0 横向溢出、0 布局问题 |
+| 截图 | peer 1440：返回箭头 + 状态点 + 名称 + 改名 + 归属用户副标题，Cancel / Save 在页头右侧；peer 390：顶栏返回箭头 + 名称，底栏 Cancel / Save；登录过期徽标在标题内；group 1440 / 390：表格的 Install NetBird + Assign Peers 自动进页头 / 底栏；network 1440：描述为副标题、⋮ 在右侧，390 底栏 ⋮ 为右侧方形按钮；user 1440 / 390：头像 + 名称，Cancel / Save；超长 peer 名在 390 顶栏省略号 |
+
 **P1b / P2-1 留下的事项**
 - 顶栏全局搜索入口。
 - 原生 `Select.tsx` 与 Tabs / SegmentedTabs 的 adapter（同 Button 的 data 属性模式）。

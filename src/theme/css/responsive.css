@@ -93,12 +93,8 @@
 }
 
 @media (max-width: 1279.98px) {
-  /* Page header "title … actions" rows wrap the actions under the title.
-     @depends src/app/(dashboard)/peer/page.tsx: flex justify-between max-w-6xl items-start */
-  :root.theme-antd:is(.dark, :not(.dark)) [class~="justify-between" i][class~="max-w-6xl" i] {
-    flex-wrap: wrap;
-    row-gap: 12px;
-  }
+  /* (The detail pages' own "title … actions" rows are gone since P3-1: the
+     page header bar and PageHeaderActions carry them.) */
 
   /* Truncated text (Tailwind .truncate, e.g. TextWithTooltip) only gets its
      ellipsis if every flex/grid item around it may shrink; min-width:auto
@@ -197,8 +193,8 @@
   }
 
   /* Detail pages: the two side-by-side columns stack.
-     @depends src/app/(dashboard)/team/user/page.tsx: flex gap-10 w-full mt-8 max-w-6xl items-start
-     @depends src/app/(dashboard)/network/page.tsx: flex gap-10 w-full mt-8 max-w-6xl items-start */
+     @depends src/app/(dashboard)/team/user/page.tsx: flex gap-10 w-full max-w-6xl items-start
+     @depends src/app/(dashboard)/network/page.tsx: flex gap-10 w-full max-w-6xl items-start */
   :root.theme-antd:is(.dark, :not(.dark)) [class~="gap-10" i][class~="max-w-6xl" i][class~="items-start" i] {
     flex-direction: column;
   }

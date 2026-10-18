@@ -38,3 +38,7 @@ src/app/(dashboard)/reverse-proxy/logs/page.tsx :: @theme: page-template
 src/app/(dashboard)/reverse-proxy/services/page.tsx :: @theme: page-template
 src/app/(dashboard)/team/service-users/page.tsx :: @theme: page-template
 src/app/(dashboard)/team/users/page.tsx :: @theme: page-template
+src/app/(dashboard)/group/page.tsx :: @theme: page-template
+src/app/(dashboard)/peer/page.tsx :: @theme: page-template
+src/app/(dashboard)/team/user/page.tsx :: @theme: page-template
+src/app/(dashboard)/network/page.tsx :: @theme: page-template
