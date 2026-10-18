@@ -616,7 +616,7 @@ P1b-3 验收（2026-10-18，本机）：
 | 深色对照 | 上游 `Components/Badge`（7 个 story）与 `Components/Input`（7 个 story）在 1200px 深色下与上一版像素零差异 |
 | 截图 | Tag 六种角色 + xs + disabled；输入框默认 / 图标后缀 / 前缀盒 / 错误（行内与 tooltip）/ 禁用 / 只读 / 密码 / 多行，桌面 32px、手机 40px；Peers 与 Access Control 列表里的分组 / 协议 tag 变为 AntD 尺寸；新建策略弹窗 1440 / 390 |
 | 修正 | `overrides.css` 第 1 节「实色背景保留白字」规则对 `blueDark` / `blue-darker` 的 `text-white` 优先级高于 tag 角色色，加 `:not([data-nb-tag])` 豁免后文字恢复信息蓝 |
-| 全量溢出守卫 | 对 P1b-3 构建的 8 轮运行中，结果随后补记（tag 变小、输入框高度沿用 P1b-2 的 token，预期无新增溢出） |
+| 全量溢出守卫 | 随 P2-1 的构建一起跑（含本步全部改动）：8 轮全绿，见 P2-1 验收 |
 
 ### P2-1 主操作上提到页头：DataTable adapter 的「传送」（2026-10-18）
 
@@ -639,7 +639,7 @@ P2-1 验收（2026-10-18，本机）：
 | `npx vitest run` | 93 个文件 / 1026 个测试通过（DataTable adapter 6 个：进页头、无页头原地、外壳外原地、弹窗内原地、第二个表格原地、卸载释放） |
 | `npm run theme:check-selectors` | 107 个 `@depends` token、289 条规则在策略内；1 个组件替换 + 11 个整文件替换与上游一致 |
 | 截图 | Peers 1440：Add Peer 在页头右侧，满配工具栏（搜索 / 筛选 / 类型 / 合规 / 旁路 / 浏览器 / 刷新）一行放下；Peers 390：底栏整宽 Add Peer，下拉向上展开；Groups / Access Control 1440 同样；Peers 空态页头无按钮（`rightSide` 条件为假）、Get Started 卡片保留自己的按钮；Groups 详情「Assign Peers」弹窗内的表格按钮原地不动 |
-| 全量溢出守卫 | 对 P2-1 构建（含 P1b-3）的 8 轮运行中，结果随后补记 |
+| 全量溢出守卫（含 P1b-3 + P2-1） | 375 / 390 / 768 浅色、390 深色、1280 / 1440 浅色：549 个 story × 6 轮，0 横向溢出、0 布局问题；360 详情页浅 + 深 39 × 2 均为 0；0 个加载失败 |
 
 ### P3-1 详情页页头（2026-10-18）
 
