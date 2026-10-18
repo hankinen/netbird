@@ -205,7 +205,9 @@ When you:
   is reviewed from the screenshots;
 - **add or migrate a page header**: declare it with `usePageHeader()` from
   `src/theme/shell/pageHeader.tsx` instead of an in-page breadcrumb / h1 /
-  paragraph block (`src/theme/README.md`, "App shell");
+  paragraph block; a detail page's rich title and its own buttons go through
+  `PageHeaderTitle` / `PageHeaderActions`, and a `DataTable`'s `rightSide`
+  moves to the header by itself (`src/theme/README.md`, "App shell");
 - **add or change text**: `npm run i18n:types` when keys changed, then
   `npm run i18n:check`;
 - **change the config contract, the image or the release script**: run the
