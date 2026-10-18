@@ -1,10 +1,7 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
-import { usePortalElement } from "@hooks/usePortalElement";
 import dayjs from "dayjs";
 import { ArrowLeftRightIcon, ExternalLinkIcon } from "lucide-react";
 import React, { useMemo } from "react";
@@ -21,11 +18,10 @@ import { useAccount } from "@/modules/account/useAccount";
 import { LockedFeatureInfoCard } from "@/modules/billing/locked-feature/LockedFeatureInfoCard";
 import { LockedFeatureOverlay } from "@/modules/billing/locked-feature/LockedFeatureOverlay";
 import { EventStreamingCard } from "@/modules/integrations/event-streaming/EventStreamingCard";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 export default function NetworkTrafficPage() {
   const account = useAccount();
   const { permission } = usePermissions();
-  const { ref: headingRef, portalTarget } =
-    usePortalElement<HTMLHeadingElement>();
   const isTrafficEventsLocked = useIsFeatureLocked("TRAFFIC_EVENTS");
 
   const isEnabled = !!account?.settings?.extra?.network_traffic_logs_enabled;
@@ -37,39 +33,46 @@ export default function NetworkTrafficPage() {
     }),
     [],
   );
-
-  return (
-    <PageContainer>
-      <div className="p-default py-6">
-        <Breadcrumbs>
-          <Breadcrumbs.Item
-            label={t("events.page:page.label.activity")}
-            disabled
-            icon={<ActivityIcon size={13} />}
-          />
-          <Breadcrumbs.Item
-            href="/events/traffic"
-            label={t("events.page:page.label.trafficEvents")}
-            icon={<ArrowLeftRightIcon size={15} />}
-          />
-        </Breadcrumbs>
-
-        <h1 ref={headingRef}>{t("events.page:page.label.trafficEvents")}</h1>
-
-        <Paragraph>
-          {t("events.page:page.text.trafficEventsIsAnExperimental")}
-        </Paragraph>
-
-        <Paragraph>
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => (
+      <>
+        <p>{t("events.page:page.text.trafficEventsIsAnExperimental")}</p>
+        <p>
           {t("common:word.learnMoreAbout")}{" "}
           <InlineLink href={TRAFFIC_EVENTS_DOC_LINK} target="_blank">
             {t("events.page:page.label.trafficEvents")}{" "}
             <ExternalLinkIcon size={12} />
           </InlineLink>{" "}
           {t("events.page:page.text.inOurDocumentation")}
-        </Paragraph>
-      </div>
+        </p>
+      </>
+    ),
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      {
+        label: t("events.page:page.label.activity"),
+        icon: <ActivityIcon size={13} />,
+      },
+      {
+        label: t("events.page:page.label.trafficEvents"),
+        href: "/events/traffic",
+        icon: <ArrowLeftRightIcon size={15} />,
+      },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("events.page:page.label.trafficEvents"),
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
+  return (
+    <PageContainer>
       <RestrictedAccess
         page="Traffic Events"
         hasAccess={permission.events.read}
@@ -90,10 +93,7 @@ export default function NetworkTrafficPage() {
               defaultFilters={defaultFilters}
               enabled={!isTrafficEventsLocked}
             >
-              <TrafficEventsTable
-                headingTarget={portalTarget}
-                isSettingEnabled={isEnabled}
-              />
+              <TrafficEventsTable isSettingEnabled={isEnabled} />
             </ServerPaginationProvider>
           </PeersProvider>
         </LockedFeatureOverlay>

@@ -565,8 +565,16 @@ P1a 验收（2026-10-18，本机全量运行）：
 在外壳的主列里就多出一个侧栏。`fix(shell): viewport-wide children of the main column are sized to the column`
 一条规则修复后复跑归零。
 
-**P1a 留下的事项（进 P1b / P2）**
-- 顶栏全局搜索入口、Breadcrumbs adapter（未迁移页面的面包屑仍在页内）。
+### P1b 页头统一（2026-10-18）
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| Breadcrumbs adapter | 完成 | `@components/Breadcrumbs` 走 adapter：在外壳内把 `Item` 登记到页头 store 的第二个槽位、自身不渲染，顶栏统一显示；外壳外（story / 测试）渲染上游组件。设置页各 tab、详情页的面包屑因此也统一进了顶栏 |
+| 列表页迁移 | 完成 | 23 个列表页（策略、组、合规检查、网络、路由、DNS ×3、审计 / 流量事件、用户、服务用户、反向代理 ×4、Agent Network ×5、云端客户 / 租户）用 codemod 去掉页内「面包屑 + h1 + 营销段落」，改为 `usePageHeader`；11 个页面带 `count`；均登记为 `@theme: page-template` touch point |
+| 未迁移 | 按计划 | 详情页（peer / group / network / user）与设置 tab 的标题行留到 P3（DetailPage / SettingsPage 模板） |
+
+**P1a / P1b 留下的事项（进 P1b 后半 / P2）**
+- 顶栏全局搜索入口。
 - Button / Input / Select / Tag / Tabs adapters；工具栏 container query 收纳（1440 下 Peers 工具栏仍换行）。
 - 手机端 AppBar 不显示数量；DataTable 的「N of M」过滤计数随表格 adapter 进槽位。
 - 折叠态的标签提示用的是原生 `title`，P1b 换成 Tooltip。

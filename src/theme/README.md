@@ -63,6 +63,7 @@ Three exact `tsconfig.json` aliases swap upstream's layout files for
 | `@/layouts/Header` | `shell/Header.tsx`: the top bar, still exports `headerHeight` (48) | `src/layouts/Header.tsx` |
 | `@/layouts/PageContainer` | `shell/PageContainer.tsx`: `<main>` scroll container, same classes | `src/layouts/PageContainer.tsx` |
 | `@/components/SidebarItem`, `@components/SidebarItem` | `adapters/SidebarItem.tsx`: same props and routing, dark-menu visuals, collapsed rail + group popovers | `src/components/SidebarItem.tsx` |
+| `@components/Breadcrumbs`, `@/components/Breadcrumbs` | `adapters/Breadcrumbs.tsx`: inside the shell registers its `Item`s with the page-header store and renders nothing (the top bar shows them); outside it renders upstream | `src/components/Breadcrumbs.tsx` |
 | (hosted, not replaced) | `src/layouts/Navigation.tsx` renders inside `Sider` / `NavDrawer`; shell.css neutralises its container (`@depends`) | `src/layouts/Navigation.tsx` |
 
 `@replaces-file <file> sha256:<16 hex>` pins the whole upstream file: when
@@ -103,14 +104,20 @@ usePageHeader({
 
 Desktops: the breadcrumb goes to the top bar, title + count + help + actions
 to `PageHeaderBar`. Phones: the title goes to the top bar, the primary action
-to `BottomBar`, the bar is hidden. Pages that have not registered anything
-show their translated document title in the top bar and keep their own
-in-page header. The spec lives in a small external store (`PageHeaderStore`):
+to `BottomBar`, the bar is hidden. A page that has not registered a header
+still gets its breadcrumb in the top bar through the Breadcrumbs adapter
+(the store keeps that trail in a second slot; a full spec wins) and its title
+from it, else from the translated document title; its own h1 stays in the
+page until it migrates. Every list page is migrated (P1b, see
+`touch-points.txt` for the `@theme: page-template` lines); the detail pages
+(peer, group, network, user) and the settings tabs keep their in-page title
+rows until P3. The spec lives in a small external store (`PageHeaderStore`):
 registering never re-renders the page, listeners fire only when a visible
 field changed, handlers are read when the action runs (never stale). Pass
 strings or memoised nodes. Migrated pages carry `@theme: page-template` and
-a `touch-points.txt` line; Peers is the first (its "N of M" filtered count
-moves to the table adapter in P2).
+a `touch-points.txt` line. `count` is the page's data length where the
+page has it in scope; the table's "N of M" filtered count moves to the table
+adapter in P2.
 
 **Stories.** `Theme/Shell` renders the Peers page in the shell at 1440, 1024
 (`vp-1024`) and 390 (`vp-390`), collapsed, with the group popover, with the

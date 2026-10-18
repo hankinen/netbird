@@ -1,23 +1,21 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import FullScreenLoading from "@components/ui/FullScreenLoading";
-import { usePortalElement } from "@hooks/usePortalElement";
+import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import useFetchApi from "@utils/api";
 import React, { Suspense } from "react";
 import MSPIcon from "@/assets/icons/MSPIcon";
 import { CustomersProvider } from "@/cloud/distributor/contexts/CustomersProvider";
-import DistributorCustomersTable from "@/cloud/distributor/table/DistributorCustomersTable";
-import { DistributorDocsLink } from "@/cloud/distributor/DistributorDocsLink";
 import { useDistributor } from "@/cloud/distributor/contexts/DistributorProvider";
+import { DistributorDocsLink } from "@/cloud/distributor/DistributorDocsLink";
 import { DistributorCustomer } from "@/cloud/distributor/interfaces/Distributor";
-import PageContainer from "@/layouts/PageContainer";
-import { RestrictedAccess } from "@components/ui/RestrictedAccess";
+import DistributorCustomersTable from "@/cloud/distributor/table/DistributorCustomersTable";
 import { usePermissions } from "@/contexts/PermissionsProvider";
-
 import { t } from "@/i18n";
+import PageContainer from "@/layouts/PageContainer";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 export default function CustomersPage() {
   const { isDistributorInfoLoading } = useDistributor();
   if (isDistributorInfoLoading) return <FullScreenLoading fullScreen={false} />;
@@ -29,23 +27,32 @@ const CustomersPageContent = () => {
   const { data: customers, isLoading } = useFetchApi<DistributorCustomer[]>(
     "/integrations/msp/reseller/msps",
   );
-  const { ref: headingRef, portalTarget } =
-    usePortalElement<HTMLHeadingElement>();
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => <>{t("customers.page:page.text.useThisViewToManage")}</>,
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      {
+        label: t("common:word.customers"),
+        href: "/customers",
+        icon: <MSPIcon size={15} />,
+      },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("common:word.customers"),
+    count: customers?.length,
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
   return (
     <PageContainer>
       <div className={"p-default py-6"}>
-        <Breadcrumbs>
-          <Breadcrumbs.Item
-            href={"/customers"}
-            label={t("common:word.customers")}
-            icon={<MSPIcon size={15} />}
-          />
-        </Breadcrumbs>
-        <h1 ref={headingRef}>{t("common:word.customers")}</h1>
-        <Paragraph>
-          {t("customers.page:page.text.useThisViewToManage")}
-        </Paragraph>
         <Paragraph>
           <DistributorDocsLink />
           {t("customers.page:page.text.inOurDocumentation")}
@@ -59,7 +66,6 @@ const CustomersPageContent = () => {
           <CustomersProvider>
             <DistributorCustomersTable
               isLoading={isLoading}
-              headingTarget={portalTarget}
               customers={customers}
             />
           </CustomersProvider>

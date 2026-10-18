@@ -1,26 +1,21 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import dayjs from "dayjs";
 import { ExternalLinkIcon } from "lucide-react";
-import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import React, { useMemo } from "react";
+import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import PeersProvider from "@/contexts/PeersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import ServerPaginationProvider from "@/contexts/ServerPaginationProvider";
+import { t } from "@/i18n";
+import { REVERSE_PROXY_EVENTS_DOCS_LINK } from "@/interfaces/ReverseProxy";
 import PageContainer from "@/layouts/PageContainer";
 import ReverseProxyEventsTable from "@/modules/reverse-proxy/events/ReverseProxyEventsTable";
-import { usePortalElement } from "@hooks/usePortalElement";
-import { REVERSE_PROXY_EVENTS_DOCS_LINK } from "@/interfaces/ReverseProxy";
-
-import { t } from "@/i18n";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 export default function ProxyLogsPage() {
   const { permission } = usePermissions();
-  const { ref: headingRef, portalTarget } =
-    usePortalElement<HTMLHeadingElement>();
 
   const defaultFilters = useMemo(
     () => ({
@@ -31,35 +26,41 @@ export default function ProxyLogsPage() {
     }),
     [],
   );
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => (
+      <>
+        {t("reverse-proxy.page:page.text.viewAccessLogsForYour")}{" "}
+        <InlineLink href={REVERSE_PROXY_EVENTS_DOCS_LINK} target="_blank">
+          {t("common:word.learnMore")} <ExternalLinkIcon size={12} />
+        </InlineLink>
+      </>
+    ),
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      {
+        label: t("reverse-proxy.page:page.label.reverseProxy"),
+        icon: <ReverseProxyIcon size={15} />,
+      },
+      {
+        label: t("reverse-proxy.page:page.label.accessLogs"),
+        href: "/reverse-proxy/logs",
+        icon: <ReverseProxyIcon size={15} />,
+      },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("reverse-proxy.page:page.label.accessLogs"),
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
   return (
     <PageContainer>
-      <div className="p-default py-6">
-        <Breadcrumbs>
-          <Breadcrumbs.Item
-            label={t("reverse-proxy.page:page.label.reverseProxy")}
-            disabled
-            icon={<ReverseProxyIcon size={15} />}
-          />
-          <Breadcrumbs.Item
-            href="/reverse-proxy/logs"
-            label={t("reverse-proxy.page:page.label.accessLogs")}
-            icon={<ReverseProxyIcon size={15} />}
-          />
-        </Breadcrumbs>
-
-        <h1 ref={headingRef}>
-          {t("reverse-proxy.page:page.label.accessLogs")}
-        </h1>
-
-        <Paragraph>
-          {t("reverse-proxy.page:page.text.viewAccessLogsForYour")}{" "}
-          <InlineLink href={REVERSE_PROXY_EVENTS_DOCS_LINK} target="_blank">
-            {t("common:word.learnMore")} <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
-      </div>
-
       <RestrictedAccess
         page="Access Logs"
         hasAccess={permission?.services?.read}
@@ -70,7 +71,7 @@ export default function ProxyLogsPage() {
           defaultFilters={defaultFilters}
         >
           <PeersProvider>
-            <ReverseProxyEventsTable headingTarget={portalTarget} />
+            <ReverseProxyEventsTable />
           </PeersProvider>
         </ServerPaginationProvider>
       </RestrictedAccess>

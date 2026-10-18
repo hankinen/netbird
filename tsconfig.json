@@ -27,6 +27,8 @@
     "paths": {
       "@components/table/DataTablePagination": ["./src/theme/adapters/DataTablePagination.tsx"],
       "@components/table/Table": ["./src/theme/adapters/Table.tsx"],
+      "@components/Breadcrumbs": ["./src/theme/adapters/Breadcrumbs.tsx"],
+      "@/components/Breadcrumbs": ["./src/theme/adapters/Breadcrumbs.tsx"],
       "@components/SidebarItem": ["./src/theme/adapters/SidebarItem.tsx"],
       "@/components/SidebarItem": ["./src/theme/adapters/SidebarItem.tsx"],
       "@/layouts/DashboardLayout": ["./src/theme/shell/DashboardLayout.tsx"],

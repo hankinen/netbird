@@ -11,7 +11,7 @@ import { MSPTransferAccountModal } from "@/cloud/msp/MSPTransferAccountModal";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { t } from "@/i18n";
-import { type PageCrumb, usePageHeaderSpec } from "./pageHeader";
+import { type PageCrumb, usePageCrumbs, usePageHeaderSpec } from "./pageHeader";
 import { useDocumentPageName } from "./useDocumentTitle";
 
 /**
@@ -29,10 +29,12 @@ export const headerHeight = 48;
 
 export default function Header() {
   const spec = usePageHeaderSpec();
+  const crumbs = usePageCrumbs();
   const pageName = useDocumentPageName();
   const { toggleMobileNav } = useApplicationContext();
   const { isRestricted } = usePermissions();
-  const title = spec?.title ?? pageName;
+  const lastCrumb = crumbs?.length ? crumbs[crumbs.length - 1].label : null;
+  const title = spec?.title ?? lastCrumb ?? pageName;
 
   return (
     <header className={"nb-topbar"} data-testid={"app-topbar"}>
@@ -47,8 +49,8 @@ export default function Header() {
         </button>
       )}
       <div className={"nb-topbar__lead"}>
-        {spec?.breadcrumb?.length ? (
-          <Crumbs items={spec.breadcrumb} className={"nb-topbar__crumbs"} />
+        {crumbs?.length ? (
+          <Crumbs items={crumbs} className={"nb-topbar__crumbs"} />
         ) : (
           <span className={"nb-topbar__crumbs nb-topbar__where"}>{title}</span>
         )}

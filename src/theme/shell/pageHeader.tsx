@@ -89,8 +89,14 @@ export function sameSpec(
   );
 }
 
+const sameCrumb = (x: PageCrumb, y: PageCrumb) =>
+  x.label === y.label && x.href === y.href && x.icon === y.icon;
+
 export class PageHeaderStore {
   spec: PageHeaderSpec | null = null;
+  /** Breadcrumbs registered by the Breadcrumbs adapter of a page that has
+   *  not (yet) declared a full header; the top bar shows them. */
+  crumbs: PageCrumb[] | null = null;
   version = 0;
   private listeners = new Set<Listener>();
 
@@ -98,6 +104,19 @@ export class PageHeaderStore {
     const changed = !sameSpec(this.spec, next);
     this.spec = next;
     if (!changed) return;
+    this.bump();
+  }
+
+  setCrumbs(next: PageCrumb[] | null) {
+    const changed =
+      !sameList(this.crumbs ?? undefined, next ?? undefined, sameCrumb) &&
+      !(this.crumbs === null && next === null);
+    this.crumbs = next;
+    if (!changed) return;
+    this.bump();
+  }
+
+  private bump() {
     this.version++;
     for (const l of this.listeners) l();
   }
@@ -146,15 +165,40 @@ export function usePageHeader(spec: PageHeaderSpec | null): void {
   React.useEffect(() => () => store?.set(null), [store]);
 }
 
-/** The currently registered spec; re-renders the caller when it changes. */
-export function usePageHeaderSpec(): PageHeaderSpec | null {
-  const store = React.useContext(StoreContext);
+function useStoreVersion(store: PageHeaderStore | null) {
   React.useSyncExternalStore(
     store?.subscribe ?? noopSubscribe,
     store?.getVersion ?? zero,
     zero,
   );
+}
+
+/** The currently registered spec; re-renders the caller when it changes. */
+export function usePageHeaderSpec(): PageHeaderSpec | null {
+  const store = React.useContext(StoreContext);
+  useStoreVersion(store);
   return store?.spec ?? null;
+}
+
+/** The breadcrumb trail to show: the spec's, else the Breadcrumbs adapter's. */
+export function usePageCrumbs(): PageCrumb[] | null {
+  const store = React.useContext(StoreContext);
+  useStoreVersion(store);
+  return store?.spec?.breadcrumb ?? store?.crumbs ?? null;
+}
+
+/**
+ * Used by the Breadcrumbs adapter: registers a trail for as long as the
+ * component is mounted, without claiming the title row. Returns true when a
+ * store exists (the adapter then renders nothing itself).
+ */
+export function useRegisterCrumbs(items: PageCrumb[]): boolean {
+  const store = React.useContext(StoreContext);
+  React.useLayoutEffect(() => {
+    store?.setCrumbs(items);
+  });
+  React.useEffect(() => () => store?.setCrumbs(null), [store]);
+  return store !== null;
 }
 
 const noopSubscribe = () => () => {};

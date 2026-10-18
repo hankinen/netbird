@@ -1,12 +1,10 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/Tabs";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
-import { LayoutDashboard, ScrollText } from "lucide-react";
 import dayjs from "dayjs";
+import { LayoutDashboard, ScrollText } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useMemo, useState } from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
@@ -14,13 +12,13 @@ import GroupsProvider from "@/contexts/GroupsProvider";
 import PeersProvider from "@/contexts/PeersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import ServerPaginationProvider from "@/contexts/ServerPaginationProvider";
+import { t } from "@/i18n";
 import PageContainer from "@/layouts/PageContainer";
 import AgentAccessLogTable from "@/modules/agent-network/AgentAccessLogTable";
 import AgentOverviewPanel from "@/modules/agent-network/AgentOverviewPanel";
 import AIProvidersProvider from "@/modules/agent-network/AIProvidersProvider";
 import { useMyAgentNetworkSetup } from "@/modules/agent-network/useMyAgentNetworkSetup";
-
-import { t } from "@/i18n";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 // Tab ids — kept stable so ?tab=<id> URL hand-off works (e.g.
 // /agent-network/usage?tab=access-logs), the same way Settings deep-links tabs.
 const TAB_USAGE = "usage";
@@ -83,28 +81,34 @@ export default function UsageAndLogsPage() {
     params.set("tab", value);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => <>{t("agent-network.page:page.text.perRequestAuditWithReal")}</>,
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      {
+        label: t("agent-network.page:page.label.agentNetwork"),
+        href: "/agent-network/providers",
+        icon: <AgentNetworkIcon size={16} />,
+      },
+      {
+        label: t("agent-network.page:page.label.usageLogs"),
+        href: "/agent-network/usage",
+      },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("agent-network.page:page.label.usageLogs"),
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
   return (
     <PageContainer>
-      <div className={"p-default py-6 pb-0"}>
-        <Breadcrumbs>
-          <Breadcrumbs.Item
-            href={"/agent-network/providers"}
-            label={t("agent-network.page:page.label.agentNetwork")}
-            icon={<AgentNetworkIcon size={16} />}
-          />
-          <Breadcrumbs.Item
-            href={"/agent-network/usage"}
-            label={t("agent-network.page:page.label.usageLogs")}
-            active={true}
-          />
-        </Breadcrumbs>
-        <h1>{t("agent-network.page:page.label.usageLogs")}</h1>
-        <Paragraph>
-          {t("agent-network.page:page.text.perRequestAuditWithReal")}
-        </Paragraph>
-      </div>
-
       <RestrictedAccess
         page={"Usage & Logs"}
         hasAccess={canUseUsage || canUseLogs}
