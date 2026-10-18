@@ -4,16 +4,18 @@ name: Theme AntD guard
 #   selectors : class-name selectors still match upstream components
 #   dark      : dark theme vs the PR target / previous commit (changes reviewed)
 #   light     : AntD theme vs the PR target / previous commit (changes reviewed)
-#   mobile    : no new sideways page overflow at 375/390/768 (phones, tablets)
-#               and 1280/1440 (desktops with the sider open), AntD light
+#   mobile    : no new sideways page overflow, split in two parallel jobs so
+#               each stays well inside its timeout: phone (375/390/768 light,
+#               390 dark, 360 detail pages) and desktop (1280/1440 light,
+#               the sider open)
 #
 # Branch model: upstream netbirdio/dashboard main -> dev (our single main
 # branch, zh-CN translations + this theme together).
 #
 # Baseline for both themes: the PR base, else the commit before the push,
-# else HEAD~1. Pure upstream cannot be the baseline: the guard builds the
-# baseline with the current stories and .storybook config, which import
-# @/i18n, so an upstream checkout does not build. Since P0 of the UI
+# else HEAD~1. The baseline is built from its own commit as-is (stories and
+# .storybook config included), so a story added or moved since then shows
+# up as only-current instead of breaking the baseline build. Since P0 of the UI
 # architecture (docs/plans/2026-10-17-enterprise-ui-architecture.md,
 # decision 4) the dark theme is no longer held to upstream pixel parity:
 # a dark change fails the job like a light one and is reviewed from the
@@ -103,7 +105,17 @@ jobs:
   mobile:
     needs: selectors
     runs-on: ubuntu-latest
+    # One job ran ~24 min of passes plus ~6 min setup and hit 30 min once the
+    # desktop widths were added; split, each half needs about 18 / 12 min.
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - widths: phone
+            args: --desktop-vp ""
+          - widths: desktop
+            args: --vp "" --dark-vp "" --narrow-vp ""
     steps:
       - uses: actions/checkout@v7
         with:
@@ -116,4 +128,5 @@ jobs:
       - run: npx playwright install --with-deps --only-shell chromium
       # Fails when a page story scrolls sideways more than mobile-allow.json
       # allows, at phone, tablet and desktop widths.
-      - run: node scripts/theme/mobile-guard.mjs
+      - name: Overflow guard (${{ matrix.widths }})
+        run: node scripts/theme/mobile-guard.mjs ${{ matrix.args }}

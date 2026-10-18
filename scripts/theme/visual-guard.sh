@@ -6,8 +6,9 @@
 #   scripts/theme/visual-guard.sh --base <ref> --theme light  # AntD theme vs its own baseline
 #
 # Typical refs (branch model: upstream origin/main -> dev): dark and light ->
-# the last approved dev commit / PR base. Pure upstream does not work as a
-# baseline: the current stories and .storybook config import @/i18n.
+# the last approved dev commit / PR base. Each side is built from its own
+# commit as-is (stories, .storybook config, tsconfig paths); only node_modules
+# is shared. Stories that exist on one side only are listed, not compared.
 # Options: --tolerance N (default 8), --max-ratio R (default 0), --concurrency N
 # Output: $OUT (default .theme-guard/<theme>) with baseline/, current/, report.json
 set -euo pipefail
@@ -26,6 +27,11 @@ while (($#)); do
   shift
 done
 [[ -n "$BASE" ]] || { echo "--base <ref> is required" >&2; exit 2; }
+# Resolve once in this checkout: a relative ref (HEAD~1, as the workflow passes
+# when there is no PR base) would mean something else inside a reused worktree.
+BASE_SHA="$(git -C "$REPO" rev-parse --verify --quiet "$BASE^{commit}")" ||
+  { echo "--base $BASE is not a commit" >&2; exit 2; }
+BASE="$BASE_SHA"
 
 CACHE="${THEME_GUARD_CACHE:-$HOME/.cache/netbird-theme-guard}"
 OUT="${OUT:-$REPO/.theme-guard/$THEME}"
@@ -51,9 +57,11 @@ if ! cmp -s "$REPO/package-lock.json" "$WT/.guard-lock"; then
     cp -R "$REPO/node_modules" "$WT/node_modules"
   cp "$REPO/package-lock.json" "$WT/.guard-lock"
 fi
-# Same stories and Storybook config on both sides, so only the styles differ.
-rsync -a --delete "$REPO/.storybook/" "$WT/.storybook/"
-rsync -a --include='*/' --include='*.stories.tsx' --exclude='*' "$REPO/src/" "$WT/src/"
+# The baseline is built from its own stories and .storybook config. Copying
+# the current ones over it breaks as soon as a story or the preview imports
+# a module the baseline does not have yet, or a story file moves (duplicate
+# story ids): 3afa012b moved src/styles/theme-antd to src/theme, and
+# .storybook/preview.tsx now imports @/theme/hooks/useLayoutMode.
 
 build() {
   (cd "$1" && npx storybook build --test --quiet --disable-telemetry -o "$CACHE/storybook-$2" \
