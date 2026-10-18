@@ -597,9 +597,30 @@ P1b / P1b-2 验收（2026-10-18，本机全量运行，Storybook 含 Button adap
 | 深色对照 | `Components/Button` 全部 variant 在 1200px 深色下与上一版像素零差异（adapter 只加属性）；Peers 1440 深色只有工具栏间距变化 |
 | 截图 | Peers 1440：常规状态一行放下，带「Non-Compliant + Bypassed + 浏览器 peer」的满配状态 Add Peer 仍换到第二行右侧（根治在 P2 把主操作上提到页头）；Access Control 1440 一行；Peers 1024 两行右对齐；Peers 390 顶栏「Peers 14」、控件 40px；折叠侧栏悬停出现 Tooltip、`title` 属性为 0 |
 
-**P1b 留下的事项（进 P1b-3 / P2）**
+### P1b-3 原语 adapter：Badge → Tag、Input、Textarea（2026-10-18）
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| Badge adapter | 完成 | `@components/Badge` 走 `adapters/Badge.tsx`：12 个上游 variant → `data-nb-tag` 六种角色（default / info / success / warning / error / purple），`data-nb-size`、`data-nb-hover`；`css/tag.css` 按 AntD Tag 的尺寸（22 / 18px 高、7px 内边距、12px 字号）和状态色上色。GroupBadge / PeerCountBadge / ResourceBadge / LoginExpiredBadge 等 10 个 ui 组件都建在 Badge 上，随之统一 |
+| Input / Textarea adapters | 完成 | `data-nb-input` / `data-nb-textarea`（default / error）落在 `<input>` / `<textarea>` 上，包装层和前缀盒用 `:has()` 够到；`css/input.css`：高度跟 `--ctl-h`、AntD 边框 / 悬停 / 聚焦环 / 错误态 / 禁用态，占位符用 `--ant-color-text-placeholder` |
+| 旧规则退役 | 完成 | `overrides.css` 的 Badge 专属规则（`bg-sky-900`）删除、状态色族规则改为只服务手写 chip；`density.css` / `overrides.css` 的 `@depends` 不再指向 Input / Textarea（规则留给原生 `Select.tsx` 等）。`@depends` 114 → 107 |
+| 未做 | 按计划 | 原生 `Select.tsx`（11 处）与 Tabs 的 adapter 留到 P2 / P3 的表单与设置页模板；`SelectDropdown` 的触发器本就是 Button，已随 Button adapter 统一 |
+
+P1b-3 验收（2026-10-18，本机）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `npx tsc --noEmit` | 0 错误（三个 contract 文件锁住上游的 variant 并集与 `error` prop） |
+| `npx vitest run` | 92 个文件 / 1020 个测试通过（Badge adapter 4 个、Input / Textarea adapter 5 个；上游 SelectDropdown、PeerGroupSelector 等建在 Input 上的测试照常通过） |
+| `npm run theme:check-selectors` | 107 个 `@depends` token、144 个属性选择器、288 条规则在策略内；1 个组件替换 + 10 个整文件替换与上游一致 |
+| 深色对照 | 上游 `Components/Badge`（7 个 story）与 `Components/Input`（7 个 story）在 1200px 深色下与上一版像素零差异 |
+| 截图 | Tag 六种角色 + xs + disabled；输入框默认 / 图标后缀 / 前缀盒 / 错误（行内与 tooltip）/ 禁用 / 只读 / 密码 / 多行，桌面 32px、手机 40px；Peers 与 Access Control 列表里的分组 / 协议 tag 变为 AntD 尺寸；新建策略弹窗 1440 / 390 |
+| 修正 | `overrides.css` 第 1 节「实色背景保留白字」规则对 `blueDark` / `blue-darker` 的 `text-white` 优先级高于 tag 角色色，加 `:not([data-nb-tag])` 豁免后文字恢复信息蓝 |
+| 全量溢出守卫 | 对 P1b-3 构建的 8 轮运行中，结果随后补记（tag 变小、输入框高度沿用 P1b-2 的 token，预期无新增溢出） |
+
+**P1b 留下的事项（进 P2）**
 - 顶栏全局搜索入口。
-- Input / Select / Tag / Tabs adapters（同 Button 的 data 属性模式）。
+- 原生 `Select.tsx` 与 Tabs / SegmentedTabs 的 adapter（同 Button 的 data 属性模式）。
 - 工具栏的「收进 ⋯」和主操作上提到页头：随 P2 的 `Toolbar` / DataTable adapter 一起做；P1b-2 只收紧了间距。
 - DataTable 的「N of M」过滤计数随表格 adapter 进槽位。
 

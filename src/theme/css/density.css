@@ -5,8 +5,9 @@
  * selectors (group chips) still grow instead of clipping.
  */
 
-/* Fixed-height controls: inputs, selects, square icon buttons.
-   @depends src/components/Input.tsx: h-[42px]
+/* Fixed-height controls that are not behind an adapter yet (the native
+   select, hand-sized buttons); Input / Textarea / Button have their own
+   rules in input.css and button.css.
    @depends src/components/Select.tsx: h-[42px]
    @depends src/components/table/DataTableRefreshButton.tsx: h-[42px] */
 :root.theme-antd:not(.dark) [class~="h-[42px]" i] {
@@ -17,10 +18,9 @@
 :root.theme-antd:not(.dark) [class~="w-[42px]" i][class~="h-[42px]" i] {
   width: var(--ant-control-height);
 }
-/* Growing controls (multi-select triggers, textarea).
+/* Growing controls (multi-select triggers).
    @depends src/components/PeerGroupSelector.tsx: min-h-[42px]
-   @depends src/components/DropdownInput.tsx: min-h-[42px]
-   @depends src/components/Textarea.tsx: min-h-[42px] */
+   @depends src/components/DropdownInput.tsx: min-h-[42px] */
 :root.theme-antd:not(.dark) [class~="min-h-[42px]" i] {
   min-height: var(--ant-control-height);
 }

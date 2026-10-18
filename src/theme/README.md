@@ -25,9 +25,10 @@ the dark theme is **no longer** promised to be pixel-identical to upstream; see
 ```
 src/theme/
   tokens/   breakpoints.ts, tokens.base.css, tokens.density.css, tokens.light.css
-  css/      index.css, base.css, overrides.css, vendors.css, density.css, button.css, pagination.css, responsive.css, shell.css
+  css/      index.css, base.css, overrides.css, vendors.css, density.css, button.css, tag.css, input.css,
+            pagination.css, responsive.css, shell.css
   adapters/ components swapped in through tsconfig `paths`: DataTablePagination, Table, SidebarItem,
-            Breadcrumbs, Button (+ .contract.ts, stories, tests)
+            Breadcrumbs, Button, Badge, Input, Textarea (+ .contract.ts, stories, tests)
   hooks/    useLayoutMode.tsx (useLayoutMode, useIsPhone, LayoutModeSync)
   shell/    AppShell, DashboardLayout, Header, PageContainer, Sider, NavDrawer,
             PageHeaderBar, BottomBar, pageHeader (the slot), siderContext
@@ -47,8 +48,10 @@ src/theme/
 | `css/vendors.css`           | third-party widgets: React Flow, sonner, Radix portals, timescape, xterm                                |
 | `css/density.css`           | AntD "middle" density keyed on upstream classes: inputs / selects, table cells (shrinks as adapters take over) |
 | `css/button.css`            | buttons by role, keyed on the `data-nb-*` attributes `adapters/Button.tsx` writes (no upstream class names) |
+| `css/tag.css`               | tags (upstream `Badge`) by role, keyed on the attributes `adapters/Badge.tsx` writes                       |
+| `css/input.css`             | text inputs and textareas, keyed on the attributes `adapters/Input.tsx` / `Textarea.tsx` write           |
 | `css/responsive.css`        | phones / tablets (and R1 at every width), see "手机端适配" below                                        |
-| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`, `SidebarItem`, `Breadcrumbs`, `Button` (section "Primitive adapters") |
+| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`, `SidebarItem`, `Breadcrumbs`, `Button`, `Badge`, `Input`, `Textarea` (section "Primitive adapters") |
 | `shell/`                    | the app shell (section below): replaces `DashboardLayout`, `Header` and `PageContainer` via paths       |
 | `hooks/useLayoutMode.tsx`   | `useLayoutMode()` → `phone` / `compact` / `full`, `useIsPhone()`, `LayoutModeSync` (`<html data-layout-mode>`) |
 | `defaultTheme.ts`           | env switch, `<html>` props, ThemeProvider default                                                       |
@@ -215,6 +218,9 @@ upstream file.
 | alias | wrapper | attributes | CSS |
 | --- | --- | --- | --- |
 | `@components/Button`, `@/components/Button` | `adapters/Button.tsx` (+ `.contract.ts`, `.stories.tsx`, `.test.tsx`) | `data-nb-btn` role: `primary`, `default`, `active` (upstream `tertiary`: the selected toggle), `text` (`default-outline`), `danger`, `danger-outline`, `danger-text`; `data-nb-size`: `sm` / `md` / `lg` (upstream `xs`, `xs2` / `sm`, `md` / `lg`); `data-nb-grouped` on `ButtonGroup.Button` | `css/button.css` |
+| `@components/Badge`, `@/components/Badge` | `adapters/Badge.tsx` (+ `.contract.ts`, `.stories.tsx`, `.test.tsx`) | `data-nb-tag` role: `default` (the four greys), `info` (the blue family and `netbird`), `success`, `warning`, `error`, `purple`; `data-nb-size`: `default` / `xs`; `data-nb-hover` with `useHover` | `css/tag.css` |
+| `@components/Input`, `@/components/Input` | `adapters/Input.tsx` (+ `.contract.ts`, `.stories.tsx`, `.test.tsx`) | `data-nb-input`: `default` / `error` on the `<input>`; the wrapper and the prefix box are reached with `:has()` | `css/input.css` |
+| `@components/Textarea`, `@/components/Textarea` | `adapters/Textarea.tsx` (+ `.contract.ts`; story and test with Input) | `data-nb-textarea`: `default` / `error` | `css/input.css` |
 
 Rules for a wrapper:
 
@@ -226,7 +232,8 @@ Rules for a wrapper:
 - delete the class-keyed rules the wrapper makes redundant in
   `overrides.css` / `density.css` in the same change. The `@depends` count
   is the metric (Button took 7 out; the toolbar density rules landed in the
-  same step added 4: 117 → 114).
+  same step added 4: 117 → 114; Badge, Input and Textarea took 7 more:
+  114 → 107).
 
 Heights: since P1b `--ant-control-height` is `var(--ctl-h)`, so inputs,
 selects and buttons follow the layout mode together (32px on desktops and
