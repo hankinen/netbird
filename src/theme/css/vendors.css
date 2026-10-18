@@ -1,17 +1,9 @@
 /* Third-party libraries under the AntD theme. */
 
-/* React Flow (control centre). Upstream passes colorMode="dark" and an inline
-   <Background bgColor="#181a1d">; !important is needed to beat the inline style.
-   @depends src/app/(dashboard)/control-center/page.tsx: <Background */
-:root.theme-antd:not(.dark) .react-flow .react-flow__background {
-  background-color: var(--ant-color-bg-layout) !important;
-}
-:root.theme-antd:not(.dark) .react-flow .react-flow__background circle {
-  fill: var(--ant-color-border);
-}
-:root.theme-antd:not(.dark) .react-flow {
-  --xy-edge-label-background-color: var(--ant-color-bg-container);
-}
+/* React Flow (control centre): nothing here any more. The canvas renders in
+   the page's colour mode (page.tsx touch point) and every node, edge, handle
+   and chrome element is a src/theme/adapters/control-center replacement
+   drawing src/theme/graph primitives from ../graph/tokens.graph.css. */
 
 /* xterm (SSH terminal): intentionally stays dark, as terminals do; its own
    theme object lives in src/modules/remote-access/ssh/Terminal.tsx. White text
@@ -59,62 +51,6 @@
    match those serialised values. !important is required to beat inline style.
    Literal colour values appear only inside selectors (to find the element),
    never as declared values. */
-
-/* React Flow's own palette: upstream renders <ReactFlow colorMode="dark">,
-   which puts .dark on .react-flow and switches xyflow to its dark variables.
-   @depends src/app/(dashboard)/control-center/page.tsx: colorMode={"dark"} */
-:root.theme-antd:not(.dark) .react-flow.dark {
-  --xy-background-color: var(--ant-color-bg-layout);
-  --xy-background-pattern-color: var(--ant-color-border);
-  --xy-node-background-color: var(--ant-color-bg-container);
-  --xy-node-border: 1px solid var(--ant-color-border);
-  --xy-node-color: var(--ant-color-text);
-  --xy-node-boxshadow-hover: var(--ant-box-shadow-tertiary);
-  --xy-node-boxshadow-selected: 0 0 0 1px var(--ant-color-primary);
-  --xy-handle-background-color: var(--ant-color-border);
-  --xy-handle-border-color: var(--ant-color-bg-container);
-  --xy-edge-stroke: var(--ant-color-text-quaternary);
-  --xy-edge-stroke-selected: var(--ant-color-primary);
-  --xy-connectionline-stroke: var(--ant-color-text-tertiary);
-  --xy-attribution-background-color: transparent;
-  --xy-minimap-background-color: var(--ant-color-bg-container);
-  --xy-minimap-mask-background-color: var(--ant-color-fill-secondary);
-  --xy-controls-button-background-color: var(--ant-color-bg-container);
-  --xy-controls-button-background-color-hover: var(--ant-color-fill-alter);
-  --xy-controls-button-color: var(--ant-color-text);
-  --xy-controls-button-border-color: var(--ant-color-border-secondary);
-  --xy-selection-background-color: var(--ant-color-primary-bg);
-  --xy-selection-border: 1px dotted var(--ant-color-primary);
-  --xy-edge-label-background-color: var(--ant-color-bg-container);
-  --xy-edge-label-color: var(--ant-color-text);
-}
-
-/* Node handles: style={{ backgroundColor: "#3f444b" }}; !important: inline style.
-   @depends src/modules/control-center/nodes/SelectPeerNode.tsx: "#3f444b"
-   @depends src/modules/control-center/nodes/SelectGroupNode.tsx: "#3f444b"
-   @depends src/modules/control-center/nodes/SelectUserNode.tsx: "#3f444b" */
-:root.theme-antd:not(.dark)
-  .react-flow
-  .react-flow__handle[style*="rgb(63, 68, 75)" i] {
-  background-color: var(--ant-color-border) !important;
-}
-
-/* Edge labels: background: "#181a1d" + text-green-50.
-   !important: the colours are inline styles.
-   @depends src/modules/control-center/edges/AnimatedLine.tsx: background: "#181a1d" | text-green-50 */
-:root.theme-antd:not(.dark)
-  .react-flow
-  [style*="background: rgb(24, 26, 29)" i] {
-  background: var(--ant-color-bg-container) !important;
-  color: var(--ant-color-text) !important;
-  box-shadow: 0 0 0 1px var(--ant-color-border-secondary);
-}
-
-/* Connection line while dragging: stroke="#fff" (invisible on a light canvas).
-   @depends src/modules/control-center/edges/ConnectionLine.tsx: stroke="#fff" */
-:root.theme-antd:not(.dark) .react-flow path[stroke="#fff"] {
-  stroke: var(--ant-color-text-tertiary);
-}
 
 /* Keycap-style chips use a dark arbitrary shadow
    shadow-[0_2px_0_0_#1e2123,inset_0_1px_0_0_rgba(255,255,255,0.05)].

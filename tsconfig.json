@@ -25,13 +25,105 @@
       }
     ],
     "paths": {
-      "@components/table/DataTablePagination": ["./src/theme/adapters/DataTablePagination.tsx"],
-      "@components/table/Table": ["./src/theme/adapters/Table.tsx"],
-      "@components/SidebarItem": ["./src/theme/adapters/SidebarItem.tsx"],
-      "@/components/SidebarItem": ["./src/theme/adapters/SidebarItem.tsx"],
-      "@/layouts/DashboardLayout": ["./src/theme/shell/DashboardLayout.tsx"],
-      "@/layouts/Header": ["./src/theme/shell/Header.tsx"],
-      "@/layouts/PageContainer": ["./src/theme/shell/PageContainer.tsx"],
+      "@components/table/DataTablePagination": [
+        "./src/theme/adapters/DataTablePagination.tsx"
+      ],
+      "@components/table/Table": [
+        "./src/theme/adapters/Table.tsx"
+      ],
+      "@components/SidebarItem": [
+        "./src/theme/adapters/SidebarItem.tsx"
+      ],
+      "@/components/SidebarItem": [
+        "./src/theme/adapters/SidebarItem.tsx"
+      ],
+      "@/layouts/DashboardLayout": [
+        "./src/theme/shell/DashboardLayout.tsx"
+      ],
+      "@/layouts/Header": [
+        "./src/theme/shell/Header.tsx"
+      ],
+      "@/layouts/PageContainer": [
+        "./src/theme/shell/PageContainer.tsx"
+      ],
+      "@/modules/control-center/nodes/PeerNode": [
+        "./src/theme/adapters/control-center/PeerNode.tsx"
+      ],
+      "@/modules/control-center/nodes/GroupNode": [
+        "./src/theme/adapters/control-center/GroupNode.tsx"
+      ],
+      "@/modules/control-center/nodes/PolicyNode": [
+        "./src/theme/adapters/control-center/PolicyNode.tsx"
+      ],
+      "@/modules/control-center/nodes/AgentPolicyNode": [
+        "./src/theme/adapters/control-center/AgentPolicyNode.tsx"
+      ],
+      "@/modules/control-center/nodes/ProviderNode": [
+        "./src/theme/adapters/control-center/ProviderNode.tsx"
+      ],
+      "@/modules/control-center/nodes/ResourceNode": [
+        "./src/theme/adapters/control-center/ResourceNode.tsx"
+      ],
+      "@/modules/control-center/nodes/StandaloneResourceNode": [
+        "./src/theme/adapters/control-center/StandaloneResourceNode.tsx"
+      ],
+      "@/modules/control-center/nodes/ResourceGroupNode": [
+        "./src/theme/adapters/control-center/ResourceGroupNode.tsx"
+      ],
+      "@/modules/control-center/nodes/MoreResourcesNode": [
+        "./src/theme/adapters/control-center/MoreResourcesNode.tsx"
+      ],
+      "@/modules/control-center/nodes/NetworkNode": [
+        "./src/theme/adapters/control-center/NetworkNode.tsx"
+      ],
+      "@/modules/control-center/nodes/SelectPeerNode": [
+        "./src/theme/adapters/control-center/SelectPeerNode.tsx"
+      ],
+      "@/modules/control-center/nodes/SelectGroupNode": [
+        "./src/theme/adapters/control-center/SelectGroupNode.tsx"
+      ],
+      "@/modules/control-center/nodes/SelectUserNode": [
+        "./src/theme/adapters/control-center/SelectUserNode.tsx"
+      ],
+      "@/modules/control-center/edges/SmartEdge": [
+        "./src/theme/adapters/control-center/SmartEdge.tsx"
+      ],
+      "@/modules/control-center/edges/SimpleConnection": [
+        "./src/theme/adapters/control-center/SimpleConnection.tsx"
+      ],
+      "@/modules/control-center/edges/AnimatedLine": [
+        "./src/theme/adapters/control-center/AnimatedLine.tsx"
+      ],
+      "@/modules/control-center/edges/DirectionIn": [
+        "./src/theme/adapters/control-center/DirectionIn.tsx"
+      ],
+      "@/modules/control-center/edges/ConnectionLine": [
+        "./src/theme/adapters/control-center/ConnectionLine.tsx"
+      ],
+      "@/modules/control-center/handles/ConnectHandle": [
+        "./src/theme/adapters/control-center/ConnectHandle.tsx"
+      ],
+      "@/modules/control-center/toolbar/ToolbarButton": [
+        "./src/theme/adapters/control-center/ToolbarButton.tsx"
+      ],
+      "@/modules/control-center/toolbar/ToolbarContainer": [
+        "./src/theme/adapters/control-center/ToolbarContainer.tsx"
+      ],
+      "@/modules/control-center/toolbar/ToolbarGroup": [
+        "./src/theme/adapters/control-center/ToolbarGroup.tsx"
+      ],
+      "@/modules/control-center/toolbar/ToolbarDivider": [
+        "./src/theme/adapters/control-center/ToolbarDivider.tsx"
+      ],
+      "@/modules/control-center/header/ControlCenterHeader": [
+        "./src/theme/adapters/control-center/ControlCenterHeader.tsx"
+      ],
+      "@/modules/control-center/header/FlowSelector": [
+        "./src/theme/adapters/control-center/FlowSelector.tsx"
+      ],
+      "@/modules/control-center/draft/DraftModeSwitcher": [
+        "./src/theme/adapters/control-center/DraftModeSwitcher.tsx"
+      ],
       "@/*": [
         "./src/*"
       ],

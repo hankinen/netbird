@@ -15,3 +15,5 @@ src/layouts/AppLayout.tsx :: @theme: CJK fallback
 src/app/(dashboard)/peers/page.tsx :: @theme: page-template
 src/layouts/DashboardLayout.stories.tsx :: @theme: the shell's top bar is a <header>
 .storybook/visual-regression/scripts/capture.mjs :: @theme: vp-<width> tag
+src/app/(dashboard)/control-center/page.tsx :: @theme: canvas colour mode follows the dashboard theme :: colorMode=\{"dark"\}
+src/app/(dashboard)/control-center/page.tsx :: <Background {...GRAPH_BACKGROUND} gap={20} /> :: bgColor=\{"#181a1d"\}

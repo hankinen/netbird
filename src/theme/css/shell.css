@@ -432,6 +432,14 @@
   align-items: center;
   gap: 8px;
 }
+:root.theme-antd .nb-pageheader__extra {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+:root.theme-antd .nb-pageheader__extra:empty {
+  display: none;
+}
 
 /* ---- bottom bar (phones) --------------------------------------------------- */
 :root.theme-antd .nb-bottombar {

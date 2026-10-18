@@ -66,6 +66,8 @@ import {
 import { NODE_TYPES } from "@/modules/control-center/utils/nodes";
 import { NetworkAccessControlProvider } from "@/modules/networks/NetworkAccessControlProvider";
 import { NetworkProvider } from "@/modules/networks/NetworkProvider";
+// @theme: canvas colour mode follows the dashboard theme (src/theme/graph)
+import { GRAPH_BACKGROUND, useGraphColorMode } from "@/theme/graph";
 
 export default function ControlCenter() {
   return (
@@ -119,6 +121,8 @@ function ControlCenterCanvas() {
   const { onNodeDragStart, onNodeDrag, onNodeDragStop } = useDragToGroup();
   useDrillDownBrowserHistory();
   useGroupFocusDim();
+  // @theme: "dark" upstream; the AntD build renders the canvas in the page's colour mode
+  const canvasColorMode = useGraphColorMode();
 
   const { mutate } = useSWRConfig();
   const onLiveNetworkCreated = React.useCallback(
@@ -288,7 +292,7 @@ function ControlCenterCanvas() {
         onInit={stableOnInit}
         maxZoom={DEFAULT_MAX_ZOOM}
         minZoom={DEFAULT_MIN_ZOOM}
-        colorMode={"dark"}
+        colorMode={canvasColorMode}
         panOnDrag={canInteract}
         panOnScroll={draft.isSelectMode && !emptyState}
         zoomOnScroll={canInteract}
@@ -302,7 +306,7 @@ function ControlCenterCanvas() {
         selectionOnDrag={draft.isSelectMode && !emptyState}
         selectionMode={SelectionMode.Partial}
       >
-        <Background bgColor={"#181a1d"} gap={20} color={"#717171"} />
+        <Background {...GRAPH_BACKGROUND} gap={20} />
         <CanvasContextMenu onOpenChange={setContextMenuOpen} />
         <NodeContextMenu
           position={nodeContextMenuPos}

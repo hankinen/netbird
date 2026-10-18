@@ -1,0 +1,1004 @@
+/*
+ * Graph layer (src/theme/graph): the look of every canvas primitive, both
+ * colour modes, from the tokens in tokens.graph.css. Nothing here keys on an
+ * upstream class name except the three `cc-*` hooks the control-center
+ * e2e suites and its focus mode use (cc-frame-row, cc-frame-row-icon,
+ * cc-focus-armed), which are kept by the adapters on purpose.
+ *
+ * State is data attributes on the primitive's root (`data-selected`,
+ * `data-drop-target`, …), never a class combination assembled per node, so
+ * one state looks the same on a card, a pill and a frame. Level of detail
+ * (`data-lod` on .react-flow, written by lod.ts) hides the secondary line
+ * below 0.6 zoom and all text below 0.35.
+ */
+
+/* ---- canvas --------------------------------------------------------------- */
+:root.theme-antd .react-flow .react-flow__node {
+  font-size: var(--graph-font-meta);
+  line-height: var(--graph-line-height);
+}
+/* Keyboard focus lands on React Flow's node wrapper. */
+:root.theme-antd .react-flow .react-flow__node:focus-visible > .nb-graph-root {
+  box-shadow: 0 0 0 2px var(--graph-node-ring);
+}
+/* The page lays the chrome row and the canvas out as a column; the canvas
+   takes the rest (React Flow's own CSS gives it height: 100%). */
+:root.theme-antd .nb-page:has(> .nb-graph-chrome) {
+  display: flex;
+  flex-direction: column;
+}
+:root.theme-antd .nb-page:has(> .nb-graph-chrome) > .react-flow {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+}
+
+/* ---- node card ------------------------------------------------------------ */
+:root.theme-antd .nb-graph-node {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--graph-node-gap);
+  min-height: 54px;
+  padding: var(--graph-node-py) var(--graph-node-px);
+  border: 1px solid var(--graph-node-border);
+  border-radius: var(--graph-node-radius);
+  background: var(--graph-node-bg);
+  color: var(--graph-node-title);
+  box-shadow: var(--graph-node-shadow);
+  font-size: var(--graph-font-meta);
+  line-height: var(--graph-line-height);
+  transition:
+    border-color var(--graph-motion) var(--graph-ease),
+    background-color var(--graph-motion) var(--graph-ease),
+    box-shadow var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-node[data-variant="card"] {
+  min-width: 224px;
+  max-width: 300px;
+}
+/* A peer listed under its group in the group view: no card until hovered. */
+:root.theme-antd .nb-graph-node[data-variant="plain"] {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+/* A row inside a network frame: the frame layout stamps the slot size. */
+:root.theme-antd .nb-graph-node[data-variant="row"] {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 4px 8px;
+  border-color: transparent;
+  border-radius: 6px;
+  background: transparent;
+  box-shadow: none;
+}
+:root.theme-antd .nb-graph-node[data-interactive] {
+  cursor: pointer;
+}
+:root.theme-antd .nb-graph-node[data-interactive]:hover {
+  border-color: var(--graph-node-border-hover);
+  background: var(--graph-node-bg-hover);
+  box-shadow: var(--graph-node-shadow-hover);
+}
+:root.theme-antd .nb-graph-node[data-variant="row"][data-interactive]:hover {
+  border-color: transparent;
+  background: var(--graph-frame-row-hover);
+  box-shadow: none;
+}
+:root.theme-antd .nb-graph-node[data-selected] {
+  border-color: var(--graph-node-ring);
+  box-shadow: 0 0 0 1px var(--graph-node-ring);
+}
+:root.theme-antd .nb-graph-node[data-variant="row"][data-selected] {
+  border-color: transparent;
+  box-shadow: none;
+}
+:root.theme-antd
+  .nb-graph-node[data-variant="row"][data-selected]
+  .nb-graph-node__tile {
+  box-shadow: 0 0 0 2px var(--graph-node-ring);
+}
+:root.theme-antd .nb-graph-node[data-drop-target],
+:root.theme-antd .nb-graph-node[data-connect-target]:hover {
+  border-color: var(--graph-node-ring);
+  background: var(--graph-node-drop-bg);
+  outline: 2px dashed var(--graph-node-ring);
+  outline-offset: 2px;
+}
+:root.theme-antd
+  .nb-graph-node[data-variant="row"][data-connect-target]:hover
+  .nb-graph-node__tile,
+:root.theme-antd
+  .nb-graph-node[data-variant="row"][data-drop-target]
+  .nb-graph-node__tile {
+  outline: 2px dashed var(--graph-node-ring);
+  outline-offset: 1px;
+}
+:root.theme-antd .nb-graph-node[data-variant="row"][data-drop-target],
+:root.theme-antd .nb-graph-node[data-variant="row"][data-connect-target]:hover {
+  outline: none;
+  border-color: transparent;
+  background: var(--graph-frame-row-hover);
+}
+:root.theme-antd .nb-graph-node[data-disabled] {
+  opacity: var(--graph-disabled-opacity);
+}
+:root.theme-antd .nb-graph-node[data-draft] {
+  border-style: dashed;
+  border-color: var(--graph-tag-draft-border);
+}
+:root.theme-antd .nb-graph-node[data-deleting] .nb-graph-node__label {
+  text-decoration: line-through;
+  color: var(--graph-node-meta);
+}
+
+:root.theme-antd .nb-graph-node__tile {
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: var(--graph-tile-size);
+  height: var(--graph-tile-size);
+  border-radius: var(--graph-tile-radius);
+  background: var(--graph-tile-bg);
+  color: var(--graph-tile-fg);
+  transition: background-color var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-node[data-interactive]:hover .nb-graph-node__tile {
+  background: var(--graph-tile-bg-hover);
+}
+:root.theme-antd .nb-graph-node__tile[data-kind="group"] {
+  background: var(--graph-tile-group-bg);
+  color: var(--graph-tile-group-fg);
+}
+:root.theme-antd .nb-graph-node__tile[data-kind="resource"] {
+  background: var(--graph-tile-resource-bg);
+  color: var(--graph-tile-resource-fg);
+}
+:root.theme-antd .nb-graph-node__tile[data-kind="provider"] {
+  background: var(--graph-tile-provider-bg);
+  color: var(--graph-tile-provider-fg);
+}
+:root.theme-antd .nb-graph-node__tile[data-kind="network"] {
+  background: var(--graph-tile-network-bg);
+  color: var(--graph-tile-network-fg);
+}
+:root.theme-antd
+  .nb-graph-node[data-interactive]:hover
+  .nb-graph-node__tile[data-kind="group"],
+:root.theme-antd
+  .nb-graph-node[data-interactive]:hover
+  .nb-graph-node__tile[data-kind="resource"],
+:root.theme-antd
+  .nb-graph-node[data-interactive]:hover
+  .nb-graph-node__tile[data-kind="provider"] {
+  filter: saturate(1.15);
+}
+/* Country flag in the tile's corner. */
+:root.theme-antd .nb-graph-node__flag {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--graph-node-bg);
+  border-radius: 999px;
+  background: var(--graph-node-bg);
+}
+
+:root.theme-antd .nb-graph-node__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+:root.theme-antd .nb-graph-node__title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--graph-node-title);
+  font-size: var(--graph-font-title);
+  font-weight: var(--graph-font-weight-title);
+  white-space: nowrap;
+}
+:root.theme-antd .nb-graph-node__label {
+  overflow: hidden;
+  max-width: var(--graph-label-max, 200px);
+  text-overflow: ellipsis;
+}
+:root.theme-antd .nb-graph-node__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--graph-node-meta);
+  font-size: var(--graph-font-meta);
+  font-variant-numeric: tabular-nums;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:root.theme-antd .nb-graph-node__meta > * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+:root.theme-antd .nb-graph-node__trailing {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: var(--graph-node-meta);
+}
+/* The action that floats above a node (Install, No Network): inside the
+   node, not a NodeToolbar, so it zooms with the canvas. */
+:root.theme-antd .nb-graph-node__action {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 10px;
+}
+
+/* ---- status dot ----------------------------------------------------------- */
+:root.theme-antd .nb-graph-dot {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--graph-dot-on);
+}
+:root.theme-antd .nb-graph-dot[data-tone="off"] {
+  background: var(--graph-dot-off);
+}
+:root.theme-antd .nb-graph-dot[data-tone="warning"] {
+  background: var(--graph-dot-warning);
+}
+:root.theme-antd .nb-graph-dot[data-tone="danger"] {
+  background: var(--graph-dot-danger);
+}
+
+/* ---- policy pill ---------------------------------------------------------- */
+:root.theme-antd .nb-graph-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--graph-pill-h);
+  min-width: 120px;
+  padding: 0 6px 0 12px;
+  border: 1px solid var(--graph-pill-border);
+  border-radius: var(--graph-pill-radius);
+  background: var(--graph-pill-bg);
+  color: var(--graph-pill-fg);
+  box-shadow: var(--graph-node-shadow);
+  font-size: var(--graph-font-meta);
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color var(--graph-motion) var(--graph-ease),
+    box-shadow var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-pill:hover {
+  border-color: var(--graph-node-border-hover);
+  box-shadow: var(--graph-node-shadow-hover);
+}
+:root.theme-antd .nb-graph-pill[data-selected] {
+  border-color: var(--graph-node-ring);
+  box-shadow: 0 0 0 1px var(--graph-node-ring);
+}
+:root.theme-antd .nb-graph-pill[data-connect-target]:hover,
+:root.theme-antd .nb-graph-pill[data-drop-target] {
+  border-color: var(--graph-node-ring);
+  background: var(--graph-node-drop-bg);
+  outline: 2px dashed var(--graph-node-ring);
+  outline-offset: 2px;
+}
+:root.theme-antd .nb-graph-pill[data-disabled] {
+  opacity: var(--graph-disabled-opacity);
+}
+:root.theme-antd .nb-graph-pill[data-draft] {
+  border-style: dashed;
+  border-color: var(--graph-tag-draft-border);
+}
+:root.theme-antd .nb-graph-pill__name {
+  overflow: hidden;
+  max-width: 240px;
+  font-weight: var(--graph-font-weight-title);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:root.theme-antd .nb-graph-pill__tag {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  max-width: 200px;
+  padding: 0 8px;
+  border: 1px solid var(--graph-pill-tag-border);
+  border-radius: 12px;
+  background: var(--graph-pill-tag-bg);
+  color: var(--graph-pill-tag-fg);
+  font-size: var(--graph-font-meta);
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:root.theme-antd .nb-graph-pill__tag > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- tag ------------------------------------------------------------------ */
+:root.theme-antd .nb-graph-tag {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  height: 20px;
+  padding: 0 6px;
+  border: 1px solid var(--graph-tag-neutral-border);
+  border-radius: 4px;
+  background: var(--graph-tag-neutral-bg);
+  color: var(--graph-tag-neutral-fg);
+  font-size: var(--graph-font-tag);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+:root.theme-antd .nb-graph-tag[data-tone="draft"] {
+  border-color: var(--graph-tag-draft-border);
+  background: var(--graph-tag-draft-bg);
+  color: var(--graph-tag-draft-fg);
+}
+:root.theme-antd .nb-graph-tag[data-tone="warning"] {
+  border-color: var(--graph-tag-warning-border);
+  background: var(--graph-tag-warning-bg);
+  color: var(--graph-tag-warning-fg);
+}
+:root.theme-antd .nb-graph-tag[data-tone="danger"] {
+  border-color: var(--graph-tag-danger-border);
+  background: var(--graph-tag-danger-bg);
+  color: var(--graph-tag-danger-fg);
+}
+
+/* ---- network frame -------------------------------------------------------- */
+:root.theme-antd .nb-graph-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--graph-frame-border);
+  border-radius: var(--graph-frame-radius);
+  background: var(--graph-frame-bg);
+  box-shadow: var(--graph-node-shadow);
+  /* colours only: a frame resize must snap, not animate */
+  transition:
+    border-color var(--graph-motion) var(--graph-ease),
+    box-shadow var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-frame[data-interactive] {
+  cursor: pointer;
+}
+:root.theme-antd .nb-graph-frame[data-hovered] {
+  border-color: var(--graph-frame-border-hover);
+  box-shadow: var(--graph-node-shadow-hover);
+}
+:root.theme-antd .nb-graph-frame[data-selected] {
+  border-color: var(--graph-node-ring);
+  box-shadow: 0 0 0 1px var(--graph-node-ring);
+}
+:root.theme-antd .nb-graph-frame[data-drop-target],
+:root.theme-antd .nb-graph-frame[data-connect-target]:hover {
+  border-color: var(--graph-node-ring);
+  outline: 2px dashed var(--graph-node-ring);
+  outline-offset: 2px;
+}
+:root.theme-antd .nb-graph-frame[data-disabled] {
+  opacity: var(--graph-disabled-opacity);
+}
+:root.theme-antd .nb-graph-frame__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: var(--graph-frame-header-h);
+  padding: 0 16px;
+  border-bottom: 1px solid var(--graph-frame-border);
+  border-radius: calc(var(--graph-frame-radius) - 1px)
+    calc(var(--graph-frame-radius) - 1px) 0 0;
+  background: var(--graph-frame-header-bg);
+  transition: background-color var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-frame__heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+:root.theme-antd .nb-graph-frame__title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--graph-node-title);
+  font-size: var(--graph-font-title);
+  font-weight: var(--graph-font-weight-title);
+  white-space: nowrap;
+}
+:root.theme-antd .nb-graph-frame__title > .nb-graph-node__label {
+  max-width: 220px;
+}
+:root.theme-antd .nb-graph-frame__meta {
+  margin-top: 2px;
+  color: var(--graph-node-meta);
+  font-size: var(--graph-font-meta);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+/* The routing-peers bar sits above the frame's top-left corner. */
+:root.theme-antd .nb-graph-frame__controls {
+  position: absolute;
+  bottom: 100%;
+  left: -1px;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+/* ---- connect handle ------------------------------------------------------- */
+:root.theme-antd .nb-graph-handle__bubble {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: var(--graph-handle-size);
+  height: var(--graph-handle-size);
+  border: 1px solid var(--graph-handle-border);
+  border-radius: 50%;
+  background: var(--graph-handle-bg);
+  color: var(--graph-handle-active-fg);
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition:
+    opacity var(--graph-motion) var(--graph-ease),
+    width var(--graph-motion) var(--graph-ease),
+    height var(--graph-motion) var(--graph-ease),
+    background-color var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-handle__bubble[data-side="left"],
+:root.theme-antd .nb-graph-handle__bubble[data-side="right"] {
+  top: 50%;
+}
+:root.theme-antd .nb-graph-handle__bubble[data-side="top"],
+:root.theme-antd .nb-graph-handle__bubble[data-side="bottom"] {
+  left: 50%;
+}
+:root.theme-antd .nb-graph-handle__bubble[data-side="right"] {
+  left: calc(50% + 16px);
+}
+:root.theme-antd .nb-graph-handle__bubble[data-side="left"] {
+  left: calc(50% - 16px);
+}
+:root.theme-antd .nb-graph-handle__bubble[data-side="bottom"] {
+  top: calc(50% + 16px);
+}
+:root.theme-antd .nb-graph-handle__bubble[data-side="top"] {
+  top: calc(50% - 16px);
+}
+:root.theme-antd .nb-graph-root:hover .nb-graph-handle__bubble {
+  opacity: 1;
+}
+:root.theme-antd .nb-graph-handle__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--graph-handle-dot);
+  transition: opacity var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-handle__arrow {
+  position: absolute;
+  opacity: 0;
+  transition: opacity var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-handle:hover .nb-graph-handle__bubble {
+  width: var(--graph-handle-size-hover);
+  height: var(--graph-handle-size-hover);
+  border-color: var(--graph-handle-active-bg);
+  background: var(--graph-handle-active-bg);
+}
+:root.theme-antd .nb-graph-handle:hover .nb-graph-handle__dot {
+  opacity: 0;
+}
+:root.theme-antd .nb-graph-handle:hover .nb-graph-handle__arrow,
+:root.theme-antd .nb-graph-handle[data-connecting] .nb-graph-handle__arrow {
+  opacity: 1;
+}
+/* Hidden wins over the hover reveal above (same weight, later). */
+:root.theme-antd .nb-graph-handle[data-hidden] .nb-graph-handle__bubble,
+:root.theme-antd .nb-graph-handle[data-connecting] .nb-graph-handle__bubble {
+  opacity: 0;
+}
+
+/* ---- edges ---------------------------------------------------------------- */
+:root.theme-antd .nb-graph-edge {
+  fill: none;
+  stroke: var(--graph-edge);
+  stroke-width: var(--graph-edge-width);
+  stroke-linecap: round;
+  transition:
+    stroke var(--graph-motion) var(--graph-ease),
+    stroke-width var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-edge[data-disabled] {
+  stroke: var(--graph-edge-disabled);
+  stroke-dasharray: 4 5;
+}
+:root.theme-antd .nb-graph-edge[data-draft] {
+  stroke: var(--graph-edge-draft);
+  stroke-dasharray: 7 5;
+}
+:root.theme-antd .nb-graph-edge[data-emphasis="hover"] {
+  stroke: var(--graph-edge-emphasis);
+  stroke-width: var(--graph-edge-width-emphasis);
+  stroke-dasharray: 8 6;
+  animation: nb-graph-flow 0.7s linear infinite;
+}
+:root.theme-antd .cc-interacting .nb-graph-edge {
+  animation-play-state: paused;
+}
+@keyframes nb-graph-flow {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+:root.theme-antd .nb-graph-marker {
+  fill: var(--graph-edge);
+  stroke: none;
+}
+:root.theme-antd .nb-graph-marker[data-tone="emphasis"] {
+  fill: var(--graph-edge-emphasis);
+}
+:root.theme-antd .nb-graph-marker[data-tone="disabled"] {
+  fill: var(--graph-edge-disabled);
+}
+:root.theme-antd .nb-graph-marker[data-tone="draft"] {
+  fill: var(--graph-edge-draft);
+}
+:root.theme-antd .nb-graph-connection {
+  fill: none;
+  stroke: var(--graph-edge-emphasis);
+  stroke-width: var(--graph-edge-width-emphasis);
+  stroke-dasharray: 8 6;
+  stroke-linecap: round;
+}
+:root.theme-antd .nb-graph-edge__label {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 24px;
+  padding: 0 8px;
+  border: 1px solid var(--graph-node-border);
+  border-radius: 6px;
+  background: var(--graph-edge-label-bg);
+  color: var(--graph-edge-label-fg);
+  font-size: var(--graph-font-tag);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ---- focus mode and the assign pulse, in the theme's colours ------------- */
+:root.theme-antd
+  .react-flow.cc-focus-armed
+  .react-flow__node:hover
+  > .nb-graph-root:not(.cc-frame-row) {
+  box-shadow: 0 0 0 2px var(--graph-node-ring);
+}
+:root.theme-antd
+  .react-flow.cc-focus-armed
+  .cc-frame-row:hover
+  .cc-frame-row-icon {
+  box-shadow: 0 0 0 2px var(--graph-node-ring);
+}
+@keyframes nb-graph-pulse {
+  0% {
+    box-shadow: 0 0 0 0
+      color-mix(in srgb, var(--graph-node-ring) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 14px
+      color-mix(in srgb, var(--graph-node-ring) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0
+      color-mix(in srgb, var(--graph-node-ring) 0%, transparent);
+  }
+}
+:root.theme-antd .react-flow .react-flow__node.cc-node-pulse {
+  border-radius: var(--graph-frame-radius);
+  animation-name: nb-graph-pulse;
+}
+
+/* ---- level of detail ------------------------------------------------------ */
+/* A pill without a name keeps its tag at level 1: it is all that names it. */
+:root.theme-antd .react-flow[data-lod="1"] .nb-graph-node__meta,
+:root.theme-antd
+  .react-flow[data-lod="1"]
+  .nb-graph-pill[data-has-name]
+  .nb-graph-pill__tag,
+:root.theme-antd .react-flow[data-lod="1"] .nb-graph-frame__meta,
+:root.theme-antd .react-flow[data-lod="1"] .nb-graph-tag,
+:root.theme-antd .react-flow[data-lod="2"] .nb-graph-node__meta,
+:root.theme-antd .react-flow[data-lod="2"] .nb-graph-pill__tag,
+:root.theme-antd .react-flow[data-lod="2"] .nb-graph-frame__meta,
+:root.theme-antd .react-flow[data-lod="2"] .nb-graph-tag {
+  display: none;
+}
+:root.theme-antd .react-flow[data-lod="2"] .nb-graph-node__text,
+:root.theme-antd .react-flow[data-lod="2"] .nb-graph-node__trailing,
+:root.theme-antd .react-flow[data-lod="2"] .nb-graph-pill__name {
+  display: none;
+}
+:root.theme-antd .react-flow[data-lod="2"] .nb-graph-pill {
+  min-width: 0;
+  padding: 0 12px;
+}
+
+/* ---- dock (bottom tool strip) --------------------------------------------- */
+:root.theme-antd .nb-graph-dock {
+  display: inline-flex;
+  align-items: stretch;
+  height: var(--graph-dock-h);
+  padding: 0 6px;
+  border: 1px solid var(--graph-dock-border);
+  border-radius: var(--graph-dock-radius);
+  background: var(--graph-dock-bg);
+  color: var(--graph-dock-fg);
+  box-shadow: var(--graph-dock-shadow);
+}
+:root.theme-antd .nb-graph-dock__group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 2px;
+}
+:root.theme-antd .nb-graph-dock__divider {
+  width: 1px;
+  margin: 10px 6px;
+  background: var(--graph-dock-border);
+}
+:root.theme-antd .nb-graph-dock__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  min-width: 32px;
+  padding: 0 8px;
+  border-radius: 6px;
+  color: var(--graph-dock-fg);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background-color var(--graph-motion) var(--graph-ease),
+    color var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-dock__button:hover {
+  background: var(--graph-dock-hover-bg);
+  color: var(--graph-dock-fg-hover);
+}
+:root.theme-antd .nb-graph-dock__button[aria-pressed="true"] {
+  background: var(--graph-dock-active-bg);
+  color: var(--graph-dock-active-fg);
+}
+:root.theme-antd .nb-graph-dock__button[data-variant="primary"] {
+  padding: 0 12px;
+  background: var(--ant-color-primary);
+  color: var(--ant-color-text-light-solid);
+}
+:root.theme-antd .nb-graph-dock__button[data-variant="primary"]:hover {
+  background: var(--ant-color-primary-hover);
+  color: var(--ant-color-text-light-solid);
+}
+:root.theme-antd .nb-graph-dock__button:disabled {
+  background: transparent;
+  color: var(--graph-dock-disabled-fg);
+  cursor: not-allowed;
+}
+:root.theme-antd .nb-graph-dock__button:focus-visible {
+  outline: none;
+  box-shadow: var(--ant-focus-ring);
+}
+:root.theme-antd .nb-graph-kbd {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 6px;
+  padding: 1px 5px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+  font-family: var(--font-family-mono, ui-monospace, monospace);
+  font-size: 11px;
+  line-height: 1.2;
+  opacity: 0.85;
+}
+
+/* ---- chrome row above the canvas ------------------------------------------ */
+:root.theme-antd .nb-graph-chrome {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  min-height: var(--graph-toolbar-h);
+  padding: 6px var(--page-px);
+  border-bottom: 1px solid var(--graph-chrome-border);
+  background: var(--graph-chrome-bg);
+}
+:root.theme-antd .nb-graph-chrome__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+:root.theme-antd .nb-graph-chrome__spacer {
+  flex: 1 1 auto;
+}
+/* Segmented control (view switch, Live / Draft). */
+:root.theme-antd .nb-graph-segment {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  background: var(--ant-color-fill-tertiary);
+}
+:root.theme-antd .nb-graph-segment__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  color: var(--ant-color-text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background-color var(--graph-motion) var(--graph-ease),
+    color var(--graph-motion) var(--graph-ease),
+    box-shadow var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-segment__item:hover {
+  color: var(--ant-color-text);
+}
+:root.theme-antd .nb-graph-segment__item[data-state="active"] {
+  background: var(--ant-color-bg-container);
+  color: var(--ant-color-text);
+  box-shadow: var(--ant-box-shadow-tertiary);
+}
+:root.theme-antd .nb-graph-segment__item:focus-visible {
+  outline: none;
+  box-shadow: var(--ant-focus-ring);
+}
+:root.theme-antd .nb-graph-segment__item:disabled {
+  color: var(--ant-color-text-disabled);
+}
+:root.theme-antd.dark .nb-graph-segment {
+  background: #25282c;
+}
+:root.theme-antd.dark .nb-graph-segment__item {
+  color: #a3adb5;
+}
+:root.theme-antd.dark .nb-graph-segment__item[data-state="active"] {
+  background: #3f444b;
+  color: #e4e7e9;
+  box-shadow: none;
+}
+/* Icon button in the chrome row (focus, fit, legend). */
+:root.theme-antd .nb-graph-chrome__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  min-width: 32px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--ant-color-text-secondary);
+  font-size: 14px;
+  white-space: nowrap;
+  transition:
+    background-color var(--graph-motion) var(--graph-ease),
+    color var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-chrome__button:hover {
+  background: var(--ant-color-fill-tertiary);
+  color: var(--ant-color-text);
+}
+:root.theme-antd .nb-graph-chrome__button[aria-pressed="true"] {
+  border-color: var(--ant-color-primary-border);
+  background: var(--ant-color-primary-bg);
+  color: var(--ant-color-primary);
+}
+:root.theme-antd .nb-graph-chrome__button:focus-visible {
+  outline: none;
+  box-shadow: var(--ant-focus-ring);
+}
+:root.theme-antd .nb-graph-chrome__button:disabled {
+  color: var(--ant-color-text-disabled);
+  background: transparent;
+  cursor: not-allowed;
+}
+:root.theme-antd .nb-graph-chrome__label {
+  color: var(--ant-color-text-tertiary);
+  font-size: 13px;
+  white-space: nowrap;
+}
+/* Transient status pill at the top centre of the canvas (Focus mode). */
+:root.theme-antd .nb-graph-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 6px 0 12px;
+  border-radius: 16px;
+  background: var(--graph-status-bg);
+  color: var(--graph-status-fg);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: var(--ant-box-shadow-secondary);
+  white-space: nowrap;
+}
+:root.theme-antd .nb-graph-status__close {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  color: inherit;
+  opacity: 0.8;
+  transition: background-color var(--graph-motion) var(--graph-ease);
+}
+:root.theme-antd .nb-graph-status__close:hover {
+  background: rgba(255, 255, 255, 0.16);
+  opacity: 1;
+}
+/* Legend popover rows. */
+:root.theme-antd .nb-graph-legend {
+  display: grid;
+  gap: 10px;
+  min-width: 220px;
+}
+:root.theme-antd .nb-graph-legend__title {
+  color: var(--ant-color-text-tertiary);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+:root.theme-antd .nb-graph-legend__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ant-color-text);
+  font-size: 13px;
+}
+:root.theme-antd .nb-graph-legend__swatch {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 36px;
+  height: 20px;
+}
+
+/* ---- phones: the chrome row wraps, hover-only affordances go --------------- */
+@media (max-width: 767.98px) {
+  :root.theme-antd .nb-graph-chrome {
+    padding: 6px var(--page-px);
+  }
+  :root.theme-antd .nb-graph-chrome__label {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root.theme-antd .nb-graph-edge,
+  :root.theme-antd .react-flow .react-flow__node.cc-node-pulse {
+    animation: none;
+  }
+}
+
+/* ---- selector nodes (root of the peer / group / user views) --------------- */
+:root.theme-antd .nb-graph-select {
+  position: relative;
+}
+:root.theme-antd .nb-graph-select__trigger {
+  display: block;
+  width: 100%;
+  text-align: left;
+  outline: none;
+}
+:root.theme-antd .nb-graph-select__trigger:focus-visible .nb-graph-node {
+  box-shadow: var(--ant-focus-ring);
+}
+:root.theme-antd .nb-graph-select__card {
+  min-width: 240px;
+}
+/* The port edges leave from: a short bar on the right edge. */
+:root.theme-antd .nb-graph-select .nb-graph-select__port {
+  width: 3px;
+  height: 22px;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  background: var(--graph-handle-border);
+  right: -3px;
+}
+:root.theme-antd .nb-graph-avatar {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--graph-tile-radius);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* ---- chrome row: selects, mode area, status slot, legend samples ---------- */
+:root.theme-antd .nb-graph-chrome__select {
+  min-width: 160px;
+}
+/* The mode switch and draft actions, portalled into the page header bar. */
+:root.theme-antd .nb-graph-mode {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+:root.theme-antd .nb-graph-mode__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+/* Where the transient status pill appears: just under the chrome row. */
+:root.theme-antd .nb-graph-status-slot {
+  position: absolute;
+  top: calc(var(--graph-toolbar-h) + 12px);
+  right: 0;
+  left: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+:root.theme-antd .nb-graph-legend__pill {
+  display: inline-flex;
+  align-items: center;
+  width: 32px;
+  height: 16px;
+  padding: 0 5px;
+  border: 1px solid var(--graph-pill-border);
+  border-radius: 8px;
+  background: var(--graph-pill-bg);
+}
+:root.theme-antd .nb-graph-legend__ring {
+  display: inline-block;
+  width: 26px;
+  height: 16px;
+  border: 1px solid var(--graph-node-ring);
+  border-radius: 4px;
+  background: var(--graph-node-bg);
+  box-shadow: 0 0 0 1px var(--graph-node-ring);
+}

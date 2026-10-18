@@ -19,6 +19,9 @@
  *                  modals (../adapters/Table.tsx adds the data-label hooks)
  *   shell.css      the app shell (sider, top bar, page header, drawer,
  *                  bottom bar) and the SidebarItem adapter, both colour modes
+ *   ../graph/tokens.graph.css, ../graph/graph.css
+ *                  the graph layer (canvas primitives the control-center
+ *                  adapters render), both colour modes
  */
 @import "../tokens/tokens.base.css";
 @import "../tokens/tokens.density.css";
@@ -31,3 +34,5 @@
 @import "./pagination.css";
 @import "./responsive.css";
 @import "./shell.css";
+@import "../graph/tokens.graph.css";
+@import "../graph/graph.css";

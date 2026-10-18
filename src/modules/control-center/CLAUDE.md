@@ -25,6 +25,8 @@ DraftModeProvider → DragAndDropProvider → ReactFlowProvider → PoliciesProv
 
 Data flow: `useControlCenterData()` fetches everything (SWR) → view hooks (`usePeerView`, `useGroupView`, `useUserView`, `useNetworkView`) build node/edge graphs → `useSelectNodeHandlers({ views })` owns navigation, the view-init effect, and the shared `fitView` → `ControlCenterUIProvider` wires it together. Circular deps (node onClick → handlers → view builders) resolve via refs on CanvasStateProvider (`forceSingleGroupViewRef`, `refreshLiveViewRef`).
 
+**Presentation in the AntD build is not in this folder.** The node, edge, handle, toolbar and header files here are replaced through exact `tsconfig.json` aliases by `src/theme/adapters/control-center/*`, which render the graph layer (`src/theme/graph`, see its README) and keep every `data-testid`, handle id and `cc-*` class hook; each adapter falls back to the upstream component when the build's theme is not AntD. Change the look there; change behaviour (data, hooks, changeset) here. `theme:check-selectors` fails when a replaced upstream file changes, so an upstream edit to a node is reviewed against its adapter.
+
 Key directories under `control-center/`: `contexts/` (ControlCenterContext, DragAndDropProvider, policy modals), `header/` (top chrome + FlowSelector), `menus/` (canvas/node context menus), `panels/` (destination-group, peer-groups, routing-peers), `nodes/`, `edges/` (+ ConnectionLine), `handles/`, `toolbar/`, `hooks/` (data, `views/`, draft logic, layout reconcilers), `utils/` (graph-builder, layouts, canvas-transition, pure testable logic), `draft/` (draft-mode UI + changeset/history contexts; `modals/` holds the Draft\* modals, `changeset/` the review views).
 
 ## Views (live)

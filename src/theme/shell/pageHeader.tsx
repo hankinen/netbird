@@ -14,6 +14,11 @@
  * and only the shell parts that subscribe re-render. Listeners are notified
  * when a visible field changed; the latest spec object is always kept, and
  * actions are run through the store, so a handler is never stale.
+ *
+ * A page whose controls are more than buttons (the control-center mode
+ * switch, which needs the page's own providers) renders them itself into the
+ * bar's extra slot: `usePageHeaderSlot()` hands out the slot element once the
+ * bar has mounted, and a React portal into it keeps the page's context.
  */
 import * as React from "react";
 
@@ -110,6 +115,25 @@ export class PageHeaderStore {
   };
 
   getVersion = () => this.version;
+
+  /** The bar's extra slot, for pages that portal their own controls in. */
+  slot: HTMLElement | null = null;
+  private slotListeners = new Set<Listener>();
+
+  setSlot = (el: HTMLElement | null) => {
+    if (this.slot === el) return;
+    this.slot = el;
+    for (const l of this.slotListeners) l();
+  };
+
+  subscribeSlot = (l: Listener) => {
+    this.slotListeners.add(l);
+    return () => {
+      this.slotListeners.delete(l);
+    };
+  };
+
+  getSlot = () => this.slot;
 }
 
 const StoreContext = React.createContext<PageHeaderStore | null>(null);
@@ -157,5 +181,19 @@ export function usePageHeaderSpec(): PageHeaderSpec | null {
   return store?.spec ?? null;
 }
 
+/**
+ * The page header bar's extra slot (null until the bar renders, and on
+ * phones, where the bar is hidden). Render into it with createPortal.
+ */
+export function usePageHeaderSlot(): HTMLElement | null {
+  const store = React.useContext(StoreContext);
+  return React.useSyncExternalStore(
+    store?.subscribeSlot ?? noopSubscribe,
+    store?.getSlot ?? nothing,
+    nothing,
+  );
+}
+
 const noopSubscribe = () => () => {};
 const zero = () => 0;
+const nothing = () => null;
