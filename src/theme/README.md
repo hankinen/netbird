@@ -30,6 +30,9 @@ src/theme/
   hooks/    useLayoutMode.tsx (useLayoutMode, useIsPhone, LayoutModeSync)
   shell/    AppShell, DashboardLayout, Header, PageContainer, Sider, NavDrawer,
             PageHeaderBar, BottomBar, pageHeader (the slot), siderContext
+  graph/    the graph layer: tokens.graph.css, graph.css, GraphNodeCard, GraphPill, GraphFrame,
+            GraphEdge, GraphDock, GraphSegmented, GraphLegend, lod, hover, colorMode (README.md)
+  adapters/control-center/  the Control Center's nodes, edges, handles, toolbar and header on the graph layer
   templates/ page templates (P2+)
   defaultTheme.ts, withAntdTheme.ts, README.md
 ```
@@ -43,11 +46,12 @@ src/theme/
 | `withAntdTheme.ts`          | wraps `tailwind.config.ts`: `netbird` / `nb-gray` / radius / shadow become `var(--x, <upstream value>)` |
 | `css/base.css`              | element defaults, specificity below any utility; tabular numerals in tables                             |
 | `css/overrides.css`         | component fixes keyed on upstream class names, each with `@depends` (shrinks as adapters take over)     |
-| `css/vendors.css`           | third-party widgets: React Flow, sonner, Radix portals, timescape, xterm                                |
+| `css/vendors.css`           | third-party widgets: sonner, Radix portals, timescape, xterm (React Flow moved to `graph/`)              |
 | `css/density.css`           | AntD "middle" density keyed on upstream classes: 32px controls, 12px/16px table cells (P1: adapters)    |
 | `css/responsive.css`        | phones / tablets (and R1 at every width), see "手机端适配" below                                        |
-| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`, `SidebarItem`         |
+| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`, `SidebarItem`, and `control-center/*` (section below) |
 | `shell/`                    | the app shell (section below): replaces `DashboardLayout`, `Header` and `PageContainer` via paths       |
+| `graph/`                    | canvas primitives for `@xyflow/react` with their own tokens, both colour modes; see `graph/README.md`   |
 | `hooks/useLayoutMode.tsx`   | `useLayoutMode()` → `phone` / `compact` / `full`, `useIsPhone()`, `LayoutModeSync` (`<html data-layout-mode>`) |
 | `defaultTheme.ts`           | env switch, `<html>` props, ThemeProvider default                                                       |
 
@@ -121,6 +125,42 @@ story tag makes the visual guard's `capture.mjs` shoot at that width.
 upstream's layout, header, page container and sidebar item are used again
 (their files were never edited). The Peers page then needs its in-page
 header block back (`git log -- "src/app/(dashboard)/peers/page.tsx"`).
+
+## Control Center (graph layer)
+
+The canvas page is upstream's 45k-line module, 100% upstream code; the fork
+owns its look through two layers (plan:
+`docs/plans/2026-10-18-control-center-ui-and-graph-architecture.md`):
+
+- **`graph/`**: product-agnostic primitives (node card, pill, frame, edge,
+  dock, segmented control, legend) with `--graph-*` tokens and states as data
+  attributes. Nothing in it imports `src/modules`.
+- **`adapters/control-center/`**: one file per replaced upstream file, swapped
+  in by an exact `tsconfig.json` alias (`@/modules/control-center/nodes/PeerNode`
+  → `adapters/control-center/PeerNode.tsx`, 26 of them: 13 nodes, 5 edges,
+  the connect handle, 4 toolbar primitives, `FlowSelector`, `DraftModeSwitcher`,
+  `ControlCenterHeader`). Each re-exports the upstream module, renders the
+  graph layer when `ANTD_THEME_ENABLED` and the upstream component otherwise
+  (builds without the AntD theme stay pixel-identical), pins the upstream
+  file with `@replaces-file … sha256:` and is typed in
+  `control-center.contract.ts`. Every `data-testid`, handle id and `cc-*`
+  class hook the e2e suites and the focus mode use is kept.
+
+The header adapter registers the page with the shell (`usePageHeader`) and
+portals the Live / Draft switch and the draft actions into the page header
+bar's slot (`usePageHeaderSlot`, keeps the page's context); the view switch,
+network selector and canvas tools form the `.nb-graph-chrome` row above the
+canvas, which `graph.css` lays out as a column with the canvas
+(`.nb-page:has(> .nb-graph-chrome)`). The one in-place edit is
+`page.tsx` (touch points): the canvas colour mode and background follow the
+theme instead of upstream's hard-coded dark.
+
+Checks: `theme:check-selectors` (the 26 pins, the touch points),
+`npx vitest run src/theme` (graph primitives, edge anchors, LOD, hover) and
+the upstream `NetworkNode.test`, which runs against the adapter,
+`theme:graph-legibility` (section "Checks"). Phones are read-only in this
+phase: the chrome row wraps, the draft entry sits in the hidden page header
+bar, the canvas shows icons only below 0.35 zoom.
 
 ## Layout modes
 
@@ -433,6 +473,13 @@ CSS 只依赖这些自有属性，不依赖上游类名，所以上游改表格�
   sider open. `--storybook <dir>` reuses a build, `--update` rewrites the
   allowlist (review its diff), `THEME_GUARD_CHROMIUM=<path>` uses a
   preinstalled browser.
+- `npm run theme:graph-legibility -- --storybook <dir>` — the Control Center
+  canvas stories at 1280 / 1440, light and dark: after the view's first fit
+  the smallest text the graph primitives render (`data-graph-text`) must be
+  ≥ 12px on screen and no node may sit under the chrome row or the dock.
+  `scripts/theme/graph-legibility-allow.json` lists the views still below
+  12px with their current number (they may only improve); `--update`
+  rewrites it (review the diff).
 - CI: `.github/workflows/theme-antd-guard.yml` runs all of them.
 
 ## Merging upstream

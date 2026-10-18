@@ -647,4 +647,4 @@ phone 390
 | `components/Card`、`CardTable`、`SettingCard`、`FeatureCard` | 重写 → Descriptions / SettingRow / FeatureCard | P3 |
 | `components/ui/FullScreenLoading`、skeletons | 包裹：token 化 | P1 |
 | `components/Tooltip`、`Popover`、`DropdownMenu`、`Command` | 仅 CSS（浮层阴影 / 圆角 / 宽度上限） | P1 |
-| Control Center（React Flow） | 仅 CSS + phone 只读 | P4 |
+| Control Center（React Flow） | 见 `2026-10-18-control-center-ui-and-graph-architecture.md`：Graph 层 + adapter 替换（取代"仅 CSS"） | 独立计划 G0–G4 |

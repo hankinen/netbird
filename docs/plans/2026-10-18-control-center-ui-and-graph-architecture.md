@@ -2,7 +2,7 @@
 
 日期 2026-10-18。基线提交 `6caacab`（外壳 P1a 之后；这 14 个提交当时还在 `claude/dreamy-goldberg-e181eu` 上，未合入 `dev`），工作分支 `ui-optimization`。
 证据截图与数字在 `docs/plans/evidence/2026-10-18-control-center-audit/`。
-状态：**审查完成，方案待店主决策（第 8 节）**，未动代码。
+状态：**已决策（2026-10-18，全部推荐项），G0 / G1 完成，G2 外壳部分完成，布局引擎与检查器抽屉待做**（第 11 节）。
 
 本文承接 `2026-10-17-enterprise-ui-architecture.md`（下称"架构文档"）：那份文档
 把 Control Center 放在 P4、"仅 CSS + 手机只读"。本文把它单独拿出来，原因见第 0 节。
@@ -378,19 +378,19 @@ G2 解决 #2、#3、#4、#9、#10，G3 解决 #8。可与架构文档的 P2 / P3
 
 | # | 问题 | 选项 | 推荐 | 结论 |
 | --- | --- | --- | --- | --- |
-| 1 | 路线 | A CSS 覆盖；B fork 模块；C Graph 层 + 边界替换 | **C** | |
-| 2 | Graph 层位置 | `src/theme/graph/`（ours 表面，与 shell 同级）；`src/components/graph/`（上游命名空间） | **`src/theme/graph/`**：合并策略清楚（以我们为准），和 shell 一个待遇 | |
-| 3 | 边的语义 | A 保留颜色区分单 / 双向；B 箭头表达方向、颜色只表达状态（禁用 / 焦点 / 草稿） | **B**：颜色留给状态，图例变简单，色弱可读 | |
-| 4 | Feedback 按钮 | A 保留；B AntD 主题下隐藏；C 移入帮助菜单 | **B**：自托管企业产品不该常驻一个指向 Google 表单的按钮；上游构建不受影响 | |
-| 5 | 实体面板形态 | A 保留锚定在节点旁的浮层；B 右侧检查器抽屉（phone 底部 Sheet） | **B**：位置固定、可收起、手机天然可用、右键菜单的操作有了第二入口 | |
-| 6 | 语义缩放（LOD） | 开 / 关 | **开**：是"≥ 12px"承诺在大图上成立的唯一办法 | |
-| 7 | 布局引擎 | A 保留上游列式布局，G2 渐进替换为 `columns.ts`；B 引入 ELK | **A**：列式是产品心智；ELK 增加包体和不确定性 | |
-| 8 | 复用证明 | A 只做 story（`PolicyPreview`）；B 顺手上一个真实页面（Peer 详情的"连接关系"） | **A**，B 另立计划 | |
-| 9 | minimap | 默认开 / 默认关可开 / 不做 | **默认关可开** | |
-| 10 | 手机 Draft | 隐藏并提示；允许只读进入 Draft 看 changeset | **隐藏并提示**（架构文档非目标） | |
-| 11 | 模式开关位置 | A 现状（浮层右上）；B 页头主操作区（Live / Draft 分段 + Draft 时的 放弃 / 审阅并部署） | **B** | |
+| 1 | 路线 | A CSS 覆盖；B fork 模块；C Graph 层 + 边界替换 | **C** | 采纳推荐（2026-10-18） |
+| 2 | Graph 层位置 | `src/theme/graph/`（ours 表面，与 shell 同级）；`src/components/graph/`（上游命名空间） | **`src/theme/graph/`**：合并策略清楚（以我们为准），和 shell 一个待遇 | 采纳推荐（2026-10-18） |
+| 3 | 边的语义 | A 保留颜色区分单 / 双向；B 箭头表达方向、颜色只表达状态（禁用 / 焦点 / 草稿） | **B**：颜色留给状态，图例变简单，色弱可读 | 采纳推荐（2026-10-18） |
+| 4 | Feedback 按钮 | A 保留；B AntD 主题下隐藏；C 移入帮助菜单 | **B**：自托管企业产品不该常驻一个指向 Google 表单的按钮；上游构建不受影响 | 采纳推荐（2026-10-18） |
+| 5 | 实体面板形态 | A 保留锚定在节点旁的浮层；B 右侧检查器抽屉（phone 底部 Sheet） | **B**：位置固定、可收起、手机天然可用、右键菜单的操作有了第二入口 | 采纳推荐（2026-10-18） |
+| 6 | 语义缩放（LOD） | 开 / 关 | **开**：是"≥ 12px"承诺在大图上成立的唯一办法 | 采纳推荐（2026-10-18） |
+| 7 | 布局引擎 | A 保留上游列式布局，G2 渐进替换为 `columns.ts`；B 引入 ELK | **A**：列式是产品心智；ELK 增加包体和不确定性 | 采纳推荐（2026-10-18） |
+| 8 | 复用证明 | A 只做 story（`PolicyPreview`）；B 顺手上一个真实页面（Peer 详情的"连接关系"） | **A**，B 另立计划 | 采纳推荐（2026-10-18） |
+| 9 | minimap | 默认开 / 默认关可开 / 不做 | **默认关可开** | 采纳推荐（2026-10-18） |
+| 10 | 手机 Draft | 隐藏并提示；允许只读进入 Draft 看 changeset | **隐藏并提示**（架构文档非目标） | 采纳推荐（2026-10-18） |
+| 11 | 模式开关位置 | A 现状（浮层右上）；B 页头主操作区（Live / Draft 分段 + Draft 时的 放弃 / 审阅并部署） | **B** | 采纳推荐（2026-10-18） |
 
-决策后在此表填结论并注明日期；本文第 6 节的 G0 以此为起点。
+全部按推荐项定稿（2026-10-18，店主确认"可以，开始优化"）。后续改动任一决策时在此表更新结论并注明日期。
 
 ---
 
@@ -422,6 +422,44 @@ G2 解决 #2、#3、#4、#9、#10，G3 解决 #8。可与架构文档的 P2 / P3
 ## 11. 执行记录
 
 （按阶段追加：提交、守卫数字、e2e 结果、证据截图。）
+
+### G0 + G1 + G2 外壳（2026-10-18，分支 `ui-optimization`）
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| Graph 层 | 完成 | `src/theme/graph/`：`tokens.graph.css`（浅 / 暗两块，type scale 按 0.8 缩放设计）、`graph.css`（状态 = data 属性、LOD、边、把手、框架、dock、chrome、segmented、legend；全部在特异性策略内）、`GraphNodeCard` / `GraphPill` / `GraphFrame` / `GraphTag` / `GraphDot` / `GraphEdge` + `GraphDefs` / `GraphDock*` / `GraphSegmented` / `GraphLegend`、`edges.ts`（锚点与 tone 的纯函数）、`hover.ts`（外部 store，边只在自己端点被悬停时重渲）、`lod.ts`（`data-lod` 写在 `.react-flow` 上）、`colorMode.ts`；`Theme/Graph` 5 个 story；单元测试 4 个文件 |
+| 节点 / 边 / 把手 adapter | 完成 | `src/theme/adapters/control-center/`：13 个节点、5 个边、`ConnectHandle`、4 个 toolbar 原语；每个 `export *` 上游、`ANTD_THEME_ENABLED` 为假时回退上游组件、`@replaces-file` 哈希 pin、`control-center.contract.ts` 锁 props；`tsconfig.json` 26 个精确别名；上游 `NetworkNode.test` 跑在 adapter 上 |
+| 外壳 | 完成（G2 的一部分） | `ControlCenterHeader` / `FlowSelector` / `DraftModeSwitcher` adapter：页头槽位注册标题，Live / Draft 与 Cancel / Review & Deploy 通过 `usePageHeaderSlot()`（新增）portal 进页头栏；视图切换、网络选择器、钻取控件、Focus / Fit / Legend 在 `.nb-graph-chrome` 一行里，`.nb-page:has(> .nb-graph-chrome)` 把它和画布排成一列；Focus 胶囊为顶部状态条；Draft dock 仍在底部；Feedback 按钮在 AntD 构建中不渲染（决策 4） |
+| `page.tsx` 触点 | 完成 | `colorMode` 跟随主题、`<Background>` 走 token（`useGraphColorMode` / `GRAPH_BACKGROUND`，非 AntD 构建保留上游字面值）；两行登记进 `touch-points.txt` |
+| `vendors.css` | 完成 | React Flow 的 8 组覆盖全部删除（`@depends` 117 → 109） |
+| 可读性守卫 | 完成 | `scripts/theme/graph-legibility.mjs`（`npm run theme:graph-legibility`），接入 `theme-antd-guard.yml` 的 mobile job 复用其 Storybook 构建；允许清单 `graph-legibility-allow.json` 记录仍低于 12px 的视图 |
+| i18n | 完成 | 新命名空间 `components.graph`（en + zh-CN，13 键） |
+| 证据 | 完成 | `evidence/2026-10-18-control-center-graph-g1/`：1440 浅暗、390、1024、Graph 原语 story 截图与数字 |
+
+验收（2026-10-18，本机）见下表；e2e 的 13 个 control-center spec **未能运行**（需要 `npm run test:setup` 的 Docker 环境，本机没有），合并前必须在有 Docker 的机器上跑一遍。
+
+| 检查 | 结果 |
+| --- | --- |
+| `npx tsc --noEmit` | 0 错误 |
+| changed-files `eslint` | 0 错误（`page.tsx` 的一条 exhaustive-deps 告警是上游既有代码） |
+| `npx vitest run` | 92 个文件 / 1018 个测试通过（新增 4 个文件 25 个测试；上游 `NetworkNode.test`、`PeersToolbar.test` 等跑在 adapter 上） |
+| `theme:check-selectors` | 109 `@depends`、384 条规则、31 个 `@replaces-file`、13 个 touch point 全部通过 |
+| `i18n:check` | 140 个命名空间、0 错误 |
+| `theme:mobile-guard`（Control Center 9 个 story × 8 轮） | 横向溢出 0、布局问题 0 |
+| `theme:graph-legibility` | 20 项测量通过（16 项低于 12px 记入 `graph-legibility-allow.json`，只允许变好）；被外壳遮住的节点 0 |
+| `npm run build` | 通过；postbuild 743 个 .gz、IMMUTABLE OK（1945 个文件）；graph.css 与 adapter 均在产物中（Turbopack 下别名生效） |
+
+可读性（默认 fit 后屏幕上的最小文字，守卫阈值 12px）：
+
+| 视图 | 之前 1440 | 现在 1440 | 现在 1280 |
+| --- | --- | --- | --- |
+| Peers | 8.3px（策略端口） | **12.0px** | 10.9px |
+| Groups | 8.3px | **12.0px** | 10.9px |
+| Users | 5.9px | 8.9px | 7.7px |
+| Networks | 5.6px | 8.0px | 7.0px |
+| Draft | 6.8px | 9.3px | 9.3px |
+
+**留给下一个 PR（G2 其余 + G3）**：`layout/columns.ts`（列距按实测宽度、目标列重心排序、Networks 等宽框架）——这是 Users / Networks / Draft 视图过 12px 线的前提；检查器抽屉替换两个锚定面板；`RoutingPeersBar` 与组件面板仍是上游样式；phone 只读模式（以选中实体为中心 fit、底部 Sheet 列表）；`PolicyPreview` 复用证明。
 
 ### 审查（2026-10-18）
 
