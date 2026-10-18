@@ -548,7 +548,22 @@ P0 验收（2026-10-17，本机全量运行）：
 | i18n | 完成 | `nav` 命名空间新增 `shell.label.*` 六个键（en + zh-CN） |
 | 证据截图 | 完成 | `evidence/2026-10-18-shell/`：1440 浅 / 暗、折叠 + 分组弹出层、1024 平板、390 手机、抽屉、底部操作栏 |
 
-验收数字见本节下方补记。
+P1a 验收（2026-10-18，本机全量运行）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `check-selectors` | 117 个 `@depends` token、147 个属性选择器、236 条规则、1 个替换组件 + 5 个 pin 文件、11 个 touch point 全部通过 |
+| `npx tsc --noEmit` | 0 错误（含 `SidebarItem.contract.ts`） |
+| `npx vitest run` | 88 个文件 / 999 个测试通过（含上游 `SidebarItem.test` 跑在 adapter 上、页头 store 4 个） |
+| changed-files `eslint`、prettier | 无新增错误或告警 |
+| `npm run i18n:check` | 139 个命名空间、0 错误 |
+| `npm run build` | 通过；postbuild 743 个 .gz、IMMUTABLE OK（1944 个文件）；产物里含外壳（别名在 Turbopack 下生效） |
+| `mobile-guard`（375 / 390 / 768 浅色，390 暗色，360 详情页浅 + 暗，1280 / 1440 浅色） | 549 个 page story × 8 轮：横向溢出 0，布局问题 0 |
+
+守卫第一次跑抓到 5 个 story 在 768 / 1280 / 1440 下横向溢出正好一个侧栏宽度（56 / 240px）：
+重定向页和套餐页渲染的 `FullScreenLoading` 是 `w-screen`（100vw），在上游的固定侧栏旁没问题，
+在外壳的主列里就多出一个侧栏。`fix(shell): viewport-wide children of the main column are sized to the column`
+一条规则修复后复跑归零。
 
 **P1a 留下的事项（进 P1b / P2）**
 - 顶栏全局搜索入口、Breadcrumbs adapter（未迁移页面的面包屑仍在页内）。
