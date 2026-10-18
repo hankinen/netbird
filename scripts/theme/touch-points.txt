@@ -12,3 +12,6 @@ src/contexts/AnnouncementProvider.tsx :: @theme: remote announcements from GitHu
 src/components/ui/AnnouncementBanner.stories.tsx :: @theme: the app's remote fetch is disabled
 src/layouts/AppLayout.tsx :: @theme: layout mode (phone / compact / full)
 src/layouts/AppLayout.tsx :: @theme: CJK fallback
+src/app/(dashboard)/peers/page.tsx :: @theme: page-template
+src/layouts/DashboardLayout.stories.tsx :: @theme: the shell's top bar is a <header>
+.storybook/visual-regression/scripts/capture.mjs :: @theme: vp-<width> tag

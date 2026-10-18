@@ -22,5 +22,11 @@
   "navigation.label.documentation": "Documentation",
   "navigation.label.activity": "Activity",
   "navigation.label.auditEvents": "Audit Events",
-  "navigation.label.trafficEvents": "Traffic Events"
+  "navigation.label.trafficEvents": "Traffic Events",
+  "shell.label.mainNavigation": "Main navigation",
+  "shell.label.openMenu": "Open menu",
+  "shell.label.closeMenu": "Close menu",
+  "shell.label.collapseNavigation": "Collapse navigation",
+  "shell.label.expandNavigation": "Expand navigation",
+  "shell.label.breadcrumb": "Breadcrumb"
 }

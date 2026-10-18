@@ -1,0 +1,528 @@
+/*
+ * The app shell (src/theme/shell) and the SidebarItem adapter, both colour
+ * modes: scope `:root.theme-antd` (light values from tokens.light.css, dark
+ * from tokens.dark.css). Layout modes come from media queries with the
+ * contract's widths (tokens/breakpoints.ts): phones hide the sider and the
+ * page header bar and show the menu button, the title and the bottom bar.
+ *
+ * Only the "Navigation host" section keys on upstream class names; those
+ * rules carry @depends like the rest of the theme.
+ */
+
+/* ---- frame ---------------------------------------------------------------- */
+:root.theme-antd .nb-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  background: var(--page-bg);
+  color: var(--ant-color-text);
+}
+:root.theme-antd .nb-shell__body {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+:root.theme-antd .nb-shell__main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+:root.theme-antd .nb-shell__content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* ---- sider ----------------------------------------------------------------- */
+:root.theme-antd .nb-sider {
+  --nav-fg: var(--sider-fg);
+  --nav-fg-active: var(--sider-fg-active);
+  --nav-hover-bg: var(--sider-hover-bg);
+  --nav-active-bg: var(--sider-active-bg);
+  --nav-divider: var(--sider-divider);
+  display: flex;
+  flex: 0 0 var(--sider-w);
+  flex-direction: column;
+  width: var(--sider-w);
+  overflow: hidden;
+  background: var(--sider-bg);
+  color: var(--sider-fg);
+  transition:
+    width var(--motion-base) var(--ease-out),
+    flex-basis var(--motion-base) var(--ease-out);
+}
+:root.theme-antd .nb-sider[data-collapsed] {
+  flex-basis: var(--sider-w-collapsed);
+  width: var(--sider-w-collapsed);
+}
+:root.theme-antd .nb-sider__brand {
+  display: flex;
+  flex: none;
+  align-items: center;
+  height: var(--header-h);
+  padding: 0 16px;
+  border-bottom: 1px solid var(--sider-divider);
+}
+:root.theme-antd .nb-sider__logo {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  color: var(--sider-logo-fg);
+}
+:root.theme-antd .nb-sider__logo-mark {
+  display: none;
+}
+:root.theme-antd .nb-sider[data-collapsed] .nb-sider__brand {
+  justify-content: center;
+  padding: 0;
+}
+:root.theme-antd .nb-sider[data-collapsed] .nb-sider__logo-full {
+  display: none;
+}
+:root.theme-antd .nb-sider[data-collapsed] .nb-sider__logo-mark {
+  display: block;
+}
+/* Footer with the collapse toggle (AntD Pro / ThingsBoard place it here); it
+   stays reachable in the collapsed rail. */
+:root.theme-antd .nb-sider__footer {
+  flex: none;
+  padding: 8px;
+  border-top: 1px solid var(--sider-divider);
+}
+:root.theme-antd .nb-sider__toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: var(--ant-border-radius, 6px);
+  color: var(--sider-fg);
+  font-size: 13px;
+  transition:
+    background-color var(--motion-fast),
+    color var(--motion-fast);
+}
+:root.theme-antd .nb-sider__toggle:hover {
+  background: var(--sider-hover-bg);
+  color: var(--sider-fg-active);
+}
+:root.theme-antd .nb-sider[data-collapsed] .nb-sider__toggle {
+  justify-content: center;
+  padding: 0;
+}
+:root.theme-antd .nb-sider[data-collapsed] .nb-sider__toggle-label {
+  display: none;
+}
+:root.theme-antd .nb-sider__nav {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 8px 0;
+  overflow: hidden auto;
+}
+
+/* ---- navigation host: the upstream tree inside the sider / drawer ---------
+   Navigation.tsx brings its own container (width, background, border, a
+   100vh-based inline height); the host owns all of that now.
+   @depends src/layouts/Navigation.tsx: w-auto max-w-[22rem] | w-10/12 | w-[15rem] max-w-[15rem] min-w-[15rem] | mt-4 border-t border-gray-200 pt-4 first:mt-0 first:border-t-0 first:pt-0 */
+/* !important: inline style (Navigation sets height: calc(100vh - header)). */
+:root.theme-antd .nb-navhost [data-navigation] {
+  position: static;
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  height: auto !important;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  color: var(--nav-fg);
+}
+:root.theme-antd .nb-navhost [data-navigation] > div {
+  position: static;
+  width: 100%;
+}
+:root.theme-antd .nb-navhost [class~="w-[15rem]" i] {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+}
+:root.theme-antd
+  .nb-navhost
+  [class~="border-gray-200" i][class~="first:border-t-0" i] {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-color: var(--nav-divider);
+}
+/* Usage and version blocks at the bottom of the tree: dark-sider colours
+   (their classes assume upstream's dark palette, which the light theme
+   inverts), and hidden in the collapsed rail whatever ApplicationProvider's
+   own collapsed flag says (tablets collapse without it).
+   @depends src/components/VersionInfo.tsx: px-4 py-4 animate-fade-in | bg-nb-gray-900/20 py-3 px-3 border-nb-gray-800/30 | text-nb-gray-400 | text-nb-gray-300 font-medium truncate
+   @depends src/modules/billing/NavigationUsageInfo.tsx: px-4 py-4 animate-fade-in | bg-nb-gray-900/20 py-4 px-4 border-nb-gray-800/30 */
+:root.theme-antd
+  .nb-sider[data-collapsed]
+  [class~="animate-fade-in" i][class~="px-4" i] {
+  display: none;
+}
+:root.theme-antd .nb-navhost [class~="bg-nb-gray-900/20" i] {
+  background: var(--sider-hover-bg);
+  border-color: var(--sider-divider);
+}
+:root.theme-antd
+  .nb-navhost
+  :is([class*="text-nb-gray-" i], [class~="text-white" i]) {
+  color: var(--nav-fg);
+}
+:root.theme-antd
+  .nb-navhost
+  [class~="font-medium" i][class*="text-nb-gray-" i] {
+  color: var(--nav-fg-active);
+}
+
+/* ---- navigation items (SidebarItem adapter) --------------------------------
+   Colours come from the host (--nav-*); outside a host they fall back to a
+   light menu so the Components/Navigation stories stay readable. */
+:root.theme-antd .nb-nav-item {
+  padding: 0 8px;
+  list-style: none;
+}
+:root.theme-antd .nb-nav-item__button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: var(--ant-border-radius, 6px);
+  color: var(--nav-fg, var(--ant-color-text-secondary));
+  font-size: var(--font-size-sm, 14px);
+  line-height: 1;
+  text-align: left;
+  transition:
+    background-color var(--motion-fast),
+    color var(--motion-fast);
+}
+:root.theme-antd .nb-nav-item__button:hover {
+  background: var(--nav-hover-bg, var(--ant-color-fill-tertiary));
+  color: var(--nav-fg-active, var(--ant-color-text));
+}
+:root.theme-antd
+  .nb-nav-item[data-active]:not([data-collapsible])
+  > .nb-nav-item__button {
+  background: var(--nav-active-bg, var(--ant-color-primary-bg));
+  color: var(--nav-fg-active, var(--ant-color-primary));
+}
+:root.theme-antd
+  .nb-nav-item[data-active][data-collapsible]
+  > .nb-nav-item__button {
+  color: var(--nav-fg-active, var(--ant-color-text));
+}
+:root.theme-antd .nb-nav-item__icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+:root.theme-antd .nb-nav-item__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:root.theme-antd .nb-nav-item__chevron {
+  display: inline-flex;
+  flex: none;
+  opacity: 0.7;
+}
+:root.theme-antd .nb-nav-item__children {
+  margin: 0;
+  padding: 2px 0 4px;
+  list-style: none;
+}
+:root.theme-antd .nb-nav-item[data-child] {
+  padding: 0;
+}
+:root.theme-antd .nb-nav-item[data-child] > .nb-nav-item__button {
+  height: 32px;
+  padding-left: 38px;
+  font-size: 13px;
+}
+/* Collapsed rail: icons only, centred; the label is the button's title. */
+:root.theme-antd .nb-sider[data-collapsed] .nb-nav-item__button {
+  justify-content: center;
+  padding: 0;
+}
+:root.theme-antd .nb-sider[data-collapsed] .nb-nav-item__label,
+:root.theme-antd .nb-sider[data-collapsed] .nb-nav-item__chevron {
+  display: none;
+}
+:root.theme-antd .nb-nav-popover {
+  --nav-fg: var(--sider-fg);
+  --nav-fg-active: var(--sider-fg-active);
+  --nav-hover-bg: var(--sider-hover-bg);
+  --nav-active-bg: var(--sider-active-bg);
+  z-index: var(--z-popover);
+  min-width: 200px;
+  padding: 4px 0;
+  border-radius: var(--ant-border-radius-lg, 8px);
+  background: var(--sider-bg);
+  color: var(--sider-fg);
+  box-shadow: var(--ant-box-shadow-secondary);
+}
+:root.theme-antd .nb-nav-popover__title {
+  padding: 8px 16px 6px;
+  color: var(--sider-group-fg);
+  font-size: 12px;
+}
+:root.theme-antd
+  .nb-nav-popover
+  .nb-nav-item[data-child]
+  > .nb-nav-item__button {
+  padding-left: 16px;
+}
+
+/* ---- top bar ---------------------------------------------------------------- */
+:root.theme-antd .nb-topbar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+  height: var(--header-h);
+  padding: 0 var(--page-px);
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  color: var(--header-fg);
+}
+:root.theme-antd .nb-topbar__menu {
+  display: none;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-left: -8px;
+  border-radius: var(--ant-border-radius, 6px);
+  color: var(--ant-color-text);
+}
+:root.theme-antd .nb-topbar__lead {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+:root.theme-antd .nb-topbar__title {
+  display: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--font-size-md, 16px);
+  font-weight: 600;
+}
+:root.theme-antd .nb-topbar__where {
+  color: var(--ant-color-text-secondary);
+  font-size: var(--font-size-sm, 14px);
+}
+:root.theme-antd .nb-topbar__actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+}
+:root.theme-antd .nb-crumbs {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--font-size-sm, 14px);
+}
+:root.theme-antd .nb-crumbs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--ant-color-text-secondary);
+}
+:root.theme-antd .nb-crumbs__item a:hover {
+  color: var(--ant-color-text);
+}
+:root.theme-antd .nb-crumbs__item [aria-current="page"] {
+  color: var(--ant-color-text);
+}
+:root.theme-antd .nb-crumbs__sep {
+  margin: 0 2px;
+  color: var(--ant-color-text-quaternary);
+}
+:root.theme-antd .nb-crumbs__icon {
+  display: inline-flex;
+  color: var(--ant-color-text-tertiary);
+}
+
+/* ---- page header bar -------------------------------------------------------- */
+:root.theme-antd .nb-pageheader {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 56px;
+  padding: 10px var(--page-px);
+  background: var(--surface-bg);
+  border-bottom: 1px solid var(--surface-border);
+}
+:root.theme-antd .nb-pageheader__lead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+:root.theme-antd .nb-pageheader__back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--ant-border-radius, 6px);
+  color: var(--ant-color-text-secondary);
+}
+:root.theme-antd .nb-pageheader__back:hover {
+  background: var(--ant-color-fill-tertiary);
+  color: var(--ant-color-text);
+}
+:root.theme-antd .nb-pageheader__title {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ant-color-text-heading, var(--ant-color-text));
+  font-size: var(--font-size-lg, 20px);
+  font-weight: 600;
+  line-height: 28px;
+}
+:root.theme-antd .nb-pageheader__count {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 11px;
+  background: var(--ant-color-fill-secondary);
+  color: var(--ant-color-text-secondary);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+:root.theme-antd .nb-pageheader__help {
+  display: inline-flex;
+  color: var(--ant-color-text-tertiary);
+}
+:root.theme-antd .nb-pageheader__actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---- bottom bar (phones) --------------------------------------------------- */
+:root.theme-antd .nb-bottombar {
+  display: none;
+  flex: none;
+  padding: 8px var(--page-px) calc(8px + env(safe-area-inset-bottom));
+  background: var(--bottombar-bg);
+  border-top: 1px solid var(--bottombar-border);
+}
+:root.theme-antd .nb-bottombar__primary {
+  width: 100%;
+  height: var(--ctl-h);
+  justify-content: center;
+}
+
+/* ---- drawer (phones) ------------------------------------------------------- */
+:root.theme-antd .nb-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-drawer);
+  background: var(--ant-color-bg-mask, rgba(0, 0, 0, 0.45));
+  animation: nb-fade-in var(--motion-base) var(--ease-out);
+}
+:root.theme-antd .nb-drawer {
+  --nav-fg: var(--sider-fg);
+  --nav-fg-active: var(--sider-fg-active);
+  --nav-hover-bg: var(--sider-hover-bg);
+  --nav-active-bg: var(--sider-active-bg);
+  --nav-divider: var(--sider-divider);
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: calc(var(--z-drawer) + 1);
+  display: flex;
+  flex-direction: column;
+  width: min(85vw, 320px);
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--sider-bg);
+  color: var(--sider-fg);
+  box-shadow: var(--ant-box-shadow-secondary);
+  animation: nb-slide-in var(--motion-base) var(--ease-out);
+}
+:root.theme-antd .nb-drawer__header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+  padding: 0 8px 0 16px;
+  border-bottom: 1px solid var(--sider-divider);
+}
+:root.theme-antd .nb-drawer__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--ant-border-radius, 6px);
+  color: var(--sider-fg);
+}
+:root.theme-antd .nb-drawer__nav {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+}
+@keyframes nb-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes nb-slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+}
+
+/* ---- phones ----------------------------------------------------------------- */
+@media (max-width: 767.98px) {
+  :root.theme-antd .nb-sider,
+  :root.theme-antd .nb-topbar__crumbs,
+  :root.theme-antd .nb-pageheader {
+    display: none;
+  }
+  :root.theme-antd .nb-topbar__menu,
+  :root.theme-antd .nb-bottombar {
+    display: flex;
+  }
+  :root.theme-antd .nb-topbar__title {
+    display: block;
+  }
+  :root.theme-antd .nb-topbar__actions {
+    gap: 4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root.theme-antd .nb-drawer,
+  :root.theme-antd .nb-drawer__backdrop {
+    animation: none;
+  }
+}

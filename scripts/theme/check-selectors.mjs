@@ -165,7 +165,7 @@ for (const file of cssFiles) {
     const sel = selector.replace(/\s+/g, " ");
     for (const part of splitTop(sel, /,/)) {
       const scoped = part
-        .replace(/^:root\.theme-antd:(?:not\(\.dark\)|is\(\.dark, :not\(\.dark\)\))/, "")
+        .replace(/^:root\.theme-antd(?::(?:not\(\.dark\)|is\(\.dark, :not\(\.dark\)\))|\.dark)?(?=\s|$)/, "")
         .replace(/^html:where\((?:[^()]|\([^()]*\))*\)/, "")
         .replace(/\s*[>+~]\s*(?![^[]*\])/g, " ");
       const depth = splitTop(scoped, /\s/).length;
@@ -233,6 +233,40 @@ if (fs.existsSync(componentsDir))
     }
   }
 
+// 4b. Replaced files: `@replaces-file <file> sha256:<hash>` in src/theme/**
+// pins the whole upstream file (shell replacements copy a provider stack or
+// a behaviour from it; any upstream change there is worth a look).
+let replacedFiles = 0;
+(function walkTheme(dir) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) walkTheme(p);
+    else if (/\.(tsx?|css)$/.test(e.name) && !/\.(test|stories)\.tsx?$/.test(e.name)) {
+      const text = fs.readFileSync(p, "utf8");
+      for (const m of text.matchAll(/@replaces-file\s+(\S+)\s+sha256:([0-9a-f]+)/g)) {
+        replacedFiles++;
+        const [, target, want] = m;
+        const abs = path.join(root, target);
+        const rel = path.relative(themeDir, p);
+        if (!fs.existsSync(abs)) {
+          errors.push(`${rel}: replaced file ${target} is gone`);
+          continue;
+        }
+        const got = crypto
+          .createHash("sha256")
+          .update(fs.readFileSync(abs, "utf8").replace(/\r\n/g, "\n"))
+          .digest("hex")
+          .slice(0, want.length);
+        if (got !== want)
+          errors.push(
+            `${rel}: ${target} changed upstream (sha256 ${want} -> ${got}); ` +
+              `review the replacement, then update @replaces-file`,
+          );
+      }
+    }
+  }
+})(themeDir);
+
 // 5. Upstream touch points.
 let touchPoints = 0;
 const tpFile = path.join(root, "scripts/theme/touch-points.txt");
@@ -274,5 +308,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  `theme:check-selectors: ${depends} @depends tokens and ${attrs} attribute selectors OK; ${rules} rules within specificity policy; ${replaced} replaced component(s) match upstream; ${touchPoints} upstream touch point(s) intact`,
+  `theme:check-selectors: ${depends} @depends tokens and ${attrs} attribute selectors OK; ${rules} rules within specificity policy; ${replaced} replaced component(s) and ${replacedFiles} replaced file(s) match upstream; ${touchPoints} upstream touch point(s) intact`,
 );

@@ -23,13 +23,14 @@ export default meta;
 
 const loaded = () => text("olivias-macbook-pro");
 
-/* The help button is the only header menu trigger without a test id. */
+/* The help button is the only header menu trigger without a test id.
+   @theme: the shell's top bar is a <header>, not upstream's .fixed bar. */
 const helpButton = () =>
   [
     ...document.querySelectorAll<HTMLButtonElement>(
       "button[aria-haspopup=menu]",
     ),
-  ].find((b) => b.closest(".fixed") && b.dataset.testid !== "user-dropdown")!;
+  ].find((b) => b.closest("header") && b.dataset.testid !== "user-dropdown")!;
 
 export const UserDropdown: Story = {
   play: async () => {

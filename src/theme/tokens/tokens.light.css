@@ -82,6 +82,7 @@
   --sider-hover-bg: rgba(255, 255, 255, 0.08);
   --sider-active-bg: var(--ant-color-primary);
   --sider-border: transparent;
+  --sider-divider: rgba(255, 255, 255, 0.08);
   --sider-logo-fg: #fff;
   --header-bg: var(--ant-color-bg-container);
   --header-border: var(--ant-color-border-secondary);

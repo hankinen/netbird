@@ -6,6 +6,7 @@
  *   tokens/tokens.base.css     typography, spacing, motion, z-index (any colour mode)
  *   tokens/tokens.density.css  control / table / page density per layout mode
  *   tokens/tokens.light.css    colours (AntD v5 names), component tokens, Tailwind palette variables
+ *   tokens/tokens.dark.css     dark colour mode: the shell / adapter tokens, upstream's palette (decision 4)
  *   base.css       element defaults, zero/low specificity (utilities win)
  *   overrides.css  component fixes keyed on upstream class names (fragile,
  *                  every rule annotated with @depends, checked by
@@ -16,13 +17,17 @@
  *                  (../adapters/DataTablePagination.tsx)
  *   responsive.css phones / tablets below 1280px: table cards, full-screen
  *                  modals (../adapters/Table.tsx adds the data-label hooks)
+ *   shell.css      the app shell (sider, top bar, page header, drawer,
+ *                  bottom bar) and the SidebarItem adapter, both colour modes
  */
 @import "../tokens/tokens.base.css";
 @import "../tokens/tokens.density.css";
 @import "../tokens/tokens.light.css";
+@import "../tokens/tokens.dark.css";
 @import "./base.css";
 @import "./overrides.css";
 @import "./vendors.css";
 @import "./density.css";
 @import "./pagination.css";
 @import "./responsive.css";
+@import "./shell.css";

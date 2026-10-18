@@ -27,6 +27,11 @@
     "paths": {
       "@components/table/DataTablePagination": ["./src/theme/adapters/DataTablePagination.tsx"],
       "@components/table/Table": ["./src/theme/adapters/Table.tsx"],
+      "@components/SidebarItem": ["./src/theme/adapters/SidebarItem.tsx"],
+      "@/components/SidebarItem": ["./src/theme/adapters/SidebarItem.tsx"],
+      "@/layouts/DashboardLayout": ["./src/theme/shell/DashboardLayout.tsx"],
+      "@/layouts/Header": ["./src/theme/shell/Header.tsx"],
+      "@/layouts/PageContainer": ["./src/theme/shell/PageContainer.tsx"],
       "@/*": [
         "./src/*"
       ],

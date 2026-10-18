@@ -77,9 +77,12 @@ Pick the first option that works, in this order:
    `@depends` annotation, within the specificity policy the theme README
    sets. `npm run theme:check-selectors` fails when upstream renames the class.
 3. **A component replacement** through an exact `paths` alias in
-   `tsconfig.json`, with a `.contract.ts` and an `@replaces … sha256:` hash,
-   the way `DataTablePagination` and `Table` are done. Outside the AntD light
-   theme the wrapper must render upstream's component with the same props.
+   `tsconfig.json`, with a `.contract.ts` and an `@replaces … sha256:` hash
+   (or `@replaces-file` for a whole file), the way `DataTablePagination`,
+   `Table`, `SidebarItem` and the shell (`@/layouts/DashboardLayout`,
+   `Header`, `PageContainer`) are done. A wrapper keeps upstream's props;
+   whether it renders upstream's component outside the AntD theme is the
+   README's call per replacement (the shell renders in both colour modes).
 4. **An in-place edit of an upstream file**: the smallest possible diff, an
    `@theme` comment at the spot, and a line in `scripts/theme/touch-points.txt`
    so a sync that silently drops it fails. `t()` calls in upstream components
@@ -198,6 +201,9 @@ When you:
 - **touch the theme, the shell or layout at any width**: run the three theme
   guards and `npx vitest run src/theme`; every visual change, dark or light,
   is reviewed from the screenshots;
+- **add or migrate a page header**: declare it with `usePageHeader()` from
+  `src/theme/shell/pageHeader.tsx` instead of an in-page breadcrumb / h1 /
+  paragraph block (`src/theme/README.md`, "App shell");
 - **add or change text**: `npm run i18n:types` when keys changed, then
   `npm run i18n:check`;
 - **change the config contract, the image or the release script**: run the

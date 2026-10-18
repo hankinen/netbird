@@ -1,0 +1,34 @@
+/*
+ * Dark colour mode of the AntD build: only the tokens the shell and the
+ * adapters read. Values are upstream's own dark palette (tailwind.config.ts
+ * nb-gray), per decision 4: until P5 switches dark to AntD dark tokens, the
+ * dark theme keeps upstream's colours and our new chrome blends in with
+ * them. tokens.light.css defines the same names for light.
+ */
+:root.theme-antd.dark {
+  --sider-bg: #16181b; /* nb-gray-960 */
+  --sider-fg: #a3adb5; /* nb-gray-300 */
+  --sider-fg-active: #ffffff;
+  --sider-group-fg: #7c8994; /* nb-gray-400 */
+  --sider-hover-bg: rgba(255, 255, 255, 0.06);
+  --sider-active-bg: #2e3238; /* nb-gray-900, upstream's active item */
+  --sider-divider: rgba(255, 255, 255, 0.08);
+  --sider-logo-fg: #ffffff;
+  --header-bg: #181a1d; /* nb-gray */
+  --header-border: rgba(63, 63, 70, 0.4); /* zinc-700/40 */
+  --header-fg: #e4e7e9; /* nb-gray-100 */
+  --appbar-bg: #181a1d;
+  --bottombar-bg: #181a1d;
+  --bottombar-border: rgba(63, 63, 70, 0.4);
+  --page-bg: #181a1d;
+  --surface-bg: #1c1e21; /* nb-gray-940 */
+  --surface-border: #2e3238; /* nb-gray-900 */
+  --ant-color-text: #e4e7e9;
+  --ant-color-text-secondary: #a3adb5;
+  --ant-color-text-tertiary: #7c8994;
+  --ant-color-bg-mask: rgba(0, 0, 0, 0.6);
+  --ant-color-primary: #f68330; /* upstream netbird orange stays the accent in dark */
+  --ant-color-primary-bg: rgba(246, 131, 48, 0.12);
+  --ant-box-shadow-secondary: 0 6px 16px 0 rgba(0, 0, 0, 0.4),
+    0 3px 6px -4px rgba(0, 0, 0, 0.5), 0 9px 28px 8px rgba(0, 0, 0, 0.3);
+}

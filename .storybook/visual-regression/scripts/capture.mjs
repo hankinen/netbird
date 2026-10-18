@@ -16,6 +16,8 @@
 //   capture-hover  real pointer hover over [data-capture] (or the first button/link)
 //   capture-focus  keyboard focus on the same element (Tab focus, so :focus-visible applies)
 //   cloud          render with the NetBird Cloud config instead of self-hosted
+//   vp-<width>     @theme: capture at that viewport width instead of 1440 (phone
+//                  and tablet stories of the shell and the page templates)
 // Open menus, dialogs and other interactive states are separate stories with a
 // `play` function; the shot is taken after the play function has finished.
 // The clock is frozen so relative times ("3 days ago") never change.
@@ -180,6 +182,13 @@ async function openPage() {
 async function shoot(page, story) {
   const flavor = story.tags?.includes("cloud") ? "cloud" : "selfhosted";
   const url = `${base}/iframe.html?id=${story.id}&viewMode=story&globals=theme:${theme};flavor:${flavor}`;
+  // @theme: vp-<width> tag
+  const vp = story.tags?.map((t) => /^vp-(\d+)$/.exec(t)?.[1]).find(Boolean);
+  await page.setViewportSize(
+    vp
+      ? { width: Number(vp), height: Number(vp) < 700 ? 844 : 960 }
+      : { width: 1440, height: 960 },
+  );
   // API calls are mocked in-page, so there is no network to wait for;
   // waitForStory below waits for the render and play function instead.
   await page.goto(url, { waitUntil: "domcontentloaded" });

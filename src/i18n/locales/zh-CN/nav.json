@@ -22,5 +22,11 @@
   "navigation.label.documentation": "文档",
   "navigation.label.activity": "活动日志",
   "navigation.label.auditEvents": "审计事件",
-  "navigation.label.trafficEvents": "流量事件"
+  "navigation.label.trafficEvents": "流量事件",
+  "shell.label.mainNavigation": "主导航",
+  "shell.label.openMenu": "打开菜单",
+  "shell.label.closeMenu": "关闭菜单",
+  "shell.label.collapseNavigation": "收起导航",
+  "shell.label.expandNavigation": "展开导航",
+  "shell.label.breadcrumb": "面包屑"
 }

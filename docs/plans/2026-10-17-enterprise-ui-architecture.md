@@ -535,6 +535,26 @@ P0 验收（2026-10-17，本机全量运行）：
 云计费 40px），根因都是垂直 tab 布局里内容项 `min-width: auto` 被表格或不换行按钮撑开；
 `fix(theme): let flex row items with tables shrink` 一条规则修复后复跑归零。
 
+### P1a 外壳（2026-10-18）
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| `@/layouts/*` 精确别名 spike | 通过 | tsc、vitest、Storybook（Vite）、`next build`（Turbopack）都以精确别名优先于 `@/*`，机制与 `@components/table/Table` 相同 |
+| AppShell | 完成 | `src/theme/shell/`：深色侧栏（240 / 56px 轨道，桌面持久化、平板默认折叠、折叠态分组弹出层、底部折叠按钮）、48px 顶栏（面包屑 / 页面名 + 帮助 + 用户）、PageHeaderBar、手机 AppBar（同一组件，CSS 切换）、over 抽屉、BottomBar；flex + `100dvh`，无 framer |
+| 替换与守卫 | 完成 | `DashboardLayout` / `Header` / `PageContainer` / `SidebarItem` 走别名；`check-selectors` 新增 `@replaces-file`（整文件 sha256 pin），上游改动即报；`SidebarItem.contract.ts` 锁 props；上游 `SidebarItem.test` 直接跑在 adapter 上 |
+| 页头槽位 | 完成 | `usePageHeader()` 外部 store（只通知可见字段变化、handler 不过期）；桌面：面包屑进顶栏、标题 / 数量 / 帮助 / 操作进页头栏；手机：标题进 AppBar、主操作进底栏 |
+| 首个迁移页 | 完成 | Peers：去掉页内头部块（面包屑 / h1 / 营销段落），注册 title / count / breadcrumb / help；主操作（Add Peer）仍在工具栏，随 P2 的 Toolbar 一起上提 |
+| Stories 与截图工具 | 完成 | `Theme/Shell` 9 个 story（1440 / 1024 / 390，折叠、弹出层、抽屉、带操作）；`capture.mjs` 支持 `vp-<width>` 标签按宽度截图 |
+| i18n | 完成 | `nav` 命名空间新增 `shell.label.*` 六个键（en + zh-CN） |
+
+验收数字见本节下方补记。
+
+**P1a 留下的事项（进 P1b / P2）**
+- 顶栏全局搜索入口、Breadcrumbs adapter（未迁移页面的面包屑仍在页内）。
+- Button / Input / Select / Tag / Tabs adapters；工具栏 container query 收纳（1440 下 Peers 工具栏仍换行）。
+- 手机端 AppBar 不显示数量；DataTable 的「N of M」过滤计数随表格 adapter 进槽位。
+- 折叠态的标签提示用的是原生 `title`，P1b 换成 Tooltip。
+
 **P0 留下的已知事项**
 - `--ant-control-height` 等旧 token 仍是独立数值，P1 在 Button / Input / Table adapters 落地时改为引用 `--ctl-h` 等密度 token。
 - 1440 下 Peers 工具栏换行后第二行只有「刷新」和「Add Peer」，视觉上偏松；P1 的 `Toolbar`（container query 收纳次要项）解决。

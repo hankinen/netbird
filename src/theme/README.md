@@ -28,7 +28,9 @@ src/theme/
   css/      index.css, base.css, overrides.css, vendors.css, density.css, pagination.css, responsive.css
   adapters/ components swapped in through tsconfig `paths`: DataTablePagination, Table (+ .contract.ts, stories, tests)
   hooks/    useLayoutMode.tsx (useLayoutMode, useIsPhone, LayoutModeSync)
-  shell/    app shell (P1)        templates/ page templates (P1+)
+  shell/    AppShell, DashboardLayout, Header, PageContainer, Sider, NavDrawer,
+            PageHeaderBar, BottomBar, pageHeader (the slot), siderContext
+  templates/ page templates (P2+)
   defaultTheme.ts, withAntdTheme.ts, README.md
 ```
 
@@ -44,9 +46,81 @@ src/theme/
 | `css/vendors.css`           | third-party widgets: React Flow, sonner, Radix portals, timescape, xterm                                |
 | `css/density.css`           | AntD "middle" density keyed on upstream classes: 32px controls, 12px/16px table cells (P1: adapters)    |
 | `css/responsive.css`        | phones / tablets (and R1 at every width), see "手机端适配" below                                        |
-| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`                        |
+| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`, `SidebarItem`         |
+| `shell/`                    | the app shell (section below): replaces `DashboardLayout`, `Header` and `PageContainer` via paths       |
 | `hooks/useLayoutMode.tsx`   | `useLayoutMode()` → `phone` / `compact` / `full`, `useIsPhone()`, `LayoutModeSync` (`<html data-layout-mode>`) |
 | `defaultTheme.ts`           | env switch, `<html>` props, ThemeProvider default                                                       |
+
+## App shell (P1)
+
+The chrome around every dashboard page is ours (architecture section 4.2).
+Three exact `tsconfig.json` aliases swap upstream's layout files for
+`src/theme/shell/*`, two more swap the navigation item:
+
+| alias | replacement | pins (`@replaces-file`) |
+| --- | --- | --- |
+| `@/layouts/DashboardLayout` | `shell/DashboardLayout.tsx`: upstream's provider stack + `AppShell` | `src/layouts/DashboardLayout.tsx` |
+| `@/layouts/Header` | `shell/Header.tsx`: the top bar, still exports `headerHeight` (48) | `src/layouts/Header.tsx` |
+| `@/layouts/PageContainer` | `shell/PageContainer.tsx`: `<main>` scroll container, same classes | `src/layouts/PageContainer.tsx` |
+| `@/components/SidebarItem`, `@components/SidebarItem` | `adapters/SidebarItem.tsx`: same props and routing, dark-menu visuals, collapsed rail + group popovers | `src/components/SidebarItem.tsx` |
+| (hosted, not replaced) | `src/layouts/Navigation.tsx` renders inside `Sider` / `NavDrawer`; shell.css neutralises its container (`@depends`) | `src/layouts/Navigation.tsx` |
+
+`@replaces-file <file> sha256:<16 hex>` pins the whole upstream file: when
+upstream changes it, `theme:check-selectors` fails and the replacement is
+reviewed (new provider in the stack, new nav behaviour, a renamed class),
+then the hash is updated. `SidebarItem.contract.ts` additionally makes
+`tsc` fail when the props drift.
+
+**Structure.** `AppShell` = announcement row, then `Sider` + main column
+(`Header` top bar, `PageHeaderBar`, the page, `BottomBar`), plus the phone
+`NavDrawer`. Everything renders in every layout mode and `shell.css` shows
+or hides parts with the contract's media queries (first paint right without
+JS); only the tablet default of the sider (collapsed for the session) and the
+drawer use JavaScript. No framer-motion, no `calc(100vh - 65px)`: the frame
+is flex with `100dvh`, the page scrolls inside `PageContainer`.
+
+**Sider.** 240px dark (`--sider-*` tokens, decision 1), collapses to a 56px
+rail: desktops by the persisted preference (`ApplicationProvider`), tablets
+by default. The collapse toggle sits in the footer (`[data-navbar-colappse-toggle]`
+kept for stories and the distributor mode). Collapsed, items show their icon
+with the label as `title`, and collapsible groups open a popover to the
+right; nothing expands on hover. `[data-navigation]` on the `<aside>` keeps
+the distributor's "hide the navigation" rule working.
+
+**Page header slot** (`shell/pageHeader.tsx`). A page declares itself:
+
+```tsx
+usePageHeader({
+  title: t("common:word.peers"),
+  count: peers?.length,
+  breadcrumb: [{ label: t("common:word.peers"), href: "/peers", icon: <PeerIcon size={13} /> }],
+  help: <>…one sentence, optional link…</>,
+  primaryAction: { label: t("…"), onClick: openAdd },   // optional
+  secondaryActions: [{ label: t("…"), href: "/…" }],    // optional
+  backHref: "/peers",                                   // detail pages
+});
+```
+
+Desktops: the breadcrumb goes to the top bar, title + count + help + actions
+to `PageHeaderBar`. Phones: the title goes to the top bar, the primary action
+to `BottomBar`, the bar is hidden. Pages that have not registered anything
+show their translated document title in the top bar and keep their own
+in-page header. The spec lives in a small external store (`PageHeaderStore`):
+registering never re-renders the page, listeners fire only when a visible
+field changed, handlers are read when the action runs (never stale). Pass
+strings or memoised nodes. Migrated pages carry `@theme: page-template` and
+a `touch-points.txt` line; Peers is the first (its "N of M" filtered count
+moves to the table adapter in P2).
+
+**Stories.** `Theme/Shell` renders the Peers page in the shell at 1440, 1024
+(`vp-1024`) and 390 (`vp-390`), collapsed, with the group popover, with the
+drawer open and with a demo page that registers actions. The `vp-<width>`
+story tag makes the visual guard's `capture.mjs` shoot at that width.
+
+**Disable or revert.** Remove the five alias lines from `tsconfig.json`:
+upstream's layout, header, page container and sidebar item are used again
+(their files were never edited). The Peers page then needs its in-page
+header block back (`git log -- "src/app/(dashboard)/peers/page.tsx"`).
 
 ## Layout modes
 

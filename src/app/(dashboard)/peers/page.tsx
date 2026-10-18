@@ -1,11 +1,9 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import InlineLink from "@components/InlineLink";
 import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import FullScreenLoading from "@components/ui/FullScreenLoading";
-import { usePortalElement } from "@hooks/usePortalElement";
 import { ExternalLinkIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { lazy, Suspense, useMemo } from "react";
@@ -19,6 +17,7 @@ import { t } from "@/i18n";
 import PageContainer from "@/layouts/PageContainer";
 import type { PeersTableKind } from "@/modules/peers/PeersTable";
 import { SetupModalContent } from "@/modules/setup-netbird-modal/SetupModal";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 const PeersTable = lazy(() => import("@/modules/peers/PeersTable"));
 
 export default function PeersPage() {
@@ -70,8 +69,6 @@ function PeersView() {
   const { peers, isLoading: isPeersLoading } = usePeers();
   const { users, isLoading: isUsersLoading } = useUsers();
   const { isBypassed } = useBypassedPeers();
-  const { ref: headingRef, portalTarget } =
-    usePortalElement<HTMLHeadingElement>();
 
   // The kind filter classifies peers by whether their owner is a real user vs
   // a service/no-user, so we must wait until both peers and users have loaded
@@ -87,39 +84,50 @@ function PeersView() {
     }));
   }, [peers, users, isBypassed]);
 
+  // @theme: page-template. The header (breadcrumb, title, count, help) is
+  // declared to the shell, which places it per layout mode; the in-page
+  // header block is gone (UI architecture, section 5.2 / decision 5).
+  const help = useMemo(
+    () => (
+      <>
+        {t("peers.page:page.text.userDevicesAndHeadlessMachines")}{" "}
+        <InlineLink
+          href={"https://docs.netbird.io/how-to/add-machines-to-your-network"}
+          target={"_blank"}
+        >
+          {t("common:word.learnMore")}
+          <ExternalLinkIcon size={12} />
+        </InlineLink>
+      </>
+    ),
+    [],
+  );
+  const breadcrumb = useMemo(
+    () => [
+      {
+        label: t("common:word.peers"),
+        href: "/peers",
+        icon: <PeerIcon size={13} />,
+      },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("common:word.peers"),
+    count: peersWithUser?.length,
+    breadcrumb,
+    help,
+  });
+
   return (
-    <>
-      <div className={"p-default py-6"}>
-        <Breadcrumbs>
-          <Breadcrumbs.Item
-            href={"/peers"}
-            label={t("common:word.peers")}
-            icon={<PeerIcon size={13} />}
-            active
-          />
-        </Breadcrumbs>
-        <h1 ref={headingRef}>{t("common:word.peers")}</h1>
-        <Paragraph>
-            {t("peers.page:page.text.userDevicesAndHeadlessMachines")}{" "}
-          <InlineLink
-            href={"https://docs.netbird.io/how-to/add-machines-to-your-network"}
-            target={"_blank"}
-          >
-            {t("common:word.learnMore")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
-      </div>
-      <Suspense fallback={<SkeletonTable />}>
-        <PeersTable
-          isLoading={isLoading}
-          peers={peersWithUser}
-          headingTarget={portalTarget}
-          kind={kind}
-          onKindChange={onKindChange}
-        />
-      </Suspense>
-    </>
+    <Suspense fallback={<SkeletonTable />}>
+      <PeersTable
+        isLoading={isLoading}
+        peers={peersWithUser}
+        kind={kind}
+        onKindChange={onKindChange}
+      />
+    </Suspense>
   );
 }
 
