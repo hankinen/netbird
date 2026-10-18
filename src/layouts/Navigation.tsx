@@ -19,7 +19,7 @@ import TeamIcon from "@/assets/icons/TeamIcon";
 import { DistributorNavigation } from "@/cloud/distributor/DistributorNavigation";
 import { MSPNavigationItem } from "@/cloud/msp/MSPNavigationItem";
 import SidebarItem from "@/components/SidebarItem";
-import { NavigationVersionInfo } from "@/components/VersionInfo";
+// import { NavigationVersionInfo } from "@/components/VersionInfo";
 import { useAnnouncement } from "@/contexts/AnnouncementProvider";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
@@ -380,7 +380,8 @@ export default function Navigation({
               </SidebarItemGroup>
             </div>
             <NavigationUsageInfo />
-            <NavigationVersionInfo />
+            {/* 版本信息卡片按需求隐藏，需要时取消注释即可恢复 */}
+            {/* <NavigationVersionInfo /> */}
           </div>
         </ScrollArea>
       </div>
