@@ -6,7 +6,11 @@ import { useGuardedRouter } from "@utils/navigation-guard";
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { type PageAction, usePageHeaderSpec } from "./pageHeader";
+import {
+  type PageAction,
+  usePageHeaderSpec,
+  usePageHeaderStore,
+} from "./pageHeader";
 
 /** Runs a page action: its handler, else its link through the guarded router. */
 export function useRunAction() {
@@ -51,12 +55,19 @@ export function ActionButton({
 
 /**
  * Title row of a page that registered a header: back arrow, title, count,
- * help icon on the left; secondary and primary actions on the right.
- * Desktops and tablets only; on phones the title is in the app bar and the
- * primary action in the bottom bar (shell.css hides this bar there).
+ * help icon on the left; secondary and primary actions on the right, plus
+ * whatever the DataTable adapter teleports there (the actions row is the
+ * "header" host of the store). Desktops and tablets only; on phones the
+ * title is in the app bar and the actions in the bottom bar (shell.css
+ * hides this bar there).
  */
 export function PageHeaderBar() {
   const spec = usePageHeaderSpec();
+  const store = usePageHeaderStore();
+  const setHost = React.useCallback(
+    (el: HTMLDivElement | null) => store?.setHost("header", el),
+    [store],
+  );
   if (!spec) return null;
   const primary = spec.primaryAction
     ? { ...spec.primaryAction, variant: "primary" as const }
@@ -86,14 +97,12 @@ export function PageHeaderBar() {
           />
         )}
       </div>
-      {(primary || spec.secondaryActions?.length) && (
-        <div className={"nb-pageheader__actions"}>
-          {spec.secondaryActions?.map((a, i) => (
-            <ActionButton key={a.key ?? i} action={a} />
-          ))}
-          {primary && <ActionButton action={primary} />}
-        </div>
-      )}
+      <div className={"nb-pageheader__actions"} ref={setHost}>
+        {spec.secondaryActions?.map((a, i) => (
+          <ActionButton key={a.key ?? i} action={a} />
+        ))}
+        {primary && <ActionButton action={primary} />}
+      </div>
     </div>
   );
 }

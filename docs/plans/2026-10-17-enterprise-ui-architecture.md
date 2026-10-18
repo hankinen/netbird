@@ -618,10 +618,33 @@ P1b-3 验收（2026-10-18，本机）：
 | 修正 | `overrides.css` 第 1 节「实色背景保留白字」规则对 `blueDark` / `blue-darker` 的 `text-white` 优先级高于 tag 角色色，加 `:not([data-nb-tag])` 豁免后文字恢复信息蓝 |
 | 全量溢出守卫 | 对 P1b-3 构建的 8 轮运行中，结果随后补记（tag 变小、输入框高度沿用 P1b-2 的 token，预期无新增溢出） |
 
-**P1b 留下的事项（进 P2）**
+### P2-1 主操作上提到页头：DataTable adapter 的「传送」（2026-10-18）
+
+决策：不改 35 个模块里的 `rightSide`，用 `@components/table/DataTable` 的 adapter 把它的输出通过 `createPortal`
+渲染到页头的操作行（桌面 / 平板）或底栏（手机）。Portal 只移动 DOM，React context、状态和按钮打开的弹窗都不受影响；
+模块代码与上游保持一致，合并上游零冲突。
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| 槽位宿主 | 完成 | `PageHeaderBar` 的操作行注册为 store 的 `header` 宿主，`BottomBar` 的 slot 注册为 `bottom` 宿主（`store.setHost`）；底栏改为有内容才显示（`:has()`），里面的按钮等宽、`--ctl-h-lg` 高 |
+| 归属 | 完成 | `useActionsSlot(enabled)`：首个挂载的表格认领槽位（`claimActions`），其余表格原地渲染；卸载即释放 |
+| 排除 | 完成 | 外壳之外、未声明页头的页面（详情页到 P3 为止）、`role="dialog"` 之内（弹窗 / 选择器里的表格，用表格后的隐藏锚点 `closest()` 判断）都原地渲染；首帧（认领前）不渲染，避免操作按钮先在工具栏闪一下再移走 |
+| 覆盖 | 完成 | Peers（Add Peer 下拉）、Access Control、Groups、Networks、Routes、DNS、Users、Setup Keys、Reverse Proxy、Agent Network、云端客户 / 租户等所有用 DataTable 且已声明页头的列表页，一次生效 |
+
+P2-1 验收（2026-10-18，本机）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `npx tsc --noEmit` | 0 错误 |
+| `npx vitest run` | 93 个文件 / 1026 个测试通过（DataTable adapter 6 个：进页头、无页头原地、外壳外原地、弹窗内原地、第二个表格原地、卸载释放） |
+| `npm run theme:check-selectors` | 107 个 `@depends` token、289 条规则在策略内；1 个组件替换 + 11 个整文件替换与上游一致 |
+| 截图 | Peers 1440：Add Peer 在页头右侧，满配工具栏（搜索 / 筛选 / 类型 / 合规 / 旁路 / 浏览器 / 刷新）一行放下；Peers 390：底栏整宽 Add Peer，下拉向上展开；Groups / Access Control 1440 同样；Peers 空态页头无按钮（`rightSide` 条件为假）、Get Started 卡片保留自己的按钮；Groups 详情「Assign Peers」弹窗内的表格按钮原地不动 |
+| 全量溢出守卫 | 对 P2-1 构建（含 P1b-3）的 8 轮运行中，结果随后补记 |
+
+**P1b / P2-1 留下的事项**
 - 顶栏全局搜索入口。
 - 原生 `Select.tsx` 与 Tabs / SegmentedTabs 的 adapter（同 Button 的 data 属性模式）。
-- 工具栏的「收进 ⋯」和主操作上提到页头：随 P2 的 `Toolbar` / DataTable adapter 一起做；P1b-2 只收紧了间距。
+- 工具栏的「收进 ⋯」（container query）：主操作离开后 1440 满配工具栏已能放下，优先级下调。
 - DataTable 的「N of M」过滤计数随表格 adapter 进槽位。
 
 **P0 留下的已知事项**

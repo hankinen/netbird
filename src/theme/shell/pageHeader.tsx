@@ -14,8 +14,15 @@
  * and only the shell parts that subscribe re-render. Listeners are notified
  * when a visible field changed; the latest spec object is always kept, and
  * actions are run through the store, so a handler is never stale.
+ *
+ * The store also holds the two "action hosts": the actions row of the page
+ * header bar and the bottom bar. The DataTable adapter renders a table's
+ * right-hand actions (Add Peer, Add Policy ...) into the host of the current
+ * layout mode through a portal (useActionsSlot), so the 35 tables upstream
+ * keep their code and the primary action still moves to the header.
  */
 import * as React from "react";
+import { useIsPhone } from "@/theme/hooks/useLayoutMode";
 
 export type PageAction = {
   key?: string;
@@ -92,13 +99,45 @@ export function sameSpec(
 const sameCrumb = (x: PageCrumb, y: PageCrumb) =>
   x.label === y.label && x.href === y.href && x.icon === y.icon;
 
+export type ActionsHostKind = "header" | "bottom";
+
 export class PageHeaderStore {
   spec: PageHeaderSpec | null = null;
   /** Breadcrumbs registered by the Breadcrumbs adapter of a page that has
    *  not (yet) declared a full header; the top bar shows them. */
   crumbs: PageCrumb[] | null = null;
+  /** Where teleported actions render: the page header bar's actions row
+   *  (desktops, tablets) and the bottom bar (phones), set by those parts. */
+  hosts: Record<ActionsHostKind, HTMLElement | null> = {
+    header: null,
+    bottom: null,
+  };
+  /** The one component whose actions fill the slot: the first to claim it
+   *  (the page's main table); the others keep theirs in place. */
+  actionsOwner: symbol | null = null;
   version = 0;
   private listeners = new Set<Listener>();
+
+  setHost(kind: ActionsHostKind, el: HTMLElement | null) {
+    if (this.hosts[kind] === el) return;
+    this.hosts[kind] = el;
+    this.bump();
+  }
+
+  claimActions(token: symbol): boolean {
+    if (this.actionsOwner && this.actionsOwner !== token) return false;
+    if (this.actionsOwner !== token) {
+      this.actionsOwner = token;
+      this.bump();
+    }
+    return true;
+  }
+
+  releaseActions(token: symbol) {
+    if (this.actionsOwner !== token) return;
+    this.actionsOwner = null;
+    this.bump();
+  }
 
   set(next: PageHeaderSpec | null) {
     const changed = !sameSpec(this.spec, next);
@@ -199,6 +238,48 @@ export function useRegisterCrumbs(items: PageCrumb[]): boolean {
   });
   React.useEffect(() => () => store?.setCrumbs(null), [store]);
   return store !== null;
+}
+
+export type ActionsSlot = {
+  /** Render into this element; null = render in place. */
+  host: HTMLElement | null;
+  /** First render, claim not made yet: render nothing, so actions that are
+   *  about to move never flash in place. */
+  pending: boolean;
+};
+
+const NO_SLOT: ActionsSlot = { host: null, pending: false };
+const PENDING: ActionsSlot = { host: null, pending: true };
+
+/**
+ * Used by the DataTable adapter. Claims the page's actions slot for as long
+ * as the caller is mounted and `enabled`; returns the host element for the
+ * current layout mode while a page header is registered and the caller
+ * holds the slot. Without a store or a header, or when another component
+ * holds the slot, `host` is null: render in place.
+ */
+export function useActionsSlot(enabled: boolean): ActionsSlot {
+  const store = React.useContext(StoreContext);
+  useStoreVersion(store);
+  const phone = useIsPhone();
+  const [token] = React.useState(() => Symbol("actions-slot"));
+  const [claimed, setClaimed] = React.useState(false);
+  React.useLayoutEffect(() => {
+    if (!store || !enabled) return;
+    store.claimActions(token);
+    setClaimed(true);
+    return () => {
+      store.releaseActions(token);
+      setClaimed(false);
+    };
+  }, [store, enabled, token]);
+  if (!store || !enabled || !store.spec) return NO_SLOT;
+  if (!claimed) return PENDING;
+  if (store.actionsOwner !== token) return NO_SLOT;
+  return {
+    host: phone ? store.hosts.bottom : store.hosts.header,
+    pending: false,
+  };
 }
 
 const noopSubscribe = () => () => {};

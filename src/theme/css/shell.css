@@ -459,13 +459,24 @@
 :root.theme-antd .nb-bottombar {
   display: none;
   flex: none;
+  align-items: center;
+  gap: 8px;
   padding: 8px var(--page-px) calc(8px + env(safe-area-inset-bottom));
   background: var(--bottombar-bg);
   border-top: 1px solid var(--bottombar-border);
 }
-:root.theme-antd .nb-bottombar__primary {
-  width: 100%;
-  height: var(--ctl-h);
+/* The slot the DataTable adapter teleports into: its children lay out as
+   bar items. */
+:root.theme-antd .nb-bottombar__slot {
+  display: contents;
+}
+/* Every button in the bar is a full-height, equal-width tap target. */
+:root.theme-antd .nb-bottombar__primary,
+:root.theme-antd .nb-bottombar [data-nb-btn] {
+  flex: 1 1 0;
+  min-width: 0;
+  height: var(--ctl-h-lg);
+  margin: 0;
   justify-content: center;
 }
 
@@ -540,7 +551,9 @@
     display: none;
   }
   :root.theme-antd .nb-topbar__menu,
-  :root.theme-antd .nb-bottombar {
+  /* Only while it has something to show. */
+  :root.theme-antd .nb-bottombar:has(> button),
+  :root.theme-antd .nb-bottombar:has(> .nb-bottombar__slot > *) {
     display: flex;
   }
   :root.theme-antd .nb-topbar__title {

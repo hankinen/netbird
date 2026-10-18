@@ -27,6 +27,8 @@
     "paths": {
       "@components/table/DataTablePagination": ["./src/theme/adapters/DataTablePagination.tsx"],
       "@components/table/Table": ["./src/theme/adapters/Table.tsx"],
+      "@components/table/DataTable": ["./src/theme/adapters/DataTable.tsx"],
+      "@/components/table/DataTable": ["./src/theme/adapters/DataTable.tsx"],
       "@components/Button": ["./src/theme/adapters/Button.tsx"],
       "@/components/Button": ["./src/theme/adapters/Button.tsx"],
       "@components/Badge": ["./src/theme/adapters/Badge.tsx"],

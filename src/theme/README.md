@@ -27,7 +27,7 @@ src/theme/
   tokens/   breakpoints.ts, tokens.base.css, tokens.density.css, tokens.light.css
   css/      index.css, base.css, overrides.css, vendors.css, density.css, button.css, tag.css, input.css,
             pagination.css, responsive.css, shell.css
-  adapters/ components swapped in through tsconfig `paths`: DataTablePagination, Table, SidebarItem,
+  adapters/ components swapped in through tsconfig `paths`: DataTablePagination, Table, DataTable, SidebarItem,
             Breadcrumbs, Button, Badge, Input, Textarea (+ .contract.ts, stories, tests)
   hooks/    useLayoutMode.tsx (useLayoutMode, useIsPhone, LayoutModeSync)
   shell/    AppShell, DashboardLayout, Header, PageContainer, Sider, NavDrawer,
@@ -51,7 +51,7 @@ src/theme/
 | `css/tag.css`               | tags (upstream `Badge`) by role, keyed on the attributes `adapters/Badge.tsx` writes                       |
 | `css/input.css`             | text inputs and textareas, keyed on the attributes `adapters/Input.tsx` / `Textarea.tsx` write           |
 | `css/responsive.css`        | phones / tablets (and R1 at every width), see "手机端适配" below                                        |
-| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`, `SidebarItem`, `Breadcrumbs`, `Button`, `Badge`, `Input`, `Textarea` (section "Primitive adapters") |
+| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`, `DataTable` (actions to the page header), `SidebarItem`, `Breadcrumbs`, `Button`, `Badge`, `Input`, `Textarea` (sections "App shell" and "Primitive adapters") |
 | `shell/`                    | the app shell (section below): replaces `DashboardLayout`, `Header` and `PageContainer` via paths       |
 | `hooks/useLayoutMode.tsx`   | `useLayoutMode()` → `phone` / `compact` / `full`, `useIsPhone()`, `LayoutModeSync` (`<html data-layout-mode>`) |
 | `defaultTheme.ts`           | env switch, `<html>` props, ThemeProvider default                                                       |
@@ -69,6 +69,7 @@ Three exact `tsconfig.json` aliases swap upstream's layout files for
 | `@/layouts/PageContainer` | `shell/PageContainer.tsx`: `<main>` scroll container, same classes | `src/layouts/PageContainer.tsx` |
 | `@/components/SidebarItem`, `@components/SidebarItem` | `adapters/SidebarItem.tsx`: same props and routing, dark-menu visuals, collapsed rail + group popovers | `src/components/SidebarItem.tsx` |
 | `@components/Breadcrumbs`, `@/components/Breadcrumbs` | `adapters/Breadcrumbs.tsx`: inside the shell registers its `Item`s with the page-header store and renders nothing (the top bar shows them); outside it renders upstream | `src/components/Breadcrumbs.tsx` |
+| `@components/table/DataTable`, `@/components/table/DataTable` | `adapters/DataTable.tsx`: same props; the table's `rightSide` actions (Add Peer, Add Policy …) render through a portal into the page header's actions row, on phones into the bottom bar (section "Action slot" below) | `src/components/table/DataTable.tsx` |
 | (hosted, not replaced) | `src/layouts/Navigation.tsx` renders inside `Sider` / `NavDrawer`; shell.css neutralises its container (`@depends`) | `src/layouts/Navigation.tsx` |
 
 `@replaces-file <file> sha256:<16 hex>` pins the whole upstream file: when
@@ -133,6 +134,35 @@ story tag makes the visual guard's `capture.mjs` shoot at that width.
 upstream's layout, header, page container and sidebar item are used again
 (their files were never edited). The Peers page then needs its in-page
 header block back (`git log -- "src/app/(dashboard)/peers/page.tsx"`).
+
+### Action slot: a table's primary action moves to the header
+
+The 35 tables upstream put their primary action in the toolbar through
+`DataTable`'s `rightSide` render prop. The DataTable adapter moves it without
+touching them:
+
+- `PageHeaderBar` registers its actions row as the store's `header` host and
+  `BottomBar` its slot as the `bottom` host (`store.setHost`).
+- The adapter calls `useActionsSlot(enabled)`: it claims the page's slot
+  (first table to mount wins, `store.claimActions`) and returns the host for
+  the current layout mode while a page header is registered. The adapter
+  then passes upstream a `rightSide` that renders the page's own
+  `rightSide(table)` through `createPortal` into that host; context, state
+  and the modals the buttons open are unaffected, only the DOM moves.
+- It stays in place when there is nowhere better: outside the shell, on a
+  page without a header (detail pages until P3), inside a `role="dialog"`
+  (tables in modals and pickers, found from a hidden anchor after the
+  table), and for every table after the first on a page. During the first
+  render (before the claim) the adapter renders nothing there, so an action
+  never flashes in the toolbar before it moves.
+- The bottom bar is shown only while it has a button in it
+  (`:has(> button)`, `:has(> .nb-bottombar__slot > *)`); every button in it
+  stretches to an equal-width, `--ctl-h-lg` tall tap target.
+
+To opt a page out, declare its header without a table action slot: today
+that means not using `DataTable` for it; a `teleportActions={false}` prop is
+a one-line addition to the adapter if a page ever needs its action in the
+toolbar.
 
 ## Layout modes
 
