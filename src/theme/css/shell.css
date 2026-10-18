@@ -36,6 +36,14 @@
   min-height: 0;
 }
 
+/* Anything sized to the viewport inside the main column is the sider too
+   wide: FullScreenLoading (redirect pages, the plans page while loading)
+   is `w-screen`. The column is the page's viewport now.
+   @depends src/components/ui/FullScreenLoading.tsx: flex items-center justify-center w-screen */
+:root.theme-antd .nb-shell__content [class~="w-screen" i] {
+  width: 100%;
+}
+
 /* ---- sider ----------------------------------------------------------------- */
 :root.theme-antd .nb-sider {
   --nav-fg: var(--sider-fg);
