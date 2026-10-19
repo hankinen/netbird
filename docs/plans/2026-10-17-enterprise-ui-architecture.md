@@ -565,11 +565,105 @@ P1a 验收（2026-10-18，本机全量运行）：
 在外壳的主列里就多出一个侧栏。`fix(shell): viewport-wide children of the main column are sized to the column`
 一条规则修复后复跑归零。
 
-**P1a 留下的事项（进 P1b / P2）**
-- 顶栏全局搜索入口、Breadcrumbs adapter（未迁移页面的面包屑仍在页内）。
-- Button / Input / Select / Tag / Tabs adapters；工具栏 container query 收纳（1440 下 Peers 工具栏仍换行）。
-- 手机端 AppBar 不显示数量；DataTable 的「N of M」过滤计数随表格 adapter 进槽位。
-- 折叠态的标签提示用的是原生 `title`，P1b 换成 Tooltip。
+### P1b 页头统一（2026-10-18）
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| Breadcrumbs adapter | 完成 | `@components/Breadcrumbs` 走 adapter：在外壳内把 `Item` 登记到页头 store 的第二个槽位、自身不渲染，顶栏统一显示；外壳外（story / 测试）渲染上游组件。设置页各 tab、详情页的面包屑因此也统一进了顶栏 |
+| 列表页迁移 | 完成 | 23 个列表页（策略、组、合规检查、网络、路由、DNS ×3、审计 / 流量事件、用户、服务用户、反向代理 ×4、Agent Network ×5、云端客户 / 租户）用 codemod 去掉页内「面包屑 + h1 + 营销段落」，改为 `usePageHeader`；11 个页面带 `count`；均登记为 `@theme: page-template` touch point |
+| 未迁移 | 按计划 | 详情页（peer / group / network / user）与设置 tab 的标题行留到 P3（DetailPage / SettingsPage 模板） |
+
+### P1b-2 原语 adapter：Button（2026-10-18）
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| Button adapter | 完成 | `@components/Button` 走 `adapters/Button.tsx`：渲染上游按钮不变，只写 `data-nb-btn`（14 个上游 variant → primary / default / active / text / danger / danger-outline / danger-text 七种角色）、`data-nb-size`（sm / md / lg）、`data-nb-grouped`（ButtonGroup 段）。角色表是 `Record<上游 variant, 角色>`，上游增删 variant 时 `tsc` 报错；`Button.contract.ts` 列出期望并集，`@replaces-file` 锁整文件 |
+| `css/button.css` | 完成 | 按角色写 AntD 样式（高度 / 圆角 / 字号 / 颜色 / hover / active / disabled / focus-visible），不含任何上游类名；`overrides.css` 的三条按钮规则和 `density.css` 的按钮高度、分段组高度规则删除（`@depends` −7；同步加入的工具栏密度规则 +4，合计 117 → 114） |
+| 控件高度跟随布局模式 | 完成 | `--ant-control-height` 改为 `var(--ctl-h)`：输入框 / 选择器 / 按钮一起 32px（桌面、平板）/ 40px（手机），不再各自硬编码 |
+| 工具栏密度 | 完成 | 表格工具栏列间距 16 → 8px、行间距 24 → 12px，搜索框最小宽 300 → 240px 且可伸缩（`flex: 1 1 240px`）。目标：1440 宽、侧栏展开时 Peers 工具栏（搜索 / 筛选 / 类型切换 / 合规 / 旁路 / 浏览器 peer / 刷新 / Add Peer）不换行 |
+| 折叠侧栏 Tooltip | 完成 | 折叠态菜单项的原生 `title` 换成 `components/Tooltip`（右侧弹出，300ms 延迟）；可折叠分组的 Tooltip trigger 套在 Popover trigger 外，两个 Slot 都把 props 转给按钮 |
+| 手机顶栏计数 | 完成 | 顶栏标题旁显示 `count`（`.nb-topbar__count`，仅手机；桌面由页头栏显示） |
+
+P1b / P1b-2 验收（2026-10-18，本机全量运行，Storybook 含 Button adapter）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `npx tsc --noEmit` | 0 错误 |
+| `npm run theme:check-selectors` | 114 个 `@depends` token、144 个属性选择器、263 条规则在策略内；1 个组件替换 + 7 个整文件替换与上游一致；34 个 touch point 完好 |
+| 溢出守卫 375 / 390 / 768 浅色、390 深色、1280 / 1440 浅色 | 549 个页面 story × 6 轮，0 横向溢出、0 布局问题 |
+| 溢出守卫 360 详情页（浅 + 深） | 39 × 2：首轮浅色 2 个溢出（Groups 详情 peers tab 的「Install NetBird + Assign Peers」行，按钮字号随 `--ctl-font` 到 16px 后宽了 16px）；按钮字号固定 14px、工具栏末尾操作组在手机上可换行后复跑 0 |
+| 守卫脚本 | 加载失败的 story 换新页面重试一次，仍失败则整轮判失败（之前只打印 `!` 并放行；上一轮并行跑构建时静态服务因句柄耗尽返回 404，有 19 个 story 被静默跳过） |
+| `npx vitest run` | 92 个文件 / 1020 个测试通过（含 Button adapter 5 个、Breadcrumbs adapter 3 个） |
+| 深色对照 | `Components/Button` 全部 variant 在 1200px 深色下与上一版像素零差异（adapter 只加属性）；Peers 1440 深色只有工具栏间距变化 |
+| 截图 | Peers 1440：常规状态一行放下，带「Non-Compliant + Bypassed + 浏览器 peer」的满配状态 Add Peer 仍换到第二行右侧（根治在 P2 把主操作上提到页头）；Access Control 1440 一行；Peers 1024 两行右对齐；Peers 390 顶栏「Peers 14」、控件 40px；折叠侧栏悬停出现 Tooltip、`title` 属性为 0 |
+
+### P1b-3 原语 adapter：Badge → Tag、Input、Textarea（2026-10-18）
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| Badge adapter | 完成 | `@components/Badge` 走 `adapters/Badge.tsx`：12 个上游 variant → `data-nb-tag` 六种角色（default / info / success / warning / error / purple），`data-nb-size`、`data-nb-hover`；`css/tag.css` 按 AntD Tag 的尺寸（22 / 18px 高、7px 内边距、12px 字号）和状态色上色。GroupBadge / PeerCountBadge / ResourceBadge / LoginExpiredBadge 等 10 个 ui 组件都建在 Badge 上，随之统一 |
+| Input / Textarea adapters | 完成 | `data-nb-input` / `data-nb-textarea`（default / error）落在 `<input>` / `<textarea>` 上，包装层和前缀盒用 `:has()` 够到；`css/input.css`：高度跟 `--ctl-h`、AntD 边框 / 悬停 / 聚焦环 / 错误态 / 禁用态，占位符用 `--ant-color-text-placeholder` |
+| 旧规则退役 | 完成 | `overrides.css` 的 Badge 专属规则（`bg-sky-900`）删除、状态色族规则改为只服务手写 chip；`density.css` / `overrides.css` 的 `@depends` 不再指向 Input / Textarea（规则留给原生 `Select.tsx` 等）。`@depends` 114 → 107 |
+| 未做 | 按计划 | 原生 `Select.tsx`（11 处）与 Tabs 的 adapter 留到 P2 / P3 的表单与设置页模板；`SelectDropdown` 的触发器本就是 Button，已随 Button adapter 统一 |
+
+P1b-3 验收（2026-10-18，本机）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `npx tsc --noEmit` | 0 错误（三个 contract 文件锁住上游的 variant 并集与 `error` prop） |
+| `npx vitest run` | 92 个文件 / 1020 个测试通过（Badge adapter 4 个、Input / Textarea adapter 5 个；上游 SelectDropdown、PeerGroupSelector 等建在 Input 上的测试照常通过） |
+| `npm run theme:check-selectors` | 107 个 `@depends` token、144 个属性选择器、288 条规则在策略内；1 个组件替换 + 10 个整文件替换与上游一致 |
+| 深色对照 | 上游 `Components/Badge`（7 个 story）与 `Components/Input`（7 个 story）在 1200px 深色下与上一版像素零差异 |
+| 截图 | Tag 六种角色 + xs + disabled；输入框默认 / 图标后缀 / 前缀盒 / 错误（行内与 tooltip）/ 禁用 / 只读 / 密码 / 多行，桌面 32px、手机 40px；Peers 与 Access Control 列表里的分组 / 协议 tag 变为 AntD 尺寸；新建策略弹窗 1440 / 390 |
+| 修正 | `overrides.css` 第 1 节「实色背景保留白字」规则对 `blueDark` / `blue-darker` 的 `text-white` 优先级高于 tag 角色色，加 `:not([data-nb-tag])` 豁免后文字恢复信息蓝 |
+| 全量溢出守卫 | 随 P2-1 的构建一起跑（含本步全部改动）：8 轮全绿，见 P2-1 验收 |
+
+### P2-1 主操作上提到页头：DataTable adapter 的「传送」（2026-10-18）
+
+决策：不改 35 个模块里的 `rightSide`，用 `@components/table/DataTable` 的 adapter 把它的输出通过 `createPortal`
+渲染到页头的操作行（桌面 / 平板）或底栏（手机）。Portal 只移动 DOM，React context、状态和按钮打开的弹窗都不受影响；
+模块代码与上游保持一致，合并上游零冲突。
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| 槽位宿主 | 完成 | `PageHeaderBar` 的操作行注册为 store 的 `header` 宿主，`BottomBar` 的 slot 注册为 `bottom` 宿主（`store.setHost`）；底栏改为有内容才显示（`:has()`），里面的按钮等宽、`--ctl-h-lg` 高 |
+| 归属 | 完成 | `useActionsSlot(enabled)`：首个挂载的表格认领槽位（`claimActions`），其余表格原地渲染；卸载即释放 |
+| 排除 | 完成 | 外壳之外、未声明页头的页面（详情页到 P3 为止）、`role="dialog"` 之内（弹窗 / 选择器里的表格，用表格后的隐藏锚点 `closest()` 判断）都原地渲染；首帧（认领前）不渲染，避免操作按钮先在工具栏闪一下再移走 |
+| 覆盖 | 完成 | Peers（Add Peer 下拉）、Access Control、Groups、Networks、Routes、DNS、Users、Setup Keys、Reverse Proxy、Agent Network、云端客户 / 租户等所有用 DataTable 且已声明页头的列表页，一次生效 |
+
+P2-1 验收（2026-10-18，本机）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `npx tsc --noEmit` | 0 错误 |
+| `npx vitest run` | 93 个文件 / 1026 个测试通过（DataTable adapter 6 个：进页头、无页头原地、外壳外原地、弹窗内原地、第二个表格原地、卸载释放） |
+| `npm run theme:check-selectors` | 107 个 `@depends` token、289 条规则在策略内；1 个组件替换 + 11 个整文件替换与上游一致 |
+| 截图 | Peers 1440：Add Peer 在页头右侧，满配工具栏（搜索 / 筛选 / 类型 / 合规 / 旁路 / 浏览器 / 刷新）一行放下；Peers 390：底栏整宽 Add Peer，下拉向上展开；Groups / Access Control 1440 同样；Peers 空态页头无按钮（`rightSide` 条件为假）、Get Started 卡片保留自己的按钮；Groups 详情「Assign Peers」弹窗内的表格按钮原地不动 |
+| 全量溢出守卫（含 P1b-3 + P2-1） | 375 / 390 / 768 浅色、390 深色、1280 / 1440 浅色：549 个 story × 6 轮，0 横向溢出、0 布局问题；360 详情页浅 + 深 39 × 2 均为 0；0 个加载失败 |
+
+### P3-1 详情页页头（2026-10-18）
+
+| 项 | 状态 | 说明 |
+| --- | --- | --- |
+| 槽位扩展 | 完成 | `titleText`（手机顶栏 / 无障碍用的纯文本）、`subtitle`（标题后的次要信息，手机隐藏）、`backHref` 在手机顶栏把菜单按钮换成返回箭头；`<PageHeaderTitle>` 把带上下文的富标题（状态点 / 改名按钮 / 徽标）portal 进页头的 `h1`，`<PageHeaderActions>` 把页面自己的操作 portal 进操作行（手机进底栏），并以强认领接管表格的弱认领 |
+| 迁移 | 完成 | peer（状态点 + 名称 + 改名弹窗 + 登录过期徽标；副标题为归属用户链接；概览 tab 下 Cancel / Save）、group（图标 + 名称 + 改名）、network（状态点 + 名称；副标题为描述；⋮ 菜单）、user（头像 + 名称；Cancel / Save）。页内只删标题行，面包屑保留（adapter 送到顶栏），登记为 `@theme: page-template` |
+| 未迁 | 按计划 | 设置页各 tab、云端 msp / plans、Control Center（另一会话负责）|
+
+P3-1 验收（2026-10-18，本机）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `npx tsc --noEmit` | 0 错误 |
+| `npx vitest run` | 94 个文件 / 1032 个测试通过（PageHeaderActions / PageHeaderTitle / 强弱认领 6 个新测试） |
+| `npm run theme:check-selectors` | 107 个 `@depends` token、291 条规则在策略内、38 个 touch point 完好；`responsive.css` 里键在旧标题行类名上的一条平板规则随之退役 |
+| 溢出守卫（定向：peer / groups / network-detail / team 全部 story × 8 轮） | 0 横向溢出、0 布局问题 |
+| 截图 | peer 1440：返回箭头 + 状态点 + 名称 + 改名 + 归属用户副标题，Cancel / Save 在页头右侧；peer 390：顶栏返回箭头 + 名称，底栏 Cancel / Save；登录过期徽标在标题内；group 1440 / 390：表格的 Install NetBird + Assign Peers 自动进页头 / 底栏；network 1440：描述为副标题、⋮ 在右侧，390 底栏 ⋮ 为右侧方形按钮；user 1440 / 390：头像 + 名称，Cancel / Save；超长 peer 名在 390 顶栏省略号 |
+
+**P1b / P2-1 留下的事项**
+- 顶栏全局搜索入口。
+- 原生 `Select.tsx` 与 Tabs / SegmentedTabs 的 adapter（同 Button 的 data 属性模式）。
+- 工具栏的「收进 ⋯」（container query）：主操作离开后 1440 满配工具栏已能放下，优先级下调。
+- DataTable 的「N of M」过滤计数随表格 adapter 进槽位。
 
 **P0 留下的已知事项**
 - `--ant-control-height` 等旧 token 仍是独立数值，P1 在 Button / Input / Table adapters 落地时改为引用 `--ctl-h` 等密度 token。

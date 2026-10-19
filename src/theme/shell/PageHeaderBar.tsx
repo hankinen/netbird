@@ -10,6 +10,7 @@ import {
   type PageAction,
   usePageHeaderSpec,
   usePageHeaderStore,
+  useTitleHosted,
 } from "./pageHeader";
 
 /** Runs a page action: its handler, else its link through the guarded router. */
@@ -55,15 +56,26 @@ export function ActionButton({
 
 /**
  * Title row of a page that registered a header: back arrow, title, count,
- * help icon on the left; secondary and primary actions on the right.
- * Desktops and tablets only; on phones the title is in the app bar and the
- * primary action in the bottom bar (shell.css hides this bar there). The
- * `nb-pageheader__extra` element is the slot pages portal their own
- * controls into (usePageHeaderSlot).
+ * help icon on the left; secondary and primary actions on the right, plus
+ * whatever the DataTable adapter teleports there (the actions row is the
+ * "header" host of the store). Desktops and tablets only; on phones the
+ * title is in the app bar and the actions in the bottom bar (shell.css
+ * hides this bar there). The `nb-pageheader__extra` element, first in the
+ * actions row, is the slot pages portal their own controls into
+ * (usePageHeaderSlot, the control-center mode switch).
  */
 export function PageHeaderBar() {
   const spec = usePageHeaderSpec();
   const store = usePageHeaderStore();
+  const titleHosted = useTitleHosted();
+  const setHost = React.useCallback(
+    (el: HTMLDivElement | null) => store?.setHost("header", el),
+    [store],
+  );
+  const setTitleHost = React.useCallback(
+    (el: HTMLHeadingElement | null) => store?.setHost("title", el),
+    [store],
+  );
   if (!spec) return null;
   const primary = spec.primaryAction
     ? { ...spec.primaryAction, variant: "primary" as const }
@@ -80,7 +92,16 @@ export function PageHeaderBar() {
             <ArrowLeftIcon size={16} />
           </Link>
         )}
-        <h1 className={"nb-pageheader__title"}>{spec.title}</h1>
+        <h1
+          className={"nb-pageheader__title"}
+          ref={setTitleHost}
+          title={spec.titleText}
+        >
+          {titleHosted ? null : spec.title}
+        </h1>
+        {spec.subtitle && (
+          <span className={"nb-pageheader__subtitle"}>{spec.subtitle}</span>
+        )}
         {spec.count !== undefined && (
           <span className={"nb-pageheader__count"}>{spec.count}</span>
         )}
@@ -93,7 +114,7 @@ export function PageHeaderBar() {
           />
         )}
       </div>
-      <div className={"nb-pageheader__actions"}>
+      <div className={"nb-pageheader__actions"} ref={setHost}>
         <div className={"nb-pageheader__extra"} ref={store?.setSlot} />
         {spec.secondaryActions?.map((a, i) => (
           <ActionButton key={a.key ?? i} action={a} />

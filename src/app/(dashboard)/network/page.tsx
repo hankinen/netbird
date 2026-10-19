@@ -12,6 +12,8 @@ import {
 } from "@components/DropdownMenu";
 import FullTooltip from "@components/FullTooltip";
 import InlineLink from "@components/InlineLink";
+import { SkeletonNetwork } from "@components/skeletons/SkeletonNetwork";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/Tabs";
 import useRedirect from "@hooks/useRedirect";
 import useFetchApi from "@utils/api";
 import { cn, singularize } from "@utils/helpers";
@@ -28,9 +30,17 @@ import {
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useMemo } from "react";
-import useUrlTab from "@/hooks/useUrlTab";
+import CircleIcon from "@/assets/icons/CircleIcon";
 import NetworkRoutesIcon from "@/assets/icons/NetworkRoutesIcon";
+import PeerIcon from "@/assets/icons/PeerIcon";
+import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import ReverseProxiesProvider, {
+  flattenReverseProxies,
+  useReverseProxies,
+} from "@/contexts/ReverseProxiesProvider";
+import useUrlTab from "@/hooks/useUrlTab";
+import { t } from "@/i18n";
 import { Network, NetworkResource, NetworkRouter } from "@/interfaces/Network";
 import PageContainer from "@/layouts/PageContainer";
 import { NetworkInformationSquare } from "@/modules/networks/misc/NetworkInformationSquare";
@@ -41,17 +51,12 @@ import {
 } from "@/modules/networks/NetworkProvider";
 import { ResourcesTabContent } from "@/modules/networks/resources/ResourcesTabContent";
 import { NetworkRoutingPeersTabContent } from "@/modules/networks/routing-peers/NetworkRoutingPeersTabContent";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/Tabs";
-import PeerIcon from "@/assets/icons/PeerIcon";
-import ReverseProxyIcon from "@/assets/icons/ReverseProxyIcon";
 import { ReverseProxyFlatTargetsTabContent } from "@/modules/reverse-proxy/targets/flat/ReverseProxyFlatTargetsTabContent";
-import ReverseProxiesProvider, {
-  flattenReverseProxies,
-  useReverseProxies,
-} from "@/contexts/ReverseProxiesProvider";
-import { SkeletonNetwork } from "@components/skeletons/SkeletonNetwork";
-
-import { t } from "@/i18n";
+import { usePageHeader } from "@/theme/shell/pageHeader";
+import {
+  PageHeaderActions,
+  PageHeaderTitle,
+} from "@/theme/shell/PageHeaderActions";
 export default function NetworkDetailPage() {
   const queryParameter = useSearchParams();
   const networkId = queryParameter.get("id");
@@ -96,6 +101,13 @@ function NetworkOverview({ network }: Readonly<{ network: Network }>) {
     network?.routing_peers_count && network.routing_peers_count > 0
   );
 
+  usePageHeader({
+    title: network.name,
+    titleText: network.name,
+    subtitle: network.description,
+    backHref: "/networks",
+  });
+
   return (
     <PageContainer>
       <NetworkAccessControlProvider>
@@ -115,28 +127,20 @@ function NetworkOverview({ network }: Readonly<{ network: Network }>) {
               />
             </Breadcrumbs>
 
-            <div className={"flex justify-between max-w-6xl"}>
-              <div
-                className={"w-full lg:w-1/2 flex justify-between items-center"}
-              >
-                <div
-                  className={cn(
-                    "flex items-center w-full",
-                    !network.description && "gap-2",
-                  )}
-                >
-                  <NetworkInformationSquare
-                    name={network.name}
-                    active={isActive}
-                    size={"lg"}
-                    description={network.description}
-                  />
-                </div>
-                <NetworkActions />
-              </div>
-            </div>
+            {/* @theme: page-template. Breadcrumb to the top bar (Breadcrumbs
+                adapter), name + status to the page header bar, the ⋮ menu to
+                its actions row (bottom bar on phones); see src/theme/README.md. */}
+            <PageHeaderTitle>
+              <span className={"inline-flex items-center gap-3"}>
+                <CircleIcon active={isActive} size={12} className={"shrink-0"} />
+                {network.name}
+              </span>
+            </PageHeaderTitle>
+            <PageHeaderActions>
+              <NetworkActions />
+            </PageHeaderActions>
 
-            <div className={"flex gap-10 w-full mt-8 max-w-6xl items-start"}>
+            <div className={"flex gap-10 w-full max-w-6xl items-start"}>
               <NetworkInformationCard network={network} />
             </div>
           </div>

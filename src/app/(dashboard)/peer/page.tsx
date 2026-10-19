@@ -74,6 +74,11 @@ import { EditPeerNameModal } from "@/modules/peers/EditPeerNameModal";
 import { RDPButton } from "@/modules/remote-access/rdp/RDPButton";
 import { SSHButton } from "@/modules/remote-access/ssh/SSHButton";
 import { ReverseProxyFlatTargetsTabContent } from "@/modules/reverse-proxy/targets/flat/ReverseProxyFlatTargetsTabContent";
+import { usePageHeader } from "@/theme/shell/pageHeader";
+import {
+  PageHeaderActions,
+  PageHeaderTitle,
+} from "@/theme/shell/PageHeaderActions";
 export default function PeerPage() {
   const queryParameter = useSearchParams();
   const { isRestricted } = usePermissions();
@@ -126,17 +131,18 @@ function PeerOverview() {
     <PageContainer>
       <RoutesProvider>
         <PeerSettingsProvider>
-          <div className={"p-default py-6 pb-0"}>
-            <Breadcrumbs>
-              <Breadcrumbs.Item
-                href={peerListPath(user)}
-                label={t("common:word.peers")}
-                icon={<PeerIcon size={13} />}
-              />
-              <Breadcrumbs.Item label={peer.ip} active />
-            </Breadcrumbs>
-            <PeerHeader />
-          </div>
+          {/* @theme: page-template. Breadcrumb to the top bar (Breadcrumbs
+              adapter), title row and Save / Cancel to the page header bar
+              (PeerHeader); see src/theme/README.md. */}
+          <Breadcrumbs>
+            <Breadcrumbs.Item
+              href={peerListPath(user)}
+              label={t("common:word.peers")}
+              icon={<PeerIcon size={13} />}
+            />
+            <Breadcrumbs.Item label={peer.ip} active />
+          </Breadcrumbs>
+          <PeerHeader />
           <PeerOverviewTabs />
         </PeerSettingsProvider>
       </RoutesProvider>
@@ -233,90 +239,88 @@ const PeerHeader = () => {
   const { name, setName, hasChanges, updatePeer, tab } = usePeerSettings();
   const [showEditNameModal, setShowEditNameModal] = useState(false);
   const isOverviewTab = tab === "overview";
+  const ownerLabel = user?.email || user?.id;
+  const ownerId = user?.id;
+  const subtitle = useMemo(
+    () =>
+      ownerLabel ? (
+        <Link
+          href={`/team/user?id=${ownerId}`}
+          className={
+            "hover:text-nb-gray-200 transition-all inline-flex items-center gap-1"
+          }
+        >
+          {ownerLabel}
+          <ArrowRightIcon size={14} />
+        </Link>
+      ) : undefined,
+    [ownerLabel, ownerId],
+  );
+  usePageHeader({
+    title: name,
+    titleText: name,
+    subtitle,
+    backHref: peerListPath(user),
+  });
 
   return (
     <>
-      <div className={"flex justify-between max-w-6xl items-start"}>
-        <div>
-          <div className={"flex items-center gap-3"}>
-            <h1 className={"flex items-center gap-3"}>
-              <CircleIcon
-                active={peer.connected}
-                size={12}
-                className={"mb-[3px] shrink-0"}
-              />
-              <TextWithTooltip text={name} maxChars={30} />
-
-              {permission.peers.update && (
-                <Modal
-                  open={showEditNameModal}
-                  onOpenChange={setShowEditNameModal}
-                >
-                  <ModalTrigger>
-                    <div
-                      className={
-                        "flex h-8 w-8 items-center justify-center gap-2 dark:text-neutral-300 text-neutral-500 hover:text-neutral-100 transition-all hover:bg-nb-gray-800/60 rounded-md cursor-pointer"
-                      }
-                    >
-                      <PencilIcon size={16} />
-                    </div>
-                  </ModalTrigger>
-                  <EditPeerNameModal
-                    onSuccess={(newName) => {
-                      updatePeer(newName).then(() => {
-                        setName(newName);
-                        setShowEditNameModal(false);
-                      });
-                    }}
-                    peer={peer}
-                    initialName={name}
-                    key={showEditNameModal ? 1 : 0}
-                  />
-                </Modal>
-              )}
-            </h1>
-            <LoginExpiredBadge loginExpired={peer.login_expired} />
-          </div>
-          {(user?.id || user?.email) && (
-            <div className={"flex items-center gap-8"}>
-              <Paragraph className={"flex items-center"}>
-                <Link
-                  href={`/team/user?id=${user?.id}`}
+      <PageHeaderTitle>
+        <span className={"inline-flex items-center gap-3"}>
+          <CircleIcon
+            active={peer.connected}
+            size={12}
+            className={"mb-[3px] shrink-0"}
+          />
+          <TextWithTooltip text={name} maxChars={30} />
+          {permission.peers.update && (
+            <Modal open={showEditNameModal} onOpenChange={setShowEditNameModal}>
+              <ModalTrigger>
+                <div
                   className={
-                    "hover:text-nb-gray-200 transition-all flex items-center gap-1"
+                    "flex h-8 w-8 items-center justify-center gap-2 dark:text-neutral-300 text-neutral-500 hover:text-neutral-100 transition-all hover:bg-nb-gray-800/60 rounded-md cursor-pointer"
                   }
                 >
-                  {user?.email || user?.id}
-                  <ArrowRightIcon size={14} />
-                </Link>
-              </Paragraph>
-            </div>
+                  <PencilIcon size={16} />
+                </div>
+              </ModalTrigger>
+              <EditPeerNameModal
+                onSuccess={(newName) => {
+                  updatePeer(newName).then(() => {
+                    setName(newName);
+                    setShowEditNameModal(false);
+                  });
+                }}
+                peer={peer}
+                initialName={name}
+                key={showEditNameModal ? 1 : 0}
+              />
+            </Modal>
           )}
-        </div>
-        {isOverviewTab && (
-          <div className={"flex gap-4"}>
-            <Button
-              variant={"default"}
-              className={"w-full"}
-              onClick={() => router.push(peerListPath(user))}
-            >
-              {t("common:word.cancel")}
-            </Button>
-            <Button
-              variant={"primary"}
-              className={"w-full"}
-              onClick={() => updatePeer()}
-              disabled={
-                !hasChanges ||
-                !permission.peers.update ||
-                !permission.groups.update
-              }
-            >
-              {t("common:word.saveChanges")}
-            </Button>
-          </div>
-        )}
-      </div>
+          <LoginExpiredBadge loginExpired={peer.login_expired} />
+        </span>
+      </PageHeaderTitle>
+      {isOverviewTab && (
+        <PageHeaderActions>
+          <Button
+            variant={"default"}
+            onClick={() => router.push(peerListPath(user))}
+          >
+            {t("common:word.cancel")}
+          </Button>
+          <Button
+            variant={"primary"}
+            onClick={() => updatePeer()}
+            disabled={
+              !hasChanges ||
+              !permission.peers.update ||
+              !permission.groups.update
+            }
+          >
+            {t("common:word.saveChanges")}
+          </Button>
+        </PageHeaderActions>
+      )}
     </>
   );
 };

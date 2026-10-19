@@ -1,0 +1,190 @@
+/*
+ * Buttons: AntD roles on the attributes adapters/Button.tsx adds.
+ *
+ * The adapter maps upstream's fourteen Button variants to seven roles and
+ * writes them as data attributes, so nothing here depends on an upstream
+ * class name (the pre-P1 rules in overrides.css and density.css keyed on
+ * `hover:bg-gray-100`, `dark:bg-red-600`, `py-2.5` ... are gone):
+ *
+ *   data-nb-btn="primary"         solid primary: Add Peer, Save
+ *   data-nb-btn="default"         white, neutral border; primary text and border on hover
+ *   data-nb-btn="active"          a default button in its selected state (toggle groups)
+ *   data-nb-btn="text"            no chrome until hovered: icon buttons, menu triggers
+ *   data-nb-btn="danger"          solid error colour
+ *   data-nb-btn="danger-outline"  error text and border
+ *   data-nb-btn="danger-text"     error text only (inline "Delete")
+ *   data-nb-size="sm|md|lg"       24 / 32 / 40px on desktops (density tokens; phones 32 / 40 / 44)
+ *   data-nb-grouped               a ButtonGroup segment: square, 2px shorter than its 1px frame
+ *
+ * Heights, radius, font and colours come from the tokens; horizontal padding
+ * stays upstream's utilities (px-4 by default, px-3 on icon-only buttons,
+ * !px-0 on inline text buttons), so a button's width does not change here.
+ */
+
+/* ---- Base: every role ------------------------------------------------------ */
+:root.theme-antd:not(.dark) button[data-nb-btn] {
+  height: var(--ctl-h);
+  padding-top: 0;
+  padding-bottom: 0;
+  border-radius: var(--ant-border-radius);
+  /* 14px at every width: --ctl-font grows to 16px on phones for inputs
+     (iOS Safari zooms into smaller ones), which buttons do not need, and
+     16px labels made the two-button rows of the detail pages 16px too wide
+     at 360px. */
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+  transition:
+    color 0.2s,
+    background-color 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+:root.theme-antd:not(.dark) button[data-nb-btn]:focus-visible {
+  outline: 3px solid var(--ant-control-outline);
+  outline-offset: 1px;
+  box-shadow: none;
+}
+:root.theme-antd:not(.dark) button[data-nb-btn][data-nb-size="sm"] {
+  height: var(--ctl-h-sm);
+  border-radius: var(--ant-border-radius-sm);
+  font-size: 12px;
+}
+:root.theme-antd:not(.dark) button[data-nb-btn][data-nb-size="lg"] {
+  height: var(--ctl-h-lg);
+  border-radius: var(--ant-border-radius-lg);
+  font-size: 16px;
+}
+/* Disabled: AntD keeps the shape and greys it (upstream fades it to 40%). */
+:root.theme-antd:not(.dark) button[data-nb-btn]:disabled {
+  background-color: var(--ant-color-fill-tertiary);
+  border-color: var(--ant-color-border);
+  color: var(--ant-color-text-disabled);
+  box-shadow: none;
+  opacity: 1;
+}
+
+/* A standalone button always has its 1px border (upstream's `border={0}`
+   drops it for some variants); a group segment keeps upstream's
+   border-t-0 / border-b-0 / first:border-l-0, i.e. only the dividers. */
+:root.theme-antd:not(.dark) button[data-nb-btn]:not([data-nb-grouped]) {
+  border-width: 1px;
+}
+
+/* ---- default / active ------------------------------------------------------ */
+:root.theme-antd:not(.dark) button[data-nb-btn="default"],
+:root.theme-antd:not(.dark) button[data-nb-btn="active"] {
+  background-color: var(--ant-color-bg-container);
+  border-color: var(--ant-color-border);
+  color: var(--ant-color-text);
+}
+:root.theme-antd:not(.dark) button[data-nb-btn="default"]:hover:not(:disabled),
+:root.theme-antd:not(.dark) button[data-nb-btn="active"]:hover:not(:disabled) {
+  background-color: var(--ant-color-bg-container);
+  border-color: var(--ant-color-primary-hover);
+  color: var(--ant-color-primary-hover);
+}
+:root.theme-antd:not(.dark) button[data-nb-btn="default"]:active:not(:disabled),
+:root.theme-antd:not(.dark) button[data-nb-btn="active"]:active:not(:disabled) {
+  border-color: var(--ant-color-primary-active);
+  color: var(--ant-color-primary-active);
+}
+:root.theme-antd:not(.dark) button[data-nb-btn="active"] {
+  background-color: var(--ant-color-primary-bg);
+  border-color: var(--ant-color-primary);
+  color: var(--ant-color-primary);
+}
+:root.theme-antd:not(.dark) button[data-nb-btn="active"]:hover:not(:disabled) {
+  background-color: var(--ant-color-primary-bg);
+}
+
+/* ---- primary ---------------------------------------------------------------- */
+:root.theme-antd:not(.dark) button[data-nb-btn="primary"]:not(:disabled) {
+  background-color: var(--ant-color-primary);
+  border-color: var(--ant-color-primary);
+  color: var(--ant-color-text-light-solid);
+  box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+}
+:root.theme-antd:not(.dark) button[data-nb-btn="primary"]:hover:not(:disabled) {
+  background-color: var(--ant-color-primary-hover);
+  border-color: var(--ant-color-primary-hover);
+  color: var(--ant-color-text-light-solid);
+}
+:root.theme-antd:not(.dark)
+  button[data-nb-btn="primary"]:active:not(:disabled) {
+  background-color: var(--ant-color-primary-active);
+  border-color: var(--ant-color-primary-active);
+}
+
+/* ---- text (upstream default-outline): icon buttons, menu triggers --------- */
+:root.theme-antd:not(.dark) button[data-nb-btn="text"] {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--ant-color-text);
+  box-shadow: none;
+}
+:root.theme-antd:not(.dark) button[data-nb-btn="text"]:hover:not(:disabled),
+:root.theme-antd:not(.dark) button[data-nb-btn="text"][data-state="open"] {
+  background-color: var(--ant-color-fill-tertiary);
+  color: var(--ant-color-text);
+}
+:root.theme-antd:not(.dark) button[data-nb-btn="text"]:active:not(:disabled) {
+  background-color: var(--ant-color-fill-secondary);
+}
+:root.theme-antd:not(.dark) button[data-nb-btn="text"]:disabled {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+/* ---- danger family (upstream has no light styles: "TODO - add danger button
+   styles for light mode") ------------------------------------------------- */
+:root.theme-antd:not(.dark) button[data-nb-btn="danger"]:not(:disabled) {
+  background-color: var(--ant-color-error);
+  border-color: var(--ant-color-error);
+  color: var(--ant-color-text-light-solid);
+  box-shadow: 0 2px 0 rgba(255, 38, 5, 0.06);
+}
+:root.theme-antd:not(.dark) button[data-nb-btn="danger"]:hover:not(:disabled) {
+  background-color: var(--ant-color-error-hover);
+  border-color: var(--ant-color-error-hover);
+}
+:root.theme-antd:not(.dark) button[data-nb-btn="danger-outline"] {
+  background-color: var(--ant-color-bg-container);
+  border-color: var(--ant-color-error-border);
+  color: var(--ant-color-error);
+}
+:root.theme-antd:not(.dark)
+  button[data-nb-btn="danger-outline"]:hover:not(:disabled) {
+  background-color: var(--ant-color-error-bg);
+  border-color: var(--ant-color-error-hover);
+  color: var(--ant-color-error-hover);
+}
+:root.theme-antd:not(.dark) button[data-nb-btn="danger-text"] {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--ant-color-error);
+  box-shadow: none;
+}
+:root.theme-antd:not(.dark)
+  button[data-nb-btn="danger-text"]:hover:not(:disabled) {
+  color: var(--ant-color-error-hover);
+}
+:root.theme-antd:not(.dark) button[data-nb-btn="danger-text"]:disabled {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+/* ---- ButtonGroup segments -------------------------------------------------- */
+/* The group draws the frame (1px border, rounded); a segment is square and
+   2px shorter so it sits inside the frame. */
+:root.theme-antd:not(.dark) button[data-nb-grouped] {
+  height: calc(var(--ctl-h) - 2px);
+  border-radius: 0;
+  box-shadow: none;
+}
+/* !important: ButtonGroup.Button carries the upstream !py-2.5 utility. */
+:root.theme-antd:not(.dark) button[data-nb-grouped] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}

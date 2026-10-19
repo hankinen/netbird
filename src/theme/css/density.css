@@ -5,8 +5,9 @@
  * selectors (group chips) still grow instead of clipping.
  */
 
-/* Fixed-height controls: inputs, selects, square icon buttons.
-   @depends src/components/Input.tsx: h-[42px]
+/* Fixed-height controls that are not behind an adapter yet (the native
+   select, hand-sized buttons); Input / Textarea / Button have their own
+   rules in input.css and button.css.
    @depends src/components/Select.tsx: h-[42px]
    @depends src/components/table/DataTableRefreshButton.tsx: h-[42px] */
 :root.theme-antd:not(.dark) [class~="h-[42px]" i] {
@@ -17,26 +18,14 @@
 :root.theme-antd:not(.dark) [class~="w-[42px]" i][class~="h-[42px]" i] {
   width: var(--ant-control-height);
 }
-/* Growing controls (multi-select triggers, textarea).
+/* Growing controls (multi-select triggers).
    @depends src/components/PeerGroupSelector.tsx: min-h-[42px]
-   @depends src/components/DropdownInput.tsx: min-h-[42px]
-   @depends src/components/Textarea.tsx: min-h-[42px] */
+   @depends src/components/DropdownInput.tsx: min-h-[42px] */
 :root.theme-antd:not(.dark) [class~="min-h-[42px]" i] {
   min-height: var(--ant-control-height);
 }
 
-/* Buttons: fixed control height (buttons are inline-flex, items-center and
-   whitespace-nowrap upstream, so content stays centred and never wraps).
-   @depends src/components/Button.tsx: text-sm py-2.5 px-4 | text-xs py-2 px-4 | shadow-sm | inline-flex gap-2 items-center | whitespace-nowrap */
-:root.theme-antd:not(.dark)
-  button[class~="shadow-sm" i][class~="inline-flex" i]:is(
-    [class~="py-2.5" i],
-    [class~="py-2" i]
-  ) {
-  height: var(--ant-control-height);
-  padding-top: 0;
-  padding-bottom: 0;
-}
+/* Buttons: button.css (heights by data-nb-size from adapters/Button.tsx). */
 
 /* Tables: header and cells 12px/16px (AntD middle), header no fixed 48px.
    @depends src/components/table/Table.tsx: h-12 px-4 text-left align-middle uppercase | align-middle [&:has([role=checkbox])]:pr-0 | p-4 */
@@ -66,13 +55,6 @@
   min-height: var(--ant-control-height);
 }
 
-/* Segmented button group (e.g. "User Devices | Servers"): buttons sit inside a
-   1px bordered container, so they are 2px shorter than a control.
-   @depends src/components/ButtonGroup.tsx: first:border-l-0 last:border-r-0 border-t-0 border-b-0 h-[40px] */
-:root.theme-antd:not(.dark) [class~="h-[40px]" i][class~="first:border-l-0" i] {
-  height: calc(var(--ant-control-height) - 2px);
-}
-
 /* Control centre header: upstream sizes its toolbar at 40px. Bring it to the
    32px control height. SegmentedTabs list = p-1 (4px) + 1px border, so the
    trigger gets control-height - 10px.
@@ -91,6 +73,8 @@
 :root.theme-antd:not(.dark) [class~="!h-[40px]" i] {
   height: var(--ant-control-height) !important;
 }
+/* Segmented group buttons (ButtonGroup.Button) are sized by button.css.
+   @depends src/components/ButtonGroup.tsx: first:border-l-0 last:border-r-0 border-t-0 border-b-0 h-[40px] */
 :root.theme-antd:not(.dark)
   [class~="h-[40px]" i]:not([class~="first:border-l-0" i]) {
   height: var(--ant-control-height);

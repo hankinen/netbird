@@ -33,6 +33,12 @@ const openTab = (name: RegExp) => async () => {
 };
 
 export const UserDevice: Story = { play: async () => void (await loaded()) };
+/* Phone: the name and a back arrow in the top bar, Save / Cancel in the
+   bottom bar (the page header declared through usePageHeader). */
+export const UserDevicePhone: Story = {
+  tags: ["vp-390"],
+  play: async () => void (await loaded()),
+};
 export const Server: Story = {
   parameters: peer("peer-web-server"),
   play: async () => void (await loaded()),

@@ -2,7 +2,7 @@
 
 import HelpAndSupportButton from "@components/ui/HelpAndSupportButton";
 import UserDropdown from "@components/ui/UserDropdown";
-import { ChevronRightIcon, MenuIcon } from "lucide-react";
+import { ArrowLeftIcon, ChevronRightIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { DistributorTransferAccountModal } from "@/cloud/distributor/DistributorTransferAccountModal";
@@ -11,7 +11,7 @@ import { MSPTransferAccountModal } from "@/cloud/msp/MSPTransferAccountModal";
 import { useApplicationContext } from "@/contexts/ApplicationProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { t } from "@/i18n";
-import { type PageCrumb, usePageHeaderSpec } from "./pageHeader";
+import { type PageCrumb, usePageCrumbs, usePageHeaderSpec } from "./pageHeader";
 import { useDocumentPageName } from "./useDocumentTitle";
 
 /**
@@ -29,14 +29,29 @@ export const headerHeight = 48;
 
 export default function Header() {
   const spec = usePageHeaderSpec();
+  const crumbs = usePageCrumbs();
   const pageName = useDocumentPageName();
   const { toggleMobileNav } = useApplicationContext();
   const { isRestricted } = usePermissions();
-  const title = spec?.title ?? pageName;
+  const lastCrumb = crumbs?.length ? crumbs[crumbs.length - 1].label : null;
+  const title = spec?.title ?? lastCrumb ?? pageName;
+  // Phones: the plain text of a rich title; a detail page gets a back arrow
+  // where the menu button sits (the drawer is still one swipe / tap away
+  // from the list page).
+  const phoneTitle = spec?.titleText ?? title;
 
   return (
     <header className={"nb-topbar"} data-testid={"app-topbar"}>
-      {!isRestricted && (
+      {!isRestricted && spec?.backHref && (
+        <Link
+          href={spec.backHref}
+          className={"nb-topbar__menu nb-topbar__back"}
+          aria-label={t("common:word.back")}
+        >
+          <ArrowLeftIcon size={20} />
+        </Link>
+      )}
+      {!isRestricted && !spec?.backHref && (
         <button
           type={"button"}
           className={"nb-topbar__menu"}
@@ -47,12 +62,17 @@ export default function Header() {
         </button>
       )}
       <div className={"nb-topbar__lead"}>
-        {spec?.breadcrumb?.length ? (
-          <Crumbs items={spec.breadcrumb} className={"nb-topbar__crumbs"} />
+        {crumbs?.length ? (
+          <Crumbs items={crumbs} className={"nb-topbar__crumbs"} />
         ) : (
           <span className={"nb-topbar__crumbs nb-topbar__where"}>{title}</span>
         )}
-        <span className={"nb-topbar__title"}>{title}</span>
+        <span className={"nb-topbar__title"}>
+          {phoneTitle}
+          {spec?.count !== undefined && (
+            <span className={"nb-topbar__count"}>{spec.count}</span>
+          )}
+        </span>
       </div>
       <div className={"nb-topbar__actions"}>
         <MSPTransferAccountModal />

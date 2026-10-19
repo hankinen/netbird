@@ -262,6 +262,13 @@
   font-size: 13px;
 }
 /* Collapsed rail: icons only, centred; the label is the button's title. */
+/* Label of a collapsed item, as a tooltip (components/Tooltip, which sets
+   the dark surface; this replaces its default padding class). */
+:root.theme-antd .nb-nav-tooltip {
+  padding: 5px 10px;
+  font-size: 13px;
+  line-height: 20px;
+}
 :root.theme-antd .nb-sider[data-collapsed] .nb-nav-item__button {
   justify-content: center;
   padding: 0;
@@ -333,6 +340,21 @@
 :root.theme-antd .nb-topbar__where {
   color: var(--ant-color-text-secondary);
   font-size: var(--font-size-sm, 14px);
+}
+/* Phones only (the page header bar carries the count elsewhere). */
+:root.theme-antd .nb-topbar__count {
+  display: none;
+  align-items: center;
+  height: 20px;
+  margin-left: 8px;
+  padding: 0 7px;
+  border-radius: 10px;
+  background: var(--ant-color-fill-secondary);
+  color: var(--ant-color-text-secondary);
+  font-size: 12px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  vertical-align: 2px;
 }
 :root.theme-antd .nb-topbar__actions {
   display: flex;
@@ -411,6 +433,18 @@
   font-weight: 600;
   line-height: 28px;
 }
+:root.theme-antd .nb-pageheader__subtitle {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ant-color-text-secondary);
+  font-size: var(--font-size-sm, 14px);
+}
+/* A rich title (PageHeaderTitle) keeps its own inline layout. */
+:root.theme-antd .nb-pageheader__title > * {
+  vertical-align: middle;
+}
 :root.theme-antd .nb-pageheader__count {
   display: inline-flex;
   align-items: center;
@@ -445,14 +479,32 @@
 :root.theme-antd .nb-bottombar {
   display: none;
   flex: none;
+  align-items: center;
+  gap: 8px;
   padding: 8px var(--page-px) calc(8px + env(safe-area-inset-bottom));
   background: var(--bottombar-bg);
   border-top: 1px solid var(--bottombar-border);
 }
-:root.theme-antd .nb-bottombar__primary {
-  width: 100%;
-  height: var(--ctl-h);
+/* The slot the DataTable adapter teleports into: its children lay out as
+   bar items. */
+:root.theme-antd .nb-bottombar__slot {
+  display: contents;
+}
+/* Every button in the bar is a full-height, equal-width tap target. */
+:root.theme-antd .nb-bottombar__primary,
+:root.theme-antd .nb-bottombar [data-nb-btn] {
+  flex: 1 1 0;
+  min-width: 0;
+  height: var(--ctl-h-lg);
+  margin: 0;
   justify-content: center;
+}
+/* An icon-only button (upstream's !px-3 convention: the ⋮ menu of a detail
+   page) stays square, at the end of the bar.
+   @depends src/app/(dashboard)/network/page.tsx: !px-3 */
+:root.theme-antd .nb-bottombar [data-nb-btn][class~="!px-3" i] {
+  flex: 0 0 var(--ctl-h-lg);
+  margin-left: auto;
 }
 
 /* ---- drawer (phones) ------------------------------------------------------- */
@@ -526,11 +578,16 @@
     display: none;
   }
   :root.theme-antd .nb-topbar__menu,
-  :root.theme-antd .nb-bottombar {
+  /* Only while it has something to show. */
+  :root.theme-antd .nb-bottombar:has(> button),
+  :root.theme-antd .nb-bottombar:has(> .nb-bottombar__slot > *) {
     display: flex;
   }
   :root.theme-antd .nb-topbar__title {
     display: block;
+  }
+  :root.theme-antd .nb-topbar__count {
+    display: inline-flex;
   }
   :root.theme-antd .nb-topbar__actions {
     gap: 4px;

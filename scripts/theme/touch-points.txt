@@ -17,3 +17,30 @@ src/layouts/DashboardLayout.stories.tsx :: @theme: the shell's top bar is a <hea
 .storybook/visual-regression/scripts/capture.mjs :: @theme: vp-<width> tag
 src/app/(dashboard)/control-center/page.tsx :: @theme: canvas colour mode follows the dashboard theme :: colorMode=\{"dark"\}
 src/app/(dashboard)/control-center/page.tsx :: <Background {...GRAPH_BACKGROUND} gap={20} /> :: bgColor=\{"#181a1d"\}
+src/app/(dashboard)/(cloud)/customers/page.tsx :: @theme: page-template
+src/app/(dashboard)/(cloud)/tenants/page.tsx :: @theme: page-template
+src/app/(dashboard)/access-control/page.tsx :: @theme: page-template
+src/app/(dashboard)/agent-network/configuration/page.tsx :: @theme: page-template
+src/app/(dashboard)/agent-network/connect/page.tsx :: @theme: page-template
+src/app/(dashboard)/agent-network/policies/page.tsx :: @theme: page-template
+src/app/(dashboard)/agent-network/providers/page.tsx :: @theme: page-template
+src/app/(dashboard)/agent-network/usage/page.tsx :: @theme: page-template
+src/app/(dashboard)/dns/nameservers/page.tsx :: @theme: page-template
+src/app/(dashboard)/dns/settings/page.tsx :: @theme: page-template
+src/app/(dashboard)/dns/zones/page.tsx :: @theme: page-template
+src/app/(dashboard)/events/audit/page.tsx :: @theme: page-template
+src/app/(dashboard)/events/traffic/page.tsx :: @theme: page-template
+src/app/(dashboard)/groups/page.tsx :: @theme: page-template
+src/app/(dashboard)/network-routes/page.tsx :: @theme: page-template
+src/app/(dashboard)/networks/page.tsx :: @theme: page-template
+src/app/(dashboard)/posture-checks/page.tsx :: @theme: page-template
+src/app/(dashboard)/reverse-proxy/clusters/page.tsx :: @theme: page-template
+src/app/(dashboard)/reverse-proxy/custom-domains/page.tsx :: @theme: page-template
+src/app/(dashboard)/reverse-proxy/logs/page.tsx :: @theme: page-template
+src/app/(dashboard)/reverse-proxy/services/page.tsx :: @theme: page-template
+src/app/(dashboard)/team/service-users/page.tsx :: @theme: page-template
+src/app/(dashboard)/team/users/page.tsx :: @theme: page-template
+src/app/(dashboard)/group/page.tsx :: @theme: page-template
+src/app/(dashboard)/peer/page.tsx :: @theme: page-template
+src/app/(dashboard)/team/user/page.tsx :: @theme: page-template
+src/app/(dashboard)/network/page.tsx :: @theme: page-template

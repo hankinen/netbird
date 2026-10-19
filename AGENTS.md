@@ -79,8 +79,10 @@ Pick the first option that works, in this order:
 3. **A component replacement** through an exact `paths` alias in
    `tsconfig.json`, with a `.contract.ts` and an `@replaces … sha256:` hash
    (or `@replaces-file` for a whole file), the way `DataTablePagination`,
-   `Table`, `SidebarItem` and the shell (`@/layouts/DashboardLayout`,
-   `Header`, `PageContainer`) are done. A wrapper keeps upstream's props;
+   `Table`, `SidebarItem`, `Button` and the shell (`@/layouts/DashboardLayout`,
+   `Header`, `PageContainer`) are done. A primitive wrapper (`Button`) renders
+   upstream unchanged and only adds `data-nb-*` attributes for the theme CSS
+   to key on (`src/theme/README.md`, "Primitive adapters"). A wrapper keeps upstream's props;
    whether it renders upstream's component outside the AntD theme is the
    README's call per replacement (the shell renders in both colour modes).
 4. **An in-place edit of an upstream file**: the smallest possible diff, an
@@ -203,7 +205,9 @@ When you:
   is reviewed from the screenshots;
 - **add or migrate a page header**: declare it with `usePageHeader()` from
   `src/theme/shell/pageHeader.tsx` instead of an in-page breadcrumb / h1 /
-  paragraph block (`src/theme/README.md`, "App shell");
+  paragraph block; a detail page's rich title and its own buttons go through
+  `PageHeaderTitle` / `PageHeaderActions`, and a `DataTable`'s `rightSide`
+  moves to the header by itself (`src/theme/README.md`, "App shell");
 - **add or change text**: `npm run i18n:types` when keys changed, then
   `npm run i18n:check`;
 - **change the config contract, the image or the release script**: run the

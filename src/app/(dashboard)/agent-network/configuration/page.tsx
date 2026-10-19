@@ -1,8 +1,6 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { VerticalTabs } from "@components/VerticalTabs";
@@ -14,14 +12,14 @@ import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
 import GroupsProvider from "@/contexts/GroupsProvider";
 import PeersProvider from "@/contexts/PeersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { t } from "@/i18n";
 import { REVERSE_PROXY_CLUSTERS_DOCS_LINK } from "@/interfaces/ReverseProxy";
 import PageContainer from "@/layouts/PageContainer";
-import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
 import AgentAccountControlsCard from "@/modules/agent-network/AgentAccountControlsCard";
 import AgentBudgetRulesTable from "@/modules/agent-network/AgentBudgetRulesTable";
 import AIProvidersProvider from "@/modules/agent-network/AIProvidersProvider";
-
-import { t } from "@/i18n";
+import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 const ClustersTable = lazy(
   () => import("@/modules/reverse-proxy/clusters/ClustersTable"),
 );
@@ -150,8 +148,8 @@ export default function AgentNetworkConfigurationPage() {
   );
 }
 
-// ConfigTabHeader mirrors the breadcrumb + heading + description block each
-// Settings tab renders at the top of its content.
+// ConfigTabHeader declares each tab's breadcrumb, heading and description
+// to the shell (@theme: page-template); it renders nothing itself.
 function ConfigTabHeader({
   label,
   href,
@@ -161,18 +159,17 @@ function ConfigTabHeader({
   href: string;
   children?: React.ReactNode;
 }) {
-  return (
-    <div className={"p-default py-6"}>
-      <Breadcrumbs>
-        <Breadcrumbs.Item
-          href={"/agent-network/providers"}
-          label={t("agent-network.page:page.label.agentNetwork")}
-          icon={<AgentNetworkIcon size={16} />}
-        />
-        <Breadcrumbs.Item href={href} label={label} active />
-      </Breadcrumbs>
-      <h1>{label}</h1>
-      {children && <Paragraph>{children}</Paragraph>}
-    </div>
+  const pageCrumbs = React.useMemo(
+    () => [
+      {
+        label: t("agent-network.page:page.label.agentNetwork"),
+        href: "/agent-network/providers",
+        icon: <AgentNetworkIcon size={16} />,
+      },
+      { label, href },
+    ],
+    [label, href],
   );
+  usePageHeader({ title: label, breadcrumb: pageCrumbs, help: children });
+  return null;
 }

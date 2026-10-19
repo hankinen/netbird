@@ -1,11 +1,9 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import FullScreenLoading from "@components/ui/FullScreenLoading";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
-import { usePortalElement } from "@hooks/usePortalElement";
 import useRedirect from "@hooks/useRedirect";
 import useFetchApi from "@utils/api";
 import React, { Suspense, useMemo } from "react";
@@ -20,6 +18,7 @@ import { useLoggedInUser } from "@/contexts/UsersProvider";
 import { t } from "@/i18n";
 import { User } from "@/interfaces/User";
 import PageContainer from "@/layouts/PageContainer";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 export default function TenantsPage() {
   const { isActive, isMSPInMSPContext, isMspInfoLoading } = useMSP();
   const { isOwnerOrAdmin } = useLoggedInUser();
@@ -44,23 +43,34 @@ const TenantsPageContent = () => {
   const { data: tenants, isLoading } = useFetchApi<Tenant[]>(
     "/integrations/msp/tenants",
   );
-  const { ref: headingRef, portalTarget } =
-    usePortalElement<HTMLHeadingElement>();
 
   useFetchApi<User[]>("/users", true);
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => <>{t("tenants.page:page.text.aListOfAllTenants")}</>,
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      {
+        label: t("common:word.tenants"),
+        href: "/tenants",
+        icon: <MSPIcon size={15} />,
+      },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("common:word.tenants"),
+    count: tenants?.length,
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
   return (
     <PageContainer>
       <div className={"p-default py-6"}>
-        <Breadcrumbs>
-          <Breadcrumbs.Item
-            href={"/tenants"}
-            label={t("common:word.tenants")}
-            icon={<MSPIcon size={15} />}
-          />
-        </Breadcrumbs>
-        <h1 ref={headingRef}>{t("common:word.tenants")}</h1>
-        <Paragraph>{t("tenants.page:page.text.aListOfAllTenants")}</Paragraph>
         <Paragraph>
           <MSPTenantDocsLink />
           {t("tenants.page:page.text.inOurDocumentation")}
@@ -69,11 +79,7 @@ const TenantsPageContent = () => {
       <RestrictedAccess page={"Tenants"} hasAccess={permission.tenants.read}>
         <Suspense fallback={<SkeletonTable />}>
           <TenantsProvider>
-            <MSPTenantsTable
-              isLoading={isLoading}
-              headingTarget={portalTarget}
-              tenants={tenants}
-            />
+            <MSPTenantsTable isLoading={isLoading} tenants={tenants} />
           </TenantsProvider>
         </Suspense>
       </RestrictedAccess>

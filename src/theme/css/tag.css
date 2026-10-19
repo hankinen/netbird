@@ -1,0 +1,73 @@
+/*
+ * Tags (upstream Badge): AntD roles on the attributes adapters/Badge.tsx adds.
+ *
+ * The adapter maps upstream's twelve Badge variants to six roles and writes
+ * them as data attributes, so nothing here depends on an upstream class
+ * name (the pre-P1 rules in overrides.css keyed on `bg-sky-900`,
+ * `bg-red-950/40`, `text-green-400` ... are gone for badges; the same rules
+ * stay for the few hand-written status chips that do not go through Badge):
+ *
+ *   data-nb-tag="default"   neutral: groups, counts, kinds
+ *   data-nb-tag="info"      blue: upstream's blue family and the brand colour
+ *   data-nb-tag="success" / "warning" / "error" / "purple"   status tags
+ *   data-nb-size="default|xs"   22px / 18px tall (AntD tag / small tag)
+ *   data-nb-hover               hoverable (useHover): a slightly darker fill
+ *
+ * Layout stays upstream's (a flex row with a 6px gap); only the box, the
+ * typography and the colours change.
+ */
+
+:root.theme-antd:not(.dark) [data-nb-tag] {
+  min-height: 22px;
+  padding: 0 7px;
+  border: 1px solid transparent;
+  border-radius: var(--ant-border-radius-sm);
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+}
+:root.theme-antd:not(.dark) [data-nb-tag][data-nb-size="xs"] {
+  min-height: 18px;
+  padding: 0 5px;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+:root.theme-antd:not(.dark) [data-nb-tag="default"] {
+  background-color: var(--tag-default-bg);
+  border-color: var(--tag-default-border);
+  color: var(--tag-default-fg);
+}
+:root.theme-antd:not(.dark) [data-nb-tag="info"] {
+  background-color: var(--ant-color-info-bg);
+  border-color: var(--ant-color-info-border);
+  color: var(--ant-color-info-text);
+}
+:root.theme-antd:not(.dark) [data-nb-tag="success"] {
+  background-color: var(--ant-color-success-bg);
+  border-color: var(--ant-color-success-border);
+  color: var(--ant-color-success-text);
+}
+:root.theme-antd:not(.dark) [data-nb-tag="warning"] {
+  background-color: var(--ant-color-warning-bg);
+  border-color: var(--ant-color-warning-border);
+  color: var(--ant-color-warning-text);
+}
+:root.theme-antd:not(.dark) [data-nb-tag="error"] {
+  background-color: var(--ant-color-error-bg);
+  border-color: var(--ant-color-error-border);
+  color: var(--ant-color-error-text);
+}
+:root.theme-antd:not(.dark) [data-nb-tag="purple"] {
+  background-color: var(--ant-purple-bg);
+  border-color: var(--ant-purple-border);
+  color: var(--ant-purple-text);
+}
+
+/* Hoverable tags (group chips that open a peer list, filters). */
+:root.theme-antd:not(.dark) [data-nb-tag="default"][data-nb-hover]:hover {
+  background-color: var(--ant-color-fill-secondary);
+}
+:root.theme-antd:not(.dark) [data-nb-tag="info"][data-nb-hover]:hover {
+  background-color: var(--ant-color-primary-border);
+}

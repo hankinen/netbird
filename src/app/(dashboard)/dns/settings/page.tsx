@@ -1,13 +1,11 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import Button from "@components/Button";
 import Card from "@components/Card";
 import HelpText from "@components/HelpText";
 import InlineLink from "@components/InlineLink";
 import { Label } from "@components/Label";
 import { notify } from "@components/Notification";
-import Paragraph from "@components/Paragraph";
 import { PeerGroupSelector } from "@components/PeerGroupSelector";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
 import { IconSettings2 } from "@tabler/icons-react";
@@ -25,6 +23,7 @@ import { NameserverSettings } from "@/interfaces/NameserverSettings";
 import PageContainer from "@/layouts/PageContainer";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import { useGroupIdsToGroups } from "@/modules/groups/useGroupIdsToGroups";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 export default function NameServerSettings() {
   const { permission } = usePermissions();
 
@@ -34,34 +33,43 @@ export default function NameServerSettings() {
   const initialDNSGroups = useGroupIdsToGroups(
     settings?.disabled_management_groups,
   );
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => (
+      <>
+        {t("dns.page:page.text.manageYourAccountSDNS")}{" "}
+        <InlineLink
+          href={"https://docs.netbird.io/how-to/manage-dns-in-your-network"}
+          target={"_blank"}
+        >
+          {t("common:word.learnMore")}
+          <ExternalLinkIcon size={12} />
+        </InlineLink>
+      </>
+    ),
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      { label: "DNS", href: "/dns", icon: <DNSIcon size={13} /> },
+      {
+        label: t("dns.page:page.label.dNSSettings"),
+        href: "/dns/settings",
+        icon: <IconSettings2 size={15} />,
+      },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("dns.page:page.label.dNSSettings"),
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
   return (
     <PageContainer>
       <div className={"p-default py-6"}>
-        <Breadcrumbs>
-          <Breadcrumbs.Item
-            href={"/dns"}
-            label={"DNS"}
-            icon={<DNSIcon size={13} />}
-          />
-          <Breadcrumbs.Item
-            href={"/dns/settings"}
-            label={t("dns.page:page.label.dNSSettings")}
-            active
-            icon={<IconSettings2 size={15} />}
-          />
-        </Breadcrumbs>
-        <h1>{t("dns.page:page.label.dNSSettings")}</h1>
-        <Paragraph>
-          {t("dns.page:page.text.manageYourAccountSDNS")}{" "}
-          <InlineLink
-            href={"https://docs.netbird.io/how-to/manage-dns-in-your-network"}
-            target={"_blank"}
-          >
-            {t("common:word.learnMore")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
         <RestrictedAccess page={"DNS Settings"} hasAccess={permission.dns.read}>
           {!isLoading && initialDNSGroups !== undefined ? (
             <SettingDisabledManagementGroups initialGroups={initialDNSGroups} />

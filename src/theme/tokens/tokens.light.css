@@ -102,8 +102,10 @@
   --tag-default-border: var(--ant-color-border);
   --tag-default-fg: var(--ant-color-text);
   /* density (AntD middle) */
-  --ant-control-height: 32px;
-  --ant-control-height-lg: 40px;
+  /* Rebased on the density tokens (tokens.density.css): 32px on desktops,
+     40px on phones, like the buttons of adapters/Button.tsx. */
+  --ant-control-height: var(--ctl-h);
+  --ant-control-height-lg: var(--ctl-h-lg);
   --ant-padding: 16px;
   --ant-table-cell-padding-block: 12px;
   --ant-table-cell-padding-inline: 16px;

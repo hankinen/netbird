@@ -103,7 +103,7 @@
     [class*="bg-sky-9" i],
     [class*="bg-sky-8" i],
     [class*="bg-blue-9" i]
-  ) {
+  ):not([data-nb-tag]) {
   color: var(--ant-color-text-light-solid);
 }
 
@@ -135,19 +135,11 @@
   background-color: var(--ant-color-fill);
 }
 
-/* ---- 2. Badges / status tags ---------------------------------------------- */
-/* @depends src/components/Badge.tsx: bg-sky-900 */
-:root.theme-antd:not(.dark) [class~="bg-sky-900" i] {
-  background-color: var(--ant-color-primary-bg);
-  border-color: var(--ant-color-primary-border);
-}
-:root.theme-antd:not(.dark)
-  [class~="bg-sky-900" i]:is([class~="text-white" i]) {
-  color: var(--ant-color-primary-active);
-}
-
-/* Dark-only status backgrounds (*-950 / *-900, any opacity) -> AntD status colours.
-   @depends src/components/Badge.tsx: bg-red-950/40 | bg-purple-950/50 | bg-yellow-950 | bg-green-950 | bg-netbird-950 */
+/* ---- 2. Status chips written by hand ------------------------------------- */
+/* The Badge component itself is styled by tag.css (adapters/Badge.tsx writes
+   data-nb-tag). What follows are defensive colour-family rules for the chips
+   that do not go through Badge (SmallBadge, inline status pills): dark-only
+   status backgrounds (*-950 / *-900, any opacity) -> AntD status colours. */
 :root.theme-antd:not(.dark)
   :is([class*="bg-red-950" i], [class*="bg-red-900" i]) {
   background-color: var(--ant-color-error-bg);
@@ -219,39 +211,8 @@
 }
 
 /* ---- 3. Buttons ------------------------------------------------------------ */
-/* Danger buttons have no light styles upstream ("TODO - add danger button styles for light mode").
-   @depends src/components/Button.tsx: dark:bg-red-600 | dark:text-red-500 */
-:root.theme-antd:not(.dark) button[class~="dark:bg-red-600" i] {
-  background-color: var(--ant-color-error);
-  color: var(--ant-color-text-light-solid);
-  border-color: var(--ant-color-error);
-}
-:root.theme-antd:not(.dark)
-  button[class~="dark:bg-red-600" i]:hover:not(:disabled) {
-  background-color: var(--ant-color-error-hover);
-  border-color: var(--ant-color-error-hover);
-}
-:root.theme-antd:not(.dark) button[class~="dark:text-red-500" i] {
-  color: var(--ant-color-error);
-}
-
-/* AntD default button: neutral border, primary colour on hover.
-   @depends src/components/Button.tsx: hover:bg-gray-100 */
-:root.theme-antd:not(.dark)
-  button[class~="hover:bg-gray-100" i]:not([class~="dark:bg-red-600" i]) {
-  border-width: 1px;
-  border-color: var(--ant-color-border);
-  background-color: var(--ant-color-bg-container);
-  color: var(--ant-color-text);
-}
-:root.theme-antd:not(.dark)
-  button[class~="hover:bg-gray-100" i]:not(
-    [class~="dark:bg-red-600" i]
-  ):hover:not(:disabled) {
-  border-color: var(--ant-color-primary-hover);
-  color: var(--ant-color-primary-hover);
-  background-color: var(--ant-color-bg-container);
-}
+/* Moved to button.css: adapters/Button.tsx writes the role of every button as
+   data-nb-btn, so the light theme no longer keys on upstream button classes. */
 
 /* ---- 4. Switch / checkbox -------------------------------------------------- */
 /* @depends src/components/ToggleSwitch.tsx: data-[state=checked]:bg-neutral-900 | data-[state=unchecked]:bg-neutral-200 */
@@ -297,7 +258,9 @@
   outline: none;
   box-shadow: 0 0 0 2px var(--ant-control-outline);
 }
-/* @depends src/components/Input.tsx: border-neutral-200 | dark:border-nb-gray-700 */
+/* Inputs and textareas through the adapters are styled by input.css; this
+   keeps the native select and the other controls sharing the classes.
+   @depends src/components/Select.tsx: border-neutral-200 | dark:border-nb-gray-700 */
 :root.theme-antd:not(.dark) :is(input, textarea)[class~="border-neutral-200" i],
 :root.theme-antd:not(.dark)
   [class~="border-neutral-200" i][class~="dark:border-nb-gray-700" i] {
