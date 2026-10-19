@@ -6,6 +6,7 @@
   "page.text.accessiblePeers": "可访问的设备",
   "page.text.remoteJobs": "远程任务",
   "page.emptyTableTitle.thisPeerHasNoServices": "此设备没有服务",
+  "page.emptyTableDescription.addYourServicesToThisPeer": "为此设备添加服务，并通过 NetBird 的反向代理安全地公开它们",
   "page.text.assignedGroups": "已分配的组",
   "page.text.useGroupsToControlWhat": "使用组来控制此设备可以访问的内容。",
   "page.text.remoteAccess": "远程访问",

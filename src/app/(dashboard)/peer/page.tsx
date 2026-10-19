@@ -408,9 +408,9 @@ const PeerOverviewTabs = () => {
             emptyTableTitle={t(
               "peer.page:page.emptyTableTitle.thisPeerHasNoServices",
             )}
-            emptyTableDescription={
-              "Add your services to this peer and securely expose them through NetBird's reverse proxy"
-            }
+            emptyTableDescription={t(
+              "peer.page:page.emptyTableDescription.addYourServicesToThisPeer",
+            )}
           />
         </TabsContent>
       )}

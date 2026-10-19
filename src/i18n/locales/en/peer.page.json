@@ -6,6 +6,7 @@
   "page.text.accessiblePeers": "Accessible Peers",
   "page.text.remoteJobs": "Remote Jobs",
   "page.emptyTableTitle.thisPeerHasNoServices": "This peer has no services",
+  "page.emptyTableDescription.addYourServicesToThisPeer": "Add your services to this peer and securely expose them through NetBird's reverse proxy",
   "page.text.assignedGroups": "Assigned Groups",
   "page.text.useGroupsToControlWhat": "Use groups to control what this peer can access.",
   "page.text.remoteAccess": "Remote Access",
