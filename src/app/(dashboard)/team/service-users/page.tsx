@@ -1,11 +1,8 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
-import { usePortalElement } from "@hooks/usePortalElement";
 import { IconSettings2 } from "@tabler/icons-react";
 import useFetchApi from "@utils/api";
 import { ExternalLinkIcon } from "lucide-react";
@@ -15,6 +12,7 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { t } from "@/i18n";
 import { User } from "@/interfaces/User";
 import PageContainer from "@/layouts/PageContainer";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 const ServiceUsersTable = lazy(
   () => import("@/modules/users/ServiceUsersTable"),
 );
@@ -24,48 +22,53 @@ export default function ServiceUsers() {
   const { data: users, isLoading } = useFetchApi<User[]>(
     "/users?service_user=true",
   );
-
-  const { ref: headingRef, portalTarget } =
-    usePortalElement<HTMLHeadingElement>();
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => (
+      <>
+        {t("team.page:page.text.useServiceUsersToCreate")}{" "}
+        <InlineLink
+          href={"https://docs.netbird.io/how-to/access-netbird-public-api"}
+          target={"_blank"}
+        >
+          {t("common:word.learnMore")}
+          <ExternalLinkIcon size={12} />
+        </InlineLink>
+      </>
+    ),
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      {
+        label: t("team.page:page.label.team"),
+        href: "/team",
+        icon: <TeamIcon size={13} />,
+      },
+      {
+        label: t("team.page:page.label.serviceUsers"),
+        href: "/team/service-users",
+        icon: <IconSettings2 size={17} />,
+      },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("team.page:page.label.serviceUsers"),
+    count: users?.length,
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
   return (
     <PageContainer>
-      <div className={"p-default py-6"}>
-        <Breadcrumbs>
-          <Breadcrumbs.Item
-            href={"/team"}
-            label={t("team.page:page.label.team")}
-            icon={<TeamIcon size={13} />}
-          />
-          <Breadcrumbs.Item
-            href={"/team/service-users"}
-            label={t("team.page:page.label.serviceUsers")}
-            active
-            icon={<IconSettings2 size={17} />}
-          />
-        </Breadcrumbs>
-        <h1 ref={headingRef}>{t("team.page:page.label.serviceUsers")}</h1>
-        <Paragraph>
-          {t("team.page:page.text.useServiceUsersToCreate")}{" "}
-          <InlineLink
-            href={"https://docs.netbird.io/how-to/access-netbird-public-api"}
-            target={"_blank"}
-          >
-            {t("common:word.learnMore")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
-      </div>
       <RestrictedAccess
         page={"Service Users"}
         hasAccess={permission.users.read}
       >
         <Suspense fallback={<SkeletonTable />}>
-          <ServiceUsersTable
-            users={users}
-            isLoading={isLoading}
-            headingTarget={portalTarget}
-          />
+          <ServiceUsersTable users={users} isLoading={isLoading} />
         </Suspense>
       </RestrictedAccess>
     </PageContainer>

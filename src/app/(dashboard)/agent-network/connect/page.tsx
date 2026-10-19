@@ -1,6 +1,5 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import React from "react";
@@ -11,6 +10,7 @@ import { AgentConnectTabs } from "@/modules/agent-network/AgentConnectTabs";
 import EndpointBadge from "@/modules/agent-network/EndpointBadge";
 import ConnectProvidersTable from "@/modules/agent-network/table/ConnectProvidersTable";
 import { useMyAgentNetworkSetup } from "@/modules/agent-network/useMyAgentNetworkSetup";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 // ConnectAgentPage is the caller-scoped self-service view: the endpoint to
 // configure tools with and the per-tool config that goes with it — the one
 // place the agent config lives — plus the providers and models the caller's
@@ -25,29 +25,42 @@ export default function ConnectAgentPage() {
   // EndpointBadge builds https:// URLs from a bare host.
   const bareEndpoint = (setup?.endpoint ?? "").replace(/^https?:\/\//, "");
   const providerIds = providers.map((provider) => provider.catalog_id);
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => (
+      <>
+        {t("agent-network.page:page.text.pointYourAgentAtThe")} <br />
+        {t("agent-network.page:page.text.netBirdAuthenticatesYouThroughYour")}
+      </>
+    ),
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      {
+        label: t("agent-network.page:page.label.agentNetwork"),
+        href: "/agent-network/connect",
+        icon: <AgentNetworkIcon size={16} />,
+      },
+      {
+        label: t("agent-network.page:page.label.connectAgent"),
+        href: "/agent-network/connect",
+      },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("agent-network.page:page.text.connectYourAgent"),
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
   return (
     <PageContainer>
       <div className={"p-default py-6"}>
-        <Breadcrumbs>
-          <Breadcrumbs.Item
-            href={"/agent-network/connect"}
-            label={t("agent-network.page:page.label.agentNetwork")}
-            icon={<AgentNetworkIcon size={16} />}
-          />
-          <Breadcrumbs.Item
-            href={"/agent-network/connect"}
-            label={t("agent-network.page:page.label.connectAgent")}
-            active
-          />
-        </Breadcrumbs>
-        <h1>{t("agent-network.page:page.text.connectYourAgent")}</h1>
         {/* block, so the <br /> lands: Paragraph is a flex container by
             default and a break element does nothing between flex items. */}
-        <Paragraph className={"block"}>
-          {t("agent-network.page:page.text.pointYourAgentAtThe")} <br />
-          {t("agent-network.page:page.text.netBirdAuthenticatesYouThroughYour")}
-        </Paragraph>
 
         {/* The server hands the endpoint to every member of an account that
             has Agent Network set up, covered by a policy or not, so this

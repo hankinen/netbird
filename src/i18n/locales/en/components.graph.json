@@ -1,0 +1,15 @@
+{
+  "tag.text.draft": "Draft",
+  "legend.text.title": "Legend",
+  "legend.text.edgeAllowed": "Allowed traffic, source to destination",
+  "legend.text.edgeBidirectional": "Allowed in both directions",
+  "legend.text.edgeDisabled": "Disabled policy",
+  "legend.text.edgeDraft": "Pending change",
+  "legend.text.nodePolicy": "Policy: name and protocol / ports",
+  "legend.text.nodeSelected": "Selected or focused node",
+  "toolbar.tooltip.focus": "Focus on a node",
+  "toolbar.tooltip.fit": "Fit the view",
+  "toolbar.tooltip.legend": "Legend",
+  "toolbar.ariaLabel.canvasTools": "Canvas tools",
+  "toolbar.text.views": "View"
+}

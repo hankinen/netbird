@@ -1,11 +1,8 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
-import { usePortalElement } from "@hooks/usePortalElement";
 import useFetchApi from "@utils/api";
 import { isNetBirdCloud } from "@utils/netbird";
 import { ExternalLinkIcon, User2 } from "lucide-react";
@@ -18,6 +15,7 @@ import { t } from "@/i18n";
 import { User } from "@/interfaces/User";
 import PageContainer from "@/layouts/PageContainer";
 import { IdentityProviderCard } from "@/modules/integrations/idp-sync/IdentityProviderCard";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 const UsersTable = lazy(() => import("@/modules/users/UsersTable"));
 
 export default function TeamUsers() {
@@ -26,38 +24,47 @@ export default function TeamUsers() {
   const { data: users, isLoading } = useFetchApi<User[]>(
     "/users?service_user=false",
   );
-
-  const { ref: headingRef, portalTarget } =
-    usePortalElement<HTMLHeadingElement>();
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => (
+      <>
+        {t("team.page:page.text.manageUsersAndTheirPermissions")}{" "}
+        <InlineLink
+          href={"https://docs.netbird.io/how-to/add-users-to-your-network"}
+          target={"_blank"}
+        >
+          {t("common:word.learnMore")}
+          <ExternalLinkIcon size={12} />
+        </InlineLink>
+      </>
+    ),
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      {
+        label: t("team.page:page.label.team"),
+        href: "/team",
+        icon: <TeamIcon size={13} />,
+      },
+      {
+        label: t("common:word.users"),
+        href: "/team/users",
+        icon: <User2 size={16} />,
+      },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("common:word.users"),
+    count: users?.length,
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
   return (
     <PageContainer>
-      <div className={"p-default py-6"}>
-        <Breadcrumbs>
-          <Breadcrumbs.Item
-            href={"/team"}
-            label={t("team.page:page.label.team")}
-            icon={<TeamIcon size={13} />}
-          />
-          <Breadcrumbs.Item
-            href={"/team/users"}
-            label={t("common:word.users")}
-            active
-            icon={<User2 size={16} />}
-          />
-        </Breadcrumbs>
-        <h1 ref={headingRef}>{t("common:word.users")}</h1>
-        <Paragraph>
-          {t("team.page:page.text.manageUsersAndTheirPermissions")}{" "}
-          <InlineLink
-            href={"https://docs.netbird.io/how-to/add-users-to-your-network"}
-            target={"_blank"}
-          >
-            {t("common:word.learnMore")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
-      </div>
       <RestrictedAccess page={"Users"} hasAccess={permission.users.read}>
         <Suspense fallback={<SkeletonTable />}>
           {permission.settings.read && (
@@ -68,11 +75,7 @@ export default function TeamUsers() {
               <AccountMfaCard />
             </div>
           )}
-          <UsersTable
-            users={users}
-            isLoading={isLoading || isGroupsLoading}
-            headingTarget={portalTarget}
-          />
+          <UsersTable users={users} isLoading={isLoading || isGroupsLoading} />
         </Suspense>
       </RestrictedAccess>
     </PageContainer>

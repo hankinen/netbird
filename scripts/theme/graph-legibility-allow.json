@@ -1,0 +1,18 @@
+{
+  "pages-core-controlcenter--draft-mode@1280:dark": 9.2,
+  "pages-core-controlcenter--draft-mode@1280:light": 9.3,
+  "pages-core-controlcenter--draft-mode@1440:dark": 9.2,
+  "pages-core-controlcenter--draft-mode@1440:light": 9.3,
+  "pages-core-controlcenter--groups-view@1280:dark": 10.9,
+  "pages-core-controlcenter--groups-view@1280:light": 10.9,
+  "pages-core-controlcenter--networks-view@1280:dark": 7,
+  "pages-core-controlcenter--networks-view@1280:light": 7,
+  "pages-core-controlcenter--networks-view@1440:dark": 8,
+  "pages-core-controlcenter--networks-view@1440:light": 8,
+  "pages-core-controlcenter--peers-view@1280:dark": 10.9,
+  "pages-core-controlcenter--peers-view@1280:light": 10.9,
+  "pages-core-controlcenter--users-view@1280:dark": 7.7,
+  "pages-core-controlcenter--users-view@1280:light": 7.7,
+  "pages-core-controlcenter--users-view@1440:dark": 8.9,
+  "pages-core-controlcenter--users-view@1440:light": 8.9
+}

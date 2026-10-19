@@ -38,6 +38,7 @@ import en_cloud_webhooks from "./locales/en/cloud.webhooks.json";
 import en_common from "./locales/en/common.json";
 import en_common_table_rows_main from "./locales/en/common-table-rows.main.json";
 import en_components_core from "./locales/en/components.core.json";
+import en_components_graph from "./locales/en/components.graph.json";
 import en_components_modal from "./locales/en/components.modal.json";
 import en_components_select from "./locales/en/components.select.json";
 import en_components_table from "./locales/en/components.table.json";
@@ -179,6 +180,7 @@ export const namespaces = [
   "common",
   "common-table-rows.main",
   "components.core",
+  "components.graph",
   "components.modal",
   "components.select",
   "components.table",
@@ -322,6 +324,7 @@ export const enResources = {
   "common": en_common,
   "common-table-rows.main": en_common_table_rows_main,
   "components.core": en_components_core,
+  "components.graph": en_components_graph,
   "components.modal": en_components_modal,
   "components.select": en_components_select,
   "components.table": en_components_table,
@@ -465,6 +468,7 @@ export const loaders: Record<string, Record<Namespace, () => Promise<{ default: 
     "common": () => import("./locales/zh-CN/common.json"),
     "common-table-rows.main": () => import("./locales/zh-CN/common-table-rows.main.json"),
     "components.core": () => import("./locales/zh-CN/components.core.json"),
+    "components.graph": () => import("./locales/zh-CN/components.graph.json"),
     "components.modal": () => import("./locales/zh-CN/components.modal.json"),
     "components.select": () => import("./locales/zh-CN/components.select.json"),
     "components.table": () => import("./locales/zh-CN/components.table.json"),

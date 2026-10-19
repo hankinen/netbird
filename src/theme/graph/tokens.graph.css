@@ -1,0 +1,227 @@
+/*
+ * Graph layer tokens (src/theme/graph): every colour, size and motion value
+ * a canvas primitive reads. Light values map onto the AntD alias tokens
+ * (tokens.light.css); the dark block keeps upstream's palette like the rest
+ * of the dark mode (architecture decision 4, until P5).
+ *
+ * Sizes are in FLOW units: the control-center canvas fits its views at a zoom
+ * of about 0.8 on a 1440px laptop (CANVAS_FIT.maxZoom), so the type scale is
+ * 1.25x the screen size it is meant to land at (16px -> 12.8px on screen,
+ * 15px -> 12px). The legibility guard (scripts/theme/graph-legibility.mjs)
+ * measures the result.
+ */
+:root.theme-antd {
+  /* type scale (flow units) */
+  --graph-font-title: 16px;
+  --graph-font-meta: 15px;
+  --graph-font-tag: 13px;
+  --graph-font-weight-title: 500;
+  --graph-line-height: 1.25;
+
+  /* geometry */
+  --graph-node-radius: 8px;
+  --graph-node-px: 12px;
+  --graph-node-py: 8px;
+  --graph-node-gap: 10px;
+  --graph-tile-size: 32px;
+  --graph-tile-radius: 6px;
+  --graph-pill-h: 34px;
+  --graph-pill-radius: 17px;
+  --graph-frame-radius: 10px;
+  /* The frame layout (helpers.ts NETWORK_FRAME_HEADER) reserves 72 flow
+     units for the header; the header fills exactly that. */
+  --graph-frame-header-h: 72px;
+  --graph-edge-width: 1.5;
+  --graph-edge-width-emphasis: 2.25;
+  --graph-handle-size: 14px;
+  --graph-handle-size-hover: 26px;
+  --graph-dock-h: 48px;
+  --graph-dock-radius: 10px;
+  --graph-toolbar-h: 48px;
+
+  /* opacities */
+  --graph-disabled-opacity: 0.55;
+  --graph-dim-opacity: 0.3;
+
+  /* motion */
+  --graph-motion: 160ms;
+  --graph-ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* ---- light ---------------------------------------------------------------- */
+:root.theme-antd:not(.dark) {
+  --graph-bg: var(--ant-color-bg-layout);
+  --graph-grid: rgba(0, 0, 0, 0.14);
+
+  --graph-node-bg: var(--ant-color-bg-container);
+  --graph-node-bg-hover: var(--ant-color-bg-container);
+  --graph-node-border: #d9d9d9;
+  --graph-node-border-hover: var(--ant-color-primary-border);
+  --graph-node-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --graph-node-shadow-hover: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --graph-node-title: var(--ant-color-text);
+  --graph-node-meta: var(--ant-color-text-tertiary);
+  --graph-node-ring: var(--ant-color-primary);
+  --graph-node-drop-bg: var(--ant-color-primary-bg);
+
+  --graph-tile-bg: var(--ant-color-fill-secondary);
+  --graph-tile-fg: var(--ant-color-text-secondary);
+  --graph-tile-bg-hover: var(--ant-color-fill);
+  --graph-tile-group-bg: var(--ant-color-primary-bg);
+  --graph-tile-group-fg: var(--ant-color-primary);
+  --graph-tile-resource-bg: var(--ant-purple-bg);
+  --graph-tile-resource-fg: var(--ant-purple-text);
+  --graph-tile-provider-bg: #e6fffb;
+  --graph-tile-provider-fg: #08979c;
+  --graph-tile-network-bg: var(--ant-color-fill-secondary);
+  --graph-tile-network-fg: var(--ant-color-text-secondary);
+  --graph-tile-user-bg: var(--ant-color-fill-secondary);
+
+  --graph-pill-bg: var(--ant-color-bg-container);
+  --graph-pill-border: #d9d9d9;
+  --graph-pill-fg: var(--ant-color-text);
+  --graph-pill-tag-bg: var(--ant-color-fill-alter);
+  --graph-pill-tag-fg: var(--ant-color-text-secondary);
+  --graph-pill-tag-border: var(--ant-color-border-secondary);
+
+  --graph-dot-on: var(--ant-color-success);
+  --graph-dot-off: var(--ant-color-text-quaternary);
+  --graph-dot-warning: var(--ant-color-warning);
+  --graph-dot-danger: var(--ant-color-error);
+
+  --graph-frame-bg: var(--ant-color-bg-container);
+  --graph-frame-header-bg: var(--ant-color-fill-alter);
+  --graph-frame-border: #d9d9d9;
+  --graph-frame-border-hover: var(--ant-color-primary-border);
+  --graph-frame-row-hover: var(--ant-color-fill-alter);
+
+  --graph-edge: #bfbfbf;
+  --graph-edge-emphasis: var(--ant-color-primary);
+  --graph-edge-disabled: #d9d9d9;
+  --graph-edge-draft: var(--ant-color-primary);
+  --graph-edge-label-bg: var(--ant-color-bg-container);
+  --graph-edge-label-fg: var(--ant-color-text-secondary);
+
+  --graph-handle-bg: var(--ant-color-bg-container);
+  --graph-handle-border: #bfbfbf;
+  --graph-handle-dot: var(--ant-color-text-tertiary);
+  --graph-handle-active-bg: var(--ant-color-primary);
+  --graph-handle-active-fg: #fff;
+
+  --graph-tag-draft-bg: var(--ant-color-primary-bg);
+  --graph-tag-draft-fg: var(--ant-color-primary);
+  --graph-tag-draft-border: var(--ant-color-primary-border);
+  --graph-tag-neutral-bg: var(--ant-color-fill-alter);
+  --graph-tag-neutral-fg: var(--ant-color-text-secondary);
+  --graph-tag-neutral-border: var(--ant-color-border);
+  --graph-tag-warning-bg: var(--ant-color-warning-bg);
+  --graph-tag-warning-fg: var(--ant-color-warning-text);
+  --graph-tag-warning-border: var(--ant-color-warning-border);
+  --graph-tag-danger-bg: var(--ant-color-error-bg);
+  --graph-tag-danger-fg: var(--ant-color-error-text);
+  --graph-tag-danger-border: var(--ant-color-error-border);
+
+  --graph-dock-bg: var(--ant-color-bg-elevated);
+  --graph-dock-border: var(--ant-color-border-secondary);
+  --graph-dock-shadow: var(--ant-box-shadow-secondary);
+  --graph-dock-fg: var(--ant-color-text-secondary);
+  --graph-dock-fg-hover: var(--ant-color-text);
+  --graph-dock-hover-bg: var(--ant-color-fill-tertiary);
+  --graph-dock-active-bg: var(--ant-color-primary-bg);
+  --graph-dock-active-fg: var(--ant-color-primary);
+  --graph-dock-disabled-fg: var(--ant-color-text-disabled);
+
+  --graph-chrome-bg: var(--ant-color-bg-container);
+  --graph-chrome-border: var(--ant-color-border-secondary);
+  --graph-status-bg: var(--ant-color-bg-spotlight);
+  --graph-status-fg: #fff;
+}
+
+/* ---- dark (upstream palette, decision 4) ---------------------------------- */
+:root.theme-antd.dark {
+  --graph-bg: #181a1d; /* nb-gray */
+  --graph-grid: rgba(255, 255, 255, 0.1);
+
+  --graph-node-bg: #1c1e21; /* nb-gray-940 */
+  --graph-node-bg-hover: #25282c; /* nb-gray-930 */
+  --graph-node-border: #363b40; /* nb-gray-850 */
+  --graph-node-border-hover: #474e57; /* nb-gray-700 */
+  --graph-node-shadow: none;
+  --graph-node-shadow-hover: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --graph-node-title: #e4e7e9; /* nb-gray-100 */
+  --graph-node-meta: #7c8994; /* nb-gray-400 */
+  --graph-node-ring: #f68330; /* netbird */
+  --graph-node-drop-bg: rgba(246, 131, 48, 0.1);
+
+  --graph-tile-bg: #363b40;
+  --graph-tile-fg: #cbd2d6;
+  --graph-tile-bg-hover: #3f444b;
+  --graph-tile-group-bg: rgba(105, 177, 255, 0.14);
+  --graph-tile-group-fg: #91caff;
+  --graph-tile-resource-bg: rgba(179, 127, 235, 0.16);
+  --graph-tile-resource-fg: #d3adf7;
+  --graph-tile-provider-bg: rgba(19, 194, 194, 0.14);
+  --graph-tile-provider-fg: #5cdbd3;
+  --graph-tile-network-bg: #363b40;
+  --graph-tile-network-fg: #cbd2d6;
+  --graph-tile-user-bg: #363b40;
+
+  --graph-pill-bg: #1c1e21;
+  --graph-pill-border: #363b40;
+  --graph-pill-fg: #cbd2d6;
+  --graph-pill-tag-bg: #25282c;
+  --graph-pill-tag-fg: #a3adb5;
+  --graph-pill-tag-border: #363b40;
+
+  --graph-dot-on: #4ade80;
+  --graph-dot-off: #616e79;
+  --graph-dot-warning: #facc15;
+  --graph-dot-danger: #f87171;
+
+  --graph-frame-bg: #1c1e21;
+  --graph-frame-header-bg: #1f2124; /* nb-gray-935 */
+  --graph-frame-border: #3f444b; /* nb-gray-800 */
+  --graph-frame-border-hover: #474e57;
+  --graph-frame-row-hover: #25282c;
+
+  --graph-edge: #535d67; /* nb-gray-600 */
+  --graph-edge-emphasis: #f68330;
+  --graph-edge-disabled: #3f444b;
+  --graph-edge-draft: #f68330;
+  --graph-edge-label-bg: #181a1d;
+  --graph-edge-label-fg: #cbd2d6;
+
+  --graph-handle-bg: #1c1e21;
+  --graph-handle-border: #535d67;
+  --graph-handle-dot: #a3adb5;
+  --graph-handle-active-bg: #fff;
+  --graph-handle-active-fg: #181a1d;
+
+  --graph-tag-draft-bg: rgba(246, 131, 48, 0.14);
+  --graph-tag-draft-fg: #ffb272;
+  --graph-tag-draft-border: rgba(246, 131, 48, 0.4);
+  --graph-tag-neutral-bg: #25282c;
+  --graph-tag-neutral-fg: #a3adb5;
+  --graph-tag-neutral-border: #363b40;
+  --graph-tag-warning-bg: rgba(250, 204, 21, 0.12);
+  --graph-tag-warning-fg: #facc15;
+  --graph-tag-warning-border: rgba(250, 204, 21, 0.35);
+  --graph-tag-danger-bg: rgba(248, 113, 113, 0.12);
+  --graph-tag-danger-fg: #f87171;
+  --graph-tag-danger-border: rgba(248, 113, 113, 0.35);
+
+  --graph-dock-bg: #25282c;
+  --graph-dock-border: #2e3238;
+  --graph-dock-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  --graph-dock-fg: #a3adb5;
+  --graph-dock-fg-hover: #e4e7e9;
+  --graph-dock-hover-bg: #3f444b;
+  --graph-dock-active-bg: #3f444b;
+  --graph-dock-active-fg: #e4e7e9;
+  --graph-dock-disabled-fg: #474e57;
+
+  --graph-chrome-bg: #181a1d;
+  --graph-chrome-border: rgba(63, 63, 70, 0.4);
+  --graph-status-bg: #25282c;
+  --graph-status-fg: #cbd2d6;
+}

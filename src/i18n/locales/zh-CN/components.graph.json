@@ -1,0 +1,15 @@
+{
+  "tag.text.draft": "草稿",
+  "legend.text.title": "图例",
+  "legend.text.edgeAllowed": "允许的流量：从源到目标",
+  "legend.text.edgeBidirectional": "双向允许",
+  "legend.text.edgeDisabled": "已禁用的策略",
+  "legend.text.edgeDraft": "待部署的变更",
+  "legend.text.nodePolicy": "策略：名称与协议 / 端口",
+  "legend.text.nodeSelected": "选中或聚焦的节点",
+  "toolbar.tooltip.focus": "聚焦某个节点",
+  "toolbar.tooltip.fit": "适配视图",
+  "toolbar.tooltip.legend": "图例",
+  "toolbar.ariaLabel.canvasTools": "画布工具",
+  "toolbar.text.views": "视图"
+}

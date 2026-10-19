@@ -46,6 +46,21 @@ describe("PageHeaderStore", () => {
   });
 });
 
+describe("PageHeaderStore.setCrumbs", () => {
+  it("notifies on a different trail only", () => {
+    const store = new PageHeaderStore();
+    const listener = vi.fn();
+    store.subscribe(listener);
+    store.setCrumbs([{ label: "A", href: "/a" }]);
+    store.setCrumbs([{ label: "A", href: "/a" }]);
+    expect(listener).toHaveBeenCalledTimes(1);
+    store.setCrumbs(null);
+    expect(listener).toHaveBeenCalledTimes(2);
+    store.setCrumbs(null);
+    expect(listener).toHaveBeenCalledTimes(2);
+  });
+});
+
 describe("usePageHeader / usePageHeaderSpec", () => {
   const wrapper = ({ children }: { children: React.ReactNode }) => (
     <PageHeaderProvider>{children}</PageHeaderProvider>

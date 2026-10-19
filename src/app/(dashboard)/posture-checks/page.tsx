@@ -1,11 +1,8 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
-import { usePortalElement } from "@hooks/usePortalElement";
 import useFetchApi from "@utils/api";
 import { ExternalLinkIcon, ShieldCheck } from "lucide-react";
 import React, { lazy, Suspense } from "react";
@@ -16,6 +13,7 @@ import PoliciesProvider from "@/contexts/PoliciesProvider";
 import { t } from "@/i18n";
 import { PostureCheck } from "@/interfaces/PostureCheck";
 import PageContainer from "@/layouts/PageContainer";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 const PostureCheckTable = lazy(
   () => import("@/modules/posture-checks/table/PostureCheckTable"),
 );
@@ -23,40 +21,48 @@ export default function PostureChecksPage() {
   const { permission } = usePermissions();
   const { data: postureChecks, isLoading } =
     useFetchApi<PostureCheck[]>("/posture-checks");
-
-  const { ref: headingRef, portalTarget } =
-    usePortalElement<HTMLHeadingElement>();
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => (
+      <>
+        {t("posture-checks.page:page.text.usePostureChecksToFurther")}{" "}
+        <InlineLink
+          href={"https://docs.netbird.io/how-to/manage-posture-checks"}
+          target={"_blank"}
+        >
+          {t("common:word.learnMore")}
+          <ExternalLinkIcon size={12} />
+        </InlineLink>
+      </>
+    ),
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      {
+        label: t("posture-checks.page:page.label.accessControl"),
+        href: "/access-control",
+        icon: <AccessControlIcon size={14} />,
+      },
+      {
+        label: t("common:word.postureChecks"),
+        href: "/posture-checks",
+        icon: <ShieldCheck size={15} />,
+      },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("common:word.postureChecks"),
+    count: postureChecks?.length,
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
   return (
     <PageContainer>
       <GroupsProvider>
-        <div className={"p-default py-6"}>
-          <Breadcrumbs>
-            <Breadcrumbs.Item
-              href={"/access-control"}
-              label={t("posture-checks.page:page.label.accessControl")}
-              icon={<AccessControlIcon size={14} />}
-            />
-            <Breadcrumbs.Item
-              href={"/posture-checks"}
-              label={t("common:word.postureChecks")}
-              active
-              icon={<ShieldCheck size={15} />}
-            />
-          </Breadcrumbs>
-          <h1 ref={headingRef}>{t("common:word.postureChecks")}</h1>
-          <Paragraph>
-            {t("posture-checks.page:page.text.usePostureChecksToFurther")}{" "}
-            <InlineLink
-              href={"https://docs.netbird.io/how-to/manage-posture-checks"}
-              target={"_blank"}
-            >
-              {t("common:word.learnMore")}
-              <ExternalLinkIcon size={12} />
-            </InlineLink>
-          </Paragraph>
-        </div>
-
         <RestrictedAccess
           page={"Posture Checks"}
           hasAccess={permission.policies.read}
@@ -64,7 +70,6 @@ export default function PostureChecksPage() {
           <PoliciesProvider>
             <Suspense fallback={<SkeletonTable />}>
               <PostureCheckTable
-                headingTarget={portalTarget}
                 isLoading={isLoading}
                 postureChecks={postureChecks}
               />

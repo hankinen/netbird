@@ -94,6 +94,12 @@ const tab = (name: string, value: string, id = "grp-servers"): Story => ({
 });
 
 export const DetailPeers = tab("Peers", "peers", "grp-developers");
+/* Phone: group name and a back arrow in the top bar, the table's
+   "Install NetBird" / "Assign Peers" in the bottom bar. */
+export const DetailPeersPhone: Story = {
+  ...DetailPeers,
+  tags: ["vp-390"],
+};
 export const DetailPolicies = tab("Policies", "policies");
 export const DetailResources = tab("Resources", "resources", "grp-databases");
 export const DetailNetworkRoutes = tab(

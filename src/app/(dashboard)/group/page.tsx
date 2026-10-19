@@ -35,6 +35,8 @@ import { GroupResourcesSection } from "@/modules/groups/details/GroupResourcesSe
 import { GroupSetupKeysSection } from "@/modules/groups/details/GroupSetupKeysSection";
 import { GroupUsersSection } from "@/modules/groups/details/GroupUsersSection";
 import useGroupDetails from "@/modules/groups/details/useGroupDetails";
+import { usePageHeader } from "@/theme/shell/pageHeader";
+import { PageHeaderTitle } from "@/theme/shell/PageHeaderActions";
 export default function GroupPage() {
   const queryParameter = useSearchParams();
   const { isRestricted } = usePermissions();
@@ -67,17 +69,18 @@ export default function GroupPage() {
     <PageContainer>
       <RoutesProvider>
         <GroupProvider group={group} isDetailPage={true}>
-          <div className={"p-default py-6 pb-0 w-full mb-[6px]"}>
-            <Breadcrumbs>
-              <Breadcrumbs.Item
-                href={"/groups"}
-                label={t("common:word.groups")}
-                icon={<FolderGit2Icon size={14} />}
-              />
-              <Breadcrumbs.Item label={group.name} active />
-            </Breadcrumbs>
-            <GroupDetailsName />
-          </div>
+          {/* @theme: page-template. Breadcrumb to the top bar (Breadcrumbs
+              adapter), title row to the page header bar (GroupDetailsName);
+              see src/theme/README.md. */}
+          <Breadcrumbs>
+            <Breadcrumbs.Item
+              href={"/groups"}
+              label={t("common:word.groups")}
+              icon={<FolderGit2Icon size={14} />}
+            />
+            <Breadcrumbs.Item label={group.name} active />
+          </Breadcrumbs>
+          <GroupDetailsName />
           <GroupOverviewTabs group={group} />
         </GroupProvider>
       </RoutesProvider>
@@ -91,41 +94,43 @@ const GroupDetailsName = () => {
   const { group, isJWTGroup, isAllowedToRename, openGroupRenameModal } =
     useGroupContext();
   const { permission } = usePermissions();
+  usePageHeader({
+    title: group.name,
+    titleText: group.name,
+    backHref: "/groups",
+  });
 
   return (
-    <div className={"w-full"}>
-      <h1 className={"flex items-center gap-3 w-full whitespace-nowrap"}>
+    <PageHeaderTitle>
+      <span className={"inline-flex items-center gap-3 whitespace-nowrap"}>
         <GroupBadgeIcon id={group?.id} issued={group?.issued} size={20} />
         {group.name}
         {group.name !== "All" && permission?.groups?.update && (
-          <div>
-            <FullTooltip
-              content={
-                <div className={"text-xs max-w-xs"}>
-                  {isJWTGroup
-                    ? GROUP_TOOLTIP_TEXT.RENAME.JWT
-                    : GROUP_TOOLTIP_TEXT.RENAME.INTEGRATION}
-                </div>
-              }
-              interactive={false}
-              disabled={isAllowedToRename}
-              className={"w-full block"}
-            >
-              <div
-                className={cn(
-                  "flex h-8 w-8 items-center justify-center gap-2 dark:text-neutral-300 text-neutral-500 hover:text-neutral-100 transition-all hover:bg-nb-gray-800/60 rounded-md cursor-pointer",
-                  !isAllowedToRename &&
-                    "opacity-40 cursor-not-allowed pointer-events-none",
-                )}
-                onClick={openGroupRenameModal}
-              >
-                <PencilIcon size={16} />
+          <FullTooltip
+            content={
+              <div className={"text-xs max-w-xs"}>
+                {isJWTGroup
+                  ? GROUP_TOOLTIP_TEXT.RENAME.JWT
+                  : GROUP_TOOLTIP_TEXT.RENAME.INTEGRATION}
               </div>
-            </FullTooltip>
-          </div>
+            }
+            interactive={false}
+            disabled={isAllowedToRename}
+          >
+            <div
+              className={cn(
+                "flex h-8 w-8 items-center justify-center gap-2 dark:text-neutral-300 text-neutral-500 hover:text-neutral-100 transition-all hover:bg-nb-gray-800/60 rounded-md cursor-pointer",
+                !isAllowedToRename &&
+                  "opacity-40 cursor-not-allowed pointer-events-none",
+              )}
+              onClick={openGroupRenameModal}
+            >
+              <PencilIcon size={16} />
+            </div>
+          </FullTooltip>
         )}
-      </h1>
-    </div>
+      </span>
+    </PageHeaderTitle>
   );
 };
 

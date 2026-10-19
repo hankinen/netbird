@@ -1,11 +1,8 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
-import { usePortalElement } from "@hooks/usePortalElement";
 import useFetchApi from "@utils/api";
 import { ExternalLinkIcon } from "lucide-react";
 import React, { lazy, Suspense } from "react";
@@ -14,6 +11,7 @@ import { usePermissions } from "@/contexts/PermissionsProvider";
 import { t } from "@/i18n";
 import { NameserverGroup } from "@/interfaces/Nameserver";
 import PageContainer from "@/layouts/PageContainer";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 const NameserverGroupTable = lazy(
   () => import("@/modules/dns/nameservers/table/NameserverGroupTable"),
 );
@@ -23,39 +21,43 @@ export default function NameServers() {
 
   const { data: nameserverGroups, isLoading } =
     useFetchApi<NameserverGroup[]>("/dns/nameservers");
-
-  const { ref: headingRef, portalTarget } =
-    usePortalElement<HTMLHeadingElement>();
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => (
+      <>
+        {t("dns.page:page.text.addNameserversForDomainName")}{" "}
+        <InlineLink
+          href={"https://docs.netbird.io/how-to/manage-dns-in-your-network"}
+          target={"_blank"}
+        >
+          {t("common:word.learnMore")}
+          <ExternalLinkIcon size={12} />
+        </InlineLink>
+      </>
+    ),
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      { label: "DNS", href: "/dns/nameservers", icon: <DNSIcon size={13} /> },
+      {
+        label: t("dns.page:page.label.nameservers"),
+        href: "/dns/nameservers",
+        icon: <DNSIcon size={13} />,
+      },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("dns.page:page.label.nameservers"),
+    count: nameserverGroups?.length,
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
   return (
     <PageContainer>
-      <div className={"p-default py-6"}>
-        <Breadcrumbs>
-          <Breadcrumbs.Item
-            href={"/dns/nameservers"}
-            label={"DNS"}
-            icon={<DNSIcon size={13} />}
-          />
-          <Breadcrumbs.Item
-            href={"/dns/nameservers"}
-            label={t("dns.page:page.label.nameservers")}
-            active
-            icon={<DNSIcon size={13} />}
-          />
-        </Breadcrumbs>
-        <h1 ref={headingRef}>{t("dns.page:page.label.nameservers")}</h1>
-        <Paragraph>
-          {t("dns.page:page.text.addNameserversForDomainName")}{" "}
-          <InlineLink
-            href={"https://docs.netbird.io/how-to/manage-dns-in-your-network"}
-            target={"_blank"}
-          >
-            {t("common:word.learnMore")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
-      </div>
-
       <RestrictedAccess
         page={"Nameservers"}
         hasAccess={permission.nameservers.read}
@@ -64,7 +66,6 @@ export default function NameServers() {
           <NameserverGroupTable
             nameserverGroups={nameserverGroups}
             isLoading={isLoading}
-            headingTarget={portalTarget}
           />
         </Suspense>
       </RestrictedAccess>

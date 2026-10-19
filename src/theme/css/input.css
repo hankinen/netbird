@@ -1,0 +1,122 @@
+/*
+ * Text inputs (upstream Input / Textarea): AntD look on the attributes
+ * adapters/Input.tsx and adapters/Textarea.tsx add.
+ *
+ *   input[data-nb-input="default|error"]
+ *   textarea[data-nb-textarea="default|error"]
+ *
+ * The wrapper and the prefix box are reached through :has(), so the only
+ * upstream class name here is the prefix's `rounded-l-md`. Heights follow
+ * the density tokens (32px on desktops and tablets, 40px on phones); the
+ * element-based hover / focus rules in overrides.css §5 still cover the
+ * inputs that do not go through the adapters (date range, PIN code,
+ * timescape, the command palette).
+ */
+
+/* ---- input ---------------------------------------------------------------- */
+:root.theme-antd:not(.dark) input[data-nb-input] {
+  height: var(--ctl-h);
+  padding-top: 0;
+  padding-bottom: 0;
+  border-radius: var(--ant-border-radius);
+  border-color: var(--ant-color-border);
+  background-color: var(--ant-color-bg-container);
+  color: var(--ant-color-text);
+  font-size: var(--ctl-font);
+  box-shadow: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+:root.theme-antd:not(.dark) input[data-nb-input]::placeholder {
+  color: var(--ant-color-text-placeholder);
+}
+:root.theme-antd:not(.dark)
+  input[data-nb-input]:hover:not(:disabled):not([readonly]) {
+  border-color: var(--ant-color-primary-hover);
+}
+:root.theme-antd:not(.dark) input[data-nb-input]:focus {
+  border-color: var(--ant-color-primary-hover);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ant-control-outline);
+}
+:root.theme-antd:not(.dark) input[data-nb-input="error"] {
+  border-color: var(--ant-color-error);
+  color: var(--ant-color-error-text);
+}
+:root.theme-antd:not(.dark) input[data-nb-input="error"]::placeholder {
+  color: var(--ant-color-error-border);
+}
+:root.theme-antd:not(.dark) input[data-nb-input="error"]:hover:not(:disabled),
+:root.theme-antd:not(.dark) input[data-nb-input="error"]:focus {
+  border-color: var(--ant-color-error-hover);
+  box-shadow: 0 0 0 2px var(--ant-color-error-bg);
+}
+:root.theme-antd:not(.dark) input[data-nb-input]:disabled {
+  background-color: var(--ant-color-fill-tertiary);
+  border-color: var(--ant-color-border);
+  color: var(--ant-color-text-disabled);
+  opacity: 1;
+}
+
+/* The wrapper is as tall as the control (the icon / suffix boxes are
+   positioned against it). */
+:root.theme-antd:not(.dark) div:has(> input[data-nb-input]) {
+  height: var(--ctl-h);
+}
+/* Prefix box ("https://", a unit): AntD addon look.
+   @depends src/components/Input.tsx: rounded-l-md */
+:root.theme-antd:not(.dark)
+  div:has(> input[data-nb-input])
+  > [class~="rounded-l-md" i] {
+  height: var(--ctl-h);
+  padding-top: 0;
+  padding-bottom: 0;
+  border-color: var(--ant-color-border);
+  border-radius: var(--ant-border-radius) 0 0 var(--ant-border-radius);
+  background-color: var(--ant-color-fill-alter);
+  color: var(--ant-color-text-secondary);
+  font-size: var(--ctl-font);
+}
+
+/* ---- textarea ------------------------------------------------------------- */
+:root.theme-antd:not(.dark) textarea[data-nb-textarea] {
+  min-height: calc(var(--ctl-h) * 2);
+  padding: 5px 11px;
+  border-radius: var(--ant-border-radius);
+  border-color: var(--ant-color-border);
+  background-color: var(--ant-color-bg-container);
+  color: var(--ant-color-text);
+  font-size: var(--ctl-font);
+  line-height: 1.5715;
+  box-shadow: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+:root.theme-antd:not(.dark) textarea[data-nb-textarea]::placeholder {
+  color: var(--ant-color-text-placeholder);
+}
+:root.theme-antd:not(.dark)
+  textarea[data-nb-textarea]:hover:not(:disabled):not([readonly]) {
+  border-color: var(--ant-color-primary-hover);
+}
+:root.theme-antd:not(.dark) textarea[data-nb-textarea]:focus {
+  border-color: var(--ant-color-primary-hover);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ant-control-outline);
+}
+:root.theme-antd:not(.dark) textarea[data-nb-textarea="error"] {
+  border-color: var(--ant-color-error);
+  color: var(--ant-color-error-text);
+}
+:root.theme-antd:not(.dark) textarea[data-nb-textarea="error"]:focus {
+  border-color: var(--ant-color-error-hover);
+  box-shadow: 0 0 0 2px var(--ant-color-error-bg);
+}
+:root.theme-antd:not(.dark) textarea[data-nb-textarea]:disabled {
+  background-color: var(--ant-color-fill-tertiary);
+  border-color: var(--ant-color-border);
+  color: var(--ant-color-text-disabled);
+  opacity: 1;
+}

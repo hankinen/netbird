@@ -45,6 +45,7 @@ declare module "i18next" {
       "common": typeof import("./locales/en/common.json");
       "common-table-rows.main": typeof import("./locales/en/common-table-rows.main.json");
       "components.core": typeof import("./locales/en/components.core.json");
+      "components.graph": typeof import("./locales/en/components.graph.json");
       "components.modal": typeof import("./locales/en/components.modal.json");
       "components.select": typeof import("./locales/en/components.select.json");
       "components.table": typeof import("./locales/en/components.table.json");

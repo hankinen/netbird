@@ -39,6 +39,39 @@
 }
 :root.theme-antd:is(.dark, :not(.dark)) .table-fixed-scroll > [class~="gap-x-4" i] {
   flex-wrap: wrap;
+  column-gap: var(--ctl-gap, 8px);
+  row-gap: 12px;
+}
+/* The toolbar's side padding follows the page (24px on desktops, 16px on
+   tablets, 12px on phones) instead of upstream's 16 / 24 / 32px steps.
+   @depends src/components/table/DataTable.tsx: p-default
+   @depends src/app/globals.css: .p-default */
+:root.theme-antd:is(.dark, :not(.dark))
+  .table-fixed-scroll
+  > [class~="gap-x-4" i][class~="p-default" i] {
+  padding-left: var(--page-px);
+  padding-right: var(--page-px);
+}
+/* The right-hand action group ("Add Peer") is a flex row of its own with an
+   empty first child; its 16px gap only pushes the actions further.
+   @depends src/components/table/DataTable.tsx: flex gap-4 grow */
+:root.theme-antd:is(.dark, :not(.dark))
+  .table-fixed-scroll
+  > [class~="gap-x-4" i]
+  > [class~="grow" i][class~="gap-4" i] {
+  column-gap: var(--ctl-gap, 8px);
+}
+/* The search box yields before the buttons wrap: 220px min instead of 300,
+   growing up to upstream's 400px. With the sider open a 1440px window leaves
+   ~1150px for the Peers toolbar (search, filters, kind toggle, compliance and
+   bypass filters, browser peers, refresh, Add Peer); at 300px the last two
+   wrapped even without the optional filters.
+   @depends src/components/table/DataTableGlobalSearch.tsx: min-w-[300px] max-w-[400px] grow */
+:root.theme-antd:is(.dark, :not(.dark))
+  .table-fixed-scroll
+  [class~="min-w-[300px]" i][class~="max-w-[400px]" i] {
+  min-width: 220px;
+  flex: 1 1 220px;
 }
 /* Flex row items must be allowed to shrink. A flex item defaults to
    min-width:auto, i.e. its content's minimum width: with a table inside that
@@ -60,12 +93,8 @@
 }
 
 @media (max-width: 1279.98px) {
-  /* Page header "title … actions" rows wrap the actions under the title.
-     @depends src/app/(dashboard)/peer/page.tsx: flex justify-between max-w-6xl items-start */
-  :root.theme-antd:is(.dark, :not(.dark)) [class~="justify-between" i][class~="max-w-6xl" i] {
-    flex-wrap: wrap;
-    row-gap: 12px;
-  }
+  /* (The detail pages' own "title … actions" rows are gone since P3-1: the
+     page header bar and PageHeaderActions carry them.) */
 
   /* Truncated text (Tailwind .truncate, e.g. TextWithTooltip) only gets its
      ellipsis if every flex/grid item around it may shrink; min-width:auto
@@ -104,6 +133,16 @@
   /* ---- R3. Phones: generic overflow guards --------------------------------
      Toolbar rows wrap less loosely; button groups wrap. */
   :root.theme-antd:is(.dark, :not(.dark)) .table-fixed-scroll > [class~="gap-x-4" i] {
+    row-gap: 8px;
+  }
+  /* The action group at the end of the toolbar (e.g. "Install NetBird" +
+     "Assign Peers") wraps too instead of forcing the row wider than a phone.
+     @depends src/components/table/DataTable.tsx: flex gap-4 grow */
+  :root.theme-antd:is(.dark, :not(.dark))
+    .table-fixed-scroll
+    > [class~="gap-x-4" i]
+    > [class~="grow" i][class~="gap-4" i] {
+    flex-wrap: wrap;
     row-gap: 8px;
   }
   :root.theme-antd:is(.dark, :not(.dark)) [class~="inline-flex" i][class~="gap-4" i] {
@@ -154,8 +193,8 @@
   }
 
   /* Detail pages: the two side-by-side columns stack.
-     @depends src/app/(dashboard)/team/user/page.tsx: flex gap-10 w-full mt-8 max-w-6xl items-start
-     @depends src/app/(dashboard)/network/page.tsx: flex gap-10 w-full mt-8 max-w-6xl items-start */
+     @depends src/app/(dashboard)/team/user/page.tsx: flex gap-10 w-full max-w-6xl items-start
+     @depends src/app/(dashboard)/network/page.tsx: flex gap-10 w-full max-w-6xl items-start */
   :root.theme-antd:is(.dark, :not(.dark)) [class~="gap-10" i][class~="max-w-6xl" i][class~="items-start" i] {
     flex-direction: column;
   }

@@ -1,11 +1,8 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
-import { usePortalElement } from "@hooks/usePortalElement";
 import useFetchApi from "@utils/api";
 import { ExternalLinkIcon } from "lucide-react";
 import React, { Suspense } from "react";
@@ -15,45 +12,49 @@ import { t } from "@/i18n";
 import { Network } from "@/interfaces/Network";
 import PageContainer from "@/layouts/PageContainer";
 import NetworksTable from "@/modules/networks/table/NetworksTable";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 export default function Networks() {
   const { data: networks, isLoading } = useFetchApi<Network[]>("/networks");
   const { permission } = usePermissions();
-  const { ref: headingRef, portalTarget } =
-    usePortalElement<HTMLHeadingElement>();
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => (
+      <>
+        {t("networks.page:page.text.accessInternalResourcesInLANs")}{" "}
+        <InlineLink
+          href={"https://docs.netbird.io/how-to/networks"}
+          target={"_blank"}
+        >
+          {t("common:word.learnMore")}
+          <ExternalLinkIcon size={12} />
+        </InlineLink>
+      </>
+    ),
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      {
+        label: t("common:word.networkRouting"),
+        icon: <NetworkRoutesIcon size={13} />,
+      },
+      { label: t("common:word.networks"), href: "/networks" },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("common:word.networks"),
+    count: networks?.length,
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
   return (
     <PageContainer>
-      <div className={"p-default py-6"}>
-        <Breadcrumbs>
-          <Breadcrumbs.Item
-            label={t("common:word.networkRouting")}
-            icon={<NetworkRoutesIcon size={13} />}
-          />
-          <Breadcrumbs.Item
-            href={"/networks"}
-            label={t("common:word.networks")}
-          />
-        </Breadcrumbs>
-        <h1 ref={headingRef}>{t("common:word.networks")}</h1>
-        <Paragraph>
-          {t("networks.page:page.text.accessInternalResourcesInLANs")}{" "}
-          <InlineLink
-            href={"https://docs.netbird.io/how-to/networks"}
-            target={"_blank"}
-          >
-            {t("common:word.learnMore")}
-            <ExternalLinkIcon size={12} />
-          </InlineLink>
-        </Paragraph>
-      </div>
-
       <RestrictedAccess hasAccess={permission.networks.read}>
         <Suspense fallback={<SkeletonTable />}>
-          <NetworksTable
-            data={networks}
-            isLoading={isLoading}
-            headingTarget={portalTarget}
-          />
+          <NetworksTable data={networks} isLoading={isLoading} />
         </Suspense>
       </RestrictedAccess>
     </PageContainer>

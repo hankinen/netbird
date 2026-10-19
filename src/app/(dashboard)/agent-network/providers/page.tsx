@@ -1,13 +1,10 @@
 "use client";
 
-import Breadcrumbs from "@components/Breadcrumbs";
 import FeatureCard from "@components/FeatureCard";
 import { HelpTooltip } from "@components/HelpTooltip";
 import InlineLink from "@components/InlineLink";
-import Paragraph from "@components/Paragraph";
 import SkeletonTable from "@components/skeletons/SkeletonTable";
 import { RestrictedAccess } from "@components/ui/RestrictedAccess";
-import { usePortalElement } from "@hooks/usePortalElement";
 import { ExternalLinkIcon } from "lucide-react";
 import React, { Suspense } from "react";
 import AgentNetworkIcon from "@/assets/icons/AgentNetworkIcon";
@@ -22,6 +19,7 @@ import EndpointBadge, {
   ENDPOINT_HELP_TEXT,
 } from "@/modules/agent-network/EndpointBadge";
 import AgentProvidersTable from "@/modules/agent-network/table/AgentProvidersTable";
+import { usePageHeader } from "@/theme/shell/pageHeader";
 function EndpointHeader() {
   const { settings, settingsLoading, openWizard } = useAIProviders();
   const { permission } = usePermissions();
@@ -74,8 +72,39 @@ function PageBody({
 
 export default function AgentNetworkProvidersPage() {
   const { permission } = usePermissions();
-  const { ref: headingRef, portalTarget } =
-    usePortalElement<HTMLHeadingElement>();
+  // @theme: page-template. Header declared to the shell (breadcrumb to the top bar,
+  // title / count / help to the page header bar); see src/theme/README.md.
+  const pageHelp = React.useMemo(
+    () => (
+      <>
+        {t("agent-network.page:page.text.connectAIProvidersAndGateways")}
+        <InlineLink
+          href={"https://docs.netbird.io/agent-network/providers"}
+          target={"_blank"}
+        >
+          {t("common:word.learnMore")}
+          <ExternalLinkIcon size={12} />
+        </InlineLink>
+      </>
+    ),
+    [],
+  );
+  const pageCrumbs = React.useMemo(
+    () => [
+      {
+        label: t("agent-network.page:page.label.agentNetwork"),
+        href: "/agent-network/providers",
+        icon: <AgentNetworkIcon size={16} />,
+      },
+      { label: t("common:word.providers"), href: "/agent-network/providers" },
+    ],
+    [],
+  );
+  usePageHeader({
+    title: t("common:word.providers"),
+    breadcrumb: pageCrumbs,
+    help: pageHelp,
+  });
 
   return (
     <PageContainer>
@@ -88,29 +117,6 @@ export default function AgentNetworkProvidersPage() {
       >
         <AIProvidersProvider>
           <div className={"p-default py-6"}>
-            <Breadcrumbs>
-              <Breadcrumbs.Item
-                href={"/agent-network/providers"}
-                label={t("agent-network.page:page.label.agentNetwork")}
-                icon={<AgentNetworkIcon size={16} />}
-              />
-              <Breadcrumbs.Item
-                href={"/agent-network/providers"}
-                label={t("common:word.providers")}
-                active={true}
-              />
-            </Breadcrumbs>
-            <h1 ref={headingRef}>{t("common:word.providers")}</h1>
-            <Paragraph>
-              {t("agent-network.page:page.text.connectAIProvidersAndGateways")}
-              <InlineLink
-                href={"https://docs.netbird.io/agent-network/providers"}
-                target={"_blank"}
-              >
-                {t("common:word.learnMore")}
-                <ExternalLinkIcon size={12} />
-              </InlineLink>
-            </Paragraph>
             {/* Same 24px step the users and activity pages put between their
                 description and the card below it. */}
             <div className={"mt-6"}>
@@ -118,7 +124,7 @@ export default function AgentNetworkProvidersPage() {
             </div>
           </div>
 
-          <PageBody headingTarget={portalTarget} />
+          <PageBody headingTarget={null} />
         </AIProvidersProvider>
       </RestrictedAccess>
     </PageContainer>

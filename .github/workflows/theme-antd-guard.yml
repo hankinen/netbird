@@ -8,6 +8,10 @@ name: Theme AntD guard
 #               each stays well inside its timeout: phone (375/390/768 light,
 #               390 dark, 360 detail pages) and desktop (1280/1440 light,
 #               the sider open)
+#   legibility: the Control Center canvas keeps its text readable at the
+#               default fit (>= 12px on screen, no node under the chrome) at
+#               1280/1440 in both colour modes, same Storybook build (runs in
+#               the desktop half of the mobile job)
 #
 # Branch model: upstream netbirdio/dashboard main -> dev (our single main
 # branch, zh-CN translations + this theme together).
@@ -130,3 +134,10 @@ jobs:
       # allows, at phone, tablet and desktop widths.
       - name: Overflow guard (${{ matrix.widths }})
         run: node scripts/theme/mobile-guard.mjs ${{ matrix.args }}
+      # Reuses the build above: the canvas' smallest on-screen text at the
+      # default fit must stay >= 12px (graph-legibility-allow.json lists the
+      # views still below it, which may only improve) and no node may sit
+      # under the chrome row or the dock. Desktop widths, so the desktop half.
+      - name: Graph legibility
+        if: matrix.widths == 'desktop'
+        run: node scripts/theme/graph-legibility.mjs --storybook .theme-guard/mobile/storybook

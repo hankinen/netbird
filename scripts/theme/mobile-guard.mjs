@@ -103,16 +103,26 @@ for (const { vw, theme, only } of passes) {
       });
       let page = await context.newPage();
       for (let s = queue.shift(); s; s = queue.shift()) {
-        try {
-          const key = `${s.id}@${vw}${suffix}`;
-          const r = await withTimeout(measure(page, s, theme), 45_000);
-          measured[key] = r.overflow;
-          if (vw < 768 && r.layout.length) layout[key] = r.layout;
-        } catch (e) {
-          errors.push(`${s.id}@${vw}${suffix}: ${String(e.message).split("\n")[0]}`);
-          // A hung page would block the rest of this worker's queue.
-          await page.close().catch(() => {});
-          page = await context.newPage();
+        const key = `${s.id}@${vw}${suffix}`;
+        // One retry on a fresh page: a load that failed under machine load (a
+        // 404 from the static server out of file handles, a hung render) is
+        // not a layout fact. A story that still cannot be measured fails the
+        // run below: a screen the guard never saw is not green.
+        for (let attempt = 1; ; attempt++) {
+          try {
+            const r = await withTimeout(measure(page, s, theme), 45_000);
+            measured[key] = r.overflow;
+            if (vw < 768 && r.layout.length) layout[key] = r.layout;
+            break;
+          } catch (e) {
+            // A hung page would block the rest of this worker's queue.
+            await page.close().catch(() => {});
+            page = await context.newPage();
+            if (attempt === 2) {
+              errors.push(`${key}: ${String(e.message).split("\n")[0]}`);
+              break;
+            }
+          }
         }
       }
       await context.close();
@@ -141,8 +151,9 @@ const fixed = Object.keys(allow).filter((k) => k in measured && measured[k] <= S
 for (const [k, v] of failures) console.error(`✗ ${k}: page scrolls sideways by ${v}px (allowed ${allow[k] ?? 0})`);
 for (const [k, v] of Object.entries(layout)) console.error(`✗ ${k}: ${v.join("; ")}`);
 for (const e of errors) console.error(`! ${e}`);
+if (errors.length) console.error(`✗ ${errors.length} story screen(s) could not be measured (the ! lines above); rerun, and look at the story if it repeats`);
 if (fixed.length) console.log(`fixed, can be removed from mobile-allow.json:\n  ${fixed.join("\n  ")}`);
-if (failures.length || Object.keys(layout).length) process.exit(1);
+if (failures.length || Object.keys(layout).length || errors.length) process.exit(1);
 console.log(`✓ theme:mobile-guard: no new sideways overflow on phones, tablets or desktops (${Object.keys(allow).length} known, listed in mobile-allow.json)`);
 
 function withTimeout(promise, ms) {

@@ -13,12 +13,18 @@
  *                  scripts/theme/check-selectors.mjs)
  *   vendors.css    third-party libraries (React Flow / control centre)
  *   density.css    control heights, table cell padding (AntD middle)
+ *   button.css     buttons by role, keyed on the attributes adapters/Button.tsx adds
+ *   tag.css        tags (upstream Badge) by role, adapters/Badge.tsx
+ *   input.css      text inputs and textareas, adapters/Input.tsx and Textarea.tsx
  *   pagination.css @rc-component/pagination styled as AntD v5 Pagination
  *                  (../adapters/DataTablePagination.tsx)
  *   responsive.css phones / tablets below 1280px: table cards, full-screen
  *                  modals (../adapters/Table.tsx adds the data-label hooks)
  *   shell.css      the app shell (sider, top bar, page header, drawer,
  *                  bottom bar) and the SidebarItem adapter, both colour modes
+ *   ../graph/tokens.graph.css, ../graph/graph.css
+ *                  the graph layer (canvas primitives the control-center
+ *                  adapters render), both colour modes
  */
 @import "../tokens/tokens.base.css";
 @import "../tokens/tokens.density.css";
@@ -28,6 +34,11 @@
 @import "./overrides.css";
 @import "./vendors.css";
 @import "./density.css";
+@import "./button.css";
+@import "./tag.css";
+@import "./input.css";
 @import "./pagination.css";
 @import "./responsive.css";
 @import "./shell.css";
+@import "../graph/tokens.graph.css";
+@import "../graph/graph.css";

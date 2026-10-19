@@ -25,11 +25,16 @@ the dark theme is **no longer** promised to be pixel-identical to upstream; see
 ```
 src/theme/
   tokens/   breakpoints.ts, tokens.base.css, tokens.density.css, tokens.light.css
-  css/      index.css, base.css, overrides.css, vendors.css, density.css, pagination.css, responsive.css
-  adapters/ components swapped in through tsconfig `paths`: DataTablePagination, Table (+ .contract.ts, stories, tests)
+  css/      index.css, base.css, overrides.css, vendors.css, density.css, button.css, tag.css, input.css,
+            pagination.css, responsive.css, shell.css
+  adapters/ components swapped in through tsconfig `paths`: DataTablePagination, Table, DataTable, SidebarItem,
+            Breadcrumbs, Button, Badge, Input, Textarea (+ .contract.ts, stories, tests)
   hooks/    useLayoutMode.tsx (useLayoutMode, useIsPhone, LayoutModeSync)
   shell/    AppShell, DashboardLayout, Header, PageContainer, Sider, NavDrawer,
             PageHeaderBar, BottomBar, pageHeader (the slot), siderContext
+  graph/    the graph layer: tokens.graph.css, graph.css, GraphNodeCard, GraphPill, GraphFrame,
+            GraphEdge, GraphDock, GraphSegmented, GraphLegend, lod, hover, colorMode (README.md)
+  adapters/control-center/  the Control Center's nodes, edges, handles, toolbar and header on the graph layer
   templates/ page templates (P2+)
   defaultTheme.ts, withAntdTheme.ts, README.md
 ```
@@ -43,11 +48,15 @@ src/theme/
 | `withAntdTheme.ts`          | wraps `tailwind.config.ts`: `netbird` / `nb-gray` / radius / shadow become `var(--x, <upstream value>)` |
 | `css/base.css`              | element defaults, specificity below any utility; tabular numerals in tables                             |
 | `css/overrides.css`         | component fixes keyed on upstream class names, each with `@depends` (shrinks as adapters take over)     |
-| `css/vendors.css`           | third-party widgets: React Flow, sonner, Radix portals, timescape, xterm                                |
-| `css/density.css`           | AntD "middle" density keyed on upstream classes: 32px controls, 12px/16px table cells (P1: adapters)    |
+| `css/vendors.css`           | third-party widgets: sonner, Radix portals, timescape, xterm (React Flow moved to `graph/`)              |
+| `css/density.css`           | AntD "middle" density keyed on upstream classes: inputs / selects, table cells (shrinks as adapters take over) |
+| `css/button.css`            | buttons by role, keyed on the `data-nb-*` attributes `adapters/Button.tsx` writes (no upstream class names) |
+| `css/tag.css`               | tags (upstream `Badge`) by role, keyed on the attributes `adapters/Badge.tsx` writes                       |
+| `css/input.css`             | text inputs and textareas, keyed on the attributes `adapters/Input.tsx` / `Textarea.tsx` write           |
 | `css/responsive.css`        | phones / tablets (and R1 at every width), see "手机端适配" below                                        |
-| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`, `SidebarItem`         |
+| `adapters/`                 | component replacements via `tsconfig.json` paths: `DataTablePagination`, `Table`, `DataTable` (actions to the page header), `SidebarItem`, `Breadcrumbs`, `Button`, `Badge`, `Input`, `Textarea` (sections "App shell" and "Primitive adapters"), and `control-center/*` (section "Control Center") |
 | `shell/`                    | the app shell (section below): replaces `DashboardLayout`, `Header` and `PageContainer` via paths       |
+| `graph/`                    | canvas primitives for `@xyflow/react` with their own tokens, both colour modes; see `graph/README.md`   |
 | `hooks/useLayoutMode.tsx`   | `useLayoutMode()` → `phone` / `compact` / `full`, `useIsPhone()`, `LayoutModeSync` (`<html data-layout-mode>`) |
 | `defaultTheme.ts`           | env switch, `<html>` props, ThemeProvider default                                                       |
 
@@ -63,6 +72,8 @@ Three exact `tsconfig.json` aliases swap upstream's layout files for
 | `@/layouts/Header` | `shell/Header.tsx`: the top bar, still exports `headerHeight` (48) | `src/layouts/Header.tsx` |
 | `@/layouts/PageContainer` | `shell/PageContainer.tsx`: `<main>` scroll container, same classes | `src/layouts/PageContainer.tsx` |
 | `@/components/SidebarItem`, `@components/SidebarItem` | `adapters/SidebarItem.tsx`: same props and routing, dark-menu visuals, collapsed rail + group popovers | `src/components/SidebarItem.tsx` |
+| `@components/Breadcrumbs`, `@/components/Breadcrumbs` | `adapters/Breadcrumbs.tsx`: inside the shell registers its `Item`s with the page-header store and renders nothing (the top bar shows them); outside it renders upstream | `src/components/Breadcrumbs.tsx` |
+| `@components/table/DataTable`, `@/components/table/DataTable` | `adapters/DataTable.tsx`: same props; the table's `rightSide` actions (Add Peer, Add Policy …) render through a portal into the page header's actions row, on phones into the bottom bar (section "Action slot" below) | `src/components/table/DataTable.tsx` |
 | (hosted, not replaced) | `src/layouts/Navigation.tsx` renders inside `Sider` / `NavDrawer`; shell.css neutralises its container (`@depends`) | `src/layouts/Navigation.tsx` |
 
 `@replaces-file <file> sha256:<16 hex>` pins the whole upstream file: when
@@ -103,14 +114,20 @@ usePageHeader({
 
 Desktops: the breadcrumb goes to the top bar, title + count + help + actions
 to `PageHeaderBar`. Phones: the title goes to the top bar, the primary action
-to `BottomBar`, the bar is hidden. Pages that have not registered anything
-show their translated document title in the top bar and keep their own
-in-page header. The spec lives in a small external store (`PageHeaderStore`):
+to `BottomBar`, the bar is hidden. A page that has not registered a header
+still gets its breadcrumb in the top bar through the Breadcrumbs adapter
+(the store keeps that trail in a second slot; a full spec wins) and its title
+from it, else from the translated document title; its own h1 stays in the
+page until it migrates. Every list page is migrated (P1b, see
+`touch-points.txt` for the `@theme: page-template` lines); the detail pages
+(peer, group, network, user) and the settings tabs keep their in-page title
+rows until P3. The spec lives in a small external store (`PageHeaderStore`):
 registering never re-renders the page, listeners fire only when a visible
 field changed, handlers are read when the action runs (never stale). Pass
 strings or memoised nodes. Migrated pages carry `@theme: page-template` and
-a `touch-points.txt` line; Peers is the first (its "N of M" filtered count
-moves to the table adapter in P2).
+a `touch-points.txt` line. `count` is the page's data length where the
+page has it in scope; the table's "N of M" filtered count moves to the table
+adapter in P2.
 
 **Stories.** `Theme/Shell` renders the Peers page in the shell at 1440, 1024
 (`vp-1024`) and 390 (`vp-390`), collapsed, with the group popover, with the
@@ -121,6 +138,100 @@ story tag makes the visual guard's `capture.mjs` shoot at that width.
 upstream's layout, header, page container and sidebar item are used again
 (their files were never edited). The Peers page then needs its in-page
 header block back (`git log -- "src/app/(dashboard)/peers/page.tsx"`).
+
+### Action slot: a table's primary action moves to the header
+
+The 35 tables upstream put their primary action in the toolbar through
+`DataTable`'s `rightSide` render prop. The DataTable adapter moves it without
+touching them:
+
+- `PageHeaderBar` registers its actions row as the store's `header` host and
+  `BottomBar` its slot as the `bottom` host (`store.setHost`).
+- The adapter calls `useActionsSlot(enabled)`: it claims the page's slot
+  (first table to mount wins, `store.claimActions`) and returns the host for
+  the current layout mode while a page header is registered. The adapter
+  then passes upstream a `rightSide` that renders the page's own
+  `rightSide(table)` through `createPortal` into that host; context, state
+  and the modals the buttons open are unaffected, only the DOM moves.
+- It stays in place when there is nowhere better: outside the shell, on a
+  page without a header (detail pages until P3), inside a `role="dialog"`
+  (tables in modals and pickers, found from a hidden anchor after the
+  table), and for every table after the first on a page. During the first
+  render (before the claim) the adapter renders nothing there, so an action
+  never flashes in the toolbar before it moves.
+- The bottom bar is shown only while it has a button in it
+  (`:has(> button)`, `:has(> .nb-bottombar__slot > *)`); every button in it
+  stretches to an equal-width, `--ctl-h-lg` tall tap target.
+
+To opt a page out, declare its header without a table action slot: today
+that means not using `DataTable` for it; a `teleportActions={false}` prop is
+a one-line addition to the adapter if a page ever needs its action in the
+toolbar.
+
+### Detail pages: rich titles and the page's own actions (P3)
+
+A detail page (peer, group, network, user) has a title that needs the
+page's context (a status dot, a rename button that opens a modal, badges)
+and actions of its own (Save / Cancel, a ⋮ menu). Two portal components in
+`shell/PageHeaderActions.tsx` keep that code where the page has it and move
+only the DOM:
+
+```tsx
+usePageHeader({
+  title: peer.name,          // fallback for the bar, used by the top bar on phones
+  titleText: peer.name,      // plain text: phone top bar, the h1's title attribute
+  subtitle: <Link …>owner@example.com</Link>,   // muted, after the title; hidden on phones
+  backHref: "/peers",        // back arrow in the bar; on phones it replaces the menu button
+});
+<PageHeaderTitle>           // into the bar's <h1>; the bar then leaves spec.title out
+  <span className="inline-flex items-center gap-3"><CircleIcon … />{name}<RenameButton /></span>
+</PageHeaderTitle>
+<PageHeaderActions>         // into the actions row, bottom bar on phones; takes the slot
+  <Button>Cancel</Button><Button variant="primary">Save changes</Button>   // over from tables
+</PageHeaderActions>
+```
+
+The in-page breadcrumb stays (the adapter moves it to the top bar); the old
+title row is removed and the page is listed in `touch-points.txt` with the
+`@theme: page-template` marker. Keep the title node one line high
+(28px: a `inline-flex items-center` span with small icons and an `h-8`
+button at most).
+
+## Control Center (graph layer)
+
+The canvas page is upstream's 45k-line module, 100% upstream code; the fork
+owns its look through two layers (plan:
+`docs/plans/2026-10-18-control-center-ui-and-graph-architecture.md`):
+
+- **`graph/`**: product-agnostic primitives (node card, pill, frame, edge,
+  dock, segmented control, legend) with `--graph-*` tokens and states as data
+  attributes. Nothing in it imports `src/modules`.
+- **`adapters/control-center/`**: one file per replaced upstream file, swapped
+  in by an exact `tsconfig.json` alias (`@/modules/control-center/nodes/PeerNode`
+  → `adapters/control-center/PeerNode.tsx`, 26 of them: 13 nodes, 5 edges,
+  the connect handle, 4 toolbar primitives, `FlowSelector`, `DraftModeSwitcher`,
+  `ControlCenterHeader`). Each re-exports the upstream module, renders the
+  graph layer when `ANTD_THEME_ENABLED` and the upstream component otherwise
+  (builds without the AntD theme stay pixel-identical), pins the upstream
+  file with `@replaces-file … sha256:` and is typed in
+  `control-center.contract.ts`. Every `data-testid`, handle id and `cc-*`
+  class hook the e2e suites and the focus mode use is kept.
+
+The header adapter registers the page with the shell (`usePageHeader`) and
+portals the Live / Draft switch and the draft actions into the page header
+bar's slot (`usePageHeaderSlot`, keeps the page's context); the view switch,
+network selector and canvas tools form the `.nb-graph-chrome` row above the
+canvas, which `graph.css` lays out as a column with the canvas
+(`.nb-page:has(> .nb-graph-chrome)`). The one in-place edit is
+`page.tsx` (touch points): the canvas colour mode and background follow the
+theme instead of upstream's hard-coded dark.
+
+Checks: `theme:check-selectors` (the 26 pins, the touch points),
+`npx vitest run src/theme` (graph primitives, edge anchors, LOD, hover) and
+the upstream `NetworkNode.test`, which runs against the adapter,
+`theme:graph-legibility` (section "Checks"). Phones are read-only in this
+phase: the chrome row wraps, the draft entry sits in the hidden page header
+bar, the canvas shows icons only below 0.35 zoom.
 
 ## Layout modes
 
@@ -194,6 +305,41 @@ last two points.
   (tokens, base, overrides, vendors, density, pagination, responsive); later
   files win
   equal-specificity ties.
+
+## Primitive adapters (P1b)
+
+Upstream's primitives keep their files. An exact alias swaps in a wrapper
+that renders the upstream component unchanged and adds `data-nb-*`
+attributes; the light theme styles against those. So the dark theme and the
+themeless builds render exactly as upstream, and a Tailwind class renamed
+upstream no longer breaks the light theme: the CSS keys on our attributes,
+the wrapper's maps are typed against upstream's variant unions (`tsc` fails
+when upstream adds, renames or removes one) and `@replaces-file` pins the
+upstream file.
+
+| alias | wrapper | attributes | CSS |
+| --- | --- | --- | --- |
+| `@components/Button`, `@/components/Button` | `adapters/Button.tsx` (+ `.contract.ts`, `.stories.tsx`, `.test.tsx`) | `data-nb-btn` role: `primary`, `default`, `active` (upstream `tertiary`: the selected toggle), `text` (`default-outline`), `danger`, `danger-outline`, `danger-text`; `data-nb-size`: `sm` / `md` / `lg` (upstream `xs`, `xs2` / `sm`, `md` / `lg`); `data-nb-grouped` on `ButtonGroup.Button` | `css/button.css` |
+| `@components/Badge`, `@/components/Badge` | `adapters/Badge.tsx` (+ `.contract.ts`, `.stories.tsx`, `.test.tsx`) | `data-nb-tag` role: `default` (the four greys), `info` (the blue family and `netbird`), `success`, `warning`, `error`, `purple`; `data-nb-size`: `default` / `xs`; `data-nb-hover` with `useHover` | `css/tag.css` |
+| `@components/Input`, `@/components/Input` | `adapters/Input.tsx` (+ `.contract.ts`, `.stories.tsx`, `.test.tsx`) | `data-nb-input`: `default` / `error` on the `<input>`; the wrapper and the prefix box are reached with `:has()` | `css/input.css` |
+| `@components/Textarea`, `@/components/Textarea` | `adapters/Textarea.tsx` (+ `.contract.ts`; story and test with Input) | `data-nb-textarea`: `default` / `error` | `css/input.css` |
+
+Rules for a wrapper:
+
+- forward every prop and the ref; never change markup, classes or behaviour;
+- map, don't branch: the role map is a `Record<UpstreamVariant, Role>`, so
+  an unmapped variant is a compile error rather than a silent fallback;
+- colours and heights come from the tokens (`--ant-*`, `--ctl-*`); horizontal
+  padding stays upstream's utilities, so no width moves;
+- delete the class-keyed rules the wrapper makes redundant in
+  `overrides.css` / `density.css` in the same change. The `@depends` count
+  is the metric (Button took 7 out; the toolbar density rules landed in the
+  same step added 4: 117 → 114; Badge, Input and Textarea took 7 more:
+  114 → 107).
+
+Heights: since P1b `--ant-control-height` is `var(--ctl-h)`, so inputs,
+selects and buttons follow the layout mode together (32px on desktops and
+tablets, 40px on phones).
 
 ## Pagination component replacement
 
@@ -449,7 +595,8 @@ Context 的 `latestVersion` / `latestUrl` 字段（现在恒为 `undefined`）�
   The specificity policy holds. Replaced components still match the upstream
   signature (`@replaces`). Every `@theme` touch point is still in place.
 - `npx vitest run src/theme`: the breakpoint contract (and that the theme CSS
-  uses no other widths), `useLayoutMode`, the pagination adapter.
+  uses no other widths), `useLayoutMode`, the adapters, the page-header store
+  and its slots (actions, title, bottom bar).
 - `npm run theme:visual-guard -- --base <ref> --theme dark|light` — every
   story against the last approved `dev` commit (CI: the PR base, else the
   commit before the push). Both themes fail on any change so a reviewer
@@ -462,9 +609,18 @@ Context 的 `latestVersion` / `latestUrl` 字段（现在恒为 `undefined`）�
   below 768px when two tall columns sit side by side or a table with a header
   is not shown as cards (layout checks are not allowlistable). The desktop
   widths are the layout-mode boundary and the common laptop width with the
-  sider open. `--storybook <dir>` reuses a build, `--update` rewrites the
-  allowlist (review its diff), `THEME_GUARD_CHROMIUM=<path>` uses a
-  preinstalled browser.
+  sider open. A story that fails to load or render is retried once on a
+  fresh page and then fails the run (an unmeasured screen is not green; the
+  `!` lines name them). `--storybook <dir>` reuses a build, `--update`
+  rewrites the allowlist (review its diff), `THEME_GUARD_CHROMIUM=<path>`
+  uses a preinstalled browser.
+- `npm run theme:graph-legibility -- --storybook <dir>` — the Control Center
+  canvas stories at 1280 / 1440, light and dark: after the view's first fit
+  the smallest text the graph primitives render (`data-graph-text`) must be
+  ≥ 12px on screen and no node may sit under the chrome row or the dock.
+  `scripts/theme/graph-legibility-allow.json` lists the views still below
+  12px with their current number (they may only improve); `--update`
+  rewrites it (review the diff).
 - CI: `.github/workflows/theme-antd-guard.yml` runs all of them.
 
 ## Merging upstream
